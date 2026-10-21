@@ -15,9 +15,10 @@
 
 namespace ksys::snd {
 
-// Initialized by 0x71012ce620, followed by the four SafeString objects below.
-// NON_MATCHING: the compiler places the initialization record after the strings in GlobalMerge.
-static util::InitTimeInfoEx sMiiSoundInitTimeInfo;
+// Initialized by 0x71012ce620, followed by the four SafeString objects below. NON_MATCHING (the initialiser):
+// the original stores the constants as two words after the tick call.
+static util::InitConstants sInitConstants;
+static util::InitTimeInfo sInitTimeInfo;
 static sead::SafeString sVoiceDirectory = "Voice/";
 static sead::SafeString sCommonVoiceDirectory = "Voice/Common/";
 static sead::SafeString sVoicePrefix = "NV_";
@@ -61,7 +62,6 @@ void Unk_710251b6f0::sub_71012CD7A4() {
     }
 }
 
-// NON_MATCHING: the static prefix string has a different GlobalMerge offset.
 void Unk_710251b6f0::sub_71012CD4E8(sead::Heap*, mii::UMii* umii) {
     mName.clear();
     if (umii->getPersonal().voice_type.ref() == "None") {
@@ -72,7 +72,6 @@ void Unk_710251b6f0::sub_71012CD4E8(sead::Heap*, mii::UMii* umii) {
     }
 }
 
-// NON_MATCHING: the directory strings have different GlobalMerge offsets.
 bool Unk_710251b6f0::sub_71012CD880(const sead::SafeString& name, bool is_custom_voice) {
     sead::FixedSafeString<128> path;
     if (is_custom_voice) {
@@ -91,7 +90,6 @@ bool Unk_710251b6f0::sub_71012CD880(const sead::SafeString& name, bool is_custom
     return mHandle.requestLoad(path, &request);
 }
 
-// NON_MATCHING: the static prefix string has a different GlobalMerge offset.
 bool Unk_710251b6f0::sub_71012CDA58(const sead::SafeString& name) const {
     if (mState == 2)
         return false;
