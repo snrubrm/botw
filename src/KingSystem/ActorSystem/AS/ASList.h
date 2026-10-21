@@ -28,8 +28,19 @@ namespace ksys::as {
 const nn::g3d::ResBoneAnim* sub_710115D55C(const nn::g3d::ResSkeletalAnim* resource,
                                          const sead::SafeString& name);
 
-class ASList {
+class ASList : public nn::g3d::ICalculateBlendWeightCallback {
 public:
+    // The release build has no caller of these four; their meaning is unknown.
+    void unk0() override;
+    void unk1() override;
+    // Called with the animation object and the unit (the entry's blend weight callback).
+    void calculateBlendWeight(gsys::ModelAnimation* animation, gsys::ModelNW* unit, s32 index,
+                              CallbackArg& arg) override;
+    void unk3() override;
+    void unk4() override;
+    ASList();
+    ~ASList() override;
+
     // 11599A0 initializes this request; 115A0D4 consumes actor/model and byte +0x11.
     // Actor prepare initialization and Remains pass their actor and model to it.
     struct InitArg {
@@ -390,8 +401,6 @@ public:
     // 1160A70 fills parallel resource/element buffers; swordBlurStuff consumes its signed count.
     s32 sub_7101160A70(sead::Buffer<const res::AS*>* resources,
                       sead::Buffer<Element*>* elements, s32 type);
-    void sub_7101160F10(gsys::ModelAnimation* animation, gsys::ModelNW* unit, s32 index,
-                      nn::g3d::ICalculateBlendWeightCallback::CallbackArg& arg);
     // All 141 callers pass a fourth argument in w4 (129 x 0, 12 x 1) that is unused here; its type (bool or
     // int) cannot be told from the binary.
     bool x_2(int a1, int bit, bool on, bool a4);
@@ -569,16 +578,27 @@ public:
         return &entries[bank];
     }
 
-    // vtable 0x710250ff98 (6 virtual functions, the destructor 0x7101159ca0 last) — not modelled
-    /* 0x000 */ u8 _0[0x8];
+    // An entry of the eight-record name table at 0x188: a slot id and a name.
+    struct NameEntry {
+        s32 _0;
+        sead::FixedSafeString<32> _8;
+    };
+    static_assert(sizeof(NameEntry) == 0x40);
+    struct NameTable {
+        NameEntry mEntries[8];
+    };
+    static_assert(sizeof(NameTable) == 0x200);
+
+    // The class's virtual interface (vtable 0x710250ff98, the destructor 0x7101159ca0 last).
+    /* 0x000 */  // vptr (nn::g3d::ICalculateBlendWeightCallback)
     /* 0x008 */ gsys::Model* _8;
     /* 0x010 */ s8 _10;  // previous skeletal slot count
     /* 0x011 */ s8 _11;  // previous material slot count
     /* 0x012 */ u8 _12;
     /* 0x013 */ u8 _13;  // push depth of the bone name (sub_710115CE44 / sub_710115D0AC)
     /* 0x014 */ gsys::BoneAccessKey _14;  // bone named _18 (sub_710115BAF8)
-    /* 0x018 */ sead::FixedSafeString<20> _18;
-    /* 0x040 */ sead::FixedSafeString<20> _40;  // saved _18 while pushed
+    /* 0x018 */ sead::FixedSafeString<16> _18;
+    /* 0x040 */ sead::FixedSafeString<16> _40;  // saved _18 while pushed
     /* 0x068 */ sead::Vector3f _68;
     /* 0x074 */ sead::Vector3f _74;
     /* 0x080 */ sead::Matrix34f _80;  // read with _14 (Remains::sub_71002CA3EC)
@@ -598,8 +618,10 @@ public:
     /* 0x162 */ u8 _162;
     /* 0x163 */ u8 _163;
     /* 0x168 */ Unk_710125af7c mPartialSourceTree;
-    /* 0x178 */ Unk_710125af7c mSourceTree;
+    /* 0x178 */ Unk_710125af7c mSourceTree{nullptr, true};
+    /* 0x188 */ NameTable mNameTable = {};
 };
+KSYS_CHECK_SIZE_NX150(ASList, 0x388);
 
 // Common playback request passed to the update virtuals and motion blending.
 // Producers 0x7101162454, 0x7101162de4 and 0x7101161824 share the weight/bone fields.

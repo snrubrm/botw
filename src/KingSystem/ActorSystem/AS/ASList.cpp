@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include <cstring>
 #include <limits>
 #include <nn/g3d/ResSkeletalAnim.h>
 #include <prim/seadBitFlag.h>
@@ -16,6 +17,15 @@
 #include "KingSystem/Resource/Actor/resResourceASResource.h"
 
 namespace ksys::as {
+
+// NON_MATCHING: the eight-entry name table at 0x188 is constructed by an out-of-line function in the
+// original (0x7101159b24); clang inlines the same construction into the constructor here.
+ASList::ASList()
+    : _8(nullptr), _10(0), _11(0), _12(0), _13(0), _68(sead::Vector3f::zero),
+      _74(sead::Vector3f::zero), _b0(nullptr), _d8(nullptr), _f0{}, _148(nullptr), _160(0),
+      _161(0), _162(0), _163(0), mNameTable{} {
+    std::memset(_f0.mBuffer, -1, sizeof(_f0.mBuffer));
+}
 
 ASList::InitArg::InitArg(act::Actor* actor, gsys::Model* model) : actor(actor), model(model) {}
 
@@ -371,8 +381,8 @@ bool ASList::Unk2::sub_71011617A8(const InitArg& arg, sead::Heap* heap) {
     return _0->sub_7101258AC8(*arg.sizes, heap);
 }
 
-void ASList::sub_7101160F10(gsys::ModelAnimation* animation, gsys::ModelNW* unit, s32 index,
-                          nn::g3d::ICalculateBlendWeightCallback::CallbackArg& arg) {
+void ASList::calculateBlendWeight(gsys::ModelAnimation* animation, gsys::ModelNW* unit, s32 index,
+                                  nn::g3d::ICalculateBlendWeightCallback::CallbackArg& arg) {
     for (auto* entry : _c8) {
         if (entry->sub_7101163998(arg, unit, index))
             break;
@@ -1280,6 +1290,48 @@ void ASList::sub_710115E218(u32* mask, const res::AS* as, u32 index) {
     }
 }
 
+// 0x7101159ca0: the deleting/destructor body. The parameter values of some kinds are heap objects
+// and are deleted; the eight-entry name table has no destructor of its own.
+// NON_MATCHING: the parameter-kind if-chain is reordered (the original tests 0x15 first and places the
+// 0x42 arm out of line) and the 64-bit loop counter / slot index keep 32-bit compares here.
+ASList::~ASList() {
+    sub_7101159F8C(true);
+
+    _c8.freeBuffer();
+    mSlots.freeBuffer();
+    delete _b0;
+    _b0 = nullptr;
+
+    for (auto& entry : _138)
+        entry.release();
+    _138.freeBuffer();
+
+    for (u32 i = 0; i < 0x43; ++i) {
+        const s32 index = _f0[i];
+        if (index < 0)
+            continue;
+        if (i == 0x15) {
+            delete _e0[index]._vec3_ptr;
+            _e0[index]._vec3_ptr = nullptr;
+        } else if (i == 0x40 || (i >= 0x2c && i <= 0x3e)) {
+            delete _e0[index]._str_ptr;
+            _e0[index]._str_ptr = nullptr;
+        } else if (i == 0x42) {
+            delete _e0[index]._u64_ptr;
+            _e0[index]._u64_ptr = nullptr;
+        }
+    }
+    _e0.freeBuffer();
+
+    mSourceTree.clear();
+    mPartialSourceTree.clear();
+}
+
+void ASList::unk0() {}
+void ASList::unk1() {}
+void ASList::unk3() {}
+void ASList::unk4() {}
+
 // 0x710115f8c: releases the slots (unless destroying), the frames' buffers, the define chain and the
 // source tree.
 void ASList::sub_7101159F8C(bool destroying) {
@@ -1319,6 +1371,9 @@ s32 sub_710115E3A0(const u32* mask) {
         count += sead::BitFlagUtil::countOnBit(mask[i]);
     return count;
 }
+
+// 0x7102620bb0: the shared null AS list that Actor compares against before use.
+ASList sNullASListMaybe;
 
 }  // namespace ksys::as
 
