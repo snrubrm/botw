@@ -174,8 +174,6 @@ void DragonRoot::sub_710036F80C() {
     }
 }
 
-// NON_MATCHING: calls the non-const Rail::getPoint (the original uses the const overload; the rail
-// pointer is non-const here).
 void DragonRoot::calc_() {
     ControlRailRoot::calc_();
     if (isFinished() || isFailed())
@@ -286,7 +284,8 @@ void DragonRoot::calc_() {
     }
 
     f32 scale;
-    if (auto* point = _38._8.rail->getPoint(s32(_38._30.progress))) {
+    const ksys::map::Rail* rail = _38._8.rail;
+    if (const auto* point = rail->getPoint(s32(_38._30.progress))) {
         sead::Vector3f point_scale;
         point->getIter().getScale(&point_scale);
         scale = point_scale.x;
