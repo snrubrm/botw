@@ -1791,6 +1791,56 @@ bool AppMapIconPart::sub_710099EE8C() const {
     return _420 ? _420->is3888Equal(1) : false;
 }
 
+// 0x710099ef78 (placeholder name): the map icon mode body of modes 0 and 1. Mode 0 drops the hovered
+// marker and parks both panes at its entry's position (or at the subsystem position when no marker is
+// hovered); mode 1 moves the panes to the entry and records its pin.
+// NON_MATCHING: the pin's id load and the UiSubsys1 pointer load are swapped (the original evaluates the
+// argument before the object, which C++17 sequences the other way round).
+void sub_710099EF78(AppMapIconPart* self) {
+    if (self->_420->is38e0Equal(0)) {
+        if (self->_410) {
+            self->_410->sub_710098CFD4(-1.0f);
+            if (self->_408 && self->_408->_18) {
+                auto* entry = self->_408->_18;
+                if (self->_378) {
+                    const nn::util::Float3 position{entry->_34.x, entry->_34.y, 0.0f};
+                    self->_378->mPane->SetPosition(position);
+                }
+                if (self->_3f0) {
+                    const nn::util::Float3 position{entry->_34.x, entry->_34.y, 0.0f};
+                    self->_3f0->mPane->SetPosition(position);
+                }
+            }
+        } else {
+            const sead::Vector2f* pos = self->_420->getVec3878();
+            const nn::util::Float3 position{pos->x, pos->y, 0.0f};
+            if (self->_378)
+                self->_378->mPane->SetPosition(position);
+            if (self->_3f0)
+                self->_3f0->mPane->SetPosition(position);
+        }
+    } else if (self->_420->is38e0Equal(1)) {
+        if (!self->_410)
+            return;
+        if (auto* entry = self->_410->_18) {
+            if (self->_378) {
+                const nn::util::Float3 position{entry->_34.x, entry->_34.y, 0.0f};
+                self->_378->mPane->SetPosition(position);
+            }
+            if (self->_3f0) {
+                const nn::util::Float3 position{entry->_34.x, entry->_34.y, 0.0f};
+                self->_3f0->mPane->SetPosition(position);
+            }
+        }
+        if (auto* entry = self->_410->_18) {
+            const s32 id = entry->_1c;
+            const s32 index = self->_420->sub_710096349C(UiSubsys1::Pin(id));
+            self->_420->set38e8(index);
+        }
+    }
+    self->_408 = nullptr;
+}
+
 // 0x710099ef18 (placeholder name): the map icon mode dispatcher. Modes 0 and 1 share the first body.
 void sub_710099EF18(AppMapIconPart* self, s32 mode) {
     switch (mode) {

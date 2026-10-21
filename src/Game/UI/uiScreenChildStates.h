@@ -442,7 +442,13 @@ public:
     /* 0x358 */ f32 _358 = 1.0f;
     /* 0x35c */ u8 _35c[0x370 - 0x35c]{};
     /* 0x370 */ eui::MassDrawPane* _370 = nullptr;
-    u8 _378[0x408 - 0x378]{};
+    // The two marker layouts and their animators (sub_710099EF78 moves both panes to the selected entry).
+    /* 0x378 */ eui::LayoutEx* _378 = nullptr;
+    /* 0x380 */ eui::Animator* _380 = nullptr;
+    u8 _388[0x3f0 - 0x388]{};
+    /* 0x3f0 */ eui::LayoutEx* _3f0 = nullptr;
+    /* 0x3f8 */ eui::Animator* _3f8 = nullptr;
+    u8 _400[0x408 - 0x400]{};
     // the current map marker / message state (cleared by sub_7100994E98; +0x410 is read through +0x18)
     /* 0x408 */ Unk_7102477fc0* _408 = nullptr;
     /* 0x410 */ Unk_7102477fc0* _410 = nullptr;
