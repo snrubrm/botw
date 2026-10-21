@@ -22,18 +22,23 @@ public:
     }
     bool checkDerivedRuntimeTypeInfo(const sead::RuntimeTypeInfo::Interface*) const override;
     const sead::RuntimeTypeInfo::Interface* getRuntimeTypeInfo() const override;
-    s32 getRenderStepNum() const override;
+    s32 getRenderStepNum() const override { return 11; }
     sead::SafeString getRenderStepName(s32 step) const override;
-    bool isRenderStepGPUCalc(s32 step) const override;
+    bool isRenderStepGPUCalc(s32 step) const override { return step == 1; }
     bool isRenderStepNoDependency(s32 step) const override;
-    bool isForceDisableClear() const override;
+    bool isForceDisableClear() const override { return mSceneIndex != -1; }
     void calcJobWeight() override;
     void doInitialize(sead::Heap* heap) override;
     void draw_(const agl::lyr::RenderInfo& info) const;
+    s32 setModelScene(ModelScene* scene);
 private:
     ModelScene* mModelScene;
     agl::lyr::DrawMethod mDrawMethod;
-    u8 _ef0[8];
+    // The index ModelScene::add_ returned, or -1.
+    s8 mSceneIndex;
+    // Bit 1: render step 2 has no dependency.
+    u8 _ef1;
+    u8 _ef2[0xef8 - 0xef2];
 };
 static_assert(sizeof(Layer3D) == 0xef8);
 

@@ -30,8 +30,15 @@ class Model;
 
 class EffectModelDrawMgr;
 
+class Layer3D;
+
 class ModelScene {
 public:
+    // 0x7100c0fe2c / 0x7100c0fedc (declared only): register a 3D layer and return its index,
+    // and unregister it (Layer3D::setModelScene).
+    s8 add_(Layer3D* layer);
+    void remove_(Layer3D* layer);
+
     // Constructor 0x7100c0d8f0: one, an empty name, a zero at +0x18 and an
     // agl::env::EnvObjBuffer::AllocateArg at +0x20.
     struct CreateArg {
