@@ -97,7 +97,6 @@ void Unk_710103b704::sub_710103BA44() {
     }
 }
 
-// NON_MATCHING: native zero fade-kind arguments use full-register moves.
 void Unk_710103b704::sub_710103BB00(BgmCtrlType bgm_type, SeCtrlType se_type) {
     switch (bgm_type) {
     case BgmCtrlType::_1:

@@ -48,8 +48,6 @@ void Unk_710260f198::m4(sead::Heap* heap) {
         mGroup = group_mgr->findGroup("Bgm");
 }
 
-// NON_MATCHING: the original passes a 64-bit zero to Unk_SoundMgr30::sub_7100FF8780 (its parameter type is probably
-// not s32).
 void Unk_710260f198::m5() {
     if (_ec & 4) {
         SoundMgr::instance()->_30->sub_7100FF8780(0);

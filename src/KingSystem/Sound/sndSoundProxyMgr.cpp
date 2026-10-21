@@ -170,7 +170,6 @@ void Unk_710105abc0::sub_710105B5D4(const sead::SafeString& name, bool use_baref
     }
 }
 
-// NON_MATCHING: live control-flag reloads and ducker forwarding use different scheduling.
 void Unk_710105abc0::sub_710105B934(const sead::SafeString&, bool defer_bgm) {
     if (!_39) {
         auto* bgm = SoundMgr::instance()->_30;

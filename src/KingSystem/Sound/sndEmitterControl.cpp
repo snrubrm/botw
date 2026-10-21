@@ -155,7 +155,6 @@ void Unk_SoundMgr60_828::sub_710105C3D0(const sead::SafeString& name, res::Handl
     SoundMgr::instance()->_60->requestLoadBars(&entry->mHandle, path, false, false, 0, pack);
 }
 
-// NON_MATCHING: list and resource-cast branches use different schedules.
 bool Unk_SoundMgr60_828::sub_710105C70C(const sead::SafeString& name) {
     auto* entry = findEntry(name);
     if (!entry)
@@ -173,7 +172,6 @@ bool Unk_SoundMgr60_828::sub_710105C70C(const sead::SafeString& name) {
     return true;
 }
 
-// NON_MATCHING: sound handle stores and the final list-search branch are scheduled differently.
 void Unk_SoundMgr60_828::sub_710105CD4C(const sead::SafeString& name, aal::Handle handle) {
     if (auto* entry = findEntry(name))
         entry->mSoundHandle = handle;
