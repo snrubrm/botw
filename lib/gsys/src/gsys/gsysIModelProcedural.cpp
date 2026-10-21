@@ -79,4 +79,29 @@ void IModelProcedural::initRenderUnits_(s32 count, s32 value, sead::Heap* heap) 
     mCalcWeight = 1000;
 }
 
+// 0x7100c80058
+s32 ModelRenderUnitProcedural::getType() const {
+    return 2;
+}
+
+// 0x7100c80060
+sead::SafeString ModelRenderUnitProcedural::getName() const {
+    return mName;
+}
+
+// 0x7100c8007c
+bool ModelRenderUnitProcedural::isVisible() const {
+    return _30 & 1;
+}
+
+// 0x7100c800d0
+bool ModelRenderUnitProcedural::resetShader(sead::Heap*) {
+    return true;
+}
+
+// 0x7100c800e0
+void ModelRenderUnitProcedural::draw(ModelRenderCache* cache, int, u32) const {
+    static_cast<const IModelProcedural*>(mModelUnit)->drawProceduralPassMaybe(mMaterialIndex, cache);
+}
+
 }  // namespace gsys

@@ -10,6 +10,33 @@ namespace gsys {
 
 class ModelRenderCache;
 
+// The render unit of a procedural model (one per pass): 0x38 bytes (array stride in the destructor),
+// vtable 0x71024d1da8. The destructor 0x7100c7fc2c inlines its destructor (vtable store, then the base D2).
+// 0x7100c7fd68 constructs an array of these: base ModelRenderUnit ctor, the vtable, then the name
+// "Proc(unnamed)" (+0x20) and the word 1 (+0x30).
+class ModelRenderUnitProcedural : public ModelRenderUnit {
+    friend class IModelProcedural;
+
+public:
+    // `{ ; }` keeps the original's vtable store in D2/D0 (the defaulted body drops it);
+    // precedent: upstream GameDataFlagSelector::~GameDataFlagSelector().
+    ~ModelRenderUnitProcedural() override { ; }
+
+    s32 getType() const override;
+    sead::SafeString getName() const override;
+    bool isVisible() const override;
+    bool resetShader(sead::Heap* heap) override;
+    // Forwards the material index and the cache to IModelProcedural::drawProceduralPassMaybe.
+    void draw(ModelRenderCache* cache, int, u32) const override;
+
+private:
+    sead::SafeString mName{"Proc(unnamed)"};
+    /// Bit 0: the pass is visible.
+    s32 _30 = 1;
+    u8 _34[0x38 - 0x34];
+};
+static_assert(sizeof(ModelRenderUnitProcedural) == 0x38);
+
 // Destructor 0x7100c7fc2c installs vtable 0x71024d1af8 and ends with ~ModelUnit. Its RTTI functions
 // 0x7100c1444c / 0x7100c14518 are shared by the game subclass with vtable 0x71024f4720.
 class IModelProcedural : public ModelUnit {
@@ -43,23 +70,8 @@ public:
     // Graphics overrides it with F35028 -> F34F1C. Name is descriptive.
     virtual void drawProceduralPassMaybe(int index, ModelRenderCache* cache) const = 0;
 
-    // The pass array elements: 0x38 bytes (array stride in the destructor), vtable 0x71024d1da8.
-    // The destructor 0x7100c7fc2c inlines their destructor (vtable store, then the base D2).
-    // 0x7100c7fd68 constructs an array of these: base ModelRenderUnit ctor, the RenderUnit
-    // vtable, then the name "Proc(unnamed)" (+0x20) and the word 1 (+0x30).
-    class RenderUnit : public ModelRenderUnit {
-        friend class IModelProcedural;
-    public:
-        // `{ ; }` keeps the original's vtable store in D2/D0 (the defaulted body drops it);
-        // precedent: upstream GameDataFlagSelector::~GameDataFlagSelector().
-        ~RenderUnit() override { ; }
-
-    private:
-        sead::SafeString mName{"Proc(unnamed)"};
-        s32 _30 = 1;
-        u8 _34[0x38 - 0x34];
-    };
-    static_assert(sizeof(RenderUnit) == 0x38);
+    // The pass array elements (see ModelRenderUnitProcedural).
+    using RenderUnit = ModelRenderUnitProcedural;
 
     /// 0x7100c7fd68 (name is a guess): replaces the pass array with `count` render units and
     /// initializes each with (this, index, heap); a non-positive count keeps the current array.

@@ -24,8 +24,7 @@ class ModelAssignRenderInfo;
 
 // Native 0x298-byte game subclass created by 0x7101409a30 over this 0x238-byte base. The vtable is
 // 0x71024ca530 (vptr 0x71024ca540); the fourteen slots from vptr+0 to vptr+0x68 are listed below in
-// their original order. Several signatures are not recovered yet, so those bodies stay U and the
-// slot order is preserved with mNN placeholders.
+// their original order (the ModelRenderUnit virtuals).
 //
 // Fields come from the constructor 0x7100c09ad0, initialize 0x7100c09c24, the destructor
 // 0x7100c09b2c and the render loops 0x7100c09de4 / 0x7100c0a0b4.
@@ -39,29 +38,30 @@ public:
     bool initialize(const ModelUnit* unit, int index, sead::Heap* heap) override;
 
     // vptr+0x18, 0x7100c0a8c8: the type word is always 0.
-    virtual s32 getType() const;
+    s32 getType() const override;
     // 0x7100c09fb4: the per-type priority hint, negated when `invert` is set.
     static s32 getPriorityHintFromType(ModelEnum::PriorityHintType type, bool invert);
     // vptr+0x20, 0x7100c09d40: returns the name of the model unit's model (unit +0x20 -> +0xf50).
-    virtual sead::SafeString getName() const;
+    sead::SafeString getName() const override;
     // vptr+0x28, 0x7100c09d74: tests the unit's shape visibility masks.
-    virtual bool isVisible() const;
+    bool isVisible() const override;
     // vptr+0x30, 0x7100c0a8d0: byte +0x67 of the indexed shape.
-    virtual bool m30() const;
+    s32 getMeshNum() const override;
     // vptr+0x38, 0x7100c0a8f0: u16 at +0x34 of the indexed shape option record.
-    virtual u16 m38(int index) const;
-    // vptr+0x40, 0x7100c0a568: writes the bounds of the indexed shape/option (signature not recovered).
-    virtual void m40();
-    // vptr+0x48, 0x7100c0a530: copies five words of the indexed shape record (signature not recovered).
-    virtual void m48();
+    s32 getSubMeshNum(int index) const override;
+    // vptr+0x40, 0x7100c0a568: writes the bounds of the indexed shape/option.
+    bool getSubMeshBoundAABB(int, int, sead::BoundBox3f* aabb) const override;
+    // vptr+0x48, 0x7100c0a530: copies the bounding sphere of the indexed shape.
+    void getBoundSphereImpl(sead::Sphere3f* sphere) const override;
     // vptr+0x50, 0x7100c0a91c: the s32 at +0x220 (named by the CSV row).
-    virtual s32 getPassTextureBit() const;
+    s32 getPassTextureBit() const override;
     // vptr+0x58, 0x7100c09de4: rebuilds the display lists and shader assignment of this unit.
-    virtual void resetShader(sead::Heap* heap);
-    // vptr+0x60, 0x7100c0a3e4: per-material draw setup (signature not recovered).
-    virtual void m60();
-    // vptr+0x68, 0x7100c0a664: draws one shape (signature not recovered).
-    virtual void m68();
+    bool resetShader(sead::Heap* heap) override;
+    // vptr+0x60, 0x7100c0a3e4
+    bool calcViewFrustumCulling(int, int, int, const agl::cull::ViewFrustumCulling&,
+                                const nn::g3d::ViewVolume&, float*) override;
+    // vptr+0x68, 0x7100c0a664: draws one shape.
+    void draw(ModelRenderCache* cache, int, u32) const override;
 
     // 0x7100c0a098: sets mCalcDisplayListMask to (1 << the unit's buffer count) - 1.
     void updateCalcDisplayListMask();
