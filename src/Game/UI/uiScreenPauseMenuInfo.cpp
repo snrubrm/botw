@@ -508,15 +508,22 @@ void ScreenPauseMenuInfo::sub_7100A31738(bool flag) {
 }
 
 // 0x7100a30444
-// NON_MATCHING: tab-selection branches and merged-static addressing differ.
+// NON_MATCHING: the frame conversion is scheduled before the vtable load (one register swap)
 void ScreenPauseMenuInfo::sub_7100A30444(u32 mode) {
     if (_36c0) {
-        auto* animator = _36c0->select(mode > 1 ? 1 : 0);
-        if (animator) {
-            if (mode == 0)
+        switch (mode) {
+        case 0:
+            if (auto* animator = _36c0->select(0))
                 animator->StopAtMin();
-            else
+            break;
+        case 1:
+            if (auto* animator = _36c0->select(0))
                 animator->StopAtMax();
+            break;
+        default:
+            if (auto* animator = _36c0->select(1))
+                animator->StopAtMax();
+            break;
         }
     }
     if (_36d0)
