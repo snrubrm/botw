@@ -1,5 +1,13 @@
 #include "Game/Actor/Action/actionAppearMagneForce.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+
+// Unk_7102366570's destructor, vtable and RTTI functions are in this TU (0x710009c4e8 .. 0x710009c870); its
+// teardown is inlined into the destructors of AppearMagneForce and its callback.
+Unk_7102366570::~Unk_7102366570() {
+    if (mOwner)
+        mOwner->erase(this);
+}
 
 namespace uking::action {
 
@@ -47,6 +55,5 @@ void AppearMagneForce::calc_() {
 
 }  // namespace uking::action
 
-// NON_MATCHING: placeholder destructor; the original (0x710009c5b4) also destroys members or bases
-// this class does not declare yet.
+// The callback of AppearMagneForce (AppearMagneForce::_118). D1 is an alias of Unk_7102366570's.
 Unk_7102366538::~Unk_7102366538() = default;

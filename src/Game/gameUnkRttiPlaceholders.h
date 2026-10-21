@@ -3837,9 +3837,12 @@ public:
 
 // vtable 0x7102366538 (5 slots); placeholder generated from the vtable (genskel.py).
 // No RTTI of its own: the vtable reuses Unk_7102366570's RTTI functions.
+// The callback of uking::action::AppearMagneForce (its member at +0x118).
 class Unk_7102366538 : public Unk_7102366570 {
 public:
     ~Unk_7102366538() override;
+    // 0x710009c2bc (declared only)
+    void call(ksys::act::Actor* actor) override;
 };
 
 // vtable 0x71024c0140 (26 slots); placeholder generated from the vtable (genskel.py).

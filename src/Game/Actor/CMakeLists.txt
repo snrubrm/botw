@@ -247,7 +247,6 @@ target_sources(uking PRIVATE
   actSoundProxy.cpp
   actSoundProxy.h
   actUnk_7102366570.cpp
-  actUnk_7102366570Dtor.cpp
   actUnk_7102366570.h
   actPlayerCreateMgr.cpp
   actPlayerCreateMgr.h

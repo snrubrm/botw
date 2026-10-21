@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+#include "KingSystem/ActorSystem/actBaseProcLink.h"
 
 namespace uking::action {
 
@@ -56,9 +58,13 @@ protected:
     const float* mGyroRotateSpeed_s{};
     // 0xb0 - 0x260: not decompiled yet (the constructor is still W); _138 points to _d0.
     u8 _b0[0xd0 - 0xb0];
-    u8 _d0[0x138 - 0xd0];
+    u8 _d0[0x118 - 0xd0];
+    /* 0x118 */ Unk_7102366538 _118;
     void* _138{};
-    u8 _140[0x260 - 0x140];
+    u8 _140[0x250 - 0x140];
+    /* 0x250 */ ksys::act::BaseProcLink _250;
 };
+
+KSYS_CHECK_SIZE_NX150(AppearMagneForce, 0x260);
 
 }  // namespace uking::action
