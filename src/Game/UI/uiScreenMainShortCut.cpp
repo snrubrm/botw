@@ -4,7 +4,10 @@
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiLayoutEx.h"
 #include <nn/ui2d/Group.h>
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
+#include "Game/UI/uiUtils.h"
+#include "Game/gameRuneMgr.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiTUStatics.h"
 
@@ -36,6 +39,29 @@ ksys::StateTemplate<ScreenMainShortCut> sUnk_71025ef290(
 // 0x7100a1f3cc
 const char* ScreenMainShortCut::getLayoutName_() const {
     return sLayoutName.cstr();
+}
+
+// 0x7100a1f928
+bool ScreenMainShortCut::sub_7100A1F928(s32 type) {
+    if (type == -1 || type == 3 || !_3798 || !_37a0 || !_3790)
+        return false;
+    if (sub_7100AA8F10() || !sub_7100AA948C())
+        return false;
+    // called through a pointer in the original (not devirtualised)
+    if (getStateMachine().getState()->getId() == (&sUnk_71025ef290)->getId())
+        return false;
+    if (type == 1) {
+        auto* rune = RuneMgr::instance();
+        if (!rune || rune->getCurrentItem() == -1)
+            return false;
+        return sub_7100A9C340();
+    }
+    static const s32 sSlots[] = {0, 1, 3, 2};
+    auto* player = static_cast<act::PlayerBase*>(getPlayerActor(nullptr));
+    const bool flag = player && player->_c48.isOnBit(28);
+    if (!_3700.isOnBit(sSlots[type == 0 ? (flag ? 2 : 0) : (flag ? 3 : 1)]))
+        return false;
+    return sub_7100A9B7BC();
 }
 
 // 0x7100a1fe84

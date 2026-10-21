@@ -447,6 +447,9 @@ bool uiManagerInitialised();
 
 // 0x7100aa8f10 (placeholder name): bit 12 of the UI manager's flag word.
 bool sub_7100AA8F10();
+// 0x7100a9c340 / 0x7100a9b7bc (uiGdtFacade.cpp): player flag tests (see their definitions).
+bool sub_7100A9C340();
+bool sub_7100A9B7BC();
 // 0x7100a99188: sets PauseMenuDataMgr::_444fc and calls Manager::sub_7100A7F890.
 void sub_7100A99188();
 // 0x7100a82e20: whether the inventory category tab is open (IsOpenItemCategory)

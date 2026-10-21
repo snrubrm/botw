@@ -2331,6 +2331,8 @@ public:
     void m93(sead::Heap* heap) override;
     void m90() override;
     void sub_7100A1F684(s32 index);
+    // 0x7100a1f928 (placeholder name): whether the hold shortcut of `type` (0: left, 1: rune, 2: right) can open
+    bool sub_7100A1F928(s32 type);
     // 0x7100a21668 (CSV unnamed, declared only): builds the shortcut icon's text / icon from _3864
     void sub_7100A21668();
     void m96() override;
