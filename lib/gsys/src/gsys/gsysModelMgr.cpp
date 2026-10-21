@@ -3,7 +3,7 @@
 namespace gsys
 {
 
-// The singleton pointer that createInstance 0x7100c01ce8 stores (original address 0x71025fccf0).
-ModelMgr* ModelMgr::sInstance = nullptr;
+// sInstance 0x71025fccf0, sStaticDisposer 0x71025fcce8, disposer vtable 0x71024ca078.
+SEAD_SINGLETON_DISPOSER_IMPL(ModelMgr)
 
 }  // namespace gsys

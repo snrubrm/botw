@@ -2,6 +2,7 @@
 
 #include <container/seadOffsetList.h>
 #include <heap/seadDisposer.h>
+#include <hostio/seadHostIONode.h>
 
 namespace sead
 {
@@ -21,11 +22,14 @@ class ModelScene;
 // ModelRig::listenPropertyEventEnvObj 0x7100c83d48 walks the first list, whose elements are
 // Models: it tests Model +0xf0 (mScene) before registering the model. Only that list and the
 // extent are proved here; the other two lists' element types are unproved, so they stay padding.
-class ModelMgr
+// Vtable 0x71024ca098: slot 0 is the sead::hostio::Node stub, then D1 / D0.
+class ModelMgr : public sead::hostio::Node
 {
     SEAD_SINGLETON_DISPOSER(ModelMgr)
 
 public:
+    // Inlined into createInstance (0x7100c01ce8); declared only.
+    ModelMgr();
     virtual ~ModelMgr();
 
     sead::OffsetList<Model>& getModelList() { return mModelList; }
