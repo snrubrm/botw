@@ -157,32 +157,26 @@ void Unk_SoundMgr60_828::sub_710105C3D0(const sead::SafeString& name, res::Handl
 
 // NON_MATCHING: list and resource-cast branches use different schedules.
 bool Unk_SoundMgr60_828::sub_710105C70C(const sead::SafeString& name) {
-    for (auto& entry : mEntries) {
-        if (entry.mName != name)
-            continue;
-        if (entry.mHandle.isReady())
-            return true;
-        if (!entry.mHandle.isReadyOrNeedsParse() || !entry.mHandle.parseResource(nullptr))
-            return false;
-        auto* bars = sead::DynamicCast<ResourceBars>(entry.mHandle.getResource());
-        if (entry.mHandle.isSuccess() && bars) {
-            sead::FixedSafeString<64> path;
-            path.format("M_%s.bars", entry.mName.cstr());
-            bars->sub_7101057588(path);
-        }
+    auto* entry = findEntry(name);
+    if (!entry)
         return true;
+    if (entry->mHandle.isReady())
+        return true;
+    if (!entry->mHandle.isReadyOrNeedsParse() || !entry->mHandle.parseResource(nullptr))
+        return false;
+    auto* bars = sead::DynamicCast<ResourceBars>(entry->mHandle.getResource());
+    if (entry->mHandle.isSuccess() && bars) {
+        sead::FixedSafeString<64> path;
+        path.format("M_%s.bars", entry->mName.cstr());
+        bars->sub_7101057588(path);
     }
     return true;
 }
 
 // NON_MATCHING: sound handle stores and the final list-search branch are scheduled differently.
 void Unk_SoundMgr60_828::sub_710105CD4C(const sead::SafeString& name, aal::Handle handle) {
-    for (auto& entry : mEntries) {
-        if (entry.mName == name) {
-            entry.mSoundHandle = handle;
-            return;
-        }
-    }
+    if (auto* entry = findEntry(name))
+        entry->mSoundHandle = handle;
 }
 
 // NON_MATCHING: soundtrack format selection and list-search branches differ.
@@ -211,15 +205,8 @@ bool Unk_SoundMgr60_828::sub_710105CA84(aal::AssetInfo* info, const sead::SafeSt
 
 // NON_MATCHING: the original walks the list by entry pointers (node - 0xa8) and null-checks the result.
 void Unk_SoundMgr60_828::sub_710105C96C(const sead::SafeString& name) {
-    Entry* found = nullptr;
-    for (auto& entry : mEntries) {
-        if (entry.mName == name) {
-            found = &entry;
-            break;
-        }
-    }
-    if (found)
-        found->_a0 = true;
+    if (auto* entry = findEntry(name))
+        entry->_a0 = true;
 }
 
 }  // namespace ksys::snd

@@ -1518,6 +1518,15 @@ struct Unk_SoundMgr60_828 {
         bool sub_7100BA1AEC(sead::BufferedSafeString* path, aal::AssetInfo* info) override;
     };
 
+    // inline-only in the original; name is a guess. Finds the entry named `name` (the null test on the
+    // result is visible in sub_710105C96C / sub_710105CD4C).
+    Entry* findEntry(const sead::SafeString& name) {
+        for (auto& entry : mEntries) {
+            if (entry.mName == name)
+                return &entry;
+        }
+        return nullptr;
+    }
     // 0x710105c96c (placeholder name): sets _a0 of the entry named `name`.
     void sub_710105C96C(const sead::SafeString& name);
     // 0x710105c3d0 (declared only; 828 B): adds an entry for `name` and loads "M_<name>.bars" (`pack` is passed
