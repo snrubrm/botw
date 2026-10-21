@@ -88,7 +88,7 @@ u32 getMaterialMaskFromShape(const hkpShape& shape, const u32* shape_key,
                              const sead::Vector3f& position);
 
 // 0x0000007100fd086c
-bool getMaterialMaskFromCollidable(RigidBodyCollisionMasks* p_masks, u32* p_collision_filter_info,
+u32 getMaterialMaskFromCollidable(RigidBodyCollisionMasks* p_masks, u32* p_collision_filter_info,
                                    const hkpShape& shape, const u32* shape_key);
 
 // 0x0000007100fd09d0

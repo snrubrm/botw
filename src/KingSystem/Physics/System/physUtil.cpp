@@ -50,16 +50,15 @@ u32 getMaterialMaskFromShape(const hkpShape& shape, const u32* shape_key,
     return masks.material_mask;
 }
 
-// NON_MATCHING: shape tests are reordered, the compound instance array is loaded after the filter call,
-// and the existing bool return type adds a conversion after recursive calls.
-bool getMaterialMaskFromCollidable(RigidBodyCollisionMasks* p_masks, u32* p_collision_filter_info,
+// NON_MATCHING: shape tests are reordered and the compound instance array is loaded after the filter call.
+u32 getMaterialMaskFromCollidable(RigidBodyCollisionMasks* p_masks, u32* p_collision_filter_info,
                                    const hkpShape& shape, const u32* shape_key) {
     switch (shape.getType()) {
     case hkcdShapeType::LIST: {
         if (*shape_key == HK_INVALID_SHAPE_KEY) {
             p_masks->material_mask = 0;
             *p_collision_filter_info = 0;
-            return true;
+            return 1;
         }
         hkpShapeBuffer buffer;
         const auto& list = static_cast<const hkpListShape&>(shape);
@@ -70,7 +69,7 @@ bool getMaterialMaskFromCollidable(RigidBodyCollisionMasks* p_masks, u32* p_coll
         if (*shape_key == HK_INVALID_SHAPE_KEY) {
             p_masks->material_mask = 0;
             *p_collision_filter_info = 0;
-            return true;
+            return 1;
         }
         const auto& compound = static_cast<const hkpStaticCompoundShape&>(shape);
         int instance_id;
@@ -85,7 +84,7 @@ bool getMaterialMaskFromCollidable(RigidBodyCollisionMasks* p_masks, u32* p_coll
         if (*shape_key == HK_INVALID_SHAPE_KEY) {
             p_masks->material_mask = 0;
             *p_collision_filter_info = 0;
-            return true;
+            return 1;
         }
         const auto& mesh = static_cast<const hkpBvCompressedMeshShape&>(shape);
         if (mesh.getCollisionFilterInfoMode() ==
@@ -95,11 +94,11 @@ bool getMaterialMaskFromCollidable(RigidBodyCollisionMasks* p_masks, u32* p_coll
             p_masks->material_mask = mesh.getPrimitiveUserData(*shape_key);
         else
             p_masks->material_mask = shape.getUserData();
-        return false;
+        return 0;
     }
     default:
         p_masks->material_mask = shape.getUserData();
-        return false;
+        return 0;
     }
 }
 
@@ -119,7 +118,6 @@ void getBodyGroupAndObjectFromSCShape(StaticCompoundRigidBodyGroup** p_body_grou
     *p_body_group = nullptr;
 }
 
-// NON_MATCHING: the existing bool callee declaration adds return conversion and prevents the native tail call.
 u32 getCollisionFilterInfoFromCollidable(RigidBodyCollisionMasks* p_masks,
                                          u32* p_collision_filter_info,
                                          const hkpCollidable& collidable, const u32* shape_key) {
