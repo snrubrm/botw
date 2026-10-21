@@ -428,6 +428,8 @@ bool uiManagerInitialised();
 
 // 0x7100aa8f10 (placeholder name): bit 12 of the UI manager's flag word.
 bool sub_7100AA8F10();
+// 0x7100aa8dd4 (declared only)
+bool sub_7100AA8DD4();
 bool sub_7100AA8F74();
 bool getMainScreenOnOff();
 

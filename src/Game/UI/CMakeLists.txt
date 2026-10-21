@@ -133,6 +133,7 @@ target_sources(uking PRIVATE
   uiScreenFactory.cpp
   uiScreenFactory.h
   uiScreenNames.cpp
+  uiScreenMessageTipsRunTime.cpp
   names/uiScreenName_MainScreen3D.cpp
   names/uiScreenName_WolfLinkHeartGauge.cpp
   names/uiScreenName_MainHorse.cpp

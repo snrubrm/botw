@@ -133,7 +133,7 @@ const char* ScreenHomeMenuCapture::getLayoutName_() const {
 
 
 
-// The five screen state blocks below hold the layout-name string at the offset the original reads.
+// The four screen state blocks below hold the layout-name string at the offset the original reads.
 struct ScreenNameState158 {
     u8 _0[0x158];
     sead::SafeString name;
@@ -149,7 +149,6 @@ struct ScreenNameState150 {
 
 static ScreenNameState158 sUnk_71025EDB60{ {}, "FadeStatus_00" };
 static ScreenNameState148 sUnk_71025EEFA0{ {}, "MainScreen_00" };
-static ScreenNameState148 sUnk_71025EFAB0{ {}, "MessageTipsRunTime_00" };
 static ScreenNameState158 sUnk_71025F0500{ {}, "OptionWindow_00" };
 static ScreenNameState150 sUnk_71025F10B0{ {}, "PauseMenu_00" };
 
@@ -161,11 +160,6 @@ const char* ScreenFadeStatus::getLayoutName_() const {
 // 0x7100a1831c
 const char* ScreenMainScreen::getLayoutName_() const {
     return sUnk_71025EEFA0.name.cstr();
-}
-
-// 0x7100a26878
-const char* ScreenMessageTipsRunTime::getLayoutName_() const {
-    return sUnk_71025EFAB0.name.cstr();
 }
 
 // 0x7100a29338
