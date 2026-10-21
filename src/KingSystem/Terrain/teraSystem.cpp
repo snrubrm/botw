@@ -2,6 +2,7 @@
 #include "KingSystem/Framework/frmFramework.h"
 #include "Game/gameRoot38.h"
 #include "Game/gameGraphics.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/System/StagePreActorCache.h"
 #include "KingSystem/Graphics/gfxForestRenderer.h"
@@ -1221,13 +1222,13 @@ void Unk_7101106F44::sub_71011206E4(Unk_7101106F44** node, sead::Vector2f* cente
 void Core::Unk_140::sub_71010827DC() {
     if (_8 & 4)
         _8 &= ~4u;
-    sub_7101084D04(_14cd0);
-    sub_7101084D04(_14cd8);
+    _14cd0->sub_7101084D04();
+    _14cd8->sub_7101084D04();
 }
 
 void Core::Unk_140::sub_7101083028() {
-    sub_7101084E78(_14cd0);
-    sub_7101084E78(_14cd8);
+    _14cd0->sub_7101084E78();
+    _14cd8->sub_7101084E78();
 }
 
 // 0x7101080a0c (placeholder name): clears the low flag bits and advances the 0..15 counter unless the
@@ -1259,8 +1260,8 @@ void Core::Unk_140::sub_7101083060() {
             for (s32 table = 0; table < 10; ++table)
                 mTables[table][index].init(table, index);
         }
-        sub_7101084F6C(_14cd0);
-        sub_7101084F6C(_14cd8);
+        _14cd0->sub_7101084F6C();
+        _14cd8->sub_7101084F6C();
     }
 }
 
@@ -1271,8 +1272,8 @@ void Core::Unk_140::sub_710108330C() {
             for (s32 table = 0; table < 10; ++table)
                 mTables[table][index].setup(_28);
         }
-        sub_710108515C(_14cd0, _28);
-        sub_710108515C(_14cd8, _28);
+        _14cd0->sub_710108515C(_28);
+        _14cd8->sub_710108515C(_28);
         _8 |= 4;
     }
 }

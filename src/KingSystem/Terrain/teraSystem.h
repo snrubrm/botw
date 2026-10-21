@@ -41,6 +41,7 @@
 #include <common/aglTextureSampler.h>
 
 class Unk_7102503a50;
+class Unk_71025046d0;
 
 namespace agl {
 class ShaderProgram;
@@ -423,9 +424,9 @@ public:
         /* 0x14cb8 */ f32 _14cb8;
         u8 _14cbc[0x14ccc - 0x14cbc];
         /* 0x14ccc */ u32 _14ccc;
-        // Both are passed to 0x7101084d04 / 0x7101084e78.
-        void* _14cd0;
-        void* _14cd8;
+        // The two tree draw commands.
+        Unk_71025046d0* _14cd0;
+        Unk_71025046d0* _14cd8;
     };
 
     u8 _0[0xf0];
@@ -1938,12 +1939,6 @@ bool sub_710110C1A4(u32* out, u32 index);
 
 bool checkTeraSystemStatus();
 
-// 0x7101084d04 / 0x7101084e78 / 0x7101084f6c / 0x710108515c (declaration only; placeholder
-// signatures): reset / update / allocate the two sub-objects of Core::Unk_140.
-void sub_7101084D04(void* object);
-void sub_7101084E78(void* object);
-void sub_7101084F6C(void* object);
-void sub_710108515C(void* object, sead::Heap* heap);
 // 0x710106bc54 / 0x71012e258c (declaration only): release the two parts of one grass entry.
 void sub_710106BC54(void* entry);
 void sub_71012E258C(void* object);

@@ -777,19 +777,24 @@ KSYS_CHECK_SIZE_NX150(ResourceBars, 0xb0);
 class Unk_7102504470 : public Unk_710251d230 {
     SEAD_RTTI_OVERRIDE(Unk_7102504470, Unk_710251d230)
 public:
-    ~Unk_7102504470() override;
+    // 0x7101084b84: clears the tree tables of `type` and sets the per-area record offsets
+    // (prefix sums of the area limits).
+    Unk_7102504470(s32 type, u32 b);
+    // Inline: the vtable's D1 slot is Unk_710251d230's (the key function is m7).
+    ~Unk_7102504470() override = default;
     // Keeps the buffers for the later fill.
     void m7(void* vertices, void* indices) override;
 
     u32 _30;
     u32 _34;
-    u8 _38[0x40 - 0x38];
-    void* mVertices;
-    void* mIndices;
-    u8 _50[0x58 - 0x50];
-    s32 _58;
-    s32 _5c;
-    s32 _60;
+    s32 _38 = -1;
+    s32 _3c = -1;
+    void* mVertices = nullptr;
+    void* mIndices = nullptr;
+    u64 _50 = 0;
+    s32 _58 = 0;
+    s32 _5c = 0;
+    s32 _60 = 0;
     u8 _64[0x68 - 0x64];
 };
 
@@ -837,13 +842,22 @@ public:
     virtual void m37();
     virtual void m38();
     virtual void m39() {}
-    virtual void m40();
+    // Writes the record of a tree added by sub_7101084FB8 (declaration only).
+    virtual void m40(const sead::Vector3f& pos, const sead::Vector3f& a, const sead::Vector3f& rotate,
+                     u32 b, u8 c, s32 index, s32 ix, s32 iz, f32 scale);
     virtual void m41(void* arg) {}
     virtual u32 m42();
     virtual void m43();
     virtual void m44() {}
     virtual void m45() {}
 
+    // 0x7101084d04: clears this type's count tables.
+    void sub_7101084D04();
+    // 0x7101084e78: sets the sub-cell record offsets from the sub-cell counts.
+    void sub_7101084E78();
+    // 0x7101084fb8: adds a tree record at `pos` (slot 40); its index, or -1 over the area limit.
+    s32 sub_7101084FB8(const sead::Vector3f& pos, const sead::Vector3f& a, const sead::Vector3f& rotate,
+                       u32 b, u8 c, f32 scale);
     // 0x7101084d9c: counts a tree at `pos` (and its sub-cell while under the area limit).
     void sub_7101084D9C(const sead::Vector3f& pos);
     // 0x7101084f6c: clears this type's count table, then runs slot 39.

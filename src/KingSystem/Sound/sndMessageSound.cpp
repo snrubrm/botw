@@ -104,8 +104,6 @@ void Unk_SoundMgr48::sub_7101055B88(aal::Handle* handle, bool flag, f32 delay) {
 // this class does not declare yet.
 Unk_7102504260::~Unk_7102504260() = default;
 
-Unk_7102504470::~Unk_7102504470() = default;
-
 void Unk_7102504470::m7(void* vertices, void* indices) {
     mFlags |= 0x80000000;
     mVertices = vertices;
@@ -275,6 +273,10 @@ namespace {
 u32 sUnk_710261DF90[2][2][8][10];
 // Per-area sub-cell counts (bss 0x7102616760).
 u32 sUnk_7102616760[2][8][10][16];
+// Per-area sub-cell record offsets: exclusive prefix sums of sUnk_7102616760 (bss 0x7102618f60).
+u32 sUnk_7102618F60[2][8][10][16];
+// Per-area sub-cell counts of the added records (bss 0x710261b760).
+u32 sUnk_710261B760[2][8][10][16];
 // Per-area tree count limits of the two tree types (0x7101ec3644).
 const u32 sTreeCountLimits[2][8][10] = {
     {
@@ -320,6 +322,43 @@ struct TreeRecord {
 static_assert(sizeof(TreeRecord) == 0x14);
 }  // namespace
 
+Unk_7102504470::Unk_7102504470(s32 type, u32 b) : _30(type), _34(b) {
+    const u32 index = _30;
+    for (s32 z = 0; z < 8; ++z) {
+        for (s32 x = 0; x < 10; ++x) {
+            sUnk_710261DF90[0][index][z][x] = 0;
+            for (s32 i = 0; i < 16; ++i) {
+                sUnk_7102616760[index][z][x][i] = 0;
+                sUnk_7102618F60[index][z][x][i] = 0;
+                sUnk_710261B760[index][z][x][i] = 0;
+            }
+        }
+    }
+    u32 total = 0;
+    for (s32 z = 0; z < 8; ++z) {
+        for (s32 x = 0; x < 10; ++x) {
+            sUnk_710261DF90[1][index][z][x] = total;
+            total += sTreeCountLimits[index][z][x];
+        }
+    }
+    _60 = total;
+    _5c = *sTreeTypes[type].stride * total;
+}
+
+void Unk_71025046d0::sub_7101084D04() {
+    const u32 type = m28();
+    for (s32 z = 0; z < 8; ++z) {
+        for (s32 x = 0; x < 10; ++x) {
+            sUnk_710261DF90[0][type][z][x] = 0;
+            for (s32 i = 0; i < 16; ++i) {
+                sUnk_7102616760[type][z][x][i] = 0;
+                sUnk_7102618F60[type][z][x][i] = 0;
+                sUnk_710261B760[type][z][x][i] = 0;
+            }
+        }
+    }
+}
+
 void Unk_71025046d0::sub_7101084D9C(const sead::Vector3f& pos) {
     const u32 type = m28();
     const s32 ix = ksys::tera::sub_710107F9C4(pos.x);
@@ -329,9 +368,39 @@ void Unk_71025046d0::sub_7101084D9C(const sead::Vector3f& pos) {
         ++sUnk_7102616760[type][iz][ix][sub];
 }
 
+void Unk_71025046d0::sub_7101084E78() {
+    const u32 type = m28();
+    for (s32 z = 0; z < 8; ++z) {
+        for (s32 x = 0; x < 10; ++x) {
+            u32 offset = 0;
+            for (s32 i = 0; i < 16; ++i) {
+                sUnk_7102618F60[type][z][x][i] = offset;
+                offset += sUnk_7102616760[type][z][x][i];
+            }
+        }
+    }
+}
+
 void Unk_71025046d0::sub_7101084F6C() {
     std::memset(sUnk_710261DF90[0][m28()], 0, sizeof(sUnk_710261DF90[0][0]));
     m39();
+}
+
+// NON_MATCHING: instruction scheduling (the original loads all three offsets before the two increments).
+s32 Unk_71025046d0::sub_7101084FB8(const sead::Vector3f& pos, const sead::Vector3f& a,
+                                   const sead::Vector3f& rotate, u32 b, u8 c, f32 scale) {
+    const u32 type = m28();
+    const s32 ix = ksys::tera::sub_710107F9C4(pos.x);
+    const s32 iz = ksys::tera::sub_710107FA0C(pos.z);
+    const s32 sub = ksys::tera::sub_710107FA54(pos.x, pos.z);
+    if (sUnk_710261DF90[0][type][iz][ix] >= sTreeCountLimits[type][iz][ix])
+        return -1;
+    const s32 index = sUnk_710261DF90[1][type][iz][ix] + sUnk_7102618F60[type][iz][ix][sub] +
+                      sUnk_710261B760[type][iz][ix][sub];
+    ++sUnk_710261DF90[0][type][iz][ix];
+    ++sUnk_710261B760[type][iz][ix][sub];
+    m40(pos, a, rotate, b, c, index, ix, iz, std::max(scale, 0.0f));
+    return index;
 }
 
 // Discarded call: the original calls slot 28 and drops the result.
