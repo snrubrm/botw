@@ -1,5 +1,6 @@
 #pragma once
 
+#include <heap/seadDisposer.h>
 #include <mc/seadJobQueue.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
@@ -16,10 +17,14 @@ namespace uking {
 // (spin lock at +0x564) that the GanonBeast AI registers its actor in is declared (lane4 s23); the
 // constructor and everything else are not decompiled yet.
 class LastBossMgr {
+    // Stage unload calls the static teardown deleteInstance (0x710067775c).
+    SEAD_SINGLETON_DISPOSER(LastBossMgr)
+    // 0x71006777b4 (declared only)
+    LastBossMgr();
+    // declared only
+    virtual ~LastBossMgr();
+
 public:
-    static LastBossMgr* instance() { return sInstance; }
-    // Stage unload calls the static teardown at 0x710067775c.
-    static void deleteInstance();
 
     // 0x7100678108 (CSV LastBossMgr::postCalc; declared only).
     void postCalc();
@@ -37,14 +42,14 @@ public:
     ksys::MesTransceiverId& getMesTransceiverId() { return mMesTransceiverId; }
 
 private:
-    static LastBossMgr* sInstance;
-
-    u8 _0[0x238];
+    u8 _28[0x238 - 0x28];
     /* 0x238 */ ksys::MesTransceiverId mMesTransceiverId;
     u8 _250[0x550 - 0x250];
     /* 0x550 */ ksys::act::BaseProcLink mActorLink;
     u8 _560[4];
     /* 0x564 */ sead::JobQueueLock mLock;
 };
+
+KSYS_CHECK_SIZE_NX150(LastBossMgr, 0x568);
 
 }  // namespace uking

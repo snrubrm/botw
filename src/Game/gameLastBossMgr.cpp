@@ -4,6 +4,8 @@
 
 namespace uking {
 
+SEAD_SINGLETON_DISPOSER_IMPL(LastBossMgr)
+
 void LastBossMgr::sub_7100677FFC(ksys::act::Actor* actor) {
     sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
     if (!mActorLink.hasProc())
