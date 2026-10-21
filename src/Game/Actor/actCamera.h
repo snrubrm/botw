@@ -575,6 +575,10 @@ public:
     // 0x7100795a88 (CSV name): whether one of the five camera states fails validation or the actor
     // matrix has a NaN.
     bool x_5();
+    // 0x710079482c (placeholder name): the smallest view depth (sub_7100921710 z) in `state` of the point _860._2b8,
+    // the player, its previous position (when sub_7100926AC4() or m187()) and, unless `a2`, 0.6 times that of the
+    // actor connected to the player (sub_7100794750); 5 if the player position is invalid.
+    f32 sub_710079482C(const Unk_71009214b8& state, bool a2);
     // 0x7100794750 (placeholder name; `this` is not used): the position (sub_7100D11B14) of the actor connected
     // to the player as its calc child when sub_7100D146D8() holds; false if there is none or it is invalid.
     bool sub_7100794750(sead::Vector3f* out);

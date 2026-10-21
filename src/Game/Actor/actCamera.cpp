@@ -361,6 +361,43 @@ bool Camera::sub_7100794750(sead::Vector3f* out) {
     return !invalid;
 }
 
+f32 Camera::sub_710079482C(const Unk_71009214b8& state, bool a2) {
+    sead::Vector3f view = sead::Vector3f::zero;
+    state.sub_7100921710(_860._2b8, &view);
+    f32 depth = view.z;
+
+    ksys::act::acc::PlayerBase player;
+    sub_7100926A50(&player);
+    sead::Vector3f player_pos;
+    player.getActorMtx().getTranslation(player_pos);
+    if (ksys::util::sub_71011F1040(player_pos)) {
+        depth = 5.0f;
+    } else {
+        sead::Vector3f player_view = sead::Vector3f::zero;
+        state.sub_7100921710(player_pos, &player_view);
+        depth = sead::Mathf::min(depth, player_view.z);
+
+        if (sub_7100926AC4() || player.m187()) {
+            const auto& prev_pos = player.getPreviousPos2();
+            if (!ksys::util::sub_71011F1040(prev_pos)) {
+                sead::Vector3f prev_view = sead::Vector3f::zero;
+                state.sub_7100921710(prev_pos, &prev_view);
+                depth = sead::Mathf::min(depth, prev_view.z);
+            }
+        }
+
+        if (!a2) {
+            sead::Vector3f pos = sead::Vector3f::zero;
+            if (sub_7100794750(&pos)) {
+                sead::Vector3f pos_view = sead::Vector3f::zero;
+                state.sub_7100921710(pos, &pos_view);
+                depth = sead::Mathf::min(depth, pos_view.z * 0.6f);
+            }
+        }
+    }
+    return depth;
+}
+
 void Camera::sub_7100799094() {
     const bool active = sub_71009271B0();
     const f32 max = std::max(sub_71009220E4(), 0.0f);
