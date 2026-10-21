@@ -15,6 +15,8 @@
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include <math/seadBoundBox.h>
+#include <math/seadMathCalcCommon.h>
+#include <hostio/seadHostIOCurve.h>
 #include <algorithm>
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActorX6A0.h"
@@ -1041,19 +1043,84 @@ void Reaction::Unk1::sub_7100EC7D50(f32 a, f32 b, f32 c, f32 d,
 
 namespace ksys::act {
 
+// The speed curves that scale the pitch and volume of a reaction event. Both objects are
+// namespace-scope (the original reaches them through the GOT); their curve data are the float
+// tables at 0x7102519018 / 0x7102519030.
+f32 sReactionPitchCurveData[] = {0.06f, 1.0f, -0.00965478178f, 0.19f, 1.18f, 0.317206114f};
+f32 sReactionVolumeCurveData[] = {0.0f, 0.41f, 0.05f, 0.5f, 0.075f, 0.675f, 0.1f, 0.85f, 0.18f, 1.0f};
+
+struct ReactionPitchCurve {
+    sead::hostio::Curve<f32> curve;
+    ReactionPitchCurve() {
+        curve.mFloats = sReactionPitchCurveData;
+        curve.mInfo = {10, 4, 6, 6};
+    }
+};
+struct ReactionVolumeCurve {
+    sead::hostio::Curve<f32> curve;
+    ReactionVolumeCurve() {
+        curve.mFloats = sReactionVolumeCurveData;
+        curve.mInfo = {6, 4, 10, 10};
+    }
+};
+ReactionPitchCurve sReactionPitchCurve;
+ReactionVolumeCurve sReactionVolumeCurve;
+
 void ActorReactionHandle::update() {
     if (!mActive) {
-        if (mEvent && mEvent->getCreateId() == u32(mCreateId)) {
-            auto* user = mEvent->getUserInstance();
-            user->checkAndErrorCallInCalc("HandleSLink::fade(%s)",
-                                          uking::xlink::detail::getKeyName(mEvent));
-            user->printLogFadeOrKill(mEvent, "HandleSLink::fade(%s)",
-                                     uking::xlink::detail::getKeyName(mEvent));
-            mEvent->fade(-1);
-        }
+        uking::xlink::fade(mHandle, -1);
         mActive = false;
     }
     mActive = false;
+}
+
+// NON_MATCHING: everything but one instruction; our clang keeps the two clampMin 0.0f bounds in a
+// callee-saved register, the original materialises 0.0f again for the second clamp.
+bool ActorReactionHandle::emit(Actor* actor, Actor* source, const sead::SafeString& name) {
+    if (mActive)
+        return false;
+    if (!actor || !source)
+        return false;
+    uking::xlink::fade(mHandle, 0);
+    mActor = actor;
+    xlink::XLink* xlink = source->getXLink();
+    if (!xlink)
+        return false;
+    if (xlink2::UserInstanceSLink* user = xlink->_50)
+        user->searchAndEmit(name.cstr(), &mHandle);
+    if (!mHandle.isActive())
+        return false;
+    const f32 speed = mActor->getVelocity().length();
+    mHandle.setPosition(mActor->getMtx().getTranslation());
+    mHandle.setPitchScale(
+        sead::Mathf::clampMin(sReactionPitchCurve.curve.interpolateToF32(speed), 0.0f));
+    mHandle.setVolumeScale(
+        sead::Mathf::clampMin(sReactionVolumeCurve.curve.interpolateToF32(speed) * 0.15f, 0.0f));
+    mActive = true;
+    return true;
+}
+
+// NON_MATCHING: as emit, the second clampMin 0.0f bound is not rematerialised.
+bool ActorReactionHandle::resume(Actor* actor, Actor* source, const sead::SafeString& name) {
+    if (!mHandle.isActive() || mHandle.getEvent()->getBitFlag().isOnBit(4)) {
+        if (xlink2::UserInstanceSLink* user = source->getXLink()->_50)
+            user->searchAndEmit(name.cstr(), &mHandle);
+    }
+    bool active;
+    if (mHandle.isActive()) {
+        const f32 speed = mActor->getVelocity().length();
+        mHandle.setPosition(mActor->getMtx().getTranslation());
+        mHandle.setPitchScale(
+            sead::Mathf::clampMin(sReactionPitchCurve.curve.interpolateToF32(speed), 0.0f));
+        mHandle.setVolumeScale(
+            sead::Mathf::clampMin(sReactionVolumeCurve.curve.interpolateToF32(speed) * 0.15f,
+                                  0.0f));
+        active = true;
+    } else {
+        active = false;
+    }
+    mActive = active;
+    return active;
 }
 
 void ActorReactionQueue::setActor(Actor* actor) {
@@ -1090,25 +1157,28 @@ void ActorReactionQueue::calc() {
     mActors.clear();
 }
 
-// NON_MATCHING: the original loops over mActors (the induction pointer is only compared against
-// mPtrs + size; the actor stays the argument) and its two handle calls are out of line, so this
-// needs the ActorReactionHandle members decompiled first.
+// The queued actors are walked one by one; the reaction of `actor` is emitted into the first free
+// handle, or resumed when it already has one.
+// NON_MATCHING: same instructions; the original places the actor-loop increment right after the
+// emit call, ours after the resume-failure path.
 void ActorReactionQueue::emit(Actor* actor) {
-    ActorReactionHandle* handle = nullptr;
-    for (auto it = mHandles.begin(); it != mHandles.end(); ++it) {
-        if (it->mActor == actor && it->mEvent && it->mEvent->getCreateId() == it->mCreateId) {
-            handle = it.operator->();
-            break;
+    for (auto it = mActors.begin(); it != mActors.end(); ++it) {
+        ActorReactionHandle* handle = nullptr;
+        for (auto jt = mHandles.begin(); jt != mHandles.end(); ++jt) {
+            if (jt->mHandle.isActive() && jt->mActor == actor) {
+                handle = jt.operator->();
+                break;
+            }
         }
-    }
-    if (handle && handle->resume(actor, mActor, mName))
-        return;
-    for (auto it = mHandles.begin(); it != mHandles.end(); ++it) {
-        if (it->mEvent && it->mEvent->getCreateId() == it->mCreateId)
-            continue;
-        if (!it->emit(actor, mActor, mName))
-            return;
-        break;
+        if (!handle || !handle->resume(actor, mActor, mName)) {
+            for (auto jt = mHandles.begin(); jt != mHandles.end(); ++jt) {
+                if (jt->mHandle.isActive())
+                    continue;
+                if (!jt->emit(actor, mActor, mName))
+                    return;
+                break;
+            }
+        }
     }
 }
 

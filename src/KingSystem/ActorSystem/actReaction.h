@@ -63,9 +63,9 @@ public:
     /* 0x38 */ Actor* _38;
 };
 
-// One xlink event of the reaction queue below: the actor it was emitted for, the event and its
-// create id, and whether the event has already been emitted. The class is 0x20 bytes (its pool is
-// allocated with 0x20-byte elements at 0x7101287d68).
+// One xlink event of the reaction queue below: the actor it was emitted for, the sound handle and
+// whether the event has already been emitted. The class is 0x20 bytes (its pool is allocated with
+// 0x20-byte elements at 0x7101287d68).
 class ActorReactionHandle {
 public:
     // 0x7101287504: fades the event out and clears the flag when the handle is no longer active.
@@ -76,9 +76,7 @@ public:
     bool resume(Actor* actor, Actor* source, const sead::SafeString& name);
 
     /* 0x00 */ Actor* mActor = nullptr;
-    /* 0x08 */ xlink2::Event* mEvent = nullptr;
-    /* 0x10 */ s32 mCreateId = 0;
-    u8 _14[4];
+    /* 0x08 */ xlink2::HandleSLink mHandle;
     /* 0x18 */ bool mActive = false;
     u8 _19[7];
 };
