@@ -67,6 +67,43 @@ void EventSystem::init(sead::Heap* heap) {
     setEventSystemQueryHandler(&uking::eventSystemQueryHandler);
 }
 
+// 0x71008aab4c
+// NON_MATCHING: the original does not pass `this` to the helpers (dead in all of them, left undefined at the
+// call sites); ours keeps it in a callee-saved register.
+bool EventSystem::x_1(void* arg) {
+    const sead::SafeString head = sub_71008AB474(arg, "ArmorHead");
+    const sead::SafeString lower = sub_71008AB474(arg, "ArmorLower");
+    const sead::SafeString upper = sub_71008AB474(arg, "ArmorUpper");
+    const sead::SafeString bow = sub_71008AB474(arg, "Bow");
+    const sead::SafeString shield = sub_71008AB474(arg, "Shield");
+    const sead::SafeString weapon = sub_71008AB474(arg, "Weapon");
+
+    bool requested = false;
+    if (!head.isEmpty()) {
+        if (auto* mgr = uking::act::CreatePlayerEquipActorMgr::instance()) {
+            mgr->requestCreateArmor(head, -1, sead::SafeString::cEmptyString);
+            requested = true;
+        }
+    }
+    if (!upper.isEmpty()) {
+        if (auto* mgr = uking::act::CreatePlayerEquipActorMgr::instance()) {
+            mgr->requestCreateArmor(upper, -1, sead::SafeString::cEmptyString);
+            requested = true;
+        }
+    }
+    if (!lower.isEmpty()) {
+        if (auto* mgr = uking::act::CreatePlayerEquipActorMgr::instance()) {
+            mgr->requestCreateArmor(lower, -1, sead::SafeString::cEmptyString);
+            requested = true;
+        }
+    }
+    requested |= x_8(shield);
+    requested |= sub_71008AAE54(bow);
+    requested |= sub_71008AAE54(weapon);
+    sub_71008AB034(arg);
+    return requested;
+}
+
 // 0x71008aad18
 bool EventSystem::x_8(const sead::SafeString& name) {
     if (name == sUnk_71025D0DB8) {

@@ -66,8 +66,12 @@ public:
 
     // 0x71008ab24c (CSV x_0; not decompiled): takes the actor's +0x108 word
     bool x_0(void* arg);
-    // 0x71008aab4c (CSV x_1; not decompiled): takes the actor's +0x108 word
+    // 0x71008aab4c (CSV x_1): equips the armor and weapons named in `arg`; true if any was requested
     bool x_1(void* arg);
+    // 0x71008ab474 (placeholder name; declared only): reads the string `key` from the parameters at `arg` + 0x28
+    const char* sub_71008AB474(void* arg, const sead::SafeString& key);
+    // 0x71008ab034 (placeholder name; declared only)
+    void sub_71008AB034(void* arg);
     // 0x71008aad18 (CSV x_8): equips the default left-hand weapon or requests the named armor
     bool x_8(const sead::SafeString& name);
     // 0x71008aae54 (placeholder name): equips the default right-hand weapon or bow, or requests the named weapon
