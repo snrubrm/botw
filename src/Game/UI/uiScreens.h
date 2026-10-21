@@ -5880,6 +5880,8 @@ public:
 };
 
 extern const ksys::StateBase sUnk_71025dc3c0;
+// A ScreenAppAlbum state (StateTemplate; placeholder name); m171 changes to it.
+extern const ksys::StateBase sUnk_71025dc360;
 
 // The state ScreenSaveTransferWindow changes to from many of its state callbacks (0x71025f2de0; placeholder name).
 extern const ksys::StateBase sUnk_71025f2de0;

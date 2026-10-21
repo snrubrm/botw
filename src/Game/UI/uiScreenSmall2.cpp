@@ -147,6 +147,22 @@ void ScreenAppAlbum::m160() {
         _3640->sub_710093F594(false);
 }
 
+// 0x71009d63d8
+void ScreenAppAlbum::m170() {
+    createAndLoadScreenIfNeededImpl(ScreenId::AppSystemWindow, nullptr);
+    if (auto* window = sead::DynamicCast<ScreenAppSystemWindow>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow)))
+        window->m154(0);
+}
+
+// 0x71009d64a0
+void ScreenAppAlbum::m171() {
+    auto* window = sead::DynamicCast<ScreenAppSystemWindow>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow));
+    if (window && window->isClosedOrClosing())
+        getStateMachine().changeState(&sUnk_71025dc360);
+}
+
 // 0x71009d656c
 void ScreenAppAlbum::m174() {
     _3a9c = Unk_71025d1740::instance()->sub_7100901A90(false) ? 0 : -1;
