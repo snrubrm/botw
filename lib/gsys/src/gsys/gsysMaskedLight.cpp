@@ -1,5 +1,7 @@
 #include "gsys/gsysMaskedLight.h"
 #include "gsys/gsysModelSceneShadow.h"
+#include "gsys/gsysMaskedSpotLight.h"
+#include "gsys/gsysMaskedProjLight.h"
 
 namespace gsys {
 
@@ -71,6 +73,24 @@ bool MaskedLight::assignModelSceneShadow(bool enable) const {
     }
     return true;
 }
+
+// 0x7100c7b39c
+s32 MaskedSpotLight::getTypeID() const {
+    return sTypeInfo->id;
+}
+
+// 0x7100c79d7c
+void MaskedSpotLight::drawDebugImpl_(agl::DrawContext*, const sead::Matrix34f&,
+                                     const sead::Matrix44f&, int) const {}
+
+// 0x7100c7b52c
+s32 MaskedProjLight::getTypeID() const {
+    return sTypeInfo->id;
+}
+
+// 0x7100c7ac30
+void MaskedProjLight::drawDebugImpl_(agl::DrawContext*, const sead::Matrix34f&,
+                                     const sead::Matrix44f&, int) const {}
 
 void MaskedLight::initializeImpl_(int, sead::Heap*) {}
 
