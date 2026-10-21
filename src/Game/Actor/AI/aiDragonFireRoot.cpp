@@ -223,4 +223,19 @@ void DragonFireRoot::m44(const sead::Vector3f& pos) {
         nullptr, 2);
 }
 
+void DragonFireRoot::calc_() {
+    DragonRoot::calc_();
+    if (isCurrentChild("停止"))
+        changeChild("帰還");
+    sub_7100367FE4();
+}
+
+void DragonFireRoot::leave_() {
+    DragonRoot::leave_();
+}
+
+void DragonFireRoot::loadParams_() {
+    DragonRoot::loadParams_();
+}
+
 }  // namespace uking::ai

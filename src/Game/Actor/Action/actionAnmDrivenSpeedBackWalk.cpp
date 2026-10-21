@@ -84,4 +84,17 @@ void AnmDrivenSpeedBackWalk::calc_() {
     sub_7100740E04(_54, cc);
 }
 
+void AnmDrivenSpeedBackWalk::leave_() {
+    ksys::act::ai::Action::leave_();
+}
+
+void AnmDrivenSpeedBackWalk::loadParams_() {
+    getStaticParam(&mTime_s, "Time");
+    getStaticParam(&mWeaponIdx_s, "WeaponIdx");
+    getStaticParam(&mRotSpd_s, "RotSpd");
+    getStaticParam(&mRotAddRatio_s, "RotAddRatio");
+    getStaticParam(&mFinishDist_s, "FinishDist");
+    getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
 }  // namespace uking::action

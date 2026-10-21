@@ -180,4 +180,17 @@ sead::Vector3f JumpMainRigidBody::sub_71001C4494() {
     return dir;
 }
 
+bool JumpMainRigidBody::isFinished() const {
+    if (ActionBase::isFinished())
+        return true;
+    if (_78 || !_79)
+        return false;
+    auto* actor = mActor;
+    if (isBgGroundHit(actor, false))
+        return true;
+    if (_7c && mActor->get68f())
+        return true;
+    return false;
+}
+
 }  // namespace uking::action

@@ -149,4 +149,10 @@ void DgnObj_DLC_Faucet::sub_710036052C() {
     }
 }
 
+void DgnObj_DLC_Faucet::leave_() {
+    ksys::act::ai::Ai::leave_();
+}
+
+void DgnObj_DLC_Faucet::loadParams_() {}
+
 }  // namespace uking::ai

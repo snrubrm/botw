@@ -75,4 +75,22 @@ bool AnimalRushAttack::sub_710030CB64(bool force) {
     return closer;
 }
 
+bool AnimalRushAttack::isFailed() const {
+    return ksys::act::ai::Ai::isFailed() || getCurrentChild()->isFailed();
+}
+
+bool AnimalRushAttack::isFinished() const {
+    return ksys::act::ai::Ai::isFinished() || getCurrentChild()->isFinished();
+}
+
+void AnimalRushAttack::leave_() {
+    ksys::act::ai::Ai::leave_();
+}
+
+void AnimalRushAttack::loadParams_() {
+    getStaticParam(&mUpdateTargetPosTime_s, "UpdateTargetPosTime");
+    getStaticParam(&mAttackPosOffsetLength_s, "AttackPosOffsetLength");
+    getDynamicParam(&mTargetPos_d, "TargetPos");
+}
+
 }  // namespace uking::ai
