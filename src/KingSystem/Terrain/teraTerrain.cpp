@@ -671,8 +671,9 @@ void Terrain::m20(f32 delta) {
 bool Terrain::sub_710114D928(System* system, Unk_7101106F44* area, const ImageTypeMaybe& type) {
     sead::FixedSafeString<256> path;
     mImageResourceMgr->sub_7101130FBC(&path, system, area, type);
+    auto* device = _428;
     bool exists = false;
-    _428->tryIsExistFile(&exists, path);
+    device->tryIsExistFile(&exists, path);
     return exists;
 }
 
