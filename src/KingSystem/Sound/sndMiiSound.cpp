@@ -1014,6 +1014,70 @@ void Unk_710251c328::m33(u16* indices, s32 part, u16 base) {
     }
 }
 
+// NON_MATCHING: same 64-bit part test as Unk_710251bf80::m33.
+void Unk_710251c460::m33(u16* indices, s32 part, u16 base) {
+    if (part == 0 || part == 1) {
+        for (u16 i = 0; i < sC460Parts[part].indices; ++i) {
+            u16 a;
+            u16 b;
+            u16 c;
+            if (i == 1) {
+                a = base + 2;
+                b = base + 3;
+                c = base;
+            } else if (i == 0) {
+                a = base;
+                b = base + 1;
+                c = base + 2;
+            } else {
+                continue;
+            }
+            *indices++ = a;
+            *indices++ = b;
+            *indices++ = c;
+        }
+    }
+}
+
+// NON_MATCHING: same 64-bit part test as Unk_710251bf80::m33.
+// A triangle fan around `base`.
+void Unk_710251c6d0::m33(u16* indices, s32 part, u16 base) {
+    if (part == 0 || part == 1) {
+        u32 i = 0;
+        do {
+            *indices++ = base;
+            *indices++ = base + i + 1;
+            *indices++ = base + i + 2;
+        } while (++i < sC6d0Parts[part].indices);
+    }
+}
+
+// NON_MATCHING: same 64-bit part test as Unk_710251bf80::m33.
+// A triangle fan around `base`.
+void Unk_710251c808::m33(u16* indices, s32 part, u16 base) {
+    if (part == 0 || part == 1) {
+        u32 i = 0;
+        do {
+            *indices++ = base;
+            *indices++ = base + i + 1;
+            *indices++ = base + i + 2;
+        } while (++i < sC808Parts[part].indices);
+    }
+}
+
+// NON_MATCHING: same 64-bit part test as Unk_710251bf80::m33.
+void Unk_710251c940::m33(u16* indices, s32 part, u16 base) {
+    if (part == 0 || part == 1) {
+        const u32 count = sC940Parts[part].indices;
+        u32 i = 0;
+        do {
+            *indices++ = base;
+            *indices++ = base + i + 1;
+            *indices++ = i == count - 1 ? base + 1 : base + i + 2;
+        } while (++i < count);
+    }
+}
+
 // Draw-command counts: m10 is the vertex count times the per-vertex count of slot 12,
 // m11 twice the index count.
 s32 Unk_710251bf80::m10() {
