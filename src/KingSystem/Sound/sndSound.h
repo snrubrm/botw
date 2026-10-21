@@ -547,8 +547,13 @@ public:
     /* 0x0740 */ aal::SpeakerBalanceUnifier* mUnifier = nullptr;
     u8 _748[0x10];
     /* 0x0758 */ bool _758 = false;
-    /* 0x075c */ f32 _75c = 0.0f;
-    u8 _760[0x14];
+    /* 0x075c */ s32 _75c = 0;
+    /// Points with a smaller radius are ignored by sub_71010336F8.
+    /* 0x0760 */ f32 _760 = 0.0f;
+    u8 _764[0x8];
+    /// Fade range: full weight at or below _76c, zero at or above _770.
+    /* 0x076c */ f32 _76c = 0.0f;
+    /* 0x0770 */ f32 _770 = 0.0f;
     /* 0x0774 */ f32 _774 = 0.0f;
     u8 _778[0x10];
     /// The per-position cache (0x38 bytes each); the three search results are at +0x28.
@@ -587,7 +592,7 @@ public:
     u8 _18f9[0x1900 - 0x18f9];
     /* 0x1900 */ sead::CriticalSection mCS;
     u8 _1940[0x1944 - 0x1940];
-    /* 0x1944 */ f32 _1944;
+    /* 0x1944 */ s32 _1944;
     /* 0x1948 */ f32 _1948;
     u8 _194c[0x1950 - 0x194c];
 };

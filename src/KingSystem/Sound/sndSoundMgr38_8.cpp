@@ -22,6 +22,8 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include <prim/seadScopedLock.h>
 #include <aal/aalSpeakerBalanceUnifier.h>
+#include <aal/aalListenerMgr.h>
+#include <aal/aalListener.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 
 namespace {
@@ -318,6 +320,47 @@ void Unk_SoundMgr38_10::sub_7101033328(sead::Heap* heap, act::ActorCreator* crea
     }
     _10a8 = 0;
     _10d0 = true;
+}
+
+void Unk_SoundMgr38_10::sub_71010336F8(const sead::Vector3f& pos, f32 radius) {
+    if (_760 > radius)
+        return;
+
+    auto* listener_mgr = aal::SystemAccessor::getListenerMgr();
+    if (!listener_mgr)
+        return;
+    auto* listener = listener_mgr->getListener(0);
+    if (!listener)
+        return;
+
+    const sead::Vector3f listener_pos = listener->getMatrix().getTranslation();
+    const sead::Vector3f delta = pos - listener_pos;
+    const u32 dir = sead::Mathf::atan2Idx(delta.z, delta.x) >> 27;
+    ++_75c;
+    const f32 dist_sq = delta.squaredLength();
+    const f32 dist = sead::Mathf::sqrt(dist_sq);
+
+    if (dist <= _76c) {
+        _774 += 1.0f;
+    } else if (dist < _770) {
+        const f32 range = _770 - _76c;
+        if (range <= 0.0f)
+            _774 += 1.0f;
+        else
+            _774 += 1.0f - (dist - _76c) / range;
+    }
+
+    if (mPositionActive[dir]) {
+        const sead::Vector3f stored_delta = mPositions[dir].mPosition - listener_pos;
+        if (!(dist_sq < stored_delta.squaredLength()))
+            return;
+        mPositions[dir].mPosition = pos;
+        mPositionActive[dir] = true;
+    } else {
+        mPositions[dir].mPosition = pos;
+        mPositionActive[dir] = true;
+        mUnifier->addUnifiable(&mPositions[dir]);
+    }
 }
 
 void Unk_SoundMgr38_10::sub_71010333E0() {
