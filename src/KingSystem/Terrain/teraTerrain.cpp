@@ -854,6 +854,15 @@ sead::Vector2f Terrain::sub_710114D8E4(const System* system) {
 }
 f32 Terrain::sub_710114D8F8(const System* system) { return system->_18 * _3c8; }
 
+}  // namespace ksys::tera
+
+Unk_710250fdf8::Unk_710250fdf8() = default;
+
+// Restored: removed by accident in 37bb657eed, which left the vtable and its O rows unemitted.
+Unk_710250fdf8::~Unk_710250fdf8() = default;
+
+namespace ksys::tera {
+
 // NON_MATCHING: stack slot layout only: the original keeps the position copy at sp+0x20 and the query at sp+0x30;
 // ours puts the copy in the red zone and the query at sp+0x20.
 bool teraGrassQueryForGroundObject(const sead::Vector3f* pos, f32 radius) {

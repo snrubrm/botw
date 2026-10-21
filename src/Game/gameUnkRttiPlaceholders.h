@@ -1204,12 +1204,28 @@ public:
 class Unk_710250fdf8 : public Unk_710251d230 {
     SEAD_RTTI_OVERRIDE(Unk_710250fdf8, Unk_710251d230)
 public:
+    // 0x7101158bd4
+    Unk_710250fdf8();
     ~Unk_710250fdf8() override;
     void m7(void*, void*) override {}
     virtual s32 m8() { return 918; }
     virtual s32 m9() { return 2808; }
     virtual void m10();
     virtual void m11();
+
+    // Cleared by the constructor; types not known yet.
+    u32 _30 = 0;
+    void* _38 = nullptr;
+    void* _40 = nullptr;
+    void* _48 = nullptr;
+    void* _50 = nullptr;
+    void* _58 = nullptr;
+    u32 _60 = 0;
+    void* _68 = nullptr;
+    void* _70 = nullptr;
+    void* _78 = nullptr;
+    u32 _80 = 0;
+    void* _88 = nullptr;
 };
 
 // vtable 0x7102513630 (17 slots); placeholder generated from the vtable (genskel.py).
