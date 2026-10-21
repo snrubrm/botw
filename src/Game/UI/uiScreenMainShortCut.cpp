@@ -41,6 +41,65 @@ const char* ScreenMainShortCut::getLayoutName_() const {
     return sLayoutName.cstr();
 }
 
+// 0x7100a1f5b0
+bool ScreenMainShortCut::sub_7100A1F5B0() {
+    if (!(u32(_3720 - 1) < 2 || (_3720 == 0 && !sub_7100A9FA60())))
+        return false;
+    if (_3860 < 0)
+        return false;
+    PouchItem* item = _37b0[_3860];
+    const auto type = item->getType();
+    _3628->unequip(item);
+    if (auto* player = static_cast<act::PlayerBase*>(getPlayerActor(nullptr)))
+        player->switchEquipment(_3628->getDefaultEquipment(EquipmentSlot(type)), 30);
+    if (type == PouchItemType::Bow && !sub_7100AA7BAC(&_3738))
+        _3738.clear();
+    return true;
+}
+
+// 0x7100a1f7c8
+bool ScreenMainShortCut::sub_7100A1F7C8(s32 index) {
+    PouchItem* item = _37b0[index];
+    if (!item)
+        return false;
+    if (item->getType() == PouchItemType::Arrow) {
+        if (_3628)
+            _3628->equipWeapon(item);
+        const PouchItem* arrow = _3628 ? _3628->getEquippedItem(PouchItemType::Arrow) : nullptr;
+        if (arrow) {
+            _372c = arrow->getCount();
+            _3730 = arrow->getCount();
+            _3734 = true;
+        } else {
+            _372c = 0;
+            _3730 = 0;
+            _3734 = false;
+        }
+        sub_7100A2080C();
+        return false;
+    }
+    if (_3628) {
+        _3628->equipWeapon(item);
+        if (item->getType() == PouchItemType::Bow) {
+            if (!sub_7100AA7BAC(&_3738))
+                _3738.clear();
+            const PouchItem* arrow = _3628 ? _3628->getEquippedItem(PouchItemType::Arrow) : nullptr;
+            if (arrow) {
+                _372c = arrow->getCount();
+                _3730 = arrow->getCount();
+                _3734 = true;
+            } else {
+                _372c = 0;
+                _3730 = 0;
+                _3734 = false;
+            }
+            sub_7100A2080C();
+        }
+    }
+    createEquipmentFromItem(item, "MainShortCut_00Screen");
+    return true;
+}
+
 // 0x7100a1f928
 bool ScreenMainShortCut::sub_7100A1F928(s32 type) {
     if (type == -1 || type == 3 || !_3798 || !_37a0 || !_3790)

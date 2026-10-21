@@ -2333,6 +2333,10 @@ public:
     void sub_7100A1F684(s32 index);
     // 0x7100a1f928 (placeholder name): whether the hold shortcut of `type` (0: left, 1: rune, 2: right) can open
     bool sub_7100A1F928(s32 type);
+    // 0x7100a1f5b0 (placeholder name): unequips the selected ring entry and switches the player to the default equipment
+    bool sub_7100A1F5B0();
+    // 0x7100a1f7c8 (placeholder name): equips ring entry `index` (refreshing the arrow count); false for arrows
+    bool sub_7100A1F7C8(s32 index);
     // 0x7100a21668 (CSV unnamed, declared only): builds the shortcut icon's text / icon from _3864
     void sub_7100A21668();
     void m96() override;
@@ -2376,7 +2380,8 @@ public:
     /* 0x3798 */ eui::Animator* _3798;
     /* 0x37a0 */ eui::Animator* _37a0;
     /* 0x37a8 */ eui::Animator* _37a8;
-    u8 _pad_37b0[0x3850 - 0x37b0];
+    // the shortcut ring entries (sub_7100A1F5B0)
+    /* 0x37b0 */ sead::SafeArray<PouchItem*, 20> _37b0;
     sead::Buffer<s32> _3850;  // 4-byte elements (m93 allocates 8); element type is a guess
     // the last selected shortcut (m159 compares it with _3864)
     /* 0x3860 */ s32 _3860;
