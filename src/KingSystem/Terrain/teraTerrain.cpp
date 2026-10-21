@@ -1313,6 +1313,94 @@ u32 Unk_710251d0e0::m11() const {
     return _34;
 }
 
+// NON_MATCHING: the final add has its operands swapped.
+// The grid is drawn as four quadrants.
+s32 Unk_710250f758::m8() {
+    const u32 width = _30;
+    const u32 height = _34;
+    const u32 half_x = width / 2;
+    const u32 half_y = height / 2;
+    const u32 x0 = half_x + 1;
+    const u32 y0 = half_y + 1;
+    mVertexRanges[0].count = Unk_710251d0e0::sub_71012E9F80(x0, y0);
+    const u32 y1 = height - half_y + 1;
+    mVertexRanges[1].count = Unk_710251d0e0::sub_71012E9F80(x0, y1);
+    const u32 x1 = width - half_x + 1;
+    mVertexRanges[2].count = Unk_710251d0e0::sub_71012E9F80(x1, y0);
+    mVertexRanges[3].count = Unk_710251d0e0::sub_71012E9F80(x1, y1);
+    u32 total = 0;
+    for (auto& range : mVertexRanges) {
+        range.start = total;
+        total += range.count;
+    }
+    return total;
+}
+
+s32 Unk_710250f758::m9() {
+    const u32 width = _30;
+    const u32 height = _34;
+    const u32 half_x = width / 2;
+    const u32 half_y = height / 2;
+    const u32 x0 = half_x + 1;
+    const u32 y0 = half_y + 1;
+    mIndexRanges[0].count = Unk_710251d0e0::sub_71012E9F88(x0, y0, mFlags & 1);
+    const u32 y1 = height - half_y + 1;
+    mIndexRanges[1].count = Unk_710251d0e0::sub_71012E9F88(x0, y1, mFlags & 1);
+    const u32 x1 = width - half_x + 1;
+    mIndexRanges[2].count = Unk_710251d0e0::sub_71012E9F88(x1, y0, mFlags & 1);
+    mIndexRanges[3].count = Unk_710251d0e0::sub_71012E9F88(x1, y1, mFlags & 1);
+    u32 total = 0;
+    for (auto& range : mIndexRanges) {
+        range.start = total;
+        total += range.count;
+    }
+    return total;
+}
+
+// NON_MATCHING: the final add has its operands swapped.
+// The grid is drawn as four quadrants.
+s32 Unk_710250f7d8::m8() {
+    const u32 width = _30;
+    const u32 height = _34;
+    const u32 half_x = width / 2;
+    const u32 half_y = height / 2;
+    const u32 x0 = half_x + 1;
+    const u32 y0 = half_y + 1;
+    mVertexRanges[0].count = Unk_710251d010::sub_71012E9090(x0, y0);
+    const u32 y1 = height - half_y + 1;
+    mVertexRanges[1].count = Unk_710251d010::sub_71012E9090(x0, y1);
+    const u32 x1 = width - half_x + 1;
+    mVertexRanges[2].count = Unk_710251d010::sub_71012E9090(x1, y0);
+    mVertexRanges[3].count = Unk_710251d010::sub_71012E9090(x1, y1);
+    u32 total = 0;
+    for (auto& range : mVertexRanges) {
+        range.start = total;
+        total += range.count;
+    }
+    return total;
+}
+
+s32 Unk_710250f7d8::m9() {
+    const u32 width = _30;
+    const u32 height = _34;
+    const u32 half_x = width / 2;
+    const u32 half_y = height / 2;
+    const u32 x0 = half_x + 1;
+    const u32 y0 = half_y + 1;
+    mIndexRanges[0].count = Unk_710251d010::sub_71012E90A4(x0, y0, mFlags & 1);
+    const u32 y1 = height - half_y + 1;
+    mIndexRanges[1].count = Unk_710251d010::sub_71012E90A4(x0, y1, mFlags & 1);
+    const u32 x1 = width - half_x + 1;
+    mIndexRanges[2].count = Unk_710251d010::sub_71012E90A4(x1, y0, mFlags & 1);
+    mIndexRanges[3].count = Unk_710251d010::sub_71012E90A4(x1, y1, mFlags & 1);
+    u32 total = 0;
+    for (auto& range : mIndexRanges) {
+        range.start = total;
+        total += range.count;
+    }
+    return total;
+}
+
 namespace ksys::tera {
 
 agl::TextureSampler* Terrain::Unk4ae0::Unk_10::getSamplerMaybe(s32 index) {

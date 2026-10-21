@@ -2275,6 +2275,10 @@ public:
     virtual void m12();
     virtual void m13();
 
+    // Vertex / index counts of a cols x rows grid (0x71012e9f80 / 0x71012e9f88).
+    static u32 sub_71012E9F80(u32 cols, u32 rows);
+    static s32 sub_71012E9F88(u32 cols, u32 rows, bool restart);
+
     u32 _30;
     u32 _34;
 };
@@ -2286,6 +2290,16 @@ class Unk_710250f758 : public Unk_710251d0e0 {
     SEAD_RTTI_OVERRIDE(Unk_710250f758, Unk_710251d0e0)
 public:
     ~Unk_710250f758() override;
+    s32 m8() override;
+    s32 m9() override;
+
+    // Start / count of the four quadrant parts (vertices at 0x38, indices at 0x58).
+    struct Range {
+        u32 start;
+        u32 count;
+    };
+    Range mVertexRanges[4];
+    Range mIndexRanges[4];
 };
 
 // vtable 0x710251d010 (14 slots); placeholder generated from the vtable (genskel.py).
@@ -2297,6 +2311,9 @@ public:
     ~Unk_710251d010() override;
     s32 m8() override;
     s32 m9() override;
+    // Vertex / index counts of the d010 grid (0x71012e9090 / 0x71012e90a4).
+    static u32 sub_71012E9090(u32 cols, u32 rows);
+    static s32 sub_71012E90A4(u32 cols, u32 rows, bool restart);
 };
 
 // vtable 0x710250f7d8 (14 slots); placeholder generated from the vtable (genskel.py).
@@ -2306,6 +2323,16 @@ class Unk_710250f7d8 : public Unk_710251d010 {
     SEAD_RTTI_OVERRIDE(Unk_710250f7d8, Unk_710251d010)
 public:
     ~Unk_710250f7d8() override;
+    s32 m8() override;
+    s32 m9() override;
+
+    // Start / count of the four quadrant parts (vertices at 0x38, indices at 0x58).
+    struct Range {
+        u32 start;
+        u32 count;
+    };
+    Range mVertexRanges[4];
+    Range mIndexRanges[4];
 };
 
 // vtable 0x71025138e8 (20 slots); placeholder generated from the vtable (genskel.py).

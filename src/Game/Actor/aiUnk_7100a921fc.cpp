@@ -281,22 +281,15 @@ s32 Unk_710251d160::m11() {
     return _34;
 }
 
-s32 Unk_710251d0e0::m8() {
-    return (m10() + 1) * (m11() + 1);
-}
-
-s32 Unk_710251d010::m8() {
-    const u32 cols = m10() + 1;
-    const u32 rows = m11() + 1;
-    return cols * rows + (cols - 1) * (rows - 1);
+u32 Unk_710251d0e0::sub_71012E9F80(u32 cols, u32 rows) {
+    return cols * rows;
 }
 
 // NON_MATCHING: regalloc in the strip loop (index register).
-s32 Unk_710251d0e0::m9() {
-    const u32 cols = m10() + 1;
-    const u32 rows = m11() + 1;
+// Index count of a cols x rows grid: six per cell plus the strip-restart indices.
+s32 Unk_710251d0e0::sub_71012E9F88(u32 cols, u32 rows, bool restart) {
     s32 extra = 0;
-    if (mFlags & 1) {
+    if (restart) {
         const u32 n = rows >= cols ? cols : rows;
         u32 step = 12;
         for (u32 i = 0; i <= n - 1; i += step) {
@@ -312,12 +305,14 @@ s32 Unk_710251d0e0::m9() {
     return extra + (cols * 6 - 6) * (rows - 1);
 }
 
-// NON_MATCHING: regalloc in the strip loop (same as Unk_710251d0e0::m9).
-s32 Unk_710251d010::m9() {
-    const u32 cols = m10() + 1;
-    const u32 rows = m11() + 1;
+u32 Unk_710251d010::sub_71012E9090(u32 cols, u32 rows) {
+    return cols * rows + (cols - 1) * (rows - 1);
+}
+
+// NON_MATCHING: regalloc in the strip loop (same as Unk_710251d0e0::sub_71012E9F88).
+s32 Unk_710251d010::sub_71012E90A4(u32 cols, u32 rows, bool restart) {
     s32 extra = 0;
-    if (mFlags & 1) {
+    if (restart) {
         const u32 n = rows >= cols ? cols : rows;
         u32 step = 7;
         for (u32 i = 0; i <= n - 1; i += step) {
@@ -331,6 +326,24 @@ s32 Unk_710251d010::m9() {
         }
     }
     return extra + (cols * 12 - 12) * (rows - 1);
+}
+
+s32 Unk_710251d0e0::m8() {
+    return sub_71012E9F80(m10() + 1, m11() + 1);
+}
+
+s32 Unk_710251d010::m8() {
+    return sub_71012E9090(m10() + 1, m11() + 1);
+}
+
+// NON_MATCHING: regalloc in the inlined strip loop (index register).
+s32 Unk_710251d0e0::m9() {
+    return sub_71012E9F88(m10() + 1, m11() + 1, mFlags & 1);
+}
+
+// NON_MATCHING: regalloc in the inlined strip loop.
+s32 Unk_710251d010::m9() {
+    return sub_71012E90A4(m10() + 1, m11() + 1, mFlags & 1);
 }
 
 void Unk_710251cfa0::m7(void* vertices, void* indices) {
