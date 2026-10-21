@@ -40539,8 +40539,8 @@ Address,Quality,Size,Name
 0x000000710067b73c,O,000048,_ZN4sead9Delegate1IN5uking13MotorcycleMgrEPN4ksys3gdt7Manager11ReinitEventEE6invokeES7_
 0x000000710067b76c,O,000092,_ZNK4sead9Delegate1IN5uking13MotorcycleMgrEPN4ksys3gdt7Manager11ReinitEventEE5cloneEPNS_4HeapE
 0x000000710067b7c8,U,000296,
-0x000000710067b8f0,U,000100,
-0x000000710067b954,U,000108,
+0x000000710067b8f0,O,000100,_ZN8RadarMgr18SingletonDisposer_D2Ev
+0x000000710067b954,O,000108,_ZN8RadarMgr18SingletonDisposer_D0Ev
 0x000000710067b9c0,U,000452,RadarMgr::createInstance
 0x000000710067bb84,U,000088,RadarMgr::destroyInstance
 0x000000710067bbdc,U,000176,RadarMgr::threadFn

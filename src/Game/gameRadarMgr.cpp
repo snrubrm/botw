@@ -1,3 +1,3 @@
 #include "Game/gameRadarMgr.h"
 
-RadarMgr* RadarMgr::sInstance;
+SEAD_SINGLETON_DISPOSER_IMPL(RadarMgr)
