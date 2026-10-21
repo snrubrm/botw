@@ -1428,6 +1428,10 @@ class Unk_71025195b0 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_71025195b0, Unk_7102519378)
 public:
     ~Unk_71025195b0() override;
+    // Stores the colour divided by its luminance (alpha kept) and returns the luminance.
+    f32 setColor(const sead::Color4f& color);
+    // setColor, then stores the luminance (at least 0) at _100.
+    void setColorAndLuminance(const sead::Color4f& color);
     virtual s32 m5() { return 4; }
     void m6(sead::Heap* heap) override;
     virtual void m7();
@@ -1440,7 +1444,16 @@ public:
 private:
     u32 _5c = 0;
     agl::UniformBlock mUniformBlock;
+    // Constructor 0x71012993c0 (not matched): position 0, _e4 = sead::Vector3f::ex, colour
+    // (5, 0, 0, 1), 0x110..0x140 NaN.
+    sead::Vector3f mPos;
+    sead::Vector3f _e4;
+    sead::Color4f mColor;
+    f32 _100;
+    f32 _104;
+    u8 _108[0x158 - 0x108];
 };
+KSYS_CHECK_SIZE_NX150(Unk_71025195b0, 0x158);
 
 // vtable 0x7102519620 (12 slots); placeholder generated from the vtable (genskel.py).
 class Unk_7102519620 : public Unk_7102519378 {

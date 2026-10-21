@@ -345,6 +345,17 @@ bool Unk_71025195b0::m11() const {
     return (_5c & 2) != 0;
 }
 
+f32 Unk_71025195b0::setColor(const sead::Color4f& color) {
+    const f32 luminance = color.r * 0.298912f + color.g * 0.586611f + color.b * 0.114478f;
+    mColor = color / luminance;
+    mColor.a = color.a;
+    return luminance;
+}
+
+void Unk_71025195b0::setColorAndLuminance(const sead::Color4f& color) {
+    _100 = sead::Mathf::clampMin(setColor(color), 0.0f);
+}
+
 Unk_7102519620::Unk_7102519620() = default;
 Unk_7102519620::~Unk_7102519620() = default;
 
