@@ -863,4 +863,8 @@ bool Camera::sub_7100796164() const {
     return _13fd & 4;
 }
 
+s32 getCameraSphereCastMaxIterations() {
+    return 10;
+}
+
 }  // namespace uking::act
