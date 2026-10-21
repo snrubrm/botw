@@ -742,27 +742,6 @@ public:
     ~Unk_71024cffe8() override;
 };
 
-// vtable 0x71024f1358 (17 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71024f1358 {
-    SEAD_RTTI_BASE(Unk_71024f1358)
-public:
-    virtual ~Unk_71024f1358();
-    // 0x7100edc204 / 0x7100edc210: the tool name and its Japanese label.
-    virtual const char* getName();
-    virtual const char* getJpName();
-    virtual void m6();
-    virtual void m7();
-    virtual void m8();
-    virtual s32 m9() { return 1; }
-    virtual void m10() {}
-    virtual void m11() {}
-    virtual void m12() {}
-    virtual void m13() {}
-    virtual void m14();
-    virtual void m15() {}
-    virtual void m16() {}
-};
-
 // vtable 0x71024f4720 (84 slots); placeholder generated from the vtable (genskel.py).
 // Uses gsys::IModelProcedural's RTTI functions (slots 0 and 1 are 0x7100c1444c / 0x7100c14518).
 class Unk_71024f4720 : public gsys::IModelProcedural {
@@ -1279,19 +1258,12 @@ class Unk_7102513630 : public Unk_71024f13f0 {
 public:
     ~Unk_7102513630() override;
     // Vtable slots 4 / 5 (0x71011ed3cc / 0x71011ed3d8): the name strings.
-    virtual const char* getName() const;
-    virtual const char* getJpName() const;
-    virtual void m6() {}
-    virtual void m7();
-    virtual void m8();
-    virtual s32 m9() { return 1; }
-    virtual void m10() {}
-    virtual void m11() {}
-    virtual void m12() {}
-    virtual void m13() {}
-    virtual void m14() {}
-    virtual void m15() {}
-    virtual void m16();
+    const char* getName() const override;
+    const char* getJpName() const override;
+    void m6() override {}
+    bool m7() override;
+    void m14() override {}
+    void m16() override;
 
     // 0x71011ece14: constructs the SeadController at 0x48 with id 0xb; the dtor destroys it.
     Unk_7102513630();

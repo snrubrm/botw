@@ -1,7 +1,16 @@
 #include "KingSystem/System/GameTool.h"
 
+void Unk_71024f13f0::m6() {}
+
 namespace ksys {
 
-GameTool* GameTool::sInstance;
+SEAD_SINGLETON_DISPOSER_IMPL(GameTool)
+
+GameTool::GameTool() {
+    _54.makeAllZero();
+    mController.sub_7100D9DAD8();
+}
+
+GameTool::~GameTool() = default;
 
 }  // namespace ksys

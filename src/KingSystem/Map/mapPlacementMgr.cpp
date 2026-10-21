@@ -858,6 +858,8 @@ const char* Unk_71024f1358::getJpName() {
 
 // NON_MATCHING: the original stores _28 with the other base fields before constructing the SeadController and
 // writes _34 / _40 after it (store order in the ctor).
+// NON_MATCHING: the SeadController member is constructed from the initializer list, so its call lands after the
+// _34 / _40 stores; the original stores _8.._30 first and only then constructs it (store order in the ctor).
 Unk_7102513630::Unk_7102513630() : _34{0, 0, 1}, _40(0), mController(0xb) {
     _28 = &mController;
     _30 &= ~8;

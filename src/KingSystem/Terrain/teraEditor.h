@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <hostio/seadHostIONode.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include "KingSystem/System/GameTool.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace gsys { class Model; }
@@ -39,19 +40,11 @@ public:
     bool sub_710107EC48() const;
     // 0x710107ed78 / 0x710107ed84: the hostio names. Slots 4 / 5 of the class vtable (the original
     // class is the terrain editor; the strings are "Terrain" and "地形編集").
-    virtual const char* getName() const { return "Terrain"; }
-    virtual const char* getJpName() const { return "地形編集"; }
-    virtual void m6();
-    virtual bool m7() { return false; }
-    virtual void m8();
-    virtual bool m9();
-    virtual void m10();
-    virtual void m11() {}
-    virtual void m12() {}
-    virtual void m13() {}
-    virtual void m14() {}
-    virtual void m15() {}
-    virtual void m16() {}
+    const char* getName() const override { return "Terrain"; }
+    const char* getJpName() const override { return "地形編集"; }
+    void m6() override;
+    bool m9() override;
+    void m10() override;
     virtual void m17() {}
     virtual void m18() {}
 
