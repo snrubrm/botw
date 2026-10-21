@@ -5,6 +5,11 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyListShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physListShape.h"
 #include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
 
 namespace uking::action {
 
@@ -16,9 +21,9 @@ PriestBossBeamMove::~PriestBossBeamMove() = default;
 // _b8 first with its own return block (same instructions otherwise).
 bool PriestBossBeamMove::init_(sead::Heap* heap) {
     auto* actor = mActor;
-    _b8 = actor->getMainBody();
-    _c0 = actor->findPhysicsBodyByName("Atk", "AtkBody");
-    _c8 = actor->findPhysicsBodyByName("Atk", "AtkExplode");
+    _b8 = mActor->getMainBody();
+    _c0 = mActor->findPhysicsBodyByName("Atk", "AtkBody");
+    _c8 = mActor->findPhysicsBodyByName("Atk", "AtkExplode");
     if (!_b8 || !_c8)
         return false;
     if (!_c0)
@@ -36,7 +41,52 @@ bool PriestBossBeamMove::init_(sead::Heap* heap) {
 }
 
 void PriestBossBeamMove::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    auto* actor = mActor;
+    _64 = actor->getVelocity();
+    const f32 speed = _64.normalize();
+
+    _b0 = speed * 30.0f;
+    _b4 = 0.0f;
+    _d0 = false;
+    _d1 = false;
+    _d2 = false;
+    _d3 = false;
+    _d4 = false;
+
+    auto* proc = mActor;
+    if (auto* parent = sead::DynamicCast<ksys::act::Actor>(proc->getConnectedCalcParent())) {
+        parent->getMtx().getTranslation(_58);
+        proc->resetConnectedCalcParent(false);
+    } else {
+        proc->getMtx().getTranslation(_58);
+    }
+
+    _70 = actor->getMtx();
+    _b8->setTransform(_70);
+    _c0->setTransform(_70);
+    _c8->setTransform(_70);
+
+    const sead::Vector3f velocity = _64 * _b0;
+    _b8->setLinearVelocity(velocity, sead::Mathf::epsilon());
+    _b8->setGravityFactor(0);
+    _c0->setLinearVelocity(velocity, sead::Mathf::epsilon());
+    _c8->setLinearVelocity(velocity, sead::Mathf::epsilon());
+
+    if (auto* sensor = getActorAttackSensor(actor)) {
+        sensor->activateAttackSensor(
+            0x1000, 2, *mAttackPower_m,
+            actor->getParam()->getRes().mGParamList->getAttack()->mImpulseLarge.ref(), 0.0f,
+            actor->getParam()->getRes().mGParamList->getAttack()->mGuardBreakPower.ref(),
+            *mShieldDamage_s, -1, false, *mAtMinDamage_s, *mAttackPowerForPlayer_m);
+    }
+
+    if (_b8->getContactPointInfo()) {
+        _b8->getContactPointInfo()->subscribeLayer(ksys::phys::ContactLayer::EntityPlayer);
+        _b8->getContactPointInfo()->subscribeLayer(ksys::phys::ContactLayer::EntityNPC);
+    }
+
+    _c0->enableContactLayer(ksys::phys::ContactLayer::SensorEnemy);
+    mFlags.reset(Flag::Changeable);
 }
 
 void PriestBossBeamMove::leave_() {

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/actAiAction.h"
 
@@ -43,12 +44,13 @@ protected:
     // map_unit_param at offset 0x50
     const sead::Vector3f* mPosOffset_m{};
     // The members below are only known from the constructor (layout guess: sizes of the zeroed / initialised runs).
-    u8 _58[0xc];
+    sead::Vector3f _58;
     sead::Vector3f _64 = sead::Vector3f::ez;
-    u8 _70[0x30];
+    sead::Matrix34f _70;
     sead::Vector3f _a0 = sead::Vector3f::zero;
     f32 _ac = 0.5f;
-    u64 _b0{};
+    f32 _b0{};
+    f32 _b4{};
     ksys::phys::RigidBody* _b8{};  // the beam body (its transform is copied to _c8)
     ksys::phys::RigidBody* _c0{};
     ksys::phys::RigidBody* _c8{};
