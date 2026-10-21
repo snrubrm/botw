@@ -326,6 +326,18 @@ public:
     // `_148` (Unk6) start with the same header. The elements are Element::m5 targets (sub_710115E13C); bit 1 of
     // the byte at 0x10 is queried by sub_710115AD68.
     struct Unk8 {
+        // 0x7101159ca0 / 0x7101159f8c inline: deletes the elements and frees the pointer array.
+        void release() {
+            for (s32 i = 0; i < _0.size(); ++i) {
+                if (_0[i]) {
+                    delete _0[i];
+                    _0[i] = nullptr;
+                }
+            }
+            _0.freeBuffer();
+        }
+        ~Unk8() { release(); }
+
         sead::Buffer<Element*> _0;
         u8 _10;
         u8 _11;
@@ -539,6 +551,10 @@ public:
     // CapturedActElectricParalyisis calc_ / leave_: the number of banks of slot 0.
     s32 getSlot0BankCount() const { return mSlots.size() > 0 ? mSlots[0]._20.size() : 0; }
 
+    // 0x710115f8c: releases the slots, the frames, the define chain and the source tree. `destroying`
+    // skips the slot finalization (the destructor passes true).
+    void sub_7101159F8C(bool destroying);
+
     Unk2* getEntry(int slot, int bank) {
         if (slot >= mSlots.size())
             return nullptr;
@@ -576,6 +592,8 @@ public:
     /* 0x161 */ u8 _161;
     /* 0x162 */ u8 _162;
     /* 0x163 */ u8 _163;
+    /* 0x168 */ Unk_710125af7c mPartialSourceTree;
+    /* 0x178 */ Unk_710125af7c mSourceTree;
 };
 
 // Common playback request passed to the update virtuals and motion blending.

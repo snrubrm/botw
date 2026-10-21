@@ -942,9 +942,18 @@ public:
         // Vtable 0x7102517148: D1/D0 followed by the child-link reset at 0x710125b118.
         virtual ~Unk18();
         virtual void sub_710125B118();
+
+        // Left-leaning red-black tree node (same layout as sead::TreeMapNode): the low bit of
+        // mColorAndPtr is the colour, the rest is the parent.
+        void setParent(Unk18* parent) { mColorAndPtr = (mColorAndPtr & 1) | uintptr_t(parent); }
+        Unk18* getParent() const { return reinterpret_cast<Unk18*>(mColorAndPtr & ~uintptr_t(1)); }
+        void setColor(u32 color) { mColorAndPtr = color; }
+        bool isRed() const { return (mColorAndPtr & 1) == 0; }
+
+
         Unk18* _8;
         Unk18* _10;
-        u8 _18[0x20 - 0x18];
+        uintptr_t mColorAndPtr;
         gsys::AnimationAccessKey<gsys::SkeletalAnmType> mKey;
         bool _24;
         bool _25;
@@ -983,11 +992,53 @@ public:
 KSYS_CHECK_SIZE_NX150(SkeltalAsset, 0x20);
 
 // Original tree lookup/create at 0x710125af7c; implementation remains declared only.
+// The container (0x10 bytes) is the root of a left-leaning red-black tree of loaded animation sources;
+// ASList has one at +0x168 (partial sources) and one at +0x178 (sources fetched by name in
+// SkeltalAsset::m5). Its clear 0x710125aeb0 destroys every node; the erase at 0x710125b120 is the
+// recursive TreeMapImpl-like removal.
 class Unk_710125af7c {
 public:
-    bool sub_710125AF7C(SkeltalAsset::Unk18** out,
-                       const gsys::AnimationAccessKey<gsys::SkeletalAnmType>* key,
-                       gsys::Model* model, act::Actor* actor, sead::Heap* heap);
+    using Key = gsys::AnimationAccessKey<gsys::SkeletalAnmType>;
+
+    // 0x710125aeb0
+    void clear();
+
+    bool sub_710125AF7C(SkeltalAsset::Unk18** out, const Key* key, gsys::Model* model,
+                        act::Actor* actor, sead::Heap* heap);
+
+    SkeltalAsset::Unk18* mRoot = nullptr;
+    bool mIsInitialized = false;
+
+private:
+    static s32 compare(const Key& a, const Key& b) {
+        if (a.index < b.index)
+            return -1;
+        if (b.index < a.index)
+            return 1;
+        return 0;
+    }
+
+    static SkeltalAsset::Unk18* startIterating(SkeltalAsset::Unk18* node) {
+        while (node->_8) {
+            node->_8->setParent(node);
+            node = node->_8;
+        }
+        return node;
+    }
+
+    static SkeltalAsset::Unk18* rotateLeft(SkeltalAsset::Unk18* node);
+    static SkeltalAsset::Unk18* rotateRight(SkeltalAsset::Unk18* node);
+    static SkeltalAsset::Unk18* moveRedLeft(SkeltalAsset::Unk18* node);
+    static SkeltalAsset::Unk18* moveRedRight(SkeltalAsset::Unk18* node);
+    static SkeltalAsset::Unk18* findMin(SkeltalAsset::Unk18* node);
+    // 0x710125b49c
+    SkeltalAsset::Unk18* eraseMin(SkeltalAsset::Unk18* node);
+    static SkeltalAsset::Unk18* fixUp(SkeltalAsset::Unk18* node);
+    static bool isRed(const SkeltalAsset::Unk18* node) { return node && node->isRed(); }
+    static void flipColors(SkeltalAsset::Unk18* node);
+    // 0x710125b120
+    SkeltalAsset::Unk18* erase(SkeltalAsset::Unk18* root, const Key& key);
+    SkeltalAsset::Unk18* find(SkeltalAsset::Unk18* root, const Key& key) const;
 };
 
 class ClearMatAnmAsset : public Asset {

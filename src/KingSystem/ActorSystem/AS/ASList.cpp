@@ -1280,6 +1280,27 @@ void ASList::sub_710115E218(u32* mask, const res::AS* as, u32 index) {
     }
 }
 
+// 0x710115f8c: releases the slots (unless destroying), the frames' buffers, the define chain and the
+// source tree.
+void ASList::sub_7101159F8C(bool destroying) {
+    if (!destroying) {
+        for (s32 i = 0; i < mSlots.size(); ++i)
+            mSlots[i].sub_7101164EB8();
+    }
+    for (s32 i = 0; i < mFrames.size(); ++i)
+        mFrames[i].finalize();
+    mFrames.freeBuffer();
+    _160 = 0;
+    _161 = 0;
+    _162 = 0;
+    while (_148) {
+        Unk6* node = _148;
+        _148 = node->_30;
+        delete node;
+    }
+    mSourceTree.clear();
+}
+
 s32 sub_710115E3A0(const u32* mask) {
     s32 count = 0;
     for (s32 i = 0; i < 16; ++i)

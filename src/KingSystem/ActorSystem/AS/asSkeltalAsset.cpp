@@ -42,6 +42,136 @@ void SkeltalAsset::Unk18::sub_710125B118() {
     _10 = nullptr;
 }
 
+// The animation-source tree of SkeltalAsset::m5 / m8 and ASList +0x168 / +0x178. The removal is the
+// sead left-leaning red-black tree erase; nodes are heap-allocated and deleted by clear().
+void Unk_710125af7c::clear() {
+    if (!mRoot)
+        return;
+    SkeltalAsset::Unk18* node = startIterating(mRoot);
+    while (node) {
+        const Key key = node->mKey;
+        mRoot = erase(mRoot, key);
+        if (mRoot)
+            mRoot->setColor(1);
+        delete node;
+        if (!mRoot)
+            break;
+        node = startIterating(mRoot);
+    }
+}
+
+SkeltalAsset::Unk18* Unk_710125af7c::erase(SkeltalAsset::Unk18* root, const Key& key) {
+    if (compare(key, root->mKey) < 0) {
+        if (!isRed(root->_8) && !isRed(root->_8->_8))
+            root = moveRedLeft(root);
+        root->_8 = erase(root->_8, key);
+    } else {
+        if (isRed(root->_8))
+            root = rotateRight(root);
+        if (compare(key, root->mKey) == 0 && !root->_10) {
+            root->sub_710125B118();
+            return nullptr;
+        }
+        if (!isRed(root->_10) && !isRed(root->_10->_8))
+            root = moveRedRight(root);
+        if (compare(key, root->mKey) == 0) {
+            SkeltalAsset::Unk18* const min_node = findMin(root->_10);
+            SkeltalAsset::Unk18* target = root->_10;
+            if (root->_10)
+                target = find(root->_10, min_node->mKey);
+            target->_10 = eraseMin(root->_10);
+            target->_8 = root->_8;
+            target->mColorAndPtr = root->mColorAndPtr;
+            root->sub_710125B118();
+            root = target;
+        } else {
+            root->_10 = erase(root->_10, key);
+        }
+    }
+    return fixUp(root);
+}
+
+SkeltalAsset::Unk18* Unk_710125af7c::eraseMin(SkeltalAsset::Unk18* node) {
+    if (!node->_8)
+        return nullptr;
+    if (!isRed(node->_8) && !isRed(node->_8->_8))
+        node = moveRedLeft(node);
+    node->_8 = eraseMin(node->_8);
+    return fixUp(node);
+}
+
+SkeltalAsset::Unk18* Unk_710125af7c::find(SkeltalAsset::Unk18* root, const Key& key) const {
+    while (root) {
+        const s32 cmp = compare(key, root->mKey);
+        if (cmp < 0)
+            root = root->_8;
+        else if (cmp > 0)
+            root = root->_10;
+        else
+            return root;
+    }
+    return nullptr;
+}
+
+SkeltalAsset::Unk18* Unk_710125af7c::findMin(SkeltalAsset::Unk18* node) {
+    while (node->_8)
+        node = node->_8;
+    return node;
+}
+
+SkeltalAsset::Unk18* Unk_710125af7c::rotateLeft(SkeltalAsset::Unk18* node) {
+    SkeltalAsset::Unk18* j = node->_10;
+    node->_10 = j->_8;
+    j->_8 = node;
+    j->mColorAndPtr = node->mColorAndPtr;
+    node->setColor(0);
+    return j;
+}
+
+SkeltalAsset::Unk18* Unk_710125af7c::rotateRight(SkeltalAsset::Unk18* node) {
+    SkeltalAsset::Unk18* j = node->_8;
+    node->_8 = j->_10;
+    j->_10 = node;
+    j->mColorAndPtr = node->mColorAndPtr;
+    node->setColor(0);
+    return j;
+}
+
+void Unk_710125af7c::flipColors(SkeltalAsset::Unk18* node) {
+    node->mColorAndPtr ^= 1;
+    node->_8->mColorAndPtr ^= 1;
+    node->_10->mColorAndPtr ^= 1;
+}
+
+SkeltalAsset::Unk18* Unk_710125af7c::moveRedLeft(SkeltalAsset::Unk18* node) {
+    flipColors(node);
+    if (isRed(node->_10->_8)) {
+        node->_10 = rotateRight(node->_10);
+        node = rotateLeft(node);
+        flipColors(node);
+    }
+    return node;
+}
+
+SkeltalAsset::Unk18* Unk_710125af7c::moveRedRight(SkeltalAsset::Unk18* node) {
+    flipColors(node);
+    if (isRed(node->_8->_8)) {
+        node = rotateRight(node);
+        flipColors(node);
+    }
+    return node;
+}
+
+SkeltalAsset::Unk18* Unk_710125af7c::fixUp(SkeltalAsset::Unk18* node) {
+    if (isRed(node->_10))
+        node = rotateLeft(node);
+    if (isRed(node->_8) && isRed(node->_8->_8))
+        node = rotateRight(node);
+    if (isRed(node->_8) && isRed(node->_10))
+        flipColors(node);
+    return node;
+}
+
 // NON_MATCHING: the second key halfword uses the element pointer rather than the key pointer.
 bool SkeltalAsset::m8(const InitArg& arg) {
     const CreateArg& create_arg = *arg.createArg;
