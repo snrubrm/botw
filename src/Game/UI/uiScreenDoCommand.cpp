@@ -2,7 +2,11 @@
 #include <prim/seadSafeString.h>
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiTUStatics.h"
+#include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/euiMessageString.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ui {
 
@@ -19,7 +23,7 @@ struct CommandMessage {
 struct CommandButton {
     sead::SafeString pane;
     sead::SafeString text;
-    s32 _20;
+    u32 _20;
     s32 _24;
 };
 
@@ -239,5 +243,127 @@ void ScreenDoCommand::sub_7100A0789C() {
         Screen::open(1);
     }
     _3664 = _365c;
+}
+// 0x7100a07990
+// NON_MATCHING: the original loads the animator vtable once before the 19 / 12 test and loads the 0x3630 frame
+// inside the 26 branch.
+void ScreenDoCommand::sub_7100A07990(s32 command) {
+    if (command == -1)
+        return;
+    _3660 = command;
+
+    s32 button = sUnk_71025ED448[command].value;
+    if (button >= 8 && button <= 10) {
+        // The jump and the dash buttons swap with the JumpButtonChange option.
+        const bool changed = ksys::gdt::getFlag_JumpButtonChange();
+        if (button == 8)
+            button = changed ? 1 : 2;
+        else if (button == 9)
+            button = changed ? 2 : 1;
+        else if (button == 10)
+            button = changed ? 6 : 5;
+    }
+
+    s32 direction = (_3660 == 5 || _3660 == 21) ? 1 : -1;
+    if (_3660 == 16)
+        direction = 0;
+
+    eui::LayoutEx* layout = sub_7100BEAFB0(sUnk_71025ED438[button].pane.cstr());
+    if (!layout)
+        return;
+
+    eui::MessageString message;
+    getMessage("LayoutMsg/DoCommand_00", sUnk_71025ED448[_3660].label, &message);
+    setWidgetString(layout, sUnk_71025ED438[button].text, message);
+    sub_7100BEB6F8(layout);
+
+    if (_3618)
+        _3618->Stop(static_cast<f32>(sUnk_71025ED438[button]._20));
+
+    if (direction != -1) {
+        if (_3610 && _3610->mFrame != static_cast<f32>(_3610->GetFrameSize()))
+            _3610->StopAtMax();
+        if (_3620)
+            _3620->Stop(static_cast<f32>(direction));
+    } else if (_3610 && _3610->mFrame != 0.0f) {
+        _3610->StopAtMin();
+    }
+
+    if (sUnk_71025ED438[button]._24 != -1) {
+        if (auto* animator = _3648.at(sUnk_71025ED438[button]._24)) {
+            if (_3660 == 19 || _3660 == 12)
+                animator->StopAtMax();
+            else
+                animator->StopAtMin();
+        }
+    }
+
+    if (sUnk_71025ED438[button]._24 != -1) {
+        if (auto* animator = _3638.at(sUnk_71025ED438[button]._24)) {
+            if (animator->mFrame != 0.0f)
+                animator->StopAtMin();
+            if (_3628 && _3628->mFrame != 0.0f)
+                _3628->StopAtMin();
+        }
+    }
+
+    if (_3630) {
+        if (_3660 == 26) {
+            if (_3630->mFrame != static_cast<f32>(_3630->GetFrameSize()))
+                _3630->StopAtMax();
+        } else if (_3630->mFrame != 0.0f) {
+            _3630->StopAtMin();
+        }
+    }
+
+    x_2();
+}
+
+// 0x7100a07d68
+// NON_MATCHING: loop rotation of the button walk (the original tests the size once before the outer loop).
+void ScreenDoCommand::m93(sead::Heap* heap) {
+    _3610 = mLayout->createAnimatorAuto("GuideNum", false);
+    _3618 = mLayout->createAnimatorAuto("BtnTexPattern", false);
+    _3620 = mLayout->createAnimatorAuto("BtnTexPattern2", false);
+    _3628 = mLayout->createAnimatorAuto("DecideL", true);
+    if (_3628)
+        _3628->StopAtMin();
+    _3630 = mLayout->createAnimatorAuto("MasterSword", true);
+    if (_3630)
+        _3630->StopAtMin();
+
+    _3638.allocBuffer(5, heap);
+    _3648.allocBuffer(5, heap);
+    for (s32 i = 0; i < 5; ++i) {
+        for (s32 j = 0; j < sUnk_71025ED438.size(); ++j) {
+            const auto& button = sUnk_71025ED438[j];
+            if (button._24 != i)
+                continue;
+            eui::LayoutEx* layout = sub_7100BEAFB0(button.pane.cstr());
+            if (!layout) {
+                _3648.insert(i, nullptr);
+                _3638.insert(i, nullptr);
+                break;
+            }
+            if (layout->GetAnimResourceData("Decide"))
+                _3638.insert(i, layout->createAnimatorAuto("Decide", false));
+            else
+                _3638.insert(i, nullptr);
+            if (layout->GetAnimResourceData("Attention"))
+                _3648.insert(i, layout->createAnimatorAuto("Attention", false));
+            else
+                _3648.insert(i, nullptr);
+            break;
+        }
+    }
+}
+
+// 0x7100a07d24
+void ScreenDoCommand::sub_7100A07D24() {
+    if (_3660 == -1)
+        return;
+    const s32 value = sUnk_71025ED448[_3660].value;
+    if (value >= 8 && value <= 10)
+        sub_7100A07990(_3660);
 }
 }  // namespace uking::ui

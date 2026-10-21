@@ -1120,15 +1120,20 @@ class ScreenDoCommand : public ScreenEx {
 public:
     ScreenDoCommand();
     const char* getLayoutName_() const override;
+    void m93(sead::Heap* heap) override;
     void m100() override;
     void m101() override;
     void m130() override;
     ~ScreenDoCommand() override;
     SEAD_RTTI_OVERRIDE(ScreenDoCommand, ScreenEx)
 
-    /* 0x3610 */ u8 _3610[0x28]{};
-    sead::PtrArray<Unk_Elem> _3638{};
-    sead::PtrArray<Unk_Elem> _3648{};
+    /* 0x3610 */ eui::Animator* _3610{};
+    /* 0x3618 */ eui::Animator* _3618{};
+    /* 0x3620 */ eui::Animator* _3620{};
+    /* 0x3628 */ eui::Animator* _3628{};
+    /* 0x3630 */ eui::Animator* _3630{};
+    sead::PtrArray<eui::Animator> _3638{};
+    sead::PtrArray<eui::Animator> _3648{};
     s32 _3658 = -1;
     s32 _365c = -1;
     s32 _3660 = -1;
@@ -1152,6 +1157,8 @@ public:
     void sub_7100A0789C();
     // 0x7100a07990 (placeholder name; declared only): sets up the panes for a command
     void sub_7100A07990(s32 command);
+    // 0x7100a07d24 (placeholder name): sets the panes up again when the shown command's message value is 8 to 10
+    void sub_7100A07D24();
     // inline-only in the original; name is a guess: the table walk and the state test repeat in sub_7100A07734
     // and sub_7100A0789C.
     bool isSameCommandState(s32 state) const;
