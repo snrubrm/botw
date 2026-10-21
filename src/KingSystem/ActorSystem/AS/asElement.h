@@ -943,6 +943,9 @@ public:
         virtual ~Unk18();
         virtual void sub_710125B118();
 
+        // 0x710125ac84 (not modelled): fills the node's key and value from the model animation and
+        // the actor's animation info (signature: (this, const Key&, gsys::Model*, act::Actor*, bool)).
+
         // Left-leaning red-black tree node (same layout as sead::TreeMapNode): the low bit of
         // mColorAndPtr is the colour, the rest is the parent.
         void setParent(Unk18* parent) { mColorAndPtr = (mColorAndPtr & 1) | uintptr_t(parent); }
@@ -951,13 +954,13 @@ public:
         bool isRed() const { return (mColorAndPtr & 1) == 0; }
 
 
-        Unk18* _8;
-        Unk18* _10;
-        uintptr_t mColorAndPtr;
+        Unk18* _8 = nullptr;
+        Unk18* _10 = nullptr;
+        uintptr_t mColorAndPtr = 0;
         gsys::AnimationAccessKey<gsys::SkeletalAnmType> mKey;
-        bool _24;
-        bool _25;
-        const sead::Vector3f* _28;
+        bool _24 = false;
+        bool _25 = false;
+        const sead::Vector3f* _28 = nullptr;
     };
     static_assert(sizeof(Unk18) == 0x30);
 
@@ -1026,8 +1029,9 @@ private:
         return node;
     }
 
-    static SkeltalAsset::Unk18* rotateLeft(SkeltalAsset::Unk18* node);
-    static SkeltalAsset::Unk18* rotateRight(SkeltalAsset::Unk18* node);
+    // 0x710125b650 (the inserted node carries its key and value; the compare uses the key index)
+    SkeltalAsset::Unk18* insert(SkeltalAsset::Unk18* root, SkeltalAsset::Unk18* node);
+    static SkeltalAsset::Unk18* rotateLeft(SkeltalAsset::Unk18* node);    static SkeltalAsset::Unk18* rotateRight(SkeltalAsset::Unk18* node);
     static SkeltalAsset::Unk18* moveRedLeft(SkeltalAsset::Unk18* node);
     static SkeltalAsset::Unk18* moveRedRight(SkeltalAsset::Unk18* node);
     static SkeltalAsset::Unk18* findMin(SkeltalAsset::Unk18* node);

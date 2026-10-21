@@ -60,8 +60,36 @@ void Unk_710125af7c::clear() {
     }
 }
 
-SkeltalAsset::Unk18* Unk_710125af7c::erase(SkeltalAsset::Unk18* root, const Key& key) {
-    if (compare(key, root->mKey) < 0) {
+SkeltalAsset::Unk18* Unk_710125af7c::insert(SkeltalAsset::Unk18* root, SkeltalAsset::Unk18* node) {    if (!root) {
+        node->setColor(0);
+        node->_8 = nullptr;
+        node->_10 = nullptr;
+        return node;
+    }
+
+    const s32 cmp = node->mKey.index - root->mKey.index;
+    if (cmp < 0) {
+        root->_8 = insert(root->_8, node);
+    } else if (cmp > 0) {
+        root->_10 = insert(root->_10, node);
+    } else if (root != node) {
+        node->_10 = root->_10;
+        node->_8 = root->_8;
+        node->mColorAndPtr = root->mColorAndPtr;
+        root->sub_710125B118();
+        root = node;
+    }
+
+    if (isRed(root->_10) && !isRed(root->_8))
+        root = rotateLeft(root);
+    if (isRed(root->_8) && isRed(root->_8->_8))
+        root = rotateRight(root);
+    if (isRed(root->_8) && isRed(root->_10))
+        flipColors(root);
+    return root;
+}
+
+SkeltalAsset::Unk18* Unk_710125af7c::erase(SkeltalAsset::Unk18* root, const Key& key) {    if (compare(key, root->mKey) < 0) {
         if (!isRed(root->_8) && !isRed(root->_8->_8))
             root = moveRedLeft(root);
         root->_8 = erase(root->_8, key);
