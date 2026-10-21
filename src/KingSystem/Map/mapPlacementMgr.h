@@ -143,7 +143,9 @@ KSYS_CHECK_SIZE_NX150(MassRenderer, 0x258);
 struct Unk_71012497f8Entry {
     // The query producer copies the model name, translation, XLink and active flag.
     /* 0x00 */ sead::SafeString mName;
-    u8 _10[0x20 - 0x10];
+    // Identifies the actor (Unk_710251ad68 keeps it in its known-actor lists).
+    /* 0x10 */ void* _10;
+    u8 _18[0x20 - 0x18];
     /* 0x20 */ sead::Vector3f mPosition;
     u8 _2c[0x78 - 0x2c];
     /* 0x78 */ xlink::XLink* mXLink;
