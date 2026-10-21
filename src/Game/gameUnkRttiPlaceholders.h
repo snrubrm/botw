@@ -1498,12 +1498,47 @@ public:
 };
 
 // vtable 0x710251bb98 (8 slots); placeholder generated from the vtable (genskel.py).
+struct Unk_71011595fc;
+
 class Unk_710251bb98 : public Unk_710251d230 {
     SEAD_RTTI_OVERRIDE(Unk_710251bb98, Unk_710251d230)
 public:
     // 0x71012da6bc (Unk_710251bf80's destructor is an alias of it): frees the five buffers.
     ~Unk_710251bb98() override;
     void m7(void* vertices, void* indices) override;
+    virtual s32 m10() = 0;
+    virtual s32 m11() = 0;
+    virtual s32 m12() = 0;
+    // Number of parts.
+    virtual s32 m13() = 0;
+    virtual s32 m14() = 0;
+    // Vertex attribute i: type, offset, buffer index, name and format.
+    virtual u32 m15(s32 index) = 0;
+    virtual u16 m16(s32 index) = 0;
+    virtual u32 m17(s32 index) = 0;
+    virtual const char* m18(s32 index) = 0;
+    virtual u32 m19(s32 index) = 0;
+    virtual s32 m20() = 0;
+    virtual u32 m21(s32 index) = 0;
+    virtual u32 m22(s32 index) = 0;
+    virtual s32 m23() = 0;
+    // Texture sampler i: name and slot.
+    virtual const char* m24(s32 index) = 0;
+    virtual u32 m25(s32 index) = 0;
+    virtual const char* m26() = 0;
+    virtual const char* m27() = 0;
+    virtual f32 m28() = 0;
+    // Grass type (index into the per-type table).
+    virtual s32 m29() = 0;
+    virtual void m30(agl::DrawContext* context, s32 part, s32 sub, s32 a, bool b, f32 rate);
+    // Draws the sub-parts of `part` selected by `mask` (four bits).
+    virtual void m31(agl::DrawContext* context, s32 part, s32 mask, bool use_lists);
+    virtual void m32() = 0;
+    // Writes the triangle indices of part `part`, starting at vertex `base`.
+    virtual void m33(u16* indices, s32 part, u16 base) = 0;
+    virtual void m34() {}
+    virtual void m35() {}
+    virtual s32 m36() { return 0; }
 
     // Not modelled yet (the base's data or this class's first fields).
     u8 _30[0x38 - 0x30];
@@ -1513,6 +1548,11 @@ public:
     sead::Buffer<u8> _58;
     sead::Buffer<u8> _68;
     sead::Buffer<u8> _78;
+    u8 _88[0xa0 - 0x88];
+    // Recorded display lists per part: per sub-part and all sub-parts.
+    sead::Buffer<Unk_71011595fc> _a0;
+    sead::Buffer<Unk_71011595fc> _b0;
+    sead::Buffer<Unk_71011595fc> _c0;
 };
 
 // vtable 0x710251bf80 (37 slots); placeholder generated from the vtable (genskel.py).
@@ -1522,36 +1562,31 @@ public:
     ~Unk_710251bf80() override;
     s32 m8() override;
     s32 m9() override;
-    virtual s32 m10();
-    virtual s32 m11();
-    virtual s32 m12();
-    virtual s32 m13() { return 2; }
-    virtual s32 m14() { return 2; }
+    s32 m10() override;
+    s32 m11() override;
+    s32 m12() override;
+    s32 m13() override { return 2; }
+    s32 m14() override { return 2; }
     // Vertex attribute i: type, offset, buffer index, name and format.
-    virtual u32 m15(s32 index);
-    virtual u16 m16(s32 index);
-    virtual u32 m17(s32 index);
-    virtual const char* m18(s32 index);
-    virtual u32 m19(s32 index);
-    virtual s32 m20() { return 2; }
-    virtual u32 m21(s32 index);
-    virtual u32 m22(s32 index);
-    virtual s32 m23() { return 6; }
+    u32 m15(s32 index) override;
+    u16 m16(s32 index) override;
+    u32 m17(s32 index) override;
+    const char* m18(s32 index) override;
+    u32 m19(s32 index) override;
+    s32 m20() override { return 2; }
+    u32 m21(s32 index) override;
+    u32 m22(s32 index) override;
+    s32 m23() override { return 6; }
     // Texture sampler i: name and slot.
-    virtual const char* m24(s32 index);
-    virtual u32 m25(s32 index);
-    virtual const char* m26();
-    virtual const char* m27();
-    virtual f32 m28();
-    virtual s32 m29() { return 0; }
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
+    const char* m24(s32 index) override;
+    u32 m25(s32 index) override;
+    const char* m26() override;
+    const char* m27() override;
+    f32 m28() override;
+    s32 m29() override { return 0; }
+    void m32() override;
     // Writes the triangle indices of part `part` (two parts), starting at vertex `base`.
-    virtual void m33(u16* indices, s32 part, u16 base);
-    virtual void m34() {}
-    virtual void m35() {}
-    virtual void m36();
+    void m33(u16* indices, s32 part, u16 base) override;
 };
 
 // vtable 0x710251c0b8 (37 slots); placeholder generated from the vtable (genskel.py).
@@ -1561,35 +1596,32 @@ public:
     ~Unk_710251c0b8() override;
     s32 m8() override;
     s32 m9() override;
-    virtual s32 m10();
-    virtual s32 m11();
-    virtual s32 m12();
-    virtual s32 m13() { return 2; }
-    virtual s32 m14() { return 1; }
-    virtual s32 m15() { return 37; }
-    virtual bool m16() { return false; }
-    virtual bool m17() { return false; }
+    s32 m10() override;
+    s32 m11() override;
+    s32 m12() override;
+    s32 m13() override { return 2; }
+    s32 m14() override { return 1; }
+    u32 m15(s32 index) override { return 37; }
+    u16 m16(s32 index) override { return 0; }
+    u32 m17(s32 index) override { return 0; }
     // The only vertex attribute name.
-    virtual const char* m18(s32 index);
-    virtual s32 m19() { return 2817; }
-    virtual s32 m20() { return 2; }
-    virtual u32 m21(s32 index);
-    virtual u32 m22(s32 index);
-    virtual s32 m23() { return 6; }
+    const char* m18(s32 index) override;
+    u32 m19(s32 index) override { return 2817; }
+    s32 m20() override { return 2; }
+    u32 m21(s32 index) override;
+    u32 m22(s32 index) override;
+    s32 m23() override { return 6; }
     // Texture sampler i: name and slot.
-    virtual const char* m24(s32 index);
-    virtual u32 m25(s32 index);
-    virtual const char* m26();
-    virtual const char* m27();
-    virtual f32 m28();
-    virtual s32 m29() { return 7; }
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33(u16* indices, s32 part, u16 base);
-    virtual void m34() {}
-    virtual void m35() {}
-    virtual s32 m36() { return 1; }
+    const char* m24(s32 index) override;
+    u32 m25(s32 index) override;
+    const char* m26() override;
+    const char* m27() override;
+    f32 m28() override;
+    s32 m29() override { return 7; }
+    void m32() override;
+    void m33(u16* indices, s32 part, u16 base) override;
+    void m34() override {}
+    s32 m36() override { return 1; }
 };
 
 // vtable 0x710251c1f0 (37 slots); placeholder generated from the vtable (genskel.py).
@@ -1599,35 +1631,30 @@ public:
     ~Unk_710251c1f0() override;
     s32 m8() override;
     s32 m9() override;
-    virtual s32 m10();
-    virtual s32 m11();
-    virtual s32 m12();
-    virtual s32 m13() { return 2; }
-    virtual s32 m14() { return 3; }
+    s32 m10() override;
+    s32 m11() override;
+    s32 m12() override;
+    s32 m13() override { return 2; }
+    s32 m14() override { return 3; }
     // Vertex attribute i: type, offset, buffer index, name and format.
-    virtual u32 m15(s32 index);
-    virtual u16 m16(s32 index);
-    virtual u32 m17(s32 index);
-    virtual const char* m18(s32 index);
-    virtual u32 m19(s32 index);
-    virtual s32 m20() { return 2; }
-    virtual u32 m21(s32 index);
-    virtual u32 m22(s32 index);
-    virtual s32 m23() { return 6; }
+    u32 m15(s32 index) override;
+    u16 m16(s32 index) override;
+    u32 m17(s32 index) override;
+    const char* m18(s32 index) override;
+    u32 m19(s32 index) override;
+    s32 m20() override { return 2; }
+    u32 m21(s32 index) override;
+    u32 m22(s32 index) override;
+    s32 m23() override { return 6; }
     // Texture sampler i: name and slot.
-    virtual const char* m24(s32 index);
-    virtual u32 m25(s32 index);
-    virtual const char* m26();
-    virtual const char* m27();
-    virtual f32 m28();
-    virtual s32 m29() { return 1; }
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33(u16* indices, s32 part, u16 base);
-    virtual void m34() {}
-    virtual void m35() {}
-    virtual void m36();
+    const char* m24(s32 index) override;
+    u32 m25(s32 index) override;
+    const char* m26() override;
+    const char* m27() override;
+    f32 m28() override;
+    s32 m29() override { return 1; }
+    void m32() override;
+    void m33(u16* indices, s32 part, u16 base) override;
 };
 
 // vtable 0x710251c328 (37 slots); placeholder generated from the vtable (genskel.py).
@@ -1637,35 +1664,30 @@ public:
     ~Unk_710251c328() override;
     s32 m8() override;
     s32 m9() override;
-    virtual s32 m10();
-    virtual s32 m11();
-    virtual s32 m12();
-    virtual s32 m13() { return 2; }
-    virtual s32 m14() { return 3; }
+    s32 m10() override;
+    s32 m11() override;
+    s32 m12() override;
+    s32 m13() override { return 2; }
+    s32 m14() override { return 3; }
     // Vertex attribute i: type, offset, buffer index, name and format.
-    virtual u32 m15(s32 index);
-    virtual u16 m16(s32 index);
-    virtual u32 m17(s32 index);
-    virtual const char* m18(s32 index);
-    virtual u32 m19(s32 index);
-    virtual s32 m20() { return 2; }
-    virtual u32 m21(s32 index);
-    virtual u32 m22(s32 index);
-    virtual s32 m23() { return 6; }
+    u32 m15(s32 index) override;
+    u16 m16(s32 index) override;
+    u32 m17(s32 index) override;
+    const char* m18(s32 index) override;
+    u32 m19(s32 index) override;
+    s32 m20() override { return 2; }
+    u32 m21(s32 index) override;
+    u32 m22(s32 index) override;
+    s32 m23() override { return 6; }
     // Texture sampler i: name and slot.
-    virtual const char* m24(s32 index);
-    virtual u32 m25(s32 index);
-    virtual const char* m26();
-    virtual const char* m27();
-    virtual f32 m28();
-    virtual s32 m29() { return 2; }
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33(u16* indices, s32 part, u16 base);
-    virtual void m34() {}
-    virtual void m35() {}
-    virtual void m36();
+    const char* m24(s32 index) override;
+    u32 m25(s32 index) override;
+    const char* m26() override;
+    const char* m27() override;
+    f32 m28() override;
+    s32 m29() override { return 2; }
+    void m32() override;
+    void m33(u16* indices, s32 part, u16 base) override;
 };
 
 // vtable 0x710251c460 (37 slots); placeholder generated from the vtable (genskel.py).
@@ -1675,35 +1697,30 @@ public:
     ~Unk_710251c460() override;
     s32 m8() override;
     s32 m9() override;
-    virtual s32 m10();
-    virtual s32 m11();
-    virtual s32 m12();
-    virtual s32 m13() { return 2; }
-    virtual s32 m14() { return 3; }
+    s32 m10() override;
+    s32 m11() override;
+    s32 m12() override;
+    s32 m13() override { return 2; }
+    s32 m14() override { return 3; }
     // Vertex attribute i: type, offset, buffer index, name and format.
-    virtual u32 m15(s32 index);
-    virtual u16 m16(s32 index);
-    virtual u32 m17(s32 index);
-    virtual const char* m18(s32 index);
-    virtual u32 m19(s32 index);
-    virtual s32 m20() { return 2; }
-    virtual u32 m21(s32 index);
-    virtual u32 m22(s32 index);
-    virtual s32 m23() { return 6; }
+    u32 m15(s32 index) override;
+    u16 m16(s32 index) override;
+    u32 m17(s32 index) override;
+    const char* m18(s32 index) override;
+    u32 m19(s32 index) override;
+    s32 m20() override { return 2; }
+    u32 m21(s32 index) override;
+    u32 m22(s32 index) override;
+    s32 m23() override { return 6; }
     // Texture sampler i: name and slot.
-    virtual const char* m24(s32 index);
-    virtual u32 m25(s32 index);
-    virtual const char* m26();
-    virtual const char* m27();
-    virtual f32 m28();
-    virtual s32 m29() { return 3; }
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34() {}
-    virtual void m35() {}
-    virtual void m36();
+    const char* m24(s32 index) override;
+    u32 m25(s32 index) override;
+    const char* m26() override;
+    const char* m27() override;
+    f32 m28() override;
+    s32 m29() override { return 3; }
+    void m32() override;
+    void m33(u16* indices, s32 part, u16 base) override;
 };
 
 // vtable 0x710251c598 (37 slots); placeholder generated from the vtable (genskel.py).
@@ -1713,35 +1730,30 @@ public:
     ~Unk_710251c598() override;
     s32 m8() override;
     s32 m9() override;
-    virtual s32 m10();
-    virtual s32 m11();
-    virtual s32 m12();
-    virtual s32 m13() { return 2; }
-    virtual s32 m14() { return 3; }
+    s32 m10() override;
+    s32 m11() override;
+    s32 m12() override;
+    s32 m13() override { return 2; }
+    s32 m14() override { return 3; }
     // Vertex attribute i: type, offset, buffer index, name and format.
-    virtual u32 m15(s32 index);
-    virtual u16 m16(s32 index);
-    virtual u32 m17(s32 index);
-    virtual const char* m18(s32 index);
-    virtual u32 m19(s32 index);
-    virtual s32 m20() { return 2; }
-    virtual u32 m21(s32 index);
-    virtual u32 m22(s32 index);
-    virtual s32 m23() { return 6; }
+    u32 m15(s32 index) override;
+    u16 m16(s32 index) override;
+    u32 m17(s32 index) override;
+    const char* m18(s32 index) override;
+    u32 m19(s32 index) override;
+    s32 m20() override { return 2; }
+    u32 m21(s32 index) override;
+    u32 m22(s32 index) override;
+    s32 m23() override { return 6; }
     // Texture sampler i: name and slot.
-    virtual const char* m24(s32 index);
-    virtual u32 m25(s32 index);
-    virtual const char* m26();
-    virtual const char* m27();
-    virtual f32 m28();
-    virtual s32 m29() { return 4; }
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34() {}
-    virtual void m35() {}
-    virtual void m36();
+    const char* m24(s32 index) override;
+    u32 m25(s32 index) override;
+    const char* m26() override;
+    const char* m27() override;
+    f32 m28() override;
+    s32 m29() override { return 4; }
+    void m32() override;
+    void m33(u16* indices, s32 part, u16 base) override;
 };
 
 // vtable 0x710251c6d0 (37 slots); placeholder generated from the vtable (genskel.py).
@@ -1751,35 +1763,30 @@ public:
     ~Unk_710251c6d0() override;
     s32 m8() override;
     s32 m9() override;
-    virtual s32 m10();
-    virtual s32 m11();
-    virtual s32 m12();
-    virtual s32 m13() { return 2; }
-    virtual s32 m14() { return 3; }
+    s32 m10() override;
+    s32 m11() override;
+    s32 m12() override;
+    s32 m13() override { return 2; }
+    s32 m14() override { return 3; }
     // Vertex attribute i: type, offset, buffer index, name and format.
-    virtual u32 m15(s32 index);
-    virtual u16 m16(s32 index);
-    virtual u32 m17(s32 index);
-    virtual const char* m18(s32 index);
-    virtual u32 m19(s32 index);
-    virtual s32 m20() { return 2; }
-    virtual u32 m21(s32 index);
-    virtual u32 m22(s32 index);
-    virtual s32 m23() { return 6; }
+    u32 m15(s32 index) override;
+    u16 m16(s32 index) override;
+    u32 m17(s32 index) override;
+    const char* m18(s32 index) override;
+    u32 m19(s32 index) override;
+    s32 m20() override { return 2; }
+    u32 m21(s32 index) override;
+    u32 m22(s32 index) override;
+    s32 m23() override { return 6; }
     // Texture sampler i: name and slot.
-    virtual const char* m24(s32 index);
-    virtual u32 m25(s32 index);
-    virtual const char* m26();
-    virtual const char* m27();
-    virtual f32 m28();
-    virtual s32 m29() { return 5; }
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34() {}
-    virtual void m35() {}
-    virtual void m36();
+    const char* m24(s32 index) override;
+    u32 m25(s32 index) override;
+    const char* m26() override;
+    const char* m27() override;
+    f32 m28() override;
+    s32 m29() override { return 5; }
+    void m32() override;
+    void m33(u16* indices, s32 part, u16 base) override;
 };
 
 // vtable 0x710251c808 (37 slots); placeholder generated from the vtable (genskel.py).
@@ -1789,35 +1796,30 @@ public:
     ~Unk_710251c808() override;
     s32 m8() override;
     s32 m9() override;
-    virtual s32 m10();
-    virtual s32 m11();
-    virtual s32 m12();
-    virtual s32 m13() { return 2; }
-    virtual s32 m14() { return 3; }
+    s32 m10() override;
+    s32 m11() override;
+    s32 m12() override;
+    s32 m13() override { return 2; }
+    s32 m14() override { return 3; }
     // Vertex attribute i: type, offset, buffer index, name and format.
-    virtual u32 m15(s32 index);
-    virtual u16 m16(s32 index);
-    virtual u32 m17(s32 index);
-    virtual const char* m18(s32 index);
-    virtual u32 m19(s32 index);
-    virtual s32 m20() { return 2; }
-    virtual u32 m21(s32 index);
-    virtual u32 m22(s32 index);
-    virtual s32 m23() { return 6; }
+    u32 m15(s32 index) override;
+    u16 m16(s32 index) override;
+    u32 m17(s32 index) override;
+    const char* m18(s32 index) override;
+    u32 m19(s32 index) override;
+    s32 m20() override { return 2; }
+    u32 m21(s32 index) override;
+    u32 m22(s32 index) override;
+    s32 m23() override { return 6; }
     // Texture sampler i: name and slot.
-    virtual const char* m24(s32 index);
-    virtual u32 m25(s32 index);
-    virtual const char* m26();
-    virtual const char* m27();
-    virtual f32 m28();
-    virtual s32 m29() { return 6; }
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34() {}
-    virtual void m35() {}
-    virtual void m36();
+    const char* m24(s32 index) override;
+    u32 m25(s32 index) override;
+    const char* m26() override;
+    const char* m27() override;
+    f32 m28() override;
+    s32 m29() override { return 6; }
+    void m32() override;
+    void m33(u16* indices, s32 part, u16 base) override;
 };
 
 // vtable 0x710251c940 (37 slots); placeholder generated from the vtable (genskel.py).
@@ -1827,35 +1829,30 @@ public:
     ~Unk_710251c940() override;
     s32 m8() override;
     s32 m9() override;
-    virtual s32 m10();
-    virtual s32 m11();
-    virtual s32 m12();
-    virtual s32 m13() { return 2; }
-    virtual s32 m14() { return 3; }
+    s32 m10() override;
+    s32 m11() override;
+    s32 m12() override;
+    s32 m13() override { return 2; }
+    s32 m14() override { return 3; }
     // Vertex attribute i: type, offset, buffer index, name and format.
-    virtual u32 m15(s32 index);
-    virtual u16 m16(s32 index);
-    virtual u32 m17(s32 index);
-    virtual const char* m18(s32 index);
-    virtual u32 m19(s32 index);
-    virtual s32 m20() { return 2; }
-    virtual u32 m21(s32 index);
-    virtual u32 m22(s32 index);
-    virtual s32 m23() { return 6; }
+    u32 m15(s32 index) override;
+    u16 m16(s32 index) override;
+    u32 m17(s32 index) override;
+    const char* m18(s32 index) override;
+    u32 m19(s32 index) override;
+    s32 m20() override { return 2; }
+    u32 m21(s32 index) override;
+    u32 m22(s32 index) override;
+    s32 m23() override { return 6; }
     // Texture sampler i: name and slot.
-    virtual const char* m24(s32 index);
-    virtual u32 m25(s32 index);
-    virtual const char* m26();
-    virtual const char* m27();
-    virtual f32 m28();
-    virtual s32 m29() { return 8; }
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33();
-    virtual void m34() {}
-    virtual void m35() {}
-    virtual void m36();
+    const char* m24(s32 index) override;
+    u32 m25(s32 index) override;
+    const char* m26() override;
+    const char* m27() override;
+    f32 m28() override;
+    s32 m29() override { return 8; }
+    void m32() override;
+    void m33(u16* indices, s32 part, u16 base) override;
 };
 
 // vtable 0x710251ca78 (37 slots); placeholder generated from the vtable (genskel.py).
@@ -1865,35 +1862,30 @@ public:
     ~Unk_710251ca78() override;
     s32 m8() override;
     s32 m9() override;
-    virtual s32 m10();
-    virtual s32 m11();
-    virtual s32 m12();
-    virtual s32 m13() { return 2; }
-    virtual s32 m14() { return 3; }
+    s32 m10() override;
+    s32 m11() override;
+    s32 m12() override;
+    s32 m13() override { return 2; }
+    s32 m14() override { return 3; }
     // Vertex attribute i: type, offset, buffer index, name and format.
-    virtual u32 m15(s32 index);
-    virtual u16 m16(s32 index);
-    virtual u32 m17(s32 index);
-    virtual const char* m18(s32 index);
-    virtual u32 m19(s32 index);
-    virtual s32 m20() { return 2; }
-    virtual u32 m21(s32 index);
-    virtual u32 m22(s32 index);
-    virtual s32 m23() { return 6; }
+    u32 m15(s32 index) override;
+    u16 m16(s32 index) override;
+    u32 m17(s32 index) override;
+    const char* m18(s32 index) override;
+    u32 m19(s32 index) override;
+    s32 m20() override { return 2; }
+    u32 m21(s32 index) override;
+    u32 m22(s32 index) override;
+    s32 m23() override { return 6; }
     // Texture sampler i: name and slot.
-    virtual const char* m24(s32 index);
-    virtual u32 m25(s32 index);
-    virtual const char* m26();
-    virtual const char* m27();
-    virtual f32 m28();
-    virtual s32 m29() { return 9; }
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
-    virtual void m33(u16* indices, s32 part, u16 base);
-    virtual void m34() {}
-    virtual void m35() {}
-    virtual s32 m36() { return 0; }
+    const char* m24(s32 index) override;
+    u32 m25(s32 index) override;
+    const char* m26() override;
+    const char* m27() override;
+    f32 m28() override;
+    s32 m29() override { return 9; }
+    void m32() override;
+    void m33(u16* indices, s32 part, u16 base) override;
 };
 
 // Placeholder: the creator's argument of the grass fire elements (Unk_710251cbf0 / Unk_710251cd38).

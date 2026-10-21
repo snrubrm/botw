@@ -133,6 +133,32 @@ bool Unk_710251b710::sub_71012CE4D8(Unk_710251b6f0* sound) {
 
 Unk_710251ba58::~Unk_710251ba58() = default;
 
+void Unk_710251bb98::m31(agl::DrawContext* context, s32 part, s32 mask, bool use_lists) {
+    if (use_lists) {
+        auto& lists = _c0[part];
+        if (lists._18 == lists.mDisplayLists.size()) {
+            auto& all = _b0[part];
+            if (all._18 == all.mDisplayLists.size()) {
+                if (mask < 1)
+                    return;
+                if (mask >= 15)
+                    all.sub_7101159838(context, 0);
+                else
+                    lists.sub_7101159838(context, mask - 1);
+                return;
+            }
+        }
+    }
+    if (mask & 1)
+        m30(context, part, 0, 0, false, 1.0f);
+    if (mask & 2)
+        m30(context, part, 1, 0, false, 1.0f);
+    if (mask & 4)
+        m30(context, part, 2, 0, false, 1.0f);
+    if (mask & 8)
+        m30(context, part, 3, 0, false, 1.0f);
+}
+
 // NON_MATCHING: the original zeroes the last buffer with one 16-byte store (stp xzr, xzr at 0x78).
 // NON_MATCHING: the original clears the last buffer with one 16-byte store (its size field may be 64-bit).
 Unk_710251bb98::~Unk_710251bb98() {
