@@ -249,6 +249,8 @@ public:
                        sead::Heap* heap);
     // 0x7100e37990: allocates `count` elements into _70 (under mCS) and resets _80.
     void sub_7100E37990(s32 count, sead::Heap* heap);
+    // 0x7100e37a54 (placeholder name): calls sub_7100E39BF0(true) on the used entries of _70, then frees _70.
+    void sub_7100E37A54();
     // E37B10 appends a body to the spare element buffer and binds holder / actor state.
     void sub_7100E37B10(s32 index, phys::RigidBody* body, Actor* actor,
                        Unk_71024dd490* holder, Unk_7101265a6c* state, sead::Heap* heap);

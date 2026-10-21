@@ -520,6 +520,14 @@ void ActorChemicals::sub_7100E37990(s32 count, sead::Heap* heap) {
         _70.setBuffer(count, elements);
 }
 
+void ActorChemicals::sub_7100E37A54() {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    for (u32 i = 0; i < _80; ++i)
+        _70[i].sub_7100E39BF0(true);
+    _80 = 0;
+    _70.freeBuffer();
+}
+
 // NON_MATCHING: the flag select uses the opposite condition and different temporary registers.
 void Unk_71024e6428::sub_7100E3B708(const Unk_71024e6428& other) {
     if (other._30 & 0x800)
