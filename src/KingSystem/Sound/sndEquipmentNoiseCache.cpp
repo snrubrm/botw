@@ -47,4 +47,38 @@ void Unk_710251b170::sub_71012C3074() {
     }
     mInitialized = true;
 }
+Unk_710251b028::Unk_710251b028() {
+    if (!sEquipmentNoiseCache.isInitialized())
+        sEquipmentNoiseCache.sub_71012C3074();
+}
+
+// `{ ; }` keeps the vtable store that a defaulted destructor drops (as upstream's
+// GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+Unk_710251b028::~Unk_710251b028() { ; }
+
+bool Unk_710251b028::m3() {
+    return sub_71012C3BC8(mName);
+}
+
+void Unk_710251b028::m6() {
+    _70 = false;
+}
+
+Unk_710251b128::Unk_710251b128() {
+    if (!sEquipmentNoiseCache.isInitialized())
+        sEquipmentNoiseCache.sub_71012C3074();
+}
+
+bool Unk_710251b128::m3() {
+    return m2("");
+}
+
+void Unk_710251b128::m6() {
+    mLocators.clear();
+}
+
+void Unk_710251b128::sub_71012C5034(s32 value) {
+    _10 = value > 4 ? 2 : value > 0;
+}
+
 }  // namespace ksys::snd

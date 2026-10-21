@@ -166,8 +166,5 @@ void Unk_71012C5034::sub_71012C3968() {
     _d = false;
 }
 
-void Unk_71012C5034::sub_71012C5034(s32 value) {
-    _10 = value > 4 ? 2 : value > 0;
-}
 
 }  // namespace ksys::snd

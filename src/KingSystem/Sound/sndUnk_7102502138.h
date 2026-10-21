@@ -14,23 +14,19 @@ class XLink;
 
 namespace ksys::snd {
 
-// Placeholder (the object at Unk68+0x480). Its declared-only method 0x12c5034 (28 B) stores a level derived from its
-// argument in `_10`.
-// Placeholder type named after its method at 0x71012c5034 (vtable and constructor not identified yet; 0x71012c384c
-// loads a vptr from the same object, so the real class is polymorphic).
+// Placeholder type named after its method at 0x71012c5034 (now a method of the subclass Unk_710251b128). The base
+// of the equipment sound objects of Unk68 (Unk_710251b028 for the parts, Unk_710251b128 for the quiver); see
+// sndEquipmentNoiseCache.h. No vtable of its own is used (both subclasses override every slot).
 class Unk_71012C5034 {
 public:
-    // Slots 0 / 1 are assumed to be the destructors; slots 2..6 are called by the functions below (names unknown).
-    virtual ~Unk_71012C5034();
+    virtual ~Unk_71012C5034() = default;
     // Called with a part name (Unk68::sub_710104DD20 passes "BaseEquip_Quiver").
-    virtual bool m2(const sead::SafeString& name);
-    virtual bool m3();
-    virtual void m4(void* arg);
-    virtual void m5(void* arg);
-    virtual void m6();
+    virtual bool m2(const sead::SafeString& name) = 0;
+    virtual bool m3() = 0;
+    virtual void m4(void* arg) = 0;
+    virtual void m5(void* arg) = 0;
+    virtual void m6() = 0;
 
-    // 0x71012c5034 (declared only)
-    void sub_71012C5034(s32 value);
     // 0x71012c384c (placeholder name): _c = m2(name), _d = !_c.
     void sub_71012C384C(const sead::SafeString& name);
     // 0x71012c3888 / 0x71012c38f8 (placeholder names): if _d is set, first _c = m3() (clearing _d); then m4 / m5
@@ -40,11 +36,13 @@ public:
     // 0x71012c3968 (placeholder name): m6(), then clears _c and _d.
     void sub_71012C3968();
 
-    u8 _8[4];
-    bool _c;
-    bool _d;
-    s32 _10;
+    u32 _8 = 0;
+    bool _c = false;
+    bool _d = false;
 };
+KSYS_CHECK_SIZE_NX150(Unk_71012C5034, 0x10);
+
+class Unk_710251b128;
 
 // Placeholder name (vtable 0x7102502138, a sead singleton of size 0xfa8 created by 0x710103af1c and
 // initialised from Sound::init (0x710103b1d4); instance pointer at 0x71026108e0, GOT 0x25924b0). Part of the
@@ -163,7 +161,7 @@ public:
         /* 0x3dc */ bool _3dc;
         /* 0x3e0 */ Unk_71012C5034* _3e0;
         u8 _3e8[0x480 - 0x3e8];
-        /* 0x480 */ Unk_71012C5034* _480;
+        /* 0x480 */ Unk_710251b128* _480;
         u8 _488[0x520 - 0x488];
         /* 0x520 */ Unk_71012C5034* _520;
         /* 0x528 */ Part* _528;

@@ -1,4 +1,5 @@
 #include "KingSystem/Sound/sndUnk_7102502138.h"
+#include "KingSystem/Sound/sndEquipmentNoiseCache.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 
 namespace ksys::snd {
