@@ -1239,6 +1239,8 @@ public:
     virtual ~ListenerPoser();
 
     void sub_7101055100();
+    // 0x7101055110 (declared only; 952 bytes): called with the event name when an event flow starts
+    void sub_7101055110(const sead::SafeString& event_name);
     void sub_71010554C8();
     // 0x7101055538 (CSV unnamed): if `_70` is clear, sets it and stores `value` in `_74`.
     void sub_7101055538(s32 value);

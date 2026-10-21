@@ -196,6 +196,8 @@ public:
     bool x_3() const;
     // 0x7100db8b04 (CSV evt::EventFlowBase::x_4)
     bool x_4() const;
+    // 0x7100db75dc: calls the actors' m8, the resource's xlink start and the sound listener, then m13
+    void start();
     // 0x7100db6c94 (CSV evt::EventFlowBase::x_1): 0 = not ready, 1 = loaded, 2 = loaded without extra model resources
     s32 x_1();
     // 0x7100db7a1c (CSV evt::EventFlowBase::x_8, 3.6 KB; not decompiled): the (bool) result is returned unchanged by

@@ -6,6 +6,8 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/Event/evtEventResource.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/System/VFR.h"
 
@@ -129,6 +131,18 @@ void EventFlowBase::setupActors() {
 // 0x7100db718c
 void EventFlowBase::initActors() {
     _110->sub_7100DA2618(_108->mActorBindings);
+}
+
+// 0x7100db75dc
+void EventFlowBase::start() {
+    _110->callActorStuff();
+    if (auto* xlink = _108->_1b8)
+        xlink->x_1(this);
+    if (auto* sound = snd::SoundMgr::instance()) {
+        if (auto* poser = sound->_58)
+            poser->sub_7101055110(mEventName);
+    }
+    m13();
 }
 
 // 0x7100db7540
