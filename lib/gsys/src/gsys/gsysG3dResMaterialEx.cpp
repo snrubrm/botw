@@ -1,6 +1,19 @@
 #include <gsys/gsysG3dResMaterialEx.h>
+#include <prim/seadStringUtil.h>
 
 namespace gsys {
+
+// 0x7100c6d974
+bool G3dResMaterialEx::isShaderOptionBool(const sead::SafeString& name) const {
+    const char* option = getShaderOption(name);
+    if (!option)
+        return false;
+    s32 value;
+    if (!sead::StringUtil::tryParseS32(&value, sead::SafeString(option),
+                                       sead::StringUtil::CardinalNumber::BaseAuto))
+        return false;
+    return value != 0;
+}
 
 // 0x7100c6d958
 const G3dResMaterialEx::ShadingModelInfo* G3dResMaterialEx::getShadingModelObj(

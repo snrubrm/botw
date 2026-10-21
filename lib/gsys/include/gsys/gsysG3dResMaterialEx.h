@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <hostio/seadHostIONode.h>
+#include <prim/seadSafeString.h>
 
 namespace nn::g3d {
 class ResMaterial;
@@ -31,6 +32,10 @@ public:
     };
     // 0x7100c6d958
     const ShadingModelInfo* getShadingModelObj(ModelEnum::ShaderAssignType assign_type) const;
+    // 0x7100c6d9cc (declared only)
+    const char* getShaderOption(const sead::SafeString& name) const;
+    // 0x7100c6d974
+    bool isShaderOptionBool(const sead::SafeString& name) const;
 
 private:
     u8 _8[0x10 - 0x8];
