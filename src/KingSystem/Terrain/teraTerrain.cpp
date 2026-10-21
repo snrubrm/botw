@@ -1313,6 +1313,44 @@ u32 Unk_710251d0e0::m11() const {
     return _34;
 }
 
+// Fills the four quadrants (the base class's writers, called directly).
+void Unk_710250f758::m7(void* vertices, void* indices) {
+    mFlags |= 0x80000000;
+    auto* v = static_cast<sead::Vector2f*>(vertices) + mBaseVertex;
+    auto* i = static_cast<u16*>(indices) + mFirstIndex;
+    const u32 width = _30;
+    const u32 height = _34;
+    const u32 half_x = width / 2;
+    const u32 half_y = height / 2;
+    Unk_710251d0e0::m12(v + mVertexRanges[0].start, 0, half_x, 0, half_y);
+    Unk_710251d0e0::m12(v + mVertexRanges[1].start, half_x, width, 0, half_y);
+    Unk_710251d0e0::m12(v + mVertexRanges[2].start, 0, half_x, half_y, height);
+    Unk_710251d0e0::m12(v + mVertexRanges[3].start, half_x, width, half_y, height);
+    Unk_710251d0e0::m13(i + mIndexRanges[0].start, 0, half_x, 0, half_y, mVertexRanges[0].start);
+    Unk_710251d0e0::m13(i + mIndexRanges[1].start, half_x, width, 0, half_y, mVertexRanges[1].start);
+    Unk_710251d0e0::m13(i + mIndexRanges[2].start, 0, half_x, half_y, height, mVertexRanges[2].start);
+    Unk_710251d0e0::m13(i + mIndexRanges[3].start, half_x, width, half_y, height, mVertexRanges[3].start);
+}
+
+// Fills the four quadrants (the base class's writers, called directly).
+void Unk_710250f7d8::m7(void* vertices, void* indices) {
+    mFlags |= 0x80000000;
+    auto* v = static_cast<sead::Vector2f*>(vertices) + mBaseVertex;
+    auto* i = static_cast<u16*>(indices) + mFirstIndex;
+    const u32 width = _30;
+    const u32 height = _34;
+    const u32 half_x = width / 2;
+    const u32 half_y = height / 2;
+    Unk_710251d010::m12(v + mVertexRanges[0].start, 0, half_x, 0, half_y);
+    Unk_710251d010::m12(v + mVertexRanges[1].start, half_x, width, 0, half_y);
+    Unk_710251d010::m12(v + mVertexRanges[2].start, 0, half_x, half_y, height);
+    Unk_710251d010::m12(v + mVertexRanges[3].start, half_x, width, half_y, height);
+    Unk_710251d010::m13(i + mIndexRanges[0].start, 0, half_x, 0, half_y, mVertexRanges[0].start);
+    Unk_710251d010::m13(i + mIndexRanges[1].start, half_x, width, 0, half_y, mVertexRanges[1].start);
+    Unk_710251d010::m13(i + mIndexRanges[2].start, 0, half_x, half_y, height, mVertexRanges[2].start);
+    Unk_710251d010::m13(i + mIndexRanges[3].start, half_x, width, half_y, height, mVertexRanges[3].start);
+}
+
 // NON_MATCHING: the final add has its operands swapped.
 // The grid is drawn as four quadrants.
 s32 Unk_710250f758::m8() {

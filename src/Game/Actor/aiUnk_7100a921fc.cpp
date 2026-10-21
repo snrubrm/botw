@@ -247,6 +247,14 @@ s32 Unk_710251cfa0::m11() {
     return _30;
 }
 
+void Unk_710251d160::m7(void* vertices, void* indices) {
+    mFlags |= 0x80000000;
+    auto* v = static_cast<u32*>(vertices) + mBaseVertex;
+    auto* i = static_cast<u16*>(indices) + mFirstIndex;
+    m12(v, 0, m10(), 0, m11());
+    m13(i, 0, m10(), 0, m11(), 0);
+}
+
 s32 Unk_710251d160::m8() {
     return (_30 + 1) * (_34 + 1);
 }
@@ -326,6 +334,14 @@ s32 Unk_710251d010::sub_71012E90A4(u32 cols, u32 rows, bool restart) {
         }
     }
     return extra + (cols * 12 - 12) * (rows - 1);
+}
+
+void Unk_710251d0e0::m7(void* vertices, void* indices) {
+    mFlags |= 0x80000000;
+    auto* v = static_cast<sead::Vector2f*>(vertices) + mBaseVertex;
+    auto* i = static_cast<u16*>(indices) + mFirstIndex;
+    m12(v, 0, m10(), 0, m11());
+    m13(i, 0, m10(), 0, m11(), 0);
 }
 
 s32 Unk_710251d0e0::m8() {

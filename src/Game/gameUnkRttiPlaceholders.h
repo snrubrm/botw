@@ -1969,8 +1969,9 @@ public:
     s32 m9() override;
     virtual s32 m10();
     virtual s32 m11();
-    virtual void m12();
-    virtual void m13();
+    // Same as Unk_710251d0e0::m12 / m13, with 4-byte vertices (declaration only).
+    virtual void m12(u32* vertices, u32 x0, u32 x1, u32 y0, u32 y1);
+    virtual void m13(u16* indices, u32 x0, u32 x1, u32 y0, u32 y1, u32 base_vertex);
 
     s32 _30;
     s32 _34;
@@ -2283,8 +2284,9 @@ public:
     s32 m9() override;
     virtual u32 m10() const;
     virtual u32 m11() const;
-    virtual void m12();
-    virtual void m13();
+    // Write the vertices / indices of the grid range [x0, x1] x [y0, y1] (declaration only).
+    virtual void m12(sead::Vector2f* vertices, u32 x0, u32 x1, u32 y0, u32 y1);
+    virtual void m13(u16* indices, u32 x0, u32 x1, u32 y0, u32 y1, u32 base_vertex);
 
     // Vertex / index counts of a cols x rows grid (0x71012e9f80 / 0x71012e9f88).
     static u32 sub_71012E9F80(u32 cols, u32 rows);
@@ -2301,6 +2303,7 @@ class Unk_710250f758 : public Unk_710251d0e0 {
     SEAD_RTTI_OVERRIDE(Unk_710250f758, Unk_710251d0e0)
 public:
     ~Unk_710250f758() override;
+    void m7(void* vertices, void* indices) override;
     s32 m8() override;
     s32 m9() override;
 
@@ -2322,6 +2325,8 @@ public:
     ~Unk_710251d010() override;
     s32 m8() override;
     s32 m9() override;
+    void m12(sead::Vector2f* vertices, u32 x0, u32 x1, u32 y0, u32 y1) override;
+    void m13(u16* indices, u32 x0, u32 x1, u32 y0, u32 y1, u32 base_vertex) override;
     // Vertex / index counts of the d010 grid (0x71012e9090 / 0x71012e90a4).
     static u32 sub_71012E9090(u32 cols, u32 rows);
     static s32 sub_71012E90A4(u32 cols, u32 rows, bool restart);
@@ -2334,6 +2339,7 @@ class Unk_710250f7d8 : public Unk_710251d010 {
     SEAD_RTTI_OVERRIDE(Unk_710250f7d8, Unk_710251d010)
 public:
     ~Unk_710250f7d8() override;
+    void m7(void* vertices, void* indices) override;
     s32 m8() override;
     s32 m9() override;
 
