@@ -5158,6 +5158,7 @@ public:
     bool isEnableControl() const override;
     ~ScreenTitle() override;
     SEAD_RTTI_OVERRIDE(ScreenTitle, ScreenEx)
+    const char* getLayoutName_() const override;
     // 0x7100a69aec / 0x7100a69b6c (placeholder names): restart the animator at 0x3610 and forget the two selections /
     // whether it is at its end
     void sub_7100A69AEC();

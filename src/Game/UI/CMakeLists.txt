@@ -106,6 +106,7 @@ target_sources(uking PRIVATE
   uiScreenDLCNum.cpp
   uiScreenMainShortCut.cpp
   uiScreenReadyGo.cpp
+  uiScreenTitle.cpp
   uiScreenRupee.cpp
   uiScreenDLCWindow.cpp
   uiScreenDtors.cpp
