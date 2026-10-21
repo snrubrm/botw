@@ -1482,6 +1482,9 @@ class Unk_7102519708 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_7102519708, Unk_7102519378)
 public:
     ~Unk_7102519708() override;
+    // Draws the spot cone (apex pulled back along the direction by _118) and the source point.
+    void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
+                   const sead::Matrix44f& projection, int view_index) const override;
     virtual s32 m5() { return 7; }
     void m6(sead::Heap* heap) override;
     virtual void m7();
@@ -1494,7 +1497,24 @@ public:
 private:
     u32 _5c = 0;
     agl::UniformBlock mUniformBlock;
+    // Initial values from the constructor 0x710129b774.
+    sead::Vector3f mPos{0, 0, 0};
+    sead::Vector3f mDir{1.0f, 0, 0};
+    sead::Color4f mColor{5.0f, 0, 0, 1.0f};
+    f32 _100 = 10.0f;
+    f32 _104 = 1.0f;
+    f32 _108 = 0.1f;
+    f32 _10c = 0.45f;
+    f32 _110 = 0.5f;
+    f32 _114 = 1.0f;
+    f32 _118 = 0;
+    f32 _11c = 0.1f;
+    f32 _120 = 5.0f;
+    f32 _124 = 5.0f;
+    f32 _128 = 1.0f;
+    f32 _12c = 1.0f;
 };
+KSYS_CHECK_SIZE_NX150(Unk_7102519708, 0x130);
 
 // vtable 0x7102519778 (12 slots); placeholder generated from the vtable (genskel.py).
 class Unk_7102519778 : public Unk_7102519378 {

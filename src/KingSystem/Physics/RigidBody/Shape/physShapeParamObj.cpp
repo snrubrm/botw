@@ -364,6 +364,23 @@ void Unk_7102519690::m12() {
 
 Unk_7102519708::~Unk_7102519708() = default;
 
+// NON_MATCHING: the original masks the view bit test with 0xffff before the branch.
+void Unk_7102519708::drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
+                               const sead::Matrix44f& projection, int view_index) const {
+    if (!_50 || !(_48 & 1) || !m11())
+        return;
+    if (!(_5a & (1 << view_index)))
+        return;
+
+    sead::Vector3f dir = mDir;
+    if (dir.equals(sead::Vector3f::ey, 0.01f))
+        dir.set(0.01f, 0.99f, -0.01f);
+    dir.normalize();
+    agl::utl::DevTools::drawSpotLight(context, mPos - dir * _118, dir, mColor, _10c * 0.5f, _120,
+                                      view, projection);
+    agl::utl::DevTools::drawPointLight(context, mPos, _11c, mColor, view, projection);
+}
+
 void Unk_7102519708::m9() {
     _5c = 0;
 }
