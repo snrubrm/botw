@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadSafeArray.h>
+#include <heap/seadDisposer.h>
 #include <thread/seadCriticalSection.h>
 
 namespace uking {
@@ -39,9 +40,14 @@ public:
 // amiibo (nn::nfp) manager singleton in the NFP TU 0xf458b8-0xf48478 (instance pointer 0x710260c120).
 // Only the small methods AmiiboMgr uses are declared, and only declared: they read the NFPThread
 // at +0x30 and forward to it.
+// Vtable 0x71024f5270 (slots 0 / 1: the destructor pair); the singleton disposer sits at 0x8. Size 0x40.
 class NFP {
+    SEAD_SINGLETON_DISPOSER(NFP)
+    NFP() = default;
+    // 0x7100f45a20
+    virtual ~NFP();
+
 public:
-    static NFP* instance() { return sInstance; }
 
     // 0xf45e0c (CSV NFP::insertFunctions) / 0xf45e14 (CSV NFP::eraseFunctions): add / remove a
     // listener to / from the NFP thread's listener list.
@@ -70,8 +76,8 @@ public:
     bool isNot2Maybe() const;
 
 private:
-    static NFP* sInstance;
-
-    u8 _0[0x30];
-    /* 0x30 */ NFPThread* _30;
+    u64 _28 = 0;
+    /* 0x30 */ NFPThread* _30 = nullptr;
+    bool _38 = false;
 };
+static_assert(sizeof(NFP) == 0x40);

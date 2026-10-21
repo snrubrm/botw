@@ -1,7 +1,9 @@
 #include "Game/gameNFP.h"
 #include <prim/seadScopedLock.h>
 
-NFP* NFP::sInstance;  // 0x710260c120
+SEAD_SINGLETON_DISPOSER_IMPL(NFP)
+
+NFP::~NFP() = default;
 
 void NFP::insertFunctions(uking::Unk_710243b770* listener) {
     _30->sub_F48478(listener);
