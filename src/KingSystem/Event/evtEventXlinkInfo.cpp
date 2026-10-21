@@ -8,8 +8,15 @@
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::evt {
+
+// The TU's static initializer is 0x7100dca284 (`_GLOBAL__sub_I_evtEventXlinkInfo.cpp`).
+namespace {
+util::InitConstants sInitConstants;
+util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 // 0x7100dc8ca8
 EventXlinkInfo::EventXlinkInfo() = default;

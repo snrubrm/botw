@@ -6,8 +6,15 @@
 #include <prim/seadScopedLock.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Event/evtEventResource.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::evt {
+
+// The TU's static initializer is 0x7100dc00b4 (`_GLOBAL__sub_I_evtEventFlowMgr.cpp`).
+namespace {
+util::InitConstants sInitConstants;
+util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 // 0x7100dbe600
 EventFlowMgr::~EventFlowMgr() {

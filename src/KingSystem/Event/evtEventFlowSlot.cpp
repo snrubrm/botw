@@ -2,10 +2,17 @@
 #include "KingSystem/Event/evtEventResource.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 s32 getSceneStatus();
 
 namespace ksys::evt {
+
+// The TU's static initializer is 0x7100dc1270 (`_GLOBAL__sub_I_evtEventFlowSlot.cpp`).
+namespace {
+util::InitConstants sInitConstants;
+util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 EventFlow* sUnk_7102601530;
 

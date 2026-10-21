@@ -1,7 +1,14 @@
 #include "KingSystem/Event/evtEventFlow.h"
 #include "KingSystem/System/MoviePlayer.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::evt {
+
+// The TU's static initializer is 0x7100dbc720 (`_GLOBAL__sub_I_evtEventFlowMovie.cpp`).
+namespace {
+util::InitConstants sInitConstants;
+util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 // 0x7100dbc51c
 f32 EventFlowMovie::getFrameCount() const {
