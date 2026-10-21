@@ -1,5 +1,7 @@
 #include "Game/gameHorseColorInfoMgr.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/Event/evtEventResource.h"
+#include "KingSystem/Utils/Thread/LowPrioThreadMgr.h"
 
 SEAD_SINGLETON_DISPOSER_IMPL(HorseColorInfoMgr)
 
@@ -77,6 +79,27 @@ void HorseColorInfoMgr::sub_710094C810() {
 
 void HorseColorInfoMgr::sub_710094C638() {
     _28 = 0;
+}
+
+// NON_MATCHING: the original builds the lane mask as `1 << int(lane)` from a 4-byte class value
+// (the lane is spilled to the stack twice) and assigns the request's lane_id once more before the
+// name assignment; the live lane-id type is still unknown.
+void HorseColorInfoMgr::sub_710094D018() {
+    if (_2c != 0) {
+        if (_28 & 1)
+            _28 &= ~1;
+        return;
+    }
+    _28 &= ~2;
+    _29 = 0;
+    ksys::LowPrioThreadMgr::Request request;
+    request.lane_id = 2;
+    request.flags.setDirect(1 << request.lane_id);
+    request.delegate = &mLoadDelegate;
+    request.task = &mLoadTask;
+    request.name = "HorseColorInfoMgr";
+    ksys::evt::submitLowPriorityRequest(request);
+    _2c = 1;
 }
 
 void HorseColorInfoMgr::sub_710094D0F8() {
