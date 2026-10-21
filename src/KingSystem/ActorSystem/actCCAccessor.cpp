@@ -22,6 +22,17 @@ bool CCAccessor::sub_710072AD1C(phys::CharacterController* cc) {
     return true;
 }
 
+bool CCAccessor::changeMotionType(phys::CharacterController* cc, MotionType motion_type) {
+    if (!cc)
+        return false;
+    mSavedMotionType = cc->sub_7100F5F0E4();
+    const MotionType type = motion_type;
+    const MotionType current = cc->sub_7100F5F0E4();
+    if (int(current) != int(type))
+        cc->sub_7100F5F458(type);
+    return true;
+}
+
 void CCAccessor::resetMotionType(phys::CharacterController* cc) {
     if (!cc)
         return;
