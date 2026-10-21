@@ -155,7 +155,61 @@ struct BufferPair {
     u32 b;
 };
 const BufferPair sTreeBufferPairs[] = {{11, 0}, {12, 1}};
+
+struct VertexAttribute {
+    u32 type;
+    u32 format;
+    u16 offset;
+    u32 buffer;
+    const char* name;
+};
+const VertexAttribute sTreeAttributes[] = {
+    {42, 5377, 0, 0, "_p0"},
+    {37, 2817, 8, 1, "_n0"},
+    {37, 2817, 12, 2, "_t0"},
+    {37, 2817, 16, 8, "_u0"},
+};
 }  // namespace
+
+u32 Unk_7102504850::m14(s32 index) {
+    return sTreeAttributes[index].type;
+}
+
+u16 Unk_7102504850::m15(s32 index) {
+    return sTreeAttributes[index].offset;
+}
+
+u32 Unk_7102504850::m16(s32 index) {
+    return sTreeAttributes[index].buffer;
+}
+
+const char* Unk_7102504850::m17(s32 index) {
+    return sTreeAttributes[index].name;
+}
+
+u32 Unk_7102504850::m18(s32 index) {
+    return sTreeAttributes[index].format;
+}
+
+u32 Unk_71025049d0::m14(s32 index) {
+    return sTreeAttributes[index].type;
+}
+
+u16 Unk_71025049d0::m15(s32 index) {
+    return sTreeAttributes[index].offset;
+}
+
+u32 Unk_71025049d0::m16(s32 index) {
+    return sTreeAttributes[index].buffer;
+}
+
+const char* Unk_71025049d0::m17(s32 index) {
+    return sTreeAttributes[index].name;
+}
+
+u32 Unk_71025049d0::m18(s32 index) {
+    return sTreeAttributes[index].format;
+}
 
 u32 Unk_7102504850::m21(s32 index) {
     return sTreeBufferPairs[index].a;

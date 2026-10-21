@@ -806,11 +806,12 @@ public:
     virtual s32 m11();
     virtual s32 m12() { return 20; }
     virtual s32 m13() { return 4; }
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
+    // Vertex attribute i: type, offset, buffer index, name and format.
+    virtual u32 m14(s32 index);
+    virtual u16 m15(s32 index);
+    virtual u32 m16(s32 index);
+    virtual const char* m17(s32 index);
+    virtual u32 m18(s32 index);
     virtual s32 m19() { return 4; }
     virtual s32 m20() { return 2; }
     virtual u32 m21(s32 index);
@@ -854,11 +855,12 @@ public:
     virtual s32 m11();
     virtual s32 m12() { return 20; }
     virtual s32 m13() { return 4; }
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
+    // Vertex attribute i: type, offset, buffer index, name and format.
+    virtual u32 m14(s32 index);
+    virtual u16 m15(s32 index);
+    virtual u32 m16(s32 index);
+    virtual const char* m17(s32 index);
+    virtual u32 m18(s32 index);
     virtual s32 m19() { return 4; }
     virtual s32 m20() { return 2; }
     virtual u32 m21(s32 index);
