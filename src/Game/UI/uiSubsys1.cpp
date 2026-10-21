@@ -732,6 +732,29 @@ f32 UiSubsys1::sub_7100965EE0(f32 angle) const {
     return sub_7100AA0B6C(_850._2c + angle);
 }
 
+// NON_MATCHING: the x clamp is two conditional selects in ours; the original keeps the clamp's branches
+// (and moves w into the register in the second arm).
+// 0x7100965eec
+void UiSubsys1::sub_7100965EEC(f32 scale, sead::Vector2f* out) {
+    f32 x = -_3868.x;
+    f32 y = -_3868.y;
+
+    if (UiSubsys1::instance()->_848 != 0) {
+        const f32 inv_scale = 1.0f / scale;
+        const f32 layout_x = inv_scale * sUnk_71025d6c70.mLayoutSize.x;
+        const f32 layout_y = inv_scale * sUnk_71025d6c70.mLayoutSize.y;
+
+        const f32 half_width = sead::Mathf::clampMin(((_8e8 - _8e0) - layout_x) * 0.5f, 0.0f);
+        const f32 half_height =
+            sead::Mathf::clampMin(sead::Mathf::abs(_8ec) - layout_y * 0.5f, 0.0f);
+
+        x = sead::Mathf::clamp(x, -half_width, half_width);
+        y = sead::Mathf::clamp(y, -half_height, sead::Mathf::maxNumber());
+    }
+
+    out->set(x, y);
+}
+
 // NON_MATCHING: float register allocation and the order of the fnmul / fmul pair (target: s2 = 1 / _850._60.x, y computed before x)
 // 0x7100965d10
 void UiSubsys1::sub_7100965D10(sead::Vector2f* out) const {
