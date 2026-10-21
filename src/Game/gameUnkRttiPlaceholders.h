@@ -786,7 +786,9 @@ public:
     u8 _38[0x40 - 0x38];
     void* mVertices;
     void* mIndices;
-    u8 _50[0x60 - 0x50];
+    u8 _50[0x58 - 0x50];
+    s32 _58;
+    u8 _5c[0x60 - 0x5c];
     s32 _60;
     u8 _64[0x68 - 0x64];
 };
@@ -835,11 +837,18 @@ public:
     virtual void m38();
     virtual void m39() {}
     virtual void m40();
-    virtual void m41() {}
+    virtual void m41(void* arg) {}
     virtual u32 m42();
     virtual void m43();
     virtual void m44() {}
     virtual void m45() {}
+
+    // 0x7101084f6c: clears this type's count table, then runs slot 39.
+    void sub_7101084F6C();
+    // 0x710108515c: slot 41 with `arg` (slot 28's result is discarded).
+    void sub_710108515C(void* arg);
+    // 0x7101085198: stores _58, then runs slot 43.
+    void sub_7101085198(s32 value);
 
     sead::CriticalSection mCS;
     u8 _a8[0x30a8 - 0xa8];

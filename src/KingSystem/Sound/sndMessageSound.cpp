@@ -1,4 +1,5 @@
 #include "KingSystem/Sound/sndSound.h"
+#include <cstring>
 #include <aal/aalArbiter.h>
 #include <aal/aalEmitter.h>
 #include <aal/aalSettings.h>
@@ -266,6 +267,27 @@ const char* Unk_71025049d0::m26() {
 
 const char* Unk_71025049d0::m27() {
     return "Tree1";
+}
+
+namespace {
+// Per-type count table of the tree draw commands (bss 0x710261df90; slot 36 reads it).
+u32 sUnk_710261DF90[2][8][10];
+}  // namespace
+
+void Unk_71025046d0::sub_7101084F6C() {
+    std::memset(sUnk_710261DF90[m28()], 0, sizeof(sUnk_710261DF90[0]));
+    m39();
+}
+
+// Discarded call: the original calls slot 28 and drops the result.
+void Unk_71025046d0::sub_710108515C(void* arg) {
+    m28();
+    m41(arg);
+}
+
+void Unk_71025046d0::sub_7101085198(s32 value) {
+    _58 = value;
+    m43();
 }
 
 u32 Unk_71025046d0::m42() {
