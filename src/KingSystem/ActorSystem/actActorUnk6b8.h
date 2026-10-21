@@ -21,6 +21,8 @@ public:
     void m9() override;
     void m10() override;
     void sub_7100EBBCB8(bool fixed);
+    // 0x7100ebbce4 (placeholder name): sets or clears flag 0x100 (TrolleyOnRail::calc_ sets it).
+    void sub_7100EBBCE4(bool on);
 
     // Two sound handles that are faded together.
     struct SoundHandles {
