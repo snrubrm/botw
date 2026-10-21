@@ -115,6 +115,7 @@ class OverlayArena;
 }
 
 namespace ksys::snd {
+class Unk_710251ad68;
 class Unk_710251af10;
 class Unk_710251af30;
 
@@ -493,6 +494,8 @@ public:
 
     // 0x71010333e0: sets _10c1 (Unk_SoundMgr38::sub_710102AE50).
     void sub_71010333E0();
+    // 0x7101033328: requests the EnvSoundGrass actor (once) and resets the grass point state.
+    void sub_7101033328(sead::Heap* heap, act::ActorCreator* creator);
 
     /* 0x0008 */ act::BaseProcHandle mProcHandle;
     /* 0x0018 */ void* _18 = nullptr;
@@ -514,10 +517,28 @@ public:
     };
     /* 0x0788 */ PositionCache _788[32];
     /* 0x0e88 */ bool _e88[32];
-    u8 _ea8[0x10c0 - 0xea8];
+    struct Point {
+        sead::Vector3f pos;
+        bool active;
+    };
+    /* 0x0ea8 */ Point _ea8[32];
+    /* 0x10a8 */ s32 _10a8;
+    u8 _10ac[0x10c0 - 0x10ac];
     /* 0x10c0 */ bool _10c0 = false;
     /* 0x10c1 */ bool _10c1 = false;
-    u8 _10c2[0x18f8 - 0x10c2];
+    u8 _10c2[0x10c4 - 0x10c2];
+    /* 0x10c4 */ u32 _10c4;
+    /* 0x10c8 */ u32 _10c8;
+    u8 _10cc[0x10d0 - 0x10cc];
+    /* 0x10d0 */ bool _10d0;
+    u8 _10d1[0x11c0 - 0x10d1];
+    // The plant sound point grid (created by sub_71010317B4).
+    /* 0x11c0 */ Unk_710251ad68* _11c0;
+    u8 _11c8[0x11d0 - 0x11c8];
+    /// A second per-position cache, reset with the first one by sub_7101032870.
+    /* 0x11d0 */ PositionCache _11d0[32];
+    /* 0x18d0 */ bool _18d0[32];
+    /* 0x18f0 */ void* _18f0;
     /* 0x18f8 */ bool _18f8 = false;
     u8 _18f9[0x1900 - 0x18f9];
     /* 0x1900 */ sead::CriticalSection mCS;

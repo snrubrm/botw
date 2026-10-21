@@ -1,3 +1,4 @@
+#include "KingSystem/Sound/sndSoundPointGrid.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "Game/gameStatisticsMgr.h"
 #include <cmath>
@@ -169,6 +170,25 @@ void Unk_SoundMgr38_18::sub_710102EE40() {
     _9629 = true;
 }
 
+// NON_MATCHING: the original stores _10a8 = 0 inside the reset loop (once per point).
+void Unk_SoundMgr38_10::sub_7101033328(sead::Heap* heap, act::ActorCreator* creator) {
+    if (!_18)
+        creator->requestCreateActor("EnvSoundGrass", heap, &mProcHandle, nullptr, nullptr, 1);
+    _758 = false;
+    _10c0 = false;
+    _18f8 = false;
+    _10c4 = 0;
+    _10c8 = 0;
+    if (_11c0)
+        _11c0->reset();
+    for (s32 i = 0; i < 32; ++i) {
+        _ea8[i].pos = sead::Vector3f::zero;
+        _ea8[i].active = false;
+    }
+    _10a8 = 0;
+    _10d0 = true;
+}
+
 void Unk_SoundMgr38_10::sub_71010333E0() {
     _10c1 = true;
 }
@@ -193,6 +213,12 @@ void Unk_SoundMgr38_10::sub_7101032870() {
         _788[i]._28[0] = 100000000.0f;
         _788[i]._28[1] = 100000000.0f;
         _788[i]._28[2] = 100000000.0f;
+    }
+    for (s32 i = 0; i < 32; ++i) {
+        _18d0[i] = false;
+        _11d0[i]._28[0] = 100000000.0f;
+        _11d0[i]._28[1] = 100000000.0f;
+        _11d0[i]._28[2] = 100000000.0f;
     }
 }
 
