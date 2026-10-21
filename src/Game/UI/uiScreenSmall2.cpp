@@ -3476,6 +3476,34 @@ bool ScreenMainScreen3D::sub_7100A11D34(s32 id) {
     return false;
 }
 
+// 0x71009dc99c
+// NON_MATCHING: the guide/test page arm compiles to tst + cinc where the original branches to the
+// two page numbers, and x0 is set after the arm (clang hoists it here).
+void ScreenAppHome::sub_71009DC99C(bool a1) {
+    if (!Unk_71025d69f0::instance()->sub_710094F7AC(_380c)) {
+        sub_71009DCF18(1);
+        return;
+    }
+    if (_380c != 0) {
+        if (_380c == 1) {
+            const bool is_guide = sub_71009E6B5C();
+            s32 page = 2;
+            if (is_guide)
+                page = 3;
+            if (!sub_71009DCDD0(sub_71009DCF18(page), is_guide))
+                return;
+            const u32 saved = _3808;
+            sub_71009DCF18(12);
+            _3808 = saved;
+            return;
+        }
+        if (a1)
+            sub_71009DCF18(0);
+        return;
+    }
+    sub_71009DCF18(4);
+}
+
 void ScreenAppHome::sub_71009DD7D4() { sub_71009DCF18(6); }
 void ScreenAppHome::sub_71009DD7DC() { sub_71009DCF18(5); }
 void ScreenAppHome::sub_71009DD7E4() { sub_71009DCF18(7); }

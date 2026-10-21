@@ -4688,6 +4688,8 @@ KSYS_VISIBILITY_HIDDEN extern u8 sUnk_71025de182;
 // (Divine Beast relic, Final Trial) is available: true while bit 0 of sUnk_71025de180 or sUnk_71025de182 is set; in
 // state 5 the Hyrule Castle area flag with no WolfLinkHeartGauge screen
 bool sub_71009E6B5C();
+// 0x71009dcdd0 (placeholder name): the guide page update; the animator argument is unused.
+bool sub_71009DCDD0(eui::Animator* animator, bool a2);
 // 0x7100a9eea4 / 0x7100a9eef4 (defined in uiManagerFacade.cpp)
 const char* sub_7100A9EEA4();
 const char* sub_7100A9EEF4();
@@ -5858,9 +5860,10 @@ public:
 
     // 0x71009de1c8 / 0x71009dcf18 (CSV unnamed; the second is declared only)
     void sub_71009DE1C8();
-    void sub_71009DCF18(s32 a1);
-    // 0x71009dc99c (placeholder name): reads the page at 0x380c and tail-calls sub_71009DCF18 with the page's
-    // replacement value. The bool argument is unused in the body.
+    // The changed page's animator; 0x71009dc99c passes it on to sub_71009DCDD0.
+    eui::Animator* sub_71009DCF18(s32 a1);
+    // 0x71009dc99c (placeholder name): switches to the page that replaces _380c and, for the guide page,
+    // also reports the page and keeps _3808.
     void sub_71009DC99C(bool a1);
     // 0x71009dd7a8 / 0x71009dd7ec / 0x71009dd800 (placeholder names): switch the page (12 keeping _3808 / 8 or 9 / 10 or 11)
     void sub_71009DD7A8();
