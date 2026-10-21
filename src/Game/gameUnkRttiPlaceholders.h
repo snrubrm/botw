@@ -1500,6 +1500,25 @@ public:
 // vtable 0x710251bb98 (8 slots); placeholder generated from the vtable (genskel.py).
 struct Unk_71011595fc;
 
+// Width x height buffer. inline-only in the original; name is a guess (the destructor clears
+// width, height and pointer with one 16-byte store; Unk_710251bb98::m30 indexes it as
+// mBuffer[mWidth * y + x] with bounds checks like sead::Buffer's operator[]).
+template <typename T>
+struct Unk_Buffer2D {
+    void freeBuffer() {
+        if (mBuffer) {
+            delete[] mBuffer;
+            mBuffer = nullptr;
+            mWidth = 0;
+            mHeight = 0;
+        }
+    }
+
+    s32 mWidth;
+    s32 mHeight;
+    T* mBuffer;
+};
+
 class Unk_710251bb98 : public Unk_710251d230 {
     SEAD_RTTI_OVERRIDE(Unk_710251bb98, Unk_710251d230)
 public:
@@ -1542,12 +1561,14 @@ public:
 
     // Not modelled yet (the base's data or this class's first fields).
     u8 _30[0x38 - 0x30];
-    // Five buffers freed by the destructor (element types unknown; trivially destructible).
-    sead::Buffer<u8> _38;
+    // Five buffers freed by the destructor.
+    // First index of each part.
+    sead::Buffer<u16> _38;
     sead::Buffer<u8> _48;
     sead::Buffer<u8> _58;
     sead::Buffer<u8> _68;
-    sead::Buffer<u8> _78;
+    // Instance count per part (x) and cell (y).
+    Unk_Buffer2D<u32> _78;
     u8 _88[0xa0 - 0x88];
     // Recorded display lists per part: per sub-part and all sub-parts.
     sead::Buffer<Unk_71011595fc> _a0;

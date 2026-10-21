@@ -159,8 +159,6 @@ void Unk_710251bb98::m31(agl::DrawContext* context, s32 part, s32 mask, bool use
         m30(context, part, 3, 0, false, 1.0f);
 }
 
-// NON_MATCHING: the original zeroes the last buffer with one 16-byte store (stp xzr, xzr at 0x78).
-// NON_MATCHING: the original clears the last buffer with one 16-byte store (its size field may be 64-bit).
 Unk_710251bb98::~Unk_710251bb98() {
     _38.freeBuffer();
     _48.freeBuffer();
