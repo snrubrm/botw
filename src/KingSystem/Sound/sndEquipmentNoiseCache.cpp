@@ -13,7 +13,6 @@ static util::InitTimeInfoEx sEquipmentNoiseInitInfo;
 Unk_710251b170 sEquipmentNoiseCache;
 
 Unk_710251b170::~Unk_710251b170() = default;
-// NON_MATCHING: accessor null checks and locator-loop termination are folded differently.
 void Unk_710251b170::sub_71012C3074() {
     if (mInitialized)
         return;
@@ -21,14 +20,14 @@ void Unk_710251b170::sub_71012C3074() {
     {
         act::ActorLinkConstDataAccess player;
         act::ActorSystem::instance()->getPlayer(&player);
-        auto* xlink = player.sub_7100D0F214();
+        auto* xlink = player.hasProc() ? player.sub_7100D0F214() : nullptr;
         user = xlink ? xlink->_50 : nullptr;
     }
     if (!user || !user->isInstanceParamValid())
         return;
-    for (s32 i = 0; i < 4; ++i) {
+    for (const auto value : Strength()) {
         sead::FixedSafeString<48> name("EquipNoise_");
-        name.append(Strength::text(i));
+        name.append(value.text());
         auto* locator = mStrengthLocators.emplaceBack();
         if (!user->searchAsset(locator, name.cstr())) {
             mStrengthLocators.clear();
@@ -36,9 +35,9 @@ void Unk_710251b170::sub_71012C3074() {
             return;
         }
     }
-    for (s32 i = 0; i < 4; ++i) {
+    for (const auto value : Speed()) {
         sead::FixedSafeString<48> name("EquipNoise_");
-        name.append(Speed::text(i));
+        name.append(value.text());
         auto* locator = mSpeedLocators.emplaceBack();
         if (!user->searchAsset(locator, name.cstr())) {
             mStrengthLocators.clear();
@@ -71,6 +70,28 @@ Unk_710251b028::Unk_710251b028() {
 // `{ ; }` keeps the vtable store that a defaulted destructor drops (as upstream's
 // GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
 Unk_710251b028::~Unk_710251b028() { ; }
+
+bool Unk_710251b028::m2(const sead::SafeString& name) {
+    mName = name;
+    _70 = mName.startsWith("Head_Special");
+    return sub_71012C3BC8(name);
+}
+
+bool Unk_710251b028::sub_71012C3BC8(const sead::SafeString& name) {
+    xlink2::UserInstanceSLink* user;
+    {
+        act::ActorLinkConstDataAccess player;
+        act::ActorSystem::instance()->getPlayer(&player);
+        auto* xlink = player.hasProc() ? player.sub_7100D0F214() : nullptr;
+        user = xlink ? xlink->_50 : nullptr;
+    }
+    if (!user || !user->isInstanceParamValid())
+        return false;
+
+    sead::FixedSafeString<48> asset_name("EquipNoise_");
+    asset_name.append(name);
+    return user->searchAsset(&mLocator, asset_name.cstr());
+}
 
 bool Unk_710251b028::m3() {
     return sub_71012C3BC8(mName);
