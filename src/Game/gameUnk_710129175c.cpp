@@ -122,6 +122,20 @@ void Unk_710129175c::sub_710129276C(s32 index, Result* result) {
     result->_2c = record._1fcc;
 }
 
+// NON_MATCHING: the entry-count loop keeps a 32-bit decrement where the original's Buffer iterator
+// counter is 64-bit, and the entry-count load / vtable load are scheduled one slot apart.
+Unk_710129421c::~Unk_710129421c() {
+    u32 count = u32(mEntries.size());
+    if (count != 0) {
+        Entry* entry = mEntries.getBufferPtr();
+        do {
+            entry->mTextureData.getImagePtr().deleteGPUMemBlock();
+            ++entry;
+        } while (--count != 0);
+    }
+    mEntries.freeBuffer();
+}
+
 void Unk_710129421c::sub_7101295560(s32 index, const sead::Color4f& color) {
     mEntries[index]._7d0 = color;
 }

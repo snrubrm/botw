@@ -15,7 +15,13 @@
 #include <gsys/gsysModelScene.h>
 #include <gsys/gsysModelUnit.h>
 #include <common/aglTextureSampler.h>
+#include <common/aglUniformBlock.h>
+#include <common/aglRenderBuffer.h>
+#include <common/aglRenderTarget.h>
 #include <utility/aglDebugTexturePage.h>
+#include <utility/aglParameter.h>
+#include <utility/aglParameterIO.h>
+#include <utility/aglParameterObj.h>
 #include <common/aglGPUMemAddr.h>
 #include "KingSystem/Resource/resHandle.h"
 #include <prim/seadSafeString.h>
@@ -271,18 +277,41 @@ public:
 // the ground layer with the Grudge ground-hit filter; stores the hit position.
 bool sub_7101290034(const sead::Vector3f& start, const sead::Vector3f& displacement, sead::Vector3f* hit_pos);
 
-// Declaration only: F2C140 allocates 0x6c0 bytes, constructs this object at 129421C and stores it at
-// Graphics + 0x370. Its source name is unknown.
-class Unk_710129421c {
+// F2C140 allocates 0x6c0 bytes, constructs this object at 129421C and stores it at
+// Graphics + 0x370. Its source name is unknown (the parameter names are "ksysla" and the ground
+// ambient light parameters).
+class Unk_710129421c : public sead::hostio::Node, public agl::utl::IParameterIO {
 public:
-    // Placeholder: the 0x7e8-byte entries of the buffer at 0x1e0.
+    // The 0x7e8-byte entries of the buffer at 0x1e0 (destruction order from 0x7101294870).
     struct Entry {
-        u8 _0[0x7d0];
+        agl::UniformBlock _0;          // 0x000
+        agl::RenderBuffer _78;         // 0x078
+        agl::RenderTargetColor _e0;    // 0x0e0
+        agl::TextureSampler _258;      // 0x258
+        agl::TextureSampler _3c8;      // 0x3c8
+        agl::TextureSampler _538;      // 0x538
+        agl::TextureData mTextureData;  // 0x6a8
         sead::Color4f _7d0;
         f32 _7e0;
         f32 _7e4;
     };
     static_assert(sizeof(Entry) == 0x7e8);
+
+    // The ground ambient light parameter object at 0x440: ParameterObj plus eighteen float parameters.
+    struct Params : agl::utl::ParameterObj {
+        f32 _30 = 0.2f;
+        f32 _34 = 0.25f;
+        f32 _38 = 3.0f;
+        u8 _3c[4];
+        agl::utl::Parameter<f32> mParams[18];
+    };
+    static_assert(sizeof(Params) == 0x280);
+
+    // 0x710129421c: the constructor (vtable 0x71025192d8, hostio::Node primary base and
+    // IParameterIO second base at +8).
+    Unk_710129421c();
+    // 0x7101294870
+    ~Unk_710129421c() override;
 
     // 0x71012955ac (placeholder name): stores value at +0x7e4 of entry index of the 0x7e8-byte entry
     // buffer at 0x1e0.
@@ -292,9 +321,14 @@ public:
     void sub_710129558C(f32 value, s32 index);
     void sub_71012955AC(f32 value, s32 index);
 
-    u8 _0[0x1e0];
-    sead::Buffer<Entry> mEntries;
+    /* 0x1d8 */ u32 _1d8 = 2;
+    /* 0x1e0 */ sead::Buffer<Entry> mEntries;
+    /* 0x1f0 */ u64 _1f0 = 0;
+    /* 0x1f8 */ agl::utl::DebugTexturePage mPage;
+    /* 0x438 */ u8 _438 = 0;
+    /* 0x440 */ Params mParams;
 };
+KSYS_CHECK_SIZE_NX150(Unk_710129421c, 0x6c0);
 
 // Partial declaration only: F2C140 constructs this 0x258-byte item filter at
 // 1293BAC and stores it at 398. Table 25192A8 inherits Node's class-type method;
