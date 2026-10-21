@@ -192,6 +192,12 @@ void EventActorLinkPool::removeOwner(EventFlowBase* flow) {
     }
 }
 
+// 0x7101279ffc
+void EventMgrStruct3A::sub_7101279FFC() {
+    mAssigned = false;
+    mFlowRecord = nullptr;
+}
+
 // 0x710127a008: the association is set and cleared by EventFlowMgr's schedule selection.
 void EventMgrStruct3A::setFlowRecord(EventMgrStruct3B* record) {
     mFlowRecord = record;

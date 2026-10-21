@@ -177,4 +177,19 @@ xlink::XLink* EventXlinkInfo::sub_7100DC9628() {
     return nullptr;
 }
 
+// 0x7100dca228
+const sead::SafeString& EventXlinkInfo::sub_7100DCA228(s32 idx) const {
+    return _28[idx]._0;
+}
+
+// 0x7100dca244
+const sead::SafeString& EventXlinkInfo::sub_7100DCA244(s32 idx) const {
+    return _28[idx]._10;
+}
+
+// 0x7100dca264
+const sead::SafeString& EventXlinkInfo::sub_7100DCA264(s32 idx) const {
+    return _28[idx]._20;
+}
+
 }  // namespace ksys::evt

@@ -70,7 +70,7 @@ public:
     void formatActorName(sead::BufferedSafeString* name) const;
     // 127A008 sets/clears the shared flow-record association in the native schedule callers.
     void setFlowRecord(EventMgrStruct3B* record);
-    // 0x7101279ffc (placeholder name; declared only): clears mFlowRecord and mAssigned
+    // 0x7101279ffc (placeholder name): clears mFlowRecord and mAssigned
     void sub_7101279FFC();
 
     /* 0x00 */ act::Actor* mActor = nullptr;
