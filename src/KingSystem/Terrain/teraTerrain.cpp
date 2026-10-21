@@ -633,6 +633,40 @@ void Terrain::Unk4ae0::Unk_10::sub_710114161C() {
 
 SEAD_SINGLETON_DISPOSER_IMPL(Terrain)
 
+Terrain::~Terrain() {
+    if (_a58 & 2)
+        sub_7101149BD4();
+}
+
+// NON_MATCHING: the original has a dmb ish after the lock, and reads _a40 once for each block / address
+// / pointer group (an inline helper on a buffer object, not modelled).
+void Terrain::m20(f32 delta) {
+    if ((~_a58 & 6) != 0)
+        return;
+
+    if (_a58 & 0x40000000) {
+        if (_360) {
+            sead::ScopedLock<sead::CriticalSection> lock(&Terrain::instance()->mImageResourceMgr->mCS28);
+            mImageResourceMgr->sub_7101131290();
+            mImageResourceMgr->sub_7101136950();
+            _360->releaseAllNodeGroups();
+        }
+        _a58 &= ~0x40000000u;
+    }
+
+    _a48 += delta;
+    _360->sub_71013019B8();
+
+    if (_a40->_759 != 0 && --_a40->_759 == 0) {
+        _a40->mBlock0.freeBuffer();
+        _a40->mAddr0.invalidate();
+        _a40->_50 = nullptr;
+        _a40->mBlock1.freeBuffer();
+        _a40->mAddr1.invalidate();
+        _a40->_308 = nullptr;
+    }
+}
+
 // NON_MATCHING: the original stores `exists` after loading _428 (scheduling).
 bool Terrain::sub_710114D928(System* system, Unk_7101106F44* area, const ImageTypeMaybe& type) {
     sead::FixedSafeString<256> path;

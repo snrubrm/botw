@@ -3,6 +3,8 @@
 #include <gsys/gsysModelUnit.h>
 #include "KingSystem/Terrain/teraSystem.h"
 
+Unk_7102504260::~Unk_7102504260() = default;
+
 void Unk_7102504260::sub_710107E900(gsys::Model* model, bool visible) {
     for (u32 i = 0; i < model->getUnits().size(); ++i) {
         auto* unit = model->getUnits()(i)->mModelUnit;

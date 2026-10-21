@@ -1258,10 +1258,11 @@ public:
 };
 
 // vtable 0x7102513630 (17 slots); placeholder generated from the vtable (genskel.py).
-class Unk_7102513630 {
-    SEAD_RTTI_BASE(Unk_7102513630)
+// Its RTTI slots (0x7100edc138 / 0x7100edc1a8) and the base vtable its destructor writes are
+// Unk_71024f13f0's, so it derives from it without RTTI of its own.
+class Unk_7102513630 : public Unk_71024f13f0 {
 public:
-    virtual ~Unk_7102513630();
+    ~Unk_7102513630() override;
     // Vtable slots 4 / 5 (0x71011ed3cc / 0x71011ed3d8): the name strings.
     virtual const char* getName() const;
     virtual const char* getJpName() const;
@@ -1279,13 +1280,8 @@ public:
 
     // 0x71011ece14: constructs the SeadController at 0x48 with id 0xb; the dtor destroys it.
     Unk_7102513630();
-    // Layout from the ctor at 0x71011ece14 (getName 0x71011ed3cc returns "PlacementNavi").
-    u64 _8 = 0;
-    u64 _10 = 0;
-    u64 _18 = 0;
-    u64 _20 = 0;
-    void* _28 = nullptr;  // points to mController
-    u32 _30 = 5;
+    // Layout from the ctor at 0x71011ece14 (getName 0x71011ed3cc returns "PlacementNavi"). _8 .. _30
+    // are Unk_71024f13f0's; _34 sits in its tail padding.
     // Written by OpenWorldStage::calc (camera direction, lane1); the ctor sets {0, 0, 1}.
     sead::Vector3f _34{0, 0, 1};
     ksys::act::Actor* _40 = nullptr;  // PlayerInfo::getPlayer writer in OpenWorldStage::postInit.

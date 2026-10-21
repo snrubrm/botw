@@ -846,10 +846,6 @@ Object* PlacementMgr::sub_71011EC398(const sead::SafeString& name,
 
 }  // namespace ksys::map
 
-// NON_MATCHING: placeholder destructor; the original (0x7100edc270) also destroys members or bases
-// this class does not declare yet.
-Unk_71024f13f0::~Unk_71024f13f0() = default;
-
 Unk_71024f1358::~Unk_71024f1358() = default;
 
 const char* Unk_71024f1358::getName() {
@@ -860,15 +856,13 @@ const char* Unk_71024f1358::getJpName() {
     return "ゲームツールです";
 }
 
-// NON_MATCHING: the SeadController member is constructed from the initializer list, so its call lands after the
-// _34 / _40 stores; the original stores _8.._30 first and only then constructs it (store order in the ctor).
+// NON_MATCHING: the original stores _28 with the other base fields before constructing the SeadController and
+// writes _34 / _40 after it (store order in the ctor).
 Unk_7102513630::Unk_7102513630() : _34{0, 0, 1}, _40(0), mController(0xb) {
     _28 = &mController;
     _30 &= ~8;
 }
 
-// NON_MATCHING: ours tail-calls the SeadController dtor; the original makes a call and then writes the base vtable
-// (0x710259d9b0's) to +0. The deleting destructor D0 matches.
 Unk_7102513630::~Unk_7102513630() = default;
 
 const char* Unk_7102513630::getName() const {

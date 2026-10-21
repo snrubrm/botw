@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <hostio/seadHostIONode.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/Utils/Types.h"
 
@@ -11,11 +12,24 @@ namespace ksys { class OverlayArena; }
 class Unk_71024f13f0 {
     SEAD_RTTI_BASE(Unk_71024f13f0)
 public:
-    virtual ~Unk_71024f13f0();
+    // Inline: Unk_7102504260's destructor 0x710107e7cc inlines it (its own D1 is 0x7100edc270).
+    // `{ ; }` keeps the vtable store the original has (as upstream's
+    // GameDataFlagSelector::~GameDataFlagSelector() { ; }, commit 96101229).
+    virtual ~Unk_71024f13f0() { ; }
+
+    // Set up before the derived members (Unk_7102513630 ctor 0x71011ece14).
+    u64 _8 = 0;
+    u64 _10 = 0;
+    u64 _18 = 0;
+    u64 _20 = 0;
+    // Unk_7102513630 / Unk_7102504260 point it at their SeadController (+0x48).
+    void* _28 = nullptr;
+    u32 _30 = 5;
 };
 
-// Editor base vtable 0x7102504260; constructor 0x710107e724.
-class Unk_7102504260 : public Unk_71024f13f0 {
+// Editor base vtable 0x7102504260; constructor 0x710107e724. The constructor stores the hostio::Node
+// vtable (0x7102504340) at +0x38.
+class Unk_7102504260 : public Unk_71024f13f0, public sead::hostio::Node {
     SEAD_RTTI_OVERRIDE(Unk_7102504260, Unk_71024f13f0)
 public:
     Unk_7102504260();
@@ -42,8 +56,8 @@ public:
     virtual void m18() {}
 
     // Constructor 0x710107e724 writes through +0x2d8. The controller/debug state
-    // at +0x38 / +0x48 retains opaque storage until its lifetime is modelled.
-    u8 _8[0x2c0 - 0x8];
+    // at +0x48 retains opaque storage until its lifetime is modelled.
+    u8 _40[0x2c0 - 0x40];
     // Terrain image request arenas (absolute +0x2e0 / +0x2e8 in Terrain).
     ksys::OverlayArena* mTerrainArena;
     ksys::OverlayArena* mSteraArena;
@@ -52,20 +66,14 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102504260, 0x2e0);
 
-// Secondary Terrain interface at +0x20, vtable 0x710250fb18.
+// Secondary Terrain interface at +0x20, vtable 0x710250fb18. It has no RTTI of its own (Terrain's
+// checkDerivedRuntimeTypeInfo goes from Terrain straight to Unk_7102504260), and Terrain overrides all
+// of its new slots, so its own vtable is never emitted.
 class Unk_710250fb18 : public Unk_7102504260 {
-    SEAD_RTTI_OVERRIDE(Unk_710250fb18, Unk_7102504260)
 public:
-    ~Unk_710250fb18() override;
     virtual void m19() {}
-    virtual void m20();
+    virtual void m20(f32 delta);
     virtual bool m21() { return false; }
     virtual void m22() {}
     virtual void m23() {}
-    bool m9() override { return false; }
-    void m10() override {}
-    void m14() override {}
-    void m16() override {}
-    void m17() override {}
-    void m18() override {}
 };

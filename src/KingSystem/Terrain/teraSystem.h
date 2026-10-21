@@ -361,6 +361,8 @@ public:
     void sub_7101300F1C(u32 index, const sead::Vector3f* position, bool update);
     void sub_7101300BF0();
     void sub_710130085C();
+    // 0x71013019b8 (declaration only; placeholder name): empty in this release; Terrain::m20 calls it.
+    void sub_71013019B8();
     void sub_710130089C();
     // 0x7101300aac (declared only; 160 B): sets the visibility mask of the units of the model _f8 (all bits
     // for true).
@@ -610,9 +612,24 @@ class ImageResourceMgr;
 
 // Native vtable group 0x710250faa8: IDisposer at +0 and the editor interface at +0x20.
 class Terrain : public sead::IDisposer, public Unk_710250fb18 {
+    SEAD_RTTI_OVERRIDE(Terrain, Unk_7102504260)
 public:
     Terrain();
     ~Terrain() override;
+    // Overrides of the editor interface; the primary vtable has its own copies (0x710114d638 ..).
+    void m19() override {}
+    void m20(f32 delta) override;
+    bool m21() override { return false; }
+    void m22() override {}
+    void m23() override {}
+    // 0x710114defc (slot 9 of the primary vtable; placeholder name): calls slot 0x2a0 of _360 while
+    // bits 1 and 2 of _a58 are set. Core's vtable is not modelled yet.
+    virtual void sub_710114DEFC();
+    bool m9() override { return false; }
+    void m10() override {}
+    // 0x7101149bd4 (placeholder name): tears down the terrain systems; the destructor calls it while
+    // bit 1 of _a58 is set.
+    void sub_7101149BD4();
 
     void setPauseState(bool paused);
     // 0x710114d73c (CSV Terrain::__auto21; placeholder name): Core::sub_710130085C while bits 1 and 2 of _a58 are
@@ -939,9 +956,19 @@ public:
     sead::Matrix34f mViewMatrix;
     u8 _6f0[0xa40 - 0x6f0];
     // Placeholder type (zeroed by the ctor): sub_710114D7C8 compares its thread at 0x750 with the current thread.
+    // m20 releases its two buffers when the count at 0x759 drops to zero.
     struct Unk_a40 {
-        u8 _0[0x750];
+        agl::GPUMemBlockBase mBlock0;
+        agl::GPUMemVoidAddr mAddr0;
+        void* _50;
+        u8 _58[0x2b8 - 0x58];
+        agl::GPUMemBlockBase mBlock1;
+        agl::GPUMemVoidAddr mAddr1;
+        void* _308;
+        u8 _310[0x750 - 0x310];
         sead::Thread* mThread;
+        u8 _758;
+        u8 _759;
     };
     Unk_a40* _a40;
     f64 _a48;

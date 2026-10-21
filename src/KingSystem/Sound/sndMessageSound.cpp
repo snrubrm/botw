@@ -100,10 +100,6 @@ void Unk_SoundMgr48::sub_7101055B88(aal::Handle* handle, bool flag, f32 delay) {
 
 }  // namespace ksys::snd
 
-// NON_MATCHING: placeholder destructor; the original (0x710107e7cc) also destroys members or bases
-// this class does not declare yet.
-Unk_7102504260::~Unk_7102504260() = default;
-
 void Unk_7102504470::m7(void* vertices, void* indices) {
     mFlags |= 0x80000000;
     mVertices = vertices;
