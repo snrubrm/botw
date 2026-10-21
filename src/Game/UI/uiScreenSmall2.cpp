@@ -271,6 +271,36 @@ void ScreenAppAlbum::m167() {
     }
 }
 
+// NON_MATCHING: four bytes short: the original calls (not tail-calls) the home screen's
+// sub_71009DD7DC / DD7D4 inside the state checks; ours lays the dispatches out as tail calls.
+// 0x71009d5100
+void ScreenAppAlbum::sub_71009D5100() {
+    if (!_3a99)
+        return;
+    _3a99 = false;
+    auto* home = sead::DynamicCast<ScreenAppHome>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome));
+    if (!home || home->isClosed())
+        return;
+    if ((sUnk_71025DC890._c | 1) == 3) {
+        home->sub_71009DD814();
+        return;
+    }
+    if (sUnk_71025DC890._1 == 1) {
+        home->sub_71009DD7EC(_3a98);
+        return;
+    }
+    auto& state_machine = getStateMachine();
+    if (state_machine.getState()->getId() == (&sUnk_71025dc300)->getId()) {
+        if (!_3638 || _3638->_2dc != 0)
+            home->sub_71009DD7DC();
+        else
+            home->sub_71009DD7D4();
+    }
+    if (state_machine.getState()->getId() == (&sUnk_71025dc360)->getId())
+        home->sub_71009DD7E4();
+}
+
 // 0x71009d5980
 void ScreenAppAlbum::m128() {
     for (auto* controller : sUnk_71025dc5e0)
