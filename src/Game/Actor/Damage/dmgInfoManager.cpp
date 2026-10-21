@@ -1,4 +1,7 @@
 #include "Game/Actor/Damage/dmgInfoManager.h"
+#include <atomic>
+#include <cmath>
+#include "Game/Actor/aiUnk_710001A69C.h"
 #include "Game/Scene/gameStageInfo.h"
 #include <limits>
 #include "KingSystem/ActorSystem/actActor.h"
@@ -14,6 +17,58 @@
 namespace uking::act {
 
 SEAD_SINGLETON_DISPOSER_IMPL(DamageInfoMgr)
+
+// Whether fewer than GlobalParameter's ForceNoticeEnemyCount listed actors are near `position`. The list is
+// only read here; the lock is used by the insert/remove functions.
+bool DamageInfoMgr::UnkCe0::sub_7100673444(const sead::Vector3f& position) const {
+    s32 limit = 3;
+    f32 radius = 50.0f;
+    if (auto* global = ksys::act::GlobalParameter::instance()) {
+        if (const auto* param = global->getGlobalParam()) {
+            limit = param->mForceNoticeEnemyCount.ref();
+            if (limit < 0)
+                return false;
+            radius = param->mForceNoticeEnemyDist.ref();
+        }
+    }
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (mCount == 0)
+        return false;
+
+    s32 count = 0;
+    if (radius < 0.0f) {
+        for (s32 i = 0; i < mCount; ++i) {
+            ksys::act::acquireActor(&mLinks[i].mLink, &accessor);
+            if (!accessor.hasProc())
+                continue;
+            if (!accessor.sub_7100D10E6C(25))
+                continue;
+            if (!sub_710001A69C(&accessor, 0x4000))
+                continue;
+            if (++count >= limit)
+                return true;
+        }
+    } else {
+        for (s32 i = 0; i < mCount; ++i) {
+            ksys::act::acquireActor(&mLinks[i].mLink, &accessor);
+            if (!accessor.hasProc())
+                continue;
+            if (!accessor.sub_7100D10E6C(25))
+                continue;
+            if (!sub_710001A69C(&accessor, 0x4000))
+                continue;
+            const sead::Matrix34f& mtx = accessor.getActorMtx();
+            // NON_MATCHING: the original loads the matrix components before the position ones (the fsub
+            // operands are mirrored); the squared distance is the same.
+            const f32 dx = position.x - mtx(0, 3);
+            const f32 dz = position.z - mtx(2, 3);
+            if (std::sqrt(dx * dx + dz * dz) < radius && ++count >= limit)
+                return true;
+        }
+    }
+    return false;
+}
 
 void DamageInfoMgr::sub_7100673D8C() {
     mReactionTable.sub_71006681D4();

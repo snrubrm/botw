@@ -274,7 +274,29 @@ private:
     /* 0x0790 */ Unk790 _790;
     /* 0x0868 */ Unk868 _868;
     /* 0x0b90 */ Unk_710243c280 mGuardianRegistry;
-    /* 0x0cd8 */ u8 TEMP_cd8[0xd00 - 0xcd8];
+    // 0x7100ce0 (placeholder name): the list Enemy::m73 queries to decide whether an enemy may attack. Each
+    // entry is an actor that may attack; sub_7100673444 counts the nearby ones and compares against
+    // GlobalParameter's ForceNoticeEnemyCount.
+    class UnkCe0 {
+    public:
+        // 0x18 bytes (clang pads mTag to the 8-byte alignment); mTag is written by sub_7100673064.
+        struct Entry {
+            /* 0x00 */ ksys::act::BaseProcLink mLink;
+            /* 0x10 */ u32 mTag = 0;
+        };
+        KSYS_CHECK_SIZE_NX150(Entry, 0x18);
+
+        bool sub_7100673444(const sead::Vector3f& position) const;
+
+        /* 0x00 */ sead::Buffer<Entry> mLinks;
+        /* 0x10 */ u32 mCount = 0;
+        u8 _14[4];
+        /* 0x18 */ std::atomic<u32> mLock;
+    };
+    KSYS_CHECK_SIZE_NX150(UnkCe0, 0x20);
+
+    /* 0x0cd8 */ u8 TEMP_cd8[0xce0 - 0xcd8];
+    /* 0x0ce0 */ UnkCe0 mUnkCe0;
     /* 0x0d00 */ sead::ReadWriteLock mLock;
     /* 0x0db8 */ u8 TEMP_db8[0xe98 - 0xdb8];
     /* 0x0e98 */ ClothStiffnessMgr mClothStiffnessMgr;
