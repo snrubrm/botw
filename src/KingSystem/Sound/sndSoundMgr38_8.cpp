@@ -2,6 +2,7 @@
 #include "KingSystem/Sound/sndSound.h"
 #include "Game/gameStatisticsMgr.h"
 #include <cmath>
+#include <limits>
 #include <math/seadMathCalcCommon.h>
 #include <aal/aalAttenuationMgr.h>
 #include <aal/aalSpeakerBalanceUnifierMgr.h>
@@ -163,6 +164,50 @@ void Unk_SoundMgr38_8::sub_710102C8F8() {
 }
 
 void Unk_SoundMgr38_18::sub_710102EB9C() {}
+
+// NON_MATCHING: the original copies the default bounds from a lazily-initialised static vector (guard
+// at 0x2610808, vector at 0x2610810, immediately before this TU's InitConstants record at 0x2610820).
+// Declaring that static adds 0x18 bytes to this TU's merged static block and shifts the record, which
+// breaks the matching _GLOBAL__sub_I of this file, so the three values are written as literals here.
+// The rest of the body also keeps `this` and the group base in registers (frame 0x70) where the
+// original spills both (0x80).
+// 0x710102effc (placeholder name): resets the cell groups and their bounds.
+void Unk_SoundMgr38_18::sub_710102EFFC() {
+    mSoundReference.sub_710104A0D4();
+    _a808 = nullptr;
+    _a800 = nullptr;
+    if (mInstances) {
+        mInstances->sub_710104993C();
+        delete mInstances;
+        mInstances = nullptr;
+    }
+    mProcHandle.deleteProc();
+
+    for (s32 i = 0; i < 5; ++i) {
+        for (s32 j = 0; j < 64; ++j) {
+            Entry& entry = mGroups[i].mEntries[j];
+            entry._10 = 0;
+            entry.mMax = std::numeric_limits<f32>::max();
+            entry._0 = 1000000.0f;
+            entry._4 = 1000000.0f;
+            entry._8 = 1000000.0f;
+        }
+        mGroups[i]._1050 = 0;
+    }
+
+    for (s32 i = 0; i < 64; ++i) {
+        Entry& entry = mDefaultBounds[i];
+        entry._10 = 0;
+        entry.mMax = std::numeric_limits<f32>::max();
+        entry._0 = 1000000.0f;
+        entry._4 = 1000000.0f;
+        entry._8 = 1000000.0f;
+    }
+
+    _18 = nullptr;
+    _9626 = 0;
+    _9627 = false;
+}
 
 void Unk_SoundMgr38_18::sub_710102EE40() {
     _9627 = true;

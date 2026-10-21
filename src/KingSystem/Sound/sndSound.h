@@ -591,6 +591,103 @@ public:
     /* 0x1948 */ f32 _1948;
     u8 _194c[0x1950 - 0x194c];
 };
+class Unk_710105E3D0Arg;
+
+// Placeholder name = vtable address (0x7102502410; only the destructor pair). A buffer of shared xlink user
+// instances (the members built by the Unk_SoundMgr38_* constructors: 0x710102eba0, 0x71012c153c, ...).
+class Unk_7102502410 {
+public:
+    // 0x60-byte entry: a reference-counted SLink user instance with its asset info reader.
+    struct Entry {
+        // 0x7101049660 / 0x71010496e8 (vtable 0x71025023f0).
+        virtual ~Entry() { finalize(); }
+        // 0x7101049778 (placeholder name): once the bars are loaded, attaches the asset info reader (_18 = 2),
+        // or frees it when loading failed.
+        void sub_7101049778();
+        // 0x7101049824 (placeholder name): loads the bars of the user instance's user name into a new asset
+        // info reader once (_18 becomes 1).
+        bool sub_7101049824();
+
+        // inline-only in the original; name is a guess. The destructor and Unk_7102502410::sub_710104993C
+        // both free the asset info reader and destroy the user instance this way.
+        void finalize();
+
+        /* 0x08 */ xlink2::UserInstanceSLink* mUserInstance = nullptr;
+        /* 0x10 */ Unk_7102502950* mAssetInfoReader = nullptr;
+        // 0: not loaded, 1: bars loading (sub_7101049824), 2: asset info reader attached (sub_7101049778).
+        /* 0x18 */ u32 _18 = 0;
+        /* 0x1c */ s32 mRefCount = 0;
+        /* 0x20 */ sead::CriticalSection mCS;
+    };
+    KSYS_CHECK_SIZE_NX150(Entry, 0x60);
+
+    // 0x710104990c
+    Unk_7102502410();
+    // 0x7101049928 / 0x7101049ac4
+    virtual ~Unk_7102502410();
+    // 0x710104993c (declaration only; placeholder name): releases the entries (the destructor's body).
+    void sub_710104993C();
+    // 0x7101049c60 (placeholder name): updates every entry and runs preCalc / postCalc of the referenced ones.
+    void sub_7101049C60();
+    // 0x7101049af8 (placeholder name): once, creates one entry per name with a sleeping SLink user instance.
+    void sub_7101049AF8(const sead::Buffer<const char*>& names, Unk_710105E3D0Arg* defs, sead::Heap* heap);
+    // 0x7101049cec (placeholder name): the entry whose user name is `name`, with a new reference (the first
+    // one activates the user instance and starts loading its bars); null when there is none.
+    Entry* sub_7101049CEC(const sead::SafeString& name);
+
+    sead::Buffer<Entry> mEntries;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102502410, 0x18);
+
+// Placeholder name = vtable address (0x7102502430; only the destructor pair): a named reference to an
+// Unk_7102502410::Entry (12 owners destroy it inline).
+class Unk_7102502430 {
+public:
+    // 0x7101049ea0
+    Unk_7102502430();
+    // 0x710104a014 / 0x710104a058
+    virtual ~Unk_7102502430();
+    // 0x710104a0d4 (placeholder name): releases the entry and clears the owner.
+    virtual void sub_710104A0D4();
+    // 0x710104a1b8 (placeholder name): when _10 is set and the handle is no longer active, takes a reference
+    // to the owner's entry named _10; once that entry is ready, emits mName on its user instance.
+    virtual void sub_710104A1B8();
+    // 0x710104a964 / 0x710104a968 (empty): called before / after the emit.
+    virtual void m4(xlink2::UserInstanceSLink* user_instance) {}
+    virtual void m5(xlink2::UserInstanceSLink* user_instance, xlink2::HandleSLink* handle) {}
+    // 0x710104a098 (placeholder name): stores `owner` and `name` once.
+    void sub_710104A098(Unk_7102502410* owner, const sead::SafeString& name);
+    // 0x710104a108 (placeholder name): drops the reference to _98; the last one frees its asset info reader
+    // and puts the user instance to sleep.
+    void sub_710104A108();
+    // 0x710104a308 (placeholder name): fades a looping emit and clears _10; if `name` is the referenced entry's
+    // user name, emits mName once the entry is ready (else sets _68), otherwise stores `name` in _10.
+    void sub_710104A308(const sead::SafeString& name);
+    // 0x710104a5e8 (placeholder name): when the entry is ready, fades a looping emit and emits mName again.
+    void sub_710104A5E8();
+    // 0x710104a76c (placeholder name): fades the emitted event over `frame` frames and clears _10.
+    void sub_710104A76C(s32 frame);
+    // 0x710104a2e8 (placeholder name): whether the referenced entry's state _18 is 2.
+    bool sub_710104A2E8() const;
+    // 0x710104a858 (placeholder name)
+    bool sub_710104A858() const;
+    // 0x710104a8ac (placeholder name): no entry referenced and _10 empty.
+    bool sub_710104A8AC() const;
+    // 0x710104a8dc (declared only; placeholder name): the user name of the referenced entry.
+    const char* sub_710104A8DC() const;
+    // 0x710104a94c (CSV name SLinkSoundEmitter::getUserInstance): the user instance of the referenced entry.
+    xlink2::UserInstanceSLink* getUserInstance() const;
+
+    /* 0x08 */ bool mIsSet = false;
+    /* 0x10 */ sead::FixedSafeString<64> _10{sead::SafeString::cEmptyString};
+    /* 0x68 */ u8 _68 = 0;
+    /* 0x70 */ sead::SafeString mName{sead::SafeString::cEmptyString};
+    /* 0x80 */ xlink2::HandleSLink mHandle;
+    /* 0x90 */ Unk_7102502410* mOwner = nullptr;
+    /* 0x98 */ Unk_7102502410::Entry* _98 = nullptr;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102502430, 0xa0);
+
 class Unk_SoundMgr38_18 {
 public:
     // 0x710102cfdc (declared only)
@@ -622,17 +719,40 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Cell, 0x1c);
 
-    u8 _8[0x20 - 0x8];
+    // 0x710102effc resets one of these per cell; the flat array at +0x9718 uses the same layout.
+    struct Entry {
+        f32 _0;
+        f32 _4;
+        f32 _8;
+        f32 mMax;
+        u8 _10;
+        u8 _11[0x2f];
+    };
+    KSYS_CHECK_SIZE_NX150(Entry, 0x40);
+
+    // One group of 64 entries with a word after them (0x710102effc walks 5 of these at stride 0x1058).
+    struct Group {
+        u8 _0[0x28];
+        Entry mEntries[64];
+        u8 _1028[0x28];
+        u32 _1050;
+        u8 _1054[4];
+    };
+    KSYS_CHECK_SIZE_NX150(Group, 0x1058);
+
+    /* 0x08 */ act::BaseProcHandle mProcHandle;
+    /* 0x18 */ void* _18 = nullptr;
     /* 0x20 */ sead::SafeArray<sead::SafeArray<Cell*, 33>, 33> mCells;
     /* 0x2228 */ Cell* mCellStorage;
     /* 0x2230 */ sead::Vector2i mGridCenter;
     /* 0x2238 */ sead::Vector2i mGridShift;
     /* 0x2240 */ sead::Vector2f mGridPosition;
-    u8 _2248[0x7400 - 0x2248];
+    /* 0x2248 */ Group mGroups[5];
     /* 0x7400 */ sead::Vector3f mListenerPosition;
     u8 _740c[0x9624 - 0x740c];
     /* 0x9624 */ bool _9624;
-    u8 _9625[0x9627 - 0x9625];
+    u8 _9625;
+    /* 0x9626 */ u8 _9626;
     /* 0x9627 */ bool _9627;
     u8 _9628;
     /* 0x9629 */ bool _9629;
@@ -640,13 +760,24 @@ public:
     /* 0x962c */ u32 _962c;
     u8 _9630[0x96b8 - 0x9630];
     /* 0x96b8 */ void* mWaterFlowStats;
-    u8 _96c0[0xa828 - 0x96c0];
+    u8 _96c0[0x9718 - 0x96c0];
+    /* 0x9718 */ Entry mDefaultBounds[64];
+    u8 _a718[0xa760 - 0xa718];
+    /* 0xa760 */ Unk_7102502430 mSoundReference;
+    /* 0xa800 */ void* _a800 = nullptr;
+    /* 0xa808 */ void* _a808 = nullptr;
+    /* 0xa810 */ Unk_7102502410* mInstances = nullptr;
+    u8 _a818[0xa828 - 0xa818];
 };
 KSYS_CHECK_SIZE_NX150(Unk_SoundMgr38_18, 0xa828);
 static_assert(offsetof(Unk_SoundMgr38_18, mCells) == 0x20);
 static_assert(offsetof(Unk_SoundMgr38_18, mCellStorage) == 0x2228);
 static_assert(offsetof(Unk_SoundMgr38_18, mGridCenter) == 0x2230);
 static_assert(offsetof(Unk_SoundMgr38_18, mListenerPosition) == 0x7400);
+static_assert(offsetof(Unk_SoundMgr38_18, mGroups) == 0x2248);
+static_assert(offsetof(Unk_SoundMgr38_18, mDefaultBounds) == 0x9718);
+static_assert(offsetof(Unk_SoundMgr38_18, mSoundReference) == 0xa760);
+static_assert(offsetof(Unk_SoundMgr38_18, mInstances) == 0xa810);
 static_assert(offsetof(Unk_SoundMgr38_18, _962c) == 0x962c);
 static_assert(offsetof(Unk_SoundMgr38_18, mWaterFlowStats) == 0x96b8);
 class Unk_SoundMgr38_38 {
@@ -1660,100 +1791,6 @@ xlink2::UserInstanceSLink* sub_710105E3D0(const char* name, sead::Heap* heap,
                                           aal::IAssetInfoReadable* reader, xlink2::IUser* user,
                                           Unk_710105E3D0Arg* defs);
 
-// Placeholder name = vtable address (0x7102502410; only the destructor pair). A buffer of shared xlink user
-// instances (the members built by the Unk_SoundMgr38_* constructors: 0x710102eba0, 0x71012c153c, ...).
-class Unk_7102502410 {
-public:
-    // 0x60-byte entry: a reference-counted SLink user instance with its asset info reader.
-    struct Entry {
-        // 0x7101049660 / 0x71010496e8 (vtable 0x71025023f0).
-        virtual ~Entry() { finalize(); }
-        // 0x7101049778 (placeholder name): once the bars are loaded, attaches the asset info reader (_18 = 2),
-        // or frees it when loading failed.
-        void sub_7101049778();
-        // 0x7101049824 (placeholder name): loads the bars of the user instance's user name into a new asset
-        // info reader once (_18 becomes 1).
-        bool sub_7101049824();
-
-        // inline-only in the original; name is a guess. The destructor and Unk_7102502410::sub_710104993C
-        // both free the asset info reader and destroy the user instance this way.
-        void finalize();
-
-        /* 0x08 */ xlink2::UserInstanceSLink* mUserInstance = nullptr;
-        /* 0x10 */ Unk_7102502950* mAssetInfoReader = nullptr;
-        // 0: not loaded, 1: bars loading (sub_7101049824), 2: asset info reader attached (sub_7101049778).
-        /* 0x18 */ u32 _18 = 0;
-        /* 0x1c */ s32 mRefCount = 0;
-        /* 0x20 */ sead::CriticalSection mCS;
-    };
-    KSYS_CHECK_SIZE_NX150(Entry, 0x60);
-
-    // 0x710104990c
-    Unk_7102502410();
-    // 0x7101049928 / 0x7101049ac4
-    virtual ~Unk_7102502410();
-    // 0x710104993c (declaration only; placeholder name): releases the entries (the destructor's body).
-    void sub_710104993C();
-    // 0x7101049c60 (placeholder name): updates every entry and runs preCalc / postCalc of the referenced ones.
-    void sub_7101049C60();
-    // 0x7101049af8 (placeholder name): once, creates one entry per name with a sleeping SLink user instance.
-    void sub_7101049AF8(const sead::Buffer<const char*>& names, Unk_710105E3D0Arg* defs, sead::Heap* heap);
-    // 0x7101049cec (placeholder name): the entry whose user name is `name`, with a new reference (the first
-    // one activates the user instance and starts loading its bars); null when there is none.
-    Entry* sub_7101049CEC(const sead::SafeString& name);
-
-    sead::Buffer<Entry> mEntries;
-};
-KSYS_CHECK_SIZE_NX150(Unk_7102502410, 0x18);
-
-// Placeholder name = vtable address (0x7102502430; only the destructor pair): a named reference to an
-// Unk_7102502410::Entry (12 owners destroy it inline).
-class Unk_7102502430 {
-public:
-    // 0x7101049ea0
-    Unk_7102502430();
-    // 0x710104a014 / 0x710104a058
-    virtual ~Unk_7102502430();
-    // 0x710104a0d4 (placeholder name): releases the entry and clears the owner.
-    virtual void sub_710104A0D4();
-    // 0x710104a1b8 (placeholder name): when _10 is set and the handle is no longer active, takes a reference
-    // to the owner's entry named _10; once that entry is ready, emits mName on its user instance.
-    virtual void sub_710104A1B8();
-    // 0x710104a964 / 0x710104a968 (empty): called before / after the emit.
-    virtual void m4(xlink2::UserInstanceSLink* user_instance) {}
-    virtual void m5(xlink2::UserInstanceSLink* user_instance, xlink2::HandleSLink* handle) {}
-    // 0x710104a098 (placeholder name): stores `owner` and `name` once.
-    void sub_710104A098(Unk_7102502410* owner, const sead::SafeString& name);
-    // 0x710104a108 (placeholder name): drops the reference to _98; the last one frees its asset info reader
-    // and puts the user instance to sleep.
-    void sub_710104A108();
-    // 0x710104a308 (placeholder name): fades a looping emit and clears _10; if `name` is the referenced entry's
-    // user name, emits mName once the entry is ready (else sets _68), otherwise stores `name` in _10.
-    void sub_710104A308(const sead::SafeString& name);
-    // 0x710104a5e8 (placeholder name): when the entry is ready, fades a looping emit and emits mName again.
-    void sub_710104A5E8();
-    // 0x710104a76c (placeholder name): fades the emitted event over `frame` frames and clears _10.
-    void sub_710104A76C(s32 frame);
-    // 0x710104a2e8 (placeholder name): whether the referenced entry's state _18 is 2.
-    bool sub_710104A2E8() const;
-    // 0x710104a858 (placeholder name)
-    bool sub_710104A858() const;
-    // 0x710104a8ac (placeholder name): no entry referenced and _10 empty.
-    bool sub_710104A8AC() const;
-    // 0x710104a8dc (declared only; placeholder name): the user name of the referenced entry.
-    const char* sub_710104A8DC() const;
-    // 0x710104a94c (CSV name SLinkSoundEmitter::getUserInstance): the user instance of the referenced entry.
-    xlink2::UserInstanceSLink* getUserInstance() const;
-
-    /* 0x08 */ bool mIsSet = false;
-    /* 0x10 */ sead::FixedSafeString<64> _10{sead::SafeString::cEmptyString};
-    /* 0x68 */ u8 _68 = 0;
-    /* 0x70 */ sead::SafeString mName{sead::SafeString::cEmptyString};
-    /* 0x80 */ xlink2::HandleSLink mHandle;
-    /* 0x90 */ Unk_7102502410* mOwner = nullptr;
-    /* 0x98 */ Unk_7102502410::Entry* _98 = nullptr;
-};
-KSYS_CHECK_SIZE_NX150(Unk_7102502430, 0xa0);
 
 class Unk_SoundMgr38_58 {
 public:
