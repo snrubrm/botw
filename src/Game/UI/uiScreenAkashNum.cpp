@@ -2,11 +2,34 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiTextBoxEx.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiTUStatics.h"
 #include "KingSystem/GameData/gdtSpecialFlagNames.h"
 #include "Game/gameFlagUtils.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ui {
+
+// The TU's statics; the original merges the layout name into the block at 0x71025dc160 (after the
+// uiTUStatics.h objects). The states are external objects just before it.
+static sead::SafeString sLayoutName = "AkashiNum_00";
+
+ksys::StateTemplate<ScreenAkashNum> sUnk_71025dbfd0(
+    ++ksys::sUnk_71025cb4c8, "ksys::ui::ScreenBaseEx::StateID_Init", &ScreenAkashNum::m69,
+    &ScreenAkashNum::m70, &ScreenAkashNum::m71, &ScreenAkashNum::m72, &sUnk_710261ee98);
+ksys::StateTemplate<ScreenAkashNum> sUnk_71025dc030(
+    ++ksys::sUnk_71025cb4c8, "::StateID_Wait", &ScreenAkashNum::m154, &ScreenAkashNum::m155,
+    &ScreenAkashNum::m156, &ScreenAkashNum::m157, &ksys::sUnk_710250bcd8);
+ksys::StateTemplate<ScreenAkashNum> sUnk_71025dc090(
+    ++ksys::sUnk_71025cb4c8, "::StateID_NumCount", &ScreenAkashNum::m158, &ScreenAkashNum::m159,
+    &ScreenAkashNum::m160, &ScreenAkashNum::m161, &ksys::sUnk_710250bcd8);
+ksys::StateTemplate<ScreenAkashNum> sUnk_71025dc0f0(
+    ++ksys::sUnk_71025cb4c8, "::StateID_AppearCount", &ScreenAkashNum::m162, &ScreenAkashNum::m163,
+    &ScreenAkashNum::m164, &ScreenAkashNum::m165, &ksys::sUnk_710250bcd8);
+
+// 0x71009ced2c
+const char* ScreenAkashNum::getLayoutName_() const {
+    return sLayoutName.cstr();
+}
 
 // 0x71009ced60
 void ScreenAkashNum::m93(sead::Heap*) {

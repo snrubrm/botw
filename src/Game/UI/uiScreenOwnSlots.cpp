@@ -983,13 +983,13 @@ void ScreenAkashNum::m160() {}
 void ScreenAkashNum::m164() {}
 
 // 0x71009cf988
-s32 ScreenAkashNum::m157() { return 0; }
+bool ScreenAkashNum::m157(void*) { return false; }
 
 // 0x71009cf990
-s32 ScreenAkashNum::m161() { return 0; }
+bool ScreenAkashNum::m161(void*) { return false; }
 
 // 0x71009cf998
-s32 ScreenAkashNum::m165() { return 0; }
+bool ScreenAkashNum::m165(void*) { return false; }
 
 // 0x71009d0c4c
 void ScreenAmiiboWindow::m155() {}
@@ -1076,13 +1076,13 @@ void ScreenKologNum::m160() {}
 void ScreenKologNum::m164() {}
 
 // 0x7100a0f600
-s32 ScreenKologNum::m157() { return 0; }
+bool ScreenKologNum::m157(void*) { return false; }
 
 // 0x7100a0f608
-s32 ScreenKologNum::m161() { return 0; }
+bool ScreenKologNum::m161(void*) { return false; }
 
 // 0x7100a0f610
-s32 ScreenKologNum::m165() { return 0; }
+bool ScreenKologNum::m165(void*) { return false; }
 
 // 0x7100a21928
 void ScreenMainShortCut::m154() {}
@@ -1121,13 +1121,13 @@ void ScreenMamoNum::m160() {}
 void ScreenMamoNum::m164() {}
 
 // 0x7100a230ac
-s32 ScreenMamoNum::m157() { return 0; }
+bool ScreenMamoNum::m157(void*) { return false; }
 
 // 0x7100a230b4
-s32 ScreenMamoNum::m161() { return 0; }
+bool ScreenMamoNum::m161(void*) { return false; }
 
 // 0x7100a230bc
-s32 ScreenMamoNum::m165() { return 0; }
+bool ScreenMamoNum::m165(void*) { return false; }
 
 // 0x7100a3ee40
 s32 ScreenPauseMenu::m157() { return 0; }

@@ -77,6 +77,10 @@ public:
 // 0x710250bcd8 (id -1, no name): the state returned by StateMachine::getState when there is none.
 extern StateBase sUnk_710250bcd8;
 
+// 0x71025cb4c8: the last state id handed out. The UI screens' static initializers give their states the
+// ids sUnk_71025cb4c8 + 1, + 2, ... and then advance it. Defined in an unknown TU.
+extern s32 sUnk_71025cb4c8;
+
 // CSV name.
 class StateMachine {
 public:

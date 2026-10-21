@@ -44,28 +44,28 @@ bool ScreenDemoNameEnemy::isPlayPartsInOut_() const {
 }
 
 // 0x7100a41c84
-s32 ScreenRupee::m72() {
-    return 0;
+bool ScreenRupee::m72(void*) {
+    return false;
 }
 
 // 0x7100a0f5f8
-s32 ScreenKologNum::m72() {
-    return 0;
+bool ScreenKologNum::m72(void*) {
+    return false;
 }
 
 // 0x71009cf89c
-s32 ScreenAkashNum::m72() {
-    return 0;
+bool ScreenAkashNum::m72(void*) {
+    return false;
 }
 
 // 0x7100a230a4
-s32 ScreenMamoNum::m72() {
-    return 0;
+bool ScreenMamoNum::m72(void*) {
+    return false;
 }
 
 // 0x7100a3ee34
-s32 ScreenPauseMenu::m72() {
-    return 0;
+bool ScreenPauseMenu::m72(void*) {
+    return false;
 }
 
 // 0x7100a2bcfc
@@ -99,8 +99,8 @@ s32 ScreenAppSystemWindow::m142(const ksys::Message&) {
 }
 
 // 0x7100a04ffc
-s32 ScreenDLCSinJuAkashiNum::m72() {
-    return 0;
+bool ScreenDLCSinJuAkashiNum::m72(void*) {
+    return false;
 }
 
 // 0x7100a0e5fc

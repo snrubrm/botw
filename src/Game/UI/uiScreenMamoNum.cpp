@@ -1,11 +1,34 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiTextBoxEx.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiTUStatics.h"
 #include "KingSystem/GameData/gdtSpecialFlagNames.h"
 #include "Game/gameFlagUtils.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ui {
+
+// The TU's statics; the original merges the layout name into the block at 0x71025ef650 (after the
+// uiTUStatics.h objects). The states are external objects just before it.
+static sead::SafeString sLayoutName = "MamoNum_00";
+
+ksys::StateTemplate<ScreenMamoNum> sUnk_71025ef4b8(
+    ++ksys::sUnk_71025cb4c8, "ksys::ui::ScreenBaseEx::StateID_Init", &ScreenMamoNum::m69,
+    &ScreenMamoNum::m70, &ScreenMamoNum::m71, &ScreenMamoNum::m72, &sUnk_710261ee98);
+ksys::StateTemplate<ScreenMamoNum> sUnk_71025ef518(
+    ++ksys::sUnk_71025cb4c8, "::StateID_Wait", &ScreenMamoNum::m154,
+    &ScreenMamoNum::m155, &ScreenMamoNum::m156, &ScreenMamoNum::m157, &ksys::sUnk_710250bcd8);
+ksys::StateTemplate<ScreenMamoNum> sUnk_71025ef578(
+    ++ksys::sUnk_71025cb4c8, "::StateID_NumCount", &ScreenMamoNum::m158,
+    &ScreenMamoNum::m159, &ScreenMamoNum::m160, &ScreenMamoNum::m161, &ksys::sUnk_710250bcd8);
+ksys::StateTemplate<ScreenMamoNum> sUnk_71025ef5d8(
+    ++ksys::sUnk_71025cb4c8, "::StateID_AppearCount", &ScreenMamoNum::m162,
+    &ScreenMamoNum::m163, &ScreenMamoNum::m164, &ScreenMamoNum::m165, &ksys::sUnk_710250bcd8);
+
+// 0x7100a22854
+const char* ScreenMamoNum::getLayoutName_() const {
+    return sLayoutName.cstr();
+}
 
 // 0x7100a22888
 void ScreenMamoNum::m93(sead::Heap*) {

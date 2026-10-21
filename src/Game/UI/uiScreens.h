@@ -551,7 +551,7 @@ public:
     virtual void m69();
     virtual void m70();
     virtual void m71();
-    virtual s32 m72();
+    virtual bool m72(void* arg);
     virtual void m73(f32 value);
     // 0x71010aaaac: like m75 for the screen layout, or for each animator of _278 (one frame later)
     virtual void m74(f32 progress);
@@ -2009,7 +2009,7 @@ extern const ksys::StateBase sUnk_71025f1d70;
 class ScreenRupee : public ScreenEx {
 public:
     ScreenRupee();
-    s32 m72() override;
+    bool m72(void* arg) override;
     void m70() override;
     void m71() override;
     ~ScreenRupee() override;
@@ -2057,19 +2057,21 @@ public:
 };
 
 // State object of the number screens (CSV: unnamed data; a StateTemplate<ScreenKologNum>, 0x71025eed10).
-extern const ksys::StateBase sUnk_71025eed10;
-extern const ksys::StateBase sUnk_71025eec50;
-extern const ksys::StateBase sUnk_71025eecb0;
-extern const ksys::StateBase sUnk_71025eed70;
+class ScreenKologNum;
+extern ksys::StateTemplate<ScreenKologNum> sUnk_71025eed10;
+extern ksys::StateTemplate<ScreenKologNum> sUnk_71025eec50;
+extern ksys::StateTemplate<ScreenKologNum> sUnk_71025eecb0;
+extern ksys::StateTemplate<ScreenKologNum> sUnk_71025eed70;
 
 class ScreenKologNum : public ScreenEx {
 public:
     ScreenKologNum();
-    s32 m72() override;
+    bool m72(void* arg) override;
     void m70() override;
     void m71() override;
     ~ScreenKologNum() override;
     SEAD_RTTI_OVERRIDE(ScreenKologNum, ScreenEx)
+    const char* getLayoutName_() const override;
     void m93(sead::Heap* heap) override;
     void m94() override;
     void m98() override;
@@ -2081,15 +2083,15 @@ public:
     virtual void m154();
     virtual void m155();
     virtual void m156();
-    virtual s32 m157();
+    virtual bool m157(void* arg);
     virtual void m158();
     virtual void m159();
     virtual void m160();
-    virtual s32 m161();
+    virtual bool m161(void* arg);
     virtual void m162();
     virtual void m163();
     virtual void m164();
-    virtual s32 m165();
+    virtual bool m165(void* arg);
 
     /* 0x3610 */ u8 _3610{};
     s32 _3614{};
@@ -2107,21 +2109,23 @@ public:
 };
 
 // State object of ScreenAkashNum (a StateTemplate<ScreenAkashNum>, 0x71025dc090).
-extern const ksys::StateBase sUnk_71025dc090;
-extern const ksys::StateBase sUnk_71025dc030;
-extern const ksys::StateBase sUnk_71025dbfd0;
-extern const ksys::StateBase sUnk_71025dc0f0;
+class ScreenAkashNum;
+extern ksys::StateTemplate<ScreenAkashNum> sUnk_71025dc090;
+extern ksys::StateTemplate<ScreenAkashNum> sUnk_71025dc030;
+extern ksys::StateTemplate<ScreenAkashNum> sUnk_71025dbfd0;
+extern ksys::StateTemplate<ScreenAkashNum> sUnk_71025dc0f0;
 // State object of ScreenHardMode (CSV: unnamed data, 0x710261ee98).
 extern const ksys::StateBase sUnk_710261ee98;
 
 class ScreenAkashNum : public ScreenEx {
 public:
     ScreenAkashNum();
-    s32 m72() override;
+    bool m72(void* arg) override;
     void m70() override;
     void m71() override;
     ~ScreenAkashNum() override;
     SEAD_RTTI_OVERRIDE(ScreenAkashNum, ScreenEx)
+    const char* getLayoutName_() const override;
     void m94() override;
     void m98() override;
     void m99() override;
@@ -2133,15 +2137,15 @@ public:
     virtual void m154();
     virtual void m155();
     virtual void m156();
-    virtual s32 m157();
+    virtual bool m157(void* arg);
     virtual void m158();
     virtual void m159();
     virtual void m160();
-    virtual s32 m161();
+    virtual bool m161(void* arg);
     virtual void m162();
     virtual void m163();
     virtual void m164();
-    virtual s32 m165();
+    virtual bool m165(void* arg);
 
     /* 0x3610 */ u8 _3610{};
     s32 _3614{};
@@ -2159,19 +2163,21 @@ public:
 };
 
 // State objects of ScreenMamoNum (StateTemplate<ScreenMamoNum>, 0x71025ef578 / 0x71025ef518).
-extern const ksys::StateBase sUnk_71025ef578;
-extern const ksys::StateBase sUnk_71025ef4b8;
-extern const ksys::StateBase sUnk_71025ef518;
-extern const ksys::StateBase sUnk_71025ef5d8;
+class ScreenMamoNum;
+extern ksys::StateTemplate<ScreenMamoNum> sUnk_71025ef578;
+extern ksys::StateTemplate<ScreenMamoNum> sUnk_71025ef4b8;
+extern ksys::StateTemplate<ScreenMamoNum> sUnk_71025ef518;
+extern ksys::StateTemplate<ScreenMamoNum> sUnk_71025ef5d8;
 
 class ScreenMamoNum : public ScreenEx {
 public:
     ScreenMamoNum();
-    s32 m72() override;
+    bool m72(void* arg) override;
     void m70() override;
     void m71() override;
     ~ScreenMamoNum() override;
     SEAD_RTTI_OVERRIDE(ScreenMamoNum, ScreenEx)
+    const char* getLayoutName_() const override;
     void m93(sead::Heap* heap) override;
     void m94() override;
     void m98() override;
@@ -2189,15 +2195,15 @@ public:
     virtual void m154();
     virtual void m155();
     virtual void m156();
-    virtual s32 m157();
+    virtual bool m157(void* arg);
     virtual void m158();
     virtual void m159();
     virtual void m160();
-    virtual s32 m161();
+    virtual bool m161(void* arg);
     virtual void m162();
     virtual void m163();
     virtual void m164();
-    virtual s32 m165();
+    virtual bool m165(void* arg);
 
     void sub_7100A22A80(s32 a1);
 
@@ -3096,7 +3102,7 @@ KSYS_CHECK_SIZE_NX150(Unk_7100A341D0, 0x380);
 class ScreenPauseMenu : public ScreenEx {
 public:
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
-    s32 m72() override;
+    bool m72(void* arg) override;
     void m69() override;
     void m70() override;
     void m71() override;
@@ -4050,7 +4056,7 @@ extern const ksys::StateBase sUnk_71025ecc60;
 class ScreenDLCSinJuAkashiNum : public ScreenEx {
 public:
     ScreenDLCSinJuAkashiNum();
-    s32 m72() override;
+    bool m72(void* arg) override;
     void m70() override;
     void m71() override;
     ~ScreenDLCSinJuAkashiNum() override;

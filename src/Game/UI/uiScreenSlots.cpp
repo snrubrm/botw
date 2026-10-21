@@ -27,8 +27,8 @@ void Screen::m107(eui::AnimButton*) {}
 void Screen::m108(eui::AnimButton*) {}
 void Screen::m109(eui::AnimButton*) {}
 void Screen::m110() {}
-s32 Screen::m72() {
-    return 0;
+bool Screen::m72(void*) {
+    return false;
 }
 
 s32 Screen::m81() {
