@@ -344,6 +344,26 @@ void Camera::sub_71007929E0() {
     _860._7c0[!(_860._81a & 1)].reset();
 }
 
+// The bool argument is not read.
+void Camera::m154(f32 value, bool a2) {
+    Unk_71009214b8 camera;
+    camera = _860._0;
+    camera._24 = value;
+    camera.sub_71009237BC();
+    u32 error = 0;
+    camera.sub_7100921CAC(&error);
+    if (error != 0) {
+        nullsub_4649();
+        return;
+    }
+    _860._0 = _860._38 = _860._70 = _860._a8 = _860._e0 = camera;
+    _860._7fc.sub_710079B62C(0x800);
+    _860._150 = camera._c;
+    sub_71007929E0();
+    _10f8 = 0;
+    _860.sub_710079BC8C();
+}
+
 void Camera::sub_7100799920() {}
 
 Camera* Camera::m148() {
