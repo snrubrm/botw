@@ -179,6 +179,18 @@ struct BufferPair {
     u32 b;
 };
 const BufferPair sGrassBufferPairs[] = {{4, 0}, {5, 1}};
+
+struct VertexAttribute {
+    u32 type;
+    u32 format;
+    u16 offset;
+    u32 buffer;
+    const char* name;
+};
+const VertexAttribute sTurfAttributes[] = {
+    {37, 2817, 0, 0, "_p0"},
+    {38, 2818, 4, 1, "_n0"},
+};
 const PartCounts sC0b8Parts[] = {{4, 2}, {4, 2}};
 const PartCounts sC1f0Parts[] = {{5, 4}, {5, 4}};
 const PartCounts sC328Parts[] = {{4, 2}, {4, 2}};
@@ -469,6 +481,26 @@ u32 Unk_710251ca78::m21(s32 index) {
 
 u32 Unk_710251ca78::m22(s32 index) {
     return sGrassBufferPairs[index].b;
+}
+
+u32 Unk_710251bf80::m15(s32 index) {
+    return sTurfAttributes[index].type;
+}
+
+u16 Unk_710251bf80::m16(s32 index) {
+    return sTurfAttributes[index].offset;
+}
+
+u32 Unk_710251bf80::m17(s32 index) {
+    return sTurfAttributes[index].buffer;
+}
+
+const char* Unk_710251bf80::m18(s32 index) {
+    return sTurfAttributes[index].name;
+}
+
+u32 Unk_710251bf80::m19(s32 index) {
+    return sTurfAttributes[index].format;
 }
 
 // Draw-command counts: m10 is the vertex count times the per-vertex count of slot 12,

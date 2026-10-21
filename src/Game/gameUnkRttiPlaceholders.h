@@ -1523,11 +1523,12 @@ public:
     virtual s32 m12();
     virtual s32 m13() { return 2; }
     virtual s32 m14() { return 2; }
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
-    virtual void m18();
-    virtual void m19();
+    // Vertex attribute i: type, offset, buffer index, name and format.
+    virtual u32 m15(s32 index);
+    virtual u16 m16(s32 index);
+    virtual u32 m17(s32 index);
+    virtual const char* m18(s32 index);
+    virtual u32 m19(s32 index);
     virtual s32 m20() { return 2; }
     virtual u32 m21(s32 index);
     virtual u32 m22(s32 index);
