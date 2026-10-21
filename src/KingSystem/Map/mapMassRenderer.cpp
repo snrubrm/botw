@@ -73,6 +73,13 @@ void MassRenderer::sub_71011E4090(PlacementMgr* mgr, bool a) {
     }
 }
 
+void MassRenderer::sub_71011E4198(Object* obj, f32 scale) {
+    if (scale < 1.0f)
+        obj->_b = sead::Mathf::round(scale / _98);
+    else
+        obj->_b = 0xff;
+}
+
 f32 MassRenderer::x_1(const Object* obj) const {
     return sead::Mathf::min(f32(obj->_b) * _98, 1.0f);
 }
