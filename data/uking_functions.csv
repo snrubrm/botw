@@ -76175,7 +76175,7 @@ Address,Quality,Size,Name
 0x0000007100dbb8c0,O,000036,_ZN4ksys3evt14EventFlowMovieD0Ev
 0x0000007100dbb8e4,U,000456,evt::EventFlowMovie::m13
 0x0000007100dbbaac,U,000568,evt::EventFlowMovie::m4
-0x0000007100dbbce4,U,000060,evt::EventFlowMovie::m14
+0x0000007100dbbce4,O,000060,_ZN4ksys3evt14EventFlowMovie3m14Ev
 0x0000007100dbbd20,U,000860,evt::EventFlowMovie::m12
 0x0000007100dbc07c,U,001184,evt::EventFlowMovie::handleMovieEvent
 0x0000007100dbc51c,O,000060,_ZNK4ksys3evt14EventFlowMovie13getFrameCountEv
@@ -89282,7 +89282,7 @@ Address,Quality,Size,Name
 0x00000071010b9a08,O,000004,_ZN4ksys11MoviePlayer4initEPN4sead4HeapE
 0x00000071010b9a0c,U,000504,MoviePlayer::__auto2
 0x00000071010b9c04,U,000128,_ZN4ksys11MoviePlayer14sub_71010B9C04Ev
-0x00000071010b9c84,U,000024,
+0x00000071010b9c84,U,000024,_ZN4ksys11MoviePlayer14sub_71010B9C84Ev
 0x00000071010b9c9c,U,000448,MoviePlayer::__auto0
 0x00000071010b9e5c,O,000056,_ZN4ksys6Patrol18SingletonDisposer_D1Ev
 0x00000071010b9e94,O,000092,_ZN4ksys6Patrol18SingletonDisposer_D0Ev

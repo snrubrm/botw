@@ -315,6 +315,7 @@ public:
     s32 getEventFlowType() const override;
     void printStatus(sead::BufferedSafeString* out) override;
     void m11() override;
+    bool m14() override;
     void m15() override;
     void m16() override;
     void m17() override;
@@ -338,6 +339,8 @@ public:
     /* 0x6c8 */ sead::Buffer<VoiceTrigger> mVoiceTriggers;
     u8 _6d8[0x728 - 0x6d8];
     /* 0x728 */ f32 mFrameCount;
+    // frame counter of a movie without a path (m14 finishes after 120)
+    /* 0x72c */ s32 _72c;
 };
 
 }  // namespace ksys::evt

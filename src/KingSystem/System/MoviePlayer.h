@@ -18,6 +18,9 @@ public:
 
     // Native cleanup clears +0x31/+0x32; start sets +0x31 and StageMgrRun tests it.
     void sub_71010B9C04();
+    // 0x71010b9c84 (declared only; placeholder name): forwards to the movie object's update when there is one
+    // (false otherwise); EventFlowMovie::m14 returns it
+    bool sub_71010B9C84();
 
     u8 _0[0x31];
     bool _31;

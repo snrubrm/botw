@@ -23,4 +23,11 @@ void EventFlowMovie::printStatus(sead::BufferedSafeString* out) {
         out->format(_100->m7());
 }
 
+// 0x7100dbbce4
+bool EventFlowMovie::m14() {
+    if (mMoviePath[0] == sead::SafeString::cNullChar)
+        return _72c > 120;
+    return MoviePlayer::instance()->sub_71010B9C84();
+}
+
 }  // namespace ksys::evt
