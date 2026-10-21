@@ -1,4 +1,6 @@
 #include "Game/Actor/Action/actionDragonFollow.h"
+#include "Game/UI/uiManager.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking::action {
@@ -63,6 +65,27 @@ bool DragonFollow::handleMessage_(const ksys::Message* message) {
         }
     }
     return true;
+}
+
+void DragonFollow::sub_71000F4798() {
+    // Picks the first named map pin of kind 2 / 17 / 43 that carries this dungeon's name.
+    auto* mgr = ui::Manager::instance();
+    for (auto it = mgr->mObjList.begin(); it != mgr->mObjList.end(); ++it) {
+        auto& entry = *it;
+        if (entry.mKind != 2 && entry.mKind != 17 && entry.mKind != 43)
+            continue;
+        if (!entry.mObj)
+            continue;
+        auto* obj = sead::DynamicCast<Unk_710249c558>(entry.mObj);
+        if (!obj)
+            continue;
+        if (obj->_8.isEmpty())
+            continue;
+        if (obj->_8.isEqual(mDungeonName_s)) {
+            mDungeonPosition = entry.mPosition;
+            break;
+        }
+    }
 }
 
 void DragonFollow::calc_() {
