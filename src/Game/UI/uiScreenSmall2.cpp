@@ -263,6 +263,34 @@ void ScreenMainShortCut::sub_7100A2080C() {
         screen->sub_7100A1AB48();
 }
 
+// NON_MATCHING: the original keeps `equipped` and tests it with cbz (ours keeps its negation)
+// 0x7100a209e4: refreshes the arrow count while no arrow name is shown and counts the shown number towards it
+void ScreenMainShortCut::sub_7100A209E4() {
+    if (!_3738.isEmpty())
+        return;
+    _3730 = sub_7100A95214();
+    const bool equipped = _3734;
+    if (_3730 > 0 && !equipped) {
+        const PouchItem* arrow = _3628 ? _3628->getEquippedItem(PouchItemType::Arrow) : nullptr;
+        if (arrow) {
+            _372c = arrow->getCount();
+            _3730 = arrow->getCount();
+            _3734 = true;
+        } else {
+            _372c = 0;
+            _3730 = 0;
+            _3734 = false;
+        }
+        sub_7100A2080C();
+    } else if (_3730 == 0 && equipped) {
+        _3734 = false;
+    }
+    if (_372c != _3730) {
+        _372c += sub_7100AA92AC(_372c, _3730);
+        sub_7100A2080C();
+    }
+}
+
 bool ScreenMainShortCut::sub_7100A20DD0() {
     // called through a pointer in the original (not devirtualised)
     if (getStateMachine().getState()->getId() == (&sUnk_71025ef170)->getId())
