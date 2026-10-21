@@ -15,6 +15,7 @@
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiScreenControlCreators.h"
 #include "Game/UI/uiScreenChildStates.h"
+#include "Game/UI/uiScreenNameTable.h"
 #include "Game/UI/euiTagProcessor.h"
 #include "Game/UI/euiMessageMgr.h"
 #include "Game/UI/euiAnimator.h"
@@ -53,6 +54,27 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::ui {
+
+// ScreenAppAlbum's merged static block (0x71025dc890 in the original): two flags, the TU's screen name
+// table header and the page state words. The original's TU statics are merged into one block; they are
+// modelled as one object so their offsets stay together.
+namespace {
+// 0x71025dc54c: the picture slots selected for deletion (m163 fills / clears it, m175 walks it)
+sead::SafeArray<bool, 0x30> sUnk_71025DC54C;
+
+// The original block is 16-byte aligned (0x71025dc890); the alignment keeps this object first in the
+// TU's merged statics, ahead of the 8-byte-aligned SafeString statics.
+struct alignas(16) AlbumState {
+    /* 0x00 */ bool _0;  // set by sub_71009D3B54 when the album page is open
+    /* 0x01 */ u8 _1;    // bit 0 set by m162; m154 / m158 clear it, m163 / m167 / m175 test it
+    /* 0x04 */ ScreenNameTableHeader _4;
+    /* 0x0c */ s32 _c;   // 1: the picture book page is open
+    /* 0x10 */ s32 _10;  // the picture count recorded when the selection started
+    /* 0x14 */ s32 _14;  // the number of pictures added by the current selection
+};
+}  // namespace
+// Hidden (not file-local) so the address is materialised as the block base plus the field offset.
+KSYS_VISIBILITY_HIDDEN AlbumState sUnk_71025DC890;
 
 // 0x71025f2eb0: the save transfer's static block; hidden so the adrp + add form is reproduced
 KSYS_VISIBILITY_HIDDEN Unk_71025f2eb0 sUnk_71025f2eb0;
@@ -127,6 +149,126 @@ void ScreenAppAlbum::m100() {
     }
     _3640->sub_710093F594(false);
     _3638->sub_710093F594(false);
+}
+
+// 0x71009d5b64
+void ScreenAppAlbum::m154() {
+    _3a99 = true;
+    sUnk_71025DC890._1 = 0;
+}
+
+// 0x71009d5dc4
+void ScreenAppAlbum::m158() {
+    _3a99 = true;
+    sUnk_71025DC890._1 = 0;
+}
+
+// 0x71009d5de0
+void ScreenAppAlbum::m159() {
+    if (!_3630)
+        return;
+    if ((_3630->mFlags & 1) && _3638) {
+        _3638->sub_710093FF88();
+        if (!_3630)
+            return;
+    }
+    if (_3630->mFrame != f32(_3630->GetFrameSize()) || sUnk_71025DC890._c != 0)
+        return;
+    if (_3640)
+        _3640->sub_710093F594(true);
+    if (isTrigMaybe(2)) {
+        if (_3640)
+            _3640->sub_7100940288();
+        invokeSoundLink2Event_("mc_Individual_Cancel");
+        s32 index = 0;
+        if (_3640) {
+            index = _3640->_2d8;
+            _3640->sub_710093DAE8(0);
+        }
+        if (_3638)
+            _3638->sub_710093EC3C(index, 1);
+        if (_3630)
+            _3630->PlayAuto(-1.0f);
+        getStateMachine().changeState(&sUnk_71025dc300);
+    }
+}
+
+// 0x71009d5f2c
+void ScreenAppAlbum::m162() {
+    if ((sUnk_71025DC890._1 & 1) == 0)
+        invokeSoundLink2Event_("mc_Select_Start");
+    sUnk_71025DC890._1 = 1;
+    _3a99 = true;
+    if (_3638) {
+        _3638->sub_710093F594(true);
+        _3638->sub_710093FD14(0);
+    }
+}
+
+// NON_MATCHING: the original lays the three button bodies out after all three checks and keeps the
+// vtable load before the _3a98 test; ours keeps each body in place. Behaviour is the same.
+// 0x71009d5fa4
+void ScreenAppAlbum::m163() {
+    if (isTrigMaybe(8)) {
+        if (_3638)
+            _3638->sub_7100940288();
+        auto& state_machine = getStateMachine();
+        if (sUnk_71025DC890._10)
+            state_machine.changeState(&sUnk_71025dc420);
+        else
+            state_machine.changeState(&sUnk_71025dc300);
+    }
+    if (isTrigMaybe(2)) {
+        if (_3638)
+            _3638->sub_7100940288();
+        sUnk_71025DC54C.fill(false);
+        sUnk_71025DC890._10 = 0;
+        getStateMachine().changeState(&sUnk_71025dc300);
+    }
+    if (isTrigMaybe(0x10)) {
+        if (_3638)
+            _3638->sub_7100940288();
+        if (_3a98) {
+            invokeSoundLink2Event_("mc_Deselect_AllPicture");
+            sUnk_71025DC54C.fill(false);
+            sUnk_71025DC890._10 = 0;
+        } else {
+            invokeSoundLink2Event_("mc_Select_AllPicture");
+            sUnk_71025DC54C.fill(false);
+            sUnk_71025DC890._10 = _3610;
+            for (s32 i = 0; i < _3610; ++i)
+                sUnk_71025DC54C[i] = true;
+        }
+        _3a98 = !_3a98;
+        _3a99 = true;
+    }
+}
+
+// 0x71009d61a8
+void ScreenAppAlbum::m164() {
+    if (_3638) {
+        _3638->sub_710093FD6C();
+        _3638->sub_710093F594(false);
+    }
+    if (sUnk_71025DC890._10)
+        return;
+    invokeSoundLink2Event_("mc_Select_End");
+}
+
+// 0x71009d62d4
+void ScreenAppAlbum::m167() {
+    auto* window = sead::DynamicCast<ScreenAppSystemWindow>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow));
+    if (!window || !window->isClosedOrClosing())
+        return;
+    if (ScreenAppSystemWindow::sub_71009FC4A0()) {
+        if (sUnk_71025DC890._1 == 1)
+            getStateMachine().changeState(&sUnk_71025dc3c0);
+        else
+            getStateMachine().changeState(&sUnk_71025dc360);
+    } else {
+        getStateMachine().changeState(&sUnk_71025dc4e0);
+    }
 }
 
 // 0x71009d5980
