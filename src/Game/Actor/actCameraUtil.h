@@ -10,6 +10,16 @@
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/Types.h"
 
+// Name from the CSV (Root7::createInstance 0x7100921f40; sInstance 0x71025d24c0). A singleton with no
+// data of its own (size 0x28: vtable and disposer), created in the camera helper TU.
+class Root7 {
+    SEAD_SINGLETON_DISPOSER(Root7)
+    Root7() = default;
+    // 0x7100922028
+    virtual ~Root7() {}
+};
+KSYS_CHECK_SIZE_NX150(Root7, 0x28);
+
 namespace ksys::map {
 class Object;
 }

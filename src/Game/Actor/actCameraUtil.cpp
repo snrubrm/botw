@@ -54,6 +54,8 @@ KSYS_VISIBILITY_HIDDEN f32 sUnk_71025d24c8;
 KSYS_VISIBILITY_HIDDEN f32 sUnk_71025d24cc;
 KSYS_VISIBILITY_HIDDEN bool sUnk_71025d24d0;
 
+SEAD_SINGLETON_DISPOSER_IMPL(Root7)
+
 bool sub_7100922030(u32 type, bool* is5) {
     if (type > 5)
         return false;
