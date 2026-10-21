@@ -836,7 +836,8 @@ bool Unk_71024e6428::m33() {
 bool Unk_71024e6428::m36() {
     if ((_30 & 0x10000) || !(_3c & 0x1))
         return true;
-    if (!_18->isRigidAttribute6Or14Set(_288) && !(_3c & 0x100000))
+    const s32 attribute = _288;
+    if (!_18->isRigidAttribute6Or14Set(attribute) && !(_3c & 0x100000))
         return true;
     return _30 & 0x8000;
 }
