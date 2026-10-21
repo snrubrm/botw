@@ -33,6 +33,8 @@ public:
     void endReducedBuffer(agl::DrawContext* draw_context, ModelSceneContext* context) const;
     // 0x7100c191a8
     void releaseOpa(const ModelSceneContext& context) const;
+    // 0x7100c183b0
+    bool isZPrePassEnabled(const ModelSceneContext& context) const;
     // 0x7100c19b44 / 0x7100c19b48: the buffer draws no debug output and attaches nothing.
     void drawDebug(agl::DrawContext* draw_context, const ModelSceneContext& context) const override;
     void attachHostIO(sead::hostio::Node* node) override;

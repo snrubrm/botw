@@ -108,6 +108,13 @@ public:
     void postRead_() override;
     bool preWrite_() const override;
 
+    // Inline-only in the original; name is a guess. ModelSceneBuffer::isZPrePassEnabled
+    // 0x7100c183b0 reads the ZPrePass feature's value byte this way.
+    bool isFeatureEnabled(Feature feature) const { return *mEnabledFeatures[int(feature)]; }
+    // Inline-only in the original; name is a guess. ModelScene::isForceZPrePassEnabled
+    // 0x7100c13d40 reads mZPrePassSelectable's value byte at +0x1138.
+    bool isZPrePassSelectable() const { return *mZPrePassSelectable; }
+
     static constexpr int cConfig_Max = 32;
 
 private:

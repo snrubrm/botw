@@ -1,5 +1,6 @@
 #include <gsys/gsysModelScene.h>
 #include <gsys/gsysModelMgr.h>
+#include <gsys/gsysModelSceneConfig.h>
 #include <gsys/gsysModelRenderQueue.h>
 #include <gsys/gsysParticleDrawArg.h>
 
@@ -8,6 +9,13 @@ namespace gsys {
 ModelScene::CreateArg::CreateArg()
     : _0(1), mName(sead::SafeString::cEmptyString), _18(0) {}
 
+
+// 0x7100c13d40
+bool ModelScene::isForceZPrePassEnabled(int index) const {
+    if (!mBuffer.isZPrePassEnabled(mContexts[index]))
+        return false;
+    return mConfig->isZPrePassSelectable();
+}
 
 // 0x7100c21490
 ModelRenderQueue* ModelSceneContext::getRenderQueue(QueueType type) const {

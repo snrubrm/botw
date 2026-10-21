@@ -72,6 +72,8 @@ public:
     void sortQueue_(sead::WorkerMgr* wm);
     void calcDrawBackGround_(sead::WorkerMgr* wm);
     void calcGPU_(sead::WorkerMgr* wm);
+    // 0x7100c13d40
+    bool isForceZPrePassEnabled(int index) const;
 
     // 0x7100c10a5c (the three int arguments' meanings are unrecovered).
     void calc(sead::WorkerMgr* wm, int, int, int);
@@ -81,7 +83,9 @@ public:
     // and passes it as EffectModelDrawUnit::CreateArg::_0, which createModel 0x7100c555f0 forwards to
     // Model::CreateArg::_4 (one of the two model counts).
     /* 0x108 */ sead::Buffer<ModelSceneContext> mContexts;
-    u8 _118[0x130 - 0x118];
+    // isSnapshotMgrEnabled 0x7100c10148 and isForceZPrePassEnabled 0x7100c13d40 read it.
+    /* 0x118 */ ModelSceneConfig* mConfig;
+    u8 _120[0x130 - 0x120];
 
     /* 0x130 */ ModelSceneEnv mEnv;  // constructed by the ModelScene constructor
 
