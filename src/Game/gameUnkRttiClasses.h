@@ -22,6 +22,10 @@ namespace ksys::act {
 class Actor;
 }
 
+namespace aal {
+class Group;
+}
+
 namespace sead {
 class Heap;
 }
@@ -294,12 +298,17 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_710250dcd8, 0x20);
 
 // vtable 0x710251b678 (6 slots)
+// The user data of an aal::Group (aal::Group +0x98), created by ksys::snd::Unk_710251b6b8.
 class Unk_710251b678 {
     SEAD_RTTI_BASE(Unk_710251b678)
 public:
+    explicit Unk_710251b678(aal::Group* group) : mGroup(group) {}
     virtual ~Unk_710251b678();
     virtual void m4() {}
     virtual void m5() {}
+
+    /* 0x08 */ aal::Group* mGroup;
+    /* 0x10 */ u32 _10 = 0;
 };
 
 // vtable 0x7102457a80 (6 slots)
