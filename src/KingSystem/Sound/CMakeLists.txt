@@ -56,6 +56,7 @@ target_sources(uking PRIVATE
   sndSoundMgr38_40.cpp
   sndSoundPointGrid.cpp
   sndSoundMgrB0.cpp
+  sndSoundMgr2a0.cpp
   sndSoundMgrB0.h
   sndSoundPointGrid.h
   sndSoundMgr38_60.cpp

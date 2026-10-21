@@ -120,8 +120,6 @@ class Unk_710251ad68;
 class Unk_710251af10;
 class Unk_710251af30;
 
-// Placeholder name (SoundMgr::_2a0; the final output measure user, TU 0x71012c629c .. 0x71012c7350). Only the
-// methods SoundMgr calls are declared.
 class Unk_710251b2e8;
 
 // Placeholder name (SoundMgr::_b8, 0x10 bytes, constructor 0x71012d1cf0). Only the method SoundMgr calls is declared.
@@ -131,12 +129,37 @@ public:
     void sub_71012D1F3C();
 };
 
+// Placeholder name (SoundMgr::_2a0; the final output measure user, TU 0x71012c629c .. 0x71012c7350, see
+// sndSoundMgr2a0.cpp): watches the output level and reports volume and true peak overs.
 class Unk_SoundMgr2a0 {
 public:
-    // 0x71012c629c (declared only): per-frame update (SoundMgr::calc).
+    // 0x71012c629c: per-frame update (SoundMgr::calc).
     void sub_71012C629C();
-    // 0x71012c6dc4 (declared only): activates the final output measure (Sound::init2).
+    // 0x71012c6dc4: activates the final output measure (Sound::init2).
     void sub_71012C6DC4();
+    // 0x71012c6614: whether the checks are off (scene status 4 / 5, terrain not ready, or a map type other than
+    // MainField, MainFieldDungeon and CDungeon). `this` is not read.
+    bool sub_71012C6614();
+    // 0x71012c679c (declared only): reports an over of `kind` (0: volume now, 1: volume held, 2: true peak).
+    void sub_71012C679C(s32 kind, const sead::SafeString& name);
+
+    u8 _0[0x8];
+    /* 0x08 */ bool _8;
+    u8 _9[0x14 - 0x9];
+    // The level of the final output measure (FinalOutputMeasure +0xe8).
+    /* 0x14 */ f32 _14;
+    // The highest sample peak of the six channels (at least -100).
+    /* 0x18 */ f32 mSamplePeak;
+    // The highest VU of the six channels (at least -100).
+    /* 0x1c */ f32 mVU;
+    // Peak volume over VU volume.
+    /* 0x20 */ f32 _20;
+    // Time the level has been between the two thresholds.
+    /* 0x24 */ f32 _24;
+    /* 0x28 */ f32 _28;
+    /* 0x2c */ bool _2c;
+    /* 0x30 */ s32 _30;
+    /* 0x34 */ s32 _34;
 };
 }  // namespace ksys::snd
 
