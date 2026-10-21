@@ -198,6 +198,17 @@ void Unk_71025193e8::m12() {
 Unk_7102519460::Unk_7102519460() = default;
 Unk_7102519460::~Unk_7102519460() = default;
 
+f32 Unk_7102519460::setColor(const sead::Color4f& color) {
+    const f32 luminance = color.r * 0.298912f + color.g * 0.586611f + color.b * 0.114478f;
+    mColor = color / luminance;
+    mColor.a = color.a;
+    return luminance;
+}
+
+void Unk_7102519460::setColorAndLuminance(const sead::Color4f& color) {
+    _100 = sead::Mathf::clampMin(setColor(color), 0.0f);
+}
+
 // NON_MATCHING: the original masks the view bit test with 0xffff before the branch.
 void Unk_7102519460::drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
                                const sead::Matrix44f& projection, int view_index) const {
@@ -244,6 +255,17 @@ bool Unk_71025194d0::m11() const {
 }
 
 Unk_7102519540::~Unk_7102519540() = default;
+
+f32 Unk_7102519540::setColor(const sead::Color4f& color) {
+    const f32 luminance = color.r * 0.298912f + color.g * 0.586611f + color.b * 0.114478f;
+    mColor = color / luminance;
+    mColor.a = color.a;
+    return luminance;
+}
+
+void Unk_7102519540::setColorAndLuminance(const sead::Color4f& color) {
+    _100 = sead::Mathf::clampMin(setColor(color), 0.0f);
+}
 
 // NON_MATCHING: the original masks the view bit test with 0xffff before the branch.
 void Unk_7102519540::drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
@@ -363,6 +385,26 @@ void Unk_7102519690::m12() {
 }
 
 Unk_7102519708::~Unk_7102519708() = default;
+
+// NON_MATCHING: the original keeps the green store in both branches; ours merges it.
+f32 Unk_7102519708::setColor(const sead::Color4f& color) {
+    const f32 luminance = sead::Mathf::clampMin(
+        color.r * 0.298912f + color.g * 0.586611f + color.b * 0.114478f, 0.0f);
+    if (luminance > 0.0f) {
+        mColor = color / luminance;
+    } else {
+        mColor.r = 0;
+        mColor.g = 0;
+        mColor.b = 0;
+    }
+    mColor.a = color.a;
+    return luminance;
+}
+
+// NON_MATCHING: same store merge as setColor.
+void Unk_7102519708::setColorAndLuminance(const sead::Color4f& color) {
+    _104 = setColor(color);
+}
 
 // NON_MATCHING: the original masks the view bit test with 0xffff before the branch.
 void Unk_7102519708::drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,

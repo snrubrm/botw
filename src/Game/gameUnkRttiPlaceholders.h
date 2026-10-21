@@ -1311,6 +1311,10 @@ public:
     // 0x7101296a20: the 0x120-byte record constructor.
     Unk_7102519460();
     ~Unk_7102519460() override;
+    // Stores the colour divided by its luminance (alpha kept) and returns the luminance.
+    f32 setColor(const sead::Color4f& color);
+    // setColor, then stores the luminance (at least 0) at _100.
+    void setColorAndLuminance(const sead::Color4f& color);
     void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
                    const sead::Matrix44f& projection, int view_index) const override;
     virtual s32 m5() { return 1; }
@@ -1365,6 +1369,10 @@ class Unk_7102519540 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_7102519540, Unk_7102519378)
 public:
     ~Unk_7102519540() override;
+    // Stores the colour divided by its luminance (alpha kept) and returns the luminance.
+    f32 setColor(const sead::Color4f& color);
+    // setColor, then stores the luminance (at least 0) at _100.
+    void setColorAndLuminance(const sead::Color4f& color);
     // Same body as Unk_7102519460::drawDebug.
     void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
                    const sead::Matrix44f& projection, int view_index) const override;
@@ -1482,6 +1490,11 @@ class Unk_7102519708 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_7102519708, Unk_7102519378)
 public:
     ~Unk_7102519708() override;
+    // Stores the colour divided by its luminance (black if the luminance is not positive; alpha
+    // kept) and returns the luminance (at least 0).
+    f32 setColor(const sead::Color4f& color);
+    // The same, also storing the luminance at _104.
+    void setColorAndLuminance(const sead::Color4f& color);
     // Draws the spot cone (apex pulled back along the direction by _118) and the source point.
     void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
                    const sead::Matrix44f& projection, int view_index) const override;
