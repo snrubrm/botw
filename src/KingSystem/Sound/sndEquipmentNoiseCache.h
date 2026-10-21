@@ -1,6 +1,8 @@
 #pragma once
 #include <container/seadObjArray.h>
 #include <prim/seadEnum.h>
+#include <prim/seadScopedLock.h>
+#include <thread/seadCriticalSection.h>
 #include <xlink2/xlink2Locator.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Utils/Types.h"
@@ -117,11 +119,75 @@ KSYS_CHECK_SIZE_NX150(Unk_710251b028, 0x78);
 // Vtable 0x710251b128 (0x98 bytes; Unk68::_480): the quiver noise, with up to three locators.
 class Unk_710251b128 : public Unk_71012C5034 {
 public:
+    // The number of arrows (asset name suffixes "0", "1to4", "Over5"). Written like a SEAD_ENUM by hand: the text
+    // (0x7101e3e935) is not a list of identifiers. Text function 0x71012c53b4.
+    class ArrowNum {
+    public:
+        enum ValueType { c0, c1to4, cOver5 };
+
+        ArrowNum() : mIdx(0) {}
+        // NOLINTNEXTLINE(google-explicit-constructor)
+        ArrowNum(int idx) : mIdx(idx) {}
+
+        int getRelativeIndex() const { return mIdx; }
+        const char* text() const { return text(mIdx); }
+        static const char* text(int idx) { return text_(idx); }
+        constexpr static int size() { return cCount; }
+        constexpr static int getLastIndex() { return size() - 1; }
+
+        class iterator {
+        public:
+            explicit iterator(int idx) : mIdx(idx) {}
+            bool operator!=(const iterator& rhs) const { return mIdx != rhs.mIdx; }
+            iterator& operator++() {
+                if (mIdx <= getLastIndex())
+                    ++mIdx;
+                else
+                    mIdx = size();
+                return *this;
+            }
+            ArrowNum operator*() const { return ArrowNum(mIdx); }
+
+        private:
+            int mIdx;
+        };
+
+        static iterator begin() { return iterator(0); }
+        static iterator end() { return iterator(size()); }
+
+    private:
+        static const char* text_(int idx) {
+            if (u32(idx) >= cCount)
+                return nullptr;
+
+            static char** spTextPtr = nullptr;
+            if (spTextPtr)
+                return spTextPtr[idx];
+            {
+                sead::ScopedLock<sead::CriticalSection> lock(sead::EnumUtil::getParseTextCS_());
+                if (!spTextPtr) {
+                    static char* sTextPtr[cCount];
+                    static sead::FixedSafeString<cTextAllLen> sTextAll = sead::SafeString(cTextAll);
+                    sead::EnumUtil::parseText_(sTextPtr, sTextAll.getBuffer(), cCount);
+                    spTextPtr = sTextPtr;
+                }
+            }
+            return spTextPtr[idx];
+        }
+
+        static constexpr const char* cTextAll = "0,1to4,Over5";
+        static constexpr size_t cTextAllLen = sizeof("0,1to4,Over5");
+        static constexpr int cCount = 3;
+
+        int mIdx;
+    };
+
     Unk_710251b128();
     // 0x71012c5050
     ~Unk_710251b128() override = default;
 
-    // 0x71012c4630 (declared only)
+    // 0x71012c4630: finds the EquipNoise_BaseEquip_Quiver_<arrows> locators (false and none kept if one is
+    // missing).
     bool m2(const sead::SafeString& name) override;
     // 0x71012c49e4: m2 with an empty name.
     bool m3() override;
@@ -134,7 +200,7 @@ public:
     // 0x71012c5034: the level (0, 1 or 2) of `value`.
     void sub_71012C5034(s32 value);
 
-    /* 0x10 */ s32 _10 = 0;
+    /* 0x10 */ ArrowNum mArrowNum;
     /* 0x18 */ sead::FixedObjArray<xlink2::Locator, 3> mLocators;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710251b128, 0x98);

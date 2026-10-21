@@ -214,6 +214,33 @@ Unk_710251b128::Unk_710251b128() {
         sEquipmentNoiseCache.sub_71012C3074();
 }
 
+bool Unk_710251b128::m2(const sead::SafeString& name) {
+    if (_c)
+        return true;
+
+    xlink2::UserInstanceSLink* user;
+    {
+        act::ActorLinkConstDataAccess player;
+        act::ActorSystem::instance()->getPlayer(&player);
+        auto* xlink = player.hasProc() ? player.sub_7100D0F214() : nullptr;
+        user = xlink ? xlink->_50 : nullptr;
+    }
+    if (!user || !user->isInstanceParamValid())
+        return false;
+
+    sead::FixedSafeString<48> asset_name;
+    for (const auto num : ArrowNum()) {
+        asset_name = "EquipNoise_BaseEquip_Quiver_";
+        asset_name.append(num.text());
+        auto* locator = mLocators.emplaceBack();
+        if (!user->searchAsset(locator, asset_name.cstr())) {
+            mLocators.clear();
+            return false;
+        }
+    }
+    return true;
+}
+
 bool Unk_710251b128::m3() {
     return m2("");
 }
@@ -223,7 +250,7 @@ void Unk_710251b128::m6() {
 }
 
 void Unk_710251b128::sub_71012C5034(s32 value) {
-    _10 = value > 4 ? 2 : value > 0;
+    mArrowNum = value > 4 ? 2 : value > 0;
 }
 
 }  // namespace ksys::snd
