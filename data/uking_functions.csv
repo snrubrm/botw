@@ -76282,7 +76282,7 @@ Address,Quality,Size,Name
 0x0000007100dc42c8,U,000128,
 0x0000007100dc4348,U,000052,sead::Delegate1R_EventResource::invoke
 0x0000007100dc437c,U,000092,
-0x0000007100dc43d8,U,000052,
+0x0000007100dc43d8,O,000052,_GLOBAL__sub_I_evtEventResource.cpp
 0x0000007100dc440c,O,000060,_ZN4ksys3evt12ActorBinding10bindActionEPKN4evfl9ResActionE
 0x0000007100dc4448,O,000052,_ZN4ksys3evt12ActorBinding9bindQueryEPKN4evfl8ResQueryE
 0x0000007100dc447c,O,000032,_ZNK4ksys3evt12ActorBinding12getActorNameEv

@@ -8,8 +8,15 @@
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/Resource/resTempResourceLoader.h"
 #include "KingSystem/System/UIGlue.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::evt {
+
+// The TU's static initializer is 0x7100dc43d8 (`_GLOBAL__sub_I_evtEventResource.cpp`).
+namespace {
+util::InitConstants sInitConstants;
+util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 
 // NON_MATCHING: store scheduling of the member initialisation (delegate, _1a8 .. _1c0, _148 / mHeap).
