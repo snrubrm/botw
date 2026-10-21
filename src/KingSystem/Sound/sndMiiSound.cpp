@@ -7,6 +7,7 @@
 #include "KingSystem/System/Timer.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/World/worldManager.h"
 
@@ -350,6 +351,13 @@ f32 Unk_710251cbf0::m13(f32* out, const sead::Vector3f& pos, ksys::act::Chemical
     return mHolder->_30;
 }
 
+// Fire strength: rises with the burn progress, peaks at 1.6 and falls off again.
+f32 Unk_710251cbf0::m16() {
+    f32 t = sead::Mathf::clamp(_48->_30 - 1.0f, 0.0f, 1.0f) / 0.6f;
+    t = t < 1.0f ? t : 2.0f - t;
+    return (1.0f - _48->_34) * t;
+}
+
 void Unk_710251cbf0::m33(bool a, bool fixed) {
     if (_50)
         _50->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
@@ -376,6 +384,16 @@ Unk_710251cd38::~Unk_710251cd38() {
     }
 }
 
+void Unk_710251cd38::m35(f32 delta_frame) {
+    if (!_50)
+        return;
+    f32 t = sead::Mathf::clamp(_48->_30 - 1.0f, 0.0f, 1.0f) / 0.6f;
+    t = t < 1.0f ? t : 2.0f - t;
+    f32 radius = std::max((1.0f - _48->_34) * t, 0.3f) * 6.0f;
+    radius = std::max(radius, 0.01f);
+    static_cast<ksys::phys::SphereRigidBody*>(_50)->setRadius(radius);
+}
+
 void Unk_710251cd38::m33(bool a, bool fixed) {
     if (_50)
         _50->setFixed(ksys::phys::Fixed(fixed), ksys::phys::PreserveVelocities(true));
@@ -384,7 +402,7 @@ void Unk_710251cd38::m33(bool a, bool fixed) {
 // NON_MATCHING: the original passes the address of the (not yet constructed) local `name` to the base
 // constructor, so no temporary ElementName is built there.
 Unk_710251cbf0::Unk_710251cbf0(void* arg, sead::Heap* heap) : Unk_7102518688(ElementName(), heap, false) {
-    _48 = arg;
+    _48 = static_cast<Unk_710251cbf0Arg*>(arg);
     ElementName name;
     name.mName = "grass_fire";
     emitWrap(name, ksys::world::Manager::instance()->getElementHolderMaybe());
@@ -426,7 +444,7 @@ Unk_710251cbf0* ksys::act::Unk_71024dd490::sub_71012DF1A0(void* arg) {
 // NON_MATCHING: the original passes the address of the (not yet constructed) local `name` to the base
 // constructor, so no temporary ElementName is built there.
 Unk_710251cd38::Unk_710251cd38(void* arg, sead::Heap* heap) : Unk_7102518688(ElementName(), heap, false) {
-    _48 = arg;
+    _48 = static_cast<Unk_710251cbf0Arg*>(arg);
     ElementName name;
     name.mName = "grass_fire_warm";
     name._28 = 2;

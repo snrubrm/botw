@@ -1865,6 +1865,17 @@ public:
     virtual s32 m36() { return 0; }
 };
 
+// Placeholder: the creator's argument of the grass fire elements (Unk_710251cbf0 / Unk_710251cd38).
+struct Unk_710251cbf0Arg {
+    u8 _0[0xc];
+    // The fire position (Unk_710251cbf0's destructor passes it to NavMeshSystem).
+    sead::Vector3f _c;
+    u8 _18[0x30 - 0x18];
+    // Burn progress (1 to 2) and an attenuation factor; they scale the fire's sphere radius.
+    f32 _30;
+    f32 _34;
+};
+
 // vtable 0x710251cbf0 (39 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710251cbf0 : public Unk_7102518688 {
     SEAD_RTTI_OVERRIDE(Unk_710251cbf0, Unk_7102518688)
@@ -1872,6 +1883,7 @@ public:
     // lane1 s95: the "grass_fire" element; built by Unk_71024dd490::sub_71012DF1A0.
     Unk_710251cbf0(void* arg, sead::Heap* heap);
     f32 m13(f32* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) override;
+    f32 m16() override;
     ~Unk_710251cbf0() override;
     bool m29(const ElementName& name, sead::Heap* heap) override;
     void m33(bool a, bool fixed) override;
@@ -1882,7 +1894,7 @@ public:
     f32 m19(ksys::act::Chemical* chemical) override { return 1.0f; }
 
     // lane1 s95: only the initial values from the ctor are known.
-    void* _48;
+    Unk_710251cbf0Arg* _48;
     ksys::phys::RigidBody* _50 = nullptr;
     s32 _58 = -1;
     void* _60 = nullptr;
@@ -1906,7 +1918,7 @@ public:
     void m38() override {}
 
     // lane1 s91: _50 is a sphere rigid body (m35 sets its radius from the floats at _48 + 0x30 / 0x34).
-    void* _48;
+    Unk_710251cbf0Arg* _48;
     ksys::phys::RigidBody* _50 = nullptr;
 };
 
