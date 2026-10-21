@@ -2343,7 +2343,10 @@ public:
     // one per shortcut slot; played when the slot first becomes available (sub_7100A20AD4)
     sead::PtrArray<eui::Animator> _36f0;
     /* 0x3700 */ sead::BitFlag8 _3700;
-    u8 _pad_3701[0x3720 - 0x3701];
+    u8 _pad_3701[0x3704 - 0x3701];
+    /* 0x3704 */ UiTimer _3704;
+    /* 0x371c */ bool _371c;  // the rune shortcut waits for _3704 before it is hidden (sub_7100A2063C)
+    u8 _pad_371d[0x3720 - 0x371d];
     /* 0x3720 */ s32 _3720;
     u8 _pad_3724[0x3728 - 0x3724];
     /* 0x3728 */ bool _3728;  // the bow shortcut is shown (sub_7100A20CBC)
@@ -2403,6 +2406,17 @@ public:
     void sub_7100A209E4();
     void sub_7100A20AD4();
     void sub_7100A20CBC();
+    // inline-only in the original; name is a guess: the slot flag test repeats in sub_7100A1F684 and sub_7100A2063C.
+    bool isRuneSlotActive(s32 item) const {
+        if (item == 0) {
+            if (_3630 & 2)
+                return !(_3630 & 8);
+        } else if (item == 1) {
+            if (_3630 & 1)
+                return !(_3630 & 4);
+        }
+        return false;
+    }
     // inline-only in the original; name is a guess: the PlayFromCurrent call on _36f0[idx] repeats five times in
     // sub_7100A20AD4.
     void playSlotAnimator(s32 idx) {

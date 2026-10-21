@@ -24,6 +24,7 @@ class CalendarTime;
 
 namespace uking::act {
 enum class CreateEquipmentSlot : u8;
+class PlayerBase;
 }
 
 namespace uking::ui {
@@ -388,6 +389,10 @@ struct RuneUiInfo {
 void sub_7100A9C374(s32 rune, RuneUiInfo* info, s32 a3);
 // 0x7100a9c728 (placeholder name): sub_7100A9C374 for the RuneMgr item `item` (false for a bad item)
 bool sub_7100A9C728(s32 item, RuneUiInfo* info, s32 a3);
+// 0x7100a9c0dc (placeholder name): table lookup, -1 when out of range.
+s32 sub_7100A9C0DC(s32 index);
+// 0x7100a9bebc (placeholder name)
+bool sub_7100A9BEBC(s32 rune, uking::act::PlayerBase* player);
 // 0x7100aa94c4 (placeholder name): shows / hides the root pane of the (built) layout; returns whether it changed.
 bool sub_7100AA94C4(eui::LayoutEx* layout, bool visible);
 // 0x7100aa94a8: the byte at 0x64b15 of the UI manager (a bool; the callers convert it with `and #1`)
