@@ -93,7 +93,7 @@ public:
     // 0x71000056e4: the bullet's owner link (_ba0), or the dummy link if the actor is no Bullet.
     BaseProcLink& sub_71000056E4() const;
     // 0x7100006430 / 0x7100006580 / 0x71000066b0 (CSV names).
-    bool isHoldByOwner(BaseProc* owner) const;
+    bool isHoldByOwner(const ActorLinkConstDataAccess& owner) const;
     bool isHold() const;
     bool isFittingOrShootingArrow() const;
 

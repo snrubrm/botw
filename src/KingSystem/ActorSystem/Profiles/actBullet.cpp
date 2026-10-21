@@ -282,6 +282,16 @@ void Bullet::sub_71000063F4(f32 factor, BaseProc* owner) {
     }
 }
 
+bool Bullet::isHoldByOwner(const ActorLinkConstDataAccess& owner) const {
+    auto* bullet = sead::DynamicCast<act::Bullet>(static_cast<Actor*>(getProcIfActor(mProc)));
+    if (!bullet)
+        return false;
+    debugLog(0, "isHoldByOwner");
+    if (!(bullet->_cf4 & 0x80))
+        return false;
+    return owner.hasProc(bullet->_ba0);
+}
+
 bool Bullet::isHold() const {
     auto* bullet = sead::DynamicCast<act::Bullet>(static_cast<Actor*>(getProcIfActor(mProc)));
     if (!bullet)
