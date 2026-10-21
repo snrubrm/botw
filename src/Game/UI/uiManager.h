@@ -43,6 +43,7 @@ class EntryFactoryBase;
 }
 
 class Unk_710249c338;
+class Unk_71025b1218;
 
 namespace uking::ui {
 
@@ -64,6 +65,23 @@ KSYS_CHECK_SIZE_NX150(ManagerTaskEntry, 0x20);
 KSYS_CHECK_SIZE_NX150(ManagerTaskList, 0x30);
 static_assert(offsetof(ManagerTaskEntry, mTimer) == 4);
 static_assert(offsetof(ManagerTaskEntry, mDismissed) == 0x1c);
+
+// Entries of the ObjList at Manager +0xe8 (walked by sub_7100A7F2EC; the list node follows the item,
+// at +0x58). mObj is a polymorphic object tested with a sead RTTI cast to Unk_710249c558, whose
+// FixedSafeString<64> at +8 is the name the lookup copies out.
+struct ManagerObjListEntry {
+    u8 _0[0x38];
+    /* 0x38 */ sead::Vector3f mPosition;
+    u8 _44[4];
+    /* 0x48 */ s32 mKind;
+    u8 _4c[4];
+    /* 0x50 */ Unk_71025b1218* mObj;
+};
+KSYS_CHECK_SIZE_NX150(ManagerObjListEntry, 0x58);
+static_assert(offsetof(ManagerObjListEntry, mPosition) == 0x38);
+static_assert(offsetof(ManagerObjListEntry, mKind) == 0x48);
+static_assert(offsetof(ManagerObjListEntry, mObj) == 0x50);
+using ManagerObjList = sead::ObjList<ManagerObjListEntry>;
 
 // The UI manager singleton (CSV: uiManager::createInstance 0x7100a6e038, ctor 0x7100a6e0c4,
 // instance pointer 0x71025f5ee0, size 0x653b0, disposer at +0x18). Only the fields that are used
@@ -239,7 +257,8 @@ public:
     const MainFieldArea& sub_7100A7F2B0(s32 index) const;
     bool parseMainFieldAreas();
 
-    u8 _e8[0x32d98 - 0xe8];
+    /* 0xe8 */ ManagerObjList mObjList;
+    u8 _e8[0x32d98 - 0x118];
     // A6CC5C constructs 1000 slots of stride 0x38, with the work buffer at +0x2c.
     /* 0x32d98 */ sead::FixedObjList<Unk_710249c5e8, 1000> mLocations;
     u8 _40888[0x5dda8 - 0x40888];

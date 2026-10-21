@@ -949,6 +949,35 @@ const MainFieldArea& Manager::sub_7100A7F2B0(s32 index) const {
     return area ? *area : sUnk_71025f59f8;
 }
 
+// 0x7100a7f2ec
+// NON_MATCHING: the original loads both xz components of mPosition before the query position's
+// (load-order only, one instruction).
+// Nearest named object of the +0xe8 list within `radius` of `pos`, measured in the xz plane; the
+// winning name is copied to out_name. Kinds 0x2b and 2 only.
+bool Manager::sub_7100A7F2EC(f32 radius, sead::SafeString* out_name, const sead::Vector3f* pos) {
+    f32 best = sead::Mathf::maxNumber();
+    bool found = false;
+    for (auto& entry : mObjList) {
+        if (entry.mKind != 0x2b && entry.mKind != 2)
+            continue;
+        if (!entry.mObj)
+            continue;
+        auto* obj = sead::DynamicCast<Unk_710249c558>(entry.mObj);
+        if (!obj)
+            continue;
+        const sead::Vector3f diff = entry.mPosition - *pos;
+        const f32 distance = diff.x * diff.x + diff.z * diff.z;
+        if (distance < radius * radius && distance < best) {
+            best = distance;
+            if (!obj->_8.isEmpty()) {
+                *out_name = obj->_8;
+                found = true;
+            }
+        }
+    }
+    return found;
+}
+
 // 0x7100a71aec
 // NON_MATCHING: record construction, list insertion and Byaml result scheduling differ.
 bool Manager::parseLocations() {
