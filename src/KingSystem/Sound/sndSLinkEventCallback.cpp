@@ -1,5 +1,7 @@
 // The TU at 0x71012ceb94 .. 0x71012cedd8: the SLink event callback of SoundMgr::_70 (Unk_710251b730), with the
 // static initialiser 0x71012ceda4.
+#include <aal/aalHandle.h>
+#include <aal/aalSoundSource.h>
 #include <xlink2/xlink2AssetExecutorSLink.h>
 #include <xlink2/xlink2ResourceAccessorSLink.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
@@ -10,6 +12,10 @@
 #include "KingSystem/XLink/xlinkXLink.h"
 
 namespace ksys::snd {
+
+Unk_710251b730::Unk_710251b730() = default;
+
+Unk_710251b730::~Unk_710251b730() = default;
 
 void Unk_710251b730::sub_71012CEBC0(sead::Heap* heap) {}
 
@@ -37,6 +43,14 @@ u32 Unk_710251b730::soundPrePlay(const EventArg& arg) {
             return 1;
     }
     return 0;
+}
+
+void Unk_710251b730::eventCalced(const EventArg& arg) {
+    auto* xlink = eft::sub_710105E100(arg.pUserInstance);
+    if (!xlink || !xlink->_cc.isOnBit(4))
+        return;
+    if (auto* source = arg.pHandle->getSoundSource())
+        source->setInteriorNum(1);
 }
 
 void Unk_710251b730::soundPlayed(const EventArg& arg) {

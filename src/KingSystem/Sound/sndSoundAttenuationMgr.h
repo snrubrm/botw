@@ -4,6 +4,7 @@
 #include <aal/aalHandle.h>
 #include <prim/seadDelegate.h>
 #include <container/seadObjList.h>
+#include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
 #include <thread/seadCriticalSection.h>
 #include <xlink2/xlink2IEventCallbackSLink.h>
@@ -95,24 +96,8 @@ public:
     virtual void m1() {}
 };
 
-// The primary base of Unk_710251b730 and Unk_710251b7a0: six virtuals (slots 0 and 5 have the same bodies in
-// both), then the destructor. Not modelled further.
-class Unk_710251b730Base {
-public:
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual ~Unk_710251b730Base();
-};
-
 // Vtable 0x710251b730 (0x10 bytes; SoundMgr::_70->_18): an xlink2 SLink event callback for the sound events of
 // actors (expression sounds, voice groups, interior sounds and loop re-emits).
-// lib/xlink2 declares replaceAssetInfo before soundPlayed; in the original vtable soundPlayed is slot 4. Until
-// that is fixed, the constructor and the destructors (0x71012ceb94 .. 0x71012cebb8, which emit the vtable) stay
-// declared only.
 class Unk_710251b730 : public xlink2::IEventCallbackSLink, public Unk_710251aff8 {
 public:
     Unk_710251b730();
@@ -122,8 +107,7 @@ public:
     void eventActivated(const EventArg& arg) override;
     // 0x71012cec40: 1 when the XLink allows it and the asset's group name contains "Voice".
     u32 soundPrePlay(const EventArg& arg) override;
-    // 0x71012cecc8 (declared only: it uses EventArg::pHandle as an aal::Handle, lib/xlink2 types it as
-    // HandleSLink).
+    // 0x71012cecc8: sets the interior number of the sound source for XLinks with _cc bit 4.
     void eventCalced(const EventArg& arg) override;
     // 0x71012ced14: asks looping assets with custom param 3 to re-emit (XLink _cc bit 7).
     void soundPlayed(const EventArg& arg) override;
@@ -133,19 +117,37 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710251b730, 0x10);
 
-// Vtable 0x710251b7a0 (0x358 bytes; constructor 0x71012cedec, declared only). Slot 3 (0x71012cf2c8) adds sounds to
-// the attenuation entries of SoundMgr::_88. Slots 0 .. 5 are not modelled.
-class Unk_710251b7a0 : public Unk_710251b730Base, public Unk_710251aff8 {
+// Vtable 0x710251b7a0 (0x358 bytes; SoundMgr::_70->_10): an xlink2 SLink event callback that sets up the sound
+// sources of new sounds (interior groups, attenuation entries of SoundMgr::_88, ...). Only the constructor, the
+// destructor and the group setup are decompiled.
+class Unk_710251b7a0 : public xlink2::IEventCallbackSLink, public Unk_710251aff8 {
 public:
     Unk_710251b7a0();
     ~Unk_710251b7a0() override;
 
+    // 0x71012cf2c0 / 0x71012cf2c8 / 0x71012d03e8 / 0x71012d0b04 (declared only).
+    u32 soundPrePlay(const EventArg& arg) override;
+    void eventCalced(const EventArg& arg) override;
+    void soundPlayed(const EventArg& arg) override;
+    u32 replaceAssetInfo(aal::AssetInfo* info, const sead::SafeString& name,
+                         const xlink2::UserInstanceSLink* user_instance,
+                         const xlink2::ResAssetCallTable* call_table) override;
+
     // 0x71012cee90 (empty in the release build).
     void sub_71012CEE90(sead::Heap* heap);
-    // 0x71012cee94
+    // 0x71012cee94: fills the four group arrays from the group manager.
     void sub_71012CEE94();
 
-    u8 _10[0x358 - 0x10];
+    // The environment, chemical fire and object groups (indoor and outdoor) and their descendants.
+    /* 0x010 */ sead::FixedPtrArray<aal::Group, 32> mIndoorOutdoorGroups;
+    // "Life" and "EnvOutdoorLife" and their descendants (eventCalced stops their sounds in some cases).
+    /* 0x120 */ sead::FixedPtrArray<aal::Group, 32> mLifeGroups;
+    // "PlayerFootstep" and its descendants.
+    /* 0x230 */ sead::FixedPtrArray<aal::Group, 16> mFootstepGroups;
+    // "ObjGrassShake", "ObjOutdoor" and their descendants.
+    /* 0x2c0 */ sead::FixedPtrArray<aal::Group, 16> mGrassShakeGroups;
+    // Used by soundPrePlay (0x71012cf2c0 calls 0x71012d1f4c on it).
+    /* 0x350 */ void* _350 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710251b7a0, 0x358);
 

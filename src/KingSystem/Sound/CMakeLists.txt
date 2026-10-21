@@ -65,6 +65,7 @@ target_sources(uking PRIVATE
   sndEmitterAllocateCallback.cpp
   sndGroupFactory.cpp
   sndSLinkEventCallback.cpp
+  sndSoundEventCallback.cpp
   sndSoundInstance.cpp
   sndMessageSound.cpp
   sndStreamPath.cpp
