@@ -266,10 +266,10 @@ void Core::Grass::EntryPart::resetCells() {
     _384d0 = -1;
 }
 
-// NON_MATCHING: the first record stores reload its pointer once more.
 void Core::Grass::EntryPart::Cell::reset() {
-    mRecord->_0 = 0;
-    mRecord->_4 = 0;
+    Record* record = mRecord;
+    record->_4 = 0;
+    record->_0 = 0;
     _1c = 0xff0000;
     mFlags = 0;
     mRecord->_7 = 0;
