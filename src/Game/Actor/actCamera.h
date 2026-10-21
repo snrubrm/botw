@@ -582,8 +582,13 @@ public:
     /* 0x10f8 */ u32 _10f8 = 0;
     // The destructor keeps the array address in a register: an array.
     /* 0x1100 */ ksys::act::BaseProcLink _1100[3]{};
-    // Three 0x40-byte entries with a bool at +0x3c (cleared by the ctor body).
-    /* 0x1130 */ u8 _1130[0x11f0 - 0x1130];
+    // Set by setWaterRemainsData for the current core (valid is cleared by the ctor body).
+    struct WaterRemainsData {
+        sead::Matrix34f mtx;
+        sead::Vector3f pos;
+        bool valid;
+    };
+    /* 0x1130 */ sead::SafeArray<WaterRemainsData, 3> mWaterRemainsData;
     /* 0x11f0 */ sead::Matrix34f _11f0;
     /* 0x1220 */ sead::Vector3f _1220;
     /* 0x122c */ bool _122c;

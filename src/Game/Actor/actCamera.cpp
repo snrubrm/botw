@@ -344,6 +344,21 @@ void Camera::sub_71007929E0() {
     _860._7c0[!(_860._81a & 1)].reset();
 }
 
+void Camera::setWaterRemainsData(const sead::Matrix34f& mtx, const sead::Vector3f& pos) {
+    if (ksys::util::sub_71011F10F4(mtx)) {
+        sead::FormatFixedSafeString<128> message("mtx = \n%f", mtx);
+        return;
+    }
+    if (ksys::util::sub_71011F1040(pos)) {
+        sead::FormatFixedSafeString<128> message("mouth pos = %f", pos);
+        return;
+    }
+    auto& data = mWaterRemainsData[sead::CoreInfo::getPlatformCoreId(sead::CoreInfo::getCurrentCoreId())];
+    data.mtx = mtx;
+    data.pos = pos;
+    data.valid = true;
+}
+
 bool Camera::x_5() {
     if (_860._0.isInvalid() || _860._38.isInvalid() || _860._70.isInvalid() || _860._a8.isInvalid() ||
         _860._e0.isInvalid() || ksys::util::isMatrixInvalid(getMtx())) {
