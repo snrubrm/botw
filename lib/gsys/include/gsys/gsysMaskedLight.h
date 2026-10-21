@@ -15,6 +15,8 @@ class PropertyEvent;
 
 namespace gsys {
 
+class ModelSceneShadow;
+
 // Constructor C78B50: a light pre-pass pointer and view count, then the shadow and
 // light view/projection override parameters. Table 24D1230 appends the *Impl_
 // slots that MaskedSpotLight and MaskedProjLight override.
@@ -33,6 +35,12 @@ public:
 
     // 0x7100c79174: forwards to the implementation while enabled with a pre-pass.
     void setToLightPrePass(int index, f32 a, f32 b);
+    // 0x7100c7945c: passes the shadow map to the implementation, or null while the shadow is
+    // disabled for this view.
+    void setShadowMap(int index, const agl::TextureSampler* sampler,
+                      const sead::Matrix44f& matrix) const;
+    // 0x7100c794c0: registers the light with (or removes it from) the scene shadow.
+    bool assignModelSceneShadow(bool enable) const;
 
     static const agl::env::TypeInfo* sTypeInfo;
 
@@ -54,7 +62,8 @@ protected:
     virtual void listenPropertyEventMaskedLight(const sead::hostio::PropertyEvent* event);
 
     agl::lght::LightPrePass* mLightPrePass = nullptr;
-    void* _118 = nullptr;
+    // assignModelSceneShadow 0x7100c794c0 registers the light here.
+    ModelSceneShadow* mModelSceneShadow = nullptr;
     // initialize C79128 stores its count here.
     s32 mViewNum = 0;
     agl::utl::Parameter<bool> mIsEnableShadow;

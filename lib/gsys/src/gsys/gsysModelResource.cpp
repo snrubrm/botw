@@ -1,6 +1,8 @@
 #include <gsys/gsysModelResource.h>
 #include <gsys/gsysG3dResAnimationEx.h>
+#include <gsys/gsysG3dResMaterialEx.h>
 #include <gsys/gsysG3dResModelEx.h>
+#include <gsys/gsysModelShaderHolder.h>
 #include <nn/g3d/ResFile.h>
 
 namespace gsys {
@@ -53,4 +55,14 @@ s32 ModelResource::getAnimationReferenceCounter() const {
 
 // 0x7100f1fe68: the base callback ignores shader assignment (a four-byte body).
 void IModelResourceCallback::m2(const ShaderAssignArg&) {}
+const ModelShader* ModelResource::searchModelShader(const nn::g3d::ResModel* model,
+                                                    const G3dResMaterialEx* material) const {
+    const nn::g3d::ResMaterial* res_material = material->getResMaterial();
+    for (const ModelShaderArchive& archive : mShaderArchives) {
+        if (const ModelShader* shader = archive.searchModelShader(model, res_material))
+            return shader;
+    }
+    return nullptr;
+}
+
 }  // namespace gsys

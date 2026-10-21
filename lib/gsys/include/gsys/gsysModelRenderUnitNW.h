@@ -21,6 +21,7 @@ enum class PriorityHintType : int;
 }
 
 class ModelAssignRenderInfo;
+class G3dResShapeEx;
 
 // Native 0x298-byte game subclass created by 0x7101409a30 over this 0x238-byte base. The vtable is
 // 0x71024ca530 (vptr 0x71024ca540); the fourteen slots from vptr+0 to vptr+0x68 are listed below in
@@ -75,24 +76,29 @@ public:
     nn::g3d::MaterialObj* getMaterial() const;
 
 protected:
-    /* 0x20 */ ModelAssignRenderInfo* mAssignRenderInfo = nullptr;
+    // initialize 0x7100c09c24 loads the user pointer (+0x50) of the shape's ResShape; the destructor
+    // passes it to G3dResShapeEx::destroyShapeDL.
+    /* 0x20 */ const G3dResShapeEx* mResShapeEx = nullptr;
     /* 0x28 */ void* _28 = nullptr;
     /* 0x30 */ u8 mPolygonCtrl = 0;  // setPolygonCtrl 0x7100c0a65c stores one byte
     /* 0x31 */ u8 _31 = 0;
     /* 0x32 */ u8 mFlags32 = 0;
     /* 0x33 */ u8 _33 = 1;
-    /* 0x34 */ u16 _34 = 0;
+    // Not written by the constructor 0x7100c09ad0.
+    /* 0x34 */ u16 _34;
     /// One entry per shape; destroyShapeDL 0x7100c70794 takes exactly this type. initialize fills all
     /// sixty entries with the empty display-list record at 0x71025fcd18.
     /* 0x38 */ sead::UnsafeArray<ModelAssignRenderInfo*, 60> mShapeRenderInfos;
     /// Fifteen two-bit fields; initialize 0x7100c09ce4 clears them and resetShader rewrites them.
     /* 0x218 */ u32 m_218[2] = {};
-    /* 0x220 */ s32 _220 = 0;
-    /* 0x224 */ u8 _224[4] = {};
+    // Not written by the constructor.
+    /* 0x220 */ s32 _220;
+    /* 0x224 */ u8 _224[4];
     /// Array of 0x18-byte records, one per shape (getShapeNum()); the destructor frees each record's
     /// pointer at +0 and then the array.
     struct ShapeRecord {
-        void* _0;
+        // Freed with a plain delete by the destructor; the element type is unknown.
+        u8* _0;
         void* _8;
         u8 _10;
         u8 _11[7];
@@ -104,7 +110,7 @@ protected:
     /// Bit 0: the shape display lists were created; bit 1: they are currently owned by the unit.
     /* 0x231 */ u8 mDisplayListFlags = 0;
     /* 0x232 */ u8 _232 = 0;
-    /* 0x233 */ u8 _233 = 0;
+    /* 0x233 */ u8 _233;
     /* 0x234 */ s32 _234 = -1;
 };
 static_assert(sizeof(ModelRenderUnitNW) == 0x238);

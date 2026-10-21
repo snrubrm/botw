@@ -42,6 +42,9 @@ public:
     void calcGpuRenderBuffer(const agl::RenderBuffer& buffer, const sead::Viewport& viewport);
     void calcGpuDepthShadow(f32 a, f32 b, f32 c, f32 d, const sead::Vector2f& offset);
     void calcGpuDepthShadowCascade(int index, const sead::Matrix44f& matrix);
+    void calcGpuStaticDepthShadow(const sead::Matrix44f& matrix);
+    void calcGpuMaskDepthShadow(int index, const sead::Matrix44f& matrix);
+    void calcGpuShaderFrame(f32 a, f32 b, f32 c, f32 d);
 
 private:
     // initialize 0x7100c5d874 constructs a UniformBlock at +8 of each 0x80-byte
@@ -73,7 +76,9 @@ private:
     static_assert(offsetof(RenderUBO, mEnvStruct) == 0x80);
     static_assert(offsetof(RenderUBO, mEnvStructSize) == 0x88);
 
-    sead::Buffer<ViewUBO> mViewUBOs;
+    // getContextRenderUBO 0x7100c5dcf0 is const (CSV symbol) yet sets the entry flag and returns a
+    // writable block.
+    mutable sead::Buffer<ViewUBO> mViewUBOs;
     u8 _10[0x38 - 0x10];
     sead::Buffer<RenderUBO> mRenderUBOs;
     u8 _48;

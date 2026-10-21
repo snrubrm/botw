@@ -12,10 +12,21 @@ ModelDrawObj::ModelDrawObj()
       mPosition(sead::Vector3f::ones), _ec(sead::Matrix34f::ident), _120(nullptr),
       mDynamicEnvInfo(nullptr) {}
 
+ModelDrawObj::~ModelDrawObj() {
+    delete mDynamicEnvInfo;
+    if (_8 == 0)
+        delete _20;
+}
+
 void ModelDrawObj::freeBuffer(ModelDrawObj* array, int count) {
     for (int i = 1; i < count; ++i)
         array[i].~ModelDrawObj();
     array[0].~ModelDrawObj();
+}
+
+void ModelDrawObj::setInstanceValue(f32 value) {
+    for (int i = 0; i < _c; ++i)
+        _20->setDataIndexed(_8 * _c + i, 2, &value);
 }
 
 agl::lght::LocalLightMapObj* ModelDrawObj::getReferenceLocalLightMapObj() const {

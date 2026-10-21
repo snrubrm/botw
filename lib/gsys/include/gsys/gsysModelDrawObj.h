@@ -4,6 +4,7 @@
 #include <heap/seadHeap.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
+#include <common/aglUniformBlock.h>
 #include <cull/aglOcclusionQuery.h>
 
 namespace agl::lght {
@@ -43,6 +44,9 @@ public:
     static void initialize(ModelDrawObj* array, int count, const CreateArg& arg, sead::Heap* heap);
 
     agl::lght::LocalLightMapObj* getReferenceLocalLightMapObj() const;
+    // 0x7100c012f4: writes the value to slot 2 of each of this object's `_c` uniform block
+    // buffers (buffer index _8 * _c + i).
+    void setInstanceValue(f32 value);
     // 0x7100c01468 (declared only; body U): forwards to the environment info when present.
     void setReferenceLocalLightMapObj(const agl::lght::LocalLightMapObj* obj);
 
@@ -60,8 +64,9 @@ private:
     u16 _12;
     u8 _14[0x18 - 0x14];
     void* _18;
-    // Released through vtable slot 1 by the destructor unless +0x08 is set.
-    void* _20;
+    // initialize 0x7100c00c94 constructs and creates a UniformBlock here; the destructor
+    // deletes it unless +0x08 is set.
+    agl::UniformBlock* _20;
     // The constructor runs the OcclusionQuery constructor here, stores the vtable 0x7102531f60
     // and zeroes the sphere (+0xa0 centre, +0xac radius).
     agl::cull::OcclusionQuerySphere3f mOcclusionQuery;

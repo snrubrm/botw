@@ -1,4 +1,5 @@
 #include "gsys/gsysMaskedLight.h"
+#include "gsys/gsysModelSceneShadow.h"
 
 namespace gsys {
 
@@ -46,6 +47,29 @@ void MaskedLight::drawDebug(agl::DrawContext* context, const sead::Matrix34f& vi
 
 s32 MaskedLight::getTypeID() const {
     return sTypeInfo->id;
+}
+
+void MaskedLight::setShadowMap(int index, const agl::TextureSampler* sampler,
+                               const sead::Matrix44f& matrix) const {
+    if (!mLightPrePass)
+        return;
+    if (*mIsEnableShadow && (*mEnableShadowCtx & 1 << index) > 0)
+        setShadowMapImpl_(index, mLightPrePass, sampler, matrix);
+    else
+        setShadowMapImpl_(index, mLightPrePass, nullptr, matrix);
+}
+
+bool MaskedLight::assignModelSceneShadow(bool enable) const {
+    if (!mModelSceneShadow)
+        return false;
+    const bool enabled = mModelSceneShadow->isEnableMaskedLightShadow(this);
+    if (enable && *mIsEnableShadow && isEnable()) {
+        if (!enabled)
+            return mModelSceneShadow->enableMaskedLightShadow(this);
+    } else if (enabled) {
+        return mModelSceneShadow->disableMaskedLightShadow(this);
+    }
+    return true;
 }
 
 void MaskedLight::initializeImpl_(int, sead::Heap*) {}

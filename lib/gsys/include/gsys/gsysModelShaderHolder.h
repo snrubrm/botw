@@ -9,6 +9,11 @@ namespace sead {
 class Heap;
 }
 
+namespace nn::g3d {
+class ResMaterial;
+class ResModel;
+}  // namespace nn::g3d
+
 namespace gsys {
 
 class ModelShader;
@@ -25,6 +30,9 @@ public:
     // 0x7100c3d244 (declared only; the CSV had an nn::g3d name, but it takes a sead::SafeString and
     // sits in this class's TU).
     const ModelShader* searchModelShader(const sead::SafeString& name) const;
+    // 0x7100c3d3b4 (declared only)
+    const ModelShader* searchModelShader(const nn::g3d::ResModel* model,
+                                         const nn::g3d::ResMaterial* material) const;
     // ModelShaderHolder::searchModelShader 0x7100c6a768 compares this name.
     const sead::SafeString& getName() const { return mName; }
 

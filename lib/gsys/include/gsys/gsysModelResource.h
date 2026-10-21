@@ -8,6 +8,7 @@
 
 namespace nn::g3d {
 class ResFile;
+class ResModel;
 }
 
 namespace gsys {
@@ -15,6 +16,7 @@ class ModelShaderArchive;
 class ModelShaderVariationKey;
 class G3dResModelEx;
 class G3dResMaterialEx;
+class ModelShader;
 class G3dResShapeEx;
 class G3dResAnimationEx;
 namespace ModelEnum {
@@ -92,6 +94,9 @@ public:
     void countUpAnimationReferenceCounter();
     void countDownAnimationReferenceCounter();
     s32 getAnimationReferenceCounter() const;
+    // 0x7100c0c20c: the first shader of the resource's shader archives that matches the material.
+    const ModelShader* searchModelShader(const nn::g3d::ResModel* model,
+                                         const G3dResMaterialEx* material) const;
 
 private:
     // ModelResourceMgr c0c80c records the intrusive node offset as +28.
@@ -103,7 +108,10 @@ private:
     // Inline array indexed by MaterialAnmType (0x7100c0c28c adds type * 8 to this and loads
     // +0x58); the enum's extent is unproved, so eight slots are reserved.
     G3dResAnimationEx* mMaterialAnms[8];
-    u8 _98[0x17c - 0x98];
+    u8 _98[0xa8 - 0x98];
+    // searchModelShader 0x7100c0c20c walks these.
+    sead::PtrArray<ModelShaderArchive> mShaderArchives;
+    u8 _b8[0x17c - 0xb8];
     u32 mFlags;
     u8 _180[0x188 - 0x180];
     sead::Atomic<s32> mAnimationReferenceCounter;

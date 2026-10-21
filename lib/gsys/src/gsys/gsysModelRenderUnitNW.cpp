@@ -2,9 +2,30 @@
 #include <basis/seadNew.h>
 #include <new>
 #include <nn/g3d/ModelObj.h>
+#include "gsys/gsysG3dResShapeEx.h"
 #include "gsys/gsysModelNW.h"
 
 namespace gsys {
+
+ModelRenderUnitNW::ModelRenderUnitNW() = default;
+
+ModelRenderUnitNW::~ModelRenderUnitNW() {
+    if (mDisplayListFlags & 1) {
+        if (!(mDisplayListFlags & 2))
+            mResShapeEx->destroyShapeDL(&mShapeRenderInfos);
+        mDisplayListFlags &= ~1;
+    }
+    if (mShapeRecords) {
+        if (mIndex == 0) {
+            for (int i = 0; i < mModelUnit->getShapeNum(); ++i) {
+                delete mShapeRecords[i]._0;
+                mShapeRecords[i]._0 = nullptr;
+            }
+        }
+        delete mShapeRecords;
+        mShapeRecords = nullptr;
+    }
+}
 
 void ModelRenderUnitNW::setPolygonCtrl(u32 value) {
     mPolygonCtrl = value;

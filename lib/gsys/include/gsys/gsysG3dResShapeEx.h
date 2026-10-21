@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadSafeArray.h>
 #include <hostio/seadHostIONode.h>
 
 namespace agl::g3d {
@@ -11,6 +12,8 @@ class ResShape;
 }
 
 namespace gsys {
+
+class ModelAssignRenderInfo;
 
 // C6DD78 allocates arrays with stride 0x1190. Native table 24D0D50 has
 // Node::getNodeClassType followed by the class's own D1/D0.
@@ -28,6 +31,9 @@ public:
     agl::g3d::ModelShaderAttribute* getShaderAttribute(s32 pass) const {
         return mPasses[pass].attribute;
     }
+
+    // 0x7100c70794 (declared only): called by ~ModelRenderUnitNW 0x7100c09b2c.
+    void destroyShapeDL(sead::UnsafeArray<ModelAssignRenderInfo*, 60>* infos) const;
 
 private:
     struct Pass {

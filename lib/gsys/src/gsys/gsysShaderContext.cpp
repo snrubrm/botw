@@ -53,4 +53,23 @@ void ShaderContext::calcGpuDepthShadowCascade(int index, const sead::Matrix44f& 
     mViewUBOs.front().block.setData(17, &matrix, 4 * index, 4);
 }
 
+agl::UniformBlock* ShaderContext::getContextRenderUBO(int index) const {
+    mViewUBOs[index].flags |= 1;
+    return &mViewUBOs[index].block;
+}
+
+void ShaderContext::calcGpuStaticDepthShadow(const sead::Matrix44f& matrix) {
+    mViewUBOs.front().block.setData(20, &matrix, 0, 4);
+}
+
+void ShaderContext::calcGpuMaskDepthShadow(int index, const sead::Matrix44f& matrix) {
+    mViewUBOs.front().block.setData(25, &matrix, 4 * index, 4);
+}
+
+void ShaderContext::calcGpuShaderFrame(f32 a, f32 b, f32 c, f32 d) {
+    auto& block = mViewUBOs.front().block;
+    const sead::Vector4f values(a, b, c, d);
+    block.setData(10, &values);
+}
+
 }  // namespace gsys

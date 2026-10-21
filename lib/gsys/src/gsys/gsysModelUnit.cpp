@@ -1,4 +1,5 @@
 #include "gsys/gsysModelUnit.h"
+#include "gsys/gsysModelRenderUnit.h"
 
 namespace gsys {
 
@@ -445,6 +446,10 @@ bool ModelUnit::check(BoolType) const {
 // 0x7100c14774
 bool ModelUnit::setUpMaterialImpl(int, sead::Heap*) {
     return true;
+}
+
+int ModelUnit::getShapeSubMeshNum(int shape_idx) const {
+    return getModelRenderUnit(shape_idx)->getSubMeshNum(0);
 }
 
 }  // namespace gsys

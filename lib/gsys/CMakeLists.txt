@@ -15,6 +15,7 @@ add_library(gsys OBJECT
   include/gsys/gsysMemBuffer.h
   include/gsys/gsysModel.h
   include/gsys/gsysModelResource.h
+  include/gsys/gsysModelResourceMgr.h
   include/gsys/gsysModelDebugInfo.h
   include/gsys/gsysCameraAnimation.h
   include/gsys/gsysModelAutoAnimation.h
@@ -30,6 +31,7 @@ add_library(gsys OBJECT
   include/gsys/gsysShaderContext.h
   include/gsys/gsysModelScene.h
   include/gsys/gsysModelSceneComponent.h
+  include/gsys/gsysModelSceneShadow.h
   include/gsys/gsysModelSceneEnv.h
   include/gsys/gsysModelSceneConfig.h
   include/gsys/gsysEffectModelDrawMgr.h
@@ -63,6 +65,7 @@ add_library(gsys OBJECT
   src/gsys/gsysMaskedLight.cpp
   src/gsys/gsysModelMgr.cpp
   src/gsys/gsysModelResource.cpp
+  src/gsys/gsysModelResourceMgr.cpp
   src/gsys/gsysG3dResMaterialEx.cpp
   src/gsys/gsysModelShaderProgram.cpp
   src/gsys/gsysG3dResModelEx.cpp
