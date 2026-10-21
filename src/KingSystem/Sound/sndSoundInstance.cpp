@@ -227,6 +227,15 @@ bool Unk_7102502430::sub_710104A8AC() const {
     return _10.isEmpty();
 }
 
+const char* Unk_7102502430::sub_710104A8DC() const {
+    if (_10.isEmpty()) {
+        if (!_98 || !_98->mUserInstance)
+            return nullptr;
+        return _98->mUserInstance->getUserName();
+    }
+    return _10.cstr();
+}
+
 xlink2::UserInstanceSLink* Unk_7102502430::getUserInstance() const {
     if (_98)
         return _98->mUserInstance;
