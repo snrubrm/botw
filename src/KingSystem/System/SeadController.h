@@ -41,6 +41,9 @@ public:
 
     // Unnamed accessors (lane4 s47; placeholder names): the flag word at +0x188 and the values at +0x190 / 0x194 / 0x1a4.
     u32 sub_7100D9D874() const;
+    // 0x7100d9d87c (placeholder name): the pointer position (_40) of the Controller's input snapshot, or
+    // sead::ControllerBase::cInvalidPointer.
+    const sead::Vector2f& sub_7100D9D87C() const;
     void sub_7100D9D8C0(bool on);   // flag 0x80
     void sub_7100D9D8DC(u32 value);  // _190
     void sub_7100D9D8E4();  // accumulates controller masks, then applies them

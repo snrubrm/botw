@@ -4,6 +4,10 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys {
+class SeadController;
+}
+
 // Placeholder name: input snapshot embedded at Controller +0x38. The complete vtable at
 // 0x71024dd5c8 contains root RTTI methods followed by D1/D0 (0x7100d9e140 / 0x7100d9e144).
 class Unk_71024dd5c8 {
@@ -20,6 +24,7 @@ public:
 
 private:
     friend class Controller;
+    friend class ksys::SeadController;
 
     bool _8;
     u32 _c;

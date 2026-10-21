@@ -41,6 +41,18 @@ u32 SeadController::sub_7100D9D874() const {
     return _1a4;
 }
 
+// NON_MATCHING: ours loads the cInvalidPointer address once before the call (callee-saved register); the original
+// loads it on each path and saves no register.
+const sead::Vector2f& SeadController::sub_7100D9D87C() const {
+    auto* controller = ::Controller::instance();
+    if (!controller)
+        return sead::ControllerBase::cInvalidPointer;
+    auto* snapshot = controller->sub_7100D9F7DC();
+    if (!snapshot)
+        return sead::ControllerBase::cInvalidPointer;
+    return snapshot->_40;
+}
+
 void SeadController::sub_7100D9D8C0(bool on) {
     _188 = on ? (_188 | 0x80) : (_188 & ~0x80);
 }
