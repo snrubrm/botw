@@ -85,7 +85,9 @@ bool LastBossRandomHighWarp::m32() {
 
 // NON_MATCHING: register choice of the two member addresses of the select (x9/x10 swapped)
 float LastBossRandomHighWarp::m33() {
-    return *(_118 == 0 ? mOffsetY_s : mHighOffsetY_s);
+    if (_118 == 0)
+        return *mOffsetY_s;
+    return *mHighOffsetY_s;
 }
 
 }  // namespace uking::action
