@@ -1,4 +1,5 @@
 #include "Game/gameUnk_71008be174.h"
+#include <prim/seadXmlDocument.h>
 #include <controller/seadController.h>
 #include "Game/gameMaskController.h"
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -91,9 +92,14 @@ void Unk_71008be174::sub_71008BE778(bool* out) {
 // this class does not declare yet.
 Unk_710246d1e8::~Unk_710246d1e8() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x71008bde54) also destroys members or bases
-// this class does not declare yet.
-Unk_710246d140::~Unk_710246d140() = default;
+Unk_710246d140::Unk_710246d140() = default;
+
+Unk_710246d140::~Unk_710246d140() {
+    if (mFlags & 2)
+        sub_71008BDED4();
+    delete mDocument;
+    mDocument = nullptr;
+}
 
 // NON_MATCHING: placeholder destructor; the original (0x71008bedc4) also destroys members or bases
 // this class does not declare yet.

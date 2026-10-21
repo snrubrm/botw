@@ -1,6 +1,15 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <filedevice/seadFileDevice.h>
+#include <prim/seadRuntimeTypeInfo.h>
+#include "Game/gameUnk_71024739f8.h"
+
+namespace sead {
+class Heap;
+class XmlDocument;
+class XmlElement;
+}  // namespace sead
 
 namespace uking {
 
@@ -53,3 +62,34 @@ public:
 };
 
 }  // namespace uking
+
+// Secondary base of Unk_710246d140 at +0x480: only a virtual destructor (its vtable in the
+// 0x710246d140 group holds the D1 / D0 thunks 0x71008bdfb4 / 0x71008be0c0). Placeholder name.
+class Unk_710246d140Base {
+public:
+    virtual ~Unk_710246d140Base() = default;
+};
+
+// vtable 0x710246d140 (ctor 0x71008bddd8, D1 0x71008bde54, D0 0x71008be038): an input source that
+// records the controller input into an XML document (sub_71008BDED4 writes it to
+// "replay/win/replay.xml").
+class Unk_710246d140 : public uking::Unk_71024739f8, public Unk_710246d140Base {
+    SEAD_RTTI_OVERRIDE(Unk_710246d140, uking::Unk_71024739f8)
+public:
+    Unk_710246d140();
+    ~Unk_710246d140() override;
+    // 0x71008be300
+    void update() override { Unk_71024739f8::update(); }
+
+    // 0x71008bded4 (declared only): saves mDocument to "replay/win/replay.xml" (needs the write
+    // position of a sead::RamWriteStream, private in lib/sead).
+    void sub_71008BDED4();
+
+    /* 0x488 */ sead::Heap* mHeap = nullptr;
+    /* 0x490 */ sead::FileHandle mFileHandle;
+    /* 0x4d0 */ sead::XmlDocument* mDocument = nullptr;
+    /* 0x4d8 */ sead::XmlElement* mRoot = nullptr;
+    /* 0x4e0 */ u32 mFlags = 0;  // bit 1: save the document on destruction
+    /* 0x4e4 */ u8 _4e4 = 0;
+    /* 0x4e8 */ u32 _4e8 = 0;
+};
