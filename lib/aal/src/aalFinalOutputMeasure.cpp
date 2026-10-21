@@ -1,5 +1,8 @@
 #include "aal/aalFinalOutputMeasure.h"
 #include <math/seadMathCalcCommon.h>
+#include <nn/atk/SoundSystem.h>
+#include <nn/atk/detail/driver/HardwareManager.h>
+#include "aal/aalSystem.h"
 
 namespace aal {
 
@@ -39,6 +42,31 @@ s32 getChannelIndex(SpeakerChannel channel) {
     }
 }
 }  // namespace
+
+// 0x7100baa27c
+// NON_MATCHING: when the first two conditions fail, the original loads mIsActive and mIsFrameProcessAdded
+// together and branches on both (same logic, different block layout).
+void FinalOutputMeasure::updateActivation() {
+    const auto& hardware =
+        nn::atk::detail::Util::Singleton<nn::atk::detail::driver::HardwareManager>::GetInstance();
+    if ((hardware.GetRendererSampleRate() == 48000 && mDisplayMode != 0) || _158 || mIsActive) {
+        if (mIsFrameProcessAdded || nn::atk::SoundSystem::GetCircularBufferSinkBufferSize() == 0)
+            return;
+        if (!mFrameProcessMgr) {
+            mFrameProcessMgr = System::sInstance->mAudioFrameProcessMgr;
+            if (!mFrameProcessMgr) {
+                _36 = true;
+                return;
+            }
+        }
+        reset();
+        mIsFrameProcessAdded = mFrameProcessMgr->addProcess(this);
+    } else if (mIsFrameProcessAdded) {
+        if (mFrameProcessMgr)
+            mFrameProcessMgr->removeProcess(this);
+        mIsFrameProcessAdded = false;
+    }
+}
 
 // 0x7100baa514
 void FinalOutputMeasure::activate() {

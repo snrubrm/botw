@@ -16,6 +16,7 @@ class Viewport;
 namespace aal {
 
 class Arbiter;
+class AudioFrameProcessMgr;
 class AttenuationMgr;
 class FinalFxMgr;
 class GroupMgr;
@@ -72,7 +73,9 @@ public:
     SpeakerBalanceUnifierMgr* mSpeakerBalanceUnifierMgr;
     SoundSourceUnifier* mSoundSourceUnifier;
     FinalFxMgr* mFinalFxMgr;
-    u8 _78[0x10];
+    u8 _78[8];
+    /// FinalOutputMeasure::updateActivation 0x7100baa2d4 takes it when it has none of its own.
+    AudioFrameProcessMgr* mAudioFrameProcessMgr;
     SDKFoundation* mSDKFoundation;
     u8 _90[8];
     MemoryPoolManager* mMemoryPoolManager;

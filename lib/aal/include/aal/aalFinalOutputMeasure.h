@@ -47,7 +47,9 @@ private:
     void workerThreadProc_(bool is_quitting) override;
     void audioFrameProcess_() override;
     void analyze_();
-    /// 0x7100baa27c (declared only)
+    /// 0x7100baa0d0 (declared only)
+    void reset();
+    /// 0x7100baa27c
     void updateActivation();
     /// The different layouts of the information that drawInformation draws (declared only).
     void drawInformationSimple_(sead::DrawContext* context, sead::TextWriter* writer) const;
@@ -62,7 +64,8 @@ private:
     u8 _30[0x35 - 0x30];
     /// Set from AudioFrameProcessMgr::addProcess's result in updateActivation (0x7100baa2f8).
     bool mIsFrameProcessAdded;
-    u8 _36;
+    /// Set by updateActivation when there is no AudioFrameProcessMgr to add the measure to.
+    bool _36;
     bool mIsActive;
     u8 _38[0xe8 - 0x38];
     /// reset (0x7100baa0f8) sets both to -100; analyze_ writes them, calc takes the maximum of +0xe8.
@@ -71,7 +74,12 @@ private:
     u8 _f0[0xf4 - 0xf0];
     f32 mVU[6];
     f32 mSamplePeak[6];
-    u8 _124[0x160 - 0x124];
+    u8 _124[0x130 - 0x124];
+    AudioFrameProcessMgr* mFrameProcessMgr;
+    u8 _138[0x158 - 0x138];
+    /// Also keeps the measure active (updateActivation).
+    bool _158;
+    u8 _159[0x160 - 0x159];
     s32 mDisplayMode;
     u8 _164[0x218 - 0x164];
 };
