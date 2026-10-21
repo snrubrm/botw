@@ -217,16 +217,142 @@ const PartCounts sC6d0Parts[] = {{5, 3}, {6, 4}};
 const PartCounts sC808Parts[] = {{5, 3}, {6, 4}};
 const PartCounts sC940Parts[] = {{5, 4}, {5, 4}};
 const PartCounts sCa78Parts[] = {{8, 6}, {8, 6}};
+
+// Per-type data of the grass draw commands, indexed by m29().
+struct GrassTypeInfo {
+    u32 _0;
+    // Vertex budget (m28() returns its inverse).
+    u32 budget;
+    u32 _8;
+    const PartCounts* parts;
+    // Types 0 (Turf) and 7 (Cross) double each part's vertices.
+    bool doubled;
+    bool _19;
+    u32 _1c;
+    f32 _20;
+};
+const GrassTypeInfo sGrassTypes[] = {
+    {0x01234567, 6400, 8, sBf80Parts, true, true, 5, 0.5f},
+    {0x11234567, 1024, 12, sC1f0Parts, false, true, 5, 0.5f},
+    {0x21234567, 1024, 12, sC328Parts, false, true, 5, 0.5f},
+    {0x31234567, 1024, 12, sC460Parts, false, true, 5, 0.5f},
+    {0x41234567, 256, 12, sC598Parts, false, true, 5, 0.5f},
+    {0x66666666, 1024, 12, sC6d0Parts, false, false, 5, 0.5f},
+    {0x66666666, 1024, 12, sC808Parts, false, false, 5, 0.5f},
+    {0x61234567, 576, 4, sC0b8Parts, true, true, 8, 0.2f},
+    {0x71234567, 64, 12, sC940Parts, false, true, 8, 0.5f},
+    {0x81234567, 256, 12, sCa78Parts, false, true, 8, 0.5f},
+};
 }  // namespace
 
-// NON_MATCHING: the original loads the part's vertex count before the m29() call.
 s32 Unk_710251bf80::m8() {
     s32 total = 0;
-    for (s32 i = 0; i < m13(); ++i) {
-        const s32 type = m29();
-        total += sBf80Parts[i].vertices * (type == 7 || type == 0 ? 2 : 1) * 6400;
-    }
+    for (s32 i = 0; i < m13(); ++i)
+        total += sBf80Parts[i].vertices * (sGrassTypes[m29()].doubled ? 2 : 1) * 6400;
     return total;
+}
+
+s32 Unk_710251bf80::m12() {
+    return sGrassTypes[m29()]._8;
+}
+
+s32 Unk_710251c0b8::m8() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sC0b8Parts[i].vertices * (sGrassTypes[m29()].doubled ? 2 : 1) * 576;
+    return total;
+}
+
+s32 Unk_710251c0b8::m12() {
+    return sGrassTypes[m29()]._8;
+}
+
+s32 Unk_710251c1f0::m8() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sC1f0Parts[i].vertices * (sGrassTypes[m29()].doubled ? 2 : 1) * 1024;
+    return total;
+}
+
+s32 Unk_710251c1f0::m12() {
+    return sGrassTypes[m29()]._8;
+}
+
+s32 Unk_710251c328::m8() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sC328Parts[i].vertices * (sGrassTypes[m29()].doubled ? 2 : 1) * 1024;
+    return total;
+}
+
+s32 Unk_710251c328::m12() {
+    return sGrassTypes[m29()]._8;
+}
+
+s32 Unk_710251c460::m8() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sC460Parts[i].vertices * (sGrassTypes[m29()].doubled ? 2 : 1) * 1024;
+    return total;
+}
+
+s32 Unk_710251c460::m12() {
+    return sGrassTypes[m29()]._8;
+}
+
+s32 Unk_710251c598::m8() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sC598Parts[i].vertices * (sGrassTypes[m29()].doubled ? 2 : 1) * 256;
+    return total;
+}
+
+s32 Unk_710251c598::m12() {
+    return sGrassTypes[m29()]._8;
+}
+
+s32 Unk_710251c6d0::m8() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sC6d0Parts[i].vertices * (sGrassTypes[m29()].doubled ? 2 : 1) * 1024;
+    return total;
+}
+
+s32 Unk_710251c6d0::m12() {
+    return sGrassTypes[m29()]._8;
+}
+
+s32 Unk_710251c808::m8() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sC808Parts[i].vertices * (sGrassTypes[m29()].doubled ? 2 : 1) * 1024;
+    return total;
+}
+
+s32 Unk_710251c808::m12() {
+    return sGrassTypes[m29()]._8;
+}
+
+s32 Unk_710251c940::m8() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sC940Parts[i].vertices * (sGrassTypes[m29()].doubled ? 2 : 1) * 64;
+    return total;
+}
+
+s32 Unk_710251c940::m12() {
+    return sGrassTypes[m29()]._8;
+}
+
+s32 Unk_710251ca78::m8() {
+    s32 total = 0;
+    for (s32 i = 0; i < m13(); ++i)
+        total += sCa78Parts[i].vertices * (sGrassTypes[m29()].doubled ? 2 : 1) * 256;
+    return total;
+}
+
+s32 Unk_710251ca78::m12() {
+    return sGrassTypes[m29()]._8;
 }
 
 s32 Unk_710251bf80::m9() {
