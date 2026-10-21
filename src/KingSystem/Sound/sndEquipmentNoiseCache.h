@@ -46,7 +46,7 @@ public:
     // 0x71012c3968 (placeholder name): m6(), then clears _c and _d.
     void sub_71012C3968();
 
-    u32 _8 = 0;
+    s32 _8 = 0;
     bool _c = false;
     bool _d = false;
 };
@@ -73,6 +73,8 @@ public:
 
     // 0x71012c3bc8 (declared only): searches the equipment noise locator of `name` in the player's SLink user.
     bool sub_71012C3BC8(const sead::SafeString& name);
+    // 0x71012c44a0: picks the next of three variants at random and writes the asset name for `strength`.
+    void sub_71012C44A0(sead::BufferedSafeString* out, const Unk_710251b170::Strength* strength);
 
     /* 0x10 */ sead::FixedSafeString<48> mName;
     /* 0x58 */ xlink2::Locator mLocator;

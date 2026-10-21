@@ -1,3 +1,4 @@
+#include <random/seadGlobalRandom.h>
 #include "KingSystem/Sound/sndEquipmentNoiseCache.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -47,6 +48,15 @@ void Unk_710251b170::sub_71012C3074() {
     }
     mInitialized = true;
 }
+namespace {
+// 0x710251b090 / 0x710251b0c0 / 0x710251b0e0 / 0x710251b0f8 / 0x710251b110
+const char* const sVariantNames[3] = {"00", "01", "02"};
+const char* const sStrengthNames[4] = {"Slow", "Slow", "Fast", "Strong"};
+const char* const sWeakVariantNames[3] = {"02", "03", "04"};
+const char* const sMiddleVariantNames[3] = {"01", "03", "06"};
+const char* const sOtherVariantNames[3] = {"04", "05", "06"};
+}  // namespace
+
 Unk_710251b028::Unk_710251b028() {
     if (!sEquipmentNoiseCache.isInitialized())
         sEquipmentNoiseCache.sub_71012C3074();
@@ -58,6 +68,29 @@ Unk_710251b028::~Unk_710251b028() { ; }
 
 bool Unk_710251b028::m3() {
     return sub_71012C3BC8(mName);
+}
+
+void Unk_710251b028::sub_71012C44A0(sead::BufferedSafeString* out,
+                                     const Unk_710251b170::Strength* strength) {
+    const u32 random = sead::GlobalRandom::instance()->getU32();
+    s32 variant = _8 + (random & 1) * 2 - 1;
+    if (variant > 2)
+        variant = 0;
+    if (variant < 0)
+        variant = 2;
+    _8 = variant;
+
+    if (_70) {
+        const char* const* names = sOtherVariantNames;
+        if (*strength == Unk_710251b170::Strength::Weak)
+            names = sWeakVariantNames;
+        else if (*strength == Unk_710251b170::Strength::Middle)
+            names = sMiddleVariantNames;
+        out->format("Skn_Pl_%s_%s", mName.cstr(), names[_8]);
+    } else {
+        out->format("Skn_Pl_%s_%s%s", mName.cstr(), sStrengthNames[*strength],
+                    sVariantNames[_8]);
+    }
 }
 
 void Unk_710251b028::m6() {
