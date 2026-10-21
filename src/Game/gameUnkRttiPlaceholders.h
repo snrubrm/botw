@@ -813,8 +813,8 @@ public:
     virtual void m18();
     virtual s32 m19() { return 4; }
     virtual s32 m20() { return 2; }
-    virtual void m21();
-    virtual void m22();
+    virtual u32 m21(s32 index);
+    virtual u32 m22(s32 index);
     virtual bool m23() { return false; }
     virtual void m24();
     virtual void m25();
@@ -861,8 +861,8 @@ public:
     virtual void m18();
     virtual s32 m19() { return 4; }
     virtual s32 m20() { return 2; }
-    virtual void m21();
-    virtual void m22();
+    virtual u32 m21(s32 index);
+    virtual u32 m22(s32 index);
     virtual bool m23() { return false; }
     virtual void m24();
     virtual void m25();
@@ -1529,8 +1529,8 @@ public:
     virtual void m18();
     virtual void m19();
     virtual s32 m20() { return 2; }
-    virtual void m21();
-    virtual void m22();
+    virtual u32 m21(s32 index);
+    virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
@@ -1565,8 +1565,8 @@ public:
     virtual void m18();
     virtual s32 m19() { return 2817; }
     virtual s32 m20() { return 2; }
-    virtual void m21();
-    virtual void m22();
+    virtual u32 m21(s32 index);
+    virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
@@ -1601,8 +1601,8 @@ public:
     virtual void m18();
     virtual void m19();
     virtual s32 m20() { return 2; }
-    virtual void m21();
-    virtual void m22();
+    virtual u32 m21(s32 index);
+    virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
@@ -1637,8 +1637,8 @@ public:
     virtual void m18();
     virtual void m19();
     virtual s32 m20() { return 2; }
-    virtual void m21();
-    virtual void m22();
+    virtual u32 m21(s32 index);
+    virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
@@ -1673,8 +1673,8 @@ public:
     virtual void m18();
     virtual void m19();
     virtual s32 m20() { return 2; }
-    virtual void m21();
-    virtual void m22();
+    virtual u32 m21(s32 index);
+    virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
@@ -1709,8 +1709,8 @@ public:
     virtual void m18();
     virtual void m19();
     virtual s32 m20() { return 2; }
-    virtual void m21();
-    virtual void m22();
+    virtual u32 m21(s32 index);
+    virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
@@ -1745,8 +1745,8 @@ public:
     virtual void m18();
     virtual void m19();
     virtual s32 m20() { return 2; }
-    virtual void m21();
-    virtual void m22();
+    virtual u32 m21(s32 index);
+    virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
@@ -1781,8 +1781,8 @@ public:
     virtual void m18();
     virtual void m19();
     virtual s32 m20() { return 2; }
-    virtual void m21();
-    virtual void m22();
+    virtual u32 m21(s32 index);
+    virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
@@ -1817,8 +1817,8 @@ public:
     virtual void m18();
     virtual void m19();
     virtual s32 m20() { return 2; }
-    virtual void m21();
-    virtual void m22();
+    virtual u32 m21(s32 index);
+    virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();
@@ -1853,8 +1853,8 @@ public:
     virtual void m18();
     virtual void m19();
     virtual s32 m20() { return 2; }
-    virtual void m21();
-    virtual void m22();
+    virtual u32 m21(s32 index);
+    virtual u32 m22(s32 index);
     virtual s32 m23() { return 6; }
     virtual void m24();
     virtual void m25();

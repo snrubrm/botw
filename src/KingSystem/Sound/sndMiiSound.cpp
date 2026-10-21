@@ -172,6 +172,13 @@ struct PartCounts {
     u16 indices;
 };
 const PartCounts sBf80Parts[] = {{3, 1}, {3, 1}};
+
+// Two {?, index} pairs shared by the grass draw commands (m21 / m22).
+struct BufferPair {
+    u32 a;
+    u32 b;
+};
+const BufferPair sGrassBufferPairs[] = {{4, 0}, {5, 1}};
 const PartCounts sC0b8Parts[] = {{4, 2}, {4, 2}};
 const PartCounts sC1f0Parts[] = {{5, 4}, {5, 4}};
 const PartCounts sC328Parts[] = {{4, 2}, {4, 2}};
@@ -382,6 +389,86 @@ const char* Unk_710251ca78::m27() {
 
 f32 Unk_710251ca78::m28() {
     return 1.0f / 256.0f;
+}
+
+u32 Unk_710251bf80::m21(s32 index) {
+    return sGrassBufferPairs[index].a;
+}
+
+u32 Unk_710251bf80::m22(s32 index) {
+    return sGrassBufferPairs[index].b;
+}
+
+u32 Unk_710251c0b8::m21(s32 index) {
+    return sGrassBufferPairs[index].a;
+}
+
+u32 Unk_710251c0b8::m22(s32 index) {
+    return sGrassBufferPairs[index].b;
+}
+
+u32 Unk_710251c1f0::m21(s32 index) {
+    return sGrassBufferPairs[index].a;
+}
+
+u32 Unk_710251c1f0::m22(s32 index) {
+    return sGrassBufferPairs[index].b;
+}
+
+u32 Unk_710251c328::m21(s32 index) {
+    return sGrassBufferPairs[index].a;
+}
+
+u32 Unk_710251c328::m22(s32 index) {
+    return sGrassBufferPairs[index].b;
+}
+
+u32 Unk_710251c460::m21(s32 index) {
+    return sGrassBufferPairs[index].a;
+}
+
+u32 Unk_710251c460::m22(s32 index) {
+    return sGrassBufferPairs[index].b;
+}
+
+u32 Unk_710251c598::m21(s32 index) {
+    return sGrassBufferPairs[index].a;
+}
+
+u32 Unk_710251c598::m22(s32 index) {
+    return sGrassBufferPairs[index].b;
+}
+
+u32 Unk_710251c6d0::m21(s32 index) {
+    return sGrassBufferPairs[index].a;
+}
+
+u32 Unk_710251c6d0::m22(s32 index) {
+    return sGrassBufferPairs[index].b;
+}
+
+u32 Unk_710251c808::m21(s32 index) {
+    return sGrassBufferPairs[index].a;
+}
+
+u32 Unk_710251c808::m22(s32 index) {
+    return sGrassBufferPairs[index].b;
+}
+
+u32 Unk_710251c940::m21(s32 index) {
+    return sGrassBufferPairs[index].a;
+}
+
+u32 Unk_710251c940::m22(s32 index) {
+    return sGrassBufferPairs[index].b;
+}
+
+u32 Unk_710251ca78::m21(s32 index) {
+    return sGrassBufferPairs[index].a;
+}
+
+u32 Unk_710251ca78::m22(s32 index) {
+    return sGrassBufferPairs[index].b;
 }
 
 // Draw-command counts: m10 is the vertex count times the per-vertex count of slot 12,

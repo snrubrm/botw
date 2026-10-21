@@ -148,6 +148,31 @@ s32 Unk_71025049d0::m11() {
     return mIndexCount * 4;
 }
 
+namespace {
+// Two {?, index} pairs shared by the tree draw commands (m21 / m22).
+struct BufferPair {
+    u32 a;
+    u32 b;
+};
+const BufferPair sTreeBufferPairs[] = {{11, 0}, {12, 1}};
+}  // namespace
+
+u32 Unk_7102504850::m21(s32 index) {
+    return sTreeBufferPairs[index].a;
+}
+
+u32 Unk_7102504850::m22(s32 index) {
+    return sTreeBufferPairs[index].b;
+}
+
+u32 Unk_71025049d0::m21(s32 index) {
+    return sTreeBufferPairs[index].a;
+}
+
+u32 Unk_71025049d0::m22(s32 index) {
+    return sTreeBufferPairs[index].b;
+}
+
 const char* Unk_7102504850::m26() {
     return "DrawTree0__Tree0";
 }
