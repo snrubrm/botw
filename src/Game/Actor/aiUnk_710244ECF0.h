@@ -11,12 +11,14 @@
 // 0x71006e7ddc, m4 0x71006e7e48): an ActorBind variant that binds the owner's actor to a node of the
 // bound actor (name in `_68`; m4 is not decompiled yet). Embedded in ChemicalElectricWaterBall (+0xc0),
 // RodMagicPhysBall (+0xe8) and Stick (+0x48). D1 / D0 / m5 are inline (emitted in the users' TUs).
+// Vtable 0x710244ecf0: slots 0 / 1 are ActorBind's RTTI functions (no RTTI override).
 class Unk_710244ecf0 : public ksys::act::ActorBind {
-    SEAD_RTTI_OVERRIDE(Unk_710244ecf0, ksys::act::ActorBind)
 public:
     Unk_710244ecf0();
     ~Unk_710244ecf0() override = default;
 
+    // 0x71006e7e48: binds the actor to the linked actor's matrix (or named bone, _68) or to the bind model's
+    // matrix, times _28.
     bool m4(ksys::act::BaseProc* proc) override;
     // Native 6E80F0 is the explicit false query in ActorBind slot 5.
     bool m5(ksys::act::BaseProc* proc) override;
