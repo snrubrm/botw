@@ -48,13 +48,11 @@ LocationalLightMgr::ObjectLight::Light::~Light() {
     mVisibilityMask = 0xffff;
 }
 
-// NON_MATCHING: clang folds the redundant `& 0xffff` after the mask test (one instruction).
 void LocationalLightMgr::ObjectLight::Light::drawDebug(agl::DrawContext* context,
                                                        const sead::Matrix34f& view,
                                                        const sead::Matrix44f& projection,
                                                        int view_index) const {
-    const u16 mask = mVisibilityMask & (1 << view_index);
-    if (!mask)
+    if (!getVisibilityMaskMaybe().isOnBit(view_index))
         return;
     if (!mRenderLight)
         return;

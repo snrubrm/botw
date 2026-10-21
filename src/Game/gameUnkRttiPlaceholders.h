@@ -5,6 +5,7 @@
 #include "KingSystem/Terrain/teraEditor.h"
 
 #include <prim/seadSafeString.h>
+#include <prim/seadBitFlag.h>
 #include <aal/aalAudioResource.h>
 #include <xlink2/xlink2HandleELink.h>
 #include <xlink2/xlink2HandleSLink.h>
@@ -256,8 +257,15 @@ public:
     u32 _48 = 0;
     u8 _4c[0x50 - 0x4c];
     void* _50 = nullptr;
+    // One bit per view (drawDebug tests bit view_index of _5a through BitFlag16::isOnBit: the
+    // original masks the result to 16 bits).
     u16 _58 = 0xffff;
     u16 _5a = 0xffff;
+
+    // inline-only in the original; name is a guess. The drawDebug overrides of 0x7102519460 /
+    // 0x7102519540 / 0x7102519620 / 0x7102519708 test bit view_index of _5a through a
+    // sead::BitFlag16 copy (the result is masked to 16 bits before the branch).
+    sead::BitFlag16 getViewMaskMaybe() const { return _5a; }
     // Slot 4 of the record vtable: the render-light debug draw that
     // LocationalLightMgr::ObjectLight::Light::drawDebug forwards to (0x7100f1839c).
     virtual void drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,

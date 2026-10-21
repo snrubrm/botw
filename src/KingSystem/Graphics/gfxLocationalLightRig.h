@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <gsys/gsysIModelRigObj.h>
 #include <gsys/gsysModelRig.h>
+#include <prim/seadBitFlag.h>
 #include "KingSystem/Graphics/gfxLocationalLightMgr.h"
 
 namespace sead::hostio {
@@ -41,6 +42,12 @@ public:
     s16 mBoneIndex = -1;
     s16 mEndBoneIndex = -1;
     u16 mVisibilityMask = 0;
+
+    // inline-only in the original; name is a guess. drawDebug 0x7100f1839c tests the view bit through
+    // a sead::BitFlag16 copy, as the render lights' drawDebug overrides do with their own mask
+    // (Unk_7102519378::getViewMaskMaybe).
+    sead::BitFlag16 getVisibilityMaskMaybe() const { return mVisibilityMask; }
+
     // F172F0 writes both bone/world positions; the constructor leaves them uninitialized.
     sead::Vector3f mPosition;
     sead::Vector3f mEndPosition;

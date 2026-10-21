@@ -241,12 +241,11 @@ void Unk_7102519460::setColorAndLuminance(const sead::Color4f& color) {
     _100 = sead::Mathf::clampMin(setColor(color), 0.0f);
 }
 
-// NON_MATCHING: the original masks the view bit test with 0xffff before the branch.
 void Unk_7102519460::drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
                                const sead::Matrix44f& projection, int view_index) const {
     if (!_50 || !(_48 & 1) || !m11())
         return;
-    if (!(_5a & (1 << view_index)))
+    if (!getViewMaskMaybe().isOnBit(view_index))
         return;
 
     const f32 radius = std::max(mRadius, 0.0f);
@@ -316,12 +315,11 @@ void Unk_7102519540::setColorAndLuminance(const sead::Color4f& color) {
     _100 = sead::Mathf::clampMin(setColor(color), 0.0f);
 }
 
-// NON_MATCHING: the original masks the view bit test with 0xffff before the branch.
 void Unk_7102519540::drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
                                const sead::Matrix44f& projection, int view_index) const {
     if (!_50 || !(_48 & 1) || !m11())
         return;
-    if (!(_5a & (1 << view_index)))
+    if (!getViewMaskMaybe().isOnBit(view_index))
         return;
 
     const f32 radius = std::max(mRadius, 0.0f);
@@ -375,12 +373,11 @@ void Unk_71025195b0::setColorAndLuminance(const sead::Color4f& color) {
 Unk_7102519620::Unk_7102519620() = default;
 Unk_7102519620::~Unk_7102519620() = default;
 
-// NON_MATCHING: the original masks the view bit test with 0xffff before the branch.
 void Unk_7102519620::drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
                                const sead::Matrix44f& projection, int view_index) const {
     if (!_50 || !(_48 & 1) || !m11())
         return;
-    if (!(_5a & (1 << view_index)))
+    if (!getViewMaskMaybe().isOnBit(view_index))
         return;
 
     sead::Vector3f dir = mDir;
@@ -484,12 +481,11 @@ void Unk_7102519708::setColorAndLuminance(const sead::Color4f& color) {
     _104 = setColor(color);
 }
 
-// NON_MATCHING: the original masks the view bit test with 0xffff before the branch.
 void Unk_7102519708::drawDebug(agl::DrawContext* context, const sead::Matrix34f& view,
                                const sead::Matrix44f& projection, int view_index) const {
     if (!_50 || !(_48 & 1) || !m11())
         return;
-    if (!(_5a & (1 << view_index)))
+    if (!getViewMaskMaybe().isOnBit(view_index))
         return;
 
     sead::Vector3f dir = mDir;
