@@ -1365,6 +1365,11 @@ struct Unk_SoundMgr30_240;
 // Placeholder name (SoundMgr::_30; CSV snd::BgmMgr::ctor / init): the BGM side of the sound manager (vtable
 // 0x71024fc918: D1 0x7100ff7e1c, D0 0x7100ff7ef0, 0x7100ff8338).
 struct Unk_SoundMgr30 {
+    // Fade kind of the four BGM controller start/stop helpers below: 0 stops without a fade, 1 uses _50 / _54,
+    // 2 uses _58. The value is passed by value and the original keeps it in a 64-bit register (the call sites
+    // materialize 0 as `mov xN, xzr` and 1 / 2 as `orr wN`).
+    SEAD_ENUM(FadeType, _0, _1, _2)
+
     Unk_SoundMgr30();
     virtual ~Unk_SoundMgr30();
     // 0x7100ff8338: loads the music definition (Sound/Music/MusicList.bmscdef) and creates _10 and _18 on `heap`.
@@ -1375,12 +1380,12 @@ struct Unk_SoundMgr30 {
     // 0x7100ff8804 (declared only; 164 B): called by SoundMgr::sub_71011FC288.
     void sub_7100FF8804();
     void sub_7100FF85E0();
-    void sub_7100FF8684(s32 fade_type);
+    void sub_7100FF8684(FadeType fade_type);
     // 0x7100ff8730: deletes the controller and resets the controller type.
     void sub_7100FF8730();
-    void sub_7100FF8780(s32 fade_type);
-    void sub_7100FF88A8(s32 fade_type);
-    void sub_7100FF8AC4(s32 fade_type);
+    void sub_7100FF8780(FadeType fade_type);
+    void sub_7100FF88A8(FadeType fade_type);
+    void sub_7100FF8AC4(FadeType fade_type);
     // 0x7100ff88d0: per-frame update; drops the finished sound objects.
     void sub_7100FF88D0();
     // 0x7100ff8b24 / 0x7100ff8b94: add / remove a sound object from the ObjList at +0x90.

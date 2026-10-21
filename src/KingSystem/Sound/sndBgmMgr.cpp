@@ -108,12 +108,12 @@ void Unk_SoundMgr30::sub_7100FF85E0() {
     _88 &= ~4;
 }
 
-void Unk_SoundMgr30::sub_7100FF8684(s32 fade_type) {
+void Unk_SoundMgr30::sub_7100FF8684(FadeType fade_type) {
     if (_48 && (_88 & 1)) {
         f32 fade_sec = 0.1f;
-        if (fade_type == 1)
+        if (fade_type == FadeType::_1)
             fade_sec = _54;
-        else if (fade_type == 2)
+        else if (fade_type == FadeType::_2)
             fade_sec = _58;
         _48->m7(fade_sec);
         _60.setValueImmediate(0.0f);
@@ -133,9 +133,9 @@ void Unk_SoundMgr30::sub_7100FF8730() {
     _40 = BgmControllerType::_0;
 }
 
-void Unk_SoundMgr30::sub_7100FF8780(s32 fade_type) {
+void Unk_SoundMgr30::sub_7100FF8780(FadeType fade_type) {
     if (_48 && !(_88 & 1)) {
-        const f32 fade_sec = fade_type == 1 ? _50 : 0.0f;
+        const f32 fade_sec = fade_type == FadeType::_1 ? _50 : 0.0f;
         _48->m6(fade_sec);
         _60.setValueImmediate(0.0f);
         _60.moveTo(1.0f, fade_sec);
@@ -155,9 +155,9 @@ void Unk_SoundMgr30::sub_7100FF8804() {
     }
 }
 
-void Unk_SoundMgr30::sub_7100FF88A8(s32 fade_type) {
+void Unk_SoundMgr30::sub_7100FF88A8(FadeType fade_type) {
     if (_78)
-        _78->sub_7101007AA0(fade_type == 1 ? _50 : 0.0f);
+        _78->sub_7101007AA0(fade_type == FadeType::_1 ? _50 : 0.0f);
 }
 
 // Tunables read by the getters below (never written in the release build).
@@ -190,12 +190,12 @@ Unk_SoundMgr30_30* Unk_SoundMgr30::sub_7100FF8A24() {
     return nullptr;
 }
 
-void Unk_SoundMgr30::sub_7100FF8AC4(s32 fade_type) {
+void Unk_SoundMgr30::sub_7100FF8AC4(FadeType fade_type) {
     if (_78) {
         f32 fade_sec = 0.1f;
-        if (fade_type == 1)
+        if (fade_type == FadeType::_1)
             fade_sec = _54;
-        else if (fade_type == 2)
+        else if (fade_type == FadeType::_2)
             fade_sec = _58;
         _78->sub_7101007A08(fade_sec);
     }

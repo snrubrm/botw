@@ -38,7 +38,7 @@ void ExpressionSoundCtrl::sub_710104F030() {
 }
 
 // NON_MATCHING: the original copies the argument as a 64-bit register (a 4-byte class type, like UiSoundKind?).
-void ExpressionSoundCtrl::sub_710104F1B8(s32 state) {
+void ExpressionSoundCtrl::sub_710104F1B8(u64 state) {
     if (_30 != 2)
         return;
     _38 = _28->searchAndEmit("Slow");
