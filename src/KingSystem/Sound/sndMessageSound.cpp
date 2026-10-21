@@ -298,6 +298,26 @@ const u32 sTreeCountLimits[2][8][10] = {
         {10, 10, 10, 10, 36, 10, 10, 10, 10, 10},
     },
 };
+
+// Per-type data of the tree draw commands (0x71025045f0); m36 reads the record stride.
+const u32 sUnk_7101EC38CC[] = {4, 2};
+const u16 sUnk_7101EC38C4[] = {5, 3};
+struct TreeTypeInfo {
+    const u32* _0;
+    const u16* stride;
+};
+const TreeTypeInfo sTreeTypes[] = {{sUnk_7101EC38CC, sUnk_7101EC38C4},
+                                   {sUnk_7101EC38CC, sUnk_7101EC38C4}};
+
+// A tree instance record in the vertex buffer: 16.16 position fractions in the cell, then a value.
+struct TreeRecord {
+    u16 x;
+    u16 y;
+    u16 z;
+    u16 value;
+    u8 _8[0x14 - 0x8];
+};
+static_assert(sizeof(TreeRecord) == 0x14);
 }  // namespace
 
 void Unk_71025046d0::sub_7101084D9C(const sead::Vector3f& pos) {
@@ -323,6 +343,35 @@ void Unk_71025046d0::sub_710108515C(void* arg) {
 void Unk_71025046d0::sub_7101085198(s32 value) {
     _58 = value;
     m43();
+}
+
+// 0x7101086d60: the value of tree record `index` in the cell at pos, or -1 if the record is not at pos.
+// NON_MATCHING: register allocation (the original reloads the record address for the value and
+// hoists the constant 2); 12 bytes shorter.
+f32 Unk_71025046d0::m36(u32 index, const sead::Vector3f& pos) {
+    const u32 type = m28();
+    const s32 ix = ksys::tera::sub_710107F9C4(pos.x);
+    const s32 iz = ksys::tera::sub_710107FA0C(pos.z);
+    if (index >= sUnk_710261DF90[1][type][iz][ix] + sUnk_710261DF90[0][type][iz][ix])
+        return -1.0f;
+
+    const f32 fx = pos.x / 1000.0f - (ix - 5);
+    const f32 fz = pos.z / 1000.0f - (iz - 4);
+    if (fx < 0.0f || fx >= 1.0f || fz < 0.0f || fz >= 1.0f)
+        return -1.0f;
+
+    const u32 i = *sTreeTypes[type].stride * index;
+    const auto* records = static_cast<const TreeRecord*>(mVertices) + u32(_58 * _5c);
+    // Whether a 16.16 fixed-point record coordinate is within 2 of `coord`.
+    const auto is_near = [](u16 value, f32 coord) {
+        const s32 diff = value - s32(coord * 65536.0f);
+        return diff >= -2 && diff <= 2;
+    };
+    const TreeRecord& record = records[i];
+    if (!is_near(record.x, fx) || !is_near(record.y, pos.y / 1000.0f) || !is_near(record.z, fz)) {
+        return -1.0f;
+    }
+    return records[i].value;
 }
 
 u32 Unk_71025046d0::m42() {
