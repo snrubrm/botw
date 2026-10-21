@@ -381,6 +381,15 @@ public:
     void unload2();
     void sub_71010CC5AC();
     void sub_71010CC5B4();
+    // The per-pool calc steps called by sub_71010CC5B4, in call order. Their receivers are this
+    // ChemicalMgr (0x71010cc710 reads _af0); the three middle ones also take the frame delta.
+    // Declarations only: the bodies are still U.
+    void sub_71010CC710();
+    void sub_71010CCB30(f32 delta);
+    void sub_71010CCDA0(f32 delta);
+    void sub_71010CD440(f32 delta);
+    void sub_71010CD758();
+    void sub_71010CDB00();
     void sub_71010CE760();
     // Pair-processing helper at 0x71010CE7DC consumes the current VFR delta frame.
     void sub_71010CE7DC(f32 delta_frame);
