@@ -22,7 +22,10 @@ public:
 
         aal::Handle handle;
         f32 distance = 0.0f;
-        u8 _14[0x20 - 0x14];
+        // Retries left and frames until the next check (calc).
+        /* 0x14 */ s32 _14;
+        /* 0x18 */ s32 _18;
+        u8 _1c[0x20 - 0x1c];
     };
 
     struct Entry {
@@ -48,8 +51,11 @@ public:
 
     // 0x71012c77f0: allocates the lists.
     void init(sead::Heap* heap, sead::Heap* heap2);
-    // 0x71012c7a08 (declared only): per-frame update of the lists.
+    // 0x71012c7a08: per-frame update of the lists (the first lists are kept for _60 frames once they are not
+    // empty; the second lists' items are checked every few frames and stopped when the check keeps failing).
     void calc();
+    // 0x71012c7c18 (declared only): the check of an item of the second list of `kind`.
+    bool sub_71012C7C18(s32 kind, Item* item);
 
     /* 0x008 */ bool mInitialized = false;
     /* 0x010 */ sead::SafeArray<Entry, 11> mEntries;
