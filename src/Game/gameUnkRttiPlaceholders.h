@@ -779,8 +779,14 @@ public:
     ~Unk_71025046d0() override;
 
     // Not modelled yet (base data or this class's first fields).
-    u8 _30[0x68 - 0x30];
+    u32 _30;
+    u32 _34;
+    u8 _38[0x60 - 0x38];
+    s32 _60;
+    u8 _64[0x68 - 0x64];
     sead::CriticalSection mCS;
+    u8 _a8[0x30a8 - 0xa8];
+    s32 _30a8;
 };
 
 // vtable 0x7102504850 (46 slots); placeholder generated from the vtable (genskel.py).
@@ -792,8 +798,8 @@ public:
     ~Unk_7102504850() override;
     s32 m8() override;
     s32 m9() override;
-    virtual void m10();
-    virtual void m11();
+    virtual s32 m10();
+    virtual s32 m11();
     virtual s32 m12() { return 20; }
     virtual s32 m13() { return 4; }
     virtual void m14();
@@ -839,8 +845,8 @@ public:
     ~Unk_71025049d0() override;
     s32 m8() override;
     s32 m9() override;
-    virtual void m10();
-    virtual void m11();
+    virtual s32 m10();
+    virtual s32 m11();
     virtual s32 m12() { return 20; }
     virtual s32 m13() { return 4; }
     virtual void m14();
@@ -857,11 +863,11 @@ public:
     virtual void m25();
     virtual void m26();
     virtual void m27();
-    virtual void m28();
-    virtual void m29();
-    virtual void m30();
-    virtual void m31();
-    virtual void m32();
+    virtual u32 m28();
+    virtual u32 m29();
+    virtual bool m30();
+    virtual s32 m31();
+    virtual s32 m32();
     virtual void m33();
     virtual void m34();
     virtual void m35();

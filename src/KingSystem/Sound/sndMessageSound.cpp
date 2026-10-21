@@ -110,6 +110,58 @@ Unk_7102504850::~Unk_7102504850() = default;
 
 Unk_71025049d0::~Unk_71025049d0() = default;
 
+s32 Unk_7102504850::m8() {
+    return _60 * 10;
+}
+
+s32 Unk_7102504850::m9() {
+    return _60 * 9;
+}
+
+s32 Unk_7102504850::m10() {
+    return _20 * 20;
+}
+
+s32 Unk_7102504850::m11() {
+    return mIndexCount * 4;
+}
+
+s32 Unk_71025049d0::m8() {
+    return _60 * 10;
+}
+
+s32 Unk_71025049d0::m9() {
+    return _60 * 9;
+}
+
+s32 Unk_71025049d0::m10() {
+    return _20 * 20;
+}
+
+s32 Unk_71025049d0::m11() {
+    return mIndexCount * 4;
+}
+
+u32 Unk_71025049d0::m28() {
+    return _30;
+}
+
+u32 Unk_71025049d0::m29() {
+    return _34;
+}
+
+bool Unk_71025049d0::m30() {
+    return _30a8 > 2037;
+}
+
+s32 Unk_71025049d0::m31() {
+    return 0x800;
+}
+
+s32 Unk_71025049d0::m32() {
+    return _30a8;
+}
+
 // Unk_71025028c0 sits after the Unk_SoundMgr48 functions (0x7101055e48) in the original.
 Unk_71025028c0::~Unk_71025028c0() = default;
 
