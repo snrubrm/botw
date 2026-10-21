@@ -328,11 +328,16 @@ public:
     struct Unk8 {
         // 0x7101159ca0 / 0x7101159f8c inline: deletes the elements and frees the pointer array.
         void release() {
-            for (s32 i = 0; i < _0.size(); ++i) {
-                if (_0[i]) {
-                    delete _0[i];
-                    _0[i] = nullptr;
-                }
+            Element** element = _0.getBufferPtr();
+            s32 count = _0.size();
+            if (count != 0) {
+                do {
+                    if (*element) {
+                        delete *element;
+                        *element = nullptr;
+                    }
+                    ++element;
+                } while (--count);
             }
             _0.freeBuffer();
         }

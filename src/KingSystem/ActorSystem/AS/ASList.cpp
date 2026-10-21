@@ -1284,11 +1284,23 @@ void ASList::sub_710115E218(u32* mask, const res::AS* as, u32 index) {
 // source tree.
 void ASList::sub_7101159F8C(bool destroying) {
     if (!destroying) {
-        for (s32 i = 0; i < mSlots.size(); ++i)
-            mSlots[i].sub_7101164EB8();
+        s32 count = mSlots.size();
+        if (count != 0) {
+            Unk1* slot = mSlots.getBufferPtr();
+            do {
+                slot->sub_7101164EB8();
+                ++slot;
+            } while (--count);
+        }
     }
-    for (s32 i = 0; i < mFrames.size(); ++i)
-        mFrames[i].finalize();
+    Context::Frame* frame = mFrames.getBufferPtr();
+    s32 count = mFrames.size();
+    if (count != 0) {
+        do {
+            frame->finalize();
+            ++frame;
+        } while (--count);
+    }
     mFrames.freeBuffer();
     _160 = 0;
     _161 = 0;
