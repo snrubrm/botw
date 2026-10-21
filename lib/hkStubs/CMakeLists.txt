@@ -127,9 +127,14 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Reflection/hkTypeInfo.h
 
   Havok/Common/Base/System/StackTracer/hkStackTracer.h
+  Havok/Common/Base/System/hkHardwareInfo.h
+  Havok/Common/Base/System/hkHardwareInfo.cpp
 
   Havok/Common/Base/Thread/Atomic/hkAtomicPrimitives.h
   Havok/Common/Base/Thread/JobQueue/hkJobQueue.h
+  Havok/Common/Base/Thread/JobQueue/hkJobQueueHwSetup.cpp
+  Havok/Common/Base/Thread/Pool/hkCpuThreadPool.h
+  Havok/Common/Base/Thread/Pool/hkCpuThreadPool.cpp
   Havok/Common/Base/Thread/Pool/hkThreadPool.h
   Havok/Common/Base/Thread/Thread/hkThreadLocalData.h
 
