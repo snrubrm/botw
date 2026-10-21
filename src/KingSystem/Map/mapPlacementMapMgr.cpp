@@ -180,7 +180,7 @@ void PlacementMapMgr::updateNeedLoadDynMapCounts(s32 x, s32 z) {
     for (s32 i = 0; i < mMapArray.mMaps.size(); ++i) {
         auto* map = mMapArray.mMaps[i];
         if (map->mFolderAndFile.findIndex("_DistanceView") == -1 &&
-            map->mMubinPath.cstr()[0] != sead::SafeString::cNullChar &&
+            !map->mMubinPath.isEmpty() &&
             map->mDistanceToCurrentMapUnit < 2) {
             if (map->mInitStatus < PlacementMap::InitStatus::DynamicLoaded)
                 ++count;
