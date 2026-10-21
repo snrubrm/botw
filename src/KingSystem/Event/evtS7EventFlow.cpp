@@ -15,6 +15,7 @@
 #include "KingSystem/World/worldTimeMgr.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
 namespace ksys::evt {
@@ -157,6 +158,30 @@ void S7EventFlow::sub_71008B8118(evfl::MetaDataPack* pack, const sead::Matrix34f
     pack->AddFloat("arg_TargetMatrixZ_x", axis_z.x);
     pack->AddFloat("arg_TargetMatrixZ_y", axis_z.y);
     pack->AddFloat("arg_TargetMatrixZ_z", axis_z.z);
+}
+
+// 0x71008b8218
+// NON_MATCHING: the original keeps the destination y in a general register (x and z in float registers)
+void S7EventFlow::addPhysicsParams(evfl::MetaDataPack* pack, const sead::Matrix34f& mtx, s32 group_index) {
+    pack->AddInt("Arg_FieldBodyGroupIndex", group_index);
+    sead::Vector3f pos = mtx.getTranslation();
+    {
+        phys::RayCastBodyQuery query(nullptr, phys::GroundHit::HitAll);
+        sead::Vector3f start(pos.x, pos.y + 5.0f, pos.z);
+        const sead::Vector3f end(pos.x, pos.y - 5.0f, pos.z);
+        query.setStartAndEnd(start, end);
+        query.enableLayer(phys::ContactLayer::EntityGround);
+        query.enableLayer(phys::ContactLayer::EntityGroundRough);
+        query.enableLayer(phys::ContactLayer::EntityGroundObject);
+        if (query.worldRayCast(phys::ContactLayerType::Entity)) {
+            query.getHitPosition(&start);
+            pos.y = start.y;
+        }
+    }
+    pack->AddFloat("Arg_DestinationX", pos.x);
+    pack->AddFloat("Arg_DestinationY", pos.y);
+    pack->AddFloat("Arg_DestinationZ", pos.z);
+    pack->AddFloat("Arg_DestinationDirY", sead::Mathf::rad2deg(sead::Mathf::atan2(mtx(0, 2), mtx(2, 2))));
 }
 
 // 0x71008b6f20 (CSV evt::S7EventFlow::getStatusStr)
