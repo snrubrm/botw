@@ -2143,15 +2143,36 @@ KSYS_CHECK_SIZE_NX150(Unk_71011595fc, 0x208);
 class Unk_710251cf40 : public Unk_710251d230 {
     SEAD_RTTI_OVERRIDE(Unk_710251cf40, Unk_710251d230)
 public:
+    struct InitArg {
+        agl::VertexAttribute* attribute;
+        agl::IndexStream* index_stream;
+        u32 base_vertex;
+        u32 first_index;
+        u32 shape;
+        s32 count;
+    };
+
+    // 0x71012e8698
+    Unk_710251cf40();
     ~Unk_710251cf40() override;
+    // 0x71012e87b8: stores the streams, the count and shape, and the buffer range.
+    void initialize(const InitArg& arg);
     void m7(void*, void*) override {}
+    // 0x71012e87ec: fills the buffers through the generator 0x71012e7cac.
+    void fill(void* vertices, void* indices, sead::Heap* heap);
+    void sub_71012E7CAC(sead::Vector2f* vertices, u16* indices, s32 count, u32 shape,
+                        sead::Heap* heap);
     s32 m8() override;
     s32 m9() override;
 
-    s32 _30;
+    s32 _30 = 16;
     // Index into a table of {vertices, ?, indices} counts per shape.
-    u32 _34;
-    u8 _38[0xd8 - 0x38];
+    u32 _34 = 0;
+    u32 _38 = 0;
+    void* _40 = nullptr;
+    void* _48 = nullptr;
+    void* _50 = nullptr;
+    u8 _58[0xd8 - 0x58];
     Unk_71011595fc _d8;
     Unk_71011595fc _2e0;
 };

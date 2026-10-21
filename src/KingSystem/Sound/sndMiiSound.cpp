@@ -1264,7 +1264,25 @@ Unk_710251cd38* ksys::act::Unk_71024dd490::sub_71012DF384(void* arg) {
 
 // NON_MATCHING: placeholder destructor; the original (0x71012e86e8) also destroys members or bases
 // this class does not declare yet.
+Unk_710251cf40::Unk_710251cf40() = default;
+
 Unk_710251cf40::~Unk_710251cf40() = default;
+
+// NON_MATCHING: the original copies the two stream pointers with one ldp / stp pair.
+void Unk_710251cf40::initialize(const InitArg& arg) {
+    mFlags |= 0x20000000;
+    mAttribute = arg.attribute;
+    mIndexStream = arg.index_stream;
+    _30 = arg.count;
+    _34 = arg.shape;
+    sub_71012EB478(arg.base_vertex, arg.first_index);
+}
+
+void Unk_710251cf40::fill(void* vertices, void* indices, sead::Heap* heap) {
+    mFlags |= 0x80000000;
+    sub_71012E7CAC(static_cast<sead::Vector2f*>(vertices) + mBaseVertex,
+                   static_cast<u16*>(indices) + mFirstIndex, _30, _34, heap);
+}
 
 namespace {
 struct ShapeCounts {
