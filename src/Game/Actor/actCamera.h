@@ -481,6 +481,8 @@ public:
     void sub_7100796830();
     // 0x7100796484: resets the physics, the awareness values, the camera flags and links.
     void initMaybe() override;
+    // 0x71007993f0: camera messages 0x8800001 - 0x880000c.
+    bool m81(const ksys::Message* message) override;
 
     // Constructor 791F38 binds this callback into the task delegate at 1400;
     // complete 79691C submits it to WorkerSupportThreadMgr::submitRequest.

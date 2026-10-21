@@ -65,8 +65,8 @@ void GelEnemy::initMaybe() {
     _1664 = 1.0f;
 }
 
-bool GelEnemy::m81(const ksys::Message& message) {
-    if (message.getType() == 0x3000003 || message.getType() == 0x3000004) {
+bool GelEnemy::m81(const ksys::Message* message) {
+    if (message->getType() == 0x3000003 || message->getType() == 0x3000004) {
         _1644[0] = _1644[1] = std::numeric_limits<f32>::quiet_NaN();
         _1644[2] = _1644[3] = std::numeric_limits<f32>::quiet_NaN();
         _1644[4] = _1644[5] = std::numeric_limits<f32>::quiet_NaN();

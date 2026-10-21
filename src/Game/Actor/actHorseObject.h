@@ -46,7 +46,7 @@ public:
     void initMaybe() override;
     void calcMaybe() override;
     void m70() override;
-    bool m81(const ksys::Message& message) override;
+    bool m81(const ksys::Message* message) override;
     void onPreDeleteStart_(PrepareArg&) override {}
     void updatePositionMaybe() override {}
 

@@ -119,10 +119,10 @@ void HorseObject::m70() {
 }
 
 // NON_MATCHING: the original keeps the result in w0 (ours moves it from w8 after the last block)
-bool HorseObject::m81(const ksys::Message& message) {
-    if (message.getType() != ksys::MessageType(0x3800002))
+bool HorseObject::m81(const ksys::Message* message) {
+    if (message->getType() != ksys::MessageType(0x3800002))
         return false;
-    void* data = message.getUserData();
+    void* data = message->getUserData();
     {
         auto* model = mModel;
         const auto key = model->searchMaterial("Mt_Hair");

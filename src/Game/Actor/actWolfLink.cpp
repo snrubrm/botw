@@ -172,17 +172,17 @@ void WolfLink::sub_71002F4B3C() {
     }
 }
 
-bool WolfLink::m81(const ksys::Message& message) {
+bool WolfLink::m81(const ksys::Message* message) {
     if (Enemy::m81(message))
         return true;
-    if (message.getType() == 0x80000a7) {
-        if (auto* mtx = static_cast<const sead::Matrix34f*>(message.getUserData())) {
+    if (message->getType() == 0x80000a7) {
+        if (auto* mtx = static_cast<const sead::Matrix34f*>(message->getUserData())) {
             setMtx(*mtx, true, true);
             nullsub_4648();
         }
         return true;
     }
-    if (message.getType() == 0x3000010) {
+    if (message->getType() == 0x3000010) {
         mActorFlags2.set(ActorFlag2::_20);
         return true;
     }

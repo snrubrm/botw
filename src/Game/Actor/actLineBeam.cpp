@@ -37,7 +37,7 @@ bool LineBeam::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
     return BeamBase::prepareInit_(heap, arg);
 }
 
-bool LineBeam::m81(const ksys::Message& message) {
+bool LineBeam::m81(const ksys::Message* message) {
     return BeamBase::m81(message);
 }
 

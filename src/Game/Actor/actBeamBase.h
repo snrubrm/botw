@@ -159,7 +159,7 @@ public:
     void m63() override;
     void initMaybe() override;
     void calcMaybe() override;
-    bool m81(const ksys::Message& message) override;
+    bool m81(const ksys::Message* message) override;
     void updatePositionMaybe() override;
     void m165(sead::Vector3f* out) override;
     void m166() override;

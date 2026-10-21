@@ -50,8 +50,8 @@ ksys::act::PlayerArmors* PauseMenuPlayer::getArmors() {
     return nullptr;
 }
 
-bool PauseMenuPlayer::m81(const ksys::Message& message) {
-    switch (u32(message.getType())) {
+bool PauseMenuPlayer::m81(const ksys::Message* message) {
+    switch (u32(message->getType())) {
     case 0x4000002:
         if (!mActorFlags2.isOn(ActorFlag2::_20))
             ksys::eft::searchAndEmitSLink(this, "equip_puton", false);

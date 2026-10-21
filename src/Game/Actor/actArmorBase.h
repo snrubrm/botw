@@ -127,7 +127,7 @@ public:
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
 
     // (m81 is declared first: it is the key function that makes the TU emit the vtable.)
-    bool m81(const ksys::Message& message) override;
+    bool m81(const ksys::Message* message) override;
     void m148() override;
     // 0x710000131c: true when ActorFlag2 0x200 is set and the Root38 flag 2 is on (same code as DynamicActor's).
     IsSpecialJobTypeResult isSpecialJobType_(ksys::act::JobType type) override;

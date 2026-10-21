@@ -551,10 +551,10 @@ bool Motorcycle::shouldUnload(s32* a1) {
     return shouldUnloadBecauseOfDistance(&reason);
 }
 
-bool Motorcycle::m81(const ksys::Message& message) {
+bool Motorcycle::m81(const ksys::Message* message) {
     if (DynamicActor::m81(message))
         return true;
-    return _1648->m10(message);
+    return _1648->m10(*message);
 }
 
 Motorcycle::InitResult Motorcycle::init_() {

@@ -169,7 +169,7 @@ public:
     void m36(const sead::Vector3f& a1, const sead::Vector3f& a2, bool a3, bool a4, bool a5) override;
     void m63() override;
     void calcMaybe() override;
-    bool m81(const ksys::Message& message) override;
+    bool m81(const ksys::Message* message) override;
     void updatePositionMaybe() override;
     ksys::act::LifeRecoverInfo* getLifeRecoverInfo() override;
     void m147(sead::PtrArray<ksys::act::Actor>* actors) override;

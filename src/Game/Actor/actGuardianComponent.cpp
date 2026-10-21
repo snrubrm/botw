@@ -208,14 +208,14 @@ void GuardianComponent::calcMaybe() {
 // NON_MATCHING: the original tests 0x3000006 before 0x3000005; our switch lowering tests them in ascending order.
 // CSV m81. Stasis messages 0x3000003 / 0x3000004 go to the owning Guardian (unless the Guardian flag bit 7
 // is set); 0x3000005 / 0x3000006 set / clear the damage callback's bit 0.
-bool GuardianComponent::m81(const ksys::Message& message) {
-    switch (message.getType()) {
+bool GuardianComponent::m81(const ksys::Message* message) {
+    switch (message->getType()) {
     case 0x3000003:
     case 0x3000004:
         if (auto* guardian = sub_710003D2B4()) {
             if (guardian->sub_71000380A8()) {
                 ksys::act::ActorSystem::instance()->getStasisMessageSender()->sendMessage(
-                    guardian, message.getType(), true);
+                    guardian, message->getType(), true);
             }
         }
         return true;

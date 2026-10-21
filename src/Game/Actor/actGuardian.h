@@ -108,7 +108,7 @@ public:
     void updatePositionMaybe() override;
     void m73() override;
     bool m80(const ksys::MessageAck& ack) override;
-    bool m81(const ksys::Message& message) override;
+    bool m81(const ksys::Message* message) override;
     void updateMtxFromPhysics() override;
 
     // lane1 s47 (declaration only; placeholder names): 0x710003b2a8: `sub_710003B098() >= 0`. 0x710003b3fc: sets

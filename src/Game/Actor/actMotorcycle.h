@@ -299,7 +299,7 @@ public:
     void updatePositionMaybe() override;
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
     void afterModelMatrixUpdate() override;
-    bool m81(const ksys::Message& message) override;
+    bool m81(const ksys::Message* message) override;
     void updateMtxFromPhysics() override;
     void setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) override;
     void m88() override;

@@ -138,7 +138,7 @@ public:
     void calcMaybe() override;
     void m70() override;
     void updatePositionMaybe() override;
-    bool m81(const ksys::Message& message) override;
+    bool m81(const ksys::Message* message) override;
     void setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) override;
     s32* getLife() override { return &_b80; }
     void m88() override;

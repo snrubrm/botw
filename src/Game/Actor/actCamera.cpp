@@ -531,6 +531,50 @@ void Camera::setWaterRemainsData(const sead::Matrix34f& mtx, const sead::Vector3
     data.valid = true;
 }
 
+bool Camera::m81(const ksys::Message* message) {
+    if (!message)
+        return false;
+    switch (message->getType()) {
+    case 0x8800001:
+        if (auto* value = static_cast<const f32*>(message->getUserData()))
+            _860.sub_710079BD6C(*value);
+        return true;
+    case 0x8800002:
+        _860._80e.sub_710079C1DC(1);
+        return true;
+    case 0x8800003:
+        _860._80e.sub_710079C1DC(2);
+        return true;
+    case 0x8800004:
+        _860._80e.sub_710079C1DC(4);
+        return true;
+    case 0x8800005:
+        _860._80e.sub_710079C1DC(8);
+        return true;
+    case 0x8800008:
+        _860._80f.sub_710079C208(1);
+        if (message->getUserData())
+            _860.sub_710079BF34(*static_cast<const f32*>(message->getUserData()));
+        return true;
+    case 0x8800009:
+        _860._80f.sub_710079C208(1);
+        _860._81b[0] = true;
+        return true;
+    case 0x880000a:
+        _860._804.sub_710079AE20(0x200);
+        _860._80f.sub_710079C208(2);
+        return true;
+    case 0x880000b:
+        ksys::eft::searchAndEmitELink(this, "ColdAreaEnter");
+        return true;
+    case 0x880000c:
+        sub_7100793DB4();
+        return true;
+    default:
+        return false;
+    }
+}
+
 void Camera::x_4() {
     auto* layer = agl::lyr::Renderer::instance()->getLayer(1);
     if (!layer)

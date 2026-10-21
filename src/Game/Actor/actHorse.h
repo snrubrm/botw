@@ -36,7 +36,7 @@ public:
     void calcMaybe() override;
     void m73() override;
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
-    bool m81(const ksys::Message& message) override;
+    bool m81(const ksys::Message* message) override;
     void m96(s32* a1, s32* a2) override {
         *a1 = _d20.getField50();
         *a2 = _d20.getDamage();

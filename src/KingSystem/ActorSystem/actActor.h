@@ -622,7 +622,7 @@ public:
     // Message ack handler (Actor::handleAck forwards the ack here first).
     virtual bool m80(const MessageAck& ack);
     // Message handler (overrides forward the message to sub-objects).
-    virtual bool m81(const Message& message) { return false; }
+    virtual bool m81(const Message* message) { return false; }
     virtual int getCalcTiming();
     virtual bool m83();
     virtual void updateMtxFromPhysics();

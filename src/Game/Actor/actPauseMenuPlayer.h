@@ -22,7 +22,7 @@ public:
     void calcMaybe() override;
     ksys::act::PlayerArmors* getArmors() override;
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
-    bool m81(const ksys::Message& message) override;
+    bool m81(const ksys::Message* message) override;
     void m114(bool, bool) override;
     bool m165(sead::BufferedSafeString* out) override;
     void coldHotStatusEffectStuff();

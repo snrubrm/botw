@@ -37,7 +37,7 @@ public:
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
     void afterModelMatrixUpdate() override;
     void m79() override;
-    bool m81(const ksys::Message& message) override;
+    bool m81(const ksys::Message* message) override;
 
     // Non-virtual functions of the TU (declared only; placeholder names). 0x7100026b00 is called by
     // m76; 0x7100026240 / 0x7100028128 by m79.

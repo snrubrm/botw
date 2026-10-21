@@ -377,8 +377,8 @@ void Swarm::setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) {
     sead::Matrix34CalcCommon<f32>::inverse(_15b8, mMtx);
 }
 
-bool Swarm::m81(const ksys::Message& message) {
-    if (message.getType() == ksys::MessageType(0x3000003)) {
+bool Swarm::m81(const ksys::Message* message) {
+    if (message->getType() == ksys::MessageType(0x3000003)) {
         Enemy::m81(message);
         _1614 = true;
         if (auto* sender = ksys::act::ActorSystem::instance()->getStasisMessageSender())
@@ -386,7 +386,7 @@ bool Swarm::m81(const ksys::Message& message) {
         return true;
     }
 
-    const ksys::MessageType type = message.getType();
+    const ksys::MessageType type = message->getType();
     const bool handled = Enemy::m81(message);
     if (type == ksys::MessageType(0x3000004)) {
         clearFlag(ActorFlag::_9);

@@ -23,9 +23,9 @@ Armor::IsSpecialJobTypeResult Armor::isSpecialJobType_(ksys::act::JobType type) 
     return Actor::isSpecialJobType_(type);
 }
 
-bool Armor::m81(const ksys::Message& message) {
+bool Armor::m81(const ksys::Message* message) {
     s32 frame;
-    switch (message.getType()) {
+    switch (message->getType()) {
     case 0x8000035:
         if (auto* owner = getOwner()) {
             if (owner->get1a0() ||

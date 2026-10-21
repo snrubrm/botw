@@ -78,10 +78,10 @@ void Horse::loadReduceAncientEnemyDamageInfo() {
     _d20._74 = info.val._f32;
 }
 
-bool Horse::m81(const ksys::Message& message) {
+bool Horse::m81(const ksys::Message* message) {
     if (HorseBase::m81(message))
         return true;
-    return _1028.m8(message);
+    return _1028.m8(*message);
 }
 
 }  // namespace uking::act

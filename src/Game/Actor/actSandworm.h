@@ -108,7 +108,7 @@ public:
     void initMaybe() override;
     void calcMaybe() override;
     void m76(ksys::VFR::ScopedDeltaSetter* setter) override;
-    bool m81(const ksys::Message& message) override;
+    bool m81(const ksys::Message* message) override;
     bool m146() override;
     bool weaponDroppedByEnemy() override;
     // 0x71002cdfcc: creates an 8-byte material filter (vtable 0x71023cf690).
