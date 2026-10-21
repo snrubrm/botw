@@ -1037,3 +1037,75 @@ void Reaction::Unk1::sub_7100EC7D50(f32 a, f32 b, f32 c, f32 d,
 }
 
 }  // namespace ksys::act
+
+namespace ksys::act {
+
+void ActorReactionQueue::setActor(Actor* actor) {
+    mActor = actor;
+}
+
+bool ActorReactionQueue::queue(Actor* actor, const sead::CoreId& core) {
+    const s32 index = sead::CoreInfo::getPlatformCoreId(core);
+    if (mCoreQueues[index]->isFull())
+        return false;
+    mCoreQueues[index]->pushBack(actor);
+    return true;
+}
+
+// NON_MATCHING: same body and instruction order; the original keeps &mActors (x9) and &mActors.mPtrs
+// (x8) in registers for the inlined pushBack, ours addresses both through `this`.
+void ActorReactionQueue::merge() {
+    sead::PtrArray<Actor>* actors = &mActors;
+    for (auto it = mCoreQueues.begin(); it != mCoreQueues.end(); ++it) {
+        for (auto jt = it->begin(); jt != it->end(); ++jt)
+            actors->pushBack(&*jt);
+    }
+    mActors.sort(&compareDistance);
+}
+
+void ActorReactionQueue::calc() {
+    merge();
+    for (auto it = mActors.begin(); it != mActors.end(); ++it)
+        emit(&*it);
+    for (auto it = mHandles.begin(); it != mHandles.end(); ++it)
+        it->update();
+    for (auto it = mCoreQueues.begin(); it != mCoreQueues.end(); ++it)
+        it->clear();
+    mActors.clear();
+}
+
+// NON_MATCHING: the original loops over mActors (the induction pointer is only compared against
+// mPtrs + size; the actor stays the argument) and its two handle calls are out of line, so this
+// needs the ActorReactionHandle members decompiled first.
+void ActorReactionQueue::emit(Actor* actor) {
+    ActorReactionHandle* handle = nullptr;
+    for (auto it = mHandles.begin(); it != mHandles.end(); ++it) {
+        if (it->mActor == actor && it->mEvent && it->mEvent->getCreateId() == it->mCreateId) {
+            handle = it.operator->();
+            break;
+        }
+    }
+    if (handle && handle->resume(actor, mActor, mName))
+        return;
+    for (auto it = mHandles.begin(); it != mHandles.end(); ++it) {
+        if (it->mEvent && it->mEvent->getCreateId() == it->mCreateId)
+            continue;
+        if (!it->emit(actor, mActor, mName))
+            return;
+        break;
+    }
+}
+
+s32 ActorReactionQueue::compareDistance(const Actor* a, const Actor* b) {
+    const sead::Vector3f listener =
+        ksys::snd::SoundMgr::instance()->_58->mListener->getMatrix().getTranslation();
+    const f32 da = (a->getMtx().getTranslation() - listener).length();
+    const f32 db = (b->getMtx().getTranslation() - listener).length();
+    if (da < db)
+        return -1;
+    if (da > db)
+        return 1;
+    return 0;
+}
+
+}  // namespace ksys::act

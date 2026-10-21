@@ -1,6 +1,8 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadObjArray.h>
+#include <container/seadPtrArray.h>
 #include <heap/seadDisposer.h>
 #include <cstddef>
 #include <math/seadMatrix.h>
@@ -12,6 +14,7 @@
 #include "KingSystem/Physics/System/physUserTag.h"
 
 namespace xlink2 {
+class Event;
 class HandleELink;
 }
 
@@ -60,19 +63,60 @@ public:
     /* 0x38 */ Actor* _38;
 };
 
-// Partially modelled: the per-core reaction queue at Reaction::Unk1 + 0x30. Its constructor is at
-// 0x7101287168 and its methods live in the 0x7101287000 TU (ActorReactionsMaybe in the CSV).
-class ActorReactionsMaybe {
+// One xlink event of the reaction queue below: the actor it was emitted for, the event and its
+// create id, and whether the event has already been emitted. The class is 0x20 bytes (its pool is
+// allocated with 0x20-byte elements at 0x7101287d68).
+class ActorReactionHandle {
 public:
-    // 0x710128810c (placeholder name): appends `actor` to the queue for the core `core`; 0 when full.
-    u32 sub_710128810C(Actor* actor, const sead::CoreId* core);
+    // 0x7101287504: fades the event out and clears the flag when the handle is no longer active.
+    void update();
+    // 0x71012875dc: emits `name` through the xlink user of `source` for `actor` and fills the handle.
+    bool emit(Actor* actor, Actor* source, const sead::SafeString& name);
+    // 0x7101287880: emits `name` for `actor` when the held event is still the same one.
+    bool resume(Actor* actor, Actor* source, const sead::SafeString& name);
 
-    u8 _0[8];
-    /* 0x08 */ s32 _8;
-    u8 _c[4];
-    /* 0x10 */ void* _10;
-    u8 _18[0xb8 - 0x18];
+    /* 0x00 */ Actor* mActor = nullptr;
+    /* 0x08 */ xlink2::Event* mEvent = nullptr;
+    /* 0x10 */ s32 mCreateId = 0;
+    u8 _14[4];
+    /* 0x18 */ bool mActive = false;
+    u8 _19[7];
 };
+KSYS_CHECK_SIZE_NX150(ActorReactionHandle, 0x20);
+
+// Placeholder name: the per-core reaction queue at Reaction::Unk1 + 0x30 (constructor 0x7101287a6c,
+// 0xb8 bytes). Actors are queued per core on the core that registers the reaction; the queue is
+// merged and sorted by the distance to the default sound listener in calc, which then emits one
+// xlink event per actor. Its destructor installs vtable 0x7102519058 (D1 0x7101287afc).
+class ActorReactionQueue {
+public:
+    ActorReactionQueue();
+    virtual ~ActorReactionQueue();
+
+    // 0x7101287d68: allocates the per-core queues for the platform core count, the merged actor
+    // array and the handle pool, and stores `name` (copied into mName).
+    bool init(sead::Heap* heap, const sead::SafeString& name);
+
+    // 0x7101288104: sets the actor the events are emitted for.
+    void setActor(Actor* actor);
+    // 0x710128810c: queues `actor` on the core `core`; false when that core's queue is full.
+    bool queue(Actor* actor, const sead::CoreId& core);
+    // 0x7101288184: merges the per-core queues, emits the reactions and updates the events.
+    void calc();
+    // 0x7101288224: merges the per-core queues into mActors and sorts them by distance to the listener.
+    void merge();
+    // 0x71012883e4: emits one reaction event for `actor`.
+    void emit(Actor* actor);
+    // 0x71012884e8: orders two actors by their distance to the default sound listener.
+    static s32 compareDistance(const Actor* a, const Actor* b);
+
+    /* 0x08 */ sead::ObjArray<sead::PtrArray<Actor>> mCoreQueues;
+    /* 0x28 */ sead::PtrArray<Actor> mActors;
+    /* 0x38 */ sead::ObjArray<ActorReactionHandle> mHandles;
+    /* 0x58 */ sead::FixedSafeString<64> mName;
+    /* 0xb0 */ Actor* mActor = nullptr;
+};
+KSYS_CHECK_SIZE_NX150(ActorReactionQueue, 0xb8);
 
 class Reaction {
     SEAD_SINGLETON_DISPOSER(Reaction)
@@ -143,9 +187,8 @@ public:
         /* 0x10 */ Actor* _10;
         u8 _18[8];
         /* 0x20 */ xlink2::HandleSLink mGrassCutHandle;
-        // The per-core queue object; its constructor is at 0x7101287168 and its methods live in the
-        // 0x7101287000 TU (ActorReactionsMaybe in the CSV).
-        /* 0x30 */ ActorReactionsMaybe mReactions;
+        // The per-core reaction queue.
+        /* 0x30 */ ActorReactionQueue mReactions;
         /* 0xe8 */ Unk_71024f02a8* mSLinkLimiter;
         // The BushTrack request producer stores its position, speed and emitted state here.
         /* 0xf0 */ sead::Vector3f mBushTrackPosition;
@@ -212,6 +255,10 @@ static_assert(offsetof(Reaction::Unk1, mBushTrackSpeed) == 0xfc);
 static_assert(offsetof(Reaction::Unk1, mHasBushTrack) == 0x100);
 static_assert(offsetof(Reaction::Unk1, mIsPlayerBarefoot) == 0x101);
 static_assert(offsetof(Reaction::Unk1, _118) == 0x118);
+static_assert(offsetof(ActorReactionQueue, mActors) == 0x28);
+static_assert(offsetof(ActorReactionQueue, mHandles) == 0x38);
+static_assert(offsetof(ActorReactionQueue, mName) == 0x58);
+static_assert(offsetof(ActorReactionQueue, mActor) == 0xb0);
 
 // 0x7100ebfea8 (CSV unnamed; named by its address): builds the matrix of a footstep reaction
 // request from the contact axis / up / position and copies `scale` into the three floats at
