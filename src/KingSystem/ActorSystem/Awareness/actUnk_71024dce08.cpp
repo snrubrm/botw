@@ -178,6 +178,37 @@ f32 Unk_71024dcfd0::m14() {
     return _54;
 }
 
+// NON_MATCHING: ours inlines sub_7100D8010C into m4 (as in the neighbouring sensors' m4).
+bool Unk_71024dcfd0::m4(Unk_71023e2708* request) {
+    auto* req = sead::DynamicCast<Unk_71023e26d8>(request);
+    if (!req)
+        return false;
+    req->params.sight.radius = _54 * sub_7100D8010C();
+    req->params.sight.angle = _58;
+    return true;
+}
+
+// NON_MATCHING: the original copies _54 / _58 with one ldp/stp pair; ours keeps two ldr/str pairs.
+bool Unk_71024dcfd0::m5(Unk_71023e2708* request) {
+    auto* req = sead::DynamicCast<Unk_71023e26d8>(request);
+    if (!req)
+        return false;
+    req->params.sight.radius = _54;
+    req->params.sight.angle = _58;
+    return true;
+}
+
+bool Unk_71024dcfd0::m6(Unk_71023e2708* request) {
+    auto* req = sead::DynamicCast<Unk_71023e26d8>(request);
+    if (!req)
+        return false;
+    const f32 angle = req->params.sight.angle;
+    _54 = req->params.sight.radius;
+    _58 = angle;
+    _5c = std::cos(angle);
+    return true;
+}
+
 f32 Unk_71024dd070::m14() {
     return _54;
 }
