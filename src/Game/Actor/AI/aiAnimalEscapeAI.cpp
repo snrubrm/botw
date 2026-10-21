@@ -191,7 +191,6 @@ void AnimalEscapeAI::calc_() {
     }
 }
 
-// NON_MATCHING: Finite radius comparison uses a different equivalent branch after the NaN check.
 void AnimalEscapeAI::leave_() {
     AnimalRndMove::leave_();
     if (auto* nav = mActor->m45()) {

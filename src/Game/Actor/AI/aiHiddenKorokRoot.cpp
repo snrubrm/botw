@@ -27,7 +27,6 @@ HiddenKorokRoot::~HiddenKorokRoot() {
     }
 }
 
-// NON_MATCHING: the original clears both layer masks of _78 with one 8-byte store
 bool HiddenKorokRoot::init_(sead::Heap* heap) {
     if (auto* npc = sead::DynamicCast<act::NPC>(mActor))
         npc->_fe8 |= 0x20000000;

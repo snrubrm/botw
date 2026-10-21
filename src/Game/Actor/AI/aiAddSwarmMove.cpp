@@ -45,8 +45,6 @@ void AddSwarmMove::enter_(ksys::act::ai::InlineParamPack* params) {
     changeChild("移動", &pack);
 }
 
-// NON_MATCHING: only the first four instructions: the original loads `mActor` (first argument), then stores the
-// zero `flag`, then loads the SubSpeed pointer / value; ours stores `flag` first and loads `mActor` last
 void AddSwarmMove::calc_() {
     auto* actor = mActor;
     s32 flag = 0;

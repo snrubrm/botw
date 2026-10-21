@@ -667,7 +667,6 @@ void Terrain::m20(f32 delta) {
     }
 }
 
-// NON_MATCHING: the original stores `exists` after loading _428 (scheduling).
 bool Terrain::sub_710114D928(System* system, Unk_7101106F44* area, const ImageTypeMaybe& type) {
     sead::FixedSafeString<256> path;
     mImageResourceMgr->sub_7101130FBC(&path, system, area, type);
