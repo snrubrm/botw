@@ -390,7 +390,7 @@ void Weapon::masterSwordReturnToForest() {
 
 // NON_MATCHING: the compiler combines the request-type tests differently.
 bool Weapon::m222() {
-    if (_af8._0 == 6 || _af8._0 == 7)
+    if ((_af8._0 | 1) == 7)
         return false;
     auto* actor = sead::DynamicCast<ksys::act::Actor>(getConnectedCalcChild());
     if (!actor)
