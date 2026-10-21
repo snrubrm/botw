@@ -41,6 +41,17 @@ nn::g3d::MaterialObj* ModelRenderUnitNW::getMaterial() const {
     return model->getModelObj()->GetMaterial(mMaterialIndex);
 }
 
+// 0x7100c09d74
+// NON_MATCHING: instruction scheduling of the first bit test (the original computes the bit index before
+// the word offset); same logic.
+bool ModelRenderUnitNW::isVisible() const {
+    const auto* model = static_cast<const ModelNW*>(mModelUnit);
+    const nn::g3d::ModelObj& obj = model->mModelObj;
+    const nn::g3d::ShapeObj* shape = obj.GetShape(mIndex);
+    return obj.IsBoneVisible(shape->GetResource()->get_5e()) &&
+           obj.IsMatVisible(shape->GetResource()->get_60());
+}
+
 // 0x7100c0a8d0
 s32 ModelRenderUnitNW::getMeshNum() const {
     const auto* model = static_cast<const ModelNW*>(mModelUnit);
