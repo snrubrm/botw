@@ -6,6 +6,9 @@
 #include <xlink2/xlink2Locator.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/aiUnk_710072A944.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 
 namespace uking::action {
@@ -83,6 +86,36 @@ bool SwarmGullMove::sub_71002870D4(const sead::Vector3f& pos) {
         }
     }
     return false;
+}
+
+void SwarmGullMove::sub_71002868BC() {
+    for (auto& gull : _70) {
+        if (!gull._0.isProcReady()) {
+            if (gull._0.hasProcCreationFailed())
+                gull._0.deleteProcIfFailed();
+            continue;
+        }
+
+        auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(gull._0.getProc());
+        auto* object = gull._10;
+        if (!actor || !object)
+            continue;
+
+        sead::Matrix34f mtx = object->mMtx;
+        sead::Vector3f pos;
+        mtx.getTranslation(pos);
+        f32 height;
+        if (sub_710072C21C(&height, &pos) == 2 && pos.y < height + 0.1f) {
+            pos.y = height + 0.1f;
+            mtx.setTranslation(pos);
+        }
+        actor->clearFadeInCreate();
+        actor->setMatrix(mtx, nullptr);
+        actor->setVelocity(&object->mVelocity, nullptr);
+        swarmDropTableStuff(actor);
+        gull._0.releaseAndWakeProc();
+        object->m10();
+    }
 }
 
 void SwarmGullMove::sub_7100287290() {

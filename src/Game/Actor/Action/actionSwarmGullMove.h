@@ -22,6 +22,11 @@ public:
     virtual void m8();
     virtual void m9();
     virtual void m10();
+
+    // Read by SwarmGullMove::sub_71002868BC (the gull actor is placed with them).
+    /* 0x08 */ sead::Matrix34f mMtx;
+    u8 _38[0x50 - 0x38];
+    /* 0x50 */ sead::Vector3f mVelocity;
 };
 
 class SwarmGullMove : public ksys::act::ai::Action {
