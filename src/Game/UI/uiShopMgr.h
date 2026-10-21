@@ -4,6 +4,7 @@
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Utils/Thread/MessageTransceiverTxOnly.h"
 
 namespace uking {
 class NpcShopData;
@@ -21,53 +22,64 @@ void sub_7100A9127C(s32 state, const sead::SafeString& item_name, s32 count);
 // it through the same pointer, which is why the item is passed as one record.
 struct ShopItem {
     /* 0x00 */ sead::FixedSafeString<64> name;
-    /* 0x58 */ s32 _58;  // count (1 after sub_7100982A7C)
-    /* 0x5c */ s32 _5c;
-    /* 0x60 */ s32 _60;  // unit price
-    /* 0x64 */ s32 _64;
-    /* 0x68 */ s32 _68;
-    /* 0x6c */ u8 _6c;  // a flag the state helpers test for the 11 - 13 states
+    /* 0x58 */ s32 _58 = 0;  // count (1 after sub_7100982A7C)
+    /* 0x5c */ s32 _5c = 0;
+    /* 0x60 */ s32 _60 = 0;  // unit price
+    /* 0x64 */ s32 _64 = 0;
+    /* 0x68 */ s32 _68 = -1;
+    /* 0x6c */ u8 _6c = 0;  // a flag the state helpers test for the 11 - 13 states
     /* 0x6d */ u8 _6d[3];
-    /* 0x70 */ PouchItem* _70;
+    /* 0x70 */ PouchItem* _70 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(ShopItem, 0x78);
 
-// Placeholder declaration (name from the CSV: UiShopMgr::createInstance 0x7100980794, deleteInstance
-// 0x7100980910; instance pointer at 0x71025d7ae0; namespace is a guess). The shop UI manager; only
-// what the AI classes use is declared.
+// Placeholder for the polymorphic base at UiShopMgr + 0 (instance pointer at 0x71025d7ae0; namespace is
+// a guess). The primary vtable 0x7102476d00 has only the two destructor slots and no RTTI, and neither the
+// constructor nor the destructor calls anything for this base, so it is assumed to only have an inline
+// virtual destructor (same shape as ManagerBase in uiManager.h / evtManager.h).
+class UiShopMgrBase {
+public:
+    virtual ~UiShopMgrBase() = default;
+};
+
+// The shop UI manager (name from the CSV: createInstance 0x7100980794, deleteInstance 0x7100980910). It
+// sends shop messages, so its second base is the acknowledgement handler at +8 (vtable 0x7102476d20: the
+// two destructor thunks and TxOnly::IHandler::handleAck). The singleton disposer sits at +0x10 and the
+// transceiver at +0x150; createInstance allocates 0x1a0 bytes.
 // TODO: incomplete.
-class UiShopMgr {
-    u8 _0[0x10];  // two vtable pointers (the class has two polymorphic bases) and padding
+class UiShopMgr : public UiShopMgrBase, public ksys::MessageTransceiverTxOnly::IHandler {
     SEAD_SINGLETON_DISPOSER(UiShopMgr)
     UiShopMgr();
-    ~UiShopMgr();
 
 public:
+    ~UiShopMgr() override;
     // The shop state (set by UiShopMgr::sub_7100982A44 & co.; 3 = ..., 4 = ..., 5 = NPC shop data set,
     // 6, 9, 10, 11-13, 14 are tested by the UI facade functions).
-    s32 _30;
-    u8 _34[0x38 - 0x34];
+    s32 _30 = 0;
+    /* 0x34 */ s32 _34 = 0;
     /* 0x38 */ ShopItem _38;  // the selected item
-    /* 0xb0 */ s32 _b0;  // the last value passed to sub_710098425C
-    bool _b4;
-    u8 _b5[0xc0 - 0xb5];
-    /* 0xc0 */ s32 _c0;
-    u8 _c4;
-    /* 0xc5 */ bool _c5;
-    u8 _c6;
-    /* 0xc7 */ bool _c7;
-    /* 0xc8 */ s32 _c8;
-    u8 _cc;
-    bool _cd;
+    /* 0xb0 */ s32 _b0 = -1;  // the last value passed to sub_710098425C
+    bool _b4 = false;
+    u8 _b5[3];
+    /* 0xb8 */ u64 _b8 = 0;
+    /* 0xc0 */ s32 _c0 = 3;
+    u8 _c4 = 0;
+    /* 0xc5 */ bool _c5 = false;
+    u8 _c6 = 0;
+    /* 0xc7 */ bool _c7 = false;
+    /* 0xc8 */ s32 _c8 = 0;
+    u8 _cc = 0;
+    bool _cd = false;
     u8 _ce[0xd0 - 0xce];
-    NpcShopData* _d0;
-    s32 _d8;
-    s32 _dc;
-    /* 0xe0 */ s32 _e0;  // passed to sub_7100A92180 for the state-10 item
+    NpcShopData* _d0 = nullptr;
+    s32 _d8 = 0;
+    s32 _dc = 0;
+    /* 0xe0 */ s32 _e0 = -1;  // passed to sub_7100A92180 for the state-10 item
     u8 _e4[4];
     // createInstance constructs capacity 64; shop item selection compares against this name.
     /* 0xe8 */ sead::FixedSafeString<64> _e8;
     /* 0x140 */ ksys::act::BaseProcLink _140;
+    /* 0x150 */ ksys::MessageTransceiverTxOnly mTransceiver;
 
     // Placeholder names (the CSV leaves these unnamed); the facade functions forward to them.
     bool sub_71009816B0(s32 state, s32 a2);
@@ -115,5 +127,6 @@ public:
     // 0x7100985508 (declaration only; NPCClerkRoot::leave_): `_140.reset()`.
     void sub_7100985508();
 };
+KSYS_CHECK_SIZE_NX150(UiShopMgr, 0x1a0);
 
 }  // namespace uking::ui
