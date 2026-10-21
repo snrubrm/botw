@@ -1,5 +1,7 @@
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include <basis/seadNew.h>
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "KingSystem/ActorSystem/actActorLimiter.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -8,6 +10,10 @@
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Resource/Actor/resResourceActorLink.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectBullet.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
@@ -74,6 +80,33 @@ void Bullet::sub_710000497C(BaseProc* proc) {
 
 void Bullet::sub_7100004988(const BaseProcLink& link) {
     _ba0 = link;
+}
+
+void Bullet::initMaybe() {
+    DynamicActor::initMaybe();
+    _cf4 &= ~3;
+
+    if (auto* actor_link = getParam()->getRes().mActorLink) {
+        if (actor_link->hasTag(0x19f6c13a)) {
+            if (actor_link->hasTag(0x19f6c13a))
+                sub_71011DB070();
+        } else if (getParam()->getRes().mGParamList->getBullet()->mNoHitParent.ref()) {
+            if (auto* physics = getPhysics()) {
+                if (_ba0.hasProc()) {
+                    physics->sub_7100FBDFA4(sub_7100738C18(&_ba0, 0));
+                    physics->sub_7100FBDFA4(sub_7100738C18(&_ba0, 1));
+                }
+            }
+        }
+    }
+
+    if (!(_cf4 & 4)) {
+        const auto* bullet = getParam()->getRes().mGParamList->getBullet();
+        if (bullet && bullet->mIsLimitCount.ref()) {
+            ActorLimiter::instance()->get(ActorLimiter::Category::Bullets).addActor(this, true);
+            _cf4 |= 4;
+        }
+    }
 }
 
 namespace acc {
