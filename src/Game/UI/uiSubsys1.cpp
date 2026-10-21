@@ -519,6 +519,13 @@ void UiSubsys1::sub_710096705C(bool show_window) {
     }
 }
 
+// 0x7100964bac (placeholder name): empty in the original; the marker factories that call it build their
+// entries themselves.
+void UiSubsys1::sub_7100964BAC(sead::Heap*) {}
+
+// 0x71009675d0 (placeholder name): empty in the original; see sub_7100964BAC.
+void UiSubsys1::sub_71009675D0(sead::Heap*, Unk_7102477fc0*) {}
+
 // 0x71009674e8
 bool UiSubsys1::sub_71009674E8() const {
     return Unk_71025d6ac0::instance()->_29;
