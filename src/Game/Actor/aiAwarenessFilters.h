@@ -19,6 +19,12 @@ class Unk_71002dccbc;
 // load widths: pointer / bool / f32 / u32); the initial values written by the callers are not
 // verified yet. m2 bodies are in aiAwarenessFilters.cpp (TODO: the ones calling unnamed helpers).
 
+// vtable 0x710235ab78 (m2 0x7100032440 and D0 0x710003b88c in the Guardian TU): only Wolf Link.
+class Unk_710235ab78 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+};
+
 // vtable 0x7102451358 (m2 0x7100744bb8, D0 0x7100744c78)
 class Unk_7102451358 : public ksys::act::Unk_71024dccf8 {
 public:

@@ -1,4 +1,5 @@
 #include "Game/Actor/actGuardian.h"
+#include "Game/Actor/aiAwarenessFilters.h"
 #include <basis/seadNew.h>
 #include "Game/Actor/Damage/dmgDamageCallback.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
@@ -30,6 +31,15 @@ KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_710235ada0[30];
 // original, so clang loads them instead of folding the literals.
 KSYS_VISIBILITY_HIDDEN f32 sUnk_710235ab6c = 15.0f;
 KSYS_VISIBILITY_HIDDEN f32 sUnk_710235ab70 = 25.0f;
+
+bool Unk_710235ab78::m2(ksys::act::Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<ksys::act::Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&target->mLink, &accessor);
+    return accessor.getName() == "WolfLink";
+}
 
 namespace uking::act {
 
