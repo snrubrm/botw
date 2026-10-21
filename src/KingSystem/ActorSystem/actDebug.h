@@ -34,8 +34,8 @@ public:
     sead::TypedBitFlag<Flag> mFlags;
     u8 TEMP1[0x2DC];
     f32 mDispDistanceMultiplier;
-    u8 TEMP2[0x114];
+    u8 TEMP2[0x11c];
 };
-KSYS_CHECK_SIZE_NX150(ActorDebug, 0x428);
+KSYS_CHECK_SIZE_NX150(ActorDebug, 0x430);
 
 }  // namespace ksys::act
