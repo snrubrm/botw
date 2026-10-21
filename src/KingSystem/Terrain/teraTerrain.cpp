@@ -785,13 +785,9 @@ void Terrain::sub_710114D8C8(sead::Heap* heap) {
     _360->sub_71013009C4(heap);
 }
 
-// NON_MATCHING: the flag selection has different temporary allocation.
 void Terrain::sub_710114D804(bool enabled, const sead::Matrix44f* projection,
                            const sead::Matrix34f* view) {
-    if (enabled)
-        _a58 |= 0x1000;
-    else
-        _a58 &= ~0x1000;
+    _a58 = enabled ? _a58 | 0x1000 : _a58 & ~0x1000u;
     mProjectionMatrix = *projection;
     mViewMatrix = *view;
 }
@@ -868,12 +864,8 @@ Core::Grass* Terrain::sub_710114DE4C() { return _360->_138; }
 Core::Grass* Terrain::sub_710114DE58() { return _360->_138; }
 void* Terrain::sub_710114DE64() { return _360->_140; }
 Core::Unk_140* Terrain::sub_710114DE70() { return _360->_140; }
-// NON_MATCHING: the compiler orders the AND before the OR; the original orders them oppositely.
 void Terrain::sub_710114DE7C(bool value) {
-    if (value)
-        _360->_37c |= 1;
-    else
-        _360->_37c &= ~1;
+    _360->_37c = value ? _360->_37c | 1 : _360->_37c & ~1;
 }
 bool Terrain::sub_710114DE9C() { return (_360->_37c & 1) != 0; }
 gsys::Model* Terrain::sub_710114DEE0() { return _360->_f8; }
