@@ -12,6 +12,8 @@
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Event/evtEventSystem.h"
 #include "KingSystem/Event/evtManager.h"
+#include "KingSystem/World/worldTimeMgr.h"
+#include "KingSystem/World/worldManager.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
@@ -160,6 +162,22 @@ void S7EventFlow::sub_71008B8118(evfl::MetaDataPack* pack, const sead::Matrix34f
 // 0x71008b6f20 (CSV evt::S7EventFlow::getStatusStr)
 const char* S7EventFlow::m7() {
     return mStatus.cstr();
+}
+
+// 0x71008b59c8
+void S7EventFlow::setTimeAndWeather() {
+    const DemoInfo& demo = mFlow->_108->mDemoInfo;
+    if (!demo.isValid())
+        return;
+    auto* world = world::Manager::instance();
+    if (!world || !world->getTimeMgr())
+        return;
+    if (demo.getTime() >= 0.0f)
+        world->getTimeMgr()->setTimeWithoutDayChecks(demo.getTime() * 15.0f);
+    if (!demo.getWeather().isEmpty()) {
+        const sead::SafeString weather = demo.getWeather();
+        world->setWeatherType(weather, false, false, true);
+    }
 }
 
 }  // namespace ksys::evt

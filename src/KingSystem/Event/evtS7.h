@@ -154,6 +154,8 @@ public:
     void setup_1_1();
     // 0x71008b8118 (placeholder name): adds the target position and the Y / Z axes of `mtx` to `pack`
     void sub_71008B8118(evfl::MetaDataPack* pack, const sead::Matrix34f& mtx);
+    // 0x71008b59c8 (CSV name): applies the demo's time and weather to the world
+    void setTimeAndWeather();
     // 0x71008b53f0 (CSV evt::S7EventFlow::x; not decompiled)
     void x(bool a1);
 
