@@ -143,8 +143,8 @@ public:
     void m108() override;
     void m114(bool, bool) override;
     Unk_71025ae680* m178(sead::Heap* heap) override;
-    // Slot 39 (overrides Actor's `bool m39()`): true while the swarm has units.
-    bool m39() override;
+    // Slot 39 (Actor's `m39()`): the number of live units.
+    s32 m39() override;
     // Slot 40 (Actor declares `void* m40()`): _14c8[idx]->_78. Takes an index, so it hides the base
     // signature instead of overriding it; our toolchain puts it in a new end slot.
     void* m40(s32 idx);

@@ -220,8 +220,8 @@ Unk_71025ae680* Swarm::m178(sead::Heap* heap) {
 }
 
 // NON_MATCHING: bool conversion: the original returns the count unconverted (s32 return does not
-// compile as an override of Actor's bool m39())
-bool Swarm::m39() {
+// compile as an override of Actor's m39())
+s32 Swarm::m39() {
     return _14c8.getSize();
 }
 

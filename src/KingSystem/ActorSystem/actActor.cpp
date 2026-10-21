@@ -1507,8 +1507,8 @@ f32 Actor::getGuardableAngle() {
     return 0.0f;
 }
 
-bool Actor::m39() {
-    return false;
+s32 Actor::m39() {
+    return 0;
 }
 
 void Actor::m34(sead::Vector3f* pos, f32* value) {}

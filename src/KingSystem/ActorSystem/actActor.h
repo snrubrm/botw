@@ -568,7 +568,7 @@ public:
     virtual f32 getGuardableAngle();
     // 0x71011d86cc: the mass of the character controller / main rigid body (0 without any).
     virtual f32 m38();
-    virtual bool m39();
+    virtual s32 m39();
     virtual void* m40();
     // Writes the transform of the character controller / main body of the actor.
     virtual void m41(sead::Matrix34f* mtx);
