@@ -43,7 +43,6 @@ public:
     // 0x7100002080: never unloads.
     bool shouldUnload(s32* a1) override { return false; }
 
-    // 0x710000262c (CSV BeamBase::m18; declared only).
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
     void initMaybe() override;
     void preDelete2_(const PreDeleteArg& arg) override;
@@ -77,7 +76,7 @@ public:
     void reflectMaybe(const sead::Vector3f& start, const sead::Vector3f& target);
     void sub_71000029CC();
 
-    // 0x7100002bf8: fades the beam effects and detaches the sound shape (declaration only).
+    // 0x7100002bf8: fades the beam effects and detaches the sound shape.
     void sub_7100002BF8();
 
     // A critical section followed by a link (the dtor keeps &_b90 and &_b90._40 in registers across the inlined

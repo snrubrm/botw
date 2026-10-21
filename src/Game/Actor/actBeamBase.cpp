@@ -1,12 +1,19 @@
 #include "Game/Actor/actBeamBase.h"
+#include <aal/aalHandle.h>
 #include <aal/aalShape.h>
+#include <aal/aalSoundSource.h>
 #include <prim/seadScopedLock.h>
+#include <xlink2/xlink2AssetExecutorSLink.h>
+#include <xlink2/xlink2EventSLink.h>
+#include <xlink2/xlink2Locator.h>
+#include <xlink2/xlink2UserInstanceSLink.h>
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectBeam.h"
 
@@ -20,6 +27,31 @@ BeamBase::BeamBase(const CreateArg& arg) : DynamicActor(arg) {
 // NON_MATCHING: the original computes &_b90 and &_b90._40 into callee-saved registers before the inlined
 // ~BoneAccessKeyEx call; we recompute them after it
 BeamBase::~BeamBase() = default;
+
+// NON_MATCHING: the original reuses the locator's stack slot for the shape name and the position (frame 0x50,
+// ours 0x60).
+bool BeamBase::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
+    if (auto* physics = getPhysics())
+        physics->sub_7100FB835C();
+
+    if (auto* xlink = getXLink()) {
+        if (auto* user = xlink->_50) {
+            xlink2::Locator locator;
+            if (user->searchAsset(&locator, "Tail")) {
+                _c78 = aal::ShapeSegment::create("BeamBase", heap);
+                if (_c78) {
+                    _c78->mFlags.reset(1 << aal::Shape::KeepPosition);
+                    _c78->mFlags.reset(1 << aal::Shape::KeepRotation);
+                    sead::Vector3f pos;
+                    getMtx().getTranslation(pos);
+                    _c78->setPosition(pos);
+                }
+            }
+        }
+    }
+
+    return m157(heap) && DynamicActor::prepareInit_(heap, arg);
+}
 
 void BeamBase::initMaybe() {
     DynamicActor::initMaybe();
@@ -75,6 +107,17 @@ void BeamBase::calcMaybe() {
         _c84.setBitOff(0);
     }
     DynamicActor::calcMaybe();
+}
+
+void BeamBase::sub_7100002BF8() {
+    uking::xlink::fade(_c48, -1);
+    uking::xlink::fade(_c58, -1);
+    if (_c58.isActive()) {
+        if (auto* executor = static_cast<xlink2::EventSLink*>(_c58.getEvent())->getAliveAssetExecutor())
+            if (auto* source = executor->getHandle()->getSoundSource())
+                if (auto* calculator = source->mSpatialCalculator)
+                    calculator->detachShape(true);
+    }
 }
 
 void BeamBase::sub_7100002DA8(ksys::act::Actor* actor) {
