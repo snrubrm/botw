@@ -127,6 +127,8 @@ int ForkNoWeaponAttackBase::m35() {
 }
 
 // NON_MATCHING: the original selects the parameter value address (+0x70/+0x90) instead of folding +0x18 into the load
+// NON_MATCHING: same effective GParam offsets (attack + 0x70 / + 0x90), but this Value accessor
+// adds +0x18 at the load; the original adds the final offsets.
 int ForkNoWeaponAttackBase::m32() {
     if (!*mIsImpulseLarge_s)
         return mActor->getParam()->getRes().mGParamList->getAttack()->mImpulse.ref();

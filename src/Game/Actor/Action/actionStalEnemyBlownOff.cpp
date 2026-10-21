@@ -145,6 +145,8 @@ void StalEnemyBlownOff::enter_(ksys::act::ai::InlineParamPack* params) {
 
 // NON_MATCHING: the compiler removes the redundant actor null check before DynamicCast;
 // all remaining instructions match. The standard RTTI predicate form has the same difference.
+// NON_MATCHING: our clang drops the null test before the DynamicCast<DynamicActor>(actor)
+// block (actor was already dereferenced earlier); the original keeps it.
 void StalEnemyBlownOff::leave_() {
     auto* actor = mActor;
     if (_158 > 0) {

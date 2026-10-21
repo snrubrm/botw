@@ -139,6 +139,8 @@ bool BfRes::sub_71011FFF3C() {
 }
 
 // NON_MATCHING: the final flag store is merged into the common unlock tail.
+// NON_MATCHING: our clang merges the final `_41 = 0` into the shared epilogue; the original
+// stores it directly on the fall-through path.
 void BfRes::sub_71011FF9B8() {
     auto lock = sead::makeScopedLock(_78);
     {

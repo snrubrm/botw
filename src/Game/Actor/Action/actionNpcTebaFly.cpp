@@ -23,6 +23,8 @@ bool NpcTebaFly::init_(sead::Heap* heap) {
 }
 
 // NON_MATCHING: same instructions; the original stores x / y of `_88` as one `stp s0, s1` pair
+// NON_MATCHING: the Vector3f returned by sub_710020827C is stored element-wise here; the original
+// copies x / y as a pair (stp) and z separately.
 void NpcTebaFly::enter_(ksys::act::ai::InlineParamPack* params) {
     if (ksys::gdt::getBoolByKey("Wind_Relic_Rescued", false))
         mActor->emitBasicSigOn();

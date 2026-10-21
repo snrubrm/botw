@@ -19,6 +19,7 @@ bool BackToRailFromLava::init_(sead::Heap* heap) {
 // (cmp #1 + b.lt); the original has `n <= 0` (cmp #0 + b.le). Same semantics; the <= form is
 // unreachable from natural source here (it needs a goto into the shared setFailed tail).
 // Everything else matches.
+// NON_MATCHING: `n > 0` is canonicalized to `cmp #1; b.lt`; the original emits `cmp #0; b.le`.
 void BackToRailFromLava::enter_(ksys::act::ai::InlineParamPack* params) {
     mActor->getASList()->sub_710115C11C();
     mActor->getASList()->sub_710115B01C(2, 0, true);
