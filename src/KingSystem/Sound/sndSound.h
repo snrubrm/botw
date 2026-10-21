@@ -730,7 +730,7 @@ public:
     /* 0x28 */ xlink2::HandleSLink _28;
     /* 0x38 */ u32 _38 = 0;
     /* 0x3c */ bool _3c = false;
-    /* 0x40 */ u32 _40 = 0;
+    /* 0x40 */ u32 _40;
     /* 0x44 */ s32 _44 = -1;
     /* 0x48 */ u32 _48 = 0;
     /* 0x50 */ aal::SimpleTimedFader _50{1.0f};

@@ -5,8 +5,10 @@ namespace ksys::snd {
 // TU 0x71010366e4..0x7101037308 (static initialiser) in the original.
 
 // vtable 0x7102501fd0 (the only one in this TU): D2 0x71010367e0 (empty), D0 0x71010367e4.
-// NON_MATCHING: clang merges the 0x40 / 0x44 stores, the original 0x44 / 0x48.
-Unk_SoundMgr38_50::Unk_SoundMgr38_50() = default;
+// NON_MATCHING: the original emits the _40 = 0 store just before the _44 / _48 pair; ours schedules it last.
+Unk_SoundMgr38_50::Unk_SoundMgr38_50() {
+    _40 = 0;
+}
 
 Unk_SoundMgr38_50::~Unk_SoundMgr38_50() = default;
 
