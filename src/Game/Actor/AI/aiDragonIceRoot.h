@@ -29,6 +29,7 @@ public:
     void m42() override;
     void m43() override;
     void m44(const sead::Vector3f& pos) override;
+    void m45(act::DamageManager* damage_mgr) override;
     bool m46() override;
 
 protected:

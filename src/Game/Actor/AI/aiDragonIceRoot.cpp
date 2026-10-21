@@ -1,5 +1,7 @@
 #include "Game/Actor/AI/aiDragonIceRoot.h"
 #include "Game/Actor/actDragon.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
+#include "Game/UI/uiTUStatics.h"
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -13,6 +15,15 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
+
+// The TU's statics; the original merges them into the block at 0x71025b83d0 after the
+// uiTUStatics.h objects. The two 8-byte statics are only written by the static initializer.
+namespace {
+sead::TickTime sUnk_71025B83D8;
+sead::TickSpan sUnk_71025B83E0;
+// Where the dragon is sent from the Lanayru summit.
+sead::Vector3f sSummitPos{3937.6f, 573.0f, 1340.7f};
+}  // namespace
 
 DragonIceRoot::DragonIceRoot(const InitArg& arg) : DragonRoot(arg) {}
 
@@ -483,6 +494,36 @@ void DragonIceRoot::m44(const sead::Vector3f& pos) {
     ksys::act::ActorCreator::instance()->requestCreateActor(
         "DragonIceBall", ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), nullptr, &pack,
         nullptr, 2);
+}
+
+void DragonIceRoot::m45(act::DamageManager* damage_mgr) {
+    auto* dragon = sead::DynamicCast<act::Dragon>(mActor);
+    if (!dragon)
+        return;
+
+    if (dragon->_1e0c == 3) {
+        if (sub_710036AEA8(!isCurrentChild("ラネール山頂待機") && _388 != 3, false)) {
+            if (isCurrentChild("ラネール山頂待機")) {
+                dragon->_1f70.setBit(29);
+                changeChild("ラネール山頂から移動開始");
+            }
+            _3c0 = 0.0f;
+            _390 = 400.0f;
+        }
+        if (!dragon->sub_710000FDFC() && isCurrentChild("ラネール山頂待機")) {
+            if (_250.getUnit() || _250.hasFailed() || _24c.isOnBit(8))
+                return;
+            sead::Vector3f hit_pos;
+            damage_mgr->getPosition(&hit_pos);
+            const sead::Vector3f target = sSummitPos;
+            sead::Vector3f dir = (target - hit_pos) * 0.01f;
+            dir.y = 1.0f;
+            spawnDrop(dragon, damage_mgr, dir, target);
+            dragon->_1f70.setBit(29);
+            return;
+        }
+    }
+    DragonRoot::m45(damage_mgr);
 }
 
 // NON_MATCHING: flag extraction and the shared effect/return branches are scheduled differently.
