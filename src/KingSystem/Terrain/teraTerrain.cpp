@@ -861,6 +861,19 @@ Unk_710250fdf8::Unk_710250fdf8() = default;
 // Restored: removed by accident in 37bb657eed, which left the vtable and its O rows unemitted.
 Unk_710250fdf8::~Unk_710250fdf8() = default;
 
+// Discarded calls: the original builds the debug group headers of the six shapes and drops them
+// (whatever used them is not in the release build).
+void Unk_710250fdf8::m10() {
+    const char* format =
+        "GroupHeader=ShapeCross: %s, Layout=Grid, NumCol=%d, NumRow=2, IsExpand=False";
+    { sead::FormatFixedSafeString<256> header(format, "Quad", 4); }
+    { sead::FormatFixedSafeString<256> header(format, "Quad2", 6); }
+    { sead::FormatFixedSafeString<256> header(format, "Pentagon", 6); }
+    { sead::FormatFixedSafeString<256> header(format, "Cusp", 4); }
+    { sead::FormatFixedSafeString<256> header(format, "Hexagon", 6); }
+    { sead::FormatFixedSafeString<256> header(format, "Cusp1", 3); }
+}
+
 namespace ksys::tera {
 
 // NON_MATCHING: stack slot layout only: the original keeps the position copy at sp+0x20 and the query at sp+0x30;
