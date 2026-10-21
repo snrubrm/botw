@@ -4,6 +4,8 @@ target_sources(uking PRIVATE
   uiStateMachineWrapper.h
   euiAnimButton.cpp
   euiAlignPane.cpp
+  euiBoundingEx.cpp
+  euiBoundingEx.h
   euiAnimator.cpp
   euiEffectLinkUtil.cpp
   euiBoxCursorControl.cpp
