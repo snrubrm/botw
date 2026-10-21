@@ -191,6 +191,16 @@ const VertexAttribute sTurfAttributes[] = {
     {37, 2817, 0, 0, "_p0"},
     {38, 2818, 4, 1, "_n0"},
 };
+const VertexAttribute sStoneAttributes[] = {
+    {37, 2817, 0, 0, "_p0"},
+    {37, 2817, 4, 1, "_n0"},
+    {38, 2818, 8, 2, "_t0"},
+};
+const VertexAttribute sGrassAttributes[] = {
+    {37, 2817, 0, 0, "_p0"},
+    {38, 2818, 4, 1, "_n0"},
+    {37, 2817, 8, 2, "_t0"},
+};
 const PartCounts sC0b8Parts[] = {{4, 2}, {4, 2}};
 const PartCounts sC1f0Parts[] = {{5, 4}, {5, 4}};
 const PartCounts sC328Parts[] = {{4, 2}, {4, 2}};
@@ -501,6 +511,170 @@ const char* Unk_710251bf80::m18(s32 index) {
 
 u32 Unk_710251bf80::m19(s32 index) {
     return sTurfAttributes[index].format;
+}
+
+const char* Unk_710251c0b8::m18(s32 index) {
+    return "_p0";
+}
+
+u32 Unk_710251c1f0::m15(s32 index) {
+    return sGrassAttributes[index].type;
+}
+
+u16 Unk_710251c1f0::m16(s32 index) {
+    return sGrassAttributes[index].offset;
+}
+
+u32 Unk_710251c1f0::m17(s32 index) {
+    return sGrassAttributes[index].buffer;
+}
+
+const char* Unk_710251c1f0::m18(s32 index) {
+    return sGrassAttributes[index].name;
+}
+
+u32 Unk_710251c1f0::m19(s32 index) {
+    return sGrassAttributes[index].format;
+}
+
+u32 Unk_710251c328::m15(s32 index) {
+    return sGrassAttributes[index].type;
+}
+
+u16 Unk_710251c328::m16(s32 index) {
+    return sGrassAttributes[index].offset;
+}
+
+u32 Unk_710251c328::m17(s32 index) {
+    return sGrassAttributes[index].buffer;
+}
+
+const char* Unk_710251c328::m18(s32 index) {
+    return sGrassAttributes[index].name;
+}
+
+u32 Unk_710251c328::m19(s32 index) {
+    return sGrassAttributes[index].format;
+}
+
+u32 Unk_710251c460::m15(s32 index) {
+    return sGrassAttributes[index].type;
+}
+
+u16 Unk_710251c460::m16(s32 index) {
+    return sGrassAttributes[index].offset;
+}
+
+u32 Unk_710251c460::m17(s32 index) {
+    return sGrassAttributes[index].buffer;
+}
+
+const char* Unk_710251c460::m18(s32 index) {
+    return sGrassAttributes[index].name;
+}
+
+u32 Unk_710251c460::m19(s32 index) {
+    return sGrassAttributes[index].format;
+}
+
+u32 Unk_710251c598::m15(s32 index) {
+    return sStoneAttributes[index].type;
+}
+
+u16 Unk_710251c598::m16(s32 index) {
+    return sStoneAttributes[index].offset;
+}
+
+u32 Unk_710251c598::m17(s32 index) {
+    return sStoneAttributes[index].buffer;
+}
+
+const char* Unk_710251c598::m18(s32 index) {
+    return sStoneAttributes[index].name;
+}
+
+u32 Unk_710251c598::m19(s32 index) {
+    return sStoneAttributes[index].format;
+}
+
+u32 Unk_710251c6d0::m15(s32 index) {
+    return sGrassAttributes[index].type;
+}
+
+u16 Unk_710251c6d0::m16(s32 index) {
+    return sGrassAttributes[index].offset;
+}
+
+u32 Unk_710251c6d0::m17(s32 index) {
+    return sGrassAttributes[index].buffer;
+}
+
+const char* Unk_710251c6d0::m18(s32 index) {
+    return sGrassAttributes[index].name;
+}
+
+u32 Unk_710251c6d0::m19(s32 index) {
+    return sGrassAttributes[index].format;
+}
+
+u32 Unk_710251c808::m15(s32 index) {
+    return sGrassAttributes[index].type;
+}
+
+u16 Unk_710251c808::m16(s32 index) {
+    return sGrassAttributes[index].offset;
+}
+
+u32 Unk_710251c808::m17(s32 index) {
+    return sGrassAttributes[index].buffer;
+}
+
+const char* Unk_710251c808::m18(s32 index) {
+    return sGrassAttributes[index].name;
+}
+
+u32 Unk_710251c808::m19(s32 index) {
+    return sGrassAttributes[index].format;
+}
+
+u32 Unk_710251c940::m15(s32 index) {
+    return sGrassAttributes[index].type;
+}
+
+u16 Unk_710251c940::m16(s32 index) {
+    return sGrassAttributes[index].offset;
+}
+
+u32 Unk_710251c940::m17(s32 index) {
+    return sGrassAttributes[index].buffer;
+}
+
+const char* Unk_710251c940::m18(s32 index) {
+    return sGrassAttributes[index].name;
+}
+
+u32 Unk_710251c940::m19(s32 index) {
+    return sGrassAttributes[index].format;
+}
+
+u32 Unk_710251ca78::m15(s32 index) {
+    return sGrassAttributes[index].type;
+}
+
+u16 Unk_710251ca78::m16(s32 index) {
+    return sGrassAttributes[index].offset;
+}
+
+u32 Unk_710251ca78::m17(s32 index) {
+    return sGrassAttributes[index].buffer;
+}
+
+const char* Unk_710251ca78::m18(s32 index) {
+    return sGrassAttributes[index].name;
+}
+
+u32 Unk_710251ca78::m19(s32 index) {
+    return sGrassAttributes[index].format;
 }
 
 // Draw-command counts: m10 is the vertex count times the per-vertex count of slot 12,
