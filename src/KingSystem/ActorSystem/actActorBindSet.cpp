@@ -220,7 +220,6 @@ bool ActorBindSet::m8(BaseProc* proc) {
     return false;
 }
 
-// NON_MATCHING: register allocation / loop shape of the entry walk
 void ActorBindSet::m9(BaseProc* proc) {
     auto* own_physics = static_cast<Actor*>(proc)->getPhysics();
     if (!own_physics)

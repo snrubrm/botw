@@ -832,7 +832,6 @@ bool Unk_71024e6428::m33() {
     return false;
 }
 
-// NON_MATCHING: the original loads `_288` before the slot of the virtual call (scheduling only)
 bool Unk_71024e6428::m36() {
     if ((_30 & 0x10000) || !(_3c & 0x1))
         return true;

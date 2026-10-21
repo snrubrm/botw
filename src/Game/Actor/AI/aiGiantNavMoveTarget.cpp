@@ -18,7 +18,6 @@ bool GiantNavMoveTarget::init_(sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: the original tests `(state | 1) == 5` on the byte (not `state == 4 || state == 5`)
 void GiantNavMoveTarget::enter_(ksys::act::ai::InlineParamPack* params) {
     _78 = sub_71005E2BCC(mActor);
     if (!_78) {

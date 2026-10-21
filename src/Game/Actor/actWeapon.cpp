@@ -388,7 +388,6 @@ void Weapon::masterSwordReturnToForest() {
     deleteLater(DeleteReason::_0);
 }
 
-// NON_MATCHING: the compiler combines the request-type tests differently.
 bool Weapon::m222() {
     if ((_af8._0 | 1) == 7)
         return false;

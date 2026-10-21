@@ -2434,7 +2434,6 @@ bool Actor::becomePreActor(DeleteType type, DeleteReason reason) {
     return deleted;
 }
 
-// NON_MATCHING: the existing atomic bool uses a zero test rather than a bit-zero test.
 bool Actor::deleteIfPlacementStuff() {
     if (_687) {
         if (!mMapObject)
