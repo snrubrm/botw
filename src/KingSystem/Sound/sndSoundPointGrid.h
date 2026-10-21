@@ -60,6 +60,8 @@ public:
     void init(sead::Heap* heap);
     // 0x71012c0c14: empties the lists and resets the cell map.
     void reset();
+    // 0x71012bfef8 (declared only): per-frame update (updateCells / updatePoints in turn).
+    void calc();
     // 0x71012c0034: moves the lists with the listener's map cell (each list keeps its cell, new cells get the
     // lists of the cells that were left), then fills the list of one sub-cell around the listener (one per call).
     void updateCells(map::PlacementMgr* mgr, const aal::Listener* listener);

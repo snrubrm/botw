@@ -170,6 +170,42 @@ void Unk_SoundMgr38_18::sub_710102EE40() {
     _9629 = true;
 }
 
+void Unk_SoundMgr38_10::sub_7101031BB0() {
+    if (!_10c1)
+        return;
+
+    if (mProcHandle.isAllocatedOrFailed() && mProcHandle.isProcReady()) {
+        _18 = static_cast<act::Actor*>(mProcHandle.getProc());
+        _18->getActorFlags2().set(act::Actor::ActorFlag2::NoDistanceCheck);
+        mProcHandle.releaseAndWakeProc();
+    }
+    if (!_18)
+        return;
+
+    if (_11c0)
+        _11c0->calc();
+    sub_7101031CF8();
+    if (_18) {
+        if (_11c0) {
+            for (s32 i = 0; i < 32; ++i) {
+                const auto& point =
+                    _11c0->mPoints[Unk_710251ad68::SoundType(Unk_710251ad68::SoundType::cBush)][i];
+                if (point.distance != sead::Mathf::maxNumber() && !_18d0[i]) {
+                    _11d0[i]._28[0] = point.pos.x;
+                    _11d0[i]._28[1] = point.pos.y;
+                    _11d0[i]._28[2] = point.pos.z;
+                    _18d0[i] = true;
+                }
+            }
+        }
+        sub_7101033DD8();
+    }
+    sub_71010324A8();
+    _1944 = _75c;
+    _1948 = _774;
+    _10d0 = false;
+}
+
 // NON_MATCHING: the original stores _10a8 = 0 inside the reset loop (once per point).
 void Unk_SoundMgr38_10::sub_7101033328(sead::Heap* heap, act::ActorCreator* creator) {
     if (!_18)

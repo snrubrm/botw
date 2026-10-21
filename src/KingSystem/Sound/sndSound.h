@@ -494,11 +494,18 @@ public:
 
     // 0x71010333e0: sets _10c1 (Unk_SoundMgr38::sub_710102AE50).
     void sub_71010333E0();
+    // 0x7101031bb0 (placeholder name): per-frame update: takes the EnvSoundGrass actor when it is ready, updates
+    // the plant grid and copies its nearest bush points into the second cache.
+    void sub_7101031BB0();
+    // 0x7101031cf8 / 0x7101033dd8 / 0x71010324a8 (declared only): steps of sub_7101031BB0.
+    void sub_7101031CF8();
+    void sub_7101033DD8();
+    void sub_71010324A8();
     // 0x7101033328: requests the EnvSoundGrass actor (once) and resets the grass point state.
     void sub_7101033328(sead::Heap* heap, act::ActorCreator* creator);
 
     /* 0x0008 */ act::BaseProcHandle mProcHandle;
-    /* 0x0018 */ void* _18 = nullptr;
+    /* 0x0018 */ act::Actor* _18 = nullptr;
     /// The fixed positions handed to the speaker balance unifier.
     /* 0x0020 */ aal::UnifiablePosition mPositions[32];
     /* 0x0720 */ bool mPositionActive[32];
@@ -542,7 +549,10 @@ public:
     /* 0x18f8 */ bool _18f8 = false;
     u8 _18f9[0x1900 - 0x18f9];
     /* 0x1900 */ sead::CriticalSection mCS;
-    u8 _1940[0x1950 - 0x1940];
+    u8 _1940[0x1944 - 0x1940];
+    /* 0x1944 */ f32 _1944;
+    /* 0x1948 */ f32 _1948;
+    u8 _194c[0x1950 - 0x194c];
 };
 class Unk_SoundMgr38_18 {
 public:
