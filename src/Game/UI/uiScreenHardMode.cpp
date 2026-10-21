@@ -377,7 +377,7 @@ void ScreenHardMode::m191() {
     }
 }
 
-// NON_MATCHING: merged static string offsets; the widget name temporary is placed above the FixedSafeString
+// NON_MATCHING: the widget name temporary is placed above the FixedSafeString
 // in the original's frame
 // 0x7100a0c084
 void ScreenHardMode::sub_7100A0C084(const sead::SafeString& text, const sead::SafeString& left,
