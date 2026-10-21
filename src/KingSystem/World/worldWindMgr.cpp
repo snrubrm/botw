@@ -162,10 +162,10 @@ f32 WindMgr::x_1() {
     return _20->sub_71012FF268(sub_71010EEF04());
 }
 
-// NON_MATCHING: vector component copies and normalization scheduling differ slightly.
+// NON_MATCHING: two fadd operands of the normalization are swapped.
 void WindMgr::sub_71010EEA98(sead::Vector3f* out, const sead::Vector3f* position) {
     if (_28 & 6) {
-        *out = _40;
+        out->e = _40.e;
         out->normalize();
         return;
     }

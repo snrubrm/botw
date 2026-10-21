@@ -1166,7 +1166,7 @@ bool CharacterController::sub_7100F63024(f32* radius, f32* end, f32* ring1, f32*
     if (end)
         *end = prism->mEndVertexDistance;
     if (offset)
-        *offset = prism->mOffset;
+        offset->e = prism->mOffset.e;
     return true;
 }
 

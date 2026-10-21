@@ -257,11 +257,10 @@ void GameSceneSubsys12::sub_7100665360() {
         accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
 }
 
-// NON_MATCHING: the original count clamp contains an int-float-int round trip, and copy stores differ.
 void GameSceneSubsys12::sub_7100664CC0(sead::Vector3f* out, s32 count, s32 index) {
     if (out) {
         const s32 row = sead::Mathf::clamp(static_cast<f32>(count - 1), 0.0f, 4.0f);
-        *out = _a98[row][index];
+        out->e = _a98[row][index].e;
     }
 }
 
