@@ -1535,41 +1535,33 @@ Terrain::Unk4ae0::Unk_f98::TextureEntry* Terrain::Unk4ae0::Unk_f98::getTextureEn
     return &_10[index];
 }
 
-// NON_MATCHING: the original reaches the array through a negative offset (sub, not add); reason unknown.
-u8* Unk_7101147678::getSamplerMaybe(s32 index) { return &_410[index * 0x170]; }
+agl::TextureSampler* Unk_7101147678::getSamplerMaybe(s32 index) { return &_40[index - 3]; }
 s32 Unk_7101147678::getMaterialIndexMaybe(s32 index) const { return _47c[index]; }
 s32 Unk_7101147678::getShaderParamIndexMaybe(s32 index) const { return _6ac[index]; }
 s32 Unk_7101147678::getConstantIndexMaybe(s32 index) const { return _6c0[index]; }
-// NON_MATCHING: the original reaches the array through a negative offset (sub, not add); reason unknown.
-TextureAccessorEntryMaybe* Unk_7101147678::getTextureEntryMaybe(s32 index) { return &_20[index]; }
+TextureAccessorEntryMaybe* Unk_7101147678::getTextureEntryMaybe(s32 index) { return &_10[index - 3]; }
 
-// NON_MATCHING: the original reaches the array through a negative offset (sub, not add); reason unknown.
-agl::TextureSampler* Unk_71011477F4::getSamplerMaybe(s32 index) { return &_860[index]; }
+agl::TextureSampler* Unk_71011477F4::getSamplerMaybe(s32 index) { return &_40[index - 6]; }
 s32 Unk_71011477F4::getMaterialIndexMaybe(s32 index) const { return _474[index]; }
 s32 Unk_71011477F4::getShaderParamIndexMaybe(s32 index) const { return _6b8[index]; }
 s32 Unk_71011477F4::getConstantIndexMaybe(s32 index) const { return _74c[index]; }
-// NON_MATCHING: the original reaches the array through a negative offset (sub, not add); reason unknown.
-TextureAccessorEntryMaybe* Unk_71011477F4::getTextureEntryMaybe(s32 index) { return &_50[index]; }
+TextureAccessorEntryMaybe* Unk_71011477F4::getTextureEntryMaybe(s32 index) { return &_10[index - 6]; }
 
-// NON_MATCHING: the original reaches the array through a negative offset (sub, not add); reason unknown.
-agl::TextureSampler* Unk_7101147970::getSamplerMaybe(s32 index) { return &_c60[index]; }
+agl::TextureSampler* Unk_7101147970::getSamplerMaybe(s32 index) { return &_90[index - 9]; }
 s32 Unk_7101147970::getMaterialIndexMaybe(s32 index) const { return _bd8[index]; }
 s32 Unk_7101147970::getShaderParamIndexMaybe(s32 index) const { return _1118[index]; }
 s32 Unk_7101147970::getConstantIndexMaybe(s32 index) const { return _126c[index]; }
-// NON_MATCHING: the original reaches the array through a negative offset (sub, not add); reason unknown.
-TextureAccessorEntryMaybe* Unk_7101147970::getTextureEntryMaybe(s32 index) { return &_80[index]; }
+TextureAccessorEntryMaybe* Unk_7101147970::getTextureEntryMaybe(s32 index) { return &_10[index - 9]; }
 
 s32 Unk_7101147B38::getMaterialIndexMaybe(s32 index) const { return _430[index]; }
 s32 Unk_7101147B38::getShaderParamIndexMaybe(s32 index) const { return _500[index]; }
 s32 Unk_7101147B38::getConstantIndexMaybe(s32 index) const { return _624[index]; }
-// NON_MATCHING: the original reaches the array through a negative offset (sub, not add); reason unknown.
-TextureAccessorEntryMaybe* Unk_7101147B38::getTextureEntryMaybe(s32 index) { return &_160[index]; }
+TextureAccessorEntryMaybe* Unk_7101147B38::getTextureEntryMaybe(s32 index) { return &_10[index - 23]; }
 
 s32 Unk_7101147C48::getMaterialIndexMaybe(s32 index) const { return _8ac[index]; }
 s32 Unk_7101147C48::getShaderParamIndexMaybe(s32 index) const { return _bb0[index]; }
 s32 Unk_7101147C48::getConstantIndexMaybe(s32 index) const { return _cb4[index]; }
-// NON_MATCHING: the original reaches the array through a negative offset (sub, not add); reason unknown.
-TextureAccessorEntryMaybe* Unk_7101147C48::getTextureEntryMaybe(s32 index) { return &_100[index]; }
+TextureAccessorEntryMaybe* Unk_7101147C48::getTextureEntryMaybe(s32 index) { return &_10[index - 17]; }
 KSYS_VISIBILITY_HIDDEN u8 sUnk_7102620B60;
 KSYS_VISIBILITY_HIDDEN u8 sUnk_7102620B64;
 KSYS_VISIBILITY_HIDDEN u8 sUnk_7102620B68;

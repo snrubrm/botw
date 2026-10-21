@@ -2016,19 +2016,19 @@ struct TextureAccessorEntryMaybe {
     u8 _0[0x10];
 };
 
-// 0x7101147678
+// 0x7101147678. The texture entries and samplers are indexed from material 3 (the accessors
+// subtract the first index), like Terrain::Unk4ae0::Unk_10 (entries at 0x10, samplers after them).
 struct Unk_7101147678 {
-    // Return type u8*: the 0x170-byte stride record overlaps the index array at 0x47c.
-    u8* getSamplerMaybe(s32 index);
+    agl::TextureSampler* getSamplerMaybe(s32 index);
     s32 getMaterialIndexMaybe(s32 index) const;
     s32 getShaderParamIndexMaybe(s32 index) const;
     s32 getConstantIndexMaybe(s32 index) const;
     TextureAccessorEntryMaybe* getTextureEntryMaybe(s32 index);
 
-    u8 _0[0x20];
-    TextureAccessorEntryMaybe _20[1];
-    u8 _30[0x410 - 0x30];
-    u8 _410[0x47c - 0x410];
+    u8 _0[0x10];
+    TextureAccessorEntryMaybe _10[3];
+    agl::TextureSampler _40[2];
+    u8 _320[0x47c - 0x320];
     s32 _47c[1];
     u8 _480[0x6ac - 0x480];
     s32 _6ac[1];
@@ -2036,7 +2036,7 @@ struct Unk_7101147678 {
     s32 _6c0[1];
 };
 
-// 0x71011477f4
+// 0x71011477f4. Entries and samplers indexed from material 6.
 struct Unk_71011477F4 {
     agl::TextureSampler* getSamplerMaybe(s32 index);
     s32 getMaterialIndexMaybe(s32 index) const;
@@ -2044,19 +2044,18 @@ struct Unk_71011477F4 {
     s32 getConstantIndexMaybe(s32 index) const;
     TextureAccessorEntryMaybe* getTextureEntryMaybe(s32 index);
 
-    u8 _0[0x50];
-    TextureAccessorEntryMaybe _50[1];
-    u8 _60[0x474 - 0x60];
+    u8 _0[0x10];
+    TextureAccessorEntryMaybe _10[3];
+    agl::TextureSampler _40[2];
+    u8 _320[0x474 - 0x320];
     s32 _474[1];
     u8 _478[0x6b8 - 0x478];
     s32 _6b8[1];
     u8 _6bc[0x74c - 0x6bc];
     s32 _74c[1];
-    u8 _750[0x860 - 0x750];
-    agl::TextureSampler _860[1];
 };
 
-// 0x7101147970
+// 0x7101147970. Entries and samplers indexed from material 9.
 struct Unk_7101147970 {
     agl::TextureSampler* getSamplerMaybe(s32 index);
     s32 getMaterialIndexMaybe(s32 index) const;
@@ -2064,28 +2063,27 @@ struct Unk_7101147970 {
     s32 getConstantIndexMaybe(s32 index) const;
     TextureAccessorEntryMaybe* getTextureEntryMaybe(s32 index);
 
-    u8 _0[0x80];
-    TextureAccessorEntryMaybe _80[1];
-    u8 _90[0xbd8 - 0x90];
+    u8 _0[0x10];
+    TextureAccessorEntryMaybe _10[8];
+    agl::TextureSampler _90[7];
+    u8 _aa0[0xbd8 - 0xaa0];
     s32 _bd8[1];
-    u8 _bdc[0xc60 - 0xbdc];
-    agl::TextureSampler _c60[1];
-    u8 _dd0[0x1118 - 0xdd0];
+    u8 _bdc[0x1118 - 0xbdc];
     s32 _1118[1];
     u8 _111c[0x126c - 0x111c];
     s32 _126c[1];
 };
 
-// 0x7101147b38 (no sampler accessor)
+// 0x7101147b38 (no sampler accessor). Entries indexed from material 23.
 struct Unk_7101147B38 {
     s32 getMaterialIndexMaybe(s32 index) const;
     s32 getShaderParamIndexMaybe(s32 index) const;
     s32 getConstantIndexMaybe(s32 index) const;
     TextureAccessorEntryMaybe* getTextureEntryMaybe(s32 index);
 
-    u8 _0[0x160];
-    TextureAccessorEntryMaybe _160[1];
-    u8 _170[0x430 - 0x170];
+    u8 _0[0x10];
+    TextureAccessorEntryMaybe _10[1];
+    u8 _20[0x430 - 0x20];
     s32 _430[1];
     u8 _434[0x500 - 0x434];
     s32 _500[1];
@@ -2093,16 +2091,16 @@ struct Unk_7101147B38 {
     s32 _624[1];
 };
 
-// 0x7101147c48 (no sampler accessor)
+// 0x7101147c48 (no sampler accessor). Entries indexed from material 17.
 struct Unk_7101147C48 {
     s32 getMaterialIndexMaybe(s32 index) const;
     s32 getShaderParamIndexMaybe(s32 index) const;
     s32 getConstantIndexMaybe(s32 index) const;
     TextureAccessorEntryMaybe* getTextureEntryMaybe(s32 index);
 
-    u8 _0[0x100];
-    TextureAccessorEntryMaybe _100[1];
-    u8 _110[0x8ac - 0x110];
+    u8 _0[0x10];
+    TextureAccessorEntryMaybe _10[1];
+    u8 _20[0x8ac - 0x20];
     s32 _8ac[1];
     u8 _8b0[0xbb0 - 0x8b0];
     s32 _bb0[1];
