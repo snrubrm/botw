@@ -2,6 +2,7 @@
 
 #include <container/seadObjList.h>
 #include <container/seadSafeArray.h>
+#include <prim/seadEnum.h>
 #include <math/seadMathCalcCommon.h>
 #include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
@@ -26,6 +27,12 @@ namespace ksys::snd {
 // tracks the ones without a plant shake type.
 class Unk_710251ad68 {
 public:
+    // The sound type of a plant (the text "cBush , cGrass" is in the binary; the name is a guess from the debug
+    // string "[SoundType : %s]" next to it). It selects one of the two list sets.
+    // clang-format off
+    SEAD_ENUM(SoundType, cBush , cGrass)
+    // clang-format on
+
     // Two sets of nine lists of sound point positions (one list per map cell) and up to 20 actors that are
     // already handled.
     struct Lists {

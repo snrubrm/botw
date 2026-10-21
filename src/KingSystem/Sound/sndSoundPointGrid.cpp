@@ -132,32 +132,33 @@ void Unk_710251ad68::updateCells(map::PlacementMgr* mgr, const aal::Listener* li
     }
 }
 
-// NON_MATCHING: the original keeps `set` on the stack (an out-parameter or enum?) and keeps the actor in a
-// register only for the searches.
+// NON_MATCHING: when the actor is found in the first set, the original stores the type from a register (ours stores
+// wzr).
 bool Unk_710251ad68::sub_71012C0898(map::Unk_71012497f8Entry* entry) {
     if (!entry->_80)
         return true;
 
     const char* name = entry->mName.cstr();
-    s32 set = 0;
+    SoundType set = SoundType::cBush;
+    void* const actor = entry->_10;
 
     for (s32 i = 0; i < _a30; ++i) {
-        if (_8f0[i] == entry->_10)
+        if (_8f0[i] == actor)
             return true;
     }
 
     bool known = false;
     for (s32 i = 0; i < mLists[0].mNumActors; ++i) {
-        if (mLists[0].mActors[i] == entry->_10) {
-            set = 0;
+        if (mLists[0].mActors[i] == actor) {
+            set = SoundType::cBush;
             known = true;
             break;
         }
     }
     if (!known) {
         for (s32 i = 0; i < mLists[1].mNumActors; ++i) {
-            if (mLists[1].mActors[i] == entry->_10) {
-                set = 1;
+            if (mLists[1].mActors[i] == actor) {
+                set = SoundType::cGrass;
                 known = true;
                 break;
             }
@@ -166,8 +167,8 @@ bool Unk_710251ad68::sub_71012C0898(map::Unk_71012497f8Entry* entry) {
 
     if (!known) {
         const char* user = act::InfoData::instance()->getSLinkUser(name);
-        const sead::SafeString type =
-            InfoData::instance()->getMiscPlantShakeType(InfoData::instance()->getInfo(user));
+        const al::ByamlIter info = InfoData::instance()->getInfo(user);
+        const sead::SafeString type = InfoData::instance()->getMiscPlantShakeType(info);
         if (type == "None") {
             if (_a30 < 40) {
                 _8f0[_a30] = entry->_10;
@@ -176,9 +177,9 @@ bool Unk_710251ad68::sub_71012C0898(map::Unk_71012497f8Entry* entry) {
             return true;
         }
         if (type == "Bush")
-            set = 0;
+            set = SoundType::cBush;
         else if (type == "Grass")
-            set = 1;
+            set = SoundType::cGrass;
         else
             return true;
 
