@@ -31,6 +31,8 @@ Unk_71024ef4e8::AttachConfig sAttachConfigs[] = {
 static_assert(sizeof(Unk_71024ef4e8::AttachConfig) == 0x28);
 }  // namespace
 
+Unk_71024ef4e8::Unk2::~Unk2() {}
+
 // NON_MATCHING: contact iteration uses different loop-bound loads and branches.
 void Unk_71024ef4e8::Unk2::sub_7100EA8994() {
     mController->sub_7100F5F234(&_190);
