@@ -813,6 +813,20 @@ void Unk_710251c0b8::m33(u16* indices, s32 part, u16 base) {
     }
 }
 
+// NON_MATCHING: same 64-bit part test as Unk_710251bf80::m33.
+// A triangle fan around `base` that closes on its first outer vertex.
+void Unk_710251c1f0::m33(u16* indices, s32 part, u16 base) {
+    if (part == 0 || part == 1) {
+        const u32 count = sC1f0Parts[part].indices;
+        u32 i = 0;
+        do {
+            *indices++ = base;
+            *indices++ = base + i + 1;
+            *indices++ = i == count - 1 ? base + 1 : base + i + 2;
+        } while (++i < count);
+    }
+}
+
 // Draw-command counts: m10 is the vertex count times the per-vertex count of slot 12,
 // m11 twice the index count.
 s32 Unk_710251bf80::m10() {
