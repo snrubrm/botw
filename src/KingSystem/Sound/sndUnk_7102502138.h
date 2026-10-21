@@ -6,6 +6,7 @@
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
+#include "KingSystem/Sound/sndEquipmentNoiseCache.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::xlink {
@@ -13,36 +14,6 @@ class XLink;
 }
 
 namespace ksys::snd {
-
-// Placeholder type named after its method at 0x71012c5034 (now a method of the subclass Unk_710251b128). The base
-// of the equipment sound objects of Unk68 (Unk_710251b028 for the parts, Unk_710251b128 for the quiver); see
-// sndEquipmentNoiseCache.h. No vtable of its own is used (both subclasses override every slot).
-class Unk_71012C5034 {
-public:
-    virtual ~Unk_71012C5034() = default;
-    // Called with a part name (Unk68::sub_710104DD20 passes "BaseEquip_Quiver").
-    virtual bool m2(const sead::SafeString& name) = 0;
-    virtual bool m3() = 0;
-    virtual void m4(void* arg) = 0;
-    virtual void m5(void* arg) = 0;
-    virtual void m6() = 0;
-
-    // 0x71012c384c (placeholder name): _c = m2(name), _d = !_c.
-    void sub_71012C384C(const sead::SafeString& name);
-    // 0x71012c3888 / 0x71012c38f8 (placeholder names): if _d is set, first _c = m3() (clearing _d); then m4 / m5
-    // while _c is set.
-    void sub_71012C3888(void* arg);
-    void sub_71012C38F8(void* arg);
-    // 0x71012c3968 (placeholder name): m6(), then clears _c and _d.
-    void sub_71012C3968();
-
-    u32 _8 = 0;
-    bool _c = false;
-    bool _d = false;
-};
-KSYS_CHECK_SIZE_NX150(Unk_71012C5034, 0x10);
-
-class Unk_710251b128;
 
 // Placeholder name (vtable 0x7102502138, a sead singleton of size 0xfa8 created by 0x710103af1c and
 // initialised from Sound::init (0x710103b1d4); instance pointer at 0x71026108e0, GOT 0x25924b0). Part of the
@@ -83,7 +54,7 @@ public:
     // 0x710104e0a0) under the critical section.
     void sub_710103B33C(f32 value);
     void sub_710103B384(f32 value);
-    void sub_710103B3CC(void* arg);
+    void sub_710103B3CC(const Unk_710251b170::Strength* strength);
 
     // Placeholder (the sub-object at +0x68, 0x578 bytes; mostly declaration only).
     struct Unk68 {
@@ -99,7 +70,7 @@ public:
         void sub_710104C648();
         void sub_710104DF54(f32 value);
         void sub_710104E004(f32 value);
-        void sub_710104E0A0(void* arg);
+        void sub_710104E0A0(const Unk_710251b170::Strength* strength);
 
         // 0x710104d398: `_15c = flag` and bit 3 of the dirty flags `_56c`.
         void sub_710104D398(bool flag);

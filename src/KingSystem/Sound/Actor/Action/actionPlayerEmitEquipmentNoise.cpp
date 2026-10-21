@@ -17,19 +17,17 @@ void PlayerEmitEquipmentNoise::loadParams_() {
     getDynamicParam(&mSpeed_d, "Speed");
 }
 
-// NON_MATCHING: `type` sits at sp+0x8 in the original (sp+0xc here); the real type of the 0x710103b3cc argument
-// is unknown (maybe an 8-byte object).
 bool PlayerEmitEquipmentNoise::oneShot_() {
-    s32 type = 1;
+    Unk_710251b170::Strength type = Unk_710251b170::Strength::Weak;
     f32 volume;
     if (mSpeed_d == "Dash") {
-        type = 3;
+        type = Unk_710251b170::Strength::Strong;
         volume = 0.3;
     } else if (mSpeed_d == "Fast") {
-        type = 2;
+        type = Unk_710251b170::Strength::Middle;
         volume = 0.2;
     } else if (mSpeed_d == "MdlSpd") {
-        type = 2;
+        type = Unk_710251b170::Strength::Middle;
         volume = 0.15;
     } else {
         volume = 0.05;

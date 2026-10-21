@@ -81,10 +81,10 @@ void Unk_7102502138::sub_710103B384(f32 value) {
         _68->sub_710104E004(value);
 }
 
-void Unk_7102502138::sub_710103B3CC(void* arg) {
+void Unk_7102502138::sub_710103B3CC(const Unk_710251b170::Strength* strength) {
     auto lock = sead::makeScopedLock(mCS);
     if (_68)
-        _68->sub_710104E0A0(arg);
+        _68->sub_710104E0A0(strength);
 }
 
 void Unk_7102502138::sub_710103B41C(bool flag) {
@@ -142,22 +142,22 @@ void Unk_71012C5034::sub_71012C384C(const sead::SafeString& name) {
     _d = !result;
 }
 
-void Unk_71012C5034::sub_71012C3888(void* arg) {
+void Unk_71012C5034::sub_71012C3888(const Unk_710251b170::Speed* speed) {
     if (_d) {
         _c = m3();
         _d = false;
     }
     if (_c)
-        m4(arg);
+        m4(speed);
 }
 
-void Unk_71012C5034::sub_71012C38F8(void* arg) {
+void Unk_71012C5034::sub_71012C38F8(const Unk_710251b170::Strength* strength) {
     if (_d) {
         _c = m3();
         _d = false;
     }
     if (_c)
-        m5(arg);
+        m5(strength);
 }
 
 void Unk_71012C5034::sub_71012C3968() {

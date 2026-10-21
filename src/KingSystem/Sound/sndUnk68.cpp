@@ -1,8 +1,20 @@
 #include "KingSystem/Sound/sndUnk_7102502138.h"
-#include "KingSystem/Sound/sndEquipmentNoiseCache.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 
 namespace ksys::snd {
+
+namespace {
+// inline-only in the original; name is a guess (0x710104df54 and 0x710104e004 repeat it).
+Unk_710251b170::Speed toSpeedMaybe(f32 value) {
+    if (value > 0.25f)
+        return Unk_710251b170::Speed::Dash;
+    if (value > 0.18f)
+        return Unk_710251b170::Speed::Fast;
+    if (value > 0.1f)
+        return Unk_710251b170::Speed::MdlSpd;
+    return Unk_710251b170::Speed::Slow;
+}
+}  // namespace
 
 bool sub_710104DDF8(const sead::SafeString& name) {
     return name != "Dummy" && name != "None" && name != "No_Sound";
@@ -40,18 +52,8 @@ void Unk_7102502138::Unk68::sub_710104DD88(bool flag) {
     _56c |= 0xc;
 }
 
-// NON_MATCHING: the store of `level` is sunk to the common branch and lands at sp+8 in the
-// original; ours keeps it at x29-4.
 void Unk_7102502138::Unk68::sub_710104DF54(f32 value) {
-    s32 level = 0;
-    if (value <= 0.25f) {
-        if (value > 0.18f)
-            level = 1;
-        else if (value > 0.1f)
-            level = 2;
-        else
-            level = 3;
-    }
+    Unk_710251b170::Speed level = toSpeedMaybe(value);
     _538->_98->sub_71012C3888(&level);
     _540->_98->sub_71012C3888(&level);
     if (!_15c)
@@ -60,30 +62,21 @@ void Unk_7102502138::Unk68::sub_710104DF54(f32 value) {
         _200->sub_71012C3888(&level);
 }
 
-// NON_MATCHING: same store-sinking / stack-slot difference as sub_710104DF54.
 void Unk_7102502138::Unk68::sub_710104E004(f32 value) {
-    s32 level = 0;
-    if (value <= 0.25f) {
-        if (value > 0.18f)
-            level = 1;
-        else if (value > 0.1f)
-            level = 2;
-        else
-            level = 3;
-    }
+    Unk_710251b170::Speed level = toSpeedMaybe(value);
     _528->_98->sub_71012C3888(&level);
     _530->_98->sub_71012C3888(&level);
     if (!_bc)
         _c0->sub_71012C3888(&level);
 }
 
-void Unk_7102502138::Unk68::sub_710104E0A0(void* arg) {
+void Unk_7102502138::Unk68::sub_710104E0A0(const Unk_710251b170::Strength* strength) {
     if (_548)
-        _548->_98->sub_71012C38F8(arg);
+        _548->_98->sub_71012C38F8(strength);
     if (_550)
-        _550->_98->sub_71012C38F8(arg);
+        _550->_98->sub_71012C38F8(strength);
     if (_558)
-        _558->_98->sub_71012C38F8(arg);
+        _558->_98->sub_71012C38F8(strength);
 }
 
 void Unk_7102502138::Unk68::sub_710104D398(bool flag) {

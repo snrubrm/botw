@@ -3,7 +3,6 @@
 #include <prim/seadEnum.h>
 #include <xlink2/xlink2Locator.h>
 #include <prim/seadSafeString.h>
-#include "KingSystem/Sound/sndUnk_7102502138.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::snd {
@@ -25,6 +24,35 @@ private:
 extern Unk_710251b170 sEquipmentNoiseCache;
 KSYS_CHECK_SIZE_NX150(Unk_710251b170, 0x150);
 
+// Placeholder type named after its method at 0x71012c5034 (now a method of the subclass Unk_710251b128). The base
+// of the equipment sound objects of Unk68 (Unk_710251b028 for the parts, Unk_710251b128 for the quiver); see
+// sndEquipmentNoiseCache.h. No vtable of its own is used (both subclasses override every slot).
+class Unk_71012C5034 {
+public:
+    virtual ~Unk_71012C5034() = default;
+    // Called with a part name (Unk68::sub_710104DD20 passes "BaseEquip_Quiver").
+    virtual bool m2(const sead::SafeString& name) = 0;
+    virtual bool m3() = 0;
+    virtual void m4(const Unk_710251b170::Speed* speed) = 0;
+    virtual void m5(const Unk_710251b170::Strength* strength) = 0;
+    virtual void m6() = 0;
+
+    // 0x71012c384c (placeholder name): _c = m2(name), _d = !_c.
+    void sub_71012C384C(const sead::SafeString& name);
+    // 0x71012c3888 / 0x71012c38f8 (placeholder names): if _d is set, first _c = m3() (clearing _d); then m4 / m5
+    // while _c is set.
+    void sub_71012C3888(const Unk_710251b170::Speed* speed);
+    void sub_71012C38F8(const Unk_710251b170::Strength* strength);
+    // 0x71012c3968 (placeholder name): m6(), then clears _c and _d.
+    void sub_71012C3968();
+
+    u32 _8 = 0;
+    bool _c = false;
+    bool _d = false;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71012C5034, 0x10);
+
+
 // Vtable 0x710251b028 (0x78 bytes; created by Unk68's constructor 0x710104bcbc for the equipment parts): plays the
 // equipment noise of one part (the locator found from the part name).
 class Unk_710251b028 : public Unk_71012C5034 {
@@ -38,8 +66,8 @@ public:
     // 0x71012c3e8c
     bool m3() override;
     // 0x71012c3e94 / 0x71012c43b0 (declared only)
-    void m4(void* arg) override;
-    void m5(void* arg) override;
+    void m4(const Unk_710251b170::Speed* speed) override;
+    void m5(const Unk_710251b170::Strength* strength) override;
     // 0x71012c45b0
     void m6() override;
 
@@ -64,8 +92,8 @@ public:
     // 0x71012c49e4: m2 with an empty name.
     bool m3() override;
     // 0x71012c4a2c / 0x71012c4eb0 (declared only)
-    void m4(void* arg) override;
-    void m5(void* arg) override;
+    void m4(const Unk_710251b170::Speed* speed) override;
+    void m5(const Unk_710251b170::Strength* strength) override;
     // 0x71012c4ff4: forgets the locators.
     void m6() override;
 
