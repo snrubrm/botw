@@ -413,6 +413,11 @@ public:
     bool sub_7100994E88() const;
     // 0x7100990984: the hovered icon's subsystem entry (the +0x410 marker's +0x18), or null
     UiSubsys1Entry* getHoveredIconData() const;
+    // 0x710099099c (slot 0xd0): the post-construction setup: stores the subsystem singleton, registers
+    // this part in sUnk_71025D80AD8 and looks up the mask button; the heap argument is not used
+    void m24(sead::Heap* heap) override;
+    // 0x7100990a64 (placeholder name; declared only): the 3844-byte setup this member calls
+    void sub_7100990A64();
     // 0x7100994374 / 0x7100994e68 (placeholder names): whether the hovered icon changed / the previous one
     // was lost
     bool isHoveredIconChangedMaybe() const;
@@ -440,7 +445,9 @@ public:
     /* 0x34c */ bool _34c = false;
     /* 0x350 */ sead::Vector2f _350{0, 0};
     /* 0x358 */ f32 _358 = 1.0f;
-    /* 0x35c */ u8 _35c[0x370 - 0x35c]{};
+    /* 0x35c */ u8 _35c[0x360 - 0x35c]{};
+    /* 0x360 */ eui::ButtonBase* _360 = nullptr;
+    /* 0x368 */ u8 _368[0x370 - 0x368]{};
     /* 0x370 */ eui::MassDrawPane* _370 = nullptr;
     // The two marker layouts and their animators (sub_710099EF78 moves both panes to the selected entry).
     /* 0x378 */ eui::LayoutEx* _378 = nullptr;

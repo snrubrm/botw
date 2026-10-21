@@ -1531,6 +1531,21 @@ UiSubsys1Entry* AppMapIconPart::getHoveredIconData() const {
     return _410->_18;
 }
 
+// NON_MATCHING: the original also reads the map screen's +0x20 pointer into a stack slot next to the
+// formatted message (the pointer is not read again in the function); the rest of the body is unknown
+// beyond the message assignment.
+// 0x710099099c
+void AppMapIconPart::m24(sead::Heap*) {
+    _420 = UiSubsys1::instance();
+    sUnk_71025D80AD8 = this;
+    sub_7100990A64();
+    _360 = _128->sub_7100A480B4("Pa_MaskBtn_00");
+
+    sead::FormatFixedSafeString<32> message("選択中のマップアイコン");
+    sead::SafeString text;
+    text = message;
+}
+
 // 0x7100994374
 bool AppMapIconPart::isHoveredIconChangedMaybe() const {
     if (!_410)
