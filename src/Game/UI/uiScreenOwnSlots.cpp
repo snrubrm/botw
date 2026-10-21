@@ -1097,16 +1097,16 @@ void ScreenMainShortCut::m162() {}
 void ScreenMainShortCut::m164() {}
 
 // 0x7100a22324
-s32 ScreenMainShortCut::m157() { return 0; }
+bool ScreenMainShortCut::m157(void*) { return false; }
 
 // 0x7100a2232c
-s32 ScreenMainShortCut::m161() { return 0; }
+bool ScreenMainShortCut::m161(void*) { return false; }
 
 // 0x7100a22334
-s32 ScreenMainShortCut::m165() { return 0; }
+bool ScreenMainShortCut::m165(void*) { return false; }
 
 // 0x7100a2233c
-s32 ScreenMainShortCut::m169() { return 0; }
+bool ScreenMainShortCut::m169(void*) { return false; }
 
 // 0x7100a22d7c
 void ScreenMamoNum::m154() {}

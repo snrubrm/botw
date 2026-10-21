@@ -2273,9 +2273,10 @@ extern const sead::Color4u8 sUnk_7101EB6D7C;
 extern const sead::Color4u8 sUnk_7101EB6D80;
 
 // State objects of ScreenMainShortCut (StateTemplate<...>; 0x71025ef170 / 0x71025ef290) and ScreenAppTool (0x71025ec670).
-extern const ksys::StateBase sUnk_71025ef170;
-extern const ksys::StateBase sUnk_71025ef1d0;
-extern const ksys::StateBase sUnk_71025ef290;
+class ScreenMainShortCut;
+extern ksys::StateTemplate<ScreenMainShortCut> sUnk_71025ef170;
+extern ksys::StateTemplate<ScreenMainShortCut> sUnk_71025ef1d0;
+extern ksys::StateTemplate<ScreenMainShortCut> sUnk_71025ef290;
 extern const ksys::StateBase sUnk_71025ec670;
 extern const ksys::StateBase sUnk_71025ec5b0;
 extern const ksys::StateBase sUnk_71025ec610;
@@ -2321,7 +2322,7 @@ static_assert(sizeof(ShortcutIconInfo) == 0xd8);
 
 class Unk_7102474d30;
 // The state ScreenMainShortCut::m159 changes to.
-extern const ksys::StateBase sUnk_71025ef230;
+extern ksys::StateTemplate<ScreenMainShortCut> sUnk_71025ef230;
 class ScreenMainShortCut : public ScreenEx {
 public:
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
@@ -2336,6 +2337,7 @@ public:
     bool isEnableControl() const override;
     ~ScreenMainShortCut() override;
     SEAD_RTTI_OVERRIDE(ScreenMainShortCut, ScreenEx)
+    const char* getLayoutName_() const override;
     // 0x7100a20230: override of Screen::m84; opens the screen when it is closed, then stops the _36e0 animator at its minimum
     void m84() override;
 
@@ -2387,19 +2389,19 @@ public:
     virtual void m154();
     virtual void m155();
     virtual void m156();
-    virtual s32 m157();
+    virtual bool m157(void* arg);
     virtual void m158();
     virtual void m159();
     virtual void m160();  // 0x7100a22074
-    virtual s32 m161();
+    virtual bool m161(void* arg);
     virtual void m162();
     virtual void m163();
     virtual void m164();
-    virtual s32 m165();
+    virtual bool m165(void* arg);
     virtual void m166();
     virtual void m167();
     virtual void m168();
-    virtual s32 m169();
+    virtual bool m169(void* arg);
 
     bool sub_7100A20DD0();
     bool sub_7100A20E5C(u32 index, ShortcutIconInfo* info);
