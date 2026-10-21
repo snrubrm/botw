@@ -26,6 +26,7 @@
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/System/DebugBoard.h"
+#include "KingSystem/System/Timer.h"
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/euiPictureEx.h"
 #include "Game/UI/euiUIController.h"
@@ -6437,10 +6438,13 @@ public:
     void sub_7100A58508(f32 progress, f32 end);
     // 0x7100a59168: resets the controller's +0x4bc value to -1
     void m99() override;
+    // 0x7100a58778 / 0x7100a588ec: follow-up updates of the opened roll
+    void sub_7100A58778(f32 value);
+    void sub_7100A588EC();
+    // 0x7100a58480: per-frame roll update while the screen is open
+    void m94() override;
 
-    /* 0x3610 */ u32 _3610 = 0;
-    /* 0x3614 */ u32 _3614 = 0;
-    /* 0x3618 */ f32 _3618 = 1.0f;
+    /* 0x3610 */ ksys::Timer _3610{0.0f, 0.0f, 1.0f};
     u8 _361c[0x3620 - 0x361c];
     u64 _3620[0x60 / 8] = {};
     /* 0x3680 */ sead::Vector2f _3680 = sead::Vector2f::zero;
@@ -6451,7 +6455,10 @@ public:
     /* 0x36b0 */ u64 _36b0;
     /* 0x36b8 */ u64 _36b8;
     /* 0x36c0 */ f32 _36c0 = -1.0f;
-    u32 _36c4[0x54 / 4] = {};
+    u32 _36c4[(0x3700 - 0x36c4) / 4] = {};
+    /* 0x3700 */ f32 _3700 = 0.0f;
+    /* 0x3704 */ f32 _3704 = 0.0f;
+    u32 _3708[(0x3718 - 0x3708) / 4] = {};
     /* 0x3718 */ u64 _3718 = 0x439600003F800000;  // two f32 {1.0f, 300.0f} in memory order
     /* 0x3720 */ u32 _3720 = 0;
     /* 0x3728 */ UiTexSlots _3728;
