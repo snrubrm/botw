@@ -13,11 +13,11 @@ bool BowChildDeviceGaleArrow::init_(sead::Heap* heap) {
 }
 
 void BowChildDeviceGaleArrow::enter_(ksys::act::ai::InlineParamPack* params) {
-    // NON_MATCHING: store pairing (the original pairs _6c/_70 and stores _74 on its own; ours pairs _70/_74)
+    // NON_MATCHING: the original emits the _6c / _70 store pair after the angle computation; clang hoists it.
     const f32 angle = static_cast<f32>(*mID_d) * sead::Mathf::piHalf();
-    _74 = 0.0f;
     _6c = 0.0f;
     _70 = 0.1f;
+    _74 = 0.0f;
     _60 = 0;
     _64 = false;
     _68 = angle;
