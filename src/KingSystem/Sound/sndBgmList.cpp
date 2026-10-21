@@ -15,12 +15,12 @@
 
 namespace ksys::snd {
 
-Unk_710260f848::Unk_710260f848(const BgmInitArg& arg) : Unk_71025ce3a0(arg.handle_type, 3) {
+Unk_710260f848::Unk_710260f848(const BgmInitArg& arg) : EventBgmRemainsBattleBase(arg.handle_type, 3) {
     Unk_SpotBgmHandle::init(arg.heap, "RemainsWaterBattleBgm", nullptr);
 }
 
 // NON_MATCHING: the original loads the asset call table before calling getResourceAccessor (C++14 argument order).
-void Unk_71025ce3a0::hm14() {
+void EventBgmRemainsBattleBase::hm14() {
     auto* entry = sub_7101020B40();
     _189 = false;
     if (entry && entry->sub_7100FF6DF4(this) && entry->mHandle.isActive()) {
@@ -29,7 +29,7 @@ void Unk_71025ce3a0::hm14() {
     }
 }
 
-void Unk_71025ce3a0::hm15() {
+void EventBgmRemainsBattleBase::hm15() {
     if (mEntries.size() == 0 && mStarted) {
         sub_710101D9F4(0.0f);
         m6(false);
@@ -39,7 +39,7 @@ void Unk_71025ce3a0::hm15() {
 
 Unk_710260f848::~Unk_710260f848() = default;
 
-Unk_710260f2b8::Unk_710260f2b8(const BgmInitArg& arg) : Unk_71025ce3a0(arg.handle_type, 0) {
+Unk_710260f2b8::Unk_710260f2b8(const BgmInitArg& arg) : EventBgmRemainsBattleBase(arg.handle_type, 0) {
     Unk_SpotBgmHandle::init(arg.heap, "RemainsWindBattleBgm", nullptr);
 }
 

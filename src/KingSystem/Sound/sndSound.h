@@ -1159,7 +1159,7 @@ KSYS_CHECK_SIZE_NX150(Unk_SoundMgr48, 0x38);
 // Placeholder name (ctor 0x710104e5b4; SoundMgr::_90; the object has a byte at +0x2a0 whose bit 2 means "ducking
 // is allowed"). Used by the message-dialog / talk actions (NPCTalk, OpenMessageDialog*, SimpleUniqueTalk).
 // Placeholder name (0x710103ac60 / 0x710103ac84, in the sndSoundMgr38.cpp TU): a ducking request at
-// ExpressionSoundCtrl +0x28c, held by the Remains battle BGMs while they play (Unk_71025ce3a0::m6).
+// ExpressionSoundCtrl +0x28c, held by the Remains battle BGMs while they play (EventBgmRemainsBattleBase::m6).
 // Ducks while a message sound (SoundMgr::_48) plays (owned by value by the Remains boss and dungeon BGMs).
 class Unk_710103AB10 {
 public:

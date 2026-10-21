@@ -177,7 +177,7 @@ bool Unk_71010073f4::sub_7101007C90() {
 // and Unk_710260ecf8 are two TUs.
 
 // NON_MATCHING: the original adds +0x28c in each branch; ours hoists it.
-void Unk_71025ce3a0::m6(bool started) {
+void EventBgmRemainsBattleBase::m6(bool started) {
     if (started)
         ExpressionSoundCtrl::instance()->mRemainsDucking.start(mDuckingKind);
     else
@@ -185,7 +185,7 @@ void Unk_71025ce3a0::m6(bool started) {
 }
 
 Unk_710260f2c8::Unk_710260f2c8(const BgmInitArg& arg)
-    : Unk_71025ce3a0(arg.handle_type, 2),
+    : EventBgmRemainsBattleBase(arg.handle_type, 2),
       mInfo(static_cast<EventBgmRemainsElecBattleInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::EventBgmRemainsElecBattle))) {
     Unk_SpotBgmHandle::init(arg.heap, "RemainsElecBattleBgm", nullptr);
 }
@@ -237,7 +237,7 @@ void Unk_710260f2c8::hm15() {
 }
 
 Unk_71025ce390::Unk_71025ce390(const BgmInitArg& arg)
-    : Unk_71025ce3a0(arg.handle_type, 1),
+    : EventBgmRemainsBattleBase(arg.handle_type, 1),
       mInfo(static_cast<EventBgmRemainsFireBattleInfo*>(sub_7100FFD76C()->getInfo(MusicInfoType::EventBgmRemainsFireBattle))) {
     Unk_SpotBgmHandle::init(arg.heap, "RemainsFireBattleBgm", nullptr);
 }

@@ -268,10 +268,10 @@ KSYS_CHECK_SIZE_NX150(Unk_71024fc7f8, 0x180);
 
 // RTTI root typeInfo 0x71025ce3b0 (vtable 0x710246d118: only the destructor pair is filled in; the original's RTTI slots
 // look pure). The base of the named BGM objects kept by Unk_71010073f4.
-class Unk_71025ce3b0 {
+class EventBgm {
 public:
-    virtual ~Unk_71025ce3b0() = default;
-    SEAD_RTTI_BASE(Unk_71025ce3b0)
+    virtual ~EventBgm() = default;
+    SEAD_RTTI_BASE(EventBgm)
 };
 
 struct BgmInitArg;
@@ -279,18 +279,18 @@ class EventBgmRemainsElecBattleInfo;
 class EventBgmRemainsFireBattleInfo;
 
 // The named BGM objects kept by Unk_71010073f4 (node at +0x190), created by bgmStuff 0x7100ffee14. Has no RTTI of its
-// own: the generic object Unk_710260ecf8 and the Remains battle BGMs (Unk_71025ce3a0) derive from it with
-// Unk_71025ce3b0 as their RTTI parent (EventBgmStartAndKeepAction fails for objects that are not Unk_710260ecf8).
+// own: the generic object Unk_710260ecf8 and the Remains battle BGMs (EventBgmRemainsBattleBase) derive from it with
+// EventBgm as their RTTI parent (EventBgmStartAndKeepAction fails for objects that are not Unk_710260ecf8).
 // Its inline virtuals are emitted next to the first vtable that uses them (update 0x7101008120, getName 0x7101008124,
 // m6 0x71010097d8, m7 0x7101008da0, m8 0x7101008da4).
-class NamedBgm : public Unk_71025ce3b0, public Unk_71024fc7f8 {
+class NamedBgm : public EventBgm, public Unk_71024fc7f8 {
 public:
     // The derived constructors pass BgmInitArg::handle_type (read before the first vtable store).
     explicit NamedBgm(Unk_710260f248Type type) : Unk_71024fc7f8(type) {}
 
-    // The RTTI of the list items is Unk_71025ce3b0's (the handle base has its own).
-    using Unk_71025ce3b0::checkDerivedRuntimeTypeInfo;
-    using Unk_71025ce3b0::getRuntimeTypeInfo;
+    // The RTTI of the list items is EventBgm's (the handle base has its own).
+    using EventBgm::checkDerivedRuntimeTypeInfo;
+    using EventBgm::getRuntimeTypeInfo;
 
     virtual void update() {}
     // Thunk 0x71010082fc.
@@ -311,7 +311,7 @@ KSYS_CHECK_SIZE_NX150(NamedBgm, 0x1a0);
 // RTTI typeInfo 0x710260ecf8 (vtable 0x71024fe268, 0x1a0 bytes, created by bgmStuff 0x7100ffee14 for names without a
 // dedicated class).
 class Unk_710260ecf8 : public NamedBgm {
-    SEAD_RTTI_OVERRIDE(Unk_710260ecf8, Unk_71025ce3b0)
+    SEAD_RTTI_OVERRIDE(Unk_710260ecf8, EventBgm)
 public:
     // Inlined in bgmStuff 0x7100ffee14 (defined there).
     Unk_710260ecf8(const BgmInitArg& arg, const sead::SafeString& name);
@@ -326,10 +326,10 @@ KSYS_CHECK_SIZE_NX150(Unk_710260ecf8, 0x1a0);
 
 // RTTI typeInfo 0x71025ce3a0 (no vtable of its own; checkDerivedRuntimeTypeInfo 0x7101008304): the base of the four
 // Remains (Divine Beast) battle BGMs. While the BGM plays it holds a ducking request of kind `mDuckingKind`.
-class Unk_71025ce3a0 : public NamedBgm {
-    SEAD_RTTI_OVERRIDE(Unk_71025ce3a0, Unk_71025ce3b0)
+class EventBgmRemainsBattleBase : public NamedBgm {
+    SEAD_RTTI_OVERRIDE(EventBgmRemainsBattleBase, EventBgm)
 public:
-    Unk_71025ce3a0(Unk_710260f248Type type, s32 ducking_kind) : NamedBgm(type), mDuckingKind(ducking_kind) {}
+    EventBgmRemainsBattleBase(Unk_710260f248Type type, s32 ducking_kind) : NamedBgm(type), mDuckingKind(ducking_kind) {}
 
     // 0x710100812c
     void m6(bool started) override;
@@ -339,12 +339,12 @@ public:
 
     s32 mDuckingKind;
 };
-KSYS_CHECK_SIZE_NX150(Unk_71025ce3a0, 0x1a8);
+KSYS_CHECK_SIZE_NX150(EventBgmRemainsBattleBase, 0x1a8);
 
 // RTTI typeInfo 0x710260f2c8 (vtable 0x71024fde28, 0x1f0 bytes, constructor 0x7101007d14): "RemainsElecBattleBgm".
 // The music has two parts (entry volumes 1 and 2) faded by the storm and wake boarding states.
-class Unk_710260f2c8 : public Unk_71025ce3a0 {
-    SEAD_RTTI_OVERRIDE(Unk_710260f2c8, Unk_71025ce3a0)
+class Unk_710260f2c8 : public EventBgmRemainsBattleBase {
+    SEAD_RTTI_OVERRIDE(Unk_710260f2c8, EventBgmRemainsBattleBase)
 public:
     explicit Unk_710260f2c8(const BgmInitArg& arg);
     ~Unk_710260f2c8() override;
@@ -368,8 +368,8 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_710260f2c8, 0x1f0);
 
 // RTTI typeInfo 0x71025ce390 (vtable 0x71024fdf28, 0x1b8 bytes, constructor 0x71010083d0): "RemainsFireBattleBgm".
-class Unk_71025ce390 : public Unk_71025ce3a0 {
-    SEAD_RTTI_OVERRIDE(Unk_71025ce390, Unk_71025ce3a0)
+class Unk_71025ce390 : public EventBgmRemainsBattleBase {
+    SEAD_RTTI_OVERRIDE(Unk_71025ce390, EventBgmRemainsBattleBase)
 public:
     explicit Unk_71025ce390(const BgmInitArg& arg);
     ~Unk_71025ce390() override;
@@ -393,8 +393,8 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_71025ce390, 0x1b8);
 
 // RTTI typeInfo 0x710260f848 (vtable 0x71024fe028, 0x1a8 bytes, constructor 0x7101008a4c): "RemainsWaterBattleBgm".
-class Unk_710260f848 : public Unk_71025ce3a0 {
-    SEAD_RTTI_OVERRIDE(Unk_710260f848, Unk_71025ce3a0)
+class Unk_710260f848 : public EventBgmRemainsBattleBase {
+    SEAD_RTTI_OVERRIDE(Unk_710260f848, EventBgmRemainsBattleBase)
 public:
     explicit Unk_710260f848(const BgmInitArg& arg);
     ~Unk_710260f848() override;
@@ -402,8 +402,8 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_710260f848, 0x1a8);
 
 // RTTI typeInfo 0x710260f2b8 (vtable 0x71024fe128, 0x1c8 bytes, constructor 0x7101008f50): "RemainsWindBattleBgm".
-class Unk_710260f2b8 : public Unk_71025ce3a0 {
-    SEAD_RTTI_OVERRIDE(Unk_710260f2b8, Unk_71025ce3a0)
+class Unk_710260f2b8 : public EventBgmRemainsBattleBase {
+    SEAD_RTTI_OVERRIDE(Unk_710260f2b8, EventBgmRemainsBattleBase)
 public:
     explicit Unk_710260f2b8(const BgmInitArg& arg);
     ~Unk_710260f2b8() override;
@@ -420,7 +420,7 @@ public:
     // 0x7101009040: the jump cue (EventBgmCtrlAction "RemainsWindBattleBgm_Jump").
     void sub_7101009040();
 
-    // In the tail padding of Unk_71025ce3a0 (+0x1a4).
+    // In the tail padding of EventBgmRemainsBattleBase (+0x1a4).
     bool mJumped = false;
     Unk_710260f248Entry* mEntry = nullptr;
     aal::SimpleTimedFader mFader{1.0};
