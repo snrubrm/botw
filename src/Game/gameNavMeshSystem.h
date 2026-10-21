@@ -2,6 +2,7 @@
 
 #include <container/seadBuffer.h>
 #include <heap/seadDisposer.h>
+#include <math/seadVector.h>
 #include "KingSystem/Utils/Types.h"
 
 namespace uking {
@@ -15,6 +16,9 @@ class NavMeshSystem {
 
 public:
     void init(sead::Heap* heap);
+    // 0x7100e8f1c0 (declaration only; placeholder name): called by Unk_710251cbf0's destructor with the
+    // fire position, its obstacle id and 1.5f.
+    void sub_7100E8F1C0(const sead::Vector3f* position, s32 id, f32 radius);
 
 private:
     struct Entry;

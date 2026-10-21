@@ -8,6 +8,7 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
+#include "Game/gameNavMeshSystem.h"
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/World/worldManager.h"
 
@@ -344,7 +345,15 @@ s32 Unk_710251ca78::m11() {
 }
 
 
-Unk_710251cbf0::~Unk_710251cbf0() = default;
+Unk_710251cbf0::~Unk_710251cbf0() {
+    if (_50) {
+        delete _50;
+        _50 = nullptr;
+    }
+    _60.fade();
+    if (auto* nav_mesh_system = uking::NavMeshSystem::instance())
+        nav_mesh_system->sub_7100E8F1C0(&_48->_c, _58, 1.5f);
+}
 
 f32 Unk_710251cbf0::m13(f32* out, const sead::Vector3f& pos, ksys::act::Chemical* chemical) {
     *out = 1.0f;

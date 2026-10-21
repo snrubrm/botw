@@ -1897,8 +1897,7 @@ public:
     Unk_710251cbf0Arg* _48;
     ksys::phys::RigidBody* _50 = nullptr;
     s32 _58 = -1;
-    void* _60 = nullptr;
-    u32 _68 = 0;
+    xlink2::HandleELink _60;
 };
 
 // vtable 0x710251cd38 (39 slots); placeholder generated from the vtable (genskel.py).
