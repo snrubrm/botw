@@ -133,7 +133,6 @@ f32 RollOffCurveStrategyInv::calcRolloff(f32 distance, f32 gain, f32 ref_distanc
     return (1.0f - gain) * ref_distance / (gain * (distance - ref_distance));
 }
 
-// NON_MATCHING: the final float select uses swapped operands and the complementary condition.
 // 0x7100ba56cc
 f32 RollOffCurveStrategyInv::calcRefDistance(f32 distance, f32 gain, f32 roll_off_factor,
                                              f32) const {
@@ -144,7 +143,9 @@ f32 RollOffCurveStrategyInv::calcRefDistance(f32 distance, f32 gain, f32 roll_of
     if (denominator <= 0.0f)
         return -1.0f;
     const f32 ref_distance = gain * roll_off_factor * distance / denominator;
-    return !(ref_distance <= 0.0f) ? ref_distance : -1.0f;
+    if (ref_distance <= 0.0f)
+        return -1.0f;
+    return ref_distance;
 }
 
 // 0x7100ba5724
@@ -234,7 +235,9 @@ f32 RollOffCurveStrategyExp::calcRefDistance(f32 distance, f32 gain, f32 roll_of
     gain = std::max(gain, cMinGain);
     const f32 ref_distance =
         distance / sead::Mathf::powTable(1.0f / gain, 1.0f / roll_off_factor);
-    return !(ref_distance <= 0.0f) ? ref_distance : -1.0f;
+    if (ref_distance <= 0.0f)
+        return -1.0f;
+    return ref_distance;
 }
 
 // 0x7100ba5a9c
