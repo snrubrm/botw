@@ -1,6 +1,8 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiAwarenessFilters.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
@@ -984,6 +986,21 @@ s32 sub_71005DBB60(ksys::act::Actor* actor, s32 idx) {
     if (auto* sword = sead::DynamicCast<uking::act::Weapon>(weapon))
         return sword->_cf0;
     return -1;
+}
+
+void sub_71005DC02C(ksys::act::Actor* actor) {
+    if (sead::IsDerivedFrom<ksys::act::PhysicsUserTag>(&actor->mPhysicsUserTag)) {
+        if (auto* controller = actor->getCharacterController())
+            controller->sub_7100F62D3C(false);
+
+        if (auto* bodies = actor->getRigidBodyByName(ksys::act::getStr_Body().cstr())) {
+            const s32 last = bodies->getRigidBodies().size() - 1;
+            for (s32 i = 0; i <= last; ++i)
+                bodies->getRigidBody(i)->setEntityMotionFlag8(false);
+        }
+
+        actor->mPhysicsUserTag.resetMaybe();
+    }
 }
 
 void sub_71005DC158(ksys::phys::CharacterController* controller) {
