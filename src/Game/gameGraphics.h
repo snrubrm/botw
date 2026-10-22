@@ -534,6 +534,28 @@ public:
     // enabled in view 0.
     bool sub_7100F2B424(gsys::ModelUnit* unit);
 
+    // Callback argument of sub_7100F2DF04 (a model editor request: the mode at +4 picks the arm and
+    // the word at +0 selects whether it applies).
+    struct Unk_7100F2DF04Target {
+        u8 _0[4];
+        /* 0x04 */ u32 _4;
+        u8 _8[0x28 - 0x8];
+        /* 0x28 */ u32 _28;
+        /* 0x2c */ u8 _2c;
+        /* 0x2d */ u8 _2d;
+        u8 _2e[0x64 - 0x2e];
+        /* 0x64 */ u8 _64;
+    };
+    struct Unk_7100F2DF04Arg {
+        /* 0x00 */ s32 _0;
+        /* 0x04 */ s32 _4;
+        u8 _8[0x10 - 0x8];
+        /* 0x10 */ Unk_7100F2DF04Target* _10;
+    };
+    // 0x7100f2df04 (placeholder name): for mode 13 sets the target's bytes at +0x2c / +0x2d as well;
+    // mode 14 only the common fields. Both set +0x64 last.
+    void sub_7100F2DF04(Unk_7100F2DF04Arg* arg);
+
     // 0x7100f2afac / 0x7100f2afe8 / 0x7100f2b024 (lane4 s64; placeholder names; CSV Graphics::__auto9 / __auto14 / x):
     // store a byte at +0xf5b / +0xf5d / +0xf5f under the lock at +0xf18 (values 0 .. 2 seen).
     void sub_7100F2AFAC(u8 value);

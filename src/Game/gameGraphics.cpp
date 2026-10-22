@@ -158,6 +158,31 @@ bool Graphics::sub_7100F2B424(gsys::ModelUnit* unit) {
     return !all_disabled;
 }
 
+// NON_MATCHING: clang folds the first target-pointer load into a pre-indexed load (`ldr x9,[x1,#0x10]!`)
+// and then reloads the remaining stores through the advanced base; the original reloads [x1,#0x10] every
+// time. Same stores and branches otherwise.
+void Graphics::sub_7100F2DF04(Unk_7100F2DF04Arg* arg) {
+    switch (arg->_4) {
+    case 0xd:
+        if (arg->_0 != 1)
+            return;
+        arg->_10->_4 = 0xff;
+        arg->_10->_28 = 0x02020202;
+        arg->_10->_2c = 3;
+        arg->_10->_2d = 3;
+        break;
+    case 0xe:
+        if (arg->_0 != 1)
+            return;
+        arg->_10->_4 = 0xff;
+        arg->_10->_28 = 0x02020202;
+        break;
+    default:
+        return;
+    }
+    arg->_10->_64 = 5;
+}
+
 void Graphics::sub_7100F3590C(f32 value) {
     _370->sub_710129558C(value, 0);
 }
