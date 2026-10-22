@@ -81917,7 +81917,7 @@ Address,Quality,Size,Name
 0x0000007100f1eea8,U,000164,
 0x0000007100f1ef4c,U,000412,
 0x0000007100f1f0e8,U,000008,
-0x0000007100f1f0f0,U,000128,ksys::gfx::UkingModelRenderOptionsMgr::destroyModelRenderData
+0x0000007100f1f0f0,O,000128,_ZN4ksys3gfx26UkingModelRenderOptionsMgr22destroyModelRenderDataEPNS0_20ModelRenderDataMaybeE
 0x0000007100f1f170,U,000128,
 0x0000007100f1f1f0,U,000004,nullsub_4115
 0x0000007100f1f1f4,U,000004,nullsub_4116

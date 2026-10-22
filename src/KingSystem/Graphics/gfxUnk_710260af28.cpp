@@ -5,6 +5,7 @@
 #include <gsys/gsysModelRenderUnit.h>
 #include <gsys/gsysModelUnit.h>
 #include "Game/gameGraphics.h"
+#include "KingSystem/Graphics/gfxUkingModelRenderOptionsMgr.h"
 
 void Unk_710260af28::sub_7100F1D9B4(gsys::Model* model, f32 value, bool negate) {
     const f32 wrapped = std::fmod(value, Graphics::instance()->getSpecialEffectAWrapMaybe());
@@ -281,4 +282,21 @@ s32 Unk_710260af28::sub_7100F1C3E8() {
 
 s32 Unk_710260af28::sub_7100F1C774() {
     return 0;
+}
+
+// 0x7100f1f0f0 (CSV name): frees the model render data through the map renderer, the far model
+// renderer and the grudge renderer, then releases the block the data owns.
+void ksys::gfx::UkingModelRenderOptionsMgr::destroyModelRenderData(ModelRenderDataMaybe* data) {
+    if (auto* map = Graphics::instance()->getMapRendererMaybe())
+        map->sub_7100F19928(data);
+    if (auto* far = Graphics::instance()->getFarModelRendererMaybe())
+        far->sub_7100EFDCE8(data);
+    if (auto* grudge = Graphics::instance()->getGrudgeRendererMaybe())
+        grudge->sub_710128F148(data);
+    if (auto* block = data->_88) {
+        if (block->_30)
+            delete[] block->_30;
+        delete block;
+        data->_88 = nullptr;
+    }
 }

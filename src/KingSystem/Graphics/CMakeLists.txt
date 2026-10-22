@@ -14,4 +14,5 @@ target_sources(uking PRIVATE
   gfxUnk_710260af28.cpp
   gfxUnk_710260af28RenderMode.cpp
   gfxUnk_710260af28.h
+  gfxUkingModelRenderOptionsMgr.h
 )

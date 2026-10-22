@@ -190,6 +190,8 @@ KSYS_CHECK_SIZE_NX150(Unk_710129175c, 0x268);
 class Unk_7100f185a4 {
 public:
     void sub_7100F1AC58();
+    // 0x7100f19928: destroys the model render data the renderer built.
+    void sub_7100F19928(void* data);
     // 0x7100f1ab60: stores the two screen coordinates the map screen computes (each truncated to 16 bits).
     void setPosXY(s32 x, s32 y);
     // Inline-only in the original; name is a guess. ScreenAppMapDungeon 0x71009e78d8
@@ -223,6 +225,8 @@ public:
     virtual ~Unk_7100efd9b8();
 
     void sub_7100EFE030();
+    // 0x7100efdce8: destroys the model render data the renderer built.
+    void sub_7100EFDCE8(void* data);
 
 private:
     u32 _8 = 0;
@@ -272,6 +276,8 @@ KSYS_CHECK_SIZE_NX150(Unk_7100efd9b8, 0x178);
 class GrudgeRenderer {
 public:
     void sub_710128F2A4();
+    // 0x710128f148: destroys the model render data the renderer built.
+    void sub_710128F148(void* data);
     // 0x710128f4bc: once flag bit 0 of _2ef8 is set, records the camera's world position, resets the
     // distance at 0x264 to 20 and asks the model at 0x268 to draw.
     void sub_710128F4BC(const sead::Camera* camera);
@@ -595,6 +601,7 @@ public:
     // Only a pointer to the (separately allocated) shadow settings is modeled.
     ksys::gfx::LocationalLightMgr* getLocationalLightMgr() const { return _aa0; }
     Unk_7100efd9b8* getFarModelRendererMaybe() const { return _3a8; }
+    GrudgeRenderer* getGrudgeRendererMaybe() const { return _3a0; }
     Unk_a98* getUnk_a98() const { return _a98; }
     Unk_7100f185a4* getMapRendererMaybe() const { return _388; }
     Unk_ab0* getUnk_ab0() const { return _ab0; }
