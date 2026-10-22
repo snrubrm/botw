@@ -39,7 +39,7 @@ void ModelSceneBuffer::endReducedBuffer(agl::DrawContext* draw_context,
 
 // 0x7100c191a8
 void ModelSceneBuffer::releaseOpa(const ModelSceneContext& context) const {
-    mRenderBufferContext->release(context._8, 0x3e2000);
+    mRenderBufferContext->release(context._8, 0x2003e);
 }
 
 // 0x7100c18c00
