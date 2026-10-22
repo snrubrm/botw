@@ -210,4 +210,9 @@ void sub_710129F984(agl::ShaderProgramArchive* archive, sead::Heap* heap) {
     program->setUniformBlockName(0, "cContext");
 }
 
+bool sub_71012A1FFC(sead::Buffer<PreshadingTargetMaybe>* buffer, s32 count, sead::Heap* heap,
+                    s32 alignment) {
+    return buffer->tryAllocBuffer(count, heap, alignment);
+}
+
 }  // namespace ksys::gfx

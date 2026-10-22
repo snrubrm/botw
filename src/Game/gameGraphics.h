@@ -707,4 +707,20 @@ void sub_7101291958(agl::ShaderProgramArchive* archive, sead::Heap* heap);
 // 0x710129f984 (called by Graphics::init): the "preshading_filter" program's four sampler locations
 // (indices 2/0/1/3) and its cContext uniform block.
 void sub_710129F984(agl::ShaderProgramArchive* archive, sead::Heap* heap);
+
+// One preshading-filter target (0x6b8 bytes): a texture sampler, a render buffer, two colour render
+// targets, a depth target and a uniform block.
+struct PreshadingTargetMaybe {
+    agl::TextureSampler _0;
+    agl::RenderBuffer _170;
+    agl::RenderTargetColor _1d8;
+    agl::RenderTargetColor _350;
+    agl::RenderTargetDepth _4c8;
+    agl::UniformBlock _640;
+};
+static_assert(sizeof(PreshadingTargetMaybe) == 0x6b8);
+
+// 0x71012a1ffc: allocates `count` targets and stores them in `buffer`.
+bool sub_71012A1FFC(sead::Buffer<PreshadingTargetMaybe>* buffer, s32 count, sead::Heap* heap,
+                    s32 alignment);
 }  // namespace ksys::gfx
