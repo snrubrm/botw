@@ -1888,6 +1888,24 @@ bool sub_7100735D2C(const ksys::act::BaseProcLink* link, ksys::act::Actor* actor
     return sub_7100735BF8(accessor, target);
 }
 
+// NON_MATCHING: the two accessor stack slots are swapped (the original keeps the actor-derived
+// accessor in the lower slot); every instruction is otherwise identical.
+bool sub_7100735B10(bool, ksys::act::Actor* actor) {
+    ksys::act::ActorLinkConstDataAccess accessor(actor);
+    if (!accessor.hasTag(ksys::act::tags::AcceptSilentKill))
+        return false;
+    ksys::act::ActorLinkConstDataAccess target;
+    target.acquireActor(accessor);
+    return !target.sub_7100D10FB8() && sub_710001A69C(&target, 0x100);
+}
+
+// NON_MATCHING: clang materialises the undef first argument (the callee never reads it) as a zero
+// instead of leaving the acquireActor result in w0; that is the only difference.
+bool sub_7100735BA8(const ksys::act::BaseProcLink* link, ksys::act::Actor* actor) {
+    ksys::act::ActorLinkConstDataAccess accessor;
+    return sub_7100735B10(ksys::act::acquireActor(link, &accessor), actor);
+}
+
 // NON_MATCHING: Parameter::ref emits separate object/value address additions.
 const sead::SafeString& sub_710072D6D4(ksys::act::Actor* actor, s32 index) {
     switch (index) {

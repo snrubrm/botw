@@ -660,7 +660,11 @@ f32 sub_710072D0D8(const sead::Vector3f& vector, f32 value);
 bool sub_7100735BF8(const ksys::act::ActorLinkConstDataAccess& accessor,
                     const ksys::act::ActorLinkConstDataAccess& target);
 bool sub_7100735D2C(const ksys::act::BaseProcLink* link, ksys::act::Actor* actor);
-// 0x7100735ba8 (declared only): acquires `link` and tests it against `actor` (via 0x7100735b10).
+// 0x7100735b10: acquires `actor` and, if it has the AcceptSilentKill tag, applies the silent kill to
+// it through a second accessor. The first parameter is dead: 0x7100735ba8 passes the result of its
+// own acquireActor call through it and the body never reads it.
+bool sub_7100735B10(bool, ksys::act::Actor* actor);
+// 0x7100735ba8: acquires `link` and tests it against `actor` (via 0x7100735b10).
 bool sub_7100735BA8(const ksys::act::BaseProcLink* link, ksys::act::Actor* actor);
 
 const sead::SafeString& sub_710072D6D4(ksys::act::Actor* actor, s32 index);
