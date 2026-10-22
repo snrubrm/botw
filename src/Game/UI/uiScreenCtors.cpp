@@ -274,6 +274,30 @@ ScreenShopInfo::ScreenShopInfo() : ScreenEx(), _3768(this, &ScreenShopInfo::sub_
     memset(&_3610, 0, 0x68);
 }
 
+// 0x7100a41fe4
+// NON_MATCHING: the original value-initialises the 0x58-byte control block at 0x3610 (one memset before
+// the job records are constructed); ours zeroes it in the body, after them, and the record stores are
+// scheduled in a different order.
+ScreenSaveTransferWindow::ScreenSaveTransferWindow() : ScreenEx() {
+    memset(&_3610, 0, 0x58);
+    _3668 = -1;
+    _366c = -1;
+    _3670 = &sUnk_710261ee98;
+    _3678 = 0;
+    _3679 = 0;
+    _367a = 0;
+    _3798 = 0;
+    _379c = 0;
+    _37a0 = 0;
+    _3660 = nullptr;
+    _3658 = nullptr;
+    _3650 = nullptr;
+    _3648 = nullptr;
+    _3640 = nullptr;
+    _3638 = nullptr;
+    _3630 = nullptr;
+}
+
 
 // ScreenAppHome creator; native getter/D0 precede its screen constructor.
 static const ChildControlCreatorEntry sUnk_7102480a98[] = {

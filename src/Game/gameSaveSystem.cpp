@@ -614,15 +614,14 @@ bool SaveArchiveWork::queue() {
     if (mState != 0)
         return false;
     ksys::LowPrioThreadMgr::Request request;
-    request.lane_id = 1;
     request.flags = 6;
     request.delegate = &mWork;
-    if (!ksys::evt::submitLowPriorityRequest(request)) {
-        mResult = 1000;
-        return false;
+    if (ksys::evt::submitLowPriorityRequest(request)) {
+        mState = 1;
+        return true;
     }
-    mState = 1;
-    return true;
+    mResult = 1000;
+    return false;
 }
 
 bool SaveArchiveWork::run(void* user_data) {
@@ -651,15 +650,14 @@ bool LoadArchiveWork::queue(const void* data, u64 size) {
     mInput = data;
     mInputSize = size;
     ksys::LowPrioThreadMgr::Request request;
-    request.lane_id = 1;
     request.flags = 6;
     request.delegate = &mWork;
-    if (!ksys::evt::submitLowPriorityRequest(request)) {
-        mError = 5000;
-        return false;
+    if (ksys::evt::submitLowPriorityRequest(request)) {
+        mState = 1;
+        return true;
     }
-    mState = 1;
-    return true;
+    mError = 5000;
+    return false;
 }
 
 bool LoadArchiveWork::run(void* user_data) {
@@ -668,6 +666,68 @@ bool LoadArchiveWork::run(void* user_data) {
     mState = 2;
     const bool success =
         saveTransferDecompressArchive(&mData, &mSize, mInput, mInputSize, mHeap, &mError);
+    mState = success ? 3 : 4;
+    return success;
+}
+
+void SaveTransferArchiveJob::reset() {
+    // The original reads the state again in the busy arm and drops the result (the atomic load is
+    // kept by the compiler, its comparison is not).
+    if (mState != 0 && mState != 3)
+        mState.load();
+    mState = 0;
+    mData = nullptr;
+    mSize = 0;
+}
+
+bool SaveTransferArchiveJob::queue(void* data, u64 size) {
+    if (mState != 0)
+        return false;
+    mData = data;
+    mSize = size;
+    ksys::LowPrioThreadMgr::Request request;
+    request.flags = 6;
+    request.delegate = &mWork;
+    if (ksys::evt::submitLowPriorityRequest(request)) {
+        mState = 1;
+        return true;
+    }
+    mError = 5000;
+    return false;
+}
+
+bool SaveTransferArchiveJob::invoked1(void* user_data) {
+    if (mState == 3)
+        return false;
+    mState = 2;
+    const bool success = saveTransferWriteArchive(mData, mSize, mHeap, &mResult, &mError);
+    mState = success ? 3 : 4;
+    return success;
+}
+
+void SaveDeleteJob::reset() {
+    if (mState != 0 && mState != 3)
+        mState.load();
+    mState = 0;
+}
+
+bool SaveDeleteJob::queue() {
+    if (mState != 0)
+        return false;
+    ksys::LowPrioThreadMgr::Request request;
+    request.flags = 6;
+    request.delegate = &mWork;
+    if (!ksys::evt::submitLowPriorityRequest(request))
+        return false;
+    mState = 1;
+    return true;
+}
+
+bool SaveDeleteJob::run(void* user_data) {
+    if (mState == 3)
+        return false;
+    mState = 2;
+    const bool success = save::tryDelete();
     mState = success ? 3 : 4;
     return success;
 }

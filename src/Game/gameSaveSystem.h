@@ -18,6 +18,15 @@ class Actor;
 
 namespace uking {
 
+// 0x71009181d4 (CSV invoked1_x; declared only, 3244 bytes): writes the save-transfer archive from
+// `data`/`size` and reports through `error` / `result`.
+bool saveTransferWriteArchive(void* data, u64 size, sead::Heap* heap, s32* result, s32* error);
+
+namespace save {
+// 0x710091ae00 (CSV save::tryDelete; declared only, 244 bytes): removes the transfer save file.
+bool tryDelete();
+}
+
 // Save-transfer archive tasks. State is shared between the UI and the low-priority worker:
 // 0 idle, 1 queued, 2 working, 3 complete, 4 failed.
 class SaveArchiveWork {
@@ -52,6 +61,39 @@ public:
     sead::Delegate1R<LoadArchiveWork, void*, bool> mWork{this, &LoadArchiveWork::run};
 };
 KSYS_CHECK_SIZE_NX150(LoadArchiveWork, 0x50);
+
+// Writes the archive that LoadArchiveWork decompressed (0x710091b1d8 reset, 0x710091b1fc queue,
+// 0x710091b298 invoked1). The state values are the same as SaveArchiveWork's; the low-priority task
+// name is "saveTransferArchiveJobRun".
+class SaveTransferArchiveJob {
+public:
+    void reset();
+    bool queue(void* data, u64 size);
+    bool invoked1(void* user_data);
+
+    void* mData = nullptr;
+    u64 mSize = 0;
+    sead::Heap* mHeap = nullptr;
+    sead::Atomic<s32> mState = 0;
+    s32 mResult = 0;
+    s32 mError = 0;
+    sead::Delegate1R<SaveTransferArchiveJob, void*, bool> mWork{this,
+                                                                &SaveTransferArchiveJob::invoked1};
+};
+KSYS_CHECK_SIZE_NX150(SaveTransferArchiveJob, 0x48);
+
+// Deletes the stale transfer save file (0x710091b2fc reset, 0x710091b31c queue, 0x710091b3ac run);
+// the low-priority task name is "runSaveDeleteJob". The state is shared with the worker thread.
+class SaveDeleteJob {
+public:
+    void reset();
+    bool queue();
+    bool run(void* user_data);
+
+    sead::Atomic<s32> mState = 0;
+    sead::Delegate1R<SaveDeleteJob, void*, bool> mWork{this, &SaveDeleteJob::run};
+};
+KSYS_CHECK_SIZE_NX150(SaveDeleteJob, 0x28);
 
 // Archive construction / decompression workers used by the asynchronous tasks.
 bool saveTransferSaveArchiveWorkStuff(void** data, u64* size, sead::Heap* heap,

@@ -4211,7 +4211,7 @@ void ScreenSaveTransferWindow::m287() {
 // lookups; ours recomputes it for the init call (same instructions otherwise).
 void ScreenSaveTransferWindow::m290() {
     _3678 |= 1 << Flag(Flag::_2);
-    if (!_3760.submit()) {
+    if (!_3760.queue()) {
         getStateMachine().changeState(&sUnk_71025f2de0);
         return;
     }
@@ -4257,8 +4257,9 @@ void ScreenSaveTransferWindow::m303() {
 
 // 0x7100a45f80
 void ScreenSaveTransferWindow::m291() {
-    if (_3760.mState != 0 && _3760.mState != 4) {
-        if (_3760.mState == 3)
+    const s32 state = _3760.mState;
+    if (state != 0 && state != 4) {
+        if (state == 3)
             getStateMachine().changeState(&sUnk_71025f2c60);
         return;
     }

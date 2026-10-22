@@ -5970,22 +5970,11 @@ extern const ksys::StateBase sUnk_71025f2b40;
 extern const ksys::StateBase sUnk_71025f2c00;
 extern const ksys::StateBase sUnk_71025f2c60;
 
-// The low-priority save-archive job of the save transfer (0x28 bytes at ScreenSaveTransferWindow +0x3760).
-// Its state is shared with the worker thread: 0 idle, 1 queued, 2 working, 3 complete, 4 failed (the same
-// states as SaveArchiveWork). submit() is 0x710091b31c; the record's +8 bytes are the job data it hands to
-// the low-priority thread manager.
-class SaveArchiveRequest {
-public:
-    // 0x710091b31c: queues the save-archive job through the low-priority thread manager
-    bool submit();
-
-    /* 0x00 */ s32 mState = 0;
-    /* 0x08 */ u8 _8[0x24];
-};
-KSYS_CHECK_SIZE_NX150(SaveArchiveRequest, 0x28);
-
+// The two low-priority save-transfer jobs (SaveTransferArchiveJob / SaveDeleteJob) are in
+// gameSaveSystem.h with the archive work classes; they are members of the screen below.
 class ScreenSaveTransferWindow : public ScreenEx {
 public:
+    ScreenSaveTransferWindow();
     void m98() override;
     void m106(eui::AnimButton* button) override;
     void m107(eui::AnimButton* button) override;
@@ -6051,7 +6040,10 @@ public:
     /* 0x3630 */ eui::AnimButton* _3630;
     /* 0x3638 */ eui::AnimButton* _3638;
     /* 0x3640 */ eui::AnimButton* _3640;
-    u8 _pad_3648[0x3668 - 0x3648];
+    /* 0x3648 */ eui::LayoutEx* _3648;
+    /* 0x3650 */ eui::LayoutEx* _3650;
+    /* 0x3658 */ eui::LayoutEx* _3658;
+    /* 0x3660 */ eui::LayoutEx* _3660;
     /* 0x3668 */ s32 _3668;
     s32 _366c;
     /* 0x3670 */ const ksys::StateBase* _3670;
@@ -6064,8 +6056,8 @@ public:
     u8 _pad_367b[0x3680 - 0x367b];
     /* 0x3680 */ SaveArchiveWork mSaveWork;
     /* 0x36c8 */ LoadArchiveWork mLoadWork;
-    u8 _pad_3718[0x3760 - 0x3718];
-    /* 0x3760 */ SaveArchiveRequest _3760;
+    /* 0x3718 */ SaveTransferArchiveJob _3718;
+    /* 0x3760 */ SaveDeleteJob _3760;
     /* 0x3788 */ sead::SafeString _3788;
     /* 0x3798 */ f32 _3798;
     /* 0x379c */ f32 _379c;
