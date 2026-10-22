@@ -20,6 +20,7 @@ namespace gsys {
 class ModelUnit;
 class Model;
 class ModelDrawObj;
+class ModelScene;
 }
 
 namespace ksys::act {
@@ -74,6 +75,8 @@ public:
     void sub_71011E4090(PlacementMgr* mgr, bool a);
     // 0x71011e3cd0 (CSV MassRenderer::requestDraw): queues the draw of the mass-rendered models.
     void requestDraw(PlacementMgr* mgr, bool a);
+    // 0x71011e3890 (unnamed in the CSV; 1088 B): called by requestDraw when the active slot changed.
+    void sub_71011E3890();
     // 0x71011e4198 (placeholder name; called by Actor::onEnterDelete_): stores the object's mass-render distance
     // scale (in units of _98; 0xff for 1 or more).
     void sub_71011E4198(Object* obj, f32 scale);
@@ -127,7 +130,11 @@ public:
     /* 0x18 */ sead::ObjArray<Entry> _18;
     /* 0x38 */ sead::CriticalSection _38;
     /* 0x78 */ s32 _78;
-    u8 _7c[0x98 - 0x7c];
+    /* 0x7c */ s32 _7c;
+    u8 _80[0x88 - 0x80];
+    // The Graphics model scene 0 whose rain ratio scales the mass-rendered models.
+    /* 0x88 */ gsys::ModelScene* mModelScene = nullptr;
+    u8 _90[0x98 - 0x90];
     // Initialised to 0.2 by the constructor; the traverse setup reads it.
     f32 _98;
     sead::Heap* mWorkHeap;

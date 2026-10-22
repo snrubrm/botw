@@ -14,6 +14,8 @@ class ActorDebug {
 public:
     enum class Flag {
         _100 = 0x100,
+        // Set while the mass-renderer draw request is skipped (byte +0x31 bit 6).
+        _4000 = 0x4000,
         _200000 = 0x200000,  // enables the UI handler call of ksys::sub_7100F3ED50
         _10000000 = 0x10000000,
         _20000000 = 0x20000000,

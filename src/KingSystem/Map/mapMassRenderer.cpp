@@ -2,11 +2,13 @@
 #include <gsys/gsysModelUnit.h>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelDrawObj.h>
+#include <gsys/gsysModelScene.h>
 #include <gsys/gsysModelUnitDrawArray.h>
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapPlacementActors.h"
+#include "KingSystem/ActorSystem/actDebug.h"
 
 namespace ksys::map {
 
@@ -23,6 +25,19 @@ MassRenderer::~MassRenderer() {
     if (mWorkHeap)
         sub_71011E1788(true);
     _18.freeBuffer();
+}
+
+void MassRenderer::requestDraw(PlacementMgr* mgr, bool a) {
+    if (a && _78 != _7c && (mModelScene->mFlags & 0x100))
+        sub_71011E3890();
+
+    _250 = mModelScene->mRainRatio > 0.0f ? (_250 | 4) : (_250 & ~4);
+
+    if (auto* debug = ksys::act::ActorDebug::instance();
+        debug && debug->hasFlag(ksys::act::ActorDebug::Flag::_4000))
+        return;
+
+    mSlots[_78].mModel->requestDraw();
 }
 
 void MassRenderer::sub_71011E1788(bool free_heap) {
