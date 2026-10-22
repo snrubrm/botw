@@ -61,6 +61,46 @@ bool Unk_7100671794::sub_7100671A64(ksys::act::BaseProc* proc) const {
     return _c0 <= 0.0f;
 }
 
+// NON_MATCHING: our duplicate check branches through a shared return-value flag instead of `tbnz`
+// straight to the return-true block (16 extra bytes), so the frame is 0xa0 instead of 0x90.
+// 0x7100671a74: inserts the entry into the distance-sorted list of 8. Each occupied entry that is
+// at least as near (with 10 m slack for entries already past that margin) uses up one of the
+// allowed `count` slots; when they run out the entry is not inserted. Returns true otherwise.
+bool Unk_7100671794::sub_7100671A74(Unk_7100671794_Entry* entry, s32 count) {
+    sead::ScopedLock<sead::JobQueueLock> lock(&_cc);
+
+    for (s32 i = 0; i < 8; ++i) {
+        if (mEntries[i].mLink == entry->mLink)
+            return true;
+    }
+
+    for (s32 i = 0; i < 8; ++i) {
+        auto& e = mEntries[i];
+        if (!e.mLink.hasProc())
+            continue;
+        const f32 slack = e._14 ? 10.0f : 0.0f;
+        if (entry->mDistance < e.mDistance - slack)
+            break;
+        if (--count < 1)
+            return false;
+    }
+
+    for (s32 i = 0; i < 8; ++i) {
+        auto& e = mEntries[i];
+        if (!e.mLink.hasProc()) {
+            mEntries[i] = *entry;
+            return true;
+        }
+        if (entry->mDistance < e.mDistance) {
+            for (s32 j = 6; j >= i; --j)
+                mEntries[j + 1] = mEntries[j];
+            mEntries[i] = *entry;
+            return true;
+        }
+    }
+    return true;
+}
+
 bool Unk_7100671794::sub_7100671ED8(ksys::act::BaseProc* proc) {
     return mEntries[0].mLink.hasProcById(proc) || mEntries[1].mLink.hasProcById(proc) ||
            mEntries[2].mLink.hasProcById(proc) || mEntries[3].mLink.hasProcById(proc) ||
