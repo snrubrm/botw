@@ -683,4 +683,29 @@ void ScreenOptionWindow::m107(eui::AnimButton* button) {
     }
 }
 
+// NON_MATCHING: the original's loop entry is dead after the tag compare (its register is reused for the
+// field) so it reloads _3698[i] in the found branch; ours keeps the entry and drops that load.
+// 0x7100a2900c
+void ScreenOptionWindow::sub_7100A2900C(s32 tag) {
+    for (s32 i = 0; i < _3698.size(); ++i) {
+        if (_3698(i)->_50 != tag)
+            continue;
+        if (_3698[i])
+            _3698[i]->setEnabledMaybe(true);
+        return;
+    }
+}
+
+// NON_MATCHING: same as sub_7100A2900C (only the argument to setEnabledMaybe differs).
+// 0x7100a292e8
+void ScreenOptionWindow::sub_7100A292E8(s32 tag) {
+    for (s32 i = 0; i < _3698.size(); ++i) {
+        if (_3698(i)->_50 != tag)
+            continue;
+        if (_3698[i])
+            _3698[i]->setEnabledMaybe(false);
+        return;
+    }
+}
+
 }  // namespace uking::ui

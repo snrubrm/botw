@@ -6201,6 +6201,9 @@ public:
     ScreenOptionWindow();
     // 0x7100a28cd0 (placeholder name; the _36c8 callback): sets bit 1 of _36e8
     void sub_7100A28CD0(ksys::TaskPostRunResult* result, const ksys::TaskPostRunContext& context);
+    // 0x7100a2900c / 0x7100a292e8 (placeholder names): enable / disable the option entry with tag `tag`
+    void sub_7100A2900C(s32 tag);
+    void sub_7100A292E8(s32 tag);
 
     // The option values read from the game data flags (0x1c bytes; m93 allocates one at _36c0, m100 builds one on the
     // stack to compare).
