@@ -177,9 +177,9 @@ DamageInfoMgr::Unk450::~Unk450() = default;
 void DamageInfoMgr::Unk450::sub_710065D0A8() {
     for (auto& entry : mEntries) {
         entry.mLink.reset();
+        entry.mActorId = -1;
         entry._10 = 0;
         entry._14 = 0;
-        entry.mActorId = -1;
         entry._1c = 0;
         entry._20 = 0;
         entry._24 = false;
