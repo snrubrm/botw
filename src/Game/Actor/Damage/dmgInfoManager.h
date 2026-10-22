@@ -22,6 +22,10 @@ namespace ksys::act {
 class Actor;
 }
 
+// Stage flag at 0x71025c59d8 (placeholder name): set in Unk28::sub_710065CAEC and read by the damage
+// distance check at 0x710065c834.
+extern bool sUnk_71025C59D8;
+
 namespace uking::act {
 
 // FIXME: incomplete
@@ -98,6 +102,8 @@ public:
         void sub_710065CE14(ksys::act::Actor* actor);
         void sub_710065CF08(ksys::act::Actor* actor);
         void sub_710065CB68();
+        // 0x710065caec: resets the entries and the stage flag; called by DamageInfoMgr::onLoadStage.
+        void sub_710065CAEC();
         Unk28();
         ~Unk28();
         // 2026-10-07: 32 entries constructed at 0x710065c96c; link/reset, countdown,

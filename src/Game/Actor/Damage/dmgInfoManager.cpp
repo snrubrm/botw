@@ -18,6 +18,9 @@ namespace uking::act {
 
 SEAD_SINGLETON_DISPOSER_IMPL(DamageInfoMgr)
 
+// Shared stage flag (placeholder name; defined in this TU so other damage TUs reach it through the GOT).
+bool sUnk_71025C59D8 = false;
+
 void DamageInfoMgr::UnkCe0::init(sead::Heap* heap) {
     mLinks.freeBuffer();
     mLinks.tryAllocBuffer(mCount, heap);

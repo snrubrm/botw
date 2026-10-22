@@ -1,5 +1,6 @@
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include <atomic>
+#include <cstring>
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -134,6 +135,25 @@ void DamageInfoMgr::Unk450::sub_710065D134() {}
 
 DamageInfoMgr::Unk28::Unk28() = default;
 DamageInfoMgr::Unk28::~Unk28() = default;
+
+// Global stage helper (CSV getSoundNumberForStage 0x7100aab27c).
+int getSoundNumberForStage();
+
+void DamageInfoMgr::Unk28::sub_710065CAEC() {
+    for (s32 i = 0; i < 32; ++i) {
+        auto& entry = mEntries[i];
+        entry.mLink.reset();
+        entry.mCountdown = 0.0f;
+        entry.mRank = -1;
+        entry.mRemove = false;
+    }
+    _421 = false;
+    _422 = false;
+    memset(_400, 0, sizeof(_400));
+    _40c = 0;
+    memset(_410, 0, sizeof(_410));
+    sUnk_71025C59D8 = getSoundNumberForStage() == 10;
+}
 
 // NON_MATCHING: the native entry array lacks the original insertion bounds fallback and uses a different loop branch.
 void DamageInfoMgr::Unk28::sub_710065CE14(ksys::act::Actor* actor) {
