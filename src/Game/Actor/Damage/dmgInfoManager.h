@@ -88,6 +88,8 @@ public:
     // Placeholders (lane4 s49): the lock-protected actor lists embedded at +0x28 (lock at +0x41c, size 0x428) and +0x450
     // (lock at +0xa0, size 0xa8). Placeholder names follow their original addresses.
     struct Unk28 {
+        // 0x710065cae8: empty in the original (a 4-byte return); DamageInfoMgr::init calls it first.
+        void sub_710065CAE8();
         // 0x710065ce14 (BattleTensionUp::m8) / 0x710065cf08 (BattleTensionUp::m9)
         void sub_710065CE14(ksys::act::Actor* actor);
         void sub_710065CF08(ksys::act::Actor* actor);
@@ -123,6 +125,8 @@ public:
         using Bucket = sead::SafeArray<Entry, 16>;
         Unk868();
         ~Unk868();
+        // 0x71006682b8: returns true; DamageInfoMgr::init passes the heap it was given.
+        bool sub_71006682B8(sead::Heap* heap);
         void sub_71006682C0();
         void sub_71006685C0();
         void sub_7100668468();
@@ -200,6 +204,8 @@ public:
         // +0x18 / +0x40 / +0x68 / +0x90, stride 0x28; `a` at +0x1c, the bools at +0x24 / +0x25, `d` at +0x14).
         void sub_710065D674(ksys::act::Actor* actor, s32 a, bool b, bool c, s32 d);
         void sub_710065D134();
+        // 0x710065d0a4: empty in the original (a 4-byte return); DamageInfoMgr::init calls it first.
+        void sub_710065D0A4();
         Unk450();
         ~Unk450();
         void sub_710065D0A8();

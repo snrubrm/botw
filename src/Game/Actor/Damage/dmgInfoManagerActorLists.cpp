@@ -127,7 +127,9 @@ void DamageInfoMgr::Unk_710243c3a0::m3(ksys::act::Actor* actor) {
     sub_7100738D50(actor, link);
 }
 
+void DamageInfoMgr::Unk28::sub_710065CAE8() {}
 void DamageInfoMgr::Unk28::sub_710065CB68() {}
+void DamageInfoMgr::Unk450::sub_710065D0A4() {}
 void DamageInfoMgr::Unk450::sub_710065D134() {}
 
 DamageInfoMgr::Unk28::Unk28() = default;

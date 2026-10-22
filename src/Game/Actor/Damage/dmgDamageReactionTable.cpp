@@ -34,6 +34,10 @@ s32 DamageReactionTable::sub_71006681E4(const sead::SafeString& name) const {
 
 DamageInfoMgr::Unk868::Unk868() = default;
 DamageInfoMgr::Unk868::~Unk868() = default;
+bool DamageInfoMgr::Unk868::sub_71006682B8(sead::Heap* heap) {
+    return true;
+}
+
 void DamageInfoMgr::Unk868::sub_71006682C0() {
     Entry entry;
     mBuckets[0].fill(entry);
