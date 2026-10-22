@@ -983,6 +983,8 @@ public:
         // 7 - sub_7101115584 skips sub_7101115338; 8 - the terrain editor's m6 copies it into editor _30 bit 3;
         // 0x100 - m6 clears that bit instead.
         u32 _18;
+        // Not read by any decompiled code; separates _18 from the byte at 0x1d.
+        u8 _1c;
         // Bit 4: passed to ApertureMapsCollector::sub_7101100F08 by sub_7101115584 (unless System::_1338 bit 1).
         u8 _1d;
         u8 _1e[0x20 - 0x1e];
