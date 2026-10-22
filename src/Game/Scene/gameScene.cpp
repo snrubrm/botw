@@ -103,6 +103,33 @@ static bool sIsStageUnloaded;
 static sead::FixedSafeString<0xff> sSceneChangeEventFlow;
 static sead::FixedSafeString<0xff> sSceneChangeEventFlowEntryPoint;
 
+// 0x71025b6c50: the block of cached pointers that GameScene::initSomePointers clears (the original
+// reaches it through the GOT; placeholder name, the members are only known as eight zeroed words).
+struct Unk_71025b6c50 {
+    u64 _0;
+    u64 _8;
+    u64 _10;
+    u64 _18;
+    u64 _20;
+    u64 _28;
+    u64 _30;
+    u32 _38;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71025b6c50, 0x40);
+Unk_71025b6c50 sUnk_71025b6c50;
+
+// 0x71002ca830: clears the cached pointers before the next scene is set up.
+void GameScene::initSomePointers() {
+    sUnk_71025b6c50._38 = 0;
+    sUnk_71025b6c50._28 = 0;
+    sUnk_71025b6c50._30 = 0;
+    sUnk_71025b6c50._0 = 0;
+    sUnk_71025b6c50._18 = 0;
+    sUnk_71025b6c50._20 = 0;
+    sUnk_71025b6c50._8 = 0;
+    sUnk_71025b6c50._10 = 0;
+}
+
 // 0x71025cb0eb (not a TU-local: the original addresses it through the GOT)
 bool sForceEnableGlidingSurfingRupee;
 

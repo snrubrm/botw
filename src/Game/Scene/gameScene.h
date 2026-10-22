@@ -155,6 +155,8 @@ public:
     // 0x71007a8e94 (placeholder name; frm::System::isReady forwards to it): counts the calls and returns whether
     // the resources of the managers initGlobalParamE3TipsActorAndPlacement loads (and the title pack) are ready.
     bool areResourcesReadyMaybe();
+    // 0x71002ca830: clears the pointers at 0x71025b6c50 .. 0x71025b6c88.
+    static void initSomePointers();
 
     void setFadeType(s32 type);
     bool hasStageBinder() const;
