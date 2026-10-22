@@ -14,6 +14,8 @@ public:
 
     void enter_(ksys::act::ai::InlineParamPack* params) override;
     void leave_() override;
+    // 0x71007dc3fc (declared only): climbs down after the weapon was released.
+    void sub_71007DC3FC();
     void loadParams_() override;
     bool handleMessage_(const ksys::Message* message) override;
     bool isChangeable() const override;

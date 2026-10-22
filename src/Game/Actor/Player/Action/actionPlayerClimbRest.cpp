@@ -42,8 +42,38 @@ void PlayerClimbRest::enter_(ksys::act::ai::InlineParamPack* params) {
     static_cast<ksys::act::Player*>(mActor)->_17f1 = false;
 }
 
+// NON_MATCHING: the Weapon typeinfo guard is emitted after the null test here; the original initialises it
+// first (DynamicCast's inline order). The rest of the body matches.
 void PlayerClimbRest::leave_() {
-    PlayerAction::leave_();
+    if (_28.hasProc()) {
+        auto* weapon = sead::DynamicCast<uking::act::Weapon>(_28.getProc(nullptr, nullptr));
+        if (weapon) {
+            if (static_cast<ksys::act::Player*>(mActor)->sub_71008921A8()) {
+                static_cast<ksys::act::Player*>(mActor)->m164(3, weapon, false, false);
+                static_cast<ksys::act::Player*>(mActor)->getWeapons()->mWeapons[3]._10 = false;
+                static_cast<ksys::act::Player*>(mActor)->_17f0 = 1;
+            } else {
+                static_cast<ksys::act::Player*>(mActor)->m164(
+                    static_cast<ksys::act::Player*>(mActor)->playerWeapons_return0(), weapon, false,
+                    false);
+                static_cast<ksys::act::Player*>(mActor)
+                    ->getWeapons()
+                    ->mWeapons[static_cast<ksys::act::Player*>(mActor)->playerWeapons_return0()]
+                    ._10 = false;
+                static_cast<ksys::act::Player*>(mActor)->_17f0 = 0;
+            }
+        }
+        sub_71007DC3FC();
+    } else {
+        static_cast<ksys::act::Player*>(mActor)
+            ->getWeapons()
+            ->mWeapons[static_cast<ksys::act::Player*>(mActor)->playerWeapons_return0()]
+            ._10 = true;
+    }
+
+    sub_710087CE90(mActor);
+    if (auto* controller = mActor->getCharacterController())
+        controller->sub_7100F5F458(ksys::act::MotionType::_1);
 }
 
 void PlayerClimbRest::loadParams_() {
