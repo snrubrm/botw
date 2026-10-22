@@ -90,6 +90,40 @@ void DamageInfoMgr::init(sead::Heap* heap) {
     mMasterSwordDisableTrueForm = false;
 }
 
+void DamageInfoMgr::postCalc() {
+    _28.sub_710065CB6C();
+    _868.sub_7100668468();
+    _450.sub_710065D138();
+    mUnkCe0.sub_7100672E48();
+    _4f8.sub_7100671794();
+    _630.sub_7100672110();
+    _790.sub_7100672578();
+
+    const s32 count = mRing.size();
+    for (s32 i = 0; i != count; ++i)
+        mRing(i).mCountdown -= 1.0f;
+
+    while (mRing.size() != 0 && mRing(0).mCountdown <= 0.0f)
+        mRing.popFront();
+
+    mClothStiffnessMgr.sub_7100665B64();
+    _11f0.sub_710067446C();
+    _11eb[3] = _11eb[0] + _11eb[1] + _11eb[2];
+    if (_11e1 && _cd8 <= 0)
+        _11e2 = true;
+    _11e1 = false;
+    if (auto* weather = wm::getWeatherMgr()) {
+        _11e0 = weather->isRaining() ? _11e0 | 1 : _11e0 & ~1;
+        if (weather->isSnowing())
+            _11e0 |= 2;
+        else
+            _11e0 &= ~2;
+    }
+    mMasterSwordDetectedEvil = false;
+    mMasterSwordDetectedEvil =
+        mGuardianRegistry.getNearestDistance(false) < mMasterSwordSearchEvilDist;
+}
+
 void DamageInfoMgr::sub_7100673D8C(sead::Heap* heap) {
     mReactionTable.sub_71006681D4();
 }

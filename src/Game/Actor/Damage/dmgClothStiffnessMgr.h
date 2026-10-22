@@ -39,6 +39,8 @@ public:
     Entry* sub_7100665830(const sead::SafeString& name);
     // 0x7100665b20: forgets all the entries' pointers and reference counts.
     void sub_7100665B20();
+    // 0x7100665b64 (DamageInfoMgr::postCalc; declaration only): per-frame update.
+    void sub_7100665B64();
 
     /* 0x000 */ Entry mEntries[3];
     /* 0x300 */ u8 _300[8];

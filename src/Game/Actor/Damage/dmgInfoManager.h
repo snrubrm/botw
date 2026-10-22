@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include <container/seadRingBuffer.h>
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
 #include <mc/seadJobQueue.h>
@@ -102,6 +103,8 @@ public:
         void sub_710065CE14(ksys::act::Actor* actor);
         void sub_710065CF08(ksys::act::Actor* actor);
         void sub_710065CB68();
+        // 0x710065cb6c (postCalc): declaration only.
+        void sub_710065CB6C();
         // 0x710065caec: resets the entries and the stage flag; called by DamageInfoMgr::onLoadStage.
         void sub_710065CAEC();
         Unk28();
@@ -151,6 +154,24 @@ public:
     KSYS_CHECK_SIZE_NX150(Unk868::Bucket, 0x180);
     KSYS_CHECK_SIZE_NX150(Unk868, 0x328);
 
+    // Placeholder (only its method 0x7100672110 is known): the object at +0x630, whose first
+    // member is a ring buffer of actor links.
+    struct Unk_7100672110 {
+        void sub_7100672110();
+        /* 0x00 */ sead::RingBuffer<ksys::act::BaseProcLink> mRing;
+        /* 0x18 */ u8 _18[0x148];
+    };
+    KSYS_CHECK_SIZE_NX150(Unk_7100672110, 0x160);
+
+    // Entry of the ring buffer at +0xdb8: an expired actor link and its countdown.
+    // The leading 16 bytes are unknown (the ring's producers are not decompiled yet); the countdown
+    // at +0x10 is the only field postCalc touches.
+    struct RingEntry {
+        /* 0x00 */ u8 _0[0x10];
+        /* 0x10 */ f32 mCountdown;
+    };
+    KSYS_CHECK_SIZE_NX150(RingEntry, 0x14);
+
     // 2026-10-07: original constructor 0x71006737f4 initializes the prefix at +0x790;
     // its next independent member starts at +0x868. Remaining nested lifetime is unresolved.
     struct Unk790;
@@ -185,6 +206,8 @@ public:
     KSYS_CHECK_SIZE_NX150(Unk_710243c3a0, 0x48);
 
     struct Unk790 {
+        // 0x7100672578 (postCalc): declaration only.
+        void sub_7100672578();
         // 0x71006726dc; declaration only, weather availability test.
         bool sub_71006726DC(s32 weather);
         bool sub_7100672B00(ksys::act::Actor* actor) const;
@@ -214,6 +237,8 @@ public:
         // +0x18 / +0x40 / +0x68 / +0x90, stride 0x28; `a` at +0x1c, the bools at +0x24 / +0x25, `d` at +0x14).
         void sub_710065D674(ksys::act::Actor* actor, s32 a, bool b, bool c, s32 d);
         void sub_710065D134();
+        // 0x710065d138 (postCalc): declaration only.
+        void sub_710065D138();
         // 0x710065d0a4: empty in the original (a 4-byte return); DamageInfoMgr::init calls it first.
         void sub_710065D0A4();
         Unk450();
@@ -291,7 +316,7 @@ private:
     /* 0x0450 */ Unk450 _450;
     /* 0x04f8 */ Unk_7100671794 _4f8;
     /* 0x05d0 */ DamageReactionTable mReactionTable;
-    /* 0x0630 */ u8 TEMP_630[0x790 - 0x630];
+    /* 0x0630 */ Unk_7100672110 _630;
     /* 0x0790 */ Unk790 _790;
     /* 0x0868 */ Unk868 _868;
     /* 0x0b90 */ Unk_710243c280 mGuardianRegistry;
@@ -311,6 +336,8 @@ private:
 
         // 0x7100672d4c: frees the list and allocates mCount entries on `heap`.
         void init(sead::Heap* heap);
+        // 0x7100672e48 (postCalc): declaration only.
+        void sub_7100672E48();
         bool sub_7100673444(const sead::Vector3f& position) const;
 
         /* 0x00 */ sead::Buffer<Entry> mLinks;
@@ -320,13 +347,15 @@ private:
     };
     KSYS_CHECK_SIZE_NX150(UnkCe0, 0x20);
 
-    /* 0x0cd8 */ u8 TEMP_cd8[0xce0 - 0xcd8];
+    /* 0x0cd8 */ s32 _cd8 = 0;
+    u8 TEMP_cdc[4];
     /* 0x0ce0 */ UnkCe0 mUnkCe0;
     /* 0x0d00 */ sead::ReadWriteLock mLock;
-    /* 0x0db8 */ u8 TEMP_db8[0xe98 - 0xdb8];
+    /* 0x0db8 */ sead::RingBuffer<RingEntry> mRing;
+    /* 0x0dd0 */ u8 TEMP_dcc[0xe98 - 0xdd0];
     /* 0x0e98 */ ClothStiffnessMgr mClothStiffnessMgr;
     /* 0x11e0 */ u8 _11e0;  // bit 0: no rain, bit 1: no snow (sub_7100674704 / 30)
-    u8 TEMP_11e1;
+    /* 0x11e1 */ u8 _11e1;
     /* 0x11e2 */ u8 _11e2;  // zeroed by init
     u8 TEMP_11e3;
     /* 0x11e4 */ f32 mMasterSwordSearchEvilDist;
