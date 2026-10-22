@@ -123,6 +123,15 @@ void Swarm::Unit::sub_71002D94C8(sead::Vector3f* out) const {
     }
 }
 
+// NON_MATCHING: sub_71002D9434 is out of line in the original; our merged swarm TU inlines it.
+void sub_71002D7668(Swarm::Unit* unit, const sead::Vector3f& position) {
+    if (!unit)
+        return;
+    unit->_60 = position;
+    unit->_6c = position;
+    unit->sub_71002D9434(position);
+}
+
 bool Swarm::sub_71002D47D8(s32 idx) const {
     const auto& body = _14f8[idx];
     if (!body._18)

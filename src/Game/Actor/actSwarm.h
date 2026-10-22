@@ -191,6 +191,9 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Swarm, 0x1640);
 
+// 0x71002d7668 (placeholder name): copies `position` into both unit vectors and updates the pose.
+void sub_71002D7668(Swarm::Unit* unit, const sead::Vector3f& position);
+
 }  // namespace uking::act
 
 // The two unit variants allocated by Swarm::prepareInit_.
