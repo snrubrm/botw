@@ -931,7 +931,7 @@ bool SaveArchiveWork::queue() {
         mState = 1;
         return true;
     }
-    mResult = 1000;
+    mError = 1000;
     return false;
 }
 
@@ -939,7 +939,8 @@ bool SaveArchiveWork::run(void* user_data) {
     if (mState == 3)
         return false;
     mState = 2;
-    const bool success = saveTransferSaveArchiveWorkStuff(&mData, &mSize, mHeap, &mError, &mResult);
+    const bool success =
+        saveTransferSaveArchiveWorkStuff(&mData, &mSize, mHeap, &mProgress, &mError);
     mState = success ? 3 : 4;
     return success;
 }

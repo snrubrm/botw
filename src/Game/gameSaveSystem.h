@@ -62,8 +62,8 @@ public:
     u64 mSize = 0;
     sead::Heap* mHeap = nullptr;
     sead::Atomic<s32> mState = 0;
-    s32 mError = 0;
-    s32 mResult = 0;
+    f32 mProgress = 0;  // +0x1c: the write progress the worker reports (the UI reads it as a float)
+    s32 mError = 0;     // +0x20: the step code reported through setFlag_STErrorCode
     sead::Delegate1R<SaveArchiveWork, void*, bool> mWork{this, &SaveArchiveWork::run};
 };
 KSYS_CHECK_SIZE_NX150(SaveArchiveWork, 0x48);
@@ -120,7 +120,7 @@ KSYS_CHECK_SIZE_NX150(SaveDeleteJob, 0x28);
 
 // Archive construction / decompression workers used by the asynchronous tasks.
 bool saveTransferSaveArchiveWorkStuff(void** data, u64* size, sead::Heap* heap,
-                                      s32* error, s32* result);
+                                      f32* progress, s32* error);
 bool saveTransferDecompressArchive(void** out, u64* out_size, const void* data, u64 size,
                                    sead::Heap* heap, s32* error);
 

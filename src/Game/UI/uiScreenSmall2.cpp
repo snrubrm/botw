@@ -35,6 +35,7 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include "Game/UI/uiManager.h"
 #include "Game/gameSaveSystem.h"
+#include "KingSystem/System/VFR.h"
 #include "Game/gameRoot1.h"
 #include "Game/gameRuneMgr.h"
 #include "Game/UI/uiUnkSingletons.h"
@@ -4044,7 +4045,7 @@ void ScreenSaveTransferWindow::m202() {
 void ScreenSaveTransferWindow::m186() {
     mSaveWork.mHeap = nullptr;
     if (!mSaveWork.queue()) {
-        ksys::gdt::setFlag_STErrorCode(mSaveWork.mResult, false);
+        ksys::gdt::setFlag_STErrorCode(mSaveWork.mError, false);
         _3788 = "0062";
         getStateMachine().changeState(&sUnk_71025f2cc0);
         return;
@@ -4109,21 +4110,23 @@ void ScreenSaveTransferWindow::m243() {
     getStateMachine().changeState(&sUnk_71025f2cc0);
 }
 
+// NON_MATCHING: the original reloads sUnk_71025f2eb0._8 for the state pick (ours reuses the value from
+// the first test) and keeps a dead `cmp #1`; the step/clamp part matches.
 // 0x7100a4383c
-// NON_MATCHING: the original selects the clamped value before the branch, reloads _8 and keeps a dead `cmp #1`
 void ScreenSaveTransferWindow::m163() {
     if (sUnk_71025f2eb0._8 == 0) {
         getStateMachine().changeState(&sUnk_71025f2de0);
         return;
     }
-    _3798 += 1.0f / 30.0f;
-    if (_3798 >= 1.0f) {
-        _3798 = 1.0f;
-        if (sUnk_71025f2eb0._8 == 2)
-            getStateMachine().changeState(&sUnk_71025f21e0);
-        else
-            getStateMachine().changeState(&sUnk_71025f2180);
-    }
+    const f32 next = _3798 + 1.0f / 30.0f;
+    const bool below_end = !(next >= 1.0f);
+    _3798 = below_end ? next : 1.0f;
+    if (below_end)
+        return;
+    if (sUnk_71025f2eb0._8 == 2)
+        getStateMachine().changeState(&sUnk_71025f21e0);
+    else
+        getStateMachine().changeState(&sUnk_71025f2180);
 }
 
 // 0x7100a43e18
@@ -4276,14 +4279,61 @@ void ScreenSaveTransferWindow::m310() {
 
 
 
-// NON_MATCHING: the clamp's select comes out with the gt predicate; the original's clampMax is the
-// `val < max ? val : max` form (fcmp/fcsel lt) and it shares that compare with the branch.
+// 0x7101e78f6c: the per-frame step of the transfer progress bar, indexed by whether the target is at
+// least 1.0 (the third/fourth entries are used by the load variant).
+static const f32 sUnk_7101e78f6c[4] = {1.0f / 150.0f, 1.0f / 900.0f, 1.0f / 150.0f, 1.0f / 1800.0f};
+
+// 0x7100a43e70
+void ScreenSaveTransferWindow::m191() {
+    if (sUnk_71025f2eb0._8 != 0) {
+        const f32 next = _3798 + 1.0f / 120.0f;
+        const bool below_end = !(next >= 1.0f);
+        _3798 = below_end ? next : 1.0f;
+        if (!below_end) {
+            mSaveWork.reset(true);
+            if (sUnk_71025f2eb0._10 == 2)
+                getStateMachine().changeState(&sUnk_71025f2420);
+            else
+                getStateMachine().changeState(&sUnk_71025f2360);
+        }
+        mControlPtrs._3628->Stop(_3798 * 100.0f);
+        return;
+    }
+
+    sead::Mathf::chase(&_3798, 0.3f, ksys::VFR::instance()->getDeltaFrame() * (1.0f / 900.0f));
+    mControlPtrs._3628->Stop(_3798 * 100.0f);
+    mSaveWork.reset(true);
+    getStateMachine().changeState(&sUnk_71025f2de0);
+}
+
+// 0x7100a43c80
+void ScreenSaveTransferWindow::m187() {
+    const f32 target = mSaveWork.mProgress * 0.3f;
+    const f32 speed = sUnk_7101e78f6c[!(target >= 1.0f)];
+    ksys::VFR::chase(&_3798, target, speed);
+    mControlPtrs._3628->Stop(_3798 * 100.0f);
+
+    switch (s32(mSaveWork.mState)) {
+    case 3:
+        getStateMachine().changeState(&sUnk_71025f22a0);
+        break;
+    case 0:
+    case 4:
+        ksys::gdt::setFlag_STErrorCode(mSaveWork.mError, false);
+        mSaveWork.reset(true);
+        _3788 = "0062";
+        getStateMachine().changeState(&sUnk_71025f2cc0);
+        break;
+    }
+}
+
 // 0x7100a454d8
 void ScreenSaveTransferWindow::m267() {
     if (sUnk_71025f2eb0._c != 0) {
         const f32 next = _3798 + 1.0f / 120.0f;
-        _3798 = sead::Mathf::clampMax(next, 1.0f);
-        if (next >= 1.0f)
+        const bool below_end = !(next >= 1.0f);
+        _3798 = below_end ? next : 1.0f;
+        if (!below_end)
             getStateMachine().changeState(&sUnk_71025f2ba0);
         if (mControlPtrs._3620->mRate == 0)
             mControlPtrs._3628->Stop(_3798 * 100.0f);

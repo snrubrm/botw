@@ -5961,6 +5961,11 @@ extern const ksys::StateBase sUnk_71025f2d80;
 // 0x71025f2c60, found from the GOT loads in its state callbacks).
 extern const ksys::StateBase sUnk_71025f2180;
 extern const ksys::StateBase sUnk_71025f21e0;
+// m187's target when the write job completes (0x71025f22a0).
+extern const ksys::StateBase sUnk_71025f22a0;
+// m191's targets when the progress reaches 1.0, selected by sUnk_71025f2eb0._10.
+extern const ksys::StateBase sUnk_71025f2360;
+extern const ksys::StateBase sUnk_71025f2420;
 extern const ksys::StateBase sUnk_71025f2300;
 extern const ksys::StateBase sUnk_71025f2360;
 extern const ksys::StateBase sUnk_71025f2540;
