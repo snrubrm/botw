@@ -210,7 +210,7 @@ void CapturePane::initializeCaptureTextureData_(const char* layout_name) {
             height *= scale;
         }
     }
-    mTexture = agl::utl::DynamicTextureAllocator::instance()->sub_7100B46FC8(
+    mTexture = agl::utl::DynamicTextureAllocator::instance()->allocWithoutContext(
         nullptr, layout_name, format, sead::Mathf::round(width), sead::Mathf::round(height), 1,
         nullptr, static_cast<agl::utl::DynamicTextureAllocator::AllocateType>(1), true, false);
     auto red = mTexture->getCompSelRed();

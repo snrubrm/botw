@@ -5,6 +5,7 @@ add_library(gsys OBJECT
   include/gsys/gsysLayerTexture.h
   include/gsys/gsysLayer3D.h
   src/gsys/gsysLayer.cpp
+  src/gsys/gsysLayerTexture.cpp
   include/gsys/gsysModelRenderCache.h
   src/gsys/gsysModelRenderCache.cpp
   include/gsys/gsysGBuffer.h
