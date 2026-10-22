@@ -696,11 +696,17 @@ bool GameScene::sub_71007B0D3C() const {
 }
 
 // NON_MATCHING: clang folds the 0x5f / 0x7f choice into and/lsl/eor; the original branches (4 bytes longer).
+// NON_MATCHING: clang if-converts the special-job mask select to and/lsl/eor; the original keeps
+// the branch (tbz / mov 0x5f / orr 0x7f). Everything else matches.
 bool GameScene::initBeforeStageGen(s32 state) {
     _4c0.setStatus("ステージ生成前の初期化処理");
     _8c8 = 0;
     _279 &= ~u8(1);
-    const u16 mask = (state & 1) ? 0x5f : 0x7f;
+    u16 mask;
+    if (state & 1)
+        mask = 0x5f;
+    else
+        mask = 0x7f;
     ksys::act::BaseProcMgr::instance()->addSpecialJobTypes(mask);
     ksys::act::BaseProcMgr::instance()->setMode(ksys::act::BaseProcMgr::Mode(4));
     ksys::act::Awareness::instance()->setPaused(true);
