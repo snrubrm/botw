@@ -339,6 +339,24 @@ void ScreenAppMapDungeon::sub_71009E70B8() {
         screen->close(-1);
 }
 
+// 0x71009f269c
+void ScreenAppMap::sub_71009F269C(s32 mode) {
+    switch (mode) {
+    case 0:
+        UiSubsys1::instance()->sub_7100966EA8(true);
+        break;
+    case 1:
+        UiSubsys1::instance()->sub_710096705C(true);
+        break;
+    case 2:
+        UiSubsys1::instance()->sub_71009672F4(true);
+        break;
+    }
+
+    if (_3c90)
+        _3c90->sub_71009C1198(mode);
+}
+
 // 0x71009f273c
 void ScreenAppMap::sub_71009F273C() {
     Unk_71025d69f0::instance()->sub_710094E064();

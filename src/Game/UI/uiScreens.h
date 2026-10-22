@@ -2771,6 +2771,9 @@ public:
     void sub_71009EED18();
     void m98() override;
     void m101() override;
+    // 0x71009f269c (placeholder name): sets the UiSubsys1 map mode flag for `mode` (0-2) and forwards it to the
+    // map widget at 0x3c90
+    void sub_71009F269C(s32 mode);
     // 0x71009f273c (placeholder name; called by Unk_710247c010::sub_71009BE260): Unk_71025d69f0::sub_710094E064, then
     // closes the screen
     void sub_71009F273C();
