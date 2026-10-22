@@ -18,6 +18,11 @@ namespace uking::act {
 
 SEAD_SINGLETON_DISPOSER_IMPL(DamageInfoMgr)
 
+void DamageInfoMgr::UnkCe0::init(sead::Heap* heap) {
+    mLinks.freeBuffer();
+    mLinks.tryAllocBuffer(mCount, heap);
+}
+
 // Whether fewer than GlobalParameter's ForceNoticeEnemyCount listed actors are near `position`. The list is
 // only read here; the lock is used by the insert/remove functions.
 bool DamageInfoMgr::UnkCe0::sub_7100673444(const sead::Vector3f& position) const {

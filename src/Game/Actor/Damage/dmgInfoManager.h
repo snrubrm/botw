@@ -285,16 +285,20 @@ private:
     class UnkCe0 {
     public:
         // 0x18 bytes (clang pads mTag to the 8-byte alignment); mTag is written by sub_7100673064.
+        // The entry constructor (inlined in init's array allocation) only runs BaseProcLink's
+        // constructor and stores -1 in mTag.
         struct Entry {
             /* 0x00 */ ksys::act::BaseProcLink mLink;
-            /* 0x10 */ u32 mTag = 0;
+            /* 0x10 */ u32 mTag = 0xffffffff;
         };
         KSYS_CHECK_SIZE_NX150(Entry, 0x18);
 
+        // 0x7100672d4c: frees the list and allocates mCount entries on `heap`.
+        void init(sead::Heap* heap);
         bool sub_7100673444(const sead::Vector3f& position) const;
 
         /* 0x00 */ sead::Buffer<Entry> mLinks;
-        /* 0x10 */ u32 mCount = 0;
+        /* 0x10 */ s32 mCount = 0;
         u8 _14[4];
         /* 0x18 */ std::atomic<u32> mLock;
     };
