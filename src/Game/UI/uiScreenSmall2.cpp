@@ -4394,6 +4394,23 @@ void ScreenSaveTransferWindow::m283() {
     }
 }
 
+// 0x7100a4523c
+void ScreenSaveTransferWindow::m263() {
+    if (sUnk_71025f2eb0._c != 0) {
+        const f32 next = _3798 + 1.0f / 120.0f;
+        const bool below_end = !(next >= 1.0f);
+        _3798 = below_end ? next : 1.0f;
+        if (!below_end)
+            getStateMachine().changeState(&sUnk_71025f2a80);
+        mControlPtrs._3628->Stop(_3798 * 100.0f);
+        return;
+    }
+
+    sead::Mathf::chase(&_3798, 0.0f, ksys::VFR::instance()->getDeltaFrame() * (1.0f / 900.0f));
+    mControlPtrs._3628->Stop(_3798 * 100.0f);
+    getStateMachine().changeState(&sUnk_71025f2de0);
+}
+
 // 0x7100a44e84
 void ScreenSaveTransferWindow::m251() {
     if (sUnk_71025f2eb0._c != 0) {

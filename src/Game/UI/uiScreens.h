@@ -5970,6 +5970,8 @@ extern const ksys::StateBase sUnk_71025f2420;
 extern const ksys::StateBase sUnk_71025f28a0;
 // m275's target once the write job's progress chase finishes (0x71025f2ae0).
 extern const ksys::StateBase sUnk_71025f2ae0;
+// m263's target when the fade-out reaches 1.0 (0x71025f2a80).
+extern const ksys::StateBase sUnk_71025f2a80;
 extern const ksys::StateBase sUnk_71025f2300;
 extern const ksys::StateBase sUnk_71025f2360;
 extern const ksys::StateBase sUnk_71025f2540;
