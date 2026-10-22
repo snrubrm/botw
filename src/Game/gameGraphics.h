@@ -484,9 +484,6 @@ public:
     // 0x7100f3592c (placeholder name): copies three floats to the object at 0xb70 + 0x110.
     void sub_7100F3592C(const sead::Vector3f& value);
 
-    // 0x7100f2e06c (placeholder name): sets bit 22 of `_284`.
-    void sub_7100F2E06C();
-
     // 0x7100f35de8 (placeholder name; lane2 s47): called by ui::Manager::sub_7100A7F81C; sets a byte
     // at +0x508 of _ad8.
     void sub_7100F35DE8();
@@ -736,8 +733,20 @@ private:
     u8 _fa0[0xfe8 - 0xfa0];
 
 public:
-    // 0x7100f2a754 (declaration only); the destructor is virtual (the disposer calls it through the
-    // vtable slot at +0x50 of the original's vtable).
+    // 0x7100f2a754 (declaration only). The original primary vtable 0x71024f45c0 has ten virtual slots
+    // before the destructor (slot 0x60 = the destructor at 0x7100f2b060, which the singleton disposer
+    // calls through slot 0x50); only the destructor and slot 6 (0x7100f2e06c) are modelled, so the
+    // other slots are declared in order with placeholder names.
+    virtual void m0();
+    virtual void m1();
+    virtual void m2();
+    virtual void m3();
+    virtual void m4();
+    virtual void m5();
+    virtual void sub_7100F2E06C();
+    virtual void m7();
+    virtual void m8();
+    virtual void m9();
     Graphics();
     virtual ~Graphics();
 
