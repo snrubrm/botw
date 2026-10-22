@@ -1324,6 +1324,8 @@ public:
     void sub_7100966EA8(bool a1);
     // 0x710096705c: opens the sensor UI for its saved target; optionally shows the app window.
     void sub_710096705C(bool show_window);
+    // 0x71009672f4 (placeholder name): the third of the three sensor UI mode helpers (see 9e7020).
+    void sub_71009672F4(bool a1);
     // 0x71009674e8 (placeholder name; does not use `this`): the byte at 0x29 of the 0x71025d6ac0 object.
     bool sub_71009674E8() const;
     void set38e4(s32 value);

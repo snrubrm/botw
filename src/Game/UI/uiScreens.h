@@ -5708,6 +5708,9 @@ public:
     virtual void m164();
     virtual s32 m165();
 
+    // 0x71009e7020 (placeholder name): switches the sensor UI to `mode` (2 / 1 / 0) and forwards the mode
+    // to the sensor child
+    void sub_71009E7020(s32 mode);
     // 0x71009e78d8: changes the map display mode and stops its animator at the endpoint.
     void sub_71009E78D8(s32 mode);
     // Display refresh helpers called after changing mode (declared only).

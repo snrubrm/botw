@@ -313,6 +313,24 @@ void sub_71009E3B84() {
     Manager::instance()->sub_7100A7C9C0();
 }
 
+// 0x71009e7020
+void ScreenAppMapDungeon::sub_71009E7020(s32 mode) {
+    switch (mode) {
+    case 0:
+        UiSubsys1::instance()->sub_7100966EA8(true);
+        break;
+    case 1:
+        UiSubsys1::instance()->sub_710096705C(true);
+        break;
+    case 2:
+        UiSubsys1::instance()->sub_71009672F4(true);
+        break;
+    }
+
+    if (_11518)
+        _11518->sub_71009C1198(mode);
+}
+
 // 0x71009e70b8
 void ScreenAppMapDungeon::sub_71009E70B8() {
     Unk_71025d69f0::instance()->sub_710094E064();
