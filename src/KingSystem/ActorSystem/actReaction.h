@@ -133,7 +133,7 @@ public:
     // 0x7101287178: deletes the components and frees the list.
     ~ActorReactions();
     // Creates one component per actor of the list and links it at actor + 0x6b8.
-    void init(Actor* actor, sead::Heap* heap);
+    bool init(Actor* actor, sead::Heap* heap);
     void calc();
 
     /* 0x00 */ sead::Buffer<ActorUnk6b8*> mComponents;

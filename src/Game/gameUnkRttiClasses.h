@@ -179,7 +179,9 @@ public:
 
     explicit Unk_71024efd58(const InitArg& arg);
     virtual ~Unk_71024efd58();
-    virtual bool m4() { return true; }
+    // 0x7100ebf8c4 (placeholder name): runs m8 then the heap initialisation of the component.
+    void sub_7100EBF8C4(sead::Heap* heap);
+    virtual bool m4(sead::Heap* heap) { return true; }
     virtual void m5() {}
     virtual void m6() {}
     virtual void m7() {}

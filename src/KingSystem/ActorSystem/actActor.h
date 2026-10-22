@@ -714,6 +714,8 @@ public:
     bool get690() const { return _690; }
     // lane3 s38 (FixedMagneStick::calc_); the type is a placeholder (only byte 0x8b is known).
     ActorUnk6b8* get6b8() const { return _6b8; }
+    // ActorReactions::init links the reaction component here.
+    void set6b8(ActorUnk6b8* component) { _6b8 = component; }
     float get6f0() const { return _6f0; }
     // The footstep reaction timer written by Reaction::sub_7100EC241C.
     void set6e4(float value) { _6e4 = value; }
