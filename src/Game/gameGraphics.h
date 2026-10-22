@@ -420,6 +420,22 @@ public:
 
 }  // namespace gsys
 
+namespace gsys {
+class Layer;
+
+// Placeholder declaration: the copy-layer texture object at Graphics + 0xad8 (the copy pass).
+// Only the two methods Graphics calls and the byte at +0x508 are modelled; the real class belongs
+// in lib/gsys (request to gen).
+class CopyLayerTexture {
+public:
+    void setLayer(Layer* layer);
+    void adjustTrimViewportToLayer();
+
+    u8 _0[0x508];
+    u8 _508;
+};
+}  // namespace gsys
+
 // Partial declaration: name from the CSV Graphics::createInstance (0x7100f2a1d0).
 // Source namespace remains unknown; global spelling follows the existing scene placeholders.
 // No instance layout or construction is modeled here.
@@ -541,6 +557,9 @@ public:
     // 0x7100f35de8 (placeholder name; lane2 s47): called by ui::Manager::sub_7100A7F81C; sets a byte
     // at +0x508 of _ad8.
     void sub_7100F35DE8();
+    // 0x7100f35dc0 (placeholder name): binds a layer to the copy-layer texture and re-adjusts its
+    // trim viewport.
+    void sub_7100F35DC0(gsys::Layer* layer);
     // 0x7100f35db0 (placeholder name): sets flag 0x10000 of _284.
     void sub_7100F35DB0();
 
@@ -747,7 +766,7 @@ private:
     Unk_ac0* _ac0;
     u8 _ac8[0xad8 - 0xac8];
     // Pointer whose byte +0x508 is set by sub_7100F35DE8.
-    u8* _ad8;
+    gsys::CopyLayerTexture* _ad8;
     Unk_7100f35df8* _ae0;
     u8 _ae8[0xb38 - 0xae8];
     Unk_710129175c* _b38;

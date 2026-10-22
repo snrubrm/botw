@@ -378,7 +378,12 @@ bool Unk_71012a20e0::sub_71012A2768() {
 
 
 void Graphics::sub_7100F35DE8() {
-    _ad8[0x508] = 1;
+    _ad8->_508 = 1;
+}
+
+void Graphics::sub_7100F35DC0(gsys::Layer* layer) {
+    _ad8->setLayer(layer);
+    _ad8->adjustTrimViewportToLayer();
 }
 
 void Graphics::sub_7100F35DB0() {
