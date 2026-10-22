@@ -198,4 +198,16 @@ void sub_71012A3240(agl::ShaderProgramArchive* archive, sead::Heap* heap) {
     program->setUniformBlockName(1, "UnitInfo");
 }
 
+void sub_710129F984(agl::ShaderProgramArchive* archive, sead::Heap* heap) {
+    agl::ShaderProgram* program =
+        archive->getShaderProgram(archive->searchShaderProgramIndex("preshading_filter"));
+    program->createShaderStorageBlock(4, heap);
+    program->setSamplerLocationName(2, "cDiffuse");
+    program->setSamplerLocationName(0, "cMaterialId");
+    program->setSamplerLocationName(1, "cEffect");
+    program->setSamplerLocationName(3, "cAnalyzedLight");
+    program->createUniformBlock(1, heap);
+    program->setUniformBlockName(0, "cContext");
+}
+
 }  // namespace ksys::gfx

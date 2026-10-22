@@ -690,4 +690,7 @@ void sub_71012A3240(agl::ShaderProgramArchive* archive, sead::Heap* heap);
 // 0x7101291958 (called by Graphics::init): the "analyze_actor" program's five texture sampler
 // locations and its cContext uniform block.
 void sub_7101291958(agl::ShaderProgramArchive* archive, sead::Heap* heap);
+// 0x710129f984 (called by Graphics::init): the "preshading_filter" program's four sampler locations
+// (indices 2/0/1/3) and its cContext uniform block.
+void sub_710129F984(agl::ShaderProgramArchive* archive, sead::Heap* heap);
 }  // namespace ksys::gfx
