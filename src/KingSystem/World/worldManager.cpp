@@ -21,6 +21,8 @@
 #include "KingSystem/GameData/gdtSaveMgr.h"
 
 namespace ksys::world {
+KSYS_VISIBILITY_HIDDEN extern const f32 cWindStrengthDivisor = 12.0f;
+
 
 bool Manager::sub_71010F3A94() {
     auto* player = act::ActorSystem::instance()->getPlayerLink();

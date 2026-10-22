@@ -141,15 +141,12 @@ f32 WindMgr::sub_71010EEF48() const {
     return _20->_8;
 }
 
-// NON_MATCHING: the constant load, multiplication schedule and upper clamp differ.
+// 0x710250d250 (placeholder name): the wind strength divisor the original loads directly. It is a
+// hidden-visibility object in another TU of the world system.
+KSYS_VISIBILITY_HIDDEN extern const f32 cWindStrengthDivisor;
+
 f32 WindMgr::sub_71010EEF04() const {
-    // The original constant at 0x710250d250 is 12.0f.
-    const f32 strength = _70._10 * ((_68 / 12.0f) * 15.0f);
-    if (strength < 0.0f)
-        return 0.0f;
-    if (strength > 1.0f)
-        return 1.0f;
-    return strength;
+    return sead::Mathf::clamp(((_68 / cWindStrengthDivisor) * 15.0f) * _70._10, 0.0f, 1.0f);
 }
 
 // NON_MATCHING: the inlined strength calculation has the same differences as sub_71010EEF04.
