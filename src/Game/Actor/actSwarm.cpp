@@ -106,24 +106,6 @@ void Swarm::UnitBody::sub_71002D79D8(Unit* unit) {
     body->addToWorld();
 }
 
-void Swarm::Unit::sub_71002D93E8(const sead::Matrix33f& rotation) {
-    sead::Matrix34CalcCommon<f32>::copy(_8, rotation, _8.getTranslation());
-}
-
-void Swarm::Unit::sub_71002D9434(const sead::Vector3f& position) {
-    sead::Vector3f world_position;
-    world_position.setMul(_b0->getMtx(), position);
-    _8.setTranslation(world_position);
-}
-
-void Swarm::Unit::sub_71002D94C8(sead::Vector3f* out) const {
-    if (out) {
-        _8.getTranslation(*out);
-        out->setMul(_b0->_15b8, *out);
-    }
-}
-
-// NON_MATCHING: sub_71002D9434 is out of line in the original; our merged swarm TU inlines it.
 void sub_71002D7668(Swarm::Unit* unit, const sead::Vector3f& position) {
     if (!unit)
         return;
@@ -206,11 +188,6 @@ void Swarm::BodyInfo::sub_71002D71C8(bool paused) {
         world_position.setMul(_20->getMtx(), _c);
         _18->changePosition(world_position, ksys::phys::KeepAngularVelocity{false});
     }
-}
-
-void Swarm::Unit::sub_71002DAA58(f32 opacity) {
-    if (_78)
-        Unk_710260af28::instance()->sub_7100F1DCA8(_78, opacity, false);
 }
 
 // NON_MATCHING: the per-unit opacity helper is inlined into this loop.
@@ -424,71 +401,3 @@ Swarm::InitResult Swarm::init_() {
 }
 
 }  // namespace uking::act
-
-// The body keeps the vtable store of the original, as in upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; }
-// (commit 96101229).
-uking::act::Swarm::Unit::~Unit() {
-    ;
-}
-
-// The body keeps the vtable store of the original, as in upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; }
-// (commit 96101229).
-Unk_71023d0d08::~Unk_71023d0d08() {
-    ;
-}
-
-// The body keeps the vtable store of the original, as in upstream's GameDataFlagSelector::~GameDataFlagSelector() { ; }
-// (commit 96101229).
-Unk_71023d0e08::~Unk_71023d0e08() {
-    ;
-}
-
-// Resets the unit: state flags, full opacity, identity pose, and re-registers its model with the owner.
-void uking::act::Swarm::Unit::m6() {
-    _b8 = 0;
-    _bc = 1.0f;
-    _8 = sead::Matrix34f::ident;
-    _d0 = 0;
-    _b0->sub_71011CED70(_78);
-    _b0->sub_71011C5630(_78);
-}
-
-void uking::act::Swarm::Unit::m8() {
-    _38.updateStats();
-    _8.setTranslation(_38.mean + _8.getTranslation());
-}
-
-bool uking::act::Swarm::Unit::m9() {
-    if (_78) {
-        _78->clearModelAccesssHandle();
-        _78->setFlagsA0(0x10);
-        if (_78->testFlagsA1(2))
-            return false;
-    }
-    return true;
-}
-
-// NON_MATCHING: the owner notification is inlined.
-void uking::act::Swarm::Unit::m10() {
-    _b0->sub_71002D484C(this);
-}
-
-Unk_71023d0d08::Unk_71023d0d08() = default;
-
-bool uking::act::Swarm::Unit::m4(Swarm* owner, sead::Heap* heap) {
-    _b0 = owner;
-    return sub_71002D9588(heap);
-}
-
-void uking::act::Swarm::Unit::m5() {
-    for (s32 i = 0; i < _98.size(); ++i)
-        _98[i].sub_7100FDD264();
-    _98.freeBuffer();
-    if (_78) {
-        gsys::Model::sub_7100BF69F8(_78);
-        _78 = nullptr;
-    }
-    for (s32 i = 0; i < _88.size(); ++i)
-        _88[i].requestUnload2();
-    _88.freeBuffer();
-}

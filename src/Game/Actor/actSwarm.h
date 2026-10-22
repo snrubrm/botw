@@ -38,7 +38,12 @@ public:
         SEAD_RTTI_BASE(Unit)
     public:
         Unit();
-        virtual ~Unit();
+        // The body keeps the vtable store of the original, as in upstream's
+        // GameDataFlagSelector::~GameDataFlagSelector() { ; } (commit 96101229). The inline body is what makes the
+        // derived units' destructors collapse to the base vtable store the original has.
+        virtual ~Unit() {
+            ;
+        }
         virtual bool m4(Swarm* owner, sead::Heap* heap);
         bool sub_71002D9588(sead::Heap* heap);
         virtual void m5();
