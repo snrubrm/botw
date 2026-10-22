@@ -53,6 +53,17 @@ bool sub_7100A90700(ksys::act::ActorLinkConstDataAccess* dst, ksys::act::BasePro
     return true;
 }
 
+// 0x7100a90938: writes the item name, or the same-group actor name when the actor is not a
+// "get item self" actor.
+bool sub_7100A90938(sead::SafeString& out, const sead::SafeString& name) {
+    auto* info = ksys::act::InfoData::instance();
+    if (!info || ksys::act::getSystemIsGetItemSelf(info, name.cstr())) {
+        out = name;
+        return false;
+    }
+    return ksys::act::getSameGroupActorName(&out, name);
+}
+
 // 0x7100a909c0 (placeholder name): whether sub_7100A90700 succeeds and finds a proc for `src`
 bool sub_7100A909C0(const ksys::act::ActorLinkConstDataAccess* src) {
     ksys::act::ActorLinkConstDataAccess actor;

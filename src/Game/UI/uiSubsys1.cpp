@@ -765,8 +765,10 @@ f32 UiSubsys1::sub_7100965EE0(f32 angle) const {
     return sub_7100AA0B6C(_850._2c + angle);
 }
 
-// NON_MATCHING: the x clamp is two conditional selects in ours; the original keeps the clamp's branches
-// (and moves w into the register in the second arm).
+// NON_MATCHING: the clamps are conditional selects in ours; the original keeps the clamp's branches (its
+// sead::Mathf::clamp is the branchy form) and negates half_width as (h + h) * -0.5.
+// The receiver is UiSubsys1::instance() (its sInstance GOT slot is 0x71025dbe20; the caller passes the
+// same object it cached at ScreenAppMapWidget+0x8d8), so the CSV owner is correct.
 // 0x7100965eec
 void UiSubsys1::sub_7100965EEC(f32 scale, sead::Vector2f* out) {
     f32 x = -_3868.x;
