@@ -125,9 +125,15 @@ class Unk_710251b2e8;
 // Placeholder name (SoundMgr::_b8, 0x10 bytes, constructor 0x71012d1cf0). Only the method SoundMgr calls is declared.
 class Unk_SoundMgrB8 {
 public:
-    // 0x71012d1f3c (declared only)
+    // 0x71012d1f3c: advances the counter at +0x8.
     void sub_71012D1F3C();
+
+    u8 _0[0x8];
+    /* 0x08 */ u32 _8;
+    u8 _c[0x4];
 };
+
+KSYS_CHECK_SIZE_NX150(Unk_SoundMgrB8, 0x10);
 
 // Placeholder name (SoundMgr::_2a0; the final output measure user, TU 0x71012c629c .. 0x71012c7350, see
 // sndSoundMgr2a0.cpp): watches the output level and reports volume and true peak overs.

@@ -36,6 +36,10 @@ Unk_710251b7a0::Unk_710251b7a0() = default;
 
 Unk_710251b7a0::~Unk_710251b7a0() = default;
 
+void Unk_SoundMgrB8::sub_71012D1F3C() {
+    ++_8;
+}
+
 // 0x71012d1f4c (declared only; placeholder name): the priority / interior setup behind _350.
 u32 sub_71012D1F4C(void* object, const xlink2::IEventCallbackSLink::EventArg& arg);
 
