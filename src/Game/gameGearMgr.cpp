@@ -193,23 +193,21 @@ KSYS_VISIBILITY_HIDDEN u8 sUnk_710243C14C = 0;
 // Selects the physics frame time instead of the VFR delta (0x7100669c8c).
 KSYS_VISIBILITY_HIDDEN u8 sUnk_71025C5D1C = 0;
 
-// NON_MATCHING: the request field order / flag merges differ slightly.
 void GearMgr::sub_7100669980() {
     ksys::Vibration::Unk2 request;
     ksys::sub_7100D8C6AC(&request._0);
+    request._25 = 0;
     if (!sUnk_71025C5D10) {
+        request._24 = u8(s32(sUnk_710243C1A0._24));
         request._18 = sUnk_710243C1A0._18;
         request._1c = sUnk_710243C1A0._1c;
-        request._20 = s32(std::ceil(sUnk_710243C1A0._20));
-        request._24 = u8(s32(sUnk_710243C1A0._24));
-        u8 flags = 0;
+        request._20 = sead::Mathf::ceil(sUnk_710243C1A0._20);
         if (sUnk_71025C5D14)
-            flags |= 1;
+            request._25 |= 1;
         if (sUnk_71025C5D18)
-            flags |= 2;
+            request._25 |= 2;
         if (sUnk_710243C14C)
-            flags |= 4;
-        request._25 = flags;
+            request._25 |= 4;
     } else {
         request._18 = 0;
         request._1c = 0;
@@ -239,8 +237,7 @@ bool GearMgr::sub_7100669B48() {
     return (_10b0[_2c ^ 1] >> 1) & 1;
 }
 
-// NON_MATCHING: block layout (the original branches to the end on `value < 0`) and the flag word is
-// loaded whole (`ldr` + `tbnz`) instead of as a byte.
+// NON_MATCHING: the flag word is loaded whole (`ldr` + `tbnz`) in the original, byte-wise here.
 bool GearMgr::sub_7100669A60(f32 value) {
     bool lowered = false;
     if (value >= 0.0f) {
