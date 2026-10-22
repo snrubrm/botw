@@ -4,6 +4,9 @@
 #include <math/seadMathCalcCommon.h>
 #include <evfl/ResActor.h>
 #include "Game/AutoPlacement/AutoPlacementMgr.h"
+#include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/GameData/gdtManagerInline.h"
+#include "KingSystem/System/UIGlue.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "Game/Actor/Player/actPlayerBase.h"
@@ -238,6 +241,76 @@ s32 apQueryWaterDistance(const evfl::QueryArg& arg) {
 
 s32 apQueryUnknown(const evfl::QueryArg& arg) {
     return 0;
+}
+
+// The ground materials the flow queries know about; apQueryGroundMat returns their table index.
+// NON_MATCHING: the original compares through sead::SafeString objects whose virtual
+// assureTermination calls our sead inlines away (library difference).
+static const char* sGroundMatNames[] = {
+    "Soil",      "Stone", "Rock",  "Sand", "Metal",      "Grass", "Ivy",  "Wood",
+    "Water",     "Snow",  "Ice",   "Lava", "HeavySand",  "Bog",   "HeavySnow",
+};
+
+// Returns the index of the current ground material in sGroundMatNames, or -1 if it is unknown.
+s32 apQueryGroundMat(const evfl::QueryArg& arg) {
+    const char* mat = getPlacementThing(arg)->getCurrentGroundMat();
+    for (s32 i = 0; i < 15; ++i) {
+        if (sead::SafeString(mat) == sGroundMatNames[i])
+            return i;
+    }
+    return -1;
+}
+
+// Returns the kind of the current water sub-material (0 Water, 1 Water_Ice, 2 Water_Hot,
+// 3 Water_Poison), or -1 for anything else.
+// NON_MATCHING: the original's sead::SafeString comparison calls assureTermination virtually;
+// our sead inlines the empty base implementation away (library difference).
+s32 apQueryWaterSubMat(const evfl::QueryArg& arg) {
+    const char* mat = getPlacementThing(arg)->getCurrentWaterSubMat();
+    if (sead::SafeString(mat) == "Water")
+        return 0;
+    if (sead::SafeString(mat) == "Water_Ice")
+        return 1;
+    if (sead::SafeString(mat) == "Water_Hot")
+        return 2;
+    if (sead::SafeString(mat) == "Water_Poison")
+        return 3;
+    return -1;
+}
+
+// Whether the "Label" game-data bool flag is set.
+// NON_MATCHING: only the stack slot of the "Label" key temporary differs (the original frame is
+// 16 bytes larger).
+s32 apQueryCheckGameData(const evfl::QueryArg& arg) {
+    ksys::gdt::Manager* mgr = ksys::gdt::Manager::instance();
+    if (!mgr)
+        return -1;
+
+    ore::StringView label;
+    if (!arg.param_accessor.FindString(&label, "Label"))
+        return -1;
+
+    bool value = false;
+    ksys::gdt::getBoolByNameNoBool2(mgr, &value, label.data());
+    return value;
+}
+
+// Whether the pouch holds at least "Count" items with the name "Actor".
+// NON_MATCHING: only the stack slots of the string views and the SafeString temporaries differ
+// (the original frame is 16 bytes larger).
+s32 apQueryCheckPouchItemCountFromActor(const evfl::QueryArg& arg) {
+    ore::StringView actor;
+    if (!arg.param_accessor.FindString(&actor, "Actor"))
+        return -1;
+
+    int count;
+    if (!arg.param_accessor.FindInt(&count, "Count"))
+        return -1;
+
+    sead::SafeString name;
+    name = actor.data();
+
+    return ksys::ui::getItemValue(name) >= count;
 }
 
 }  // namespace uking

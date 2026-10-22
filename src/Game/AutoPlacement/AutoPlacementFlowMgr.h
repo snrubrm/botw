@@ -77,5 +77,9 @@ s32 apQueryGrassHeight(const evfl::QueryArg& arg);
 s32 apQueryWaterSurface(const evfl::QueryArg& arg);
 s32 apQueryWaterDistance(const evfl::QueryArg& arg);
 s32 apQueryUnknown(const evfl::QueryArg& arg);
+s32 apQueryGroundMat(const evfl::QueryArg& arg);
+s32 apQueryWaterSubMat(const evfl::QueryArg& arg);
+s32 apQueryCheckGameData(const evfl::QueryArg& arg);
+s32 apQueryCheckPouchItemCountFromActor(const evfl::QueryArg& arg);
 
 }  // namespace uking
