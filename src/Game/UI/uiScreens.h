@@ -6033,17 +6033,24 @@ public:
     void sub_7100A45080();
     // NetworkCalcThread's Delegate2 callback (a44a34); its arguments are unused.
     void sub_7100A44B80(sead::Thread* thread, s64 message);
-    /* 0x3610 */ eui::Animator* _3610;
-    /* 0x3618 */ eui::Animator* _3618;
-    /* 0x3620 */ eui::Animator* _3620;
-    /* 0x3628 */ eui::Animator* _3628;
-    /* 0x3630 */ eui::AnimButton* _3630;
-    /* 0x3638 */ eui::AnimButton* _3638;
-    /* 0x3640 */ eui::AnimButton* _3640;
-    /* 0x3648 */ eui::LayoutEx* _3648;
-    /* 0x3650 */ eui::LayoutEx* _3650;
-    /* 0x3658 */ eui::LayoutEx* _3658;
-    /* 0x3660 */ eui::LayoutEx* _3660;
+    // 0x3610: the eleven control pointers. The constructor zero-initialises the whole 0x58-byte block
+    // with one memset (before the job records below are constructed), which only the value-initialised
+    // aggregate form produces.
+    struct ControlPtrs {
+        /* 0x3610 */ eui::Animator* _3610;
+        /* 0x3618 */ eui::Animator* _3618;
+        /* 0x3620 */ eui::Animator* _3620;
+        /* 0x3628 */ eui::Animator* _3628;
+        /* 0x3630 */ eui::AnimButton* _3630;
+        /* 0x3638 */ eui::AnimButton* _3638;
+        /* 0x3640 */ eui::AnimButton* _3640;
+        /* 0x3648 */ eui::LayoutEx* _3648;
+        /* 0x3650 */ eui::LayoutEx* _3650;
+        /* 0x3658 */ eui::LayoutEx* _3658;
+        /* 0x3660 */ eui::LayoutEx* _3660;
+    };
+    static_assert(sizeof(ControlPtrs) == 0x58);
+    /* 0x3610 */ ControlPtrs mControlPtrs;
     /* 0x3668 */ s32 _3668;
     s32 _366c;
     /* 0x3670 */ const ksys::StateBase* _3670;

@@ -3207,9 +3207,9 @@ void ScreenSaveTransferWindow::m106(eui::AnimButton* button) {
     const s32 tag = button->mTag;
     if (u32(tag - 0x8b) <= 2)
         _366c = tag;
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a4357c
@@ -3222,11 +3222,11 @@ void ScreenSaveTransferWindow::m154() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a43924
@@ -3239,11 +3239,11 @@ void ScreenSaveTransferWindow::m178() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a43a10
@@ -3256,11 +3256,11 @@ void ScreenSaveTransferWindow::m182() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a45da0
@@ -3272,11 +3272,11 @@ void ScreenSaveTransferWindow::sub_7100A45DA0() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a46124
@@ -3288,11 +3288,11 @@ void ScreenSaveTransferWindow::sub_7100A46124() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a46268
@@ -3304,11 +3304,11 @@ void ScreenSaveTransferWindow::sub_7100A46268() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a45fd0
@@ -3326,11 +3326,11 @@ void ScreenSaveTransferWindow::sub_7100A46004() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a44544
@@ -3342,11 +3342,11 @@ void ScreenSaveTransferWindow::sub_7100A44544() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a44458
@@ -3359,11 +3359,11 @@ void ScreenSaveTransferWindow::sub_7100A44458() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a44878
@@ -3376,11 +3376,11 @@ void ScreenSaveTransferWindow::sub_7100A44878() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a45080
@@ -3393,11 +3393,11 @@ void ScreenSaveTransferWindow::sub_7100A45080() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a43690
@@ -3409,11 +3409,11 @@ void ScreenSaveTransferWindow::m158() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a44394
@@ -3425,11 +3425,11 @@ void ScreenSaveTransferWindow::m210() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a43734
@@ -3856,11 +3856,11 @@ void ScreenSaveTransferWindow::m222() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a446f0
@@ -3937,11 +3937,11 @@ void ScreenSaveTransferWindow::m162() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a44964
@@ -3952,11 +3952,11 @@ void ScreenSaveTransferWindow::m238() {
     if (old_index == -1) {
         sub_7100A428D0();
     } else {
-        _3618->StopAtMax();
-        _3620->PlayAuto(1.0f);
-        _3630->setFlag10(false);
-        _3638->setFlag10(false);
-        _3640->setFlag10(false);
+        mControlPtrs._3618->StopAtMax();
+        mControlPtrs._3620->PlayAuto(1.0f);
+        mControlPtrs._3630->setFlag10(false);
+        mControlPtrs._3638->setFlag10(false);
+        mControlPtrs._3640->setFlag10(false);
     }
     SwkbdMgr::instance()->sub_710098590C();
     _3678 &= ~(1 << Flag(Flag::_0));
@@ -3976,11 +3976,11 @@ void ScreenSaveTransferWindow::m262() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a4408c
@@ -3994,11 +3994,11 @@ void ScreenSaveTransferWindow::m198() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a4429c
@@ -4012,11 +4012,11 @@ void ScreenSaveTransferWindow::m206() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a44184
@@ -4033,11 +4033,11 @@ void ScreenSaveTransferWindow::m202() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a43b64
@@ -4057,11 +4057,11 @@ void ScreenSaveTransferWindow::m186() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a4539c
@@ -4086,19 +4086,19 @@ void ScreenSaveTransferWindow::m266() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a456c0
 void ScreenSaveTransferWindow::m271() {
     ksys::Timer::update(&_379c, 1.0f);
     _3798 = (1.0f - 90.0f / (_379c + 90.0f)) * 0.05f;
-    if (_3620->mRate == 0)
-        _3628->Stop(_3798 * 100.0f);
+    if (mControlPtrs._3620->mRate == 0)
+        mControlPtrs._3628->Stop(_3798 * 100.0f);
     mLoadWork.reset(true);
     close(-1);
 }
@@ -4179,11 +4179,11 @@ void ScreenSaveTransferWindow::m250() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a45b6c
@@ -4222,11 +4222,11 @@ void ScreenSaveTransferWindow::m290() {
         sub_7100A428D0();
         return;
     }
-    _3618->StopAtMax();
-    _3620->PlayAuto(1.0f);
-    _3630->setFlag10(false);
-    _3638->setFlag10(false);
-    _3640->setFlag10(false);
+    mControlPtrs._3618->StopAtMax();
+    mControlPtrs._3620->PlayAuto(1.0f);
+    mControlPtrs._3630->setFlag10(false);
+    mControlPtrs._3638->setFlag10(false);
+    mControlPtrs._3640->setFlag10(false);
 }
 
 // 0x7100a460a4
