@@ -19,13 +19,12 @@ f32 calcAngleBetween(const sead::Vector3f& direction, const sead::Vector3f& vect
 
 }  // namespace
 
-// NON_MATCHING: same stores, only the order of the last three differs
 // 0x7100b8db30
 Cone::Cone() : mDirection(sead::Vector3f::zero) {
     mAngleStart = sead::Mathf::pi() / 16;
     mAngleEnd = sead::Mathf::pi() / 8;
-    mAngleRange = sead::Mathf::pi() / 16;
     mMatrix.makeZero();
+    mAngleRange = sead::Mathf::pi() / 16;
 }
 
 // 0x7100b8db88
