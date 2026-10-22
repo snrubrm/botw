@@ -4230,8 +4230,10 @@ void ScreenSaveTransferWindow::m290() {
 }
 
 // 0x7100a460a4
-// NON_MATCHING: the original reads the transfer state globals (sUnk_71025f2eb0._8 / ._c, default 6) into a
-// discarded local before the file check; the value never reaches the call, so ours drops those instructions.
+// NON_MATCHING: when both transfer state globals are zero the original materialises the default state id 6
+// in a local and reads it back through the stack before the file check; the value never reaches the call.
+// The store/load pair is the volatile SEAD_ENUM -> int conversion of that local; a plain int local is dead
+// and removed, so ours drops those four instructions (no volatile in game code).
 void ScreenSaveTransferWindow::m299() {
     if (_366c != 0x8b)
         return;
@@ -4242,8 +4244,9 @@ void ScreenSaveTransferWindow::m299() {
 }
 
 // 0x7100a461c8
-// NON_MATCHING: as m299, the original keeps a discarded read of the transfer state globals (default 6)
-// before changing state.
+// NON_MATCHING: as m299, the original materialises the default state id 6 in a local and reads it back
+// through the stack when both transfer state globals are zero (a volatile SEAD_ENUM -> int conversion);
+// ours drops the dead local.
 void ScreenSaveTransferWindow::m303() {
     switch (_366c) {
     case 0x8d:
