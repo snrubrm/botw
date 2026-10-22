@@ -281,9 +281,9 @@ public:
     // 0x710128f4bc: once flag bit 0 of _2ef8 is set, records the camera's world position, resets the
     // distance at 0x264 to 20 and asks the model at 0x268 to draw.
     void sub_710128F4BC(const sead::Camera* camera);
-    // 0x710128f9e0 (declaration only): walks the render-unit array Graphics::editorCallback3 passes
-    // (count at +0x38, elements at +0x40) and marks the matching name's flag.
-    void sub_710128F9E0(void* render_units);
+    // 0x710128f9e0 (declaration only): walks the model's unit access array and marks the matching
+    // name's flag.
+    void sub_710128F9E0(gsys::Model* model);
 
 private:
     u8 _0[0x240];
@@ -392,11 +392,13 @@ namespace gsys {
 // Method names are from the original's symbols; the argument block is a placeholder.
 class IResourceEditorCallback {
 public:
-    // Placeholder name: editorCallback0 tests +0x0 and editorCallback8 tests +0x8; editorCallback3
-    // forwards +0x0 to the Grudge renderer.
+    // The two models the editor callbacks work on. Both callees they reach walk the model's unit
+    // access array (count at +0x38, elements at +0x40, as in gsys::Model): editorCallback3 forwards
+    // +0x0 to the Grudge renderer and editorCallback8 passes +0x8 to the model effects manager.
+    // Placeholder names.
     struct Arg {
-        void* _0;
-        void* _8;
+        gsys::Model* _0;
+        gsys::Model* _8;
     };
 
     virtual void editorCallback0(const Arg& arg) {}

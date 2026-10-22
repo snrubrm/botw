@@ -81,9 +81,8 @@ public:
     s32 sub_7100F1C3E8();
     s32 sub_7100F1C774();
 
-    // 0x7100f1b9d0 (declaration only): walks the render-unit array Graphics::editorCallback8 passes
-    // (count at +0x38, elements at +0x40) and forwards each element.
-    void sub_7100F1B9D0(void* render_units);
+    // 0x7100f1b9d0 (declaration only): walks the model's unit access array and forwards each unit.
+    void sub_7100F1B9D0(gsys::Model* model);
 
     // 0x7100f1e4dc (declaration only): Bullet and GolemRootBase pass their model and an unsigned value converted to
     // float.
