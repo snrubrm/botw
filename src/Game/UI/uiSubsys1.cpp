@@ -198,6 +198,8 @@ UiSubsys1Entry** UiSubsys1::sub_71009595FC(UiSubsys1Entry* key) {
     return nullptr;
 }
 
+// NON_MATCHING: the original keeps this + 0x3840 in a callee-saved register across the mode lookups;
+// ours recomputes it for the UiTimer::init call (same instructions otherwise).
 // 0x7100960a1c: resets the map timer from the duration of the selected mode.
 void UiSubsys1::sub_7100960A1C() {
     _3830 = 0;
