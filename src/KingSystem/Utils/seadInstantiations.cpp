@@ -5,6 +5,7 @@
 #include <framework/seadTaskBase.h>
 #include <framework/seadTaskMgr.h>
 #include <framework/nx/seadGameFrameworkNx.h>
+#include <gsys/gsysSystemTask.h>
 #include <prim/seadDelegate.h>
 #include "Game/gameSaveSystem.h"
 #include "KingSystem/GameData/gdtManager.h"
@@ -205,6 +206,8 @@ template class Delegate2<GameConfig, SafeStringBase<char>&, GameConfig::ParamVal
 template class Delegate2<GameFrameworkNx, Thread*, long>;
 template class Delegate2<TaskMgr, Thread*, long>;
 template class Delegate1<FaderTaskBase, TaskBase*>;
+template class Delegate<FaderTaskBase>;
+template class Delegate<gsys::SystemTask>;
 
 using GameConfigDelegate2 = Delegate2<GameConfig, SafeStringBase<char>&, GameConfig::ParamValueType&>;
 using GameConfigContext =
