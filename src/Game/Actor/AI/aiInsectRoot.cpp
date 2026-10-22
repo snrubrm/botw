@@ -17,8 +17,6 @@ namespace uking::ai {
 
 InsectRoot::InsectRoot(const InitArg& arg) : CapturedActorRoot(arg) {}
 
-InsectRoot::~InsectRoot() = default;
-
 bool InsectRoot::init_(sead::Heap* heap) {
     return CapturedActorRoot::init_(heap);
 }

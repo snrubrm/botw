@@ -9,7 +9,7 @@ class InsectRoot : public CapturedActorRoot {
     SEAD_RTTI_OVERRIDE(InsectRoot, CapturedActorRoot)
 public:
     explicit InsectRoot(const InitArg& arg);
-    ~InsectRoot() override;
+    ~InsectRoot() override = default;
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;

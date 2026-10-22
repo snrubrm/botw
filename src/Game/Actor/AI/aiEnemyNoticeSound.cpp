@@ -8,8 +8,6 @@ namespace uking::ai {
 
 EnemyNoticeSound::EnemyNoticeSound(const InitArg& arg) : ksys::act::ai::Ai(arg) {}
 
-EnemyNoticeSound::~EnemyNoticeSound() = default;
-
 bool EnemyNoticeSound::isFinished() const {
     if (ksys::act::ai::Ai::isFinished())
         return true;
