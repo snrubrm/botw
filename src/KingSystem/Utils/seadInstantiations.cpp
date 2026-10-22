@@ -1,6 +1,10 @@
 #include <prim/seadSafeString.h>
 #include <container/seadTreeMap.h>
 #include <container/seadStrTreeMap.h>
+#include <math/seadVector.h>
+#include <nn/ui2d/TextureInfo.h>
+namespace ksys::vlt { class LayerHandle; }
+
 #include <devenv/seadGameConfig.h>
 #include <framework/seadTaskBase.h>
 #include <framework/seadTaskMgr.h>
@@ -213,5 +217,11 @@ using GameConfigDelegate2 = Delegate2<GameConfig, SafeStringBase<char>&, GameCon
 using GameConfigContext =
     StrTreeMap<64, GameConfig::ParamValueType>::ForEachConstContext<GameConfigDelegate2>;
 template class Delegate1<GameConfigContext, TreeMapNode<SafeStringBase<char>>*>;
+
+// The original keeps out-of-line Node erase_ / insert copies for these key sizes and values.
+template class StrTreeMap<32, Vector3f>;
+template class StrTreeMap<32, ksys::vlt::LayerHandle*>;
+template class StrTreeMap<32, bool>;
+template class StrTreeMap<64, long>;
 
 }  // namespace sead
