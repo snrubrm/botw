@@ -1,4 +1,5 @@
 #include "Game/Actor/actRideable.h"
+#include <basis/seadNew.h>
 #include "Game/gameHorseMgr.h"
 #include "Game/gameStatisticsMgr.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -17,6 +18,10 @@
 namespace uking::act {
 
 Unk_7100e8b2b8::Unk_7100e8b2b8() = default;
+
+Unk_7100e8b2b8* Unk_7100e8b2b8::sub_7100E8B24C(sead::Heap* heap) {
+    return new (heap, std::nothrow) Unk_7100e8b2b8();
+}
 
 Unk_7100e8b2b8::~Unk_7100e8b2b8() = default;
 

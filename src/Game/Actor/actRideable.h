@@ -66,6 +66,9 @@ public:
     Unk_7100e8b2b8();
     virtual ~Unk_7100e8b2b8();
 
+    // 0x7100e8b24c: allocates the rideable's second-base object (called by Motorcycle::prepareInit_).
+    static Unk_7100e8b2b8* sub_7100E8B24C(sead::Heap* heap);
+
     /*  2 */ virtual bool m4(ksys::act::Actor* actor, sead::Heap* heap);
     /*  3 */ virtual void m6();
     /*  4 */ virtual bool m17() { return false; }
