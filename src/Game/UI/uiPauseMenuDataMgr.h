@@ -28,8 +28,17 @@ enum class WeaponModifier : u32;
 struct WeaponModifierInfo;
 }  // namespace uking::act
 
+namespace evfl {
+struct QueryArg;
+}
+
 namespace uking {
 struct CookItem;
+class PauseMenuDataMgr;
+
+// 0x7100653b9c: the AutoPlacement flow query that counts pouch items by type (reads the manager's
+// per-type counts directly).
+s32 apQueryCheckPouchItemCount(const evfl::QueryArg& arg);
 }  // namespace uking
 
 namespace uking::ui {
@@ -549,6 +558,7 @@ public:
     s32 _44500 = -1;
 
 private:
+    friend s32(::uking::apQueryCheckPouchItemCount)(const ::evfl::QueryArg&);
     u32 _44504{};
     u32 _44508{};
     u32 _4450c{};

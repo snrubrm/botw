@@ -80,6 +80,7 @@ s32 apQueryUnknown(const evfl::QueryArg& arg);
 s32 apQueryGroundMat(const evfl::QueryArg& arg);
 s32 apQueryWaterSubMat(const evfl::QueryArg& arg);
 s32 apQueryCheckGameData(const evfl::QueryArg& arg);
+s32 apQueryCheckPouchItemCount(const evfl::QueryArg& arg);
 s32 apQueryCheckPouchItemCountFromActor(const evfl::QueryArg& arg);
 s32 apQueryCheckTimeType(const evfl::QueryArg& arg);
 

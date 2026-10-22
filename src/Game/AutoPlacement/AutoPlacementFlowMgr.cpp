@@ -7,6 +7,7 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
 #include "KingSystem/System/UIGlue.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/World/worldManager.h"
 #include <evfl/ResFlowchart.h>
 #include "KingSystem/Resource/resLoadRequest.h"
@@ -295,6 +296,39 @@ s32 apQueryCheckGameData(const evfl::QueryArg& arg) {
     bool value = false;
     ksys::gdt::getBoolByNameNoBool2(mgr, &value, label.data());
     return value;
+}
+
+// Whether the pouch holds at least "Count" items of the pouch item type "Type".
+s32 apQueryCheckPouchItemCount(const evfl::QueryArg& arg) {
+    int type;
+    int count;
+    ore::StringView type_key("Type");
+    ore::StringView count_key("Count");
+    if (!arg.param_accessor.FindInt(&type, type_key) ||
+        !arg.param_accessor.FindInt(&count, count_key))
+        return -1;
+
+    u32 value = 0;
+    switch (type) {
+    case 0:
+        value = ui::PauseMenuDataMgr::instance()->_44504;
+        break;
+    case 1:
+        value = ui::PauseMenuDataMgr::instance()->_44508;
+        break;
+    case 2:
+        value = ui::PauseMenuDataMgr::instance()->_4450c;
+        break;
+    case 3:
+        value = ui::PauseMenuDataMgr::instance()->_44514;
+        break;
+    case 4:
+        value = ui::PauseMenuDataMgr::instance()->_44510;
+        break;
+    default:
+        return -1;
+    }
+    return s32(value) >= count;
 }
 
 // Whether the pouch holds at least "Count" items with the name "Actor".
