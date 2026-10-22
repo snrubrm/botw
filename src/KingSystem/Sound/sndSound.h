@@ -122,7 +122,8 @@ class Unk_710251af30;
 
 class Unk_710251b2e8;
 
-// Placeholder name (SoundMgr::_b8, 0x10 bytes, constructor 0x71012d1cf0). Only the method SoundMgr calls is declared.
+// Placeholder name (SoundMgr::_b8, 0x10 bytes; polymorphic, vtable 0x710251bb28, ctor 0x71012d1f28).
+// Only the method SoundMgr calls is modelled; the vptr is left in _0 until the class and its base are.
 class Unk_SoundMgrB8 {
 public:
     // 0x71012d1f3c: advances the counter at +0x8.
