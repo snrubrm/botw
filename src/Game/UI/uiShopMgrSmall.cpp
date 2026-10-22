@@ -541,22 +541,32 @@ void UiShopMgr::sub_71009852C0(bool value) {
     }
 }
 
+// inline-only in the original; name is a guess (0x71009853F4 inlines this state membership test, which
+// shows up as the 0x2515 bit mask over the states 1, 3, 5, 9, 11 and 14).
+static bool isValidShopCallState(s32 state) {
+    switch (state) {
+    case 1:
+    case 3:
+    case 5:
+    case 9:
+    case 11:
+    case 14:
+        return true;
+    default:
+        return false;
+    }
+}
+
 // 0x71009853f4
-// NON_MATCHING: the state membership test and the case dispatch compare in a different order (the
-// original tests 1 / 14 / 3 and keeps the 5 / 9 / 11 labels in the bit mask).
+// NON_MATCHING: the membership test lowers to a shifted-mask compare (0x4a2a, ccmp) instead of the
+// original's subtract-then-test form (sub #1, mask 0x2515, lsr, tbz); the rest matches.
 bool UiShopMgr::sub_71009853F4() {
+    if (!isValidShopCallState(_30))
+        return false;
     NpcShopData* shop = _d0;
     if (!shop)
         return false;
     switch (_30) {
-    case 14:
-        if (shop->mItems.size() < 1)
-            return true;
-        for (s32 i = 0; i < shop->mItems.size(); ++i) {
-            if (sub_7100A98808(sub_7100A985DC(shop->mItems[i].name)) > 0)
-                return false;
-        }
-        return true;
     case 1:
     case 3:
         if (_d8 < 1)
@@ -566,12 +576,14 @@ bool UiShopMgr::sub_71009853F4() {
                 return false;
         }
         return true;
-    case 5:
-        return false;
-    case 9:
-        return false;
-    case 11:
-        return false;
+    case 14:
+        if (shop->mItems.size() < 1)
+            return true;
+        for (s32 i = 0; i < shop->mItems.size(); ++i) {
+            if (sub_7100A98808(sub_7100A985DC(shop->mItems[i].name)) > 0)
+                return false;
+        }
+        return true;
     default:
         return false;
     }
