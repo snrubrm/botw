@@ -22,6 +22,9 @@
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/ActorSystem/LOD/actLODMgr.h"
 #include "KingSystem/ActorSystem/Awareness/actAwareness.h"
 #include "KingSystem/ActorSystem/actReaction.h"
@@ -76,6 +79,47 @@ void sub_7100F3EE94() {
 
 // 0x7100e9cf78 (declared in another TU).
 void sub_7100E9CF78(bool value);
+
+// 0x710261f2f8 (placeholder: the object behind this pointer, a singleton next to the profiler /
+// video-recorder statics). Its log entry is a compiled-out va_list spill, so the parameter list is
+// unknown; the two callers pass none or (map type, map name).
+class Unk_710261f2f8 {
+public:
+    static Unk_710261f2f8* sInstance;
+    // 0x7100f3dcc0 (placeholder name).
+    void debugLog(...);
+};
+
+// 0x7100f3dbc0: the heap / reaction half of the stage-generation start. `param` is forwarded to the
+// reaction actor creation; when `flag` is set the debug logger runs too.
+void initBeforeStageGenA(sead::Heap* heap, void* param, bool flag) {
+    if (eft::Effect::instance())
+        eft::Effect::instance()->initBeforeStageGen(heap);
+    if (act::Reaction::instance())
+        act::Reaction::instance()->initBeforeStageGen(heap, util::getDebugHeap(),
+                                                      act::ActorCreator::instance(), param);
+
+    SystemTimers* timers = SystemTimers::instance();
+    if (!timers) {
+        SystemTimers::createInstance(heap);
+        timers = SystemTimers::instance();
+    }
+    if (timers)
+        timers->init();
+
+    if (phys::System::instance())
+        phys::System::instance()->initBeforeStageGen(heap);
+    if (flag) {
+        Unk_710261f2f8* logger = Unk_710261f2f8::sInstance;
+        if (logger)
+            logger->debugLog();
+    }
+    if (Graphics::instance())
+        Graphics::instance()->initBeforeStageGenA();
+    if (evt::Manager::instance())
+        evt::Manager::instance()->initBeforeStageGen();
+    sInitBeforeStageGenDone = true;
+}
 
 // 0x7100f3dcec: the manager half of the stage-generation start; every subsystem that exists runs its
 // initBeforeStageGenB (or the stage-gen init), then the grass state and the stage-gen flag are reset.

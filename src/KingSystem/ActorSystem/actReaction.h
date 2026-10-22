@@ -36,6 +36,7 @@ struct DamageReactionRequest;
 
 namespace ksys::act {
 class Actor;
+class ActorCreator;
 class ActorUnk6b8;
 class BaseProcLink;
 class Unk_71024f02a8;
@@ -155,6 +156,9 @@ class Reaction {
 public:
     // 0x7100ec0d1c (placeholder name; CSV nullsub_4046): empty in this build.
     void initBeforeStageGenB();
+    // 0x7100ec07b4 (declared only): requests the reaction actors; `creator` creates them on `create_heap`.
+    void initBeforeStageGen(sead::Heap* heap, sead::Heap* debug_heap, ActorCreator* creator,
+                            void* param);
     // Placeholder: the object at _a8 (class unknown). 0x7100ec66fc sets its _110 to 2; the actor
     // argument is unused. Called by OctarockOptionRoot::calc_ when the player touches the rock.
     struct Unk1 {

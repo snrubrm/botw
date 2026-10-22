@@ -101,6 +101,8 @@ public:
     void debugLog(const char* format, ...);
     // 0x71011b62e8: resets the effect level to 0x1e and the xlink user instance, if any.
     void initBeforeStageGenB();
+    // 0x71011b5fe8 (CSV Effect::initBeforeStageGen; declaration only).
+    void initBeforeStageGen(sead::Heap* heap);
     // 0x71011b88b0: adds a demo resource id to the fixed 32-entry table.
     void addDemoResourceId(u32 id);
     // 0x71011b8950: removes a demo resource id from the table (XLink::resolveDeleteVfxResource).

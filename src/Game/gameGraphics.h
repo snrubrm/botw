@@ -501,9 +501,10 @@ public:
     // 0x7100f2e2a4 (placeholder name; CSV Graphics::__auto1): refreshes the registered settings from the
     // object at 0xb38 (if its flag is set), then updates the objects at 0x388 / 0x3a0 / 0x3a8.
     void sub_7100F2E2A4();
-    // 0x7100f2dd98 (placeholder name; CSV nullsub_4128): empty in this build; initialises the graphics
-    // system for a stage generation.
+    // 0x7100f2dd98 / 0x7100f2dd9c (placeholder names; CSV nullsub_4128 / nullsub_4129): empty in this
+    // build; initialise the graphics system for a stage generation.
     void initBeforeStageGenB();
+    void initBeforeStageGenA();
 
     // 0x7100f2afac / 0x7100f2afe8 / 0x7100f2b024 (lane4 s64; placeholder names; CSV Graphics::__auto9 / __auto14 / x):
     // store a byte at +0xf5b / +0xf5d / +0xf5f under the lock at +0xf18 (values 0 .. 2 seen).
