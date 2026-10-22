@@ -244,7 +244,7 @@ public:
     void sub_710F03C18(const sead::Vector3f* pos);
     // 0x7100f06904 (placeholder name; the arguments are unused): flushes the UBOs of every unit's draw array.
     void sub_710F06904(map::PlacementMgr* mgr, bool a);
-    bool x_9();
+    u32 x_9();
     // 0x7100f06b48 (CSV x_2): resets the terrain tree object and allocates and clears every entry's u16
     // table (4960 entries if bit 0 of _8 is set, else 79360); state 2.
     void x_2();

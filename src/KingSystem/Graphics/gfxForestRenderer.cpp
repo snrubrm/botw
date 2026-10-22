@@ -163,24 +163,25 @@ void ForestRenderer::requestDraw() {
         slot.mModel->requestDraw();
 }
 
-// NON_MATCHING: only the schedule of the two GOT loads (the original loads both addresses first, then both bytes).
-// `sIsFinalTrial` is the byte at 0x2606855 (StageInfo statics are consecutive from 0x2606848).
-bool ForestRenderer::x_9() {
-    if (_54 >= 5 && _220 != 0) {
-        const bool stage = StageInfo::sIsNotDebugStageAndNotDungeon | StageInfo::sIsFinalTrial;
-        return _54 != 6 && stage;
-    }
-    return false;
+// NON_MATCHING: the arithmetic matches, but clang schedules the second GOT address after the first GOT load
+// (the original issues both adrp first) and duplicates the zero return block (+8 bytes).
+u32 ForestRenderer::x_9() {
+    if (_54 < 5 || _220 == 0)
+        return 0;
+    const bool stage = StageInfo::sIsNotDebugStageAndNotDungeon | StageInfo::sIsFinalTrial;
+    return _54 != 6 && stage;
 }
 
 // NON_MATCHING: the original copies this to x8 and sets the false result in w0 before the state 6 test.
 bool ForestRenderer::stopped() {
-    if (_54 >= 5 && _220 != 0) {
-        const bool stage = StageInfo::sIsNotDebugStageAndNotDungeon | StageInfo::sIsFinalTrial;
-        if (stage)
-            return _54 == 6 && (_50 & 1) != 0 && _60 > 3;
-    }
-    return true;
+    if (_54 < 5 || _220 == 0)
+        return true;
+    const bool stage = StageInfo::sIsNotDebugStageAndNotDungeon | StageInfo::sIsFinalTrial;
+    if (!stage)
+        return true;
+    if (_54 != 6 || (_50 & 1) == 0)
+        return false;
+    return _60 > 3;
 }
 
 // 0x7100f06cb0: counts a tree instance in the u16 table at 0x78; true if the entry handles that model.

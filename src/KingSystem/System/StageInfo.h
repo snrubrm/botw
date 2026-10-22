@@ -28,7 +28,7 @@ public:
 
     static void (*sChangeScene)(const sead::SafeString& map_name, const sead::SafeString& pos_name,
                                 int x, bool triggered_by_stage_select);
-    static bool sIsNotDebugStageAndNotDungeon;
+    static u8 sIsNotDebugStageAndNotDungeon;
     static bool sIsMainFieldDungeon;
     static bool sIsDungeon;
     static bool sIsCDungeon;
@@ -41,7 +41,7 @@ public:
     static bool sIsRemainsFire;
     static bool sIsRemainsWater;
     static bool sIsRemainsWind;
-    static bool sIsFinalTrial;
+    static u8 sIsFinalTrial;
     static bool sIsAocField;
     static bool sIsMainField;
 
