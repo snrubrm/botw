@@ -1325,6 +1325,47 @@ f32 sub_7101152E10() {
     return std::tan(sUnk_710250FC7C * sead::Mathf::pi2() / 360.0f * 0.5f);
 }
 
+// Placeholder name (CSV tera::MeshMgrMaybe::x 0x710115437c): terrains blade mesh manager prefix.
+// 0x710115437c builds its density report into a 0x400-byte string.
+struct MeshMgrMaybe {
+    struct Unk28 {
+        u8 _0[0x68];
+        s32 _68;
+    };
+    // 0x14-byte per-blade record; only the three density values are read.
+    struct Blade {
+        s32 _0;
+        s32 _4;
+        s32 _8;
+        s32 _c;
+        s32 _10;
+    };
+    static_assert(sizeof(Blade) == 0x14);
+
+    void x();
+
+    u8 _0[0x28];
+    Unk28* _28;
+    u8 _30[0x18];
+    sead::Buffer<Blade> mBlades;
+};
+
+// 0x710115437c: appends the manager count, then one block per blade's three density values. The
+// report string is not consumed (the original only builds it).
+void MeshMgrMaybe::x() {
+    sead::FixedSafeString<0x400> report;
+    report.appendWithFormat("MeshMgr: %4d.\n", _28->_68);
+    report.appendWithFormat("\n");
+    const s32 last = mBlades.size() - 1;
+    for (s32 i = 0; i <= last; ++i) {
+        Blade& blade = mBlades[i];
+        report.appendWithFormat("Blade%d.\n", i);
+        report.appendWithFormat("  Density = 1 : %4d.\n", blade._4);
+        report.appendWithFormat("  Density(0,1): %4d.\n", blade._8);
+        report.appendWithFormat("  Density = 0 : %4d.\n", blade._c);
+    }
+}
+
 // ApertureMapsCollector::Unk_2948 code (0x7101127xxx) follows sub_7101123224; in teraScene.cpp it would inline into
 // ApertureMapsCollector::sub_71010FFE70, which calls it.
 void ApertureMapsCollector::Unk_2948::sub_710112727C(Unk_71010FEDBC* a, Unk_71010FEDBC* b, Unk_71010FEDBC* c,
