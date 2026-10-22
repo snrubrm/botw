@@ -193,6 +193,10 @@ public:
     uking::act::Unk_7102459cc0* getCamera() const {
         if (_1d118)
             return nullptr;
+        return getCameraActor();
+    }
+    // inline-only in the original; name is a guess
+    uking::act::Unk_7102459cc0* getCameraActor() const {
         return static_cast<uking::act::Unk_7102459cc0*>(_1d100);
     }
 

@@ -18,6 +18,21 @@ bool isCameraAnimAction(const sead::SafeString& name) {
            name == "Demo_AnimFlowForMapTower" || name == "Demo_CameraAnimFlowAbs";
 }
 
+// 0x7100da3db4
+CameraSystem::~CameraSystem() {
+    _20.freeBuffer();
+    _10.freeBuffer();
+
+    if (auto* mgr = Manager::instance()) {
+        if (auto* camera = mgr->getCamera()) {
+            if (camera->m158() == &mAnimSource)
+                Manager::instance()->getCameraActor()->m157(nullptr, sead::Matrix34f::ident);
+        }
+    }
+
+    delete _2c0;
+}
+
 // 0x7100da3d14
 bool CameraSystem::sub_7100DA3D14(void*) {
     bool all_success = true;
