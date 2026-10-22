@@ -81748,7 +81748,7 @@ Address,Quality,Size,Name
 0x0000007100f14fc4,U,000428,ksys::gfx::PrePassLightMgr::calcView
 0x0000007100f15170,O,000148,_ZNK4ksys3gfx15PrePassLightMgr9updateGPUEv
 0x0000007100f15204,m,000428,_ZNK4ksys3gfx15PrePassLightMgr13updateViewGPUEiPKv
-0x0000007100f153b0,U,000332,ksys::gfx::PrePassLightMgr::draw
+0x0000007100f153b0,m,000332,_ZNK4ksys3gfx15PrePassLightMgr4drawEPviPKvS2_
 0x0000007100f154fc,m,000260,_ZNK4ksys3gfx15PrePassLightMgr9drawDebugEPviPKv
 0x0000007100f15600,m,000260,_ZNK4ksys3gfx15PrePassLightMgr13drawDebugTestEPviPKv
 0x0000007100f15704,O,000008,_ZNK4ksys3gfx15PrePassLightMgr11getLightMaxEv
