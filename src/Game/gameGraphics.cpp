@@ -269,6 +269,13 @@ void Graphics::sub_7100F2FF08(f32 ratio, f32 scale) {
     setEnvMaterialParamF32("uking_dynamic_world_shadow_off", shadowRatio * ((1.0f - _e8c) - 1.0f) + 1.0f);
 }
 
+// 0x7100f300d0 (placeholder name): sets the demo toon light adjust colour parameter on the
+// environment unit's current material.
+void Graphics::sub_7100F300D0(const sead::Color4f& color) {
+    auto lock = sead::makeScopedLock(_ed8);
+    setMaterialParamColor4f(_ea8, _f58, "uking_dynamic_toon_light_adjust_for_demo", color);
+}
+
 void Graphics::sub_7100F2E0F4(gsys::ModelNW* model, const nn::gfx::ResTexture* texture) {
     if (!texture) {
         model->setDisplayListDirty();

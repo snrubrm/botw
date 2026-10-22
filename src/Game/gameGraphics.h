@@ -502,6 +502,10 @@ public:
     // the lock at +0xf18.
     void sub_7100F2AF70(u8 map);
 
+    // 0x7100f300d0 (placeholder name): sets the demo toon light adjust colour parameter on the
+    // environment unit's current material.
+    void sub_7100F300D0(const sead::Color4f& color);
+
     // 0x7100f2e2a4 (placeholder name; CSV Graphics::__auto1): refreshes the registered settings from the
     // object at 0xb38 (if its flag is set), then updates the objects at 0x388 / 0x3a0 / 0x3a8.
     void sub_7100F2E2A4();
@@ -582,6 +586,15 @@ public:
     void setEnvMaterialParamF32(const char* name, f32 value) {
         auto lock = sead::makeScopedLock(_ed8);
         setMaterialParamF32(_ea8, _f58, name, value);
+    }
+    // inline-only in the original; name is a guess: the Colour4f twin of setMaterialParamF32, inlined
+    // in 0x7100f300d0 (the only user in this TU).
+    static void setMaterialParamColor4f(gsys::ModelUnit* unit, s32 material,
+                                        const sead::SafeString& name,
+                                        const sead::Color4f& value) {
+        const s32 index = unit->searchMaterialParamIndex(material, name);
+        if (index != -1)
+            unit->setMaterialParamColor4f(material, index, value);
     }
 
     // 0x7100f35e54: settings currently registered by the rune / magnesis managers.
