@@ -14,6 +14,8 @@ namespace sead {
 class Camera;
 }
 
+void nullsub_2452(sead::Heap* heap);
+
 namespace ksys::act {
 class ActorCaptureMgr;
 }

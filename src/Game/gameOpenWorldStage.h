@@ -6,6 +6,8 @@
 #include "KingSystem/System/DebugBoard.h"
 #include "KingSystem/System/StringBoard.h"
 #include "KingSystem/Map/mapMapProperties.h"
+#include <container/seadBuffer.h>
+#include <heap/seadHeap.h>
 
 namespace ksys {
 class Unk_71024dd110;
@@ -61,15 +63,13 @@ public:
 
 private:
     /* 0x10 */ Unk_710245b4f8 mTransceiver;
-    /* 0xd8 */ void* _d8 = nullptr;
+    /* 0xd8 */ sead::Heap* _d8 = nullptr;
     /* 0xe0 */ ksys::act::Actor* mPlayer = nullptr;
     /* 0xe8 */ GameScene::sb mDrawMethods;
     // The sb init buffer (mDrawMethods.init(1, this + 0x110)).
     u8 _110[0x178 - 0x110];
     /* 0x178 */ u64 _178 = 0;
-    /* 0x180 */ u32 _180 = 0;
-    u8 _184[0x188 - 0x184];
-    /* 0x188 */ u64 _188 = 0;
+    /* 0x180 */ sead::Buffer<u8> _180;  // element type unknown; only freeBuffer() is seen
     /* 0x190 */ ksys::phys::RigidBodyDividedMeshShapeMgr* mDividedMeshShapeMgr = nullptr;  // created by init
     /* 0x198 */ ksys::phys::Unk_71024f8d68* _198 = nullptr;
     /* 0x1a0 */ sead::FixedSafeString<32> mMapType;

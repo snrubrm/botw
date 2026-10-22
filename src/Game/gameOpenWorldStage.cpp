@@ -10,6 +10,11 @@
 #include "Game/gameStage.h"
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include "Game/gameHorseMgr.h"
+#include "Game/gameWildHorseMgr.h"
+#include "Game/gameDragonChallengeMgr.h"
+#include "KingSystem/AOC/aocManager.h"
+#include "Game/gameNavMeshSystem.h"
+#include <gsys/gsysResourceEditor.h>
 #include "Game/gameLastBossMgr.h"
 #include "Game/gameMotorcycleMgr.h"
 #include "Game/Scene/gameScene.h"
@@ -149,6 +154,32 @@ void OpenWorldStage::initForStageGen() {
 
 s32 OpenWorldStage::getType() {
     return 0;
+}
+
+void OpenWorldStage::unload() {
+    ksys::phys::HavokAI::instance()->_48->sub_7100F898E4();
+    NavMeshSystem::deleteInstance();
+    if (ksys::world::Manager::instance()) {
+        ksys::world::Manager::instance()->unload();
+        ksys::world::Manager::instance()->unload2();
+    }
+    callRoot4Stuff();
+    if (auto* scene = Graphics::instance()->mModelScenes[0]) {
+        scene->mEnv.clearImpl(scene->mEnv.getDataSets(), scene->mEnv.get_b40());
+        scene->clearParticleGroup(-1);
+    }
+    if (auto* scene = Graphics::instance()->mModelScenes[1])
+        scene->mEnv.clearImpl(scene->mEnv.getDataSets(), scene->mEnv.get_b40());
+    nullsub_2452(_d8);
+    gsys::ResourceEditor::instance()->sub_7100C5D3E0(nullptr, true);
+    m13();
+    LastBossMgr::deleteInstance();
+    if (auto* aoc = ksys::aoc::Manager::instance(); aoc && aoc->getVersion())
+        DragonChallengeMgr::deleteInstance();
+    WildHorseMgr::deleteInstance();
+    ksys::eco::Ecosystem::instance()->setFlag0(false);
+    _180.freeBuffer();
+    _d8->destroy();
 }
 
 bool OpenWorldStage::unloadOk() {
