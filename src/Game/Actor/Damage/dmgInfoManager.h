@@ -340,6 +340,10 @@ private:
         void init(sead::Heap* heap);
         // 0x7100672e48 (postCalc): declaration only.
         void sub_7100672E48();
+        // 0x71006732cc (declared only): the radius query worker; the wrapper below passes 25.
+        void sub_71006732CC(u32 count, f32 value);
+        // 0x710067343c (placeholder name): tail-calls sub_71006732CC(25, value).
+        void sub_710067343C(f32 value);
         bool sub_7100673444(const sead::Vector3f& position) const;
 
         /* 0x00 */ sead::Buffer<Entry> mLinks;

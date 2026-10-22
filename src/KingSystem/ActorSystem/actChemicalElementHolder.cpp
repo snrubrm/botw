@@ -267,4 +267,43 @@ void Unk_71024dd490::sub_7100D9AE5C() {
     _c8 |= 0x80;
 }
 
+void Unk_71024dd490::sub_7100D9AE24(sead::Vector3f value) {
+    _c8 |= 0x20;
+    _188 = value;
+}
+
+void Unk_71024dd490::sub_7100D9AE40(sead::Vector3f value) {
+    _c8 |= 0x40;
+    _188 = value;
+}
+
+// NON_MATCHING: the original loads _c8 before building the mask (ours loads it after the csel) and
+// schedules the fourth store of b after the mask store.
+void Unk_71024dd490::sub_7100D9ADEC(bool on, sead::Vector3f a, sead::Vector3f b, f32 value) {
+    _c8 |= on ? 0x108 : 0x8;
+    _170 = a;
+    _17c = b;
+    _194 = value;
+}
+
+// NON_MATCHING: the original loads _c8 before building the mask; ours loads it after the csel.
+void Unk_71024dd490::sub_7100D9ADB0(bool on, sead::Vector3f a, sead::Vector3f b, f32 value) {
+    _c8 |= on ? 0x110 : 0x10;
+    _170 = a;
+    _17c = b;
+    _194 = value;
+}
+
+// NON_MATCHING: the original's bounds guard folds the negative-index test into the ccmp chain
+// (`cmp; ccmp #4, hi; b.le`); every source form tried here gives `cmp; b.ls`.
+void* Unk_71024dd490::sub_7100D9AE6C(s32 index) const {
+    if (u32(_f8.size()) <= u32(index))
+        return nullptr;
+    return _f8.data()[index];
+}
+
+s32 Unk_71024dd490::sub_7100D9AE90() const {
+    return _f8.size();
+}
+
 }  // namespace ksys::act

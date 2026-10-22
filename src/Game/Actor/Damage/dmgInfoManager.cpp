@@ -28,6 +28,10 @@ void DamageInfoMgr::UnkCe0::init(sead::Heap* heap) {
     mLinks.tryAllocBuffer(s32(mCount), heap);
 }
 
+void DamageInfoMgr::UnkCe0::sub_710067343C(f32 value) {
+    sub_71006732CC(25, value);
+}
+
 // Whether fewer than GlobalParameter's ForceNoticeEnemyCount listed actors are near `position`. The list is
 // only read here; the lock is used by the insert/remove functions.
 bool DamageInfoMgr::UnkCe0::sub_7100673444(const sead::Vector3f& position) const {

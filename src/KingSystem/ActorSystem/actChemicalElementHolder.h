@@ -127,6 +127,16 @@ public:
     bool sub_7100D9D52C() const;
     // 0x7100d9ae5c (placeholder name): sets flag 0x80 in _c8.
     void sub_7100D9AE5C();
+    // 0x7100d9ae24 / 0x7100d9ae40 (placeholder names): store a vector at _188 and set _c8 bit 5 / 6.
+    void sub_7100D9AE24(sead::Vector3f value);
+    void sub_7100D9AE40(sead::Vector3f value);
+    // 0x7100d9adec / 0x7100d9adb0 (placeholder names): store two vectors at _170 / _17c, a value at
+    // _194 and set the _c8 0x8+0x100 / 0x10+0x100 bits.
+    void sub_7100D9ADEC(bool on, sead::Vector3f a, sead::Vector3f b, f32 value);
+    void sub_7100D9ADB0(bool on, sead::Vector3f a, sead::Vector3f b, f32 value);
+    // 0x7100d9ae6c / 0x7100d9ae90: the bounds-checked _f8 element getter and _f8 size.
+    void* sub_7100D9AE6C(s32 index) const;
+    s32 sub_7100D9AE90() const;
     // 0x7100d99fec .. 0x7100d9a1b8 (placeholder names): the floats sUnk_71024DD450 ..
     // sUnk_71024DD488 (.data, read only by these getters).
     f32 sub_7100D99FEC() const;
@@ -207,11 +217,10 @@ public:
     s32 _160 = 0;
     s32 _164 = 2;
     void* _168 = nullptr;
-    void* _170 = nullptr;
-    void* _178 = nullptr;
-    void* _180 = nullptr;
-    u8 _188[0x194 - 0x188];
-    s32 _194 = 0;
+    /* 0x170 */ sead::Vector3f _170;
+    /* 0x17c */ sead::Vector3f _17c;
+    /* 0x188 */ sead::Vector3f _188;
+    /* 0x194 */ f32 _194 = 0;
     // D9A1D0 clears these; D9C0CC selects a Chemical and activates the request.
     bool _198 = false;
     s32 _19c = 0;
