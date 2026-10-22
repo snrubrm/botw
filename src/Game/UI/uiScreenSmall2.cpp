@@ -2287,6 +2287,18 @@ void ScreenSeekPadMenuBG::sub_7100A4A91C() {
     }
 }
 
+// 0x7100a4a988
+void ScreenSeekPadMenuBG::stopTypeAnimAtMin() {
+    if (_3610)
+        _3610->StopAtMin();
+}
+
+// 0x7100a4a9a0
+void ScreenSeekPadMenuBG::stopTypeAnimAtMax() {
+    if (_3610)
+        _3610->StopAtMax();
+}
+
 // 0x7100a4dd8c
 void ScreenShopBtnList5::m93(sead::Heap*) {
     _3618 = mLayout->createAnimatorAuto("Type", true);
