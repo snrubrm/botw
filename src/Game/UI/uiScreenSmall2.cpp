@@ -2111,8 +2111,10 @@ void ScreenAppSystemWindowNoBtn::m93(sead::Heap*) {
 
 namespace {
 // 0x7102483440: message set, label and text widget of ScreenAppSystemWindowNoBtn::m98
-const sead::SafeString sAppSystemWindowNoBtnText[] = {"LayoutMsg/AppSystemWindowNoBtn_00", "0002",
-                                                      "T_Text_00"};
+const sead::SafeString sAppSystemWindowNoBtnText[] = {
+    sead::SafeString(sead::SafeString::ConstInitTag{}, "LayoutMsg/AppSystemWindowNoBtn_00"),
+    sead::SafeString(sead::SafeString::ConstInitTag{}, "0002"),
+    sead::SafeString(sead::SafeString::ConstInitTag{}, "T_Text_00")};
 }  // namespace
 
 namespace {
@@ -2936,7 +2938,10 @@ void ScreenHardMode::sub_7100A0BAE4() {
 }
 
 // The message set of ScreenPauseMenuMantan (a constant object in the original, 0x71024929e8).
-static const sead::SafeString sUnk_71024929e8 = "LayoutMsg/PauseMenuMantan_00";
+// Constant-initialised into .data in the original (0x71024929e8). The tag keeps this site
+// constant without turning every literal SafeString in the tree into a .data object.
+static const sead::SafeString sUnk_71024929e8(sead::SafeString::ConstInitTag{},
+                                               "LayoutMsg/PauseMenuMantan_00");
 
 // 0x7100a31fa4
 void ScreenPauseMenuMantan::sub_7100A31FA4(s32 index) {

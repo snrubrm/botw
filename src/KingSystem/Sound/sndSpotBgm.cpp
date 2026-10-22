@@ -415,8 +415,9 @@ void Unk_7102500b50::m5() {
 
 namespace {
 // 0x7102500c90 / 0x7102500ca0
-sead::SafeString sStr_main_00 = "main_00";
-sead::SafeString sStr_main_01 = "main_01";
+// Constant-initialised into .data in the original (0x7102500c90 / 0x7102500ca0).
+sead::SafeString sStr_main_00(sead::SafeString::ConstInitTag{}, "main_00");
+sead::SafeString sStr_main_01(sead::SafeString::ConstInitTag{}, "main_01");
 }  // namespace
 
 // 0x7101022a38 (unnamed in the CSV): the stream region callback of Unk_7102500b50.
