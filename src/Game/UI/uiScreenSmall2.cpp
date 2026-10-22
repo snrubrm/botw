@@ -4276,6 +4276,126 @@ void ScreenSaveTransferWindow::m310() {
 
 
 
+// NON_MATCHING: the clamp's select comes out with the gt predicate; the original's clampMax is the
+// `val < max ? val : max` form (fcmp/fcsel lt) and it shares that compare with the branch.
+// 0x7100a454d8
+void ScreenSaveTransferWindow::m267() {
+    if (sUnk_71025f2eb0._c != 0) {
+        const f32 next = _3798 + 1.0f / 120.0f;
+        _3798 = sead::Mathf::clampMax(next, 1.0f);
+        if (next >= 1.0f)
+            getStateMachine().changeState(&sUnk_71025f2ba0);
+        if (mControlPtrs._3620->mRate == 0)
+            mControlPtrs._3628->Stop(_3798 * 100.0f);
+        return;
+    }
+
+    ksys::Timer::update(&_379c, 1.0f);
+    _3798 = (1.0f - 90.0f / (_379c + 90.0f)) * 0.05f;
+    if (mControlPtrs._3620->mRate == 0)
+        mControlPtrs._3628->Stop(_3798 * 100.0f);
+
+    switch (s32(mLoadWork.mState)) {
+    case 3:
+        getStateMachine().changeState(&sUnk_71025f2a20);
+        break;
+    case 0:
+    case 4:
+        ksys::gdt::setFlag_STErrorCode(mLoadWork.mError, false);
+        mLoadWork.reset(true);
+        _3788 = "0066";
+        getStateMachine().changeState(&sUnk_71025f2cc0);
+        break;
+    }
+}
+
+// 0x7100a45770
+void ScreenSaveTransferWindow::m274() {
+    _3718.mHeap = nullptr;
+    if (sUnk_71025f2eb0._c != 0) {
+        _366c = -1;
+        const s32 old_index = _3668;
+        _3668 = 5;
+        _3798 = 0;
+        if (old_index == -1) {
+            sub_7100A428D0();
+            return;
+        }
+        mControlPtrs._3618->StopAtMax();
+        mControlPtrs._3620->PlayAuto(1.0f);
+        mControlPtrs._3630->setFlag10(false);
+        mControlPtrs._3638->setFlag10(false);
+        mControlPtrs._3640->setFlag10(false);
+        return;
+    }
+
+    if (mLoadWork.mState != 3) {
+        mLoadWork.reset(true);
+        ksys::gdt::setFlag_STErrorCode(mLoadWork.mError, false);
+        _3788 = "0066";
+        getStateMachine().changeState(&sUnk_71025f2cc0);
+        return;
+    }
+
+    if (!_3718.queue(mLoadWork.mData, mLoadWork.mSize)) {
+        mLoadWork.reset(true);
+        ksys::gdt::setFlag_STErrorCode(_3718.mError, false);
+        _3788 = "0066";
+        getStateMachine().changeState(&sUnk_71025f2cc0);
+    }
+}
+
+// 0x7100a4630c
+void ScreenSaveTransferWindow::m315() {
+    switch (_367a) {
+    case 1:
+        switch (s32(mSaveWork.mState)) {
+        case 0:
+        case 3:
+        case 4:
+            mSaveWork.reset(true);
+            getStateMachine().changeState(&sUnk_71025f2de0);
+            break;
+        }
+        break;
+    case 2:
+        switch (s32(mLoadWork.mState)) {
+        case 0:
+        case 3:
+        case 4:
+            mLoadWork.reset(true);
+            getStateMachine().changeState(&sUnk_71025f2de0);
+            break;
+        }
+        break;
+    case 3:
+        switch (s32(_3718.mState)) {
+        case 0:
+        case 3:
+        case 4:
+            _3718.reset();
+            getStateMachine().changeState(&sUnk_71025f2de0);
+            break;
+        }
+        break;
+    case 4:
+        switch (s32(_3760.mState)) {
+        case 0:
+        case 3:
+        case 4:
+            _3760.reset();
+            getStateMachine().changeState(&sUnk_71025f2de0);
+            break;
+        }
+        break;
+    default:
+        close(-1);
+        break;
+    }
+}
+
+
+
 ScreenChild* sub_7100A17160(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) {
     auto* layout_ex = nn::font::DynamicCast<eui::LayoutEx>(layout);
     if (!layout_ex || !layout_ex->mScreen || !layout_ex->mScreen->mInitializeHeap)

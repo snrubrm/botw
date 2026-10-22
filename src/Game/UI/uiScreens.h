@@ -5525,7 +5525,7 @@ u32 sub_7100A92180(const sead::SafeString& name, s32 a2, s32 a3);
 u32 sub_7100A91E84(const sead::SafeString& name, s32 type, s32 a3, bool flag);
 // 0x7100a90938 (CSV unnamed): copies `name` into `out`, or the same-group actor name of `name` when the
 // item is not "get item self".
-void sub_7100A90938(sead::SafeString& out, const sead::SafeString& name);
+bool sub_7100A90938(sead::SafeString& out, const sead::SafeString& name);
 // 0x7100a90e40 (CSV unnamed): the trade state of the item for the shop states 3 / 7 / 8 and the rest
 // (payment check through the rupee / mamo flags; `a4` is the item count).
 u32 sub_7100A90E40(const sead::SafeString& name, s32 a2, s32 a3, s32 a4);
@@ -5938,6 +5938,9 @@ extern const ksys::StateBase sUnk_71025f26c0;
 extern const ksys::StateBase sUnk_71025f2840;
 extern const ksys::StateBase sUnk_71025f2900;
 extern const ksys::StateBase sUnk_71025f2cc0;
+// m267's targets (0x71025f2a20 / 0x71025f2ba0).
+extern const ksys::StateBase sUnk_71025f2a20;
+extern const ksys::StateBase sUnk_71025f2ba0;
 // The save transfer's static state block (0x71025f2eb0): the transfer state at +0xc and its mode at +0x10.
 struct Unk_71025f2eb0 {
     u8 _0[0x8];
