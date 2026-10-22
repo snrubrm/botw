@@ -237,9 +237,10 @@ public:
     void setDrawTargetMaybe(u8 target);
     // 0x7100be9dd4 (placeholder name): stops the layout's open animator at `frame`
     void sub_7100BE9DD4(f32 frame);
+    // 0x7100beb708: empty in the original.
+    void createRestAnimators_();
     // 0x7100be9880
-    void setOwnInitializeHeap(bool own);
-    bool isOwnInitializeHeap() const { return _107 & 1; }
+    void setOwnInitializeHeap(bool own);    bool isOwnInitializeHeap() const { return _107 & 1; }
     sead::Heap* getInitializeHeap() const { return mInitializeHeap; }
     s32 getId() const { return mId; }
     bool hasFlag4() const { return _107 & 4; }

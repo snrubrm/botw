@@ -213,6 +213,9 @@ void Screen::update() {
         _f0->m0();
 }
 
+// 0x7100beb708
+void Screen::createRestAnimators_() {}
+
 // NON_MATCHING: native iterator copies and redundant end-node checks remain in different form.
 // 0x7100bea3d0
 void Screen::updateAnimator_() {

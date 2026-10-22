@@ -4,6 +4,12 @@
 
 namespace eui {
 
+// 0x7100bf40ec
+ConstantBuffer::InitConfig::InitConfig() = default;
+
+// 0x7100bf40fc
+ConstantBuffer::ConstantBuffer() = default;
+
 // 0x7100bf42f8
 void ConstantBuffer::map() {
     if (_1a9) {

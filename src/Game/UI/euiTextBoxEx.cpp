@@ -62,6 +62,9 @@ TextBoxEx::TextBoxEx(const TextBoxEx& other, LayoutEx* layout)
     }
 }
 
+// 0x7100be27d0
+void TextBoxEx::setTextOverWarningMargin(f32 margin) {}
+
 // 0x7100be2e2c
 void TextBoxEx::m48(ListNode* controls, LayoutEx* layout) {
     f32 speed;

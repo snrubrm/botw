@@ -7,6 +7,9 @@ namespace eui {
 // 0x7100bd7b74
 ButtonGroup::ButtonGroup() = default;
 
+// 0x7100bd7ba4
+ButtonGroup::~ButtonGroup() = default;
+
 
 // 0x7100bd81d0
 ButtonBase* ButtonGroup::FindControlByName(const char* name) {

@@ -45,6 +45,9 @@ public:
 
     void processAppTag(sead::IDelegate1<const sead::MessageSet<char16>::TagInfo*>* callback);
 
+    // 0x7100be27d0: empty in the original.
+    void setTextOverWarningMargin(f32 margin);
+
     // Convenience forms of the page-processing virtual.
     u16 setMessageString(const MessageString& string, void* user_data);
     u16 setMessageStringWithPage(const MessageString& string, bool* has_next_page, u32 page,
