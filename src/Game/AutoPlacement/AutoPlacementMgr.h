@@ -115,6 +115,9 @@ public:
     // `pos` (0 if there is none).
     f32 sub_7100659230(const sead::Vector3f& pos);
     f32 sub_71006592E8(const sead::Vector3f& pos);
+    // Inline-only accessors used by the AutoPlacement flow queries (guessed names).
+    void* const* getTreeRateStatsMaybe() const { return &_189db8; }
+    void* const* getRouteDistanceStatsMaybe() const { return &_189dc0; }
     // 0x7100659de0 (CSV AutoPlacementMgr::__auto3, declaration only): increments (`enable`) or decrements the
     // atomic counter of kind `type` (0-6) at 0x171e4c; incrementing also stores 5 at 0x171e68 + type.
     void sub_7100659DE0(int type, bool enable);
@@ -212,7 +215,8 @@ public:
     u8 _172480[0x189db0 - 0x172480];
     // Statistics pointers (StatisticsMgr::getStatsPointer results) used by sub_7100659230 / sub_71006592E8.
     void* _189db0;
-    u8 _189db8[0x189dc8 - 0x189db8];
+    void* _189db8;
+    void* _189dc0;
     // The statistics pointer used by auto11.
     void* _189dc8;
     void* _189dd0;

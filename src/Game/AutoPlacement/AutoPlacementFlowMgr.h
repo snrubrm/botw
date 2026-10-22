@@ -3,6 +3,7 @@
 #include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
 #include <evfl/Flowchart.h>
+#include <evfl/Query.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/Resource/resHandle.h"
@@ -64,5 +65,17 @@ KSYS_CHECK_SIZE_NX150(AutoPlacementFlowMgr, 0x4758);
 // 0x7100653788 (CSV apQueryPlayerRideHorse): AutoPlacement query handler; declared here for the
 // flow's query registration.
 s32 apQueryPlayerRideHorse();
+
+// The AutoPlacement flow query handlers (0x7100653290 .. 0x7100654290). Their argument's
+// actor_user_data is the AutoPlacementFlowRes whose flow runs the query.
+s32 apQueryGroundNorm(const evfl::QueryArg& arg);
+s32 apQueryTreeRate(const evfl::QueryArg& arg);
+s32 apQueryPosHeight(const evfl::QueryArg& arg);
+s32 apQueryWaterDepth(const evfl::QueryArg& arg);
+s32 apQueryRouteDistance(const evfl::QueryArg& arg);
+s32 apQueryGrassHeight(const evfl::QueryArg& arg);
+s32 apQueryWaterSurface(const evfl::QueryArg& arg);
+s32 apQueryWaterDistance(const evfl::QueryArg& arg);
+s32 apQueryUnknown(const evfl::QueryArg& arg);
 
 }  // namespace uking

@@ -75,6 +75,13 @@ public:
     const char* getCurrentGroundMat() const;
     const char* getCurrentWaterSubMat() const;
 
+    // Inline-only accessors used by the AutoPlacement flow queries (guessed names).
+    f32 getFloorNormalYMaybe() const { return _88a0; }
+    f32 getWaterHeightMaybe() const { return mWaterQuery; }
+    bool isUnderwaterMaybe() const { return mUnderwater; }
+    void setUnderwaterMaybe() { mUnderwater = 1; }
+    const sead::Vector3f& getQueryPositionMaybe() const { return mQueryVec; }
+
 private:
     friend class AutoPlacement;
 
@@ -151,6 +158,9 @@ public:
     void setSpawnInfo(const sead::SafeString& name, s32 count);
     void sub_710064DA54();
 
+    // Inline-only accessor used by the AutoPlacement flow queries (guessed name).
+    PlacementThing* getCurrentThingMaybe() const { return mX; }
+
     bool sub_710064E178(const sead::SafeString& name, u32 placement_type,
                         const sead::Vector3f& pos);
     bool sub_710064EF24(ActorSpawnInfo* info, const sead::Vector3f& pos);
@@ -194,7 +204,7 @@ private:
     PlacementThing mThing1{false};
     PlacementThing mThing2{false};
     PlacementThing mThing3{true};
-    void* mX;
+    PlacementThing* mX;
     sead::Buffer<ObjectRef> mObjectRefs;
     // 0x8b00: number of used mObjectRefs entries (incremented by sub_710064DA80, read by 0x710064DE34).
     s32 mNumObjectRefs = 0;

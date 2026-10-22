@@ -1,8 +1,11 @@
 #include "Game/AutoPlacement/AutoPlacementFlowMgr.h"
 #include <container/seadBuffer.h>
 #include <heap/seadExpHeap.h>
+#include <math/seadMathCalcCommon.h>
 #include <evfl/ResActor.h>
+#include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include "KingSystem/Resource/resLoadRequest.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 
@@ -141,6 +144,100 @@ s32 apQueryPlayerRideHorse() {
     if (player->isRidingHorse())
         return 1;
     return player->_cec.isOnBit(17);
+}
+
+namespace {
+
+PlacementThing* getPlacementThing(const evfl::QueryArg& arg) {
+    auto* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
+    return flow->placement->getCurrentThingMaybe();
+}
+
+}  // namespace
+
+// The angle is in degrees; the original multiplies by pi / 180 before the sine.
+s32 apQueryGroundNorm(const evfl::QueryArg& arg) {
+    f32 angle;
+    if (!arg.param_accessor.FindFloat(&angle, "Angle"))
+        return -1;
+    return getPlacementThing(arg)->getFloorNormalYMaybe() >
+           sead::Mathf::sin(angle * 0.017453292f);
+}
+
+// NON_MATCHING: the manager load is scheduled before the placement lookup (one instruction order).
+s32 apQueryTreeRate(const evfl::QueryArg& arg) {
+    f32 rate;
+    if (!arg.param_accessor.FindFloat(&rate, "Rate"))
+        return -1;
+    const sead::Vector3f& pos = getPlacementThing(arg)->getQueryPositionMaybe();
+    return rate <=
+           sub_7100659298(pos, AutoPlacementMgr::instance()->getTreeRateStatsMaybe());
+}
+
+s32 apQueryPosHeight(const evfl::QueryArg& arg) {
+    f32 height;
+    if (!arg.param_accessor.FindFloat(&height, "Height"))
+        return -1;
+    return height <= getPlacementThing(arg)->getQueryPositionMaybe().y;
+}
+
+// NON_MATCHING: the original keeps the placement in a callee-saved register and reloads mX after the call.
+s32 apQueryWaterDepth(const evfl::QueryArg& arg) {
+    f32 depth;
+    if (!arg.param_accessor.FindFloat(&depth, "Depth"))
+        return -1;
+    PlacementThing* thing = getPlacementThing(arg);
+    const f32 ground = AutoPlacementMgr::instance()->sub_7100659230(thing->getQueryPositionMaybe());
+    const bool below_ground = depth < ground;
+    const bool below_water = depth < thing->getWaterHeightMaybe();
+    return below_ground || below_water ? (below_ground && below_water ? 1 : -1) : 0;
+}
+
+// NON_MATCHING: the manager load is scheduled before the placement lookup (one instruction order).
+s32 apQueryRouteDistance(const evfl::QueryArg& arg) {
+    f32 distance;
+    if (!arg.param_accessor.FindFloat(&distance, "Distance"))
+        return -1;
+    const sead::Vector3f& pos = getPlacementThing(arg)->getQueryPositionMaybe();
+    return distance <=
+           sub_7100659298(pos, AutoPlacementMgr::instance()->getRouteDistanceStatsMaybe());
+}
+
+s32 apQueryGrassHeight(const evfl::QueryArg& arg) {
+    f32 height;
+    if (!arg.param_accessor.FindFloat(&height, "Height"))
+        return -1;
+    ksys::tera::Terrain* terrain = ksys::tera::Terrain::instance();
+    if (!terrain)
+        return -1;
+    const sead::Vector3f& pos = getPlacementThing(arg)->getQueryPositionMaybe();
+    const sead::Vector2f xz(pos.x, pos.z);
+    f32 grass;
+    if (terrain->sub_710114DE58()->sub_71011516D0(&grass, &xz) != 2)
+        return -1;
+    return height <= grass;
+}
+
+// NON_MATCHING: the original computes the test flag once and reuses it for the return value.
+s32 apQueryWaterSurface(const evfl::QueryArg& arg) {
+    PlacementThing* thing = getPlacementThing(arg);
+    const bool water = thing->getWaterHeightMaybe() > 0.0f;
+    if (water)
+        thing->setUnderwaterMaybe();
+    return water;
+}
+
+// NON_MATCHING: the original loads the placement before the manager (argument evaluation order).
+s32 apQueryWaterDistance(const evfl::QueryArg& arg) {
+    f32 distance;
+    if (!arg.param_accessor.FindFloat(&distance, "Distance"))
+        return -1;
+    const sead::Vector3f& pos = getPlacementThing(arg)->getQueryPositionMaybe();
+    return distance <= AutoPlacementMgr::instance()->sub_71006592E8(pos);
+}
+
+s32 apQueryUnknown(const evfl::QueryArg& arg) {
+    return 0;
 }
 
 }  // namespace uking
