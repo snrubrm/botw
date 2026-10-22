@@ -4,6 +4,7 @@
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "Game/UI/uiShopMgr.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiUI.h"
 #include "Game/gameHorseMgr.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
@@ -488,6 +489,92 @@ void UiShopMgr::sub_710098411C(s32 value) {
     }
     if (u32(_30 - 11) < 3)
         _c7 = false;
+}
+
+// 0x71009852c0
+void UiShopMgr::sub_71009852C0(bool value) {
+    s32 screen_type = ksys::gdt::getFlag_Shop_ScreenType(false);
+    s32 num;
+    if (value) {
+        if (u32(screen_type - 7) < 2)
+            num = ksys::gdt::getFlag_Shop_PlacedItemStockNum(false);
+        else
+            num = _38._58;
+    } else {
+        auto* ui = UI::instance();
+        if (!ui) {
+            num = 1;
+        } else {
+            const s32 trade_num = ui->getTradeItemNum();
+            num = trade_num > 1 ? trade_num : 1;
+        }
+    }
+    shop::setTradeItemNum(num);
+    const s32 price = ksys::gdt::getFlag_Shop_SelectItemPrice(false) * num;
+    shop::setTradePrice(price);
+    switch (screen_type) {
+    case 1:
+    case 3:
+    case 14:
+        screen_type = _30;
+        break;
+    default:
+        break;
+    }
+    switch (screen_type) {
+    case 1:
+    case 3:
+    case 7:
+    case 14: {
+        s32 state = 0;
+        if (num >= 2) {
+            const char* name;
+            ksys::gdt::getFlag_Shop_SelectItemName(&name, false);
+            const s32 mode = (screen_type == 3) << 1;
+            state = sub_7100A90FD8(sead::SafeString(name), price, mode, num);
+        }
+        ksys::gdt::setFlag_Shop_CurrentItemState(state, false);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+// 0x71009853f4
+// NON_MATCHING: the state membership test and the case dispatch compare in a different order (the
+// original tests 1 / 14 / 3 and keeps the 5 / 9 / 11 labels in the bit mask).
+bool UiShopMgr::sub_71009853F4() {
+    NpcShopData* shop = _d0;
+    if (!shop)
+        return false;
+    switch (_30) {
+    case 14:
+        if (shop->mItems.size() < 1)
+            return true;
+        for (s32 i = 0; i < shop->mItems.size(); ++i) {
+            if (sub_7100A98808(sub_7100A985DC(shop->mItems[i].name)) > 0)
+                return false;
+        }
+        return true;
+    case 1:
+    case 3:
+        if (_d8 < 1)
+            return true;
+        for (s32 i = 0; i < _d8; ++i) {
+            if (shop->mItems[i].count > 0)
+                return false;
+        }
+        return true;
+    case 5:
+        return false;
+    case 9:
+        return false;
+    case 11:
+        return false;
+    default:
+        return false;
+    }
 }
 
 }  // namespace uking::ui

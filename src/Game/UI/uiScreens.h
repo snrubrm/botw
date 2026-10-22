@@ -5526,6 +5526,9 @@ void sub_7100A90938(sead::SafeString& out, const sead::SafeString& name);
 // 0x7100a90e40 (CSV unnamed): the trade state of the item for the shop states 3 / 7 / 8 and the rest
 // (payment check through the rupee / mamo flags; `a4` is the item count).
 u32 sub_7100A90E40(const sead::SafeString& name, s32 a2, s32 a3, s32 a4);
+// 0x7100a90fd8 (CSV unnamed): starts the trade of `name` for `price` with the mode 0 (rupees) / 2 (mamo);
+// returns the new shop item state.
+s32 sub_7100A90FD8(const sead::SafeString& name, s32 price, s32 mode, s32 count);
 // 0x7100a91f64 (CSV unnamed): the armour upgrade state of the item (next rank name lookup).
 u32 sub_7100A91F64(const sead::SafeString& name, s32 a2, s32 a3);
 // 0x71010b3468 / 0x71010b3484 (CSV placeholders): TagInfo adapters into the ksys::eft helpers

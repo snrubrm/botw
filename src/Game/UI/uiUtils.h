@@ -721,6 +721,9 @@ void setSelectItemPrice(s32 price);
 void setSelectItemNum(s32 num);
 void setItemState(s32 state);
 void setColorChangeMaterialIndex(s32 index);
+// 0x7100aa813c / 0x7100aa8144: the trade item count and total price flags.
+void setTradeItemNum(s32 num);
+void setTradePrice(s32 price);
 }  // namespace shop
 
 }  // namespace uking::ui
