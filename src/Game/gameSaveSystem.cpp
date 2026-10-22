@@ -675,7 +675,7 @@ bool saveTransferWriteArchive(void* data, u64 size, sead::Heap* heap, f32* progr
             sead::SafeString mount = "savearc";
             sead::ArchiveFileDevice dev(archive);
             sead::FileDeviceMgr::instance()->mount(&dev, mount);
-            ksys::SaveMgr::instance()->get1040() = mount;
+            ksys::SaveMgr::instance()->set1040(mount);
             ksys::SaveMgr::instance()->set1058(ksys::SaveMgr::Flag1058::_2);
 
             // Every step from here on reports a code and stops; the archive is always unmounted.
@@ -851,9 +851,9 @@ bool saveTransferWriteArchive(void* data, u64 size, sead::Heap* heap, f32* progr
                     *progress = 0.75f;
 
                 static const sead::TickSpan sSleepSpan = sead::TickSpan::makeFromMilliSeconds(10);
-                s32 status = 0x2c;
                 for (s32 i = 0; i < 8; ++i) {
                     sead::FormatFixedSafeString<96> slot_name("%d", i);
+                    s32 status = 0x2c;
                     if ((mask & (1u << i)) != 0) {
                         SaveSystem::instance()->startLoad2(i);
                         // The original reads the name's cstr() here and drops the result.
@@ -884,8 +884,6 @@ bool saveTransferWriteArchive(void* data, u64 size, sead::Heap* heap, f32* progr
                     if (status != 0x2c && status != 0)
                         break;
                 }
-                if (status != 0x2c && status != 0)
-                    break;
 
                 if (progress)
                     *progress = 0.95f;
@@ -911,8 +909,8 @@ bool saveTransferWriteArchive(void* data, u64 size, sead::Heap* heap, f32* progr
             if (entered_handling_section)
                 nn::oe::LeaveExitRequestHandlingSection();
 
-            ksys::SaveMgr::instance()->set1058(ksys::SaveMgr::Flag1058::_2);
-            ksys::SaveMgr::instance()->get1040() = "";
+            ksys::SaveMgr::instance()->reset1058(ksys::SaveMgr::Flag1058::_2);
+            ksys::SaveMgr::instance()->set1040(sead::SafeString::cEmptyString);
             sead::FileDeviceMgr::instance()->unmount(&dev);
 
             if (ok && progress)

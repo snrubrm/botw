@@ -207,7 +207,9 @@ public:
     u32 get3c() const { return _3c; }
     // The transfer archive mount name; saveTransferWriteArchive assigns it while the archive is mounted.
     sead::SafeString& get1040() { return _1040; }
+    void set1040(const sead::SafeString& name) { _1040 = name; }
     void set1058(Flag1058 flag) { _1058.setBit(flag); }
+    void reset1058(Flag1058 flag) { _1058.resetBit(flag); }
 
 private:
     friend class uking::SaveSystem;
