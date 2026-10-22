@@ -6055,15 +6055,17 @@ public:
     };
     static_assert(sizeof(ControlPtrs) == 0x58);
     /* 0x3610 */ ControlPtrs mControlPtrs;
-    /* 0x3668 */ s32 _3668;
-    s32 _366c;
-    /* 0x3670 */ const ksys::StateBase* _3670;
+    // The constructor's stores for these five land between the control-pointer memset and the job
+    // records, so the original had them as member initialisers (declaration order).
+    /* 0x3668 */ s32 _3668 = -1;
+    s32 _366c = -1;
+    /* 0x3670 */ const ksys::StateBase* _3670 = &sUnk_710261ee98;
     // Bits set by the state callbacks (0x7100a432fc, 0x7100a43ac0, 0x7100a45e40, 0x7100a46234): the bit index goes
     // through a 4-byte enum class, so the original spills it to the stack (same form as Horse / PriestBoss flags).
     SEAD_ENUM(Flag, _0, _1, _2, _3, _4, _5, _6, _7)
-    /* 0x3678 */ u8 _3678;
-    u8 _3679;
-    u8 _367a;
+    /* 0x3678 */ u8 _3678 = 0;
+    u8 _3679 = 0;
+    u8 _367a = 0;
     u8 _pad_367b[0x3680 - 0x367b];
     /* 0x3680 */ SaveArchiveWork mSaveWork;
     /* 0x36c8 */ LoadArchiveWork mLoadWork;

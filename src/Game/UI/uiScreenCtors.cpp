@@ -275,12 +275,9 @@ ScreenShopInfo::ScreenShopInfo() : ScreenEx(), _3768(this, &ScreenShopInfo::sub_
 }
 
 // 0x7100a41fe4
-// NON_MATCHING: the record stores are scheduled in a different order.
+// NON_MATCHING: same size and stores; the zero stores of the two job records are scheduled in a
+// different order.
 ScreenSaveTransferWindow::ScreenSaveTransferWindow() : ScreenEx(), mControlPtrs() {
-    _3668 = -1;
-    _366c = -1;
-    _3670 = &sUnk_710261ee98;
-    _3678 = _3679 = _367a = 0;
     _379c = 0;
     _3798 = 0;
     _37a0 = 0;

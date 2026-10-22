@@ -83,7 +83,9 @@ public:
     void* mData = nullptr;
     u64 mSize = 0;
     sead::Heap* mHeap = nullptr;
-    sead::Atomic<s32> mState = 0;
+    // The ctor zeroes this and mError with one non-volatile 8-byte store, so the state is
+    // direct-initialised (the reset/run methods still use atomic loads).
+    sead::Atomic<s32> mState{sead::AtomicDirectInitTag(), 0};
     s32 mError = 0;
     sead::Delegate1R<LoadArchiveWork, void*, bool> mWork{this, &LoadArchiveWork::run};
 };
