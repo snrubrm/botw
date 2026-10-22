@@ -129,6 +129,7 @@ extern EventFlowBase* sUnk_7102601528;
 // Only the members used so far are declared; the vtable has 18 slots (0-17).
 class EventFlowBase {
 public:
+    EventFlowBase();
     virtual ~EventFlowBase();
     SEAD_RTTI_BASE(EventFlowBase)
 
@@ -278,6 +279,7 @@ KSYS_CHECK_SIZE_NX150(EventFlowFlowchart, 0x6b8);
 
 class EventFlowTimeline : public EventFlowBase {
 public:
+    EventFlowTimeline();
     ~EventFlowTimeline() override;
     SEAD_RTTI_OVERRIDE(EventFlowTimeline, EventFlowBase)
 

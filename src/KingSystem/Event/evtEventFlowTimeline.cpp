@@ -14,6 +14,21 @@
 
 namespace ksys::evt {
 
+// 0x7100dbc754
+EventFlowTimeline::EventFlowTimeline() : EventFlowBase() {
+    _620 = 0;
+    _628 = nullptr;
+    _630 = 0;
+    _638 = nullptr;
+    _640 = -1.0f;
+    _644 = 0;
+    _648 = 0;
+    _64c = true;
+    _64d = false;
+    _650 = 0;
+    _638 = Manager::instance()->getStruct1()->sub_71012731D8();
+}
+
 // NON_MATCHING: the original destructor destroys members that are not modelled yet.
 EventFlowTimeline::~EventFlowTimeline() {
     if (_628) {
