@@ -110,6 +110,7 @@ target_sources(uking PRIVATE
   uiScreenPickUp.cpp
   uiScreenReadyGo.cpp
   uiScreenTitle.cpp
+  uiScreenStaffRoll.cpp
   uiScreenStaffRollDLC.cpp
   uiScreenRupee.cpp
   uiScreenDLCWindow.cpp

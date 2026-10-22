@@ -220,7 +220,6 @@ ScreenPauseMenuRecipe::~ScreenPauseMenuRecipe() {
         _36b8 = nullptr;
     }
 }
-ScreenStaffRoll::~ScreenStaffRoll() = default;
 ScreenDLCSinJuAkashiNum::~ScreenDLCSinJuAkashiNum() = default;
 ScreenKeyBoradTextArea::~ScreenKeyBoradTextArea() {
     if (auto* swkbd = SwkbdMgr::instance()) {
