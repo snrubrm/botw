@@ -2412,8 +2412,11 @@ protected:
     bool closeDirectoryImpl_(sead::HandleBuffer* handle) SEAD_ARCHIVERES_CONST_TOKEN override;
     u32 readDirectoryImpl_(sead::HandleBuffer* handle, sead::DirectoryEntry* entries,
                            u32 num) SEAD_ARCHIVERES_CONST_TOKEN override;
-    // Declared only: the slot's body is still U (the class must be concrete for the archive factory).
-    bool isExistFileImpl_(const sead::SafeString& path) SEAD_ARCHIVERES_CONST_TOKEN override;
+    // sead's header wrongly marks ArchiveRes::isExistFileImpl_ pure although the library defines it;
+    // the override only forwards to that default body (gen should un-pure the base).
+    bool isExistFileImpl_(const sead::SafeString& path) SEAD_ARCHIVERES_CONST_TOKEN override {
+        return sead::ArchiveRes::isExistFileImpl_(path);
+    }
     bool prepareArchive_(const void* archive) override;
 
 private:
