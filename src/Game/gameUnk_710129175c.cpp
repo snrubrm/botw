@@ -215,4 +215,28 @@ bool sub_71012A1FFC(sead::Buffer<PreshadingTargetMaybe>* buffer, s32 count, sead
     return buffer->tryAllocBuffer(count, heap, alignment);
 }
 
+// NON_MATCHING: the target loops with a counter from 0 to -count and a forward pointer; our
+// `for (i = 0; i < num; ++i)` adds a second bounds branch at the loop entry.
+void PreshadingFilterMaybe::initialize(u32 count, agl::ShaderProgramArchive* archive,
+                                      sead::Heap* heap) {
+    sub_71012A1FFC(&mTargets, s32(count), heap, 8);
+    const s32 num = mTargets.size();
+    if (num != 0) {
+        PreshadingTargetMaybe* target = mTargets.getBufferPtr();
+        for (s32 i = 0; i < num; ++i, ++target) {
+            if (i == 0) {
+                target->_640.startDeclare(3, heap);
+                target->_640.declare_(agl::UniformBlock::cType_6, 1, 0, 1);
+                target->_640.declare_(agl::UniformBlock::cType_6, 1, 0, 1);
+            } else {
+                target->_640.declare(mTargets.getBufferPtr()->_640);
+            }
+            target->_640.create(heap, 2, 1);
+            target->_170.setRenderTargetColor(&target->_1d8, 0);
+        }
+    }
+    mProgram = archive->getShaderProgram(archive->searchShaderProgramIndex("preshading_filter"));
+    mPage.setUp(count, "PreShadingFilter", heap);
+}
+
 }  // namespace ksys::gfx

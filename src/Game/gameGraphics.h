@@ -723,4 +723,21 @@ static_assert(sizeof(PreshadingTargetMaybe) == 0x6b8);
 // 0x71012a1ffc: allocates `count` targets and stores them in `buffer`.
 bool sub_71012A1FFC(sead::Buffer<PreshadingTargetMaybe>* buffer, s32 count, sead::Heap* heap,
                     s32 alignment);
+
+// Placeholder: the 0x270-byte preshading filter object (constructor 0x710129f834); Graphics::SystemStuff
+// allocates it at Graphics + 0x380.
+class PreshadingFilterMaybe {
+public:
+    // 0x710129faa4: allocates `count` targets, declares their uniform blocks, finds the
+    // "preshading_filter" program and sets up the debug texture page.
+    void initialize(u32 count, agl::ShaderProgramArchive* archive, sead::Heap* heap);
+
+private:
+    u8 _0[0x10];
+    sead::Buffer<PreshadingTargetMaybe> mTargets;
+    agl::utl::DebugTexturePage mPage;
+    agl::ShaderProgram* mProgram;
+    u8 _268[8];
+};
+KSYS_CHECK_SIZE_NX150(PreshadingFilterMaybe, 0x270);
 }  // namespace ksys::gfx
