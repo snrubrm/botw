@@ -221,7 +221,6 @@ ScreenPauseMenuRecipe::~ScreenPauseMenuRecipe() {
     }
 }
 ScreenStaffRoll::~ScreenStaffRoll() = default;
-ScreenStaffRollDLC::~ScreenStaffRollDLC() = default;
 ScreenDLCSinJuAkashiNum::~ScreenDLCSinJuAkashiNum() = default;
 ScreenKeyBoradTextArea::~ScreenKeyBoradTextArea() {
     if (auto* swkbd = SwkbdMgr::instance()) {

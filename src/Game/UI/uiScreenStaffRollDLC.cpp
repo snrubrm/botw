@@ -1,6 +1,8 @@
 #include <prim/seadSafeString.h>
 #include "Game/UI/uiScreens.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 #include "Game/UI/uiTUStatics.h"
+
 
 namespace uking::ui {
 
@@ -9,6 +11,42 @@ namespace uking::ui {
 static f32 sUnk_71025F4048 = 5399.9995f;
 static sead::SafeString sMessageSet = "LayoutMsg/StaffRollDLC_00";
 static sead::SafeString sStaticSet = "StaticMsg/StaffRollDLC";
+
+// Per-group element counts of the staff roll text blocks (the original's merged static block, at
+// +0x188/+0x190 of the block at 0x71025f4030; the records live at +0x1e8 and are 0x18 bytes each).
+// Only the counts are read by the destructor; the names are used by the entry builder.
+struct StaffRollGroup {
+    s32 count;
+    u8 _4[0x14];
+};
+static StaffRollGroup sStaffRollGroups[5] = {{1}, {31}, {31}, {31}, {1}};
+static struct StaffRollGroupTable {
+    u8 _0[0x188];
+    sead::Buffer<StaffRollGroup> groups;
+} sStaffRollGroupTable = {{}, {5, sStaffRollGroups}};
+
+// 0x7100a58284
+// NON_MATCHING: popBack's size store and buffer load are scheduled in the opposite order (one instruction).
+ScreenStaffRollDLC::~ScreenStaffRollDLC() {
+    for (s32 i = 0; i < 1000; ++i) {
+        Unk_71024993a0* entry = mEntries.popBack();
+        if (!entry)
+            break;
+        delete entry;
+    }
+    mEntries.freeBuffer();
+
+    for (s32 i = 0; i < 5; ++i) {
+        const s32 count = sStaffRollGroupTable.groups[i].count;
+        for (s32 j = 0; j < count; ++j) {
+            Unk_710249a1a0* block = mTextBlocks[i].popBack();
+            if (!block)
+                break;
+            delete block;
+        }
+        mTextBlocks[i].freeBuffer();
+    }
+}
 
 // 0x7100a58480
 // NON_MATCHING: the original reads the 5400 duration from the TU's merged static block; our
