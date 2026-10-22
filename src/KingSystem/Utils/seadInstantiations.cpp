@@ -1,8 +1,13 @@
 #include <prim/seadSafeString.h>
 #include <container/seadTreeMap.h>
+#include <container/seadStrTreeMap.h>
 #include <devenv/seadGameConfig.h>
 #include <framework/seadTaskBase.h>
+#include <framework/seadTaskMgr.h>
+#include <framework/nx/seadGameFrameworkNx.h>
 #include <prim/seadDelegate.h>
+#include "Game/gameSaveSystem.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/World/worldTimeMgr.h"
 
 // Explicit instantiations of the assignment operators of sead::FixedSafeString<N> / FixedSafeStringBase<char, N> for
@@ -174,5 +179,18 @@ template class IDelegate1<const ksys::world::TimeMgr::NewDayEvent&>;
 template class IDelegate1<TaskBase*>;
 template class IDelegate2<SafeStringBase<char>&, GameConfig::ParamValueType&>;
 template class IDelegateR<const SafeStringBase<char>&>;
+
+// The out-of-line delegates whose invoke / clone bodies the original emits in game TUs.
+template class Delegate1<uking::SaveSystem, const ksys::world::TimeMgr::NewDayEvent&>;
+template class Delegate1<uking::SaveSystem, ksys::gdt::Manager::ResetEvent*>;
+template class Delegate2<GameConfig, SafeStringBase<char>&, GameConfig::ParamValueType&>;
+template class Delegate2<GameFrameworkNx, Thread*, long>;
+template class Delegate2<TaskMgr, Thread*, long>;
+template class Delegate1<FaderTaskBase, TaskBase*>;
+
+using GameConfigDelegate2 = Delegate2<GameConfig, SafeStringBase<char>&, GameConfig::ParamValueType&>;
+using GameConfigContext =
+    StrTreeMap<64, GameConfig::ParamValueType>::ForEachConstContext<GameConfigDelegate2>;
+template class Delegate1<GameConfigContext, TreeMapNode<SafeStringBase<char>>*>;
 
 }  // namespace sead
