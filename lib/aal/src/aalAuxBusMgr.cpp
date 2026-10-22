@@ -12,6 +12,23 @@ AuxBusCtrl* AuxBusMgr::getAuxBusCtrl(BusType bus, DeviceType device) const {
 }
 
 
+// 0x7100b7a8d4: the per-device bus controllers (three buses), then the two environment-send
+// faders. The native reloads mAuxBusCtrls for each call, so the source indexes it directly.
+void AuxBusMgr::calc() {
+    if (_30)
+        _30->calc();
+
+    if (!mAuxBusCtrls)
+        return;
+
+    (*mAuxBusCtrls)[0]->calc();
+    (*mAuxBusCtrls)[1]->calc();
+    (*mAuxBusCtrls)[2]->calc();
+
+    mMinEnvFxSendFader.calc();
+    mMaxEnvFxSendFader.calc();
+}
+
 AuxBusMgr* AuxBusMgr::sInstance = nullptr;
 AuxBusMgr::SingletonDisposer_* AuxBusMgr::SingletonDisposer_::sStaticDisposer = nullptr;
 
