@@ -74,7 +74,7 @@ public:
     void _insertAt(hkMemoryAllocator& alloc, int i, const T* a, int numElems);
     void _insertAt(hkMemoryAllocator& alloc, int i, const T& t);
 
-    void _append(hkMemoryAllocator& alloc, const T* a, int numElems);
+    HK_FORCE_INLINE void _append(hkMemoryAllocator& alloc, const T* a, int numElems);
     void _spliceInto(hkMemoryAllocator& alloc, int i, int ndel, const T* p, int numElems);
 
     HK_FORCE_INLINE void removeAllAndCopy(const T& t);
@@ -307,6 +307,30 @@ inline hkResult hkArrayBase<T>::_reserveExactly(hkMemoryAllocator& alloc, int n)
     if (getCapacity() < n)
         return hkArrayUtil::_reserve(alloc, this, n, sizeof(T));
     return HK_SUCCESS;
+}
+
+template <typename T>
+inline T& hkArrayBase<T>::_expandOne(hkMemoryAllocator& alloc) {
+    if (m_size == getCapacity())
+        hkArrayUtil::_reserveMore(alloc, this, sizeof(T));
+    return m_data[m_size++];
+}
+
+template <typename T>
+inline T* hkArrayBase<T>::_expandBy(hkMemoryAllocator& alloc, int n) {
+    if (m_size + n > getCapacity())
+        _reserve(alloc, m_size + n);
+    T* p = m_data + m_size;
+    m_size += n;
+    return p;
+}
+
+template <typename T>
+void hkArrayBase<T>::_append(hkMemoryAllocator& alloc, const T* a, int numElems) {
+    if (m_size + numElems > getCapacity())
+        _reserve(alloc, m_size + numElems);
+    copy(m_data + m_size, a, numElems);
+    m_size += numElems;
 }
 
 template <typename T>
