@@ -574,7 +574,8 @@ bool Chemical::sub_7100D91508() const {
     return _18c > 0.0f;
 }
 
-// NON_MATCHING: csel operands swapped (condition polarity)
+// NON_MATCHING: csel operands swapped (condition polarity); the ternary, the inverted ternary and
+// the if/return forms all lower the same way.
 f32 Chemical::sub_7100D91958() const {
     return (mMaterial->attribute.ref() & 0x10000) ? _170 : _174;
 }
