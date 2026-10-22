@@ -26,11 +26,9 @@ void EventSetDiffuseAttenuate::loadParams_() {
 }
 
 void EventSetDiffuseAttenuate::calc_() {
-    // NON_MATCHING: the original writes the EnvMgr fields without the PtrArray bounds check that
-    // getXMgr() keeps (reads like an inline member function of the manager; not repeated elsewhere)
-    auto* env = ksys::world::Manager::instance()->getEnvMgr();
-    env->_6b5d4 = 2;
+    auto* env = ksys::world::Manager::instance()->getEnvMgrUnchecked();
     env->mEventDiffuseAttenuateDiameter = *mdiameter_d;
+    env->_6b5d4 = 2;
     setFinished();
 }
 
