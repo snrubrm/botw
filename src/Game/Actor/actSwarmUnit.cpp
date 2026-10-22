@@ -60,7 +60,9 @@ void uking::act::Swarm::Unit::m6() {
 
 void uking::act::Swarm::Unit::m8() {
     _38.updateStats();
-    _8.setTranslation(_38.mean + _8.getTranslation());
+    _8.m[0][3] += _38.mean.x;
+    _8.m[1][3] += _38.mean.y;
+    _8.m[2][3] += _38.mean.z;
 }
 
 bool uking::act::Swarm::Unit::m9() {
