@@ -16,7 +16,8 @@ void FreeMovingAction::enter_(ksys::act::ai::InlineParamPack* params) {
 
 // NON_MATCHING: regalloc (this+0x1c is built in x8 and moved to x0)
 void FreeMovingAction::leave_() {
-    _1c.sub_710072B078(mActor);
+    auto* actor = getActor();
+    _1c.sub_710072B078(actor);
 }
 
 void FreeMovingAction::loadParams_() {}
