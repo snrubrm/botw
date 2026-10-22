@@ -170,14 +170,15 @@ s32 apQueryGroundNorm(const evfl::QueryArg& arg) {
            sead::Mathf::sin(angle * 0.017453292f);
 }
 
-// NON_MATCHING: the manager load is scheduled before the placement lookup (one instruction order).
+// NON_MATCHING: one load is scheduled before the manager lookup (placement load order).
 s32 apQueryTreeRate(const evfl::QueryArg& arg) {
     f32 rate;
     if (!arg.param_accessor.FindFloat(&rate, "Rate"))
         return -1;
-    const sead::Vector3f& pos = getPlacementThing(arg)->getQueryPositionMaybe();
-    return rate <=
-           sub_7100659298(pos, AutoPlacementMgr::instance()->getTreeRateStatsMaybe());
+    AutoPlacement* placement = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data)->placement;
+    const sead::Vector3f& pos = placement->getCurrentThingMaybe()->getQueryPositionMaybe();
+    void* const* stats = AutoPlacementMgr::instance()->getTreeRateStatsMaybe();
+    return rate <= sub_7100659298(pos, stats);
 }
 
 s32 apQueryPosHeight(const evfl::QueryArg& arg) {
@@ -199,14 +200,15 @@ s32 apQueryWaterDepth(const evfl::QueryArg& arg) {
     return below_ground || below_water ? (below_ground && below_water ? 1 : -1) : 0;
 }
 
-// NON_MATCHING: the manager load is scheduled before the placement lookup (one instruction order).
+// NON_MATCHING: one load is scheduled before the manager lookup (placement load order).
 s32 apQueryRouteDistance(const evfl::QueryArg& arg) {
     f32 distance;
     if (!arg.param_accessor.FindFloat(&distance, "Distance"))
         return -1;
-    const sead::Vector3f& pos = getPlacementThing(arg)->getQueryPositionMaybe();
-    return distance <=
-           sub_7100659298(pos, AutoPlacementMgr::instance()->getRouteDistanceStatsMaybe());
+    AutoPlacement* placement = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data)->placement;
+    const sead::Vector3f& pos = placement->getCurrentThingMaybe()->getQueryPositionMaybe();
+    void* const* stats = AutoPlacementMgr::instance()->getRouteDistanceStatsMaybe();
+    return distance <= sub_7100659298(pos, stats);
 }
 
 s32 apQueryGrassHeight(const evfl::QueryArg& arg) {
@@ -224,22 +226,22 @@ s32 apQueryGrassHeight(const evfl::QueryArg& arg) {
     return height <= grass;
 }
 
-// NON_MATCHING: the original computes the test flag once and reuses it for the return value.
 s32 apQueryWaterSurface(const evfl::QueryArg& arg) {
     PlacementThing* thing = getPlacementThing(arg);
-    const bool water = thing->getWaterHeightMaybe() > 0.0f;
+    const s32 water = thing->getWaterHeightMaybe() > 0.0f;
     if (water)
         thing->setUnderwaterMaybe();
     return water;
 }
 
-// NON_MATCHING: the original loads the placement before the manager (argument evaluation order).
 s32 apQueryWaterDistance(const evfl::QueryArg& arg) {
     f32 distance;
     if (!arg.param_accessor.FindFloat(&distance, "Distance"))
         return -1;
-    const sead::Vector3f& pos = getPlacementThing(arg)->getQueryPositionMaybe();
-    return distance <= AutoPlacementMgr::instance()->sub_71006592E8(pos);
+    AutoPlacement* placement = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data)->placement;
+    return distance <=
+           AutoPlacementMgr::instance()->sub_71006592E8(
+               placement->getCurrentThingMaybe()->getQueryPositionMaybe());
 }
 
 s32 apQueryUnknown(const evfl::QueryArg& arg) {
