@@ -580,7 +580,7 @@ public:
     s32 sub_71009C5368() const;
 
     /* 0x08 */ s32 _8 = -1;
-    /* 0x10 */ void* _10 = nullptr;
+    /* 0x10 */ eui::LayoutEx* _10 = nullptr;
     /* 0x18 */ void* _18 = nullptr;
     /* 0x20 */ void* _20 = nullptr;
 };

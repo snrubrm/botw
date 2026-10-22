@@ -1894,6 +1894,12 @@ bool Unk_710247d8d8::sub_71009C5350() const {
 s32 Unk_710247d8d8::sub_71009C5368() const {
     return _8;
 }
+
+// 0x71009c531c: opens the stamp button entry's layout animation
+void startMapStampButtonEntryOpenAnim(Unk_710247d8d8* entry) {
+    if (entry->_10)
+        entry->_10->sub_7100BDDE7C(false, 0, true);
+}
 }  // namespace uking::ui
 
 // 0x7100a6c070

@@ -1553,6 +1553,33 @@ void PauseMenuDataMgr::setEquippedWeaponItemValue(s32 value, PouchItemType type)
     }
 }
 
+// 0x710097d250: the shop sold `count` of `item`
+void PauseMenuDataMgr::sub_710097D250(PouchItem* item, s32 count) {
+    if (!item)
+        return;
+
+    const auto lock = sead::makeScopedLock(mCritSection);
+
+    for (auto& it : getItems()) {
+        if (&it != item)
+            continue;
+
+        // Items with this tag keep their durability; everything else is no longer in the inventory.
+        if (ksys::act::InfoData::instance()->hasTag(it.mName.cstr(), 0x9b44906f)) {
+            const s32 value = it.mValue - count;
+            if (value <= 0) {
+                it.mValue = 0;
+                it.mInInventory = false;
+            } else {
+                it.mValue = value;
+            }
+        } else {
+            it.mInInventory = false;
+        }
+        break;
+    }
+}
+
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
 const sead::SafeString& PauseMenuDataMgr::getDefaultEquipment(EquipmentSlot idx) const {
     if (idx != EquipmentSlot::WeaponArrow &&
