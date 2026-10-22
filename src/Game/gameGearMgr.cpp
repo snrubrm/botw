@@ -201,6 +201,10 @@ void GearMgr::sub_7100669144(f32 gear_ratio) {
     _10c8 = sead::Mathu::lcm(u32(_10c8), fraction.denominator);
 }
 
+void GearMgr::sub_7100669B38() {
+    _10a4w |= 0x20;
+}
+
 void GearMgr::sub_7100669C88() {}
 
 void GearMgr::sub_7100669ED8() {}

@@ -66,8 +66,7 @@ public:
     // 0x7100669b48: sets bit 1 of the current entry of `_10b0` (indexed by `_2c`) and returns bit 1 of
     // the other entry. Placeholder name.
     bool sub_7100669B48();
-    // 0x7100669b38 (declared only): `_10a4 |= 0x20` as a 32-bit read-modify-write (a byte `_10a4` gives a
-    // byte one). Placeholder name.
+    // 0x7100669b38: sets bit 5 of `_10a4`. Placeholder name.
     void sub_7100669B38();
     // 0x7100669af8: stores `value` in `_10c4` under mCS. Placeholder name.
     void sub_7100669AF8(f32 value);
@@ -115,9 +114,12 @@ public:
     f32 _1098;
     u32 _109c;
     u32 _10a0;
-    // Bit 3 is tested by DgnObj_DLC_CWRotDirSwitch::calc_.
-    u8 _10a4;
-    u8 _10a5[3];
+    // Bit 3 is tested byte-wise by DgnObj_DLC_CWRotDirSwitch::calc_; sub_7100669B38 does a word
+    // read-modify-write at the same address, hence the two views.
+    union {
+        u32 _10a4w;
+        u8 _10a4;
+    };
     // Two entries (current one: `_28`); bit 0 is read by DgnObj_DLC_CWRotDirSwitch::calc_ from the other
     // entry, bit 2 is set / cleared by sub_71006698B0.
     u32 _10a8[2];
