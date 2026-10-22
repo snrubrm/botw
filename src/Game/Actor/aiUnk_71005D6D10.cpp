@@ -1003,6 +1003,14 @@ void sub_71005DC02C(ksys::act::Actor* actor) {
     }
 }
 
+void sub_71005DBE1C(ksys::phys::CharacterController* controller, s32 mode, u8 value, bool a3, bool a4,
+                    bool a5, bool a6) {
+    controller->sub_7100F62D3C(true);
+    auto* tag = controller->sub_7100F5EDA8();
+    if (sead::IsDerivedFrom<ksys::act::PhysicsUserTag>(tag))
+        static_cast<ksys::act::PhysicsUserTag*>(tag)->setStateMaybe(mode, value, a3, a4, a5, a6);
+}
+
 void sub_71005DC158(ksys::phys::CharacterController* controller) {
     controller->sub_7100F62D3C(false);
     auto* tag = controller->sub_7100F5EDA8();
