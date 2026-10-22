@@ -281,6 +281,9 @@ public:
     // 0x710128f4bc: once flag bit 0 of _2ef8 is set, records the camera's world position, resets the
     // distance at 0x264 to 20 and asks the model at 0x268 to draw.
     void sub_710128F4BC(const sead::Camera* camera);
+    // 0x710128f9e0 (declaration only): walks the render-unit array Graphics::editorCallback3 passes
+    // (count at +0x38, elements at +0x40) and marks the matching name's flag.
+    void sub_710128F9E0(void* render_units);
 
 private:
     u8 _0[0x240];
@@ -381,10 +384,39 @@ struct Unk_b70 {
     sead::Vector3f _110;
 };
 
+namespace gsys {
+
+// The resource editor's callback interface (vtable 0x71024f4a20, all ten slots point at the empty
+// out-of-line defaults 0x7100f36428 - 0x7100f36444). Graphics implements it as its first base: the
+// primary vtable 0x71024f45c0 has the ten overrides at +0x10 and its destructor pair right after.
+// Method names are from the original's symbols; the argument block is a placeholder.
+class IResourceEditorCallback {
+public:
+    // Placeholder name: editorCallback0 tests +0x0 and editorCallback8 tests +0x8; editorCallback3
+    // forwards +0x0 to the Grudge renderer.
+    struct Arg {
+        void* _0;
+        void* _8;
+    };
+
+    virtual void editorCallback0(const Arg& arg) {}
+    virtual void editorCallback1(const Arg& arg) {}
+    virtual void getModelFmdbPath(const char** path, const Arg& arg) {}
+    virtual void editorCallback3(const Arg& arg) {}
+    virtual void editorCallback4(const Arg& arg) {}
+    virtual void editorCallback5(const Arg& arg) {}
+    virtual void editorCallback6(const Arg& arg) {}
+    virtual void editorCallback7(const Arg& arg) {}
+    virtual void editorCallback8(const Arg& arg) {}
+    virtual void editorCallback9(const Arg& arg) {}
+};
+
+}  // namespace gsys
+
 // Partial declaration: name from the CSV Graphics::createInstance (0x7100f2a1d0).
 // Source namespace remains unknown; global spelling follows the existing scene placeholders.
 // No instance layout or construction is modeled here.
-class Graphics {
+class Graphics : public gsys::IResourceEditorCallback {
 public:
     // Placeholder name: the block at Graphics + 0xa98 (shadow settings; lane3 s35, only the fields
     // EventChangeShadowNearAndFar::calc_ writes are modeled).
@@ -736,20 +768,22 @@ private:
     u8 _fa0[0xfe8 - 0xfa0];
 
 public:
-    // 0x7100f2a754 (declaration only). The original primary vtable 0x71024f45c0 has ten virtual slots
-    // before the destructor (slot 0x60 = the destructor at 0x7100f2b060, which the singleton disposer
-    // calls through slot 0x50); only the destructor and slot 6 (0x7100f2e06c) are modelled, so the
-    // other slots are declared in order with placeholder names.
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual void m5();
-    virtual void sub_7100F2E06C();
-    virtual void m7();
-    virtual void m8();
-    virtual void m9();
+    // 0x7100f2a754 (declaration only). The original primary vtable 0x71024f45c0 has the ten
+    // gsys::IResourceEditorCallback overrides at +0x10 and the destructor pair after them; only the
+    // destructor and editorCallback6 (0x7100f2e06c) are modelled so far.
+    // editorCallback0 is the vtable's key function and stays declared only: defining it here would emit
+    // our own partial vtable, which does not have the original's other three base tables.
+    void editorCallback0(const gsys::IResourceEditorCallback::Arg& arg) override;
+    void editorCallback1(const gsys::IResourceEditorCallback::Arg& arg) override;
+    void getModelFmdbPath(const char** path, const gsys::IResourceEditorCallback::Arg& arg) override;
+    void editorCallback3(const gsys::IResourceEditorCallback::Arg& arg) override;
+    void editorCallback4(const gsys::IResourceEditorCallback::Arg& arg) override;
+    void editorCallback5(const gsys::IResourceEditorCallback::Arg& arg) override;
+    // The CSV's former placeholder name sub_7100F2E06C (0x7100f2e06c).
+    void editorCallback6(const gsys::IResourceEditorCallback::Arg& arg) override;
+    void editorCallback7(const gsys::IResourceEditorCallback::Arg& arg) override;
+    void editorCallback8(const gsys::IResourceEditorCallback::Arg& arg) override;
+    void editorCallback9(const gsys::IResourceEditorCallback::Arg& arg) override;
     Graphics();
     virtual ~Graphics();
 

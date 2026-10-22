@@ -13,6 +13,7 @@
 #include <postfx/aglDepthOfField.h>
 #include "KingSystem/World/worldDofMgr.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/System/VFR.h"
 
 // 0x7100f2a1d0 and the disposer vtables 0x71024f45a0 / 0x7100f2a100 / 0x7100f2a164: the source is
@@ -57,8 +58,25 @@ void Graphics::sub_7100F35FA4(bool value, bool second) {
     _280 |= 1;
 }
 
-void Graphics::sub_7100F2E06C() {
+void Graphics::editorCallback1(const gsys::IResourceEditorCallback::Arg& arg) {}
+
+void Graphics::editorCallback3(const gsys::IResourceEditorCallback::Arg& arg) {
+    if (_3a0)
+        _3a0->sub_710128F9E0(arg._0);
+}
+
+void Graphics::editorCallback5(const gsys::IResourceEditorCallback::Arg& arg) {}
+
+void Graphics::editorCallback6(const gsys::IResourceEditorCallback::Arg& arg) {
     _284.setBit(22);
+}
+
+void Graphics::editorCallback7(const gsys::IResourceEditorCallback::Arg& arg) {}
+
+void Graphics::editorCallback8(const gsys::IResourceEditorCallback::Arg& arg) {
+    if (arg._8)
+        if (_284.isOnBit(22))
+            Unk_710260af28::instance()->sub_7100F1B9D0(arg._8);
 }
 
 void Graphics::sub_7100F35F50(agl::lyr::Layer* layer, bool value) {
