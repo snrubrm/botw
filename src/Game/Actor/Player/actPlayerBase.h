@@ -296,6 +296,8 @@ public:
     bool x_51();                             // 0x848f34 (controller object at 0x17d0, check 3)
     uking::Unk_710246d058* get17d0() const { return _17d0; }
     ksys::act::BaseProcLink& get1280() { return _1280; }
+    // Read by PlayerSwitchHang::enter_ (the actor the player hangs from).
+    ksys::act::BaseProcLink& get1520() { return _1520; }
     bool x_50();                             // 0x848f4c
     // lane4 s45 (placeholder names, from the bodies): controller checks on `_17d0`.
     bool sub_7100848F40();  // playerCheckController(5)
@@ -510,7 +512,8 @@ protected:
     /* 0x14c4 */ f32 _14c4;  // sub_710084B41C: must be 0
     /* 0x14c8 */ u8 _14c8[0x14d0 - 0x14c8];
     /* 0x14d0 */ f32 _14d0;  // sub_710084B41C: must be 0
-    /* 0x14d4 */ u8 _14d4[0x1530 - 0x14d4];
+    /* 0x14d4 */ u8 _14d4[0x1520 - 0x14d4];
+    /* 0x1520 */ ksys::act::BaseProcLink _1520;
     /* 0x1530 */ sead::CriticalSection _1530;
     /* 0x1570 */ ksys::act::BaseProcLink _1570;
     /* 0x1580 */ u8 _1580[0x15c0 - 0x1580];
