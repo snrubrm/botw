@@ -17,6 +17,7 @@
 #include <gsys/gsysModelUnit.h>
 #include <common/aglTextureSampler.h>
 #include <common/aglUniformBlock.h>
+#include <cull/aglOcclusionQueryDrawer.h>
 #include <common/aglRenderBuffer.h>
 #include <common/aglRenderTarget.h>
 #include <utility/aglDebugTexturePage.h>
@@ -704,7 +705,8 @@ private:
     Unk_7101293bac* _398;
     GrudgeRenderer* _3a0;
     Unk_7100efd9b8* _3a8;
-    u8 _3b0[0x660 - 0x3b0];
+    agl::cull::OcclusionQueryDrawer* _3b0;
+    u8 _3b8[0x660 - 0x3b8];
     s32 mLensFlarePreset;  // 0x7100f2ddf0 compares and updates this preset index.
     u8 _664[0x668 - 0x664];
     Unk_668* _668;
@@ -788,6 +790,16 @@ public:
     void editorCallback9(const gsys::IResourceEditorCallback::Arg& arg) override;
     Graphics();
     virtual ~Graphics();
+
+    // 0x7100f2e0a4 (slot m12): pass an environment object and its allocation argument to the
+    // locational light manager.
+    virtual void m12(void* obj, agl::env::EnvObjBuffer::AllocateArg* arg);
+    // 0x7100f2e0b4 (slot m13): the same environment object re-registration.
+    virtual void m13(void* obj);
+    // 0x7100f2e0c4 (slot m14).
+    virtual void m14(void* obj);
+    // 0x7100f2e0d4 (slot m15): clears the occlusion query drawer when one is attached.
+    virtual void m15();
 
     // The map state byte compared with 4 (sub_7100F2FAAC) and 7 (PlacementMgr::requestDraw).
     u8 getMapStateMaybe() const { return _f5a; }

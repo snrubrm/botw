@@ -84,6 +84,23 @@ void Graphics::editorCallback8(const gsys::IResourceEditorCallback::Arg& arg) {
             Unk_710260af28::instance()->sub_7100F1B9D0(arg._8);
 }
 
+void Graphics::m12(void* obj, agl::env::EnvObjBuffer::AllocateArg* arg) {
+    _aa0->sub_7100F0B5B8(obj, arg);
+}
+
+void Graphics::m13(void* obj) {
+    _aa0->sub_7100F13060(obj);
+}
+
+void Graphics::m14(void* obj) {
+    _aa0->sub_7100F131C0(obj);
+}
+
+void Graphics::m15() {
+    if (_3b0)
+        _3b0->clear();
+}
+
 void Graphics::sub_7100F35F50(agl::lyr::Layer* layer, bool value) {
     if (layer)
         layer->sub_7100B60DC4(value);

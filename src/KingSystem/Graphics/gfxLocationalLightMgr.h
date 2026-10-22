@@ -4,6 +4,7 @@
 #include <container/seadBuffer.h>
 #include <container/seadOffsetList.h>
 #include <container/seadPtrArray.h>
+#include <environment/aglEnvObjBuffer.h>
 #include <hostio/seadHostIONode.h>
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
@@ -90,6 +91,13 @@ public:
     Unk_7102519378* sub_7100F138B4();
     Unk_7102519378* sub_7100F13940();
     Unk_7102519378* sub_7100F139CC();
+    // 0x7100f0b5b8 (placeholder name): stores `obj` at +0x58 and gives the allocation argument a
+    // maximum of 0x80 for one env object type.
+    void sub_7100F0B5B8(void* obj, agl::env::EnvObjBuffer::AllocateArg* arg);
+    // 0x7100f13060 (placeholder name): re-registers the manager's env objects for `obj`.
+    void sub_7100F13060(void* obj);
+    // 0x7100f131c0 (placeholder name): the same re-registration for the second record array.
+    void sub_7100F131C0(void* obj);
     // 0x7100f13420: remove the bindings of a model unit.
     void sub_7100F13420(gsys::ModelUnit* unit);
     // 0x7100f134e8: remove bindings whose objects lie in the open range.
