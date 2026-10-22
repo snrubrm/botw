@@ -368,12 +368,12 @@ s32 apQueryCheckPouchItemCount(const evfl::QueryArg& arg) {
 // NON_MATCHING: only the stack slots of the string views and the SafeString temporaries differ
 // (the original frame is 16 bytes larger).
 s32 apQueryCheckPouchItemCountFromActor(const evfl::QueryArg& arg) {
+    const ore::StringView actor_key("Actor");
+    const ore::StringView count_key("Count");
     ore::StringView actor;
-    if (!arg.param_accessor.FindString(&actor, "Actor"))
-        return -1;
-
     int count;
-    if (!arg.param_accessor.FindInt(&count, "Count"))
+    if (!arg.param_accessor.FindString(&actor, actor_key) ||
+        !arg.param_accessor.FindInt(&count, count_key))
         return -1;
 
     sead::SafeString name;
