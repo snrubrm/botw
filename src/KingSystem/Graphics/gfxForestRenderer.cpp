@@ -1,11 +1,15 @@
 #include "KingSystem/Graphics/gfxForestRenderer.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Resource/resBfRes.h"
+#include "KingSystem/Resource/resLoadRequest.h"
+#include "KingSystem/Effect/eftEffect.h"
 #include <cstring>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelDrawObj.h>
 #include <gsys/gsysModelUnit.h>
 #include <gsys/gsysModelUnitDrawArray.h>
+#include <gsys/gsysParticleMgr.h>
+#include <ptcl/seadPtclSystem.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Terrain/teraSystem.h"
@@ -68,6 +72,36 @@ void ForestRenderer::ModelSlot::sub_7100F05B5C(const sead::Buffer<TreeResMaybe>*
         selected.freeBuffer();
     }
     mState = 2;
+}
+
+bool ForestRenderer::TreeResMaybe::loadModel() {
+    if (_8 == 3)
+        return true;
+
+    _8 = 2;
+    res::LoadRequest request;
+    request.mRequester = "gfx::ForestRenderer";
+    request._22 = true;
+
+    u8 state = 5;
+    bool ok = false;
+    if (!sUnk_710260a1d0 || sUnk_710260a1d4) {
+        sead::FormatFixedSafeString<256> path("Model/%s.bfres", mName);
+        if (mRes.load(path, &request) || mRes.load(path, &request)) {
+            if ((mIndex == 0x15 || mIndex == 0x16) && !_68) {
+                if (auto* effect = eft::Effect::instance()) {
+                    _68 = effect->getModelMgr().entry(
+                        gsys::ParticleMgr::instance()->getSystem()->getHeap(2), nullptr,
+                        static_cast<res::BfRes*>(mRes.getResourceWithoutChecks_0()), mName);
+                }
+            }
+            state = 3;
+            ok = true;
+        }
+    }
+
+    _8 = state;
+    return ok;
 }
 
 

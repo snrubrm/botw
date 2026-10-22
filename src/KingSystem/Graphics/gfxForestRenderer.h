@@ -24,6 +24,10 @@ class TaskPostRunResult;
 class TaskPostRunContext;
 }  // namespace ksys
 
+namespace ksys::eft {
+class EffectModelData;
+}
+
 namespace ksys::map {
 class PlacementMgr;
 }
@@ -273,11 +277,16 @@ public:
         // 0x7100f07828
         virtual ~TreeResMaybe();
 
-        bool _8 = false;
+        // 0x7100f06010: loads the resource named by mName; _8 is the load state (2 while loading,
+        // 3 done, 5 failed).
+        bool loadModel();
+
+        // Load state: 2 while loading, 3 loaded, 5 failed (loadModel).
+        u8 _8 = 0;
         u8 mIndex = 0xff;
         const char* mName = nullptr;
         res::ResDerived mRes;
-        u64 _68 = 0;
+        eft::EffectModelData* _68 = nullptr;
     };
     static_assert(sizeof(TreeResMaybe) == 0x70);
 
