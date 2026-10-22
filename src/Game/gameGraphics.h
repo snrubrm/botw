@@ -692,6 +692,16 @@ namespace agl {
 class ShaderProgramArchive;
 }
 
+// 0x710260b150 (singleton, vtable 0x71024f4cc0, 0x2f0 bytes, created by ksys::InitializeApp): the
+// map footprint pass; GraphicsContext at +0x30, Viewport at +0xa8, OrthoProjection at +0xd0, the
+// shader archive at +0x1b0. Only the shader setup Graphics::init runs is modelled.
+class Unk_71024f4cc0 {
+public:
+    // 0x7100f37b5c: the "map_visit_mark" program's uniform block, uniform names, image location
+    // and attribute names.
+    void initShaderProgram(agl::ShaderProgramArchive* archive, sead::Heap* heap);
+};
+
 namespace ksys::gfx {
 // 0x7101294a7c (called by Graphics::init): sets up the "light_analyzer" program's shader storage
 // block, its five sampler locations and its "cContext" uniform block.
