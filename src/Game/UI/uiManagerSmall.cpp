@@ -1598,11 +1598,9 @@ f32 Unk_71024750c8::m9(f32 value) {
 }
 
 // 0x710094784c
-Unk_7102475050::~Unk_7102475050() = default;
 
 // NON_MATCHING: placeholder destructor (keeps the vtable emitted); the original's slot is the base D2 0x71009479c4
 // and its D0 is 0x71009479d8.
-Unk_71024750c8::~Unk_71024750c8() = default;
 
 // 0x7100a7f290
 Unk_710249c5e8::~Unk_710249c5e8() {
@@ -1867,3 +1865,5 @@ bool Unk_71024750c8::sub_7100947520() {
         return true;
     }
 }
+Unk_7102475050::~Unk_7102475050() = default;
+Unk_71024750c8::~Unk_71024750c8() = default;

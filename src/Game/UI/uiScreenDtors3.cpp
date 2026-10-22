@@ -82,7 +82,15 @@ ScreenMainShortCut::~ScreenMainShortCut() {
     _36f0.freeBuffer();
 }
 ScreenPauseMenu::~ScreenPauseMenu() = default;
-ScreenPauseMenuInfo::~ScreenPauseMenuInfo() = default;
+// NON_MATCHING: the two gauge members have out-of-line destructors in our model (their D1 rows need the
+// symbol), so the calls here are not inlined as in the original.
+// 0x7100a2cb50 (D1): frees the records, then shows the skip screen again (m80(true)) if there is one
+ScreenPauseMenuInfo::~ScreenPauseMenuInfo() {
+    _39c8.freeBuffer();
+    _39d8.freeBuffer();
+    if (auto* screen = sead::DynamicCast<Screen>(eui::ScreenMgr::instance()->getScreen(ScreenId::Skip)))
+        screen->m80(true);
+}
 // 0x7100a421a0
 ScreenSaveTransferWindow::~ScreenSaveTransferWindow() {
     mSaveWork.reset(true);

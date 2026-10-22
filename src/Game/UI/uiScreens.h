@@ -1011,7 +1011,9 @@ public:
     // A2CE68 stores the gauge singleton here.
     /* 0x3610 */ Unk_71025d6578* _3610;
     /* 0x3618 */ Unk_7102474c08 _3618;
-    u8 _pad_3650[0x3688 - 0x3650];
+    u8 _pad_3650[0x3658 - 0x3650];
+    // Its destructor is the sixth member teardown in the class's D1.
+    /* 0x3658 */ Unk_710247adc8 _3658;
     // A2CE68 creates State, Pos and GanbariPos animators in this order.
     /* 0x3688 */ eui::Animator* _3688;
     /* 0x3690 */ eui::Animator* _3690;
@@ -1061,7 +1063,8 @@ public:
     u8 _pad_39c1[0x39c8 - 0x39c1];
     // A2CE68 checks ScreenChildEx then the leaf RTTI at 25da4a8 before inserting group 7 children.
     /* 0x39c8 */ sead::PtrArray<Unk_710247b960> _39c8;
-    u8 _pad_39d8[0x39e8 - 0x39d8];
+    // The dtor frees this pair (count / pointer) with freeBuffer().
+    /* 0x39d8 */ sead::Buffer<ScreenChildEx*> _39d8;
     /* 0x39e8 */ ScreenChildEx* _39e8;  // the control whose layout shows the number (T_Num_00)
     /* 0x39f0 */ u8 _39f0;
     u8 _pad_39f1[0x39f8 - 0x39f1];

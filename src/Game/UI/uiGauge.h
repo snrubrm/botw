@@ -140,7 +140,7 @@ class Unk_7102475050 : public Unk_7102474fd8Gauge {
     SEAD_RTTI_OVERRIDE(Unk_7102475050, Unk_7102474fd8)
 public:
     ~Unk_7102475050() override;
-    // 0x71009468f0: also creates the "Born" (stopped at min) / "Dead" (stopped at max) animators and ends the timer
+        // 0x71009468f0: also creates the "Born" (stopped at min) / "Dead" (stopped at max) animators and ends the timer
     void m4() override;
     // the gauge values from the UI Manager (uking::ui::sub_7100A9B6D0 / sub_7100A9B6F0)
     f32 m6() override;
