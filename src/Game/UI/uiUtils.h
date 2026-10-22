@@ -264,7 +264,13 @@ bool sub_7100AA2350(eui::Screen* screen, f32* value, f32 target, f32 rate, f32 m
 // 0x7100aa21f4 (placeholder name): sub_7100AA2350 for a 2D position (the step is scaled to the distance)
 bool sub_7100AA21F4(eui::Screen* screen, sead::Vector2f* value, const sead::Vector2f& target, f32 rate,
                     f32 max_step, f32 min_step);
-// 0x7100aa9a40 (declared only; placeholder name): draws `box` on the screen's draw target (debug display; the colour
+// 0x7100aa9878 (CSV unnamed): draws the four corners of a box (and its centre) on the screen's draw
+// target with the given colour; `offset` shifts the corner labels.
+void sub_7100AA9878(f32 size, const sead::Vector2f& corner0, const sead::Vector2f& corner1,
+                    const sead::Vector2f& corner2, const sead::Vector2f& corner3,
+                    eui::Screen* screen, const sead::Color4f& color, bool show_corners,
+                    bool show_center, bool flag, const sead::Vector2f& offset);
+// 0x7100aa9a40 (placeholder name): draws `box` on the screen's draw target (debug display; the colour
 // type is a guess)
 void sub_7100AA9A40(const sead::BoundBox2f& box, eui::Screen* screen, const sead::Color4f& color, bool a4, bool a5,
                     bool a6);

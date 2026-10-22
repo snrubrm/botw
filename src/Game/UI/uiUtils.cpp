@@ -1141,4 +1141,15 @@ void sub_7100AA73E8(eui::LayoutEx* layout, const sead::SafeString& widget,
     }
 }
 
+// 0x7100aa9a40
+void sub_7100AA9A40(const sead::BoundBox2f& box, eui::Screen* screen, const sead::Color4f& color,
+                    bool a4, bool a5, bool a6) {
+    const sead::Vector2f bl = box.getBL();
+    const sead::Vector2f tl = box.getTL();
+    const sead::Vector2f tr = box.getTR();
+    const sead::Vector2f br = box.getBR();
+    const sead::Vector2f offset(5.0f, 5.0f);
+    sub_7100AA9878(1.5f, bl, tl, tr, br, screen, color, a4, a5, a6, offset);
+}
+
 }  // namespace uking::ui
