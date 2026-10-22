@@ -1202,15 +1202,33 @@ public:
 };
 static_assert(sizeof(Unk_7102479510) == 0x48);
 
-// One entry of the map mode table (0xa8 bytes): the mode's state, the duration of its timer and the
-// state at 0x98 that only the table's final entry uses (UiSubsys1::_3820).
+// One entry of the map mode table (0xa8 bytes): an eight-byte prefix that no decompiled function
+// reads, the mode's state and the duration of its timer.
 struct MapModeEntry {
-    s32 _0;
-    f32 _4;
-    u8 _8[0x90];
-    s32 _98;
-    u8 _9c[0xc];
+    u64 _0;
+    /* 0x08 */ s32 _8;
+    /* 0x0c */ f32 _c;
+    u8 _10[0x98];
 };
+
+// The selected-entry record of each map mode group. Its name is cleared and its _98 reset to -1
+// when the map screen closes (0x710095f944); _a0 is the map state at 0x3820.
+struct MapModeSelected {
+    /* 0x00 */ sead::SafeString mName;
+    u8 _10[0x88];
+    /* 0x98 */ s32 _98;
+    u8 _9c[4];
+    /* 0xa0 */ s32 _a0;
+    u8 _a4[4];
+};
+
+struct MapModeGroup {
+    MapModeEntry mEntries[12];
+    MapModeSelected mSelected;
+};
+static_assert(sizeof(MapModeEntry) == 0xa8);
+static_assert(sizeof(MapModeSelected) == 0xa8);
+static_assert(sizeof(MapModeGroup) == 0x888);
 
 class UiSubsys1 {
     // Native singleton forwarders 96828C / 9682B4 / 9682CC read these UI fields directly.
@@ -1437,6 +1455,8 @@ public:
     void sub_71009659A4(const sead::Vector2f* view);
     // 0x710095f944 (placeholder name): clears the map icon / district state (ScreenAppMap's destructor calls it)
     void sub_710095F944();
+    // 0x710095f9d4 (declared only; 1836 bytes): the full UI state reset called by sub_710095F944
+    void sub_710095F9D4();
     // 0x7100965e68 / 0x7100965e78 / 0x7100965e88 / 0x7100965e98 (placeholder names)
     bool is898Zero() const;
     bool is898EqualTo3() const;
@@ -1502,16 +1522,19 @@ public:
 private:
     static UiSubsys1* sInstance;
 
-    u8 _0[0x29];
+    u8 _0[0x28];
+    /* 0x28 */ u8 _28;
     /* 0x29 */ u8 _29;
-    u8 _2a[0x88 - 0x2a];
-    /* 0x88 */ bool _88;
-    u8 _89[0x120 - 0x89];
+    u8 _2a[0x30 - 0x2a];
+    // The fifteen map mode objects reset when the map screen closes (native 0x710095f944).
+    /* 0x30 */ Unk_7102476a40 _30[15];
+    // Bitmask of the map modes that are available (0x7100956c10 tests bit `index`)
     /* 0x120 */ u32 _120;
     /* 0x124 */ u32 _124;
     /* 0x128 */ s32 _128;
     /* 0x12c */ u8 _12c;
-    u8 _12d[0x250 - 0x12d];
+    u8 _12d[0x130 - 0x12d];
+    u8 _130[0x250 - 0x130];
     /* 0x250 */ sead::ObjList<void*> _250;
     /* 0x280 */ sead::ObjList<void*> _280;
     /* 0x2b0 */ sead::ObjList<void*> _2b0;
@@ -1592,10 +1615,11 @@ private:
     /* 0x8ec */ f32 _8ec;
     /* 0x8f0 */ bool _8f0;
     /* 0x8f1 */ bool _8f1;
-    u8 _8f2[0xd88 - 0x8f2];
-    // The map mode table: five groups of thirteen entries each (0x888 = 13 * 0xa8). The 0x98 field of its
-    // last entry is the state at 0x3820.
-    /* 0xd88 */ MapModeEntry _d88[5][13];
+    u8 _8f2[0xd80 - 0x8f2];
+    // The map mode table: five groups of twelve entries and the group's selected-entry record
+    // (0x888 = 12 * 0xa8 + 0xa8). The state of the selected entry is the state at 0x3820.
+    /* 0xd80 */ MapModeGroup _d80[5];
+    u8 _3828[0x3830 - 0x3828];
     /* 0x3830 */ s32 _3830;
     /* 0x3834 */ sead::Vector3f _3834;
     /* 0x3840 */ UiTimer _3840;

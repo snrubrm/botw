@@ -53,7 +53,7 @@ void UiSubsys1::sub_7100968844() {
     _3860 = 0;
     _3830 = 0;
     sUnk_71025d6ab0 = false;
-    _d88[4][12]._98 = 4;
+    _d80[4].mSelected._a0 = 4;
 }
 
 // 0x7100964518: turns the marker position `pos` into the widget position and hands pin `index` to
@@ -235,7 +235,7 @@ void UiSubsys1::sub_7100960A1C() {
             mode = sead::BitFlagUtil::countContinuousOffBitFromRight(mode);
         const s64 index = _3830;
         if (u32(index) <= 0xb)
-            duration = _d88[mode < 5 ? mode : 0][index]._4;
+            duration = _d80[mode < 5 ? mode : 0].mEntries[index]._c;
     }
     _3840.init(duration);
 }
@@ -246,7 +246,7 @@ bool UiSubsys1::sub_71009635DC() {
         if (getMapMode() != 2)
             return false;
     }
-    if (_d88[4][12]._98 > 0)
+    if (_d80[4].mSelected._a0 > 0)
         return false;
     const s64 index = _3830;
     if (index == -1)
@@ -259,7 +259,7 @@ bool UiSubsys1::sub_71009635DC() {
     else
         mode = sead::BitFlagUtil::countContinuousOffBitFromRight(mode);
     if (u32(index) < 0xc)
-        return _d88[mode < 5 ? mode : 0][index]._0 < 3;
+        return _d80[mode < 5 ? mode : 0].mEntries[index]._8 < 3;
     return true;
 }
 
@@ -954,7 +954,7 @@ bool UiSubsys1::return0() const {
 
 // 0x7100968764 (CSV uiSubsys1::__auto38)
 s32 UiSubsys1::get3820() const {
-    return _d88[4][12]._98;
+    return _d80[4].mSelected._a0;
 }
 
 // 0x7100968824 (CSV uiSubsys1::__auto1)
@@ -1180,7 +1180,7 @@ s32 UiSubsys1::get38fc() const {
 
 // 0x710096876c
 void UiSubsys1::set3820(s32 value) {
-    _d88[4][12]._98 = value;
+    _d80[4].mSelected._a0 = value;
 }
 
 // Small helpers of the UiSubsys1 TU (placeholder names; free functions in the original).
@@ -1243,6 +1243,23 @@ bool UiSubsys1::sub_7100968BD8() {
     if (ksys::gdt::getFlag_IsGet_Obj_SheikSensor())
         return false;
     return sead::BitFlagUtil::countOnBit(u16(_120)) == 2;
+}
+
+// 0x710095f944: clears the map mode objects' state, runs the full UI state reset, then clears the
+// selected-entry name and state of each map mode group.
+// NON_MATCHING: our clang fully unrolls the 15-entry reset loop; the original keeps the loop (same
+// stores and offsets).
+void UiSubsys1::sub_710095F944() {
+    for (s32 i = 0; i < 15; ++i) {
+        _30[i]._8 = -1;
+        _30[i]._c = -1;
+    }
+    sub_710095F9D4();
+    for (s32 i = 0; i < 5; ++i) {
+        // SafeStringBase::clear(): not modelled in our sead, so write its body.
+        const_cast<char*>(_d80[i].mSelected.mName.getStringTop())[0] = sead::SafeStringBase<char>::cNullChar;
+        _d80[i].mSelected._98 = -1;
+    }
 }
 
 }  // namespace uking::ui

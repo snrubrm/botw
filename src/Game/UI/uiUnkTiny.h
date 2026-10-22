@@ -708,7 +708,11 @@ public:
 class Unk_7102476a40 {
 public:
     virtual ~Unk_7102476a40();
+
+    /* 0x08 */ s32 _8;
+    /* 0x0c */ s32 _c;
 };
+static_assert(sizeof(Unk_7102476a40) == 0x10);
 
 class Unk_7102476a60 {
 public:
