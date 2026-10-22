@@ -256,6 +256,9 @@ public:
     // `name` near `pos`.
     RailConnectablePoint* sub_71011EA44C(const sead::Vector3f* pos, s32 x, s32 z);
     Rail* sub_71011EA454(const sead::SafeString& name, const sead::Vector3f* pos);
+    // The four-argument form the AutoPlacement rail query calls (0x7100653e88 passes the searched cell
+    // size). The original drops the two sizes in the forwarder.
+    Rail* sub_71011EA454(const sead::SafeString& name, const sead::Vector3f* pos, s32 x, s32 z);
     RailConnectablePoint* sub_71011EA45C(const sead::Vector3f* pos,
                                       const sead::SafeString& route_id);
     const RailConnectablePoint* roadStuff(const sead::SafeString& route_ids);

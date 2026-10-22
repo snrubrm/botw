@@ -785,6 +785,11 @@ Rail* PlacementMgr::sub_71011EA454(const sead::SafeString& name, const sead::Vec
     return mPlacement18->sub_7100D48DE0(name, pos);
 }
 
+Rail* PlacementMgr::sub_71011EA454(const sead::SafeString& name, const sead::Vector3f* pos, s32,
+                                   s32) {
+    return mPlacement18->sub_7100D48DE0(name, pos);
+}
+
 const RailConnectablePoint* PlacementMgr::roadStuff(const sead::SafeString& route_ids) {
     return mPlacement18->sub_7100D49324(route_ids);
 }

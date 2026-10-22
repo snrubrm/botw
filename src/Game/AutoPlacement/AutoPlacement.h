@@ -179,6 +179,7 @@ public:
 private:
     friend class AutoPlacementMgr;
     friend s32 apQueryCheckTimeType(const evfl::QueryArg& arg);
+    friend s32 apQueryRailDistance(const evfl::QueryArg& arg);
 
     struct ObjectRef {
         ksys::map::Object* obj;

@@ -6,6 +6,8 @@
 #include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Map/mapRail.h"
 #include "KingSystem/System/UIGlue.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
@@ -219,6 +221,84 @@ s32 apQueryRouteDistance(const evfl::QueryArg& arg) {
     const sead::Vector3f& pos = placement->getCurrentThingMaybe()->getQueryPositionMaybe();
     void* const* stats = AutoPlacementMgr::instance()->getRouteDistanceStatsMaybe();
     return distance <= sub_7100659298(pos, stats);
+}
+
+// Whether a rail point is closer than "Distance" to the query position. "NearOnly" searches the
+// connectable point at the position and checks its junction rail; otherwise the rail named
+// "RailName" is searched. Returns 1 when no point is close enough, 0 otherwise; when the current
+// thing is the second placement thing, the rail's unique name is stored in the placement.
+s32 apQueryRailDistance(const evfl::QueryArg& arg) {
+    const ore::StringView rail_name_key("RailName");
+    const ore::StringView distance_key("Distance");
+    const ore::StringView rail_type_key("RailType");
+    const ore::StringView near_only_key("NearOnly");
+    s32 rail_type;
+    f32 distance;
+    ore::StringView rail_name;
+    bool near_only;
+    if (!arg.param_accessor.FindString(&rail_name, rail_name_key) ||
+        !arg.param_accessor.FindInt(&rail_type, rail_type_key) ||
+        !arg.param_accessor.FindFloat(&distance, distance_key) ||
+        !arg.param_accessor.FindBool(&near_only, near_only_key))
+        return -1;
+
+    ksys::map::PlacementMgr* mgr = ksys::map::PlacementMgr::instance();
+    if (!mgr)
+        return -1;
+
+    const s32 level = s32((distance + distance) / 1000.0f) + 1;
+    const s32 x = sead::Mathi::clampMax(level, 10);
+    const s32 z = sead::Mathi::clampMax(level, 8);
+
+    if (rail_type != 0)
+        return -1;
+
+    AutoPlacement* placement = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data)->placement;
+    // NON_MATCHING: the original loads the mX query position before the NearOnly byte; ours
+    // schedules the two independent loads the other way round (the rest of the body matches).
+    const f32 dist2 = distance * distance;
+    const sead::Vector3f& pos = placement->getCurrentThingMaybe()->getQueryPositionMaybe();
+
+    ksys::map::Rail* rail;
+    if (near_only) {
+        ksys::map::RailConnectablePoint* point = mgr->sub_71011EA44C(&pos, x, z);
+        if (!point)
+            return 1;
+        rail = point->getJunctionRail();
+        if (!rail->getUniqueName())
+            return 1;
+        if (sead::SafeString(rail->getUniqueName()) != sead::SafeString(rail_name.data()))
+            return 1;
+        const sead::Vector3f& point_pos = point->getTranslate();
+        const f32 dx = pos.x - point_pos.x;
+        const f32 dz = pos.z - point_pos.z;
+        if (dist2 > dx * dx + dz * dz) {
+            if (placement->mX == &placement->mThing2)
+                placement->_8868 = rail->getUniqueName();
+            return 0;
+        }
+        return 1;
+    } else {
+        rail = mgr->sub_71011EA454(rail_name.data(), &pos, x, z);
+        if (!rail)
+            return 1;
+        const s32 num_points = rail->getNumPoints();
+        if (num_points < 1)
+            return 1;
+        s32 i = 0;
+        for (; i < num_points; ++i) {
+            const sead::Vector3f& point_pos = rail->getPointTranslate(i);
+            const f32 dx = pos.x - point_pos.x;
+            const f32 dz = pos.z - point_pos.z;
+            if (dist2 > dx * dx + dz * dz)
+                break;
+        }
+        if (i >= num_points)
+            return 1;
+        if (placement->mX == &placement->mThing2)
+            placement->_8868 = rail->getUniqueName();
+        return 0;
+    }
 }
 
 s32 apQueryGrassHeight(const evfl::QueryArg& arg) {
