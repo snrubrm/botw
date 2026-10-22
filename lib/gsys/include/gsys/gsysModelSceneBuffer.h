@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include "factory/aglFrameRateControlBuffer.h"
 #include "gsys/gsysModelSceneComponent.h"
 
 namespace gsys {
@@ -26,6 +27,8 @@ public:
     // 0x7100c17b60 / 0x7100c19628 .. 0x7100c19650: the view switches, forwarded to the
     // render buffer context with the context's view byte.
     void preCalcView(ModelSceneContext* context) override;
+    // 0x7100c17b6c: forwards to the frame rate control buffer at +0x258.
+    void updateFrame();
     void beginReducedBuffer(agl::DrawContext* draw_context, ModelSceneContext* context,
                             bool flag) const;
     void beginReducedQuarterBuffer(agl::DrawContext* draw_context, ModelSceneContext* context) const;
@@ -46,7 +49,10 @@ public:
 
 private:
     RenderBufferContext* mRenderBufferContext;
-    u8 _258[0x1712 - 0x258];
+    // Constructor C17558 constructs the frame rate controller at +0x258 and the AA filter at
+    // +0x4b8, so the controller is 0x260 bytes.
+    agl::fctr::FrameRateControlBuffer mFrameRateControlBuffer;
+    u8 _4b8[0x1712 - 0x4b8];
     // endGBufferPreShading tests bit 3, expandGBuffer bit 2.
     u8 _1712;
     u8 _1713[0x1728 - 0x1713];

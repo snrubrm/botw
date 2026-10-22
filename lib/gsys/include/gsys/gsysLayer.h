@@ -1,5 +1,6 @@
 #pragma once
 
+#include <gsys/gsysLayerTexture.h>
 #include <layer/aglLayer.h>
 #include <prim/seadSafeString.h>
 #include <utility/aglDebugTexturePage.h>
@@ -44,7 +45,10 @@ private:
     u8 _208[0x3b0 - 0x208];
     // initializeImpl formats the layer name into this string and passes it to the debug page.
     sead::FixedSafeString<32> mDebugName;
-    u8 _3e8[0xc44 - 0x3e8];
+    u8 _3e8[8];
+    // Constructor BF4378 constructs this at +0x3f0; postCalcCommandImpl frees its dynamic texture.
+    LayerTexture mLayerTexture;
+    u8 _8e8[0xc44 - 0x8e8];
     // Bit 1: force invisible.
     u8 mFlags;
     u8 _c45[0xc48 - 0xc45];

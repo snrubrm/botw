@@ -9,6 +9,11 @@ namespace gsys {
 // 0x7100bf51a0: the empty base hook; Layer3D overrides it. Kept out of line like the native copy.
 void Layer::doInitialize(sead::Heap* heap) {}
 
+// 0x7100bf48d8: the layer owns the layer texture at +0x3f0 and frees its dynamic texture.
+void Layer::postCalcCommandImpl() {
+    mLayerTexture.freeDynamic_();
+}
+
 void Layer::initializeImpl(sead::Heap* heap) {
     mDebugName.format("%s", getName().cstr(), getRegisteredIndexMaybe());
     getCameraFlags().resetBit(1);

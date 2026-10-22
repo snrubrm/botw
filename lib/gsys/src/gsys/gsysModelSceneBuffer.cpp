@@ -13,6 +13,11 @@ void ModelSceneBuffer::preCalcView(ModelSceneContext* context) {
     mRenderBufferContext->clear(context->_8);
 }
 
+// 0x7100c17b6c
+void ModelSceneBuffer::updateFrame() {
+    mFrameRateControlBuffer.updateFrame();
+}
+
 // 0x7100c19628
 void ModelSceneBuffer::beginReducedBuffer(agl::DrawContext* draw_context,
                                           ModelSceneContext* context, bool flag) const {

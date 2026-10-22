@@ -2,6 +2,7 @@ project(gsys CXX ASM)
 
 add_library(gsys OBJECT
   include/gsys/gsysLayer.h
+  include/gsys/gsysLayerTexture.h
   include/gsys/gsysLayer3D.h
   src/gsys/gsysLayer.cpp
   include/gsys/gsysModelRenderCache.h
