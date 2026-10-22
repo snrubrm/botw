@@ -585,6 +585,7 @@ public:
     };
     static_assert(sizeof(NameEntry) == 0x40);
     struct NameTable {
+        NameTable();
         NameEntry mEntries[8];
     };
     static_assert(sizeof(NameTable) == 0x200);
