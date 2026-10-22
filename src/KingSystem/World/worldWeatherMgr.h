@@ -31,7 +31,8 @@ public:
     static bool isExposureZero();
     void loadInfo();
     WeatherType rollNewWeather(Climate climate);
-    bool x_0();
+    // 0x71010eab84: packs the nibbles of the climate weather table into the three GDT arrays.
+    void x_0();
     // 0x71010eb4bc (CSV wm::WeatherMgr::calcNewWeathers): shifts every climate's weather table by one cycle and
     // rolls the six new entries (not in the test stage).
     void calcNewWeathers();
@@ -78,7 +79,8 @@ public:
     u8 _29;
     sead::SafeArray<sead::SafeArray<WeatherType, NumWeatherCycles * 6>, NumClimates> _2a;
     u8 _193;
-    ClimateWeathers mClimateWeathers[NumClimates];  // 0x194
+    // Three arrays of packed 6-nibble weather values (0x71010eab84 / loadInfo 0x71010ea34c).
+    s32 mClimateWeathers[3][NumClimates];  // 0x194
     sead::SafeArray<u8, 6> _284;
     u8 _28a[0x2ac - 0x28a];
     // Constructor sets (0, 1, 0); x_12 and x_9 write the camera-facing direction.

@@ -216,6 +216,36 @@ void WeatherMgr::x_17() {
         --_380;
 }
 
+void WeatherMgr::x_0() {
+    auto* gdt = gdt::Manager::instance();
+    for (s32 i = 0; i < NumClimates; ++i) {
+        mClimateWeathers[0][i] = (u32(_2a[i][0]) & 0xf) << 20;
+        mClimateWeathers[0][i] |= (u32(_2a[i][1]) & 0xf) << 16;
+        mClimateWeathers[0][i] |= (u32(_2a[i][2]) & 0xf) << 12;
+        mClimateWeathers[0][i] |= (u32(_2a[i][3]) & 0xf) << 8;
+        mClimateWeathers[0][i] |= (u32(_2a[i][4]) & 0xf) << 4;
+        mClimateWeathers[0][i] |= u32(_2a[i][5]) & 0xf;
+
+        mClimateWeathers[1][i] = (u32(_2a[i][6]) & 0xf) << 20;
+        mClimateWeathers[1][i] |= (u32(_2a[i][7]) & 0xf) << 16;
+        mClimateWeathers[1][i] |= (u32(_2a[i][8]) & 0xf) << 12;
+        mClimateWeathers[1][i] |= (u32(_2a[i][9]) & 0xf) << 8;
+        mClimateWeathers[1][i] |= (u32(_2a[i][10]) & 0xf) << 4;
+        mClimateWeathers[1][i] |= u32(_2a[i][11]) & 0xf;
+
+        mClimateWeathers[2][i] = (u32(_2a[i][12]) & 0xf) << 20;
+        mClimateWeathers[2][i] |= (u32(_2a[i][13]) & 0xf) << 16;
+        mClimateWeathers[2][i] |= (u32(_2a[i][14]) & 0xf) << 12;
+        mClimateWeathers[2][i] |= (u32(_2a[i][15]) & 0xf) << 8;
+        mClimateWeathers[2][i] |= (u32(_2a[i][16]) & 0xf) << 4;
+        mClimateWeathers[2][i] |= u32(_2a[i][17]) & 0xf;
+
+        gdt->setS32NoCheck(mClimateWeathers[0][i], "climateWeather", i);
+        gdt->setS32NoCheck(mClimateWeathers[1][i], "climateWeather2", i);
+        gdt->setS32NoCheck(mClimateWeathers[2][i], "climateWeather3", i);
+    }
+}
+
 static WeatherType sanitizeWeather(WeatherType weather) {
     if (u8(weather) >= NumWeatherTypes)
         return WeatherType::Bluesky;
