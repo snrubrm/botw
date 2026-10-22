@@ -73,6 +73,10 @@ public:
     void setDisplayListDirty();
     void setDisplayListDirty(int shape_idx);
 
+    // 0x7100f1d514: looks the material name up in the dictionary at ModelUnit+0x60.
+    // The native body takes a raw name (it calls strlen on the argument).
+    int searchMaterialIndex(const char* material_name) const;
+
     // Native C03E8C selects the skeleton callback bone; -1 disables the callback.
     void setCallbackBoneIndex(int bone_idx);
 

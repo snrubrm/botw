@@ -3,6 +3,7 @@
 #include "gsys/gsysModelDynamicEnvInfo.h"
 #include <nn/g3d/SkeletonObj.h>
 #include <nn/g3d/ResModel.h>
+#include <nn/util/util_ResDic.h>
 
 namespace gsys {
 ModelNW::CreateArg::CreateArg() : model(nullptr), buffer_num(1), _c(-1), _10(nullptr), _18(true), _19(true) {}
@@ -13,6 +14,14 @@ bool ModelNW::initialize(nn::g3d::ResModel* model, s32 buffer_num, sead::Heap* h
     return initialize(arg, heap);
 }
 
+
+// 0x7100f1d514
+int ModelNW::searchMaterialIndex(const char* material_name) const {
+    const nn::util::ResDic* dict = mMaterialDic;
+    if (dict == nullptr)
+        return nn::util::ResDic::Npos;
+    return dict->FindIndex(material_name);
+}
 
 void ModelNW::getMaterialUserData(ModelNW** model, u16* material_index, const void* user_data) {
     const auto* data = static_cast<const MaterialUserData*>(user_data);

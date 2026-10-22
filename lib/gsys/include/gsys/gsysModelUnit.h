@@ -19,6 +19,10 @@ namespace agl {
 class UniformBlock;
 }
 
+namespace nn::util {
+class ResDic;
+}
+
 namespace gsys {
 
 namespace ModelEnum {
@@ -304,7 +308,8 @@ protected:
         u8 _4[8];
     };
     ViewOption* mViewOptions;
-    void* _60;
+    // 0x7100f1d514 reads the material name dictionary here.
+    nn::util::ResDic* mMaterialDic;
     MaterialInfo* mMaterialInfo;
     void* _70;
     void* _78;
