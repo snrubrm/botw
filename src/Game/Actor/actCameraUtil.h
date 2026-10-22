@@ -128,7 +128,7 @@ f32 sub_71009220FC(s32 idx);
 // its bit 0 is clear (a u8, not a bool: the original negates the raw byte).
 void setFlagToOne();
 void sub_71009223B8();
-u8 sub_71009223C4();
+s32 sub_71009223C4();
 f32 sub_71009223F8(s32 idx);
 f32 sub_7100922408(s32 idx);
 
