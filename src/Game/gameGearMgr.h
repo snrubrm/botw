@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/Utils/Types.h"
+#include "KingSystem/Utils/Unk_7100e7277c.h"
 
 namespace ksys::act {
 class Actor;
@@ -40,6 +41,8 @@ class GearMgr {
     virtual ~GearMgr();
 
 public:
+    // 0x7100669b7c (CSV GearMgr::init): resets the manager and registers the system group handler.
+    void init();
     // 0x7100669ee0 (CSV GearMgr::postCalc): calls postCalc_.
     void postCalc();
     // 0x7100669ee4 resets the actor links and releases the system group handler.
@@ -50,6 +53,10 @@ public:
     void sub_7100669ED8();
     // 0x7100669c88 (CSV nullsub_2166): empty.
     void sub_7100669C88();
+    // 0x7100669c8c (declared only; the CSV name is a placeholder): advances the cog-wheel rotation.
+    void sub_7100669C8C();
+    // 0x7100669980 (declared only): sends the cog-wheel rumble request.
+    void sub_7100669980();
     // Register / unregister `proc` (0x71006692f0 / 0x71006694b4: the actor links at +0x30;
     // 0x710066956c / 0x71006695dc: a second set). Placeholder names.
     void sub_71006692F0(ksys::act::Actor* actor, bool join_system_group);
@@ -81,6 +88,8 @@ public:
     bool sub_71006690B8(ksys::act::BaseProc* proc);
     // 0x7100668d44 (declared only): the per-frame update, run through the delegate `_10e0`.
     void sub_7100668D44();
+    // 0x7100669194 (placeholder name): registers `link` in the first free actor link entry.
+    void sub_7100669194(ksys::act::BaseProcLink* link, bool join_system_group);
 
     // Index (0 / 1) of the current entry of `_10a8`.
     s32 _28 = 0;
@@ -139,8 +148,8 @@ public:
     u8 _10dd;
     u8 _10de[0x10e0 - 0x10de];
     sead::Delegate<GearMgr> _10e0{this, &GearMgr::sub_7100668D44};
-    f32 _1100 = 0.5f;
-    u32 _1104 = 0;
+    // Scalar smoother for the cog-wheel speed (0x7100e726e0); the coefficient is 0.5.
+    Unk_7100e726e0 _1100{0.5f, 0.0f};
 
 private:
     // The initial / final state (inline in the original: the constructor and destructor store the same
