@@ -3,10 +3,17 @@
 #include <basis/seadTypes.h>
 #include <prim/seadBitFlag.h>
 
+namespace agl {
+class DrawContext;
+}
+
 namespace gsys {
 
 class ModelRenderQueue;
+class ModelRenderCache;
+class RenderBufferContext;
 enum class ParticlePass : int;
+enum class ParticleShaderType : int;
 class ParticleDrawArg;
 
 // One render context of a ModelScene: ModelScene initialize 0x7100c0d9fc allocates the array of 0x3f8-byte
@@ -24,6 +31,11 @@ public:
     bool isQueueMaskValid(QueueType type, const sead::BitFlag32& mask) const;
     // 0x7100c21514
     bool isDrawParticle(ParticlePass pass) const;
+    // 0x7100c2155c (declared only): draws one particle pass into this context. The Graphics
+    // particle-editor callbacks (0x7100f2de80 and neighbours) forward to it.
+    void drawParticle(agl::DrawContext* draw_context, const RenderBufferContext& render_buffer_context,
+                      ParticlePass pass, ParticleShaderType shader_type, u32 mask,
+                      ModelRenderCache* cache) const;
 
     u8 _0[8];
     // The view byte the ModelSceneBuffer switches pass to RenderBufferContext.

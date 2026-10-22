@@ -37,9 +37,13 @@ public:
         hkLong m_largestBlock = -1;
     };
 
+    // The second base of hkFreeListAllocator: its native vtable (the second table of the
+    // 0x710253a978 group, installed at +8) starts with the destructor entries and
+    // getExtendedInterface, and ends with isOk.
     struct ExtendedInterface {
         virtual ~ExtendedInterface() = default;
 
+        virtual ExtendedInterface* getExtendedInterface() = 0;
         virtual void garbageCollect() = 0;
         virtual void incrementalGarbageCollect(int numBlocks) = 0;
         virtual hkResult setMemorySoftLimit(hk_size_t maxMemory) = 0;
@@ -49,6 +53,7 @@ public:
         virtual hk_size_t getApproxTotalAllocated() const = 0;
         virtual void setScrubValues(hkUint32 allocValue, hkUint32 freeValue) = 0;
         virtual int addToSnapshot(hkMemorySnapshot& snap, int parentId) = 0;
+        virtual bool isOk() = 0;
     };
 
     virtual ~hkMemoryAllocator();

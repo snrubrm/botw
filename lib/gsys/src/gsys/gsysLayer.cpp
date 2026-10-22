@@ -6,6 +6,9 @@
 #include <layer/aglRenderInfo.h>
 
 namespace gsys {
+// 0x7100bf51a0: the empty base hook; Layer3D overrides it. Kept out of line like the native copy.
+void Layer::doInitialize(sead::Heap* heap) {}
+
 void Layer::initializeImpl(sead::Heap* heap) {
     mDebugName.format("%s", getName().cstr(), getRegisteredIndexMaybe());
     getCameraFlags().resetBit(1);

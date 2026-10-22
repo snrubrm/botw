@@ -109,6 +109,7 @@ add_library(hkStubs OBJECT
   Havok/Common/Base/Math/Vector/hkVector4fComparison.inl
 
   Havok/Common/Base/Memory/Allocator/hkMemoryAllocator.h
+  Havok/Common/Base/Memory/Allocator/FreeList/hkFreeListAllocator.h
   Havok/Common/Base/Memory/Allocator/Lifo/hkLifoAllocator.h
   Havok/Common/Base/Memory/Allocator/Malloc/hkMallocAllocator.h
   Havok/Common/Base/Memory/Router/hkMemoryRouter.cpp

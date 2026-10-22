@@ -7,6 +7,12 @@ HavokMemoryAllocator::HavokMemoryAllocator(int align) : hkMallocAllocator(align)
 
 HavokMemoryAllocator::~HavokMemoryAllocator() = default;
 
+// 0x71012b18f0: the library base constructor builds the allocator, then this class installs its own
+// vtable group (0x710251a370, aliasing the library virtuals) and clears the trailing u64.
+Unk_710251a370::Unk_710251a370() = default;
+
+Unk_710251a370::~Unk_710251a370() = default;
+
 void HavokMemoryAllocator::initDualHeap(sead::Heap* heap1, sead::Heap* heap2, u32 size,
                                         const sead::SafeString& name) {
     mHeap = util::DualHeap::create(size, name, heap1, heap2, alignof(void*),
