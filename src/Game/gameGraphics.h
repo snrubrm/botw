@@ -412,8 +412,22 @@ public:
         /* 0x268 */ s32 _268;  // grid row width used by 10D103C
     };
 
+    // Placeholder (type unknown): the object at +0x668. WorldMgr::calcEntryJob writes the
+    // byte at +0x19 and the float at +0x10 + 0x6c.
+    struct Unk_668_10 {
+        u8 _0[0x6c];
+        f32 mValue;
+    };
+    struct Unk_668 {
+        u8 _0[0x10];
+        Unk_668_10* _10;
+        u8 _18;
+        u8 _19;
+    };
+
     // Original instance pointer 0x710260b060 (GOT 0x7102579d58).
     static Graphics* instance() { return sInstance; }
+    Unk_668* get668Maybe() const { return _668; }
     static Graphics* sInstance;
 
     // 0x7100f2a6bc (placeholder name): the docked screen size (1920 x 1080). The UI layout scales it
@@ -634,7 +648,9 @@ private:
     Unk_7100efd9b8* _3a8;
     u8 _3b0[0x660 - 0x3b0];
     s32 mLensFlarePreset;  // 0x7100f2ddf0 compares and updates this preset index.
-    u8 _664[0xa98 - 0x664];
+    u8 _664[0x668 - 0x664];
+    Unk_668* _668;
+    u8 _670[0xa98 - 0x670];
     Unk_a98* _a98;
     ksys::gfx::LocationalLightMgr* _aa0;
     Unk_aa8* _aa8;

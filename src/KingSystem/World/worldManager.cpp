@@ -798,6 +798,47 @@ void Manager::calc1(sead::WorkerMgr* worker_mgr) {
     calcManagers(worker_mgr);
 }
 
+void Manager::calcEntryJob() {
+    if (gsys::SystemTask::instance()->mFlags.isOnBit(0))
+        return;
+
+    auto* save_mgr = SaveMgr::instance();
+    if (save_mgr) {
+        auto* obj = save_mgr->get1030Maybe();
+        if (obj && obj->m0())
+            return;
+    }
+
+    SkyMgr* sky_mgr = nullptr;
+    if (u32(mMgrs.size()) >= 2)
+        sky_mgr = static_cast<SkyMgr*>(mMgrs.unsafeAt(1));
+    sky_mgr->sub_71010E2AAC();
+
+    EnvMgr* env_mgr = nullptr;
+    if (u32(mMgrs.size()) >= 7)
+        env_mgr = static_cast<EnvMgr*>(mMgrs.unsafeAt(6));
+    env_mgr->calcEntryJob();
+
+    DofMgr* dof_mgr = nullptr;
+    if (u32(mMgrs.size()) >= 8)
+        dof_mgr = static_cast<DofMgr*>(mMgrs.unsafeAt(7));
+    dof_mgr->calcEntryJob();
+
+    if (_7b8) {
+        auto* data = Graphics::instance()->get668Maybe();
+        if (data) {
+            data->_19 = _720;
+            data->_10->mValue = mFocusDist;
+            _7b8 -= 1;
+            if (_7b8 > 0)
+                return;
+            data->_19 = 0;
+        } else {
+            --_7b8;
+        }
+    }
+}
+
 void Manager::calcManagers(sead::WorkerMgr* worker_mgr) {
     if (_5e0.isOffBit(0))
         worker_mgr = nullptr;

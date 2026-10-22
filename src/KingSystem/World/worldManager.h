@@ -359,7 +359,7 @@ private:
     u32 _7ac = 0;
     int mIgnitedTimer = 0;
     int mIgnitedLevel = 0;
-    u32 _7b8 = 0;
+    s32 _7b8 = 0;
     RemainsType mRemainsType{};
     FieldType mFieldType{};
     ScalingMode mScalingMode{};

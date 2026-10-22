@@ -233,6 +233,8 @@ public:
 
 protected:
     void init_(sead::Heap* heap) override;
+    // 0x71010db0d4 (CSV wm::SkyMgr::calcEntryJob): the env step WorldMgr::calcEntryJob runs.
+    void calcEntryJob();
     void calc_() override;
 
 private:
