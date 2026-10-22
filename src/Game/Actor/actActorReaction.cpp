@@ -248,6 +248,16 @@ bool ActorReactionHandle::resume(Actor* actor, Actor* source, const sead::SafeSt
 
 ActorReactions::ActorReactions() = default;
 
+ActorReactions::~ActorReactions() {
+    for (s32 i = 0; i < mComponents.size(); ++i) {
+        if (auto* component = mComponents[i]) {
+            delete component;
+            mComponents[i] = nullptr;
+        }
+    }
+    mComponents.freeBuffer();
+}
+
 void ActorReactions::calc() {
     for (s32 i = 0; i < mComponents.size(); ++i)
         mComponents[i]->m5();

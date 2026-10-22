@@ -130,6 +130,8 @@ KSYS_CHECK_SIZE_NX150(ActorReactionQueue, 0xb8);
 class ActorReactions {
 public:
     ActorReactions();
+    // 0x7101287178: deletes the components and frees the list.
+    ~ActorReactions();
     // Creates one component per actor of the list and links it at actor + 0x6b8.
     void init(Actor* actor, sead::Heap* heap);
     void calc();
