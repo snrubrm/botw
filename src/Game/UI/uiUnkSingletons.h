@@ -17,6 +17,7 @@
 #include "KingSystem/Utils/Thread/Task.h"
 #include "KingSystem/GameData/gdtFlagHandle.h"
 #include "KingSystem/GameData/gdtFlag.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace ksys::qst {
 struct IndicatorActor;
@@ -1535,7 +1536,10 @@ public:
 private:
     u8 _3a8[0x478 - 0x3a8];
     /* 0x478 */ Unk_7102476548* _478;
-    u8 _480[0x4bc - 0x480];
+    u8 _480[0x488 - 0x480];
+    // The map's ELink / SLink handles; sub_71008B43CC kills the ELink event when its create id matches.
+    /* 0x488 */ Unk_71012419b4 _488;
+    u8 _4a8[0x4bc - 0x4a8];
     /* 0x4bc */ sead::Vector3f _4bc;
     /* 0x4c8 */ bool _4c8;
     u8 _4c9[0x4cc - 0x4c9];

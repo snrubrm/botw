@@ -207,3 +207,16 @@ void S7EventFlow::setTimeAndWeather() {
 
 }  // namespace ksys::evt
 
+namespace uking::ui {
+
+// 0x71008b43cc: kills the map's ELink event once the S7 flow has finished; true when a handle is active.
+bool UiSubsys1::sub_71008B43CC() {
+    if (!_488.sub_7101241B6C())
+        return false;
+    if (!_488.mELink.isActive())
+        return true;
+    _488.mELink.kill();
+    return true;
+}
+
+}  // namespace uking::ui
