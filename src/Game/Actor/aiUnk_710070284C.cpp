@@ -55,3 +55,13 @@ void sub_710070427C(ksys::act::Actor* actor) {
 ksys::phys::RigidBody* sub_710070431C(ksys::act::Actor* actor) {
     return actor->findPhysicsBodyByName(ksys::act::getStr_Tgt().cstr(), "WeakPoint_EyeLid");
 }
+
+void sub_71007041F0(ksys::act::Actor* actor) {
+    sub_71007A3768(
+        actor, actor->findPhysicsBodyByName(ksys::act::getStr_Tgt().cstr(), "WeakPointLast"));
+
+    ksys::phys::RigidBody* neck =
+        actor->findPhysicsBodyByName(ksys::act::getStr_Body().cstr(), "Neck");
+    if (neck)
+        neck->setContactLayer(ksys::phys::ContactLayer::EntityNPC);
+}

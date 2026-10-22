@@ -23,6 +23,9 @@ bool sub_71007028CC(ksys::act::Actor* actor);
 // 0x7100703bc8: the life is 1, 2 or 5 (1 without a life pointer).
 bool sub_7100703BC8(ksys::act::Actor* actor);
 
+// 0x71007041f0: registers the WeakPointLast body with the actor's physics instance set and puts the
+// Neck body on the EntityNPC contact layer.
+void sub_71007041F0(ksys::act::Actor* actor);
 // 0x710070427c: makes the actor's WeakPointLast sensor a query-only body and registers its Neck
 // body with the actor's physics instance set (both looked up by the getStr_Tgt / getStr_Body
 // names). Same GanonBeast part names as the helpers above.
