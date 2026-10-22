@@ -109,6 +109,46 @@ s8 Reaction::Unk1::sub_7100EC89BC() const {
     return 5;
 }
 
+f32 Reaction::Unk1::sub_7100EC8770() const {
+    return 0.2f;
+}
+
+f32 Reaction::Unk1::sub_7100EC8788() const {
+    return 2.0f;
+}
+
+f32 Reaction::Unk1::sub_7100EC8790() const {
+    return 0.1f;
+}
+
+s32 Reaction::Unk1::sub_7100EC879C() const {
+    return 2;
+}
+
+f32 Reaction::Unk1::sub_7100EC87AC() const {
+    return 0.84f;
+}
+
+f32 Reaction::Unk1::sub_7100EC87B8() const {
+    return 0.2f;
+}
+
+f32 Reaction::Unk1::sub_7100EC89B4() const {
+    return 0.5f;
+}
+
+s32 Reaction::Unk1::sub_7100EC8C18() const {
+    return 10;
+}
+
+s32 Reaction::Unk1::sub_7100EC8C20() const {
+    return 20;
+}
+
+f32 Reaction::Unk1::sub_7100EC8C28() const {
+    return 10.0f;
+}
+
 // NON_MATCHING: min / max operand order, the 2 / 3 choice becomes a csel, and the size is returned as a
 // 64-bit register move.
 void Reaction::sub_7100EC1C24(Actor* actor, const phys::MaterialMask& mask) const {

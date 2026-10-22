@@ -167,6 +167,17 @@ public:
         f32 sub_7100EC877C() const;
         s32 sub_7100EC87A4() const;
         s8 sub_7100EC89BC() const;
+        // The remaining constant getters of the same group (callers are inlined, so no call sites).
+        f32 sub_7100EC8770() const;
+        f32 sub_7100EC8788() const;
+        f32 sub_7100EC8790() const;
+        s32 sub_7100EC879C() const;
+        f32 sub_7100EC87AC() const;
+        f32 sub_7100EC87B8() const;
+        f32 sub_7100EC89B4() const;
+        s32 sub_7100EC8C18() const;
+        s32 sub_7100EC8C20() const;
+        f32 sub_7100EC8C28() const;
         // 0x7100ec6dd0: queues `actor` for the reaction of the current core (0x710128810c); false when full.
         bool sub_7100EC6DD0(Actor* actor);
         // 0x7100ec6070: emits the GrassTrack effect and the xlink properties for `request`.
