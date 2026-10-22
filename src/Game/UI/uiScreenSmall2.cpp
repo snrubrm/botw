@@ -3447,6 +3447,46 @@ void ScreenSaveTransferWindow::m159() {
     }
 }
 
+// NON_MATCHING: each arm of the mode select stores its own constant and branches; the original
+// keeps one store and tests the value afterwards.
+// 0x7100a4473c
+void ScreenSaveTransferWindow::sub_7100A4473C() {
+    u8 mode;
+    switch (sUnk_71025f2eb0._10) {
+    case 2:
+        mode = 1;
+        break;
+    case 1:
+        mode = 0;
+        break;
+    default:
+        mode = _3679;
+        break;
+    }
+    _3679 = mode;
+    if (!mode) {
+        getStateMachine().changeState(&sUnk_71025f26c0);
+        return;
+    }
+    switch (sUnk_71025f2eb0._c) {
+    case 1:
+        _3788 = "0065";
+        getStateMachine().changeState(&sUnk_71025f2cc0);
+        break;
+    default:
+        _3788 = "0065";
+        getStateMachine().changeState(&sUnk_71025f2cc0);
+        break;
+    case 2:
+        _3798 = 0;
+        getStateMachine().changeState(&sUnk_71025f2840);
+        break;
+    case 3:
+        getStateMachine().changeState(&sUnk_71025f2900);
+        break;
+    }
+}
+
 // NON_MATCHING: the original loads mButtonGroup before _294 (register allocation of the flag select).
 // 0x7100a64634
 void ScreenSystemWindow00::m98() {
