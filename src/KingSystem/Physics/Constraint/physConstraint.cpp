@@ -12,7 +12,8 @@ namespace ksys::phys {
 
 // NON_MATCHING: the native selects the body-pointer address before loading it; this branches on the pointer.
 RigidBody* getPhysicsMemSysField190Or(const Constraint::Param& param) {
-    return param.body_a ? param.body_a : System::instance()->get190();
+    RigidBody* const* body = param.body_a ? &param.body_a : &System::instance()->get190();
+    return *body;
 }
 
 RigidBody* sub_7100F69FAC(const Constraint::Param& param) {

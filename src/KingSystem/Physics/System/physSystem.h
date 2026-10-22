@@ -62,7 +62,9 @@ public:
     float get64() const { return _64; }
     float get6c() const { return _6c; }
     // lane4 s64: a RigidBody (Constraint's ctor stores it as the fallback body 0; 0x7100f6ac68 compares with it).
-    RigidBody* get190() const { return _190; }
+    // Returned by reference: getPhysicsMemSysField190Or (0x7100f69f88) selects the *address* of this member
+    // against &Constraint::Param::body_a and dereferences the result once.
+    RigidBody*& get190() { return _190; }
     float getTimeFactor() const { return mTimeFactor; }
     ContactMgr* getContactMgr() const { return mContactMgr; }
     StaticCompoundMgr* getStaticCompoundMgr() const { return mStaticCompoundMgr; }
