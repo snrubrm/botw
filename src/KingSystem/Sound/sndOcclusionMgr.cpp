@@ -289,12 +289,13 @@ void BarslistArchive::load(sead::Heap* heap) {
     mIter = new (heap, 8) al::ByamlIter(resource->getRawData());
 }
 
-// NON_MATCHING: the original copy-constructs the returned iterator into the result slot instead of
-// eliding the copy (20 bytes longer).
-// 0x7101057520: the sub-iterator of the bars list at `key`.
+// 0x7101057520: the sub-iterator of the bars list at `key`. The original copy-constructs the
+// iterator into a second local instead of returning the first, so getIterByKey's result keeps its
+// own stack slot (a direct `return iter;` lets clang elide the copy).
 al::ByamlIter BarslistArchive::getIter(const sead::SafeString& key) const {
     al::ByamlIter iter = mIter->getIterByKey(key.cstr());
-    return iter;
+    al::ByamlIter result(iter);
+    return result;
 }
 
 // 0x7101057580: the entry count of `iter`.
