@@ -10,6 +10,7 @@
 #include <prim/seadScopedLock.h>
 #include <Havok/Ai/Pathfinding/World/hkaiWorld.h>
 #include <Havok/Ai/Pathfinding/NavMesh/hkaiNavMeshInstance.h>
+#include <Havok/Common/Base/Memory/Util/hkMemUtil.h>
 #include <Havok/Ai/Pathfinding/Streaming/hkaiStreamingCollection.h>
 #include "KingSystem/Physics/Ragdoll/physUnk_7102519b90.h"
 #include <thread/seadThreadUtil.h>
@@ -20,6 +21,41 @@
 #include <prim/seadScopeGuard.h>
 
 #include <Havok/Ai/Pathfinding/NavMesh/Query/hkaiDynamicNavMeshQueryMediator.h>
+
+// 0x7100F83D20: edge copy-on-write helper for hkaiNavMeshInstance's instanced edge array.
+// NON_MATCHING: register allocation and scheduling in the edge-data copy block only (the source
+// edge address is hoisted above the edge-array reserve call, the _expandBy guard keeps the
+// outer comparison, and the loop bound stays in a different register).
+hkaiNavMesh::Edge* sub_7100F83D20(const hkaiNavMesh::Edge* originalEdges, hkInt32 originalCount,
+                                 hkArray<hkaiNavMesh::Edge>* instancedEdges,
+                                 hkArray<hkaiNavMesh::Edge>* ownedEdges,
+                                 const void* originalEdgeData,
+                                 hkArray<hkInt32>* instancedEdgeData, hkArray<hkInt32>* edgeMap,
+                                 hkInt32 edgeIndex, hkInt32 edgeDataStriding, hkInt32 copyIfNeeded) {
+    if (edgeIndex >= originalCount)
+        return &(*ownedEdges)[edgeIndex - originalCount];
+
+    hkInt32 mapped = edgeIndex;
+    if (!edgeMap->isEmpty())
+        mapped = (*edgeMap)[edgeIndex];
+    if (copyIfNeeded == 0 && mapped == -1)
+        return nullptr;
+    if (mapped != -1)
+        return &(*instancedEdges)[mapped];
+
+    auto& allocator = hkContainerHeapAllocator().get();
+    const hkInt32 newIndex = instancedEdges->getSize();
+    hkaiNavMesh::Edge* slot = &instancedEdges->_expandOne(allocator);
+    *slot = originalEdges[edgeIndex];
+    if (edgeDataStriding != 0) {
+        auto* dst = instancedEdgeData->_expandBy(allocator, edgeDataStriding);
+        const auto* src =
+            static_cast<const hkInt32*>(originalEdgeData) + edgeIndex * edgeDataStriding;
+        hkMemUtil::memCpy<4>(dst, src, edgeDataStriding * sizeof(hkInt32));
+    }
+    (*edgeMap)[edgeIndex] = newIndex;
+    return &(*instancedEdges)[newIndex];
+}
 
 namespace ksys::phys {
 
