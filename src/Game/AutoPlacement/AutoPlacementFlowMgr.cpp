@@ -512,9 +512,10 @@ s32 apQueryCheckPouchItemCountFromActor(const evfl::QueryArg& arg) {
     return ksys::ui::getItemValue(name) >= count;
 }
 
-// Stores the time types allowed by the running switch event in the placement, then returns the
-// current time type.
-// NON_MATCHING: the original unrolls the case mask loop by four; ours keeps a plain loop.
+// Stores the time divisions allowed by the running switch event in the placement, then returns the
+// current time division.
+// NON_MATCHING: our clang drops the PtrArray bounds check in getTimeMgr() because the null it
+// returns is dereferenced straight away (null-pointer optimisation); the original binary keeps it.
 s32 apQueryCheckTimeType(const evfl::QueryArg& arg) {
     ksys::world::Manager* mgr = ksys::world::Manager::instance();
     auto* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
@@ -522,15 +523,17 @@ s32 apQueryCheckTimeType(const evfl::QueryArg& arg) {
 
     if (placement->mX != &placement->mThing2) {
         const evfl::ResEvent* event = arg.main_event;
+        const ore::Array<const evfl::ResCase> cases{event->cases.Get(), event->num_cases};
         u32 mask = 0;
-        for (u32 i = 0; i < u32(event->num_cases); ++i)
-            mask |= 1u << event->cases.Get()[i].value;
+        for (const evfl::ResCase& case_ : cases)
+            mask |= 1u << case_.value;
         placement->_10 = mask;
     }
 
     if (!mgr)
         return -1;
-    return mgr->getTimeMgr()->getTimeType();
+    ksys::world::TimeMgr* tm = mgr->getTimeMgr();
+    return tm->getTimeDivision();
 }
 
 
