@@ -3307,6 +3307,8 @@ public:
     void m107(eui::AnimButton*) override;
     // 0x71009fe318 (declared only; placeholder name)
     void sub_71009FE318(s32 value, bool flag);
+    // 0x71009ff44c (declared only; placeholder name): selects the record whose id is `value`
+    void sub_71009FF44C(s32 value);
 
     // An element of the table at 0x3638 (0x28 bytes).
     struct Record {
@@ -3328,7 +3330,7 @@ public:
     /* 0x3638 */ sead::Buffer<Record> _3638;  // freed by the destructor
     /* 0x3648 */ u64 _3648 = 0;
     /* 0x3650 */ eui::Animator* _3650 = nullptr;
-    /* 0x3658 */ u64 _3658 = 0;
+    /* 0x3658 */ eui::Animator* _3658 = nullptr;
     /* 0x3660 */ u64 _3660 = 0;
     /* 0x3668 */ u64 _3668 = 0;
     /* 0x3670 */ UiTexSlots _3670;

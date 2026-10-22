@@ -1273,6 +1273,28 @@ void ScreenAppTool::m160() {
     }
 }
 
+// 0x71009ffc48
+void ScreenAppTool::m162() {
+    if (sUnk_71025ec540._4) {
+        const s32 item = sUnk_71025ec540._0;
+        RuneMgr::instance()->setCurrentItem(item);
+        _3740 = item;
+    }
+    if (_3620)
+        _3620->PlayAuto(1.0f);
+    sub_71009FF44C(sUnk_71025ec540._0);
+    if (sUnk_71025ec540._0 == 0)
+        sub_71009FF44C(1);
+    if (_3650)
+        _3650->StopAtMin();
+    sub_71009FE318(sUnk_71025ec540._0, false);
+    if (_3658) {
+        _3658->PlayAuto(1.0f);
+        _3744 = 2;
+    }
+    _3744 = 1;
+}
+
 // 0x71009ffe1c: plays the animator of the record whose id is the selected tool (else of record 1)
 void ScreenAppTool::m168() {
     for (s32 i = 0; i < 8; ++i) {
