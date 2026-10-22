@@ -136,6 +136,10 @@ public:
     // Creates one component per actor of the list and links it at actor + 0x6b8.
     bool init(Actor* actor, sead::Heap* heap);
     void calc();
+    // 0x7101287410 (placeholder name): runs m9 on every component.
+    void sub_7101287410();
+    // 0x7101287480 (placeholder name): runs m10 on every component once, then sets _10.
+    void sub_7101287480();
 
     /* 0x00 */ sead::Buffer<ActorUnk6b8*> mComponents;
     /* 0x10 */ bool _10 = false;

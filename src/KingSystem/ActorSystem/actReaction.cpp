@@ -1219,6 +1219,21 @@ void ActorReactions::calc() {
         mComponents[i]->m5();
 }
 
+void ActorReactions::sub_7101287410() {
+    for (s32 i = 0; i < mComponents.size(); ++i)
+        mComponents[i]->m9();
+}
+
+void ActorReactions::sub_7101287480() {
+    if (_10)
+        return;
+    for (s32 i = 0; i < mComponents.size(); ++i) {
+        if (auto* component = mComponents[i])
+            component->m10();
+    }
+    _10 = true;
+}
+
 ActorReactionQueue::ActorReactionQueue() = default;
 
 void ActorReactionQueue::init(sead::Heap* heap, const sead::SafeString& name) {
