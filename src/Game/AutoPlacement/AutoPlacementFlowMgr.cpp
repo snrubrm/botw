@@ -7,6 +7,8 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
 #include "KingSystem/System/UIGlue.h"
+#include "KingSystem/World/worldManager.h"
+#include <evfl/ResFlowchart.h>
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "Game/Actor/Player/actPlayerBase.h"
@@ -311,6 +313,28 @@ s32 apQueryCheckPouchItemCountFromActor(const evfl::QueryArg& arg) {
     name = actor.data();
 
     return ksys::ui::getItemValue(name) >= count;
+}
+
+// Stores the time types allowed by the running switch event in the placement, then returns the
+// current time type.
+// NON_MATCHING: the original loads the world manager first and unrolls the mask loop by four;
+// ours loads it after the mask and keeps a plain loop.
+s32 apQueryCheckTimeType(const evfl::QueryArg& arg) {
+    auto* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
+    AutoPlacement* placement = flow->placement;
+
+    if (placement->mX != &placement->mThing2) {
+        const evfl::ResEvent* event = arg.main_event;
+        u32 mask = 0;
+        for (int i = 0; i < event->num_cases; ++i)
+            mask |= 1 << event->cases.Get()[i].value;
+        placement->_10 = mask;
+    }
+
+    ksys::world::Manager* mgr = ksys::world::Manager::instance();
+    if (!mgr)
+        return -1;
+    return mgr->getTimeMgr()->getTimeType();
 }
 
 }  // namespace uking

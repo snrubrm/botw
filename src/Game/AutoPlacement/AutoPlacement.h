@@ -16,6 +16,10 @@ class RayCastForRequest;
 class RigidBody;
 }  // namespace ksys::phys
 
+namespace evfl {
+struct QueryArg;
+}  // namespace evfl
+
 namespace uking {
 
 class AutoPlacement;
@@ -174,6 +178,7 @@ public:
 
 private:
     friend class AutoPlacementMgr;
+    friend s32 apQueryCheckTimeType(const evfl::QueryArg& arg);
 
     struct ObjectRef {
         ksys::map::Object* obj;
