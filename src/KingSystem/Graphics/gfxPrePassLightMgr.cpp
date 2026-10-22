@@ -80,12 +80,11 @@ void PrePassLightMgr::m28(agl::UniformBlock* block, sead::Heap* heap) {
 
 // The two debug strings are built and discarded in the original (the hostio group header calls that
 // consumed them were compiled out of the release build), as in LocationalLightRig::genMessage.
-// NON_MATCHING: the original builds both discarded FormatFixedSafeString<256> objects in one stack
-// slot (sp+8, frame 0x170); clang 4 gives each temporary its own slot (frame 0x230), because the
-// varargs constructor call leaves the slot without memory operands, so the two slots are not merged
-// (two plain 256-byte arrays in the same scopes do merge). The vtable calls and the loop match.
+// Both are scoped named objects so clang reuses one stack slot for them, as the original does.
 void PrePassLightMgr::genMessage(sead::hostio::Context* context) {
-    sead::FormatFixedSafeString<256>("Min=0, Max=%d", mLights.size() - 1);
+    {
+        sead::FormatFixedSafeString<256> text("Min=0, Max=%d", mLights.size() - 1);
+    }
     genMessagePrepareImpl_(context);
 
     const u32 valid_num = mValidNum;
@@ -96,7 +95,7 @@ void PrePassLightMgr::genMessage(sead::hostio::Context* context) {
 
     DrawLight* light = &mLights(0);
     for (u32 i = 0; i != num; ++i) {
-        sead::FormatFixedSafeString<256>("GroupHeader = %d", i);
+        sead::FormatFixedSafeString<256> text("GroupHeader = %d", i);
         genMessageImpl_(context, *light, s32(i));
         ++light;
     }
