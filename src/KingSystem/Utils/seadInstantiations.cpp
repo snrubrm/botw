@@ -38,12 +38,14 @@ template FixedSafeStringBase<char, 29>& FixedSafeStringBase<char, 29>::operator=
 template FixedSafeStringBase<char, 32>& FixedSafeStringBase<char, 32>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 34>& FixedSafeStringBase<char, 34>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 35>& FixedSafeStringBase<char, 35>::operator=(const SafeString&);
+template FixedSafeStringBase<char, 36>& FixedSafeStringBase<char, 36>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 37>& FixedSafeStringBase<char, 37>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 38>& FixedSafeStringBase<char, 38>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 39>& FixedSafeStringBase<char, 39>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 42>& FixedSafeStringBase<char, 42>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 44>& FixedSafeStringBase<char, 44>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 49>& FixedSafeStringBase<char, 49>::operator=(const SafeString&);
+template FixedSafeStringBase<char, 50>& FixedSafeStringBase<char, 50>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 51>& FixedSafeStringBase<char, 51>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 53>& FixedSafeStringBase<char, 53>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 54>& FixedSafeStringBase<char, 54>::operator=(const SafeString&);
@@ -71,6 +73,7 @@ template FixedSafeStringBase<char, 133>& FixedSafeStringBase<char, 133>::operato
 template FixedSafeStringBase<char, 138>& FixedSafeStringBase<char, 138>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 141>& FixedSafeStringBase<char, 141>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 165>& FixedSafeStringBase<char, 165>::operator=(const SafeString&);
+template FixedSafeStringBase<char, 166>& FixedSafeStringBase<char, 166>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 168>& FixedSafeStringBase<char, 168>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 172>& FixedSafeStringBase<char, 172>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 223>& FixedSafeStringBase<char, 223>::operator=(const SafeString&);
@@ -118,6 +121,7 @@ template FixedSafeString<40>& FixedSafeString<40>::operator=(const SafeString&);
 template FixedSafeString<42>& FixedSafeString<42>::operator=(const SafeString&);
 template FixedSafeString<44>& FixedSafeString<44>::operator=(const SafeString&);
 template FixedSafeString<49>& FixedSafeString<49>::operator=(const SafeString&);
+template FixedSafeString<50>& FixedSafeString<50>::operator=(const SafeString&);
 template FixedSafeString<51>& FixedSafeString<51>::operator=(const SafeString&);
 template FixedSafeString<53>& FixedSafeString<53>::operator=(const SafeString&);
 template FixedSafeString<54>& FixedSafeString<54>::operator=(const SafeString&);
@@ -149,6 +153,7 @@ template FixedSafeString<135>& FixedSafeString<135>::operator=(const SafeString&
 template FixedSafeString<141>& FixedSafeString<141>::operator=(const SafeString&);
 template FixedSafeString<150>& FixedSafeString<150>::operator=(const SafeString&);
 template FixedSafeString<168>& FixedSafeString<168>::operator=(const SafeString&);
+template FixedSafeString<166>& FixedSafeString<166>::operator=(const SafeString&);
 template FixedSafeString<170>& FixedSafeString<170>::operator=(const SafeString&);
 template FixedSafeString<172>& FixedSafeString<172>::operator=(const SafeString&);
 template FixedSafeString<223>& FixedSafeString<223>::operator=(const SafeString&);
@@ -172,6 +177,7 @@ template FixedSafeString<4096>& FixedSafeString<4096>::operator=(const SafeStrin
 template FixedSafeStringBase<char16, 3>&
 FixedSafeStringBase<char16, 3>::operator=(const SafeStringBase<char16>&);
 template WFixedSafeString<3>& WFixedSafeString<3>::operator=(const WSafeString&);
+template WFixedSafeString<16>& WFixedSafeString<16>::operator=(const WSafeString&);
 
 
 // The deleting destructors of these sizes are emitted in the original; instantiating the
