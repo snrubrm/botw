@@ -11,6 +11,8 @@ MessageTransceiverTxOnly::~MessageTransceiverTxOnly() {
     deregisterReceiver(mReceiver);
 }
 
+void MessageTransceiverTxOnly::IHandler::handleAck(const MessageAck& ack) {}
+
 MessageReceiverEx* MessageTransceiverTxOnly::getReceiver() {
     return &mReceiver;
 }

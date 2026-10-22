@@ -17,6 +17,10 @@ void Swarm::Unit::sub_71002DAA78() {
 
 }  // namespace uking::act
 
+bool Unk_71023d0e08::m4(uking::act::Swarm* owner, sead::Heap* heap) {
+    return uking::act::Swarm::Unit::m4(owner, heap);
+}
+
 void Unk_71023d0e08::m8() {
     uking::act::Swarm::Unit::m8();
 }

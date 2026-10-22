@@ -31,6 +31,8 @@ KSYS_VISIBILITY_HIDDEN f32 sUnk_71024DD484 = 10.0f;
 KSYS_VISIBILITY_HIDDEN f32 sUnk_71024DD488 = 0.3f;
 // Read only by 0x7100d9a1c4 (.bss).
 KSYS_VISIBILITY_HIDDEN s32 sUnk_7102600F70;
+// Read only by 0x7100d9d520 (.bss); the two callers use it as a boolean watch flag.
+KSYS_VISIBILITY_HIDDEN bool sUnk_7102600F80;
 
 Unk_71024dd490::CreateArg::CreateArg()
     : _0(0x400), _4(0x400), worldName(sead::SafeString::cEmptyString), _18(nullptr) {}
@@ -249,6 +251,10 @@ f32 Unk_71024dd490::sub_7100D9A1B8() const {
 
 s32 Unk_71024dd490::sub_7100D9A1C4() const {
     return sUnk_7102600F70;
+}
+
+bool Unk_71024dd490::sub_7100D9D520() const {
+    return sUnk_7102600F80;
 }
 
 }  // namespace ksys::act

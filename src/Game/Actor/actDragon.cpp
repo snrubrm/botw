@@ -362,6 +362,11 @@ ksys::act::BaseProc* Dragon::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Dragon(arg);
 }
 
+// True body from the original: a single false result (DragonRoot::calc_ discards it).
+bool sub_710000AE6C() {
+    return false;
+}
+
 const sead::Matrix34f& Dragon::sub_710001014C() const {
     return *_14c8.sub_71006FC514();
 }

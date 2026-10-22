@@ -1092,6 +1092,10 @@ void Unk_71024e6428::m11() {
 
 void Unk_71024e6428::m12() {}
 
+void Unk_71024e6428::m9() {
+    sub_7100E3CBC4();
+}
+
 // NON_MATCHING: debug-name temporaries and formatting branches differ.
 void Unk_71024e6428::m14(sead::BufferedSafeString* out) const {
     if (!mActor) {

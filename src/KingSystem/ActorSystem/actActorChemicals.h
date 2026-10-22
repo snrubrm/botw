@@ -119,6 +119,8 @@ public:
     void sub_7100E3BE78();
     // E3C0A8 calls this element's chemical-event update.
     void sub_7100E3C34C();
+    // m9 tail-calls this second event update (the body is still U).
+    void sub_7100E3CBC4();
     // E3C34C supplies its embedded Chemical and the selected event kind.
     bool sub_7100E3DB6C(const Chemical* chemical, u32 kind);
 
