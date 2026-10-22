@@ -126,9 +126,14 @@ private:
                          DebuggerResult* debugger_result);
     /// 0x7100b8fe80
     void calcListenerDistanceAndDirectivity_(Result* result, const Listener& listener);
+
+protected:
     /// 0x7100b8ffd0: applies the distance attenuation to the volume; returns whether the sound is audible.
+    /// The native ksys override 0x71012d1cb4 calls it directly, so it is protected rather than private.
     virtual bool calcDistReduction_(Result* result, const Listener& listener, s32 index,
                                     DebuggerResult* debugger_result);
+
+private:
     /// 0x7100b9033c
     virtual void calcAngle_(Result* result, const Listener& listener, bool force);
     /// 0x7100b9041c
