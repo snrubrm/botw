@@ -1388,7 +1388,8 @@ public:
         void sub_710112727C(Unk_71010FEDBC* a, Unk_71010FEDBC* b, Unk_71010FEDBC* c, Unk_71010FEDBC* d, s32 x,
                             s32 y);
 
-        // 0x7101128ba0 (declaration only; placeholder name)
+        // 0x7101128ba0 (placeholder name): toggles the alternating level bytes, notifies the sub-object and
+        // rebuilds every record's +0x58 data pointer.
         void sub_7101128BA0(s32 level);
 
         // Placeholder: two of these at 0x1310 / 0x6070, sized by 0x710112727c.
@@ -1413,8 +1414,36 @@ public:
         u8 _44[0x1310 - 0x44];
         Unk_1310 _1310;
         Unk_1310 _6070;
-        u8 _add0[0xafc0 - 0xadd0];
+        // Placeholder: the 0xc0-byte records sub_7101128BA0 walks and the two alternating level bytes.
+        struct Unk_1310Record {
+            u8 _0[0x58];
+            /* 0x58 */ void* _58;
+            u8 _60[0x64 - 0x60];
+            /* 0x64 */ s32 _64;
+            u8 _68[0x70 - 0x68];
+            /* 0x70 */ const void* _70;
+            /* 0x78 */ s32 _78;
+            u8 _7c[0x89 - 0x7c];
+            /* 0x89 */ u8 _89;
+            u8 _8a[0x8c - 0x8a];
+            /* 0x8c */ u16 _8c;
+            u8 _8e[0xc0 - 0x8e];
+        };
+        static_assert(sizeof(Unk_1310Record) == 0xc0);
+
+        // 0x7101126628 (declaration only; placeholder name)
+        void sub_7101126628(s32 level, s32 type);
+
+        u8 _add0[0xadd8 - 0xadd0];
+        /* 0xadd8 */ Unk_1310Record* _add8;
+        /* 0xade0 */ u32 _ade0;
+        u8 _ade4[0xafb8 - 0xade4];
+        /* 0xafb8 */ s8 _afb8;
+        /* 0xafb9 */ s8 _afb9;
+        u8 _afba[0xafc0 - 0xafba];
         void* _afc0;
+        u8 _afc8[0xafd0 - 0xafc8];
+        /* 0xafd0 */ u8 _afd0;
     };
     Unk_2948* _2948;
     // Locked by sub_7101101578.

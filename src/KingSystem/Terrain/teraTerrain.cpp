@@ -1,4 +1,5 @@
 #include "KingSystem/Terrain/teraSystem.h"
+#include <nvn/nvn_FuncPtrInline.h>
 #include "KingSystem/Terrain/teraGrass.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -1380,6 +1381,32 @@ void ApertureMapsCollector::Unk_2948::sub_710112727C(Unk_71010FEDBC* a, Unk_7101
     _40 = d[1]._20._9 + y;
     _1310.sub_7101127304(a->_20._e >> (a->_20._9 + x));
     _6070.sub_7101127304(_28->_20._e >> (_28->_20._9 + y));
+}
+
+// 0x7101128ba0 (placeholder name): toggles the two alternating level bytes, notifies the sub-object and
+// rebuilds each record's +0x58 data pointer from the mapped memory pool.
+// NON_MATCHING: only the loop body's load / store order differs (our scheduler sinks the _89 store and
+// moves the _70 load later); the instruction set is identical.
+void ApertureMapsCollector::Unk_2948::sub_7101128BA0(s32 level) {
+    s8 alternate = _afb8;
+    if (_afd0 & 1) {
+        alternate = 1 - alternate;
+        _afb8 = alternate;
+    }
+    _afb9 = 1 - _afb9;
+    sub_7101126628(alternate, level);
+
+    const u8 alt = u8(_afb9);
+    Unk_1310Record* records = _add8;
+    for (u32 i = 0; i < _ade0; ++i) {
+        records[i]._89 = alt;
+        const u16 scale = records[i]._8c;
+        const u32 offset = u32(scale) * u32(alt) * u32(records[i]._64) + u32(records[i]._78);
+        void* data = nullptr;
+        if (records[i]._70)
+            data = nvnMemoryPoolMap(static_cast<const NVNmemoryPool*>(records[i]._70));
+        records[i]._58 = static_cast<u8*>(data) + offset;
+    }
 }
 
 void Terrain::Unk_380::sub_71011382EC() {
