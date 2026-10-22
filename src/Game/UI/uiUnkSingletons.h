@@ -1287,7 +1287,7 @@ public:
     void set38b8();
     void clear38b8();
     void sub_710095B1BC();
-    // 0x7100968844 (CSV unnamed; not decompiled; ScreenAppMap::demoLeave)
+    // 0x7100968844: leaves the map demo when the map mode was one of the demo modes (ScreenAppMap::demoLeave).
     void sub_7100968844();
     void set3885() { _3885 = true; }
     void clear3885() { _3885 = false; }

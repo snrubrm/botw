@@ -44,6 +44,18 @@ void UiSubsys1::sub_71009637D4() {
     }
 }
 
+// 0x7100968844: clears the map mode and its demo state; if the map mode was one of the demo
+// modes (2, 3, 4), it also leaves the demo through sub_7100966EA8.
+void UiSubsys1::sub_7100968844() {
+    _128 = -1;
+    if (getMapMode() == 2 || getMapMode() == 3 || getMapMode() == 4)
+        sub_7100966EA8(false);
+    _3860 = 0;
+    _3830 = 0;
+    sUnk_71025d6ab0 = false;
+    _d88[4][12]._98 = 4;
+}
+
 // 0x7100964518: turns the marker position `pos` into the widget position and hands pin `index` to
 // sub_710096421C; `flag` selects the assignment path.
 void UiSubsys1::sub_7100964518(s32 index, const sead::Vector2f& pos, bool flag) {
