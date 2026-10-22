@@ -1,6 +1,40 @@
 #include "KingSystem/Graphics/gfxPrePassLightMgr.h"
 
+#include <common/aglUniformBlock.h>
+#include <math/seadMathCalcCommon.h>
+
 namespace ksys::gfx {
+
+void PrePassLightMgr::destroy() {
+    for (DrawLight& light : mLights) {
+        for (LightData& data : light.mLightData)
+            data.mUniformBlock.destroy();
+        m29(&light);
+        light.mLightData.freeBuffer();
+    }
+    mDrawLightNums.freeBuffer();
+    mLights.freeBuffer();
+}
+
+void PrePassLightMgr::calc() {
+    if (mValidNum == 0)
+        return;
+
+    m31();
+
+    const u32 valid_num = mValidNum;
+    const u32 record_num = mLights.size();
+    const u32 num = sead::Mathu::min(record_num, valid_num);
+    if (num == 0)
+        return;
+
+    DrawLight* light = &mLights(0);
+    for (u32 i = 0; i != num; ++i) {
+        if (isLightEnabled(s32(i)))
+            m32(light);
+        ++light;
+    }
+}
 
 u32 PrePassLightMgr::getDrawLightNum(s32 index) const {
     return mDrawLightNums[index];

@@ -81743,8 +81743,8 @@ Address,Quality,Size,Name
 0x0000007100f14ca4,U,000012,
 0x0000007100f14cb0,U,000288,
 0x0000007100f14dd0,U,000092,
-0x0000007100f14e2c,U,000260,ksys::gfx::PrePassLightMgr::destroy
-0x0000007100f14f30,U,000148,ksys::gfx::PrePassLightMgr::calc
+0x0000007100f14e2c,O,000260,_ZN4ksys3gfx15PrePassLightMgr7destroyEv
+0x0000007100f14f30,O,000148,_ZN4ksys3gfx15PrePassLightMgr4calcEv
 0x0000007100f14fc4,U,000428,ksys::gfx::PrePassLightMgr::calcView
 0x0000007100f15170,U,000148,ksys::gfx::PrePassLightMgr::updateGPU
 0x0000007100f15204,U,000428,ksys::gfx::PrePassLightMgr::updateViewGPU
