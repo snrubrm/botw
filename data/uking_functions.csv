@@ -96117,7 +96117,7 @@ Address,Quality,Size,Name
 0x00000071012b6d98,U,000688,CompactedHeap::x_18
 0x00000071012b7048,U,000780,_ZN4ksys3res13CompactedHeap4x_16EPvjS2_i
 0x00000071012b7354,U,000244,_ZN4ksys3res13CompactedHeap4x_17Ejiib
-0x00000071012b7448,U,000176,_ZN4ksys3res13CompactedHeap4x_19EPvb
+0x00000071012b7448,m,000176,_ZN4ksys3res13CompactedHeap4x_19EPvb
 0x00000071012b74f8,U,000660,CompactedHeap::x_7
 0x00000071012b778c,O,000028,_ZN4ksys3res13CompactedHeap24incrementCompactionCountEv
 0x00000071012b77a8,m,000276,_ZN4ksys3res13CompactedHeap4x_20EPNS1_10AllocationEmi

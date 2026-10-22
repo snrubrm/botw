@@ -146,6 +146,29 @@ void CompactedHeap::Allocation::sub_71012B8A78(bool x) {
     header->mInUse = x;
 }
 
+// NON_MATCHING: our call to CompactedHeap::x materialises its (unread) allocation argument in x1;
+// the original drops that setup because x is defined in this TU.
+// 0x71012b7448 (placeholder name): releases the allocation whose data block starts at `data`,
+// moving its size from the heap's free total to its used total.
+void CompactedHeap::x_19(void* data, bool sync) {
+    auto lock = sead::makeScopedLock(_5cf8);
+    if (sync)
+        std::atomic_thread_fence(std::memory_order_seq_cst);
+
+    auto* header = Allocation::Header::get(data);
+    if (header->mMagic != Allocation::Header::cMagic) {
+        // The original locks and unlocks the heap again in this scope before the repair pass.
+        { auto inner = sead::makeScopedLock(_5cf8); }
+        x(header, true);
+    }
+
+    const u32 size = header->mSize;
+    _5db8 -= size;
+    _5dbc += size;
+    x_9(header);
+}
+
+
 // NON_MATCHING: the abs() tail is scheduled after the seq_cst fence here (the original keeps only the
 // asr above it), and clang merges the two header bit writes into one read-modify-write byte store
 // where the original writes mInUse and mFlag separately (bfxil / ubfx + bfi).

@@ -71,8 +71,15 @@ public:
         struct Header {
             static constexpr u32 cMagic = 0xad000d1e;
             u32 mMagic;
-            u8 _4[0x10];
+            // 0x71012b7448 moves this from the heap's free total to its used total on release.
+            u32 mSize;
+            u8 _8[0xc];
             u32 _14;
+            // The header sits one u16 distance before the data block it describes.
+            static Header* get(void* data) {
+                auto* bytes = static_cast<u8*>(data);
+                return reinterpret_cast<Header*>(bytes - *reinterpret_cast<u16*>(bytes - 2));
+            }
             u8 _18[2];
             u8 mInUse : 1;
             u8 mFlag : 1;
@@ -105,8 +112,11 @@ public:
         return &_5cb0[index];
     }
     void x_21(Allocation* allocation);
-    // 0x71012b5900 (CSV CompactedHeap::x). The allocation argument is unread in the original.
-    void x(Allocation* allocation, bool sync);
+    // 0x71012b5900 (CSV CompactedHeap::x): walks the heap's allocation arrays and releases the
+    // blocks whose headers are not valid. The allocation argument is unread in the original.
+    void x(void* allocation, bool sync);
+    // 0x71012b646c (placeholder name): releases one allocation whose header may be corrupt.
+    void x_9(Allocation::Header* allocation);
     // Complete 12B7354 / 12B7448 and archive callers establish these raw helpers.
     // Bodies remain undecompiled because their tagged allocation headers are opaque.
     void* x_17(u32 size, s32 alignment, s32 mode, bool sync);
@@ -126,7 +136,8 @@ public:
     bool setBuffer(void* buffer, size_t size);
     bool compact();
 
-    // 0x71012b5900 (CSV CompactedHeap::x; declared only)
+    // 0x71012b5900 (CSV CompactedHeap::x; declared only): the entry point the resource manager
+    // calls after a compaction and the repair pass x_19 / x_9 share.
     void x(const sead::SafeString& name, bool b);
     // The state (_5c90): 3 once the compaction is finished.
     s32 getState() const { return _5c90; }
