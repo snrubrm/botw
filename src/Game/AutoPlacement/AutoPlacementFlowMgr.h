@@ -34,6 +34,9 @@ struct AutoPlacementFlowRes {
     // entry-point indices are set (both are private in our evfl, so the body stays undecompiled for now).
     void start(AutoPlacement* placement, const char* unit_name,
                sead::TypedBitFlag<ActorSpawnInfo::SpawnLocation>* a3);
+    // 0x71006517ac: points every used binding at this flow and installs the action / query
+    // handler that matches its name.
+    void initActionAndQueryHandlers();
 
     ksys::res::Handle handle;
     sead::SafeString evfl_name;
@@ -104,7 +107,12 @@ void defaultActionHandler(const evfl::ActionArg& arg, evfl::ActionDoneHandler ha
 
 // 0x7100652cb0 (CSV sub_7100652CB0): the flow's "Group" action; reads MinNum / MaxNum /
 // GroupRadius / OffsetPosY / EquipWeaponActorCount / Mimicry / RideList and spawns a group.
-void sub_7100652CB0(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler);
+void sub_7100652CB0(const evfl::ActionArg& arg, evfl::ActionDoneHandler handler);
+// The other flow actions: 0x7100652f3c (WaitFrame), 0x7100652ff4 (appear weather rates) and
+// 0x7100653178 (EquipCategory), named by hand.
+void sub_7100652F3C(const evfl::ActionArg& arg, evfl::ActionDoneHandler handler);
+void sub_7100652FF4(const evfl::ActionArg& arg, evfl::ActionDoneHandler handler);
+void sub_7100653178(const evfl::ActionArg& arg, evfl::ActionDoneHandler handler);
 
 // 0x710064f54c (still undecompiled): whether a placement group slot matches the given unit name,
 // weapon-slot range and flags. Declared for sub_7100652CB0.

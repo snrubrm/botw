@@ -142,7 +142,7 @@ AutoPlacementFlowRes* AutoPlacementFlowMgr::getFlow(const sead::SafeString& acto
 // [0, 1) value sets a bit in the placement's weather mask.
 // NON_MATCHING: the original materialises the 1.0f defaults as two 16-byte stores at sp+0x18; ours
 // groups them differently at sp+0x1c and reads rates[i] through the cached element address.
-void sub_7100652FF4(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) {
+void sub_7100652FF4(const evfl::ActionArg& arg, evfl::ActionDoneHandler handler) {
     AutoPlacementFlowRes* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
     AutoPlacement* placement = flow->placement;
     if (placement->mX != &placement->mThing2) {
@@ -159,14 +159,14 @@ void sub_7100652FF4(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler
         }
         placement->_e = mask;
     }
-    handler->Invoke();
+    handler.Invoke();
 }
 
 // The flow's "Group" action: reads the group parameters, picks a count in [MinNum, MaxNum] and
 // either test-spawns into the placement's current slot or spawns a group around it.
 // NON_MATCHING: our C++17 build evaluates GlobalRandom::instance() before the range arguments, so
 // the instance load is scheduled three instructions earlier; the original used C++14 order.
-void sub_7100652CB0(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) {
+void sub_7100652CB0(const evfl::ActionArg& arg, evfl::ActionDoneHandler handler) {
     AutoPlacementFlowRes* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
     AutoPlacement* placement = flow->placement;
 
@@ -200,7 +200,7 @@ void sub_7100652CB0(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler
                        offset_pos_y);
     }
 
-    handler->Invoke();
+    handler.Invoke();
 }
 
 // The default action handler (0x7100653234): the flow's handler table installs it for every action
@@ -211,25 +211,25 @@ void defaultActionHandler(const evfl::ActionArg&, evfl::ActionDoneHandler handle
 
 // Reads the action's "Category" parameter into the placement's category byte and marks the action
 // done.
-void sub_7100653178(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) {
+void sub_7100653178(const evfl::ActionArg& arg, evfl::ActionDoneHandler handler) {
     AutoPlacementFlowRes* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
     AutoPlacement* placement = flow->placement;
     s32 category = -1;
     if (arg.param_accessor.FindInt(&category, "Category"))
         placement->_b = category;
-    handler->Invoke();
+    handler.Invoke();
 }
 
 // Reads the action's "WaitFrame" parameter into the placement's wait frame and marks the action
 // done.
-void sub_7100652F3C(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) {
+void sub_7100652F3C(const evfl::ActionArg& arg, evfl::ActionDoneHandler handler) {
     s32 wait_frame;
     if (arg.param_accessor.FindInt(&wait_frame, "WaitFrame")) {
         AutoPlacementFlowRes* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
         AutoPlacement* placement = flow->placement;
         placement->_6 = wait_frame;
     }
-    handler->Invoke();
+    handler.Invoke();
 }
 
 void AutoPlacementFlowRes::start(AutoPlacement* placement, const char* unit_name,
@@ -607,6 +607,119 @@ int StringWithLen::cmp(const StringWithLen& rhs) const {
         ++s2;
     }
     return len_diff;
+}
+
+
+// The flow name table sinitSomeBfevflStrings fills in at 0x71025c53d0: the query names, then the
+// four action names.
+StringWithLen sQueryNameGroundNorm{"GroundNorm", 10};
+StringWithLen sQueryNameGroundMat{"GroundMat", 9};
+StringWithLen sQueryNameTreeRate{"TreeRate", 8};
+StringWithLen sQueryNamePosHeight{"PosHeight", 9};
+StringWithLen sQueryNameWaterDepth{"WaterDepth", 10};
+StringWithLen sQueryNameRouteDistance{"RouteDistance", 13};
+StringWithLen sQueryNameGrassHeight{"GrassHeight", 11};
+StringWithLen sQueryNamePlayerRideHorse{"PlayerRideHorse", 15};
+StringWithLen sQueryNameEcoAreaActorName{"EcoAreaActorName", 16};
+StringWithLen sQueryNameWaterSubMat{"WaterSubMat", 11};
+StringWithLen sQueryNameCheckGameData{"CheckGameData", 13};
+StringWithLen sQueryNameCheckPouchItemCount{"CheckPouchItemCount", 19};
+StringWithLen sQueryNameCheckPouchItemCountFromActor{"CheckPouchItemCountFromActor", 28};
+StringWithLen sQueryNameTimeType{"TimeType", 8};
+StringWithLen sQueryNameRailDistance{"RailDistance", 12};
+StringWithLen sQueryNameWaterDistance{"WaterDistance", 13};
+StringWithLen sQueryNameNavMeshFace{"NavMeshFace", 11};
+StringWithLen sActionNameCreateData{"CreateData", 10};
+StringWithLen sActionNameNearCreate{"NearCreate", 10};
+StringWithLen sActionNameAppearWeatherRate{"AppearWeatherRate", 17};
+StringWithLen sActionNameEquipCategory{"EquipCategory", 13};
+
+// Compares a table entry with an evfl resource name; the length test comes first and skips cmp.
+static bool isNameMatch(const StringWithLen& entry, const ore::BinTPtr<ore::BinString>& name_ptr) {
+    const ore::BinString* str = name_ptr.Get();
+    const StringWithLen name{str->data(), str->length};
+    return entry.mLength == name.mLength && entry.cmp(name) == 0;
+}
+
+// 0x71006517ac: point every used binding of the flow at this flow, then give each of its actions
+// and queries the handler for its name.
+void AutoPlacementFlowRes::initActionAndQueryHandlers() {
+    evfl_name.cstr();
+
+    for (auto& obj : flowchart_ctx.GetObjs()) {
+        for (auto& binding : obj.GetActBinder().GetBindings()) {
+            if (binding.IsUsed() && !binding.IsInitialized()) {
+                binding.SetUserData(this);
+                binding.SetInitialized(true);
+            }
+        }
+    }
+
+    for (auto& obj : flowchart_ctx.GetObjs()) {
+        for (auto& binding : obj.GetActBinder().GetBindings()) {
+            if (!binding.IsUsed() || !binding.IsInitialized())
+                continue;
+
+            if (binding.GetActions().size() != 0) {
+                for (auto& action : binding.GetActions()) {
+                    evfl::ActionHandler handler = defaultActionHandler;
+                    if (isNameMatch(sActionNameCreateData, action.res_action->name))
+                        handler = sub_7100652CB0;
+                    else if (isNameMatch(sActionNameNearCreate, action.res_action->name))
+                        handler = sub_7100652F3C;
+                    else if (isNameMatch(sActionNameAppearWeatherRate, action.res_action->name))
+                        handler = sub_7100652FF4;
+                    else if (isNameMatch(sActionNameEquipCategory, action.res_action->name))
+                        handler = sub_7100653178;
+                    action.handler = handler;
+                    action.user_data = nullptr;
+                }
+            }
+
+            if (binding.GetQueries().size() != 0) {
+                for (auto& query : binding.GetQueries()) {
+                    evfl::QueryHandler handler = apQueryUnknown;
+                    if (isNameMatch(sQueryNameGroundNorm, query.res_query->name))
+                        handler = apQueryGroundNorm;
+                    else if (isNameMatch(sQueryNameGroundMat, query.res_query->name))
+                        handler = apQueryGroundMat;
+                    else if (isNameMatch(sQueryNameTreeRate, query.res_query->name))
+                        handler = apQueryTreeRate;
+                    else if (isNameMatch(sQueryNamePosHeight, query.res_query->name))
+                        handler = apQueryPosHeight;
+                    else if (isNameMatch(sQueryNameWaterDepth, query.res_query->name))
+                        handler = apQueryWaterDepth;
+                    else if (isNameMatch(sQueryNameRouteDistance, query.res_query->name))
+                        handler = apQueryRouteDistance;
+                    else if (isNameMatch(sQueryNameGrassHeight, query.res_query->name))
+                        handler = apQueryGrassHeight;
+                    else if (isNameMatch(sQueryNamePlayerRideHorse, query.res_query->name))
+                        handler = reinterpret_cast<evfl::QueryHandler>(apQueryPlayerRideHorse);
+                    else if (isNameMatch(sQueryNameEcoAreaActorName, query.res_query->name))
+                        handler = apQueryEcoAreaActorName;
+                    else if (isNameMatch(sQueryNameWaterSubMat, query.res_query->name))
+                        handler = apQueryWaterSubMat;
+                    else if (isNameMatch(sQueryNameCheckGameData, query.res_query->name))
+                        handler = apQueryCheckGameData;
+                    else if (isNameMatch(sQueryNameCheckPouchItemCount, query.res_query->name))
+                        handler = apQueryCheckPouchItemCount;
+                    else if (isNameMatch(sQueryNameCheckPouchItemCountFromActor,
+                                         query.res_query->name))
+                        handler = apQueryCheckPouchItemCountFromActor;
+                    else if (isNameMatch(sQueryNameTimeType, query.res_query->name))
+                        handler = apQueryCheckTimeType;
+                    else if (isNameMatch(sQueryNameRailDistance, query.res_query->name))
+                        handler = apQueryRailDistance;
+                    else if (isNameMatch(sQueryNameWaterDistance, query.res_query->name))
+                        handler = apQueryWaterDistance;
+                    else if (isNameMatch(sQueryNameNavMeshFace, query.res_query->name))
+                        handler = apQueryNavMeshFace;
+                    query.handler = handler;
+                    query.user_data = nullptr;
+                }
+            }
+        }
+    }
 }
 
 }  // namespace uking
