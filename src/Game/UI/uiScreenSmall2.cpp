@@ -4279,9 +4279,10 @@ void ScreenSaveTransferWindow::m310() {
 
 
 
-// 0x7101e78f6c: the per-frame step of the transfer progress bar, indexed by whether the target is at
-// least 1.0 (the third/fourth entries are used by the load variant).
-static const f32 sUnk_7101e78f6c[4] = {1.0f / 150.0f, 1.0f / 900.0f, 1.0f / 150.0f, 1.0f / 1800.0f};
+// 0x7101e78f6c / 0x7101e78f74: the per-frame steps of the transfer progress bars, indexed by whether
+// the target is at least 1.0. The save/load bars use the first table and the write bar the second.
+static const f32 sUnk_7101e78f6c[2] = {1.0f / 150.0f, 1.0f / 900.0f};
+static const f32 sUnk_7101e78f74[2] = {1.0f / 150.0f, 1.0f / 1800.0f};
 
 // 0x7100a43e70
 void ScreenSaveTransferWindow::m191() {
@@ -4325,6 +4326,68 @@ void ScreenSaveTransferWindow::m187() {
         getStateMachine().changeState(&sUnk_71025f2cc0);
         break;
     }
+}
+
+// 0x7100a458d8
+void ScreenSaveTransferWindow::m275() {
+    if (sUnk_71025f2eb0._c != 0) {
+        const f32 next = _3798 + 1.0f / 120.0f;
+        const bool below_end = !(next >= 1.0f);
+        _3798 = below_end ? next : 1.0f;
+        if (!below_end)
+            getStateMachine().changeState(&sUnk_71025f2ba0);
+        if (mControlPtrs._3620->mRate == 0)
+            mControlPtrs._3628->Stop(_3798 * 100.0f);
+        return;
+    }
+
+    const f32 target = _3718.mProgress * 0.9f + 0.05f;
+    const f32 speed = sUnk_7101e78f74[!(target >= 1.0f)];
+    const bool done = ksys::VFR::chase(&_3798, target, speed);
+    if (mControlPtrs._3620->mRate == 0)
+        mControlPtrs._3628->Stop(_3798 * 100.0f);
+
+    switch (s32(_3718.mState)) {
+    case 3:
+        if (done) {
+            mLoadWork.reset(true);
+            _3718.reset();
+            getStateMachine().changeState(&sUnk_71025f2ae0);
+        }
+        break;
+    case 0:
+    case 4:
+        mLoadWork.reset(true);
+        ksys::gdt::setFlag_STErrorCode(_3718.mError, false);
+        _3718.reset();
+        _3788 = "0066";
+        getStateMachine().changeState(&sUnk_71025f2cc0);
+        break;
+    }
+}
+
+// 0x7100a44e84
+void ScreenSaveTransferWindow::m251() {
+    if (sUnk_71025f2eb0._c != 0) {
+        const f32 next = _3798 + 1.0f / 120.0f;
+        const bool below_end = !(next >= 1.0f);
+        _3798 = below_end ? next : 1.0f;
+        if (!below_end)
+            getStateMachine().changeState(&sUnk_71025f2900);
+        mControlPtrs._3628->Stop(_3798 * 100.0f);
+        return;
+    }
+
+    ksys::Timer::update(&_379c, 1.0f);
+    ksys::Timer::update(&_37a0, 1.0f);
+
+    const f32 target = 1.0f - 9000.0f / (_379c + 9000.0f);
+    const f32 speed = sUnk_7101e78f6c[!(target >= 1.0f)];
+    ksys::VFR::chase(&_3798, target, speed);
+    mControlPtrs._3628->Stop(_3798 * 100.0f);
+
+    if (_37a0 > 1800.0f)
+        getStateMachine().changeState(&sUnk_71025f28a0);
 }
 
 // 0x7100a454d8

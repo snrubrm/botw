@@ -5966,6 +5966,10 @@ extern const ksys::StateBase sUnk_71025f22a0;
 // m191's targets when the progress reaches 1.0, selected by sUnk_71025f2eb0._10.
 extern const ksys::StateBase sUnk_71025f2360;
 extern const ksys::StateBase sUnk_71025f2420;
+// m251's target once its 1800-frame timer runs out (0x71025f28a0).
+extern const ksys::StateBase sUnk_71025f28a0;
+// m275's target once the write job's progress chase finishes (0x71025f2ae0).
+extern const ksys::StateBase sUnk_71025f2ae0;
 extern const ksys::StateBase sUnk_71025f2300;
 extern const ksys::StateBase sUnk_71025f2360;
 extern const ksys::StateBase sUnk_71025f2540;
@@ -6076,7 +6080,8 @@ public:
     /* 0x3788 */ sead::SafeString _3788;
     /* 0x3798 */ f32 _3798;
     /* 0x379c */ f32 _379c;
-    /* 0x37a0 */ s32 _37a0;
+    // The second progress timer (ksys::Timer::update in m251; m250 compares it)
+    /* 0x37a0 */ f32 _37a0;
     virtual void m186();
     virtual void m187();
     virtual void m188();
