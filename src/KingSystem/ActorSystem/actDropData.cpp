@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actDropData.h"
+#include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorPreLoadMgr.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -121,7 +122,9 @@ void DropData::resetPreloadActorsMaybe(Actor* actor) {
     ActorPreLoadMgr::instance()->sub_7100D58F28(actor);
 }
 
-// NON_MATCHING: the table-availability test folds to tst instead of and plus tst of 16 bits.
+// The table-availability test is a 16-bit mask: writing the mask first and narrowing the AND result
+// to u16 is what keeps the original's `and` plus `tst #0xffff` (a plain `_e & (1 << index)` folds
+// to one `tst`).
 void DropData::getTable(sead::Buffer<Unk1>* table, sead::Buffer<Unk1>* table2,
                         const sead::Vector3f& pos) {
     s32 index = 0;
@@ -138,7 +141,7 @@ void DropData::getTable(sead::Buffer<Unk1>* table, sead::Buffer<Unk1>* table2,
     } else if (isHappy()) {
         table2->setBuffer(16, _10[5]);
     }
-    if (!(_e & (1 << index)))
+    if (u16(sead::BitFlag16::makeMask(index) & _e) == 0)
         index = 0;
     table->setBuffer(16, _10[index]);
 }
