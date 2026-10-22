@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadTreeNode.h>
 #include <controller/seadController.h>
+#include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 #include "KingSystem/System/Controller.h"
 #include "KingSystem/Utils/Types.h"
@@ -87,7 +88,7 @@ private:
     u32 _1e4 = 0;
     u32 _1e8 = 0;
 public:
-    // 0x710107e834 (the terrain editor's m6) stores 2 here.
+    // 0x710107e834 (the terrain editor's m6) copies the editor's mode flag here.
     u32 _1ec;
 };
 KSYS_CHECK_SIZE_NX150(SeadController, 0x1f0);

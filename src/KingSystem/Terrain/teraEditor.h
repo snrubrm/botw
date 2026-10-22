@@ -38,7 +38,7 @@ public:
     // Constructor 0x710107e724 writes through +0x2d8. The controller/debug state
     // at +0x48 retains opaque storage until its lifetime is modelled.
     // 0x40: the constructor stores 2; m6 copies it to the SeadController's _1ec.
-    u32 _40 = 2;
+    sead::BitFlag32 _40 = 2;
     u8 _44[0x2c0 - 0x44];
     // Terrain image request arenas (absolute +0x2e0 / +0x2e8 in Terrain).
     ksys::OverlayArena* mTerrainArena;

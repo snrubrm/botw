@@ -41,7 +41,7 @@ public:
     u64 _18 = 0;
     u64 _20 = 0;
     ksys::SeadController* _28 = nullptr;
-    u32 _30 = 5;
+    sead::BitFlag32 _30 = 5;
 };
 
 namespace ksys {

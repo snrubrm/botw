@@ -41,21 +41,20 @@ bool Unk_7102504260::sub_710107EC48() const {
     return false;
 }
 
-// NON_MATCHING: the flag comparison in the original keeps the `state & 8` mask and compares shifted
-// (and / cmp with an lsr operand); clang folds the two single-bit tests into lsr / eor / tbnz, 4 bytes shorter.
+// NON_MATCHING: the mode-word copy into the SeadController loads the destination pointer before the source in
+// the original (a class-type assignment there); ours is `_28->_1ec = _40` on a plain u32, so the two loads swap.
 void Unk_7102504260::m6() {
     // Discarded in the original (the tick is measured but not used).
     nn::os::GetSystemTick();
     if (uking::StageStateMaybe::isActiveNaviMaybe(this)) {
         _28->_1ec = _40;
         auto* terrain = ksys::tera::Terrain::instance();
-        const u32 flags = terrain->_a50->_18;
-        const u32 state = terrain->_30;
-        if (((flags >> 8) & 1) == ((state & 8) >> 3)) {
-            if (flags & 0x100)
-                terrain->_30 = state & ~8u;
+        const sead::BitFlag32 flags = terrain->_a50->_18;
+        if (flags.isOnBit(8) == terrain->_30.isOnBit(3)) {
+            if (!flags.isOnBit(8))
+                terrain->_30.set(8);
             else
-                terrain->_30 = state | 8u;
+                terrain->_30.reset(8);
         }
         auto* scene = Graphics::instance()->getUnk_aa8();
         if (scene)
