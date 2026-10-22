@@ -60,6 +60,10 @@ s32 PrePassLightMgr::getLightMax() const {
     return -1;
 }
 
+sead::SafeString PrePassLightMgr::m20() const {
+    return "LocationalLightMgr";
+}
+
 s32 PrePassLightMgr::getValidNum() const {
     return mValidNum;
 }

@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <hostio/seadHostIONode.h>
+#include <prim/seadSafeString.h>
 #include <common/aglUniformBlock.h>
 
 namespace sead {
@@ -72,7 +73,8 @@ public:
     virtual void drawDebug(void* draw_context, s32 view, const void* context) const;
     virtual void drawDebugTest(void* draw_context, s32 view, const void* context) const;
     virtual s32 getLightMax() const;
-    virtual void m20();
+    // 0x7100f1570c: the manager name.
+    virtual sead::SafeString m20() const;
     virtual void setValidNum(s32 num);
     virtual s32 getValidNum() const;
     virtual s32 getRecordNum() const;

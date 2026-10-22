@@ -81752,7 +81752,7 @@ Address,Quality,Size,Name
 0x0000007100f154fc,U,000260,ksys::gfx::PrePassLightMgr::drawDebug
 0x0000007100f15600,U,000260,ksys::gfx::PrePassLightMgr::drawDebugTest
 0x0000007100f15704,O,000008,_ZNK4ksys3gfx15PrePassLightMgr11getLightMaxEv
-0x0000007100f1570c,U,000028,
+0x0000007100f1570c,O,000028,_ZNK4ksys3gfx15PrePassLightMgr3m20Ev
 0x0000007100f15728,O,000008,_ZNK4ksys3gfx15PrePassLightMgr11getValidNumEv
 0x0000007100f15730,O,000008,_ZNK4ksys3gfx15PrePassLightMgr12getRecordNumEv
 0x0000007100f15738,O,000028,_ZNK4ksys3gfx15PrePassLightMgr15getDrawLightNumEi
