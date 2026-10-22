@@ -5928,6 +5928,8 @@ extern const ksys::StateBase sUnk_71025dc4e0;
 
 // The state ScreenSaveTransferWindow changes to from many of its state callbacks (0x71025f2de0; placeholder name).
 extern const ksys::StateBase sUnk_71025f2de0;
+// 0x710091ada4 (placeholder name): whether the save transfer's target file exists in the save device
+bool sub_710091ADA4();
 // The save transfer's other states (sub_7100A4473C).
 extern const ksys::StateBase sUnk_71025f26c0;
 extern const ksys::StateBase sUnk_71025f2840;
@@ -5962,7 +5964,22 @@ extern const ksys::StateBase sUnk_71025f2720;
 extern const ksys::StateBase sUnk_71025f2780;
 extern const ksys::StateBase sUnk_71025f2960;
 extern const ksys::StateBase sUnk_71025f2b40;
+extern const ksys::StateBase sUnk_71025f2c00;
 extern const ksys::StateBase sUnk_71025f2c60;
+
+// The low-priority save-archive job of the save transfer (0x28 bytes at ScreenSaveTransferWindow +0x3760).
+// Its state is shared with the worker thread: 0 idle, 1 queued, 2 working, 3 complete, 4 failed (the same
+// states as SaveArchiveWork). submit() is 0x710091b31c; the record's +8 bytes are the job data it hands to
+// the low-priority thread manager.
+class SaveArchiveRequest {
+public:
+    // 0x710091b31c: queues the save-archive job through the low-priority thread manager
+    bool submit();
+
+    /* 0x00 */ s32 mState = 0;
+    /* 0x08 */ u8 _8[0x24];
+};
+KSYS_CHECK_SIZE_NX150(SaveArchiveRequest, 0x28);
 
 class ScreenSaveTransferWindow : public ScreenEx {
 public:
@@ -6045,8 +6062,7 @@ public:
     /* 0x3680 */ SaveArchiveWork mSaveWork;
     /* 0x36c8 */ LoadArchiveWork mLoadWork;
     u8 _pad_3718[0x3760 - 0x3718];
-    /* 0x3760 */ s32 _3760;
-    u8 _pad_3764[0x3788 - 0x3764];
+    /* 0x3760 */ SaveArchiveRequest _3760;
     /* 0x3788 */ sead::SafeString _3788;
     /* 0x3798 */ f32 _3798;
     /* 0x379c */ f32 _379c;

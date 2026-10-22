@@ -26,6 +26,7 @@ class CapturePane;
 
 namespace uking::ui {
 class Unk_7102477fc0;
+class Unk_7102478c68;
 class UiSubsys1;
 struct UiSubsys1Entry;
 
@@ -438,7 +439,10 @@ public:
 
     // Members from the ctor 0x98fc08; cleanup 98FD5C frees the array at +310.
     /* 0x130 */ sead::PtrArray<Unk_7102477fc0> _130{};
-    u8 _140[0x310 - 0x140]{};
+    u8 _140[0x2f0 - 0x140]{};
+    // The icon markers of the kind created by 0x710099cca0 (0x60-byte objects with the animator at 0x58).
+    /* 0x2f0 */ sead::PtrArray<Unk_7102478c68> _2f0{};
+    u8 _300[0x310 - 0x300]{};
     /* 0x310 */ sead::PtrArray<Unk_7102477fc0> _310{};
     u8 _320[0x341 - 0x320]{};
     /* 0x344 */ u32 _344[2]{};

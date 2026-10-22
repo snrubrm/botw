@@ -1531,6 +1531,32 @@ void AppMapIconPart::m16() {
         entry->m22();
 }
 
+// 0x7100994e98: stops both marker animations, closes their layouts and clears the current marker.
+void AppMapIconPart::sub_7100994E98() {
+    if (_410) {
+        _410->sub_710098CFD4(-1.0f);
+        if (_380) {
+            _380->StopAtMin();
+            if (_378)
+                _378->startAnimCloseImpl_(false, true);
+        }
+        if (_3f8) {
+            _3f8->StopAtMin();
+            if (_3f0)
+                _3f0->startAnimCloseImpl_(false, true);
+        }
+    }
+    const s32 count = _2f0.size();
+    _418 = nullptr;
+    _410 = nullptr;
+    _408 = nullptr;
+    if (count != 0) {
+        Unk_7102478c68* marker = _2f0(0);
+        if (marker && marker->_58)
+            marker->_58->StopAtMin();
+    }
+}
+
 // 0x7100994e88
 bool AppMapIconPart::sub_7100994E88() const {
     return _410 != nullptr;

@@ -198,6 +198,23 @@ UiSubsys1Entry** UiSubsys1::sub_71009595FC(UiSubsys1Entry* key) {
     return nullptr;
 }
 
+// 0x7100960a1c: resets the map timer from the duration of the selected mode.
+void UiSubsys1::sub_7100960A1C() {
+    _3830 = 0;
+    f32 duration = 0.0f;
+    if (getMapMode() != 6) {
+        u16 mode = _3860;
+        if (mode == 0)
+            mode = 6;
+        else
+            mode = sead::BitFlagUtil::countContinuousOffBitFromRight(mode);
+        const s64 index = _3830;
+        if (u32(index) <= 0xb)
+            duration = _d88[mode < 5 ? mode : 0][index]._4;
+    }
+    _3840.init(duration);
+}
+
 // 0x71009635dc
 // NON_MATCHING: the second `return false` block is placed before the second phase in ours and after it in the
 // original, so the two identical blocks land at different relative offsets.
@@ -212,7 +229,7 @@ bool UiSubsys1::sub_71009635DC() {
         if (mode != 2)
             return false;
     }
-    if (_3820 > 0)
+    if (_d88[4][12]._98 > 0)
         return false;
     const s64 index = _3830;
     if (index == -1)
@@ -227,7 +244,7 @@ bool UiSubsys1::sub_71009635DC() {
         return true;
     if (mode >= 5)
         mode = 0;
-    return _d88[mode * 0x222 + index * 0x2a] < 3;
+    return _d88[mode][index]._0 < 3;
 }
 
 // NON_MATCHING: same instructions, the scheduler hoists the two bounds loads above the flag stores and
@@ -889,7 +906,7 @@ bool UiSubsys1::return0() const {
 
 // 0x7100968764 (CSV uiSubsys1::__auto38)
 s32 UiSubsys1::get3820() const {
-    return _3820;
+    return _d88[4][12]._98;
 }
 
 // 0x7100968824 (CSV uiSubsys1::__auto1)
@@ -1115,7 +1132,7 @@ s32 UiSubsys1::get38fc() const {
 
 // 0x710096876c
 void UiSubsys1::set3820(s32 value) {
-    _3820 = value;
+    _d88[4][12]._98 = value;
 }
 
 // Small helpers of the UiSubsys1 TU (placeholder names; free functions in the original).

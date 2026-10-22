@@ -1201,6 +1201,16 @@ public:
 };
 static_assert(sizeof(Unk_7102479510) == 0x48);
 
+// One entry of the map mode table (0xa8 bytes): the mode's state, the duration of its timer and the
+// state at 0x98 that only the table's final entry uses (UiSubsys1::_3820).
+struct MapModeEntry {
+    s32 _0;
+    f32 _4;
+    u8 _8[0x90];
+    s32 _98;
+    u8 _9c[0xc];
+};
+
 class UiSubsys1 {
     // Native singleton forwarders 96828C / 9682B4 / 9682CC read these UI fields directly.
     friend class Unk_71025d6ac0;
@@ -1262,6 +1272,13 @@ public:
     bool sub_7100968BD8();
     // 0x7100960dac (CSV uiSubsys1::__auto39; placeholder name): `index` is the lowest set bit of `_3860` (6: none)
     bool sub_7100960DAC(s32 index) const;
+    // The lowest set bit of `_3860` (6: none); inline in the original (the guard and the count repeat in
+    // sub_7100960A1C and sub_71009635DC).
+    u16 getMapMode() const {
+        if (_3860 == 0)
+            return 6;
+        return sead::BitFlagUtil::countContinuousOffBitFromRight(_3860);
+    }
     // 0x710096101c / 0x7100961058 / 0x710096106c / 0x710096107c (placeholder names)
     // ScreenAppMap::m101 passes this even though the method only clears TU-local flags.
     void sub_7100961008();
@@ -1567,11 +1584,9 @@ private:
     /* 0x8f0 */ bool _8f0;
     /* 0x8f1 */ bool _8f1;
     u8 _8f2[0xd88 - 0x8f2];
-    // The map mode table: 5 groups of 0x888 bytes, 12 entries of 0xa8 (indexed in sub_71009635DC).
-    /* 0xd88 */ s32 _d88[0xa57];
-    u8 _36e4[0x3820 - 0x36e4];
-    /* 0x3820 */ s32 _3820;
-    u8 _3824[0x3830 - 0x3824];
+    // The map mode table: five groups of thirteen entries each (0x888 = 13 * 0xa8). The 0x98 field of its
+    // last entry is the state at 0x3820.
+    /* 0xd88 */ MapModeEntry _d88[5][13];
     /* 0x3830 */ s32 _3830;
     /* 0x3834 */ sead::Vector3f _3834;
     /* 0x3840 */ UiTimer _3840;
