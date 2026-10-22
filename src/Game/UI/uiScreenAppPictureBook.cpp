@@ -22,9 +22,9 @@ struct PictureBookState {
     /* 0x000 */ bool _0 = false;
     /* 0x001 */ bool _1 = false;
     /* 0x002 */ u8 _2[0x22];
-    /* 0x024 */ s32 mNumNewEnemyPictures = 0;
-    /* 0x028 */ s32 mNumNewBossPictures = 0;
-    /* 0x02c */ s32 mNumNewWeaponPictures = 0;
+    /* 0x024 */ u32 mNumNewEnemyPictures = 0;
+    /* 0x028 */ u32 mNumNewBossPictures = 0;
+    /* 0x02c */ u32 mNumNewWeaponPictures = 0;
     /* 0x030 */ u8 _30[0x270];
 };
 
@@ -2793,10 +2793,10 @@ PictureBookNameIterator newEnemyPictureBookNamesBegin() {
 }
 
 // 0x71009f8484
-// NON_MATCHING: only the clamp's select width differs (the original selects 64-bit registers, csel x1 / ours w1)
 PictureBookNameIterator newEnemyPictureBookNamesEnd() {
-    const s32 count = s32(sead::Mathu::min(u32(sUnk_71025eb850.mNumNewEnemyPictures), 16u));
-    return {sNewEnemyPictureBookNames.getBufferPtr(), count};
+    // NON_MATCHING: the original selects the clamp with 64-bit registers (csel x1); ours uses w1.
+    return {sNewEnemyPictureBookNames.getBufferPtr(),
+            s32(sead::Mathu::min(sUnk_71025eb850.mNumNewEnemyPictures, 16u))};
 }
 
 // 0x71009f84a8
@@ -2805,10 +2805,9 @@ PictureBookNameIterator newBossPictureBookNamesBegin() {
 }
 
 // 0x71009f84b8
-// NON_MATCHING: only the clamp's select width differs (the original selects 64-bit registers, csel x1 / ours w1)
 PictureBookNameIterator newBossPictureBookNamesEnd() {
     return {sNewBossPictureBookNames.getBufferPtr(),
-            s32(sead::Mathu::min(u32(sUnk_71025eb850.mNumNewBossPictures), 16u))};
+            s32(sead::Mathu::min(sUnk_71025eb850.mNumNewBossPictures, 16u))};
 }
 
 // 0x71009f84dc
@@ -2817,10 +2816,9 @@ PictureBookNameIterator newWeaponPictureBookNamesBegin() {
 }
 
 // 0x71009f84ec
-// NON_MATCHING: only the clamp's select width differs (the original selects 64-bit registers, csel x1 / ours w1)
 PictureBookNameIterator newWeaponPictureBookNamesEnd() {
     return {sNewWeaponPictureBookNames.getBufferPtr(),
-            s32(sead::Mathu::min(u32(sUnk_71025eb850.mNumNewWeaponPictures), 2u))};
+            s32(sead::Mathu::min(sUnk_71025eb850.mNumNewWeaponPictures, 2u))};
 }
 
 // 0x71009f8464

@@ -959,7 +959,7 @@ static MainFieldArea sUnk_71025f59f8;
 // NON_MATCHING: the equivalent null fallback uses an inverted csel condition.
 const MainFieldArea& Manager::sub_7100A7F2B0(s32 index) const {
     const auto* area = mMainFieldAreas.nth(index);
-    return area ? *area : sUnk_71025f59f8;
+    return area == nullptr ? sUnk_71025f59f8 : *area;
 }
 
 // 0x7100a7f2ec
