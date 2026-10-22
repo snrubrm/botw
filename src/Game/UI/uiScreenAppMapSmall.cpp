@@ -438,7 +438,6 @@ void ScreenAppMap::sub_71009EB178() {
 }
 
 // 0x71009eb0e0
-// NON_MATCHING: the original materialises the 0 for set6e4 as `mov x1, xzr` (ours `mov w1, wzr`); same in m98
 void ScreenAppMap::sub_71009EB0E0() {
     auto* subsys = UiSubsys1::instance();
     if (subsys->is38b8And38b9Clear()) {
@@ -693,7 +692,6 @@ void ScreenAppMap::sub_71009F0668() {
 }
 
 // 0x71009ec054
-// NON_MATCHING: the zero set6e4 argument is passed as 32 bits instead of the original 64.
 void ScreenAppMap::m98() {
     if (ksys::Patrol::instance() && ksys::Patrol::instance()->mField0 &&
         !UiSubsys1::instance()->sub_7100960DF8() && UiSubsys1::instance()->is848EqualTo1()) {

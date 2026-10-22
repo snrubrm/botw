@@ -106,7 +106,6 @@ void ScreenAppMapWidget::sub_71009AE29C(bool up) {
     refreshHomePage();
 }
 
-// NON_MATCHING: the original passes the 0 to set6e4 as a 64-bit zero (mov x1, xzr); set6e4 is declared with s32.
 // 0x71009af1ac
 void ScreenAppMapWidget::sub_71009AF1AC() {
     _b4ff ^= 8;

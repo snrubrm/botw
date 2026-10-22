@@ -992,7 +992,7 @@ u8 UiSubsys1::get12c() const {
 }
 
 // 0x71009638e8
-void UiSubsys1::set6e4(s32 value) {
+void UiSubsys1::set6e4(s64 value) {
     _6e4 = value;
 }
 

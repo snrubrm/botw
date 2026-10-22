@@ -1469,7 +1469,7 @@ public:
     sead::Vector2f* sub_710096357C() const;
     s32 returnFF() const;
     u8 get12c() const;
-    void set6e4(s32 value);
+    void set6e4(s64 value);
     // 0x71009638f0 / 0x7100963c70 (placeholder names): set / clear the quest at _3a0, then sub_71009638F8
     void sub_71009638F0(ksys::qst::Quest* quest);
     void sub_7100963C70();
