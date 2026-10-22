@@ -58,7 +58,7 @@ public:
         ~InitArg();
         sead::Heap* heap = nullptr;
         BfRes* resource = nullptr;
-        const sead::PtrArray<BfRes>* resources = nullptr;
+        sead::PtrArray<BfRes>* resources = nullptr;
         gsys::Model* model = nullptr;
         gsys::ModelNW* unit = nullptr;
         const sead::PtrArray<gsys::ModelNW>* units = nullptr;

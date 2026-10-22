@@ -49,13 +49,13 @@ u32* ForestRenderer::sub_7100F01AC0() {
 
 ForestRenderer::ForestRenderer() = default;
 
-// NON_MATCHING: resource-list insertion uses the local array rather than reloading InitArg::resources.
+// The mask is a 64-bit bitmask; the bit-flag helpers take the low 32 bits.
 void ForestRenderer::ModelSlot::sub_7100F05B5C(const sead::Buffer<TreeResMaybe>* resources,
-                                               u32 mask) {
+                                               u64 mask) {
     mModel->bindToModelScene();
     mModel->requestUpdate(6);
     auto* heap = map::PlacementMgr::instance()->mDynamicHeap;
-    const s32 count = sead::BitFlagUtil::countOnBit(mask);
+    const s32 count = sead::BitFlagUtil::countOnBit(u32(mask));
     if (count > 0) {
         sead::PtrArray<res::BfRes> selected;
         selected.allocBuffer(count, heap, 8);
@@ -65,8 +65,9 @@ void ForestRenderer::ModelSlot::sub_7100F05B5C(const sead::Buffer<TreeResMaybe>*
         arg.name = "ForestRenderer";
         arg.resources = &selected;
         for (s32 i = 1; i <= count; ++i) {
-            const s32 index = sead::BitFlagUtil::findOnBitFromRight(mask, i);
-            selected.pushBack(static_cast<res::BfRes*>((*resources)[index].mRes.getResourceWithoutChecks_0()));
+            const s32 index = sead::BitFlagUtil::findOnBitFromRight(u32(mask), i);
+            arg.resources->pushBack(
+                static_cast<res::BfRes*>((*resources)[index].mRes.getResourceWithoutChecks_0()));
         }
         mRes.sub_7100FDD4A8(arg);
         selected.freeBuffer();
