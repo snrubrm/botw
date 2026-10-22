@@ -143,6 +143,9 @@ xlink2::HandleSLink SpeakerBalanceUnifierMgr::sub_7101027E90(f32 size, int type,
     return handle;
 }
 
+// NON_MATCHING: the _360 byte store is scheduled before the _358 / _364 stores in the native.
+Unk_SoundMgr38_58::Unk_SoundMgr38_58() : mTimeZone(0) {}
+
 // 0x71010289cc: empty in the release build (Unk_SoundMgr38::sub_710102AF84 calls it).
 Unk_SoundMgr38_58::~Unk_SoundMgr38_58() = default;
 
@@ -216,17 +219,17 @@ void Unk_SoundMgr38_58::sub_710102880C() {
     }
 
     if (time >= 60.0f && time < 75.0f)
-        mTimeZone = 5;
+        mTimeZone = (mTimeZone & 0xf8) | 5;
     else if (time >= 75.0f && time < 105.0f)
-        mTimeZone = 1;
+        mTimeZone = (mTimeZone & 0xf8) | 1;
     else if (time >= 105.0f && time < 120.0f)
-        mTimeZone = 3;
+        mTimeZone = (mTimeZone & 0xf8) | 3;
     else if (time >= 120.0f && time < 270.0f)
-        mTimeZone = 2;
+        mTimeZone = (mTimeZone & 0xf8) | 2;
     else if (time >= 270.0f && time < 285.0f)
-        mTimeZone = 3;
+        mTimeZone = (mTimeZone & 0xf8) | 3;
     else
-        mTimeZone = 4;
+        mTimeZone = (mTimeZone & 0xf8) | 4;
 }
 
 void Unk_SoundMgr38_58::sub_7101028954(s32 arg) {

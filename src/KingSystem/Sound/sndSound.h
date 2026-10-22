@@ -1805,6 +1805,8 @@ xlink2::UserInstanceSLink* sub_710105E3D0(const char* name, sead::Heap* heap,
 
 class Unk_SoundMgr38_58 {
 public:
+    // 0x71010283a0
+    Unk_SoundMgr38_58();
     // 0x71010284c4 / 0x7101028524
     virtual ~Unk_SoundMgr38_58();
     void sub_71010289CC();
@@ -1848,9 +1850,13 @@ public:
     Entry* sub_7101028E7C(const sead::SafeString& name, s32 category);
 
     /* 0x008 */ Entry mEntries[4];
-    /* 0x308 */ u8 mTimeZone : 3;
-    /* 0x310 */ Unk_7102502410* mInstances;
+    /* 0x308 */ u8 mTimeZone;
+    /* 0x310 */ Unk_7102502410* mInstances = nullptr;
     /* 0x318 */ sead::CriticalSection mCS;
+    /* 0x358 */ u64 _358 = 0;
+    /* 0x360 */ u8 _360 = 0;
+    /* 0x364 */ f32 _364 = 20.0f;
+    /* 0x368 */ f32 _368 = 120.0f;
 };
 
 class Unk_SoundMgr38_60 {
