@@ -3,6 +3,8 @@
 #include <heap/seadExpHeap.h>
 #include <evfl/ResActor.h>
 #include "KingSystem/Resource/resLoadRequest.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 
 namespace uking {
 
@@ -121,6 +123,24 @@ void AutoPlacementFlowRes::start(AutoPlacement* placement, const char* unit_name
     this->placement = placement;
     if (flowchart_ctx.GetObjIdx() != -1 && flowchart_ctx.GetActiveEntryPointIdx() != -1)
         flowchart_ctx.Start(nullptr);
+}
+
+
+// 0x7100653788 (CSV apQueryPlayerRideHorse): the AutoPlacement flow query handler that asks whether
+// the player is riding a horse. -1 without a player; otherwise 1 when riding, else bit 17 of the
+// player's _cec (the fallback state of isRidingHorse).
+// NON_MATCHING: lib's BitFlag::isOnBit does `mBits & makeMask(bit)` (a word load + ubfx 17); the
+// original narrows to `ldrb [0xcee]` + `ubfx 1`, i.e. its isOnBit is a shift-based test.
+s32 apQueryPlayerRideHorse() {
+    act::PlayerInfo* info = act::PlayerInfo::instance();
+    if (!info)
+        return -1;
+    act::PlayerBase* player = info->getPlayer();
+    if (!player)
+        return -1;
+    if (player->isRidingHorse())
+        return 1;
+    return player->_cec.isOnBit(17);
 }
 
 }  // namespace uking

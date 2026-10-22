@@ -61,4 +61,8 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(AutoPlacementFlowMgr, 0x4758);
 
+// 0x7100653788 (CSV apQueryPlayerRideHorse): AutoPlacement query handler; declared here for the
+// flow's query registration.
+s32 apQueryPlayerRideHorse();
+
 }  // namespace uking
