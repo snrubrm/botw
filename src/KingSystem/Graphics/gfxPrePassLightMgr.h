@@ -119,8 +119,9 @@ public:
     virtual void m38();
     virtual void m39();
     virtual void m40();
-    // 0x7100f159e8: the per-view debug draw callback (slot 41).
+    // 0x7100f159e8 / 0x7100f159ec: the per-view debug draw callbacks (slots 41 / 42).
     virtual void m41(void* draw_context, const DrawLight* light, s32 view, const void* context) const;
+    virtual void m42(void* draw_context, const DrawLight* light, s32 view, const void* context) const;
     virtual void m42();
     virtual void m43();
 

@@ -129,6 +129,26 @@ void PrePassLightMgr::drawDebug(void* draw_context, s32 view, const void* contex
     }
 }
 
+// NON_MATCHING: same record-address strength reduction as drawDebug (target byte offset, ours madd).
+void PrePassLightMgr::drawDebugTest(void* draw_context, s32 view, const void* context) const {
+    const u32 valid_num = mValidNum;
+    const u32 record_num = mLights.size();
+    const u32 num = sead::Mathu::min(record_num, valid_num);
+    if (num == 0)
+        return;
+
+    for (u32 i = 0; i != num; ++i) {
+        if (!isLightEnabled(s32(i)))
+            continue;
+        if (!isVisible(s32(i), view))
+            continue;
+        const DrawLight& light = mLights[s32(i)];
+        const LightData& data = light.mLightData[view];
+        if ((data.mFlags & 1) == 0)
+            m42(draw_context, &light, view, context);
+    }
+}
+
 u32 PrePassLightMgr::getDrawLightNum(s32 index) const {
     return mDrawLightNums[index];
 }
