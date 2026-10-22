@@ -64,6 +64,8 @@ class DamageInfoMgr {
 public:
     // 0x7100673da4: resets the actor lists and reloads the reaction table.
     void init(sead::Heap* heap);
+    // 0x7100673e24: resets the light-damage bookkeeping when a stage is loaded.
+    void onLoadStage();
     // 0x710067428c (CSV DamageInfoMgr::postCalc; declared only).
     void postCalc();
     // Native readiness forwards to the reaction table at +0x5d0.
@@ -341,7 +343,7 @@ private:
         bool sub_7100673444(const sead::Vector3f& position) const;
 
         /* 0x00 */ sead::Buffer<Entry> mLinks;
-        /* 0x10 */ s32 mCount = 0;
+        /* 0x10 */ u32 mCount = 0;
         u8 _14[4];
         /* 0x18 */ std::atomic<u32> mLock;
     };

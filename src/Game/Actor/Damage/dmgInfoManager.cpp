@@ -13,6 +13,8 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/World/worldWeatherMgr.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
+#include "KingSystem/ActorSystem/actInfoCommon.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
 
 namespace uking::act {
 
@@ -23,7 +25,7 @@ bool sUnk_71025C59D8 = false;
 
 void DamageInfoMgr::UnkCe0::init(sead::Heap* heap) {
     mLinks.freeBuffer();
-    mLinks.tryAllocBuffer(mCount, heap);
+    mLinks.tryAllocBuffer(s32(mCount), heap);
 }
 
 // Whether fewer than GlobalParameter's ForceNoticeEnemyCount listed actors are near `position`. The list is
@@ -126,6 +128,58 @@ void DamageInfoMgr::postCalc() {
 
 void DamageInfoMgr::sub_7100673D8C(sead::Heap* heap) {
     mReactionTable.sub_71006681D4();
+}
+
+void DamageInfoMgr::onLoadStage() {
+    _28.sub_710065CAEC();
+
+    for (s32 i = 0; i < mUnkCe0.mCount; ++i) {
+        auto& entry = mUnkCe0.mLinks[i];
+        entry.mLink.reset();
+        entry.mTag = -1;
+    }
+
+    _4f8._c0 = 0.0f;
+    for (auto& entry : _4f8.mEntries) {
+        entry.mLink.reset();
+        entry.mDistance = std::numeric_limits<f32>::max();
+    }
+    _4f8._c4 = -1;
+    _4f8._c8 = 0;
+
+    _630.mRing.clear();
+    _790.mLink.reset();
+    _790.mStatus = 0;
+    _790._4 = -1;
+    _790._20.sub_7100710DE4();
+    _790.mParams.mActorName.copy("");
+    _790.mParams.mIgniteRotSpd = 0.0f;
+    _790.mParams.mOffsetY = 6.0f;
+    _790.mParams.mCenterOffsetXZ = 5.0f;
+    _790.mParams.mRandRadius = 12.0f;
+    _790.mParams.mIntervalMax = 20.0f;
+    _790.mParams.mIntervalMin = 15.0f;
+    _790._20.sub_7100710890(15, 20);
+
+    mRing.clear();
+    mClothStiffnessMgr.sub_7100665B20();
+
+    _11f0.mLock.writeLock();
+    _11f0.mSelectedIndex = -1;
+    for (auto& link : _11f0.mLinks)
+        link.reset();
+    _11f0.mLock.writeUnlock();
+
+    _868.sub_71006682C0();
+    _450.sub_710065D0A8();
+
+    _cd8 = 0;
+    _11e1 = false;
+    if (auto* data = ksys::act::InfoData::instance())
+        mMasterSwordSearchEvilDist =
+            ksys::act::getMasterSwordSearchEvilDist(data, "Weapon_Sword_070");
+    mMasterSwordDetectedEvil = false;
+    _11eb.fill(0);
 }
 
 void DamageInfoMgr::sub_7100674058() {
