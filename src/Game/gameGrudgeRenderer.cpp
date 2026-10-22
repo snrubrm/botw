@@ -18,12 +18,10 @@ bool sub_7101290034(const sead::Vector3f& start, const sead::Vector3f& displacem
 }
 
 // 0x710128f4bc
-// NON_MATCHING: the original loads the 20.0f reset distance from a file-scope object at 0x7102519120;
-// clang folds our literal to an immediate.
 void GrudgeRenderer::sub_710128F4BC(const sead::Camera* camera) {
     if ((_2ef8 & 1) == 0)
         return;
     camera->getWorldPosByMatrix(&_240);
-    _264 = 20.0f;
+    _264 = cGrudgeResetDistance;
     _268->requestDraw();
 }

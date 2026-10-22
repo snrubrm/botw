@@ -274,6 +274,10 @@ private:
     u8 _16c[0x178 - 0x16c];
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100efd9b8, 0x178);
+// 0x7102519120 (placeholder name): the distance GrudgeRenderer::sub_710128F4BC resets _264 to.
+// The original reaches it with a direct adrp + ldr, so it is a hidden-visibility object.
+KSYS_VISIBILITY_HIDDEN extern const f32 cGrudgeResetDistance;
+
 class GrudgeRenderer {
 public:
     void sub_710128F2A4();
