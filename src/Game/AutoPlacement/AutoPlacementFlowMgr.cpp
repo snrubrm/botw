@@ -1,4 +1,5 @@
 #include "Game/AutoPlacement/AutoPlacementFlowMgr.h"
+#include <algorithm>
 #include <container/seadBuffer.h>
 #include <heap/seadExpHeap.h>
 #include <math/seadMathCalcCommon.h>
@@ -530,6 +531,32 @@ s32 apQueryCheckTimeType(const evfl::QueryArg& arg) {
     if (!mgr)
         return -1;
     return mgr->getTimeMgr()->getTimeType();
+}
+
+
+// 0x7100652c50: compares two length-prefixed flow names. The first differing byte decides, unless
+// the shorter name ends there; then the length difference is the result.
+int StringWithLen::cmp(const StringWithLen& rhs) const {
+    const int len_diff = int(mLength) - int(rhs.mLength);
+    int len = std::min(int(mLength), int(rhs.mLength));
+    if (len < 1)
+        return len_diff;
+
+    const char* s2 = rhs.mString;
+    const char* s1 = mString;
+    while (len-- > 0) {
+        const char c1 = *s1;
+        const char c2 = *s2;
+        if (c1 == 0 || c1 != c2) {
+            const int c = c1 - c2;
+            if (c != 0)
+                return c;
+            break;
+        }
+        ++s1;
+        ++s2;
+    }
+    return len_diff;
 }
 
 }  // namespace uking

@@ -14,6 +14,15 @@ namespace uking {
 
 class AutoPlacement;
 
+// Flow action and query names are u16-length-prefixed evfl strings; this view has the layout the
+// handlers compare them with. 0x7100652c50 is the out-of-line cmp.
+struct StringWithLen {
+    const char* mString;
+    u32 mLength;
+
+    int cmp(const StringWithLen& rhs) const;
+};
+
 // evfl::AllocateArg callbacks used by AutoPlacementFlowRes::start; userdata is its heap.
 void* autoPlacementBfevflAlloc(size_t size, size_t alignment, void* userdata);
 void autoPlacementBfevflFree(void* ptr, void* userdata);
