@@ -248,6 +248,22 @@ bool ActorReactionHandle::resume(Actor* actor, Actor* source, const sead::SafeSt
 
 ActorReactionQueue::ActorReactionQueue() = default;
 
+void ActorReactionQueue::init(sead::Heap* heap, const sead::SafeString& name) {
+    const s32 num_cores = sead::CoreInfo::getNumCores();
+    auto& core_queues = mCoreQueues;
+    if (num_cores > 0)
+        core_queues.allocBuffer(num_cores, heap);
+    for (u32 i = 0; i < u32(num_cores); ++i) {
+        core_queues.emplaceBack();
+        core_queues[i]->allocBuffer(8, heap);
+    }
+    mActors.allocBuffer(num_cores * 8, heap);
+    mHandles.allocBuffer(4, heap);
+    for (s32 i = 0; i < 4; ++i)
+        mHandles.emplaceBack();
+    mName.copy(name);
+}
+
 // Both destructors of the queue only call the teardown member.
 ActorReactionQueue::~ActorReactionQueue() {
     sub_7101287B10();

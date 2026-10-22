@@ -69,6 +69,8 @@ public:
 // 0x20-byte elements at 0x7101287d68).
 class ActorReactionHandle {
 public:
+    // User-provided (the original's emplaceBack does not zero the tail padding).
+    ActorReactionHandle() {}
     // 0x7101287504: fades the event out and clears the flag when the handle is no longer active.
     void update();
     // 0x71012875dc: emits `name` through the xlink user of `source` for `actor` and fills the handle.
@@ -94,7 +96,7 @@ public:
 
     // 0x7101287d68: allocates the per-core queues for the platform core count, the merged actor
     // array and the handle pool, and stores `name` (copied into mName).
-    bool init(sead::Heap* heap, const sead::SafeString& name);
+    void init(sead::Heap* heap, const sead::SafeString& name);
 
     // 0x7101288104: sets the actor the events are emitted for.
     void setActor(Actor* actor);
