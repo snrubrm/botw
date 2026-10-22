@@ -102,6 +102,8 @@ public:
 
     bool isPlacementMgrDynamicHeapOom() const;
     void submitReqCallAutoPlacementMgrFn();
+    // 0x7100d5dcd8 (placeholder name): waits for worker-support task 7.
+    void sub_7100D5DCD8();
     // Used by AutoPlacementMgr::stopThread (stores in this order).
     void clearAutoPlacementMgrDelegates() {
         _280 = nullptr;

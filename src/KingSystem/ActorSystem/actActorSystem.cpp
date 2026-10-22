@@ -181,6 +181,10 @@ void ActorSystem::submitReqCallAutoPlacementMgrFn() {
     frm::WorkerSupportThreadMgr::instance()->submitRequest(7, &_2a0);
 }
 
+void ActorSystem::sub_7100D5DCD8() {
+    frm::WorkerSupportThreadMgr::instance()->waitForTask(7);
+}
+
 }  // namespace ksys::act
 
 namespace ksys::act {
