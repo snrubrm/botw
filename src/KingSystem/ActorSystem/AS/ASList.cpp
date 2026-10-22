@@ -1336,24 +1336,14 @@ void ASList::unk4() {}
 // 0x710115f8c: releases the slots (unless destroying), the frames' buffers, the define chain and the
 // source tree.
 void ASList::sub_7101159F8C(bool destroying) {
+    // The native loops bump the element pointer and count down in 64 bits, which is the
+    // range-for lowering used by the define-chain loop below.
     if (!destroying) {
-        s32 count = mSlots.size();
-        if (count != 0) {
-            Unk1* slot = mSlots.getBufferPtr();
-            do {
-                slot->sub_7101164EB8();
-                ++slot;
-            } while (--count);
-        }
+        for (Unk1& slot : mSlots)
+            slot.sub_7101164EB8();
     }
-    Context::Frame* frame = mFrames.getBufferPtr();
-    s32 count = mFrames.size();
-    if (count != 0) {
-        do {
-            frame->finalize();
-            ++frame;
-        } while (--count);
-    }
+    for (Context::Frame& frame : mFrames)
+        frame.finalize();
     mFrames.freeBuffer();
     _160 = 0;
     _161 = 0;
