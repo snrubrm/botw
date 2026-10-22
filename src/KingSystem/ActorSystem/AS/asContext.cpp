@@ -548,9 +548,14 @@ extern const f32 sUnk_710250ff94;
 void Context::sub_7101259BD8() {
     for (s32 i = 0; i < mNumEvents2; ++i) {
         auto& event = mEvents2[i];
-        const int type = event.mType - 12;
-        if (u32(type) < 0x37 && ((1ull << type) & 0x60000000000001ull) && event._1c < sUnk_710250ff94)
-            event.mFlags &= 0xffe8;
+        switch (event.mType - 12) {
+        case 0:
+        case 53:
+        case 54:
+            if (event._1c < sUnk_710250ff94)
+                event.mFlags &= 0xffe8;
+            break;
+        }
         if ((event.mFlags & 0x18) == 8)
             event.mFlags = (event.mFlags & 0xfff3) | 4;
     }
