@@ -827,6 +827,13 @@ bool sub_71007090F4(const Unk_7102450410* controller) {
     return false;
 }
 
+// The handle pair's destructors are trivial; only the held ELink detaches the event's delayed-emit
+// record from its owners (original: event/create-id guard, record at event +0x190, then clears the
+// record's actor and chemical pointers at +8 / +0x10; the second handle pair adds nothing).
+Unk_7102450410::Entry::~Entry() {
+    _68.mELink.releaseDelayEmitParamMaybe();
+}
+
 void Unk_7102450410::Entry::sub_7100708A44(const sead::SafeString& name) {
     auto* list = mActor->getASList();
     if (!list || name.isEmpty())
