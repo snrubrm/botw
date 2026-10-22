@@ -1,5 +1,9 @@
 #include "Game/Actor/Action/actionSiteBossSwordCreateIronPile.h"
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/Utils/Thread/Message.h"
+#include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actSiteBoss.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
@@ -70,7 +74,34 @@ bool SiteBossSwordCreateIronPile::init_(sead::Heap* heap) {
 }
 
 void SiteBossSwordCreateIronPile::enter_(ksys::act::ai::InlineParamPack* params) {
-    ksys::act::ai::Action::enter_(params);
+    const f32 wait = *mCreateWaitTime_s;
+    _114 = sead::Vector2f(wait, wait);
+    _11c = sead::Vector2f(-1.0f, 0.0f);
+    _124 = sead::Vector2f(0.0f, -1.0f);
+    _d8 = false;
+    _d9 = false;
+    _dc[0] = 0;
+    _dc[1] = -1;
+
+    if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor)) {
+        for (s32 i = 0; i <= *mCreateNum_s; ++i) {
+            const sead::FormatFixedSafeString<64> name("IronPile%d", i);
+            if (!enemy->getActorPartsActor(name).hasProc())
+                continue;
+
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&enemy->getActorPartsActor(name), &accessor);
+            if (accessor.sub_7100D13BB8())
+                _dc[1] = i;
+            else
+                enemy->sendMessage(*accessor.getMessageTransceiverId(),
+                                   ksys::MessageType(0x8000004), nullptr, true);
+        }
+
+        if (!mWaitAS_s.isEmpty())
+            playAS(mWaitAS_s.cstr(), false, 0, 0, -1.0f);
+        _da = false;
+    }
 }
 
 void SiteBossSwordCreateIronPile::leave_() {

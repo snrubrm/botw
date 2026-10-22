@@ -63,7 +63,8 @@ protected:
     bool _d9 = false;
     bool _da = false;
     u8 _db;
-    sead::Vector2f _dc = {0, 0};
+    /// Two integer counters (the second one is -1 / 0).
+    s32 _dc[2]{};
     u8 _e4[0x114 - 0xe4];
     sead::Vector2f _114 = {0, 0};
     sead::Vector2f _11c = {0, 0};
