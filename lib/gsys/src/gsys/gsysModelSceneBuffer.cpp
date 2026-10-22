@@ -70,7 +70,7 @@ bool ModelSceneBuffer::isZPrePassEnabled(const ModelSceneContext& context) const
 
 // 0x7100c191bc
 void ModelSceneBuffer::releaseXlu(const ModelSceneContext& context) const {
-    mRenderBufferContext->release(context._8, 0x7fe60000);
+    mRenderBufferContext->release(context._8, 0x607fe);
     mRenderBufferContext->getContext(context._8)->mGBuffer->invalidate();
 }
 
