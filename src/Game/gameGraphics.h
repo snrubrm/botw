@@ -510,6 +510,10 @@ public:
     void initBeforeStageGenB();
     void initBeforeStageGenA();
 
+    // 0x7100f2b424 (placeholder name): whether any material of the unit has render view option 4
+    // enabled in view 0.
+    bool sub_7100F2B424(gsys::ModelUnit* unit);
+
     // 0x7100f2afac / 0x7100f2afe8 / 0x7100f2b024 (lane4 s64; placeholder names; CSV Graphics::__auto9 / __auto14 / x):
     // store a byte at +0xf5b / +0xf5d / +0xf5f under the lock at +0xf18 (values 0 .. 2 seen).
     void sub_7100F2AFAC(u8 value);

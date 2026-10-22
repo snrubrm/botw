@@ -149,6 +149,15 @@ void Graphics::sub_7100F2B024(u8 value) {
     _f5f = value;
 }
 
+// 0x7100f2b424 (placeholder name): whether any material of the unit has render view option 4
+// enabled in view 0. Called by the world camera-frustum pass 0x71010b84f0 for each model unit.
+bool Graphics::sub_7100F2B424(gsys::ModelUnit* unit) {
+    bool all_disabled = true;
+    for (s32 i = 0; i < unit->getMaterialNum(); ++i)
+        all_disabled &= !unit->isRenderViewOptionEnabled(i, gsys::ModelEnum::RenderViewOption(4), 0);
+    return !all_disabled;
+}
+
 void Graphics::sub_7100F3590C(f32 value) {
     _370->sub_710129558C(value, 0);
 }
