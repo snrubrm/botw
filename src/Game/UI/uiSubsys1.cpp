@@ -455,6 +455,13 @@ s32 UiSubsys1::sub_7100965EA8() const {
     return _84c;
 }
 
+// 0x7100965fcc
+bool UiSubsys1::sub_7100965FCC() const {
+    if (_8f0)
+        return false;
+    return _8f1;
+}
+
 // 0x7100965fec
 f32 UiSubsys1::sub_7100965FEC() const {
     static const sead::SafeArray<f32, 4> sValues{{6.0f, 7.5f, 8.5f, 9.5f}};

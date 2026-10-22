@@ -1442,6 +1442,8 @@ public:
     bool is898Below3() const;
     // 0x7100965ea8 (placeholder name): _84c
     s32 sub_7100965EA8() const;
+    // 0x7100965fcc (placeholder name): whether the scroll-limit update may stop (the flags at _8f0 / _8f1)
+    bool sub_7100965FCC() const;
     // 0x710096603c (placeholder name): the screen size divided by _878
     void sub_710096603C(sead::Vector2f* out) const;
     // 0x7100966064 (placeholder name): the screen size divided by _888

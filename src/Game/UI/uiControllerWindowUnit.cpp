@@ -4,6 +4,7 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiManager.h"
 #include "Game/UI/euiMessageString.h"
+#include "KingSystem/System/Controller.h"
 #include <container/seadSafeArray.h>
 
 namespace uking::ui {
@@ -17,8 +18,13 @@ void Unk_7102485670::m4(sead::Heap*) {
         _48->StopAtMin();
 }
 
-// 0x71010b6558 (placeholder; declared only)
-bool sub_71010B6558();
+// 0x71010b6558: whether the controller is in the state that switches the window to id 19
+bool sub_71010B6558() {
+    Controller* controller = Controller::instance();
+    if (!controller)
+        return false;
+    return controller->sub_7100D9EFD4();
+}
 
 namespace {
 // 0x7102485040

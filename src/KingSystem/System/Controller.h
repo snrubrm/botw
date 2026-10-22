@@ -45,6 +45,9 @@ public:
     virtual ~Controller();
 
     s32 sub_7100D9F0C8() const;
+    // 0x7100d9efd4 (declared only, 244 bytes): the letterbox / controller-state query behind
+    // uking::ui::sub_71010B6558.
+    bool sub_7100D9EFD4();
     // 0x7100d9f7c8 (declared only): forwards `id` to mFlags (0x7101266ea4).
     bool sub_7100D9F7C8(u32 id);
     bool sub_7100D9F7D4() const;
