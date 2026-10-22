@@ -9,6 +9,10 @@ class Node;
 }
 }
 
+namespace agl::sdw {
+class ShadowPrePass;
+}
+
 namespace gsys {
 
 class MaskedLight;
@@ -40,7 +44,7 @@ private:
     u8 _10[0x428 - 0x10];
     /* 0x428 */ void* mSSAO;
     /* 0x430 */ u8 _430[0x438 - 0x430];
-    /* 0x438 */ void* mShadowPrePass;
+    /* 0x438 */ agl::sdw::ShadowPrePass* mShadowPrePass;
     u8 _440[0x17a8 - 0x440];
     // Masked-light shadow slots; enable / disable / isEnable 0xc3ad18 .. 0xc3ad9c walk this array
     // with a 0x68 stride and the MaskedLight pointer at +0x30.

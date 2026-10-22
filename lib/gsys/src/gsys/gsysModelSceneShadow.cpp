@@ -1,7 +1,17 @@
 #include <gsys/gsysModelSceneShadow.h>
 #include <gsys/gsysModelSceneConfig.h>
+#include <shadow/aglShadowPrePass.h>
 
 namespace gsys {
+
+// 0x7100c38558
+bool ModelSceneShadow::isShadowPrePassEnabled() const {
+    if (!mShadowPrePass)
+        return false;
+    if (!mConfig->isFeatureEnabled(ModelSceneConfig::Feature::ShadowPrePass))
+        return false;
+    return mShadowPrePass->_478;
+}
 
 // 0x7100c3a898
 bool ModelSceneShadow::isSSAOEnabled() const {
