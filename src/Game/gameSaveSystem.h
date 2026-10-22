@@ -12,11 +12,18 @@
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/GameData/gdtManager.h"
 
+namespace sead {
+class FileDevice;
+}
+
 namespace ksys::act {
 class Actor;
 }
 
 namespace uking {
+
+// 0x7102473f70: the transfer save file name (defined in gameSaveSystem.cpp).
+extern const sead::SafeString sTransferTxt;
 
 // 0x71009181d4 (CSV invoked1_x; declared only, 3244 bytes): writes the save-transfer archive from
 // `data`/`size` and reports through `error` / `result`.
@@ -25,6 +32,10 @@ bool saveTransferWriteArchive(void* data, u64 size, sead::Heap* heap, s32* resul
 namespace save {
 // 0x710091ae00 (CSV save::tryDelete; declared only, 244 bytes): removes the transfer save file.
 bool tryDelete();
+
+// 0x7100919ef0 (CSV unnamed; declared only, 660 bytes): removes every entry in the save device's
+// root directory except the transfer save file.
+bool sub_7100919EF0(sead::FileDevice* device);
 }
 
 // Save-transfer archive tasks. State is shared between the UI and the low-priority worker:

@@ -3,6 +3,8 @@
 #include "Game/gameSaveSystem.h"
 #include "KingSystem/Event/evtEventResource.h"
 #include <filedevice/seadFileDevice.h>
+#include <filedevice/seadFileDeviceMgr.h>
+#include <filedevice/nin/seadNinSaveFileDeviceNin.h>
 #include <heap/seadFrameHeap.h>
 #include <time/seadTickSpan.h>
 #include "Game/AOC/aocHardModeManager.h"
@@ -43,6 +45,11 @@ namespace uking {
 
 
 SEAD_SINGLETON_DISPOSER_IMPL(SaveSystem)
+
+// 0x7102473f70: the transfer save file name, passed to every file-device call of the save-transfer
+// functions. External linkage keeps it out of the TU's GlobalMerge block.
+const sead::SafeString sTransferTxt = "transfer.txt";
+
 
 // 0x71007b1110: whether the scene background loading started and has not finished.
 bool gameSceneStartedBgProcessingAndNotFinished();
@@ -730,6 +737,28 @@ bool SaveDeleteJob::run(void* user_data) {
     const bool success = save::tryDelete();
     mState = success ? 3 : 4;
     return success;
+}
+
+// NON_MATCHING: the original's `transfer.txt` SafeString is a constant in .data and is addressed
+// directly; ours is dynamically initialised, and internal linkage would put it in this TU's
+// GlobalMerge block (which moves other statics), so it has external linkage and takes a GOT load.
+// 0x710091ae00: removes the transfer save file from the save device, after clearing the device root.
+bool save::tryDelete() {
+    auto* device = sead::DynamicCast<sead::NinSaveFileDevice>(
+        sead::FileDeviceMgr::instance()->findDevice(ksys::SaveMgr::instance()->getMountName()));
+    if (!device)
+        return false;
+
+    bool exists = false;
+    device->tryIsExistFile(&exists, sTransferTxt);
+    if (!exists)
+        return false;
+
+    if (save::sub_7100919EF0(device)) {
+        if (device->tryRemove(sTransferTxt))
+            device->tryCommit();
+    }
+    return true;
 }
 
 // NON_MATCHING: this TU's getAlbumPicturePath is inlined here (604 vs 328 bytes); the original emits a call to
