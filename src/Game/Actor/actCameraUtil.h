@@ -124,11 +124,11 @@ f32 sub_7100922420();
 bool sub_7100922428();
 // 0x71009220fc: 0.8 + 0.4 * idx for idx in [0, 4], else 1.6.
 f32 sub_71009220FC(s32 idx);
-// 0x71009223a8 (CSV setFlagToOne) / 0x71009223b8: set / clear a global flag; 0x71009223c4: whether
-// it is clear.
+// 0x71009223a8 (CSV setFlagToOne) / 0x71009223b8: set / clear the flag byte; 0x71009223c4: 1 when
+// its bit 0 is clear (a u8, not a bool: the original negates the raw byte).
 void setFlagToOne();
 void sub_71009223B8();
-bool sub_71009223C4();
+u8 sub_71009223C4();
 f32 sub_71009223F8(s32 idx);
 f32 sub_7100922408(s32 idx);
 

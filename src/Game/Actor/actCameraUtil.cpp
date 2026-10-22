@@ -52,7 +52,8 @@ const char* sUnk_71024741b0 = "DefaultIndoor_031";
 }  // namespace uking::act
 KSYS_VISIBILITY_HIDDEN f32 sUnk_71025d24c8;
 KSYS_VISIBILITY_HIDDEN f32 sUnk_71025d24cc;
-KSYS_VISIBILITY_HIDDEN bool sUnk_71025d24d0;
+// u8, not bool: the getter below negates the raw byte (mvn / and #1) in the original.
+KSYS_VISIBILITY_HIDDEN u8 sUnk_71025d24d0;
 
 SEAD_SINGLETON_DISPOSER_IMPL(Root7)
 
@@ -418,16 +419,15 @@ f32 sub_71009220FC(s32 idx) {
 }
 
 void setFlagToOne() {
-    sUnk_71025d24d0 = true;
+    sUnk_71025d24d0 = 1;
 }
 
 void sub_71009223B8() {
-    sUnk_71025d24d0 = false;
+    sUnk_71025d24d0 = 0;
 }
 
-// NON_MATCHING: the original negates the loaded byte with mvn/and (no bool range assumption).
-bool sub_71009223C4() {
-    return !sUnk_71025d24d0;
+u8 sub_71009223C4() {
+    return ~sUnk_71025d24d0 & 1;
 }
 
 f32 sub_71009223F8(s32 idx) {
