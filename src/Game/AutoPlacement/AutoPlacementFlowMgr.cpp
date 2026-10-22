@@ -188,15 +188,17 @@ s32 apQueryPosHeight(const evfl::QueryArg& arg) {
     return height <= getPlacementThing(arg)->getQueryPositionMaybe().y;
 }
 
-// NON_MATCHING: the original keeps the placement in a callee-saved register and reloads mX after the call.
+// NON_MATCHING: three instruction orders differ (placement load, the depth reload and the two
+// comparison operands).
 s32 apQueryWaterDepth(const evfl::QueryArg& arg) {
     f32 depth;
     if (!arg.param_accessor.FindFloat(&depth, "Depth"))
         return -1;
-    PlacementThing* thing = getPlacementThing(arg);
-    const f32 ground = AutoPlacementMgr::instance()->sub_7100659230(thing->getQueryPositionMaybe());
+    AutoPlacement* placement = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data)->placement;
+    const f32 ground = AutoPlacementMgr::instance()->sub_7100659230(
+        placement->getCurrentThingMaybe()->getQueryPositionMaybe());
     const bool below_ground = depth < ground;
-    const bool below_water = depth < thing->getWaterHeightMaybe();
+    const bool below_water = depth < placement->getCurrentThingMaybe()->getWaterHeightMaybe();
     return below_ground || below_water ? (below_ground && below_water ? 1 : -1) : 0;
 }
 
