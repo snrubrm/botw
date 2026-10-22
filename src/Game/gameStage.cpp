@@ -11,6 +11,10 @@
 #include "Game/gameSaveSystem.h"
 #include "KingSystem/GameData/gdtSaveMgr.h"
 #include "Game/gameSceneSubsys14.h"
+#include "Game/gameSceneSubsys13.h"
+#include "KingSystem/AOC/aocManager.h"
+#include "Game/AOC/aocHardModeManager.h"
+#include "KingSystem/Quest/qstManager.h"
 #include "Game/gameSceneSubsysMisc.h"
 #include "Game/Scene/gameScene.h"
 #include "Game/Scene/gameStageInfo.h"
@@ -120,6 +124,33 @@ bool GameScene::hasLoadingScreenStarted() {
 
 void GameScene::sub_71007AEF94() {
     resetStage(SaveSystem::instance()->_30, true);
+}
+
+// 0x71007aefac: resets the scene for stage type -99 (a saved game) and creates the stage from the
+// player save position; any other type goes to sub_71007BE380.
+void GameScene::resetStage(s32 mode, bool flag) {
+    sUnk_710245a360 = true;
+    if (mode == -99) {
+        sUnk_710245a360 = false;
+        if (!sIsRestartStageFromGameOver)
+            GameSceneSubsys13::instance()->sub_71008A53E4();
+        ksys::world::Manager::instance()->resetForStageUnload();
+        if (ksys::aoc::Manager::instance())
+            ksys::aoc::Manager::instance()->setGameDataFlags();
+        if (uking::aoc::HardModeManager::instance())
+            uking::aoc::HardModeManager::instance()->loadIsHardModeFlag();
+        setIsStageUnloaded(true);
+        if (auto* qst = ksys::qst::Manager::instance())
+            qst->setUnk5D(true);
+
+        PlayerSavePosInfo info;
+        sead::FixedSafeString<0x20> stage_name;
+        sead::FixedSafeString<0x20> start_point;
+        PlayerSavePosInfo::get(&info, stage_name, start_point, flag);
+        createStageFromPlayerSavePosInfo(&info);
+    } else {
+        sub_71007BE380(mode, flag);
+    }
 }
 
 void GameScene::sub_71007B1C64() {

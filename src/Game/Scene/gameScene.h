@@ -288,6 +288,26 @@ void initBeforeStageGen(void* context, s32 state, sead::Heap* heap, void* a4);
 // 0x71025cb0f0 (placeholder name): only its address is used (GameScene::doGenStageStep6 stores it at 0x348).
 extern u8 sUnk_71025CB0F0;
 
+// Placeholder name and layout: the save-position record a stage reset reads (get 0x71007af140, 1048 B).
+// resetStage default-constructs one and only reads the two empty name strings it passes in.
+class PlayerSavePosInfo {
+public:
+    PlayerSavePosInfo() = default;
+    // Fills `out` for stage type -99; `a` / `b` are empty in resetStage.
+    static void get(PlayerSavePosInfo* out, const sead::SafeStringBase<char>& a,
+                    const sead::SafeStringBase<char>& b, bool flag);
+
+    /* 0x00 */ sead::SafeString mStageName;
+    /* 0x10 */ sead::SafeString mStartPoint;
+    /* 0x20 */ u64 _20 = 0;
+    /* 0x28 */ u64 _28 = 0;
+    /* 0x30 */ u8 _30 = 0;
+    u8 _31[0x38 - 0x31];
+};
+static_assert(sizeof(PlayerSavePosInfo) == 0x38);
+// 0x71007bad14 (declared only, 4228 B): creates the stage from the record.
+void createStageFromPlayerSavePosInfo(const PlayerSavePosInfo* info);
+
 // 0x71007b8bec (declared only): creates the title stage binder.
 void createTitleStageBinder(bool a1, bool a2);
 bool sceneStartEventReady();
