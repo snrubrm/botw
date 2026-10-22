@@ -65,8 +65,9 @@ namespace uking {
 SEAD_SINGLETON_DISPOSER_IMPL(SaveSystem)
 
 // 0x7102473f70: the transfer save file name, passed to every file-device call of the save-transfer
-// functions. External linkage keeps it out of the TU's GlobalMerge block.
-const sead::SafeString sTransferTxt = "transfer.txt";
+// functions. Hidden visibility: the original addresses it directly (adrp/add) instead of through the
+// GOT, and external linkage keeps it out of the TU's GlobalMerge block.
+KSYS_VISIBILITY_HIDDEN const sead::SafeString sTransferTxt = "transfer.txt";
 
 
 // 0x71007b1110: whether the scene background loading started and has not finished.
@@ -1055,6 +1056,20 @@ bool SaveDeleteJob::run(void* user_data) {
     mState = success ? 3 : 4;
     return success;
 }
+
+namespace ui {
+// 0x710091ada4: whether the transfer save file exists on the save device. It lives in this TU (the
+// sTransferTxt reference is a direct address, not a GOT load).
+bool sub_710091ADA4() {
+    auto* device = sead::FileDeviceMgr::instance()->findDevice(ksys::SaveMgr::instance()->getMountName());
+    if (!device)
+        return false;
+
+    bool exists = false;
+    device->tryIsExistFile(&exists, sTransferTxt);
+    return exists;
+}
+}  // namespace ui
 
 // NON_MATCHING: the original's `transfer.txt` SafeString is a constant in .data and is addressed
 // directly; ours is dynamically initialised, and internal linkage would put it in this TU's
