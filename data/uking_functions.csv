@@ -90173,7 +90173,7 @@ Address,Quality,Size,Name
 0x00000071010f6c94,O,000032,_ZNK4ksys5world7Manager18getWeatherRainRateENS0_7ClimateE
 0x00000071010f6cb4,O,000032,_ZNK4ksys5world7Manager23getWeatherHeavyRainRateENS0_7ClimateE
 0x00000071010f6cd4,O,000032,_ZNK4ksys5world7Manager19getWeatherStormRateENS0_7ClimateE
-0x00000071010f6cf4,U,000124,WorldMgr::calc1
+0x00000071010f6cf4,O,000124,_ZN4ksys5world7Manager5calc1EPN4sead9WorkerMgrE
 0x00000071010f6d70,O,000276,_ZN4ksys5world7Manager12calcManagersEPN4sead9WorkerMgrE
 0x00000071010f6e84,U,000504,WorldMgr::calc2
 0x00000071010f707c,U,000460,WorldMgr::x_10

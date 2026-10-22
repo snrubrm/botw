@@ -17,6 +17,8 @@
 #include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include <gsys/gsysSystemTask.h>
+#include "KingSystem/GameData/gdtSaveMgr.h"
 
 namespace ksys::world {
 
@@ -779,6 +781,21 @@ int Manager::getWeatherHeavyRainRate(Climate climate) const {
 
 int Manager::getWeatherStormRate(Climate climate) const {
     return mWorldInfo.mClimates[int(climate)].WeatherStormRate.ref();
+}
+
+void Manager::calc1(sead::WorkerMgr* worker_mgr) {
+    if (mStageType == StageType::Invalid)
+        return;
+    if (gsys::SystemTask::instance()->mFlags.isOnBit(0))
+        return;
+    auto* save_mgr = SaveMgr::instance();
+    if (save_mgr) {
+        auto* obj = save_mgr->get1030Maybe();
+        if (obj && obj->m0())
+            return;
+    }
+    mCalcType = CalcType::_0;
+    calcManagers(worker_mgr);
 }
 
 void Manager::calcManagers(sead::WorkerMgr* worker_mgr) {

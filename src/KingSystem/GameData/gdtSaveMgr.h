@@ -191,6 +191,13 @@ public:
     };
     Unk1020* get1020() const { return _1020; }
 
+    // Placeholder (type unknown): the object at +0x1030; WorldMgr::calc1 calls its first virtual.
+    class Unk1030 {
+    public:
+        virtual bool m0();
+    };
+    Unk1030* get1030Maybe() const { return _1030; }
+
     // Read by saveTransferWaitForSaveSystemToComplete.
     u32 get40() const { return _40; }
     u32 get1050() const { return _1050; }
@@ -288,7 +295,9 @@ private:
     u8 _fe0[0x1008 - 0xfe0];
     sead::TList<Callback*> mCallbacks;
     Unk1020* _1020;
-    u8 _1028[0x1038 - 0x1028];
+    u8 _1028[0x1030 - 0x1028];
+    // Read by WorldMgr::calc1.
+    Unk1030* _1030;
     // Set to 0 by the constructor; x_18 records the offset of a match on this hash in _103c.
     s32 _1038;
     s32 _103c;
