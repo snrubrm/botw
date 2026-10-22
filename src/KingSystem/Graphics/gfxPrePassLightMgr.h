@@ -96,17 +96,18 @@ public:
     virtual void listenPropertyEvent(const sead::hostio::PropertyEvent* event);
 
     // Tail slots of the vtable (0xd0 .. 0x158). m29 is the per-record release called by
-    // destroy, m31 / m32 are the two calc callbacks.
+    // destroy, m31 / m32 are the two calc callbacks, m34 / m35 the two GPU update callbacks.
     virtual void m26();
     virtual void m27(DrawLight* light);
-    virtual void m28();
+    // 0x7100f14c68: declares a per-view light's single uniform block.
+    virtual void m28(agl::UniformBlock* block, sead::Heap* heap);
     virtual void m29(DrawLight* light);
     virtual void m30();
     virtual void m31();
     virtual void m32(DrawLight* light);
     virtual void m33();
-    virtual void m34();
-    virtual void m35();
+    virtual void m34() const;
+    virtual void m35(const DrawLight* light) const;
     virtual void m36();
     virtual void m37();
     virtual void m38();

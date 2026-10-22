@@ -36,6 +36,43 @@ void PrePassLightMgr::calc() {
     }
 }
 
+void PrePassLightMgr::updateGPU() const {
+    if (mValidNum == 0)
+        return;
+
+    m34();
+
+    const u32 valid_num = mValidNum;
+    const u32 record_num = mLights.size();
+    const u32 num = sead::Mathu::min(record_num, valid_num);
+    if (num == 0)
+        return;
+
+    const DrawLight* light = &mLights(0);
+    for (u32 i = 0; i != num; ++i) {
+        if (isLightEnabled(s32(i)))
+            m35(light);
+        ++light;
+    }
+}
+
+s32 PrePassLightMgr::getLightMax() const {
+    return -1;
+}
+
+s32 PrePassLightMgr::getValidNum() const {
+    return mValidNum;
+}
+
+s32 PrePassLightMgr::getRecordNum() const {
+    return mLights.size();
+}
+
+void PrePassLightMgr::m28(agl::UniformBlock* block, sead::Heap* heap) {
+    block->startDeclare(1, heap);
+    block->declare_(agl::UniformBlock::cType_6, 1, 0, 1);
+}
+
 u32 PrePassLightMgr::getDrawLightNum(s32 index) const {
     return mDrawLightNums[index];
 }
