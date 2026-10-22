@@ -18,6 +18,13 @@
 
 namespace uking {
 
+// The flow's static query-name table at 0x71025c5540 (only the ActorName key is modelled so far; the
+// rest is the float and name data sinitSomeBfevflStrings sets up).
+static struct {
+    u8 _0[0x168];
+    sead::SafeString actorName{"ActorName"};
+} sUnk_71025C5540;
+
 void* autoPlacementBfevflAlloc(size_t size, size_t alignment, void* userdata) {
     return static_cast<sead::Heap*>(userdata)->alloc(size, alignment);
 }
@@ -249,6 +256,18 @@ s32 apQueryWaterDistance(const evfl::QueryArg& arg) {
 
 s32 apQueryUnknown(const evfl::QueryArg& arg) {
     return 0;
+}
+
+// Whether the flow's unit name equals the "ActorName" parameter.
+s32 apQueryEcoAreaActorName(const evfl::QueryArg& arg) {
+    ore::StringView actor;
+    if (!arg.param_accessor.FindString(&actor, sUnk_71025C5540.actorName.cstr()))
+        return -1;
+
+    AutoPlacementFlowRes* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
+    sead::SafeString name;
+    name = actor.data();
+    return name == flow->unit_name;
 }
 
 // Whether the navmesh face under the current query point is not the "no face" material.

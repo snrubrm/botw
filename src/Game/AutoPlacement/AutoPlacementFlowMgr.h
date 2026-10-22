@@ -84,5 +84,6 @@ s32 apQueryCheckPouchItemCount(const evfl::QueryArg& arg);
 s32 apQueryCheckPouchItemCountFromActor(const evfl::QueryArg& arg);
 s32 apQueryCheckTimeType(const evfl::QueryArg& arg);
 s32 apQueryNavMeshFace(const evfl::QueryArg& arg);
+s32 apQueryEcoAreaActorName(const evfl::QueryArg& arg);
 
 }  // namespace uking
