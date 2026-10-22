@@ -19,7 +19,7 @@ namespace uking::ui {
 // but not yet registered; the state keeps their counts. Only the members the decompiled functions
 // use are modelled so far.
 struct PictureBookState {
-    /* 0x000 */ bool _0 = false;
+    /* 0x000 */ u8 _0 = 0;
     /* 0x001 */ bool _1 = false;
     /* 0x002 */ u8 _2[0x22];
     /* 0x024 */ u32 mNumNewEnemyPictures = 0;
@@ -42,6 +42,28 @@ KSYS_VISIBILITY_HIDDEN sead::Vector2f sUnk_71025D5CE8{std::numeric_limits<f32>::
 // 0x71009f8284
 bool ScreenAppPictureBook::sub_71009F8284() const {
     return _3628 && _3628->mFrame != 0.0f;
+}
+
+// 0x71009f8398: false when the picture book already is in the app state's state; otherwise the app
+// screen mode decides (modes 1 and 2 follow the screen's flag, mode 3 is always false).
+// NON_MATCHING: same instructions; our compiler lays out the final return true / return false blocks
+// in the opposite order, so the two mode-test branch targets differ.
+bool ScreenAppPictureBook::sub_71009F8398() const {
+    // called through a pointer in the original (not devirtualised)
+    if (getStateMachine().getState()->getId() == (&sUnk_71025eb550)->getId())
+        return false;
+    const s32 mode = sUnk_71025eb5b8;
+    if (mode == 2) {
+        if (sUnk_71025eb850._0 & 1)
+            return false;
+    }
+    if (mode == 3)
+        return false;
+    if (mode == 1) {
+        if (sUnk_71025eb850._0 & 1)
+            return false;
+    }
+    return true;
 }
 
 // 0x7100938c94

@@ -4015,6 +4015,8 @@ extern sead::PtrArray<Unk_71009cb0c8*> sUnk_71025dc5e0;
 // States of ScreenAppPictureBook (placeholder names; m158 / m159).
 extern const ksys::StateBase sUnk_71025eb490;
 extern const ksys::StateBase sUnk_71025eb550;
+// 0x71025eb5b8: the app screen mode set by sub_71009F8420
+extern s32 sUnk_71025eb5b8;
 
 // 0x71009f70b0 (declared only; placeholder name): shows the picture book page of the picture `name`
 void sub_71009F70B0(const sead::SafeString& name);
@@ -4036,6 +4038,8 @@ public:
 
     // 0x71009f8284: whether the picture book's frame animator is playing
     bool sub_71009F8284() const;
+    // 0x71009f8398 (placeholder name): whether the app screen mode wants the picture book's state shown
+    bool sub_71009F8398() const;
     // 0x71009f8dfc: runs the two layout setup steps below
     void m92(sead::Heap* heap) override;
     // 0x71009f9bb8: keeps the two panes at the negated root pane position, then updates the screen and its states
