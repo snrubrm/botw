@@ -60,8 +60,6 @@ void LastBossMgr::sub_7100677F24(ksys::act::Actor* actor) {
     }
 }
 
-// NON_MATCHING: the slot loop compares the last index with `<= 31` in the original; clang folds our
-// `i < 32` to a `#0x20` compare.
 void LastBossMgr::sub_7100677E58(ksys::act::Actor* actor) {
     sead::ScopedLock<sead::JobQueueLock> lock(&mLock);
     for (u32 i = 0; i < 32; ++i) {

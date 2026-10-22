@@ -54,7 +54,7 @@ private:
     /* 0x038 */ sead::SafeArray<ksys::act::BaseProcLink, 32> mLinks;
     /* 0x238 */ ksys::MesTransceiverId mMesTransceiverId;
     // The slots' message ids (parallel to mLinks).
-    /* 0x250 */ ksys::MesTransceiverId mLinkIds[32];
+    /* 0x250 */ sead::SafeArray<ksys::MesTransceiverId, 32> mLinkIds{};
     /* 0x550 */ ksys::act::BaseProcLink mActorLink;
     /* 0x560 */ u16 _560;
     /* 0x564 */ sead::JobQueueLock mLock;
