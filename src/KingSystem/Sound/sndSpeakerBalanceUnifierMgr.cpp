@@ -21,6 +21,19 @@ namespace {
 // Set up by the TU's 52-byte static initialiser.
 ksys::util::InitConstants sInitConstants;
 ksys::util::InitTimeInfo sInitTimeInfo;
+
+// 0x7102501170: the chirp names by climate type and time of day (six climates).
+const char* sChirpNames[18] = {
+    "EnvSeEmitPointBirdTemperate_Morning",   "EnvSeEmitPointBirdTemperate_Noon",
+    "EnvSeEmitPointBirdTemperate_Night",     "EnvSeEmitPointBirdSubtropic_Morning",
+    "EnvSeEmitPointBirdSubtropic_Noon",      "EnvSeEmitPointBirdSubtropic_Night",
+    "EnvSeEmitPointBirdTropical_Morning",    "EnvSeEmitPointBirdTropical_Noon",
+    "EnvSeEmitPointBirdTropical_Night",      "EnvSeEmitPointBirdSubarctic_Morning",
+    "EnvSeEmitPointBirdSubarctic_Noon",      "EnvSeEmitPointBirdSubarctic_Night",
+    "EnvSeEmitPointBirdWet_Morning",         "EnvSeEmitPointBirdWet_Noon",
+    "EnvSeEmitPointBirdWet_Night",           "EnvSeEmitPointBirdWetSubtropic_Morning",
+    "EnvSeEmitPointBirdWetSubtropic_Noon",   "EnvSeEmitPointBirdWetSubtropic_Night",
+};
 }  // namespace
 
 namespace ksys::snd {
@@ -132,6 +145,26 @@ xlink2::HandleSLink SpeakerBalanceUnifierMgr::sub_7101027E90(f32 size, int type,
 
 // 0x71010289cc: empty in the release build (Unk_SoundMgr38::sub_710102AF84 calls it).
 Unk_SoundMgr38_58::~Unk_SoundMgr38_58() = default;
+
+// NON_MATCHING: the native keeps the definition-set index in a stack slot, which shifts the buffer and the
+// SafeString temporary, and clears mTimeZone with a whole-byte store.
+void Unk_SoundMgr38_58::sub_710102858C(sead::Heap* heap) {
+    sead::Buffer<const char*> names(sChirpNames);
+    xlink::XLinkPropDefinitions* defs = xlink::Manager::instance()->getPropertyDefinitionSet(24);
+    if (!defs)
+        return;
+
+    mInstances = new (heap, 8) Unk_7102502410;
+    if (!mInstances)
+        return;
+
+    mInstances->sub_7101049AF8(names, defs, heap);
+    mEntries[0].sub_710104A098(mInstances, "Chirp");
+    mEntries[1].sub_710104A098(mInstances, "Chirp");
+    mEntries[2].sub_710104A098(mInstances, "Chirp");
+    mEntries[3].sub_710104A098(mInstances, "Chirp");
+    mTimeZone = 0;
+}
 
 void Unk_SoundMgr38_58::sub_7101028690() {
     for (auto& entry : mEntries) {

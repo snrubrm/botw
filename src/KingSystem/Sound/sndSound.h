@@ -37,6 +37,7 @@
 #include "KingSystem/Sound/sndMiiSound.h"
 
 namespace uking { class StatisticsMgr; }
+namespace ksys::xlink { class XLinkPropDefinitions; }
 namespace ksys::tera { class System; }
 namespace ksys::phys { class SphereRigidBody; }
 
@@ -603,7 +604,6 @@ public:
     /* 0x1948 */ f32 _1948;
     u8 _194c[0x1950 - 0x194c];
 };
-class Unk_710105E3D0Arg;
 
 // Placeholder name = vtable address (0x7102502410; only the destructor pair). A buffer of shared xlink user
 // instances (the members built by the Unk_SoundMgr38_* constructors: 0x710102eba0, 0x71012c153c, ...).
@@ -642,7 +642,7 @@ public:
     // 0x7101049c60 (placeholder name): updates every entry and runs preCalc / postCalc of the referenced ones.
     void sub_7101049C60();
     // 0x7101049af8 (placeholder name): once, creates one entry per name with a sleeping SLink user instance.
-    void sub_7101049AF8(const sead::Buffer<const char*>& names, Unk_710105E3D0Arg* defs, sead::Heap* heap);
+    void sub_7101049AF8(const sead::Buffer<const char*>& names, ksys::xlink::XLinkPropDefinitions* defs, sead::Heap* heap);
     // 0x7101049cec (placeholder name): the entry whose user name is `name`, with a new reference (the first
     // one activates the user instance and starts loading its bars); null when there is none.
     Entry* sub_7101049CEC(const sead::SafeString& name);
@@ -1796,12 +1796,11 @@ void loadVoiceFromTitleBGPack(ResourceManager* resource_manager);
 
 // Placeholder: the property definition source passed to sub_710105E3D0 (it reads the definitions and their
 // count through vtable slots 3 and 4).
-class Unk_710105E3D0Arg;
 // 0x710105e3d0 (declaration only; placeholder name): creates an SLink user instance `name` on `heap`
 // (null when sound is disabled).
 xlink2::UserInstanceSLink* sub_710105E3D0(const char* name, sead::Heap* heap,
                                           aal::IAssetInfoReadable* reader, xlink2::IUser* user,
-                                          Unk_710105E3D0Arg* defs);
+                                          ksys::xlink::XLinkPropDefinitions* defs);
 
 
 class Unk_SoundMgr38_58 {
@@ -1820,6 +1819,9 @@ public:
     // 0x710102880c (placeholder name): stores the time zone (from the world time, or Unk_SoundMgr38::_140 when it
     // is not negative) in mTimeZone.
     void sub_710102880C();
+    // 0x710102858c (placeholder name): allocates mInstances and binds the four chirp emitters to the "Chirp"
+    // definition set.
+    void sub_710102858C(sead::Heap* heap);
 
     // CSV name (BirdChirpSoundEmitter::onPreEmit at 0x7101029104): a named sound reference with a position and a
     // property value (0xc0 bytes; four of them from +8).

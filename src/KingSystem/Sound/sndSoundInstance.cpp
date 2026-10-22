@@ -67,7 +67,7 @@ bool Unk_7102502410::Entry::sub_7101049824() {
 }
 
 // NON_MATCHING: the two loop offsets are kept in swapped registers.
-void Unk_7102502410::sub_7101049AF8(const sead::Buffer<const char*>& names, Unk_710105E3D0Arg* defs,
+void Unk_7102502410::sub_7101049AF8(const sead::Buffer<const char*>& names, ksys::xlink::XLinkPropDefinitions* defs,
                                     sead::Heap* heap) {
     if (mEntries.isBufferReady())
         return;

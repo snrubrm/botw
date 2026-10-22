@@ -44,6 +44,8 @@ public:
     // The climate index at +0x1c8 (1240944 selects the climate name from it; 0x71010289d0 compares the
     // bird chirp type with it).
     s32 getClimateMaybe() const { return _1c8; }
+    // The property definition set at `index` of the 29-entry table (123E100 allocates it).
+    XLinkPropDefinitions* getPropertyDefinitionSet(s32 index) const { return mPropertyDefinitionSets[index]; }
 
 private:
     friend class act::Reaction;
