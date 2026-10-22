@@ -384,21 +384,20 @@ s32 apQueryCheckPouchItemCountFromActor(const evfl::QueryArg& arg) {
 
 // Stores the time types allowed by the running switch event in the placement, then returns the
 // current time type.
-// NON_MATCHING: the original loads the world manager first and unrolls the mask loop by four;
-// ours loads it after the mask and keeps a plain loop.
+// NON_MATCHING: the original unrolls the case mask loop by four; ours keeps a plain loop.
 s32 apQueryCheckTimeType(const evfl::QueryArg& arg) {
+    ksys::world::Manager* mgr = ksys::world::Manager::instance();
     auto* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
     AutoPlacement* placement = flow->placement;
 
     if (placement->mX != &placement->mThing2) {
         const evfl::ResEvent* event = arg.main_event;
         u32 mask = 0;
-        for (int i = 0; i < event->num_cases; ++i)
-            mask |= 1 << event->cases.Get()[i].value;
+        for (u32 i = 0; i < u32(event->num_cases); ++i)
+            mask |= 1u << event->cases.Get()[i].value;
         placement->_10 = mask;
     }
 
-    ksys::world::Manager* mgr = ksys::world::Manager::instance();
     if (!mgr)
         return -1;
     return mgr->getTimeMgr()->getTimeType();
