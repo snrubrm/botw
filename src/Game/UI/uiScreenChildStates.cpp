@@ -722,6 +722,18 @@ void Unk_710247af10::m105() {
 // 0x71009b8d98
 void Unk_710247af10::m106() {}
 
+// 0x71009b8d9c
+void Unk_710247af10::m107() {
+    if (_300)
+        _300->sub_710093F594(false);
+}
+
+// 0x71009b5e4c
+void Unk_710247af10::m50() {
+    _1b0.sub_7100A816D8();
+    getStateMachine().run();
+}
+
 // 0x71009b9198
 s32 Unk_710247af10::m108() { return 0; }
 

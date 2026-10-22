@@ -539,8 +539,11 @@ public:
     void sub_71009B7D88();
     void sub_71009B87C8(Unk_710247ae28* record, eui::MessageString* out);
 
+    // 0x71009b5e4c: resets the texture slots and runs the state machine
+    void m50() override;
     virtual void m105();
     virtual void m106();
+    // 0x71009b8d9c: hides the picture book object (m105 shows it)
     virtual void m107();
     virtual s32 m108();
     virtual void m109();
