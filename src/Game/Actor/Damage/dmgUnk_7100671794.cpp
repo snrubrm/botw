@@ -1,7 +1,18 @@
 #include "Game/Actor/Damage/dmgUnk_7100671794.h"
+#include "KingSystem/ActorSystem/actBaseProc.h"
 #include <prim/seadScopedLock.h>
 
 namespace uking::act {
+
+bool Unk_7100671794::tryClaimSingleActorSlot(ksys::act::BaseProc* proc) {
+    sead::ScopedLock<sead::JobQueueLock> lock(&_d0);
+    const u32 id = proc->getId();
+    if (_c4 == -1) {
+        _c4 = id;
+        return true;
+    }
+    return _c4 == id;
+}
 
 bool Unk_7100671794::sub_7100671A40(ksys::act::BaseProc* proc, s32 frames) {
     if (_c0 > 0.0f)

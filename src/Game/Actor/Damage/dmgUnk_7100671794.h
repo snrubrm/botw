@@ -40,6 +40,9 @@ public:
     bool sub_7100671F78(ksys::act::BaseProc* proc);
     // 0x71006720c8
     void sub_71006720C8(ksys::act::BaseProc* proc);
+    // 0x7100672064: claims the single-attack slot for `proc` (true if it holds the slot or claimed
+    // it now; false if another proc holds it).
+    bool tryClaimSingleActorSlot(ksys::act::BaseProc* proc);
 
     /* 0x00 */ sead::SafeArray<Unk_7100671794_Entry, 8> mEntries;
     /* 0xc0 */ f32 _c0;
