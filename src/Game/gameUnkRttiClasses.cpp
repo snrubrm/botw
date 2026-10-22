@@ -421,28 +421,42 @@ void Unk_71012EBDBC::write(const u8* data, u32 size, u32 a3, u32 a4) {
 
 }  // namespace ksys::tera
 
-// NON_MATCHING: placeholder destructor; the original (0x7100a57d80) also destroys members or bases
-// this class does not declare yet.
-Unk_71024993a0::~Unk_71024993a0() = default;
+Unk_71024993a0::~Unk_71024993a0() {
+    auto* screen = sead::DynamicCast<uking::ui::ScreenStaffRollDLC>(
+        eui::ScreenMgr::instance()->getScreen(uking::ui::ScreenId::StaffRollDLC));
+    if (!screen)
+        return;
+    Unk_710249a1a0* block = _20;
+    if (!block)
+        return;
+    const s32 group = _8;
+    if (block->_8)
+        block->_8->SetVisible(false);
+    screen->mTextBlocks[u32(group) < 5 ? group : 0].pushBack(block);
+    _20 = nullptr;
+}
 
-// NON_MATCHING: placeholder destructor; the original (0x7100a5ac3c) also destroys members or bases
-// this class does not declare yet.
 Unk_71024993e0::~Unk_71024993e0() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x7100a5aa08) also destroys members or bases
-// this class does not declare yet.
 Unk_7102499a28::~Unk_7102499a28() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x7100a5d4c0) also destroys members or bases
-// this class does not declare yet.
-Unk_7102499ad8::~Unk_7102499ad8() = default;
+Unk_7102499ad8::~Unk_7102499ad8() {
+    auto* screen = sead::DynamicCast<uking::ui::ScreenStaffRoll>(
+        eui::ScreenMgr::instance()->getScreen(uking::ui::ScreenId::StaffRoll));
+    if (!screen)
+        return;
+    Unk_710249a1a0* block = _20;
+    if (!block)
+        return;
+    const s32 group = _8;
+    if (block->_8)
+        block->_8->SetVisible(false);
+    screen->mTextBlocks[u32(group) < 5 ? group : 0].pushBack(block);
+    _20 = nullptr;
+}
 
-// NON_MATCHING: placeholder destructor; the original (0x7100a5fef0) also destroys members or bases
-// this class does not declare yet.
 Unk_7102499b18::~Unk_7102499b18() = default;
 
-// NON_MATCHING: placeholder destructor; the original (0x7100a5fcbc) also destroys members or bases
-// this class does not declare yet.
 Unk_710249a160::~Unk_710249a160() = default;
 
 // NON_MATCHING: placeholder destructor; the original (0x7101148888) also destroys members or bases

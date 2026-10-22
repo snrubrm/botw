@@ -645,12 +645,22 @@ public:
 };
 
 // vtable 0x71024993a0 (6 slots); placeholder generated from the vtable (genskel.py).
+// Staff roll credit entry base. The destructor hands the entry's text block back to the StaffRollDLC
+// screen, which deletes the blocks of the entry's group when it is destroyed.
 class Unk_71024993a0 {
     SEAD_RTTI_BASE(Unk_71024993a0)
 public:
     virtual ~Unk_71024993a0();
     virtual void m4() {}
     virtual void m5() {}
+
+    /* 0x08 */ s32 _8 = -1;  // text block group (0-4; -1 before the entry is used)
+    /* 0x0c */ u32 _c = 0;
+    /* 0x10 */ u32 _10 = 0;
+    /* 0x14 */ f32 _14 = 0;
+    /* 0x18 */ f32 _18 = 0;
+    /* 0x1c */ u32 _1c = 0;
+    /* 0x20 */ Unk_710249a1a0* _20 = nullptr;  // the text block the entry owns
 };
 
 // vtable 0x71024993e0 (6 slots); placeholder generated from the vtable (genskel.py).
@@ -658,6 +668,10 @@ class Unk_71024993e0 : public Unk_71024993a0 {
     SEAD_RTTI_OVERRIDE(Unk_71024993e0, Unk_71024993a0)
 public:
     ~Unk_71024993e0() override;
+
+    /* 0x28 */ sead::FixedSafeString<32> _28;
+    /* 0x60 */ sead::FixedSafeString<32> _60;
+    /* 0x98 */ sead::FixedSafeString<32> _98;
 };
 
 // vtable 0x7102499a28 (6 slots); placeholder generated from the vtable (genskel.py).
@@ -665,15 +679,26 @@ class Unk_7102499a28 : public Unk_71024993a0 {
     SEAD_RTTI_OVERRIDE(Unk_7102499a28, Unk_71024993a0)
 public:
     ~Unk_7102499a28() override;
+
+    /* 0x28 */ sead::FixedSafeString<32> _28;
 };
 
 // vtable 0x7102499ad8 (6 slots); placeholder generated from the vtable (genskel.py).
+// The ScreenStaffRoll copy of Unk_7102499a28's family.
 class Unk_7102499ad8 {
     SEAD_RTTI_BASE(Unk_7102499ad8)
 public:
     virtual ~Unk_7102499ad8();
     virtual void m4() {}
     virtual void m5() {}
+
+    /* 0x08 */ s32 _8 = -1;  // text block group (0-4; -1 before the entry is used)
+    /* 0x0c */ u32 _c = 0;
+    /* 0x10 */ u32 _10 = 0;
+    /* 0x14 */ f32 _14 = 0;
+    /* 0x18 */ f32 _18 = 0;
+    /* 0x1c */ u32 _1c = 0;
+    /* 0x20 */ Unk_710249a1a0* _20 = nullptr;  // the text block the entry owns
 };
 
 // vtable 0x7102499b18 (6 slots); placeholder generated from the vtable (genskel.py).
@@ -681,6 +706,10 @@ class Unk_7102499b18 : public Unk_7102499ad8 {
     SEAD_RTTI_OVERRIDE(Unk_7102499b18, Unk_7102499ad8)
 public:
     ~Unk_7102499b18() override;
+
+    /* 0x28 */ sead::FixedSafeString<32> _28;
+    /* 0x60 */ sead::FixedSafeString<32> _60;
+    /* 0x98 */ sead::FixedSafeString<32> _98;
 };
 
 // vtable 0x710249a160 (6 slots); placeholder generated from the vtable (genskel.py).
@@ -688,6 +717,8 @@ class Unk_710249a160 : public Unk_7102499ad8 {
     SEAD_RTTI_OVERRIDE(Unk_710249a160, Unk_7102499ad8)
 public:
     ~Unk_710249a160() override;
+
+    /* 0x28 */ sead::FixedSafeString<32> _28;
 };
 
 // vtable 0x710249c338 (13 slots); placeholder generated from the vtable (genskel.py).

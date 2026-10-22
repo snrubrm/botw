@@ -88,6 +88,8 @@ extern bool sForceEnableGlidingSurfingRupee;
 }  // namespace uking
 
 class Unk_710249c338;
+class Unk_71024993a0;
+class Unk_710249a1a0;
 
 namespace uking::ui {
 class Unk_71025d6578;
@@ -6472,8 +6474,10 @@ public:
     /* 0x3614 */ u32 _3614 = 0;
     /* 0x3618 */ f32 _3618 = 1.0f;
     u8 _361c[0x3620 - 0x361c];
-    // 0x3670 is a pointer array the destructor empties (deleting each entry)
-    u64 _3620[0x60 / 8] = {};
+    // The text blocks by group (the group's element count comes from the TU's static group table) and the
+    // entries that own them. The destructor deletes the entries first, then the blocks.
+    /* 0x3620 */ sead::PtrArray<Unk_710249a1a0> mTextBlocks[5];
+    /* 0x3670 */ sead::PtrArray<Unk_71024993a0> mEntries;
     /* 0x3680 */ sead::Vector2f _3680 = sead::Vector2f::zero;
     /* 0x3688 */ sead::Vector2f _3688 = sead::Vector2f::zero;
     /* 0x3690 */ sead::BoundBox2f _3690;
@@ -6521,7 +6525,8 @@ public:
 
     /* 0x3610 */ ksys::Timer _3610{0.0f, 0.0f, 1.0f};
     u8 _361c[0x3620 - 0x361c];
-    u64 _3620[0x60 / 8] = {};
+    /* 0x3620 */ sead::PtrArray<Unk_710249a1a0> mTextBlocks[5];
+    /* 0x3670 */ sead::PtrArray<Unk_71024993a0> mEntries;
     /* 0x3680 */ sead::Vector2f _3680 = sead::Vector2f::zero;
     /* 0x3688 */ sead::Vector2f _3688 = sead::Vector2f::zero;
     /* 0x3690 */ sead::BoundBox2f _3690;
