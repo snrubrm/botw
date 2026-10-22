@@ -44,6 +44,17 @@ void UiSubsys1::sub_71009637D4() {
     }
 }
 
+// 0x7100964518: turns the marker position `pos` into the widget position and hands pin `index` to
+// sub_710096421C; `flag` selects the assignment path.
+void UiSubsys1::sub_7100964518(s32 index, const sead::Vector2f& pos, bool flag) {
+    sead::Vector2f out(0.0f, 0.0f);
+    if (auto* widget = sUnk_71025d6c70._50)
+        widget->sub_71009A9F4C(pos, &out);
+    sead::Vector3f v(out.x, 0.0f, out.y);
+    sub_7100AA0C04(&v);
+    sub_710096421C(index, v, flag);
+}
+
 // 0x7100957500 (placeholder name): the marker position for the current manager state.
 // NON_MATCHING: the state 4 loop in the original spills the kind and the literal to the stack before
 // the compare and shares the found block with the state 7 loops; this is the natural form.
