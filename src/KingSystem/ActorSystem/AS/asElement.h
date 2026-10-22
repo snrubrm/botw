@@ -1029,18 +1029,72 @@ private:
         return node;
     }
 
+    // The tree helpers are inline in the original (no out-of-line copy follows insert at 0x710125b650).
+    static bool isRed(const SkeltalAsset::Unk18* node) { return node && node->isRed(); }
+
+    static SkeltalAsset::Unk18* rotateLeft(SkeltalAsset::Unk18* node) {
+        SkeltalAsset::Unk18* j = node->_10;
+        node->_10 = j->_8;
+        j->_8 = node;
+        j->mColorAndPtr = node->mColorAndPtr;
+        node->setColor(0);
+        return j;
+    }
+
+    static SkeltalAsset::Unk18* rotateRight(SkeltalAsset::Unk18* node) {
+        SkeltalAsset::Unk18* j = node->_8;
+        node->_8 = j->_10;
+        j->_10 = node;
+        j->mColorAndPtr = node->mColorAndPtr;
+        node->setColor(0);
+        return j;
+    }
+
+    static SkeltalAsset::Unk18* moveRedLeft(SkeltalAsset::Unk18* node) {
+        flipColors(node);
+        if (isRed(node->_10->_8)) {
+            node->_10 = rotateRight(node->_10);
+            node = rotateLeft(node);
+            flipColors(node);
+        }
+        return node;
+    }
+
+    static SkeltalAsset::Unk18* moveRedRight(SkeltalAsset::Unk18* node) {
+        flipColors(node);
+        if (isRed(node->_8->_8)) {
+            node = rotateRight(node);
+            flipColors(node);
+        }
+        return node;
+    }
+
+    static SkeltalAsset::Unk18* findMin(SkeltalAsset::Unk18* node) {
+        while (node->_8)
+            node = node->_8;
+        return node;
+    }
+
+    static void flipColors(SkeltalAsset::Unk18* node) {
+        node->mColorAndPtr ^= 1;
+        node->_8->mColorAndPtr ^= 1;
+        node->_10->mColorAndPtr ^= 1;
+    }
+
+    static SkeltalAsset::Unk18* fixUp(SkeltalAsset::Unk18* node) {
+        if (isRed(node->_10))
+            node = rotateLeft(node);
+        if (isRed(node->_8) && isRed(node->_8->_8))
+            node = rotateRight(node);
+        if (isRed(node->_8) && isRed(node->_10))
+            flipColors(node);
+        return node;
+    }
+
     // 0x710125b650 (the inserted node carries its key and value; the compare uses the key index)
     SkeltalAsset::Unk18* insert(SkeltalAsset::Unk18* root, SkeltalAsset::Unk18* node);
-    static SkeltalAsset::Unk18* rotateLeft(SkeltalAsset::Unk18* node);
-    static SkeltalAsset::Unk18* rotateRight(SkeltalAsset::Unk18* node);
-    static SkeltalAsset::Unk18* moveRedLeft(SkeltalAsset::Unk18* node);
-    static SkeltalAsset::Unk18* moveRedRight(SkeltalAsset::Unk18* node);
-    static SkeltalAsset::Unk18* findMin(SkeltalAsset::Unk18* node);
     // 0x710125b49c
-    SkeltalAsset::Unk18* eraseMin(SkeltalAsset::Unk18* node);
-    static SkeltalAsset::Unk18* fixUp(SkeltalAsset::Unk18* node);
-    static bool isRed(const SkeltalAsset::Unk18* node) { return node && node->isRed(); }
-    static void flipColors(SkeltalAsset::Unk18* node);
+    static SkeltalAsset::Unk18* eraseMin(SkeltalAsset::Unk18* node);
     // 0x710125b120
     SkeltalAsset::Unk18* erase(SkeltalAsset::Unk18* root, const Key& key);
     SkeltalAsset::Unk18* find(SkeltalAsset::Unk18* root, const Key& key) const;

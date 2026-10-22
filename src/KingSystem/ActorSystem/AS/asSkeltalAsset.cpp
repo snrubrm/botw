@@ -116,7 +116,13 @@ SkeltalAsset::Unk18* Unk_710125af7c::erase(SkeltalAsset::Unk18* root, const Key&
             root->_10 = erase(root->_10, key);
         }
     }
-    return fixUp(root);
+    if (isRed(root->_10))
+        root = rotateLeft(root);
+    if (isRed(root->_8) && isRed(root->_8->_8))
+        root = rotateRight(root);
+    if (isRed(root->_8) && isRed(root->_10))
+        flipColors(root);
+    return root;
 }
 
 SkeltalAsset::Unk18* Unk_710125af7c::eraseMin(SkeltalAsset::Unk18* node) {
@@ -125,7 +131,13 @@ SkeltalAsset::Unk18* Unk_710125af7c::eraseMin(SkeltalAsset::Unk18* node) {
     if (!isRed(node->_8) && !isRed(node->_8->_8))
         node = moveRedLeft(node);
     node->_8 = eraseMin(node->_8);
-    return fixUp(node);
+    if (isRed(node->_10))
+        node = rotateLeft(node);
+    if (isRed(node->_8) && isRed(node->_8->_8))
+        node = rotateRight(node);
+    if (isRed(node->_8) && isRed(node->_10))
+        flipColors(node);
+    return node;
 }
 
 SkeltalAsset::Unk18* Unk_710125af7c::find(SkeltalAsset::Unk18* root, const Key& key) const {
@@ -139,65 +151,6 @@ SkeltalAsset::Unk18* Unk_710125af7c::find(SkeltalAsset::Unk18* root, const Key& 
             return root;
     }
     return nullptr;
-}
-
-SkeltalAsset::Unk18* Unk_710125af7c::findMin(SkeltalAsset::Unk18* node) {
-    while (node->_8)
-        node = node->_8;
-    return node;
-}
-
-SkeltalAsset::Unk18* Unk_710125af7c::rotateLeft(SkeltalAsset::Unk18* node) {
-    SkeltalAsset::Unk18* j = node->_10;
-    node->_10 = j->_8;
-    j->_8 = node;
-    j->mColorAndPtr = node->mColorAndPtr;
-    node->setColor(0);
-    return j;
-}
-
-SkeltalAsset::Unk18* Unk_710125af7c::rotateRight(SkeltalAsset::Unk18* node) {
-    SkeltalAsset::Unk18* j = node->_8;
-    node->_8 = j->_10;
-    j->_10 = node;
-    j->mColorAndPtr = node->mColorAndPtr;
-    node->setColor(0);
-    return j;
-}
-
-void Unk_710125af7c::flipColors(SkeltalAsset::Unk18* node) {
-    node->mColorAndPtr ^= 1;
-    node->_8->mColorAndPtr ^= 1;
-    node->_10->mColorAndPtr ^= 1;
-}
-
-SkeltalAsset::Unk18* Unk_710125af7c::moveRedLeft(SkeltalAsset::Unk18* node) {
-    flipColors(node);
-    if (isRed(node->_10->_8)) {
-        node->_10 = rotateRight(node->_10);
-        node = rotateLeft(node);
-        flipColors(node);
-    }
-    return node;
-}
-
-SkeltalAsset::Unk18* Unk_710125af7c::moveRedRight(SkeltalAsset::Unk18* node) {
-    flipColors(node);
-    if (isRed(node->_8->_8)) {
-        node = rotateRight(node);
-        flipColors(node);
-    }
-    return node;
-}
-
-SkeltalAsset::Unk18* Unk_710125af7c::fixUp(SkeltalAsset::Unk18* node) {
-    if (isRed(node->_10))
-        node = rotateLeft(node);
-    if (isRed(node->_8) && isRed(node->_8->_8))
-        node = rotateRight(node);
-    if (isRed(node->_8) && isRed(node->_10))
-        flipColors(node);
-    return node;
 }
 
 // NON_MATCHING: the second key halfword uses the element pointer rather than the key pointer.
