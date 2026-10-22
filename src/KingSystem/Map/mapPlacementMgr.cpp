@@ -1,4 +1,7 @@
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Map/mapPlacementActors.h"
+#include <gsys/gsysModelNW.h>
+#include <gsys/gsysModelUnit.h>
 #include "KingSystem/Map/mapPlacement18.h"
 #include <math/seadMathCalcCommon.h>
 #include <thread/seadMessageQueue.h>
@@ -24,6 +27,8 @@
 #include "KingSystem/Physics/System/physSystem.h"
 #include "KingSystem/System/OverlayArenaSystem.h"
 #include "KingSystem/Map/mapPlacementActors.h"
+#include <gsys/gsysModelNW.h>
+#include <gsys/gsysModelUnit.h>
 #include "KingSystem/Map/mapPlacementAreaMgr.h"
 #include "KingSystem/Map/mapPlacementTree.h"
 #include "KingSystem/System/VFR.h"
@@ -446,6 +451,32 @@ void PlacementMgr::loadModel(ActorData* data) {
     }
 
     data->mFlags.setBit(ActorData::Flag::_3);
+}
+
+void PlacementMgr::x_1(ActorData* data, bool unload) {
+    data->mFlags.resetBit(ActorData::Flag::_4);
+    data->mFlags.resetBit(ActorData::Flag::_6);
+    data->_b = 0;
+
+    Graphics::instance()->getLocationalLightMgr()->sub_7100F13420(data->_10);
+    mPlacementActors->releaseEffectModel(data);
+    data->_58.sub_7100FDCF20();
+    data->_20.sub_7100FDD264();
+
+    if (data->_18) {
+        delete data->_18;
+        data->_18 = nullptr;
+    }
+    if (data->_10)
+        delete data->_10;
+    data->_10 = nullptr;
+
+    if (unload)
+        data->mRes.unload();
+    else
+        data->mRes.requestUnload2();
+
+    --mLoadedActorCount;
 }
 
 void PlacementMgr::loadAllPreactors(const sead::Vector3f& pos, bool a2) {

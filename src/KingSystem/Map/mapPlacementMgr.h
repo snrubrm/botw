@@ -195,6 +195,9 @@ public:
     void printDebugInfo();
     // 0x71011ea08c: requests the actor's bfres model and stores its scale in the actor data.
     void loadModel(ActorData* data);
+    // 0x71011e9fb0: releases an actor data record: clears its flags, the model and its resource (with unload or
+    // requestUnload depending on `unload`) and decrements the loaded actor count.
+    void x_1(ActorData* data, bool unload);
     // 0x71011e9e04: clamps the camera position, finds the placement tree cell and tells the worker to load the
     // pre-actors around it.
     void loadAllPreactors(const sead::Vector3f& pos, bool a2);
