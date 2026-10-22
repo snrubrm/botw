@@ -522,4 +522,48 @@ f32 Unk_7100d860d8::sub_7100D8A7FC(const s32& idx) const {
     return _18[idx]._138;
 }
 
+
+// NON_MATCHING: our clang lowers the initial `backwards ? size - 1 : 0` index to `add`/`csel`
+// where the original uses the sign-mask `and` form (532 vs 520 bytes); the rest of the loop matches.
+// 0x7100d89348: distributes a horizontal / vertical offset over the nodes. Each node stores the
+// incoming amount, clamps it to its side limits and passes the part beyond the limit on to the next
+// node. The walk runs from the last node when bit 4 of _8c is set, from the first otherwise. Bit 12
+// (or bit 13 when bit 4 is set) disables the horizontal carry.
+void Unk_7100d860d8::sub_7100D89348(const f32& a1, const f32& a2) {
+    f32 x = a1;
+    f32 y = a2;
+    for (s32 n = 0; n < _18.size(); ++n) {
+        const s32 i = (_8c & 0x10) ? _18.size() - 1 - n : n;
+        _18[i]._134 = x;
+        _18[i]._138 = y;
+
+        if (_18[i]._134 < ((_8c & 0x10) ? _18[i]._124 : _18[i]._104))
+            _18[i]._134 = (_8c & 0x10) ? _18[i]._124 : _18[i]._104;
+        else if (_18[i]._134 > ((_8c & 0x10) ? _18[i]._128 : _18[i]._108))
+            _18[i]._134 = (_8c & 0x10) ? _18[i]._128 : _18[i]._108;
+
+        if (_18[i]._138 > ((_8c & 0x10) ? _18[i]._12c : _18[i]._10c))
+            _18[i]._138 = (_8c & 0x10) ? _18[i]._12c : _18[i]._10c;
+        else if (_18[i]._138 < ((_8c & 0x10) ? _18[i]._130 : _18[i]._110))
+            _18[i]._138 = (_8c & 0x10) ? _18[i]._130 : _18[i]._110;
+
+        if ((_8c & 0x10) ? (_8c & 0x2000) : (_8c & 0x1000))
+            x = 0;
+        else if (x < ((_8c & 0x10) ? _18[i]._124 : _18[i]._104))
+            x -= (_8c & 0x10) ? _18[i]._124 : _18[i]._104;
+        else if (x > ((_8c & 0x10) ? _18[i]._128 : _18[i]._108))
+            x -= (_8c & 0x10) ? _18[i]._128 : _18[i]._108;
+        else
+            x = 0;
+
+        if (y > ((_8c & 0x10) ? _18[i]._12c : _18[i]._10c))
+            y -= (_8c & 0x10) ? _18[i]._12c : _18[i]._10c;
+        else if (y < ((_8c & 0x10) ? _18[i]._130 : _18[i]._110))
+            y -= (_8c & 0x10) ? _18[i]._130 : _18[i]._110;
+        else
+            y = 0;
+    }
+    _d4 |= 0x3000;
+}
+
 }  // namespace ksys::act
