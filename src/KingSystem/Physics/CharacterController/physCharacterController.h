@@ -10,7 +10,9 @@
 #include "Havok/Physics2012/Utilities/CharacterControl/StateMachine/hkpCharacterContext.h"
 #include "Havok/Physics2012/Utilities/CharacterControl/StateMachine/hkpCharacterState.h"
 #include "Havok/Physics2012/Utilities/CharacterControl/StateMachine/hkpCharacterStateManager.h"
+#include "Havok/Physics2012/Dynamics/Collide/ContactListener/hkpContactListener.h"
 #include "KingSystem/Physics/physDefines.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/Physics/System/physUserTag.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -555,5 +557,37 @@ public:
     sead::Buffer<RigidBody*> _288;
     RigidBody* _298;
 };
+
+// 0x71024f5df0 (vptr 0x71024f5e00, 8 slots matching hkpContactListener): the character
+// controller's contact listener. Constructor 0x7100f65a14 stores the controller at +8, builds the
+// two material masks and initializes the cached axes; size 0xa8.
+class CharacterControllerContactListener : public hkpContactListener {
+public:
+    explicit CharacterControllerContactListener(CharacterController* controller);
+    ~CharacterControllerContactListener() override;
+
+    // 0x7100f65b60 (still U): the contact point handler.
+    void contactPointCallback(const hkpContactPointEvent& event) override;
+    // 0x7100f66934 / 0x7100f66938: register / unregister the end-of-step callbacks.
+    void collisionAddedCallback(const hkpCollisionEvent& event) override;
+    void collisionRemovedCallback(const hkpCollisionEvent& event) override;
+
+private:
+    CharacterController* mController;  // +0x8
+    u64 _10 = 0;
+    MaterialMask _18{0u};
+    MaterialMask _30{0u};
+    sead::Vector3f _48 = sead::Vector3f::zero;
+    sead::Vector3f _54 = sead::Vector3f::zero;
+    u64 _60 = 0x1f00000000;
+    u64 _68 = 0;
+    u8 _70 = 0;
+    u8 _71[3];
+    sead::Vector3f _74 = sead::Vector3f::zero;
+    sead::Vector3f _80 = sead::Vector3f::ey;
+    sead::Vector3f _8c = sead::Vector3f::ez;
+    sead::Vector3f _98 = sead::Vector3f::zero;
+};
+KSYS_CHECK_SIZE_NX150(CharacterControllerContactListener, 0xa8);
 
 }  // namespace ksys::phys

@@ -1529,3 +1529,17 @@ s32 sub_7100F5B5A8(const Unk_7100F6B7F4Maybe* obj) {
     const s32 value = obj->_758;
     return value < 7 ? value : 0;
 }
+
+ksys::phys::CharacterControllerContactListener::CharacterControllerContactListener(
+    CharacterController* controller)
+    : mController(controller) {}
+
+ksys::phys::CharacterControllerContactListener::~CharacterControllerContactListener() = default;
+
+void ksys::phys::CharacterControllerContactListener::collisionAddedCallback(const hkpCollisionEvent& event) {
+    registerForEndOfStepContactPointCallbacks(event);
+}
+
+void ksys::phys::CharacterControllerContactListener::collisionRemovedCallback(const hkpCollisionEvent& event) {
+    unregisterForEndOfStepContactPointCallbacks(event);
+}
