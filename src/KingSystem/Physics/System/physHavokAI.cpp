@@ -957,6 +957,44 @@ bool HavokAI::sub_7100F842A8(NavMeshCharacter* nav, sead::Vector3f* out, const v
     return false;
 }
 
+// NON_MATCHING: the half-extent vector is built with lane inserts (the original stores it as two
+// 8-byte halves) and clang merges the face-data pointer select into one csel + load (the original
+// loads the pointer in each branch). Behaviour and the query/lock sequence match.
+s32 HavokAI::__auto1(sead::Vector3f* out, const sead::Vector3f& pos, f32 radius) {
+    auto lock = sead::makeScopedLock(_50);
+    hkaiNavMeshQueryMediator::ClosestPointInput input;
+    toHkVec4(&input.m_position, pos);
+    input.m_halfExtents.set(radius, radius, 0.0f);
+    hkVector4 closest;
+    const hkUint32 key = _28->getMediator()->getClosestPoint(input, closest);
+    if (key == hkUint32(-1))
+        return 0x17;
+    if (out)
+        storeToVec3(out, closest);
+
+    auto* instance = _28->m_streamingCollection.val()->m_instances[key >> 22].m_instancePtr;
+    const s32 face_index = key & 0x3fffff;
+    const hkInt32* data;
+    s32 data_index;
+    if (face_index >= instance->m_originalFaces.m_size) {
+        data = instance->m_ownedFaceData.data();
+        data_index = face_index - instance->m_originalFaces.m_size;
+    } else if (instance->m_faceMap.isEmpty()) {
+        data = instance->m_instancedFaceData.data();
+        data_index = face_index;
+    } else {
+        const s32 mapped_index = instance->m_faceMap[face_index];
+        if (mapped_index == -1) {
+            data = static_cast<const hkInt32*>(instance->m_originalFaceData);
+            data_index = face_index;
+        } else {
+            data = instance->m_instancedFaceData.data();
+            data_index = mapped_index;
+        }
+    }
+    return data[data_index * instance->m_faceDataStriding] & 0xffff;
+}
+
 Unk_7100f7e9f0 HavokAI::sub_7100F8885C(NavMeshCharacter* nav, sead::Vector3f* out,
                                        const sead::Vector3f& to, f32 radius) {
     hkaiNavMeshQueryMediator::ClosestPointInput input;
