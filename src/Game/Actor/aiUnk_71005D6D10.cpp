@@ -1,5 +1,7 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiAwarenessFilters.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
@@ -982,6 +984,13 @@ s32 sub_71005DBB60(ksys::act::Actor* actor, s32 idx) {
     if (auto* sword = sead::DynamicCast<uking::act::Weapon>(weapon))
         return sword->_cf0;
     return -1;
+}
+
+void sub_71005DC158(ksys::phys::CharacterController* controller) {
+    controller->sub_7100F62D3C(false);
+    auto* tag = controller->sub_7100F5EDA8();
+    if (sead::IsDerivedFrom<ksys::act::PhysicsUserTag>(tag))
+        static_cast<ksys::act::PhysicsUserTag*>(tag)->resetMaybe();
 }
 
 void sub_71005DC270(ksys::act::Actor* actor, const sead::Vector3f& pos) {
