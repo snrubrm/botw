@@ -217,9 +217,7 @@ void UiSubsys1::sub_7100960A1C() {
     _3840.init(duration);
 }
 
-// 0x71009635dc
-// NON_MATCHING: identical body; ours merges the two `return false` blocks and orders the index test's
-// return-true block differently (same instruction count, different branch layout).
+// 0x71009635dc: whether the map should be shown for the current mode and state.
 bool UiSubsys1::sub_71009635DC() {
     if (getMapMode() != 1) {
         if (getMapMode() != 2)
@@ -232,10 +230,14 @@ bool UiSubsys1::sub_71009635DC() {
         return true;
     if (getMapMode() == 6)
         return true;
-    const u16 mode = getMapMode();
-    if (u32(index) > 0xb)
-        return true;
-    return _d88[mode < 5 ? mode : 0][index]._0 < 3;
+    u16 mode = _3860;
+    if (mode == 0)
+        mode = 6;
+    else
+        mode = sead::BitFlagUtil::countContinuousOffBitFromRight(mode);
+    if (u32(index) < 0xc)
+        return _d88[mode < 5 ? mode : 0][index]._0 < 3;
+    return true;
 }
 
 // NON_MATCHING: same instructions, the scheduler hoists the two bounds loads above the flag stores and
