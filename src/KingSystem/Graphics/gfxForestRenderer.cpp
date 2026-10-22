@@ -335,12 +335,15 @@ ForestRenderer::Item::~Item() {
     finalize();
 }
 
-// NON_MATCHING: the failure returns are not merged and the mask / vector scheduling differs.
+// NON_MATCHING: scheduling only. The position copy matches with the three-float constructor (the
+// original loads x/y as a pair then z, unlike Vector3f's copy constructor, which copies z first); the
+// remaining difference is the interleaving of the inlined floor math, the mask bytes and the late
+// returns.
 bool ForestRenderer::Item::sub_7100F0914C(Record* record, bool a, bool b) {
     if (_8 != 3)
         return false;
 
-    const sead::Vector3f pos = record->pos;
+    const sead::Vector3f pos(record->pos.x, record->pos.y, record->pos.z);
     GridCell cell;
     cell.mFlags = mCell.mFlags;
     cell.sub_7100F076D8(pos);
