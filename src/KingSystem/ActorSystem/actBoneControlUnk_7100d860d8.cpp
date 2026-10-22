@@ -22,29 +22,26 @@ bool Unk_7100d860d8::sub_7100D87BE4() const {
 }
 
 // Set A (L / R / U / D).
-// NON_MATCHING: regalloc (the original keeps the ratio in the divisor's register)
-// NON_MATCHING: only the fdiv destination register differs (ours s0, the original s1).
 void Unk_7100d860d8::sub_7100D897E0(const f32& value, const s32& idx) {
     if (idx < 0 || idx >= _18.size())
         return;
     _a8 -= _18[idx]._104;
     const f32 new_value = -value;
     const f32 old = _18[idx]._104;
-    _18[idx]._104 = new_value;
     const f32 ratio = new_value / old;
+    _18[idx]._104 = new_value;
     _a8 += _18[idx]._104;
     _18[idx]._160 *= ratio;
 }
 
-// NON_MATCHING: only the fdiv destination register differs (ours s0, the original s1).
 void Unk_7100d860d8::sub_7100D89884(const f32& value, const s32& idx) {
     if (idx < 0 || idx >= _18.size())
         return;
     _ac -= _18[idx]._108;
     const f32 new_value = value;
     const f32 old = _18[idx]._108;
-    _18[idx]._108 = new_value;
     const f32 ratio = new_value / old;
+    _18[idx]._108 = new_value;
     _ac += _18[idx]._108;
     _18[idx]._164 *= ratio;
 }
@@ -66,28 +63,26 @@ void Unk_7100d860d8::sub_7100D899A0(const f32& value, const s32& idx) {
 }
 
 // Set B.
-// NON_MATCHING: only the fdiv destination register differs (ours s0, the original s1).
 void Unk_7100d860d8::sub_7100D89A20(const f32& value, const s32& idx) {
     if (idx < 0 || idx >= _18.size())
         return;
     _b8 -= _18[idx]._124;
     const f32 new_value = -value;
     const f32 old = _18[idx]._124;
-    _18[idx]._124 = new_value;
     const f32 ratio = new_value / old;
+    _18[idx]._124 = new_value;
     _b8 += _18[idx]._124;
     _18[idx]._170 *= ratio;
 }
 
-// NON_MATCHING: only the fdiv destination register differs (ours s0, the original s1).
 void Unk_7100d860d8::sub_7100D89AC4(const f32& value, const s32& idx) {
     if (idx < 0 || idx >= _18.size())
         return;
     _bc -= _18[idx]._128;
     const f32 new_value = -value;
     const f32 old = _18[idx]._128;
-    _18[idx]._128 = value;
     const f32 ratio = new_value / old;
+    _18[idx]._128 = value;
     _bc += _18[idx]._128;
     _18[idx]._174 *= ratio;
 }
@@ -525,8 +520,6 @@ f32 Unk_7100d860d8::sub_7100D8A7FC(const s32& idx) const {
 }
 
 
-// NON_MATCHING: our clang lowers the initial `backwards ? size - 1 : 0` index to `add`/`csel`
-// where the original uses the sign-mask `and` form (532 vs 520 bytes); the rest of the loop matches.
 // 0x7100d89348: distributes a horizontal / vertical offset over the nodes. Each node stores the
 // incoming amount, clamps it to its side limits and passes the part beyond the limit on to the next
 // node. The walk runs from the last node when bit 4 of _8c is set, from the first otherwise. Bit 12
@@ -534,8 +527,8 @@ f32 Unk_7100d860d8::sub_7100D8A7FC(const s32& idx) const {
 void Unk_7100d860d8::sub_7100D89348(const f32& a1, const f32& a2) {
     f32 x = a1;
     f32 y = a2;
-    for (s32 n = 0; n < _18.size(); ++n) {
-        const s32 i = (_8c & 0x10) ? _18.size() - 1 - n : n;
+    const s32 end = (_8c & 0x10) ? -1 : _18.size();
+    for (s32 i = (_8c & 0x10) ? _18.size() - 1 : 0; i != end; i += (_8c & 0x10) ? -1 : 1) {
         _18[i]._134 = x;
         _18[i]._138 = y;
 
@@ -549,21 +542,25 @@ void Unk_7100d860d8::sub_7100D89348(const f32& a1, const f32& a2) {
         else if (_18[i]._138 < ((_8c & 0x10) ? _18[i]._130 : _18[i]._110))
             _18[i]._138 = (_8c & 0x10) ? _18[i]._130 : _18[i]._110;
 
+        auto& node = _18[i];
+        f32 nextX = 0;
         if ((_8c & 0x10) ? (_8c & 0x2000) : (_8c & 0x1000))
-            x = 0;
-        else if (x < ((_8c & 0x10) ? _18[i]._124 : _18[i]._104))
-            x -= (_8c & 0x10) ? _18[i]._124 : _18[i]._104;
-        else if (x > ((_8c & 0x10) ? _18[i]._128 : _18[i]._108))
-            x -= (_8c & 0x10) ? _18[i]._128 : _18[i]._108;
-        else
-            x = 0;
+            nextX = 0;
+        else if (x < ((_8c & 0x10) ? node._124 : node._104))
+            nextX = x - ((_8c & 0x10) ? node._124 : node._104);
+        else if (x > ((_8c & 0x10) ? node._128 : node._108))
+            nextX = x - ((_8c & 0x10) ? node._128 : node._108);
 
-        if (y > ((_8c & 0x10) ? _18[i]._12c : _18[i]._10c))
-            y -= (_8c & 0x10) ? _18[i]._12c : _18[i]._10c;
-        else if (y < ((_8c & 0x10) ? _18[i]._130 : _18[i]._110))
-            y -= (_8c & 0x10) ? _18[i]._130 : _18[i]._110;
+        f32 nextY;
+        if (y > ((_8c & 0x10) ? node._12c : node._10c))
+            nextY = y - ((_8c & 0x10) ? node._12c : node._10c);
+        else if (y < ((_8c & 0x10) ? node._130 : node._110))
+            nextY = y - ((_8c & 0x10) ? node._130 : node._110);
         else
-            y = 0;
+            nextY = 0;
+
+        x = nextX;
+        y = nextY;
     }
     _d4 |= 0x3000;
 }
