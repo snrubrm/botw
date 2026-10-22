@@ -367,6 +367,13 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7101293bac, 0x258);
 
+// Placeholder: the object at Graphics + 0xb70 (only the Vector3f that Graphics::sub_7100F3592C
+// writes is modelled).
+struct Unk_b70 {
+    u8 _0[0x110];
+    sead::Vector3f _110;
+};
+
 // Partial declaration: name from the CSV Graphics::createInstance (0x7100f2a1d0).
 // Source namespace remains unknown; global spelling follows the existing scene placeholders.
 // No instance layout or construction is modeled here.
@@ -643,7 +650,10 @@ private:
     Unk_7100f35df8* _ae0;
     u8 _ae8[0xb38 - 0xae8];
     Unk_710129175c* _b38;
-    u8 _b40[0xe08 - 0xb40];
+    u8 _b40[0xb70 - 0xb40];
+    // 0x7100f3592c: writes _b70->_110.
+    Unk_b70* _b70;
+    u8 _b78[0xe08 - 0xb78];
 
 public:
     // 0xe08 (lane1 s44): the camera of the graphics system (read by SkyMgr::sub_71010E4EE0).

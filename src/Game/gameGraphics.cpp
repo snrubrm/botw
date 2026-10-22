@@ -94,6 +94,10 @@ void Graphics::sub_7100F35918(const sead::Color4f& color) {
     _370->sub_7101295560(0, color);
 }
 
+void Graphics::sub_7100F3592C(const sead::Vector3f& value) {
+    _b70->_110 = value;
+}
+
 f32 Graphics::sub_7100F35F28() const {
     return _378->_18->_1520;
 }
