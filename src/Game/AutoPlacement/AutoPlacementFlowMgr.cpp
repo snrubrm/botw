@@ -203,6 +203,12 @@ void sub_7100652CB0(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler
     handler->Invoke();
 }
 
+// The default action handler (0x7100653234): the flow's handler table installs it for every action
+// that has no dedicated callback, and all it does is mark the action done.
+void defaultActionHandler(const evfl::ActionArg&, evfl::ActionDoneHandler handler) {
+    handler.Invoke();
+}
+
 // Reads the action's "Category" parameter into the placement's category byte and marks the action
 // done.
 void sub_7100653178(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) {

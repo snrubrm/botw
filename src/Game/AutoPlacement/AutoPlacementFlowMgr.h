@@ -96,6 +96,12 @@ s32 apQueryNavMeshFace(const evfl::QueryArg& arg);
 s32 apQueryEcoAreaActorName(const evfl::QueryArg& arg);
 s32 apQueryRailDistance(const evfl::QueryArg& arg);
 
+// 0x7100653234: the default action handler that initActionAndQueryHandlers installs for actions the
+// flow does not bind itself; it only marks the action done. The handler table entries are
+// ActorBinding::Action (24 bytes: handler, user_data, res_action) and their ActionHandler type
+// takes the ActionDoneHandler by value, so the callee receives it indirectly in x1.
+void defaultActionHandler(const evfl::ActionArg& arg, evfl::ActionDoneHandler handler);
+
 // 0x7100652cb0 (CSV sub_7100652CB0): the flow's "Group" action; reads MinNum / MaxNum /
 // GroupRadius / OffsetPosY / EquipWeaponActorCount / Mimicry / RideList and spawns a group.
 void sub_7100652CB0(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler);
