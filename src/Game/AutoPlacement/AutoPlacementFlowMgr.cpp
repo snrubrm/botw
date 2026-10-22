@@ -3,6 +3,7 @@
 #include <heap/seadExpHeap.h>
 #include <math/seadMathCalcCommon.h>
 #include <evfl/Action.h>
+#include <random/seadGlobalRandom.h>
 #include <evfl/ResActor.h>
 #include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include "KingSystem/GameData/gdtManager.h"
@@ -134,6 +135,30 @@ AutoPlacementFlowRes* AutoPlacementFlowMgr::getFlow(const sead::SafeString& acto
         }
     }
     return nullptr;
+}
+
+// Rolls the appear-weather rates: each of the nine weather types whose rate is above a random
+// [0, 1) value sets a bit in the placement's weather mask.
+// NON_MATCHING: the original materialises the 1.0f defaults as two 16-byte stores at sp+0x18; ours
+// groups them differently at sp+0x1c and reads rates[i] through the cached element address.
+void sub_7100652FF4(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) {
+    AutoPlacementFlowRes* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
+    AutoPlacement* placement = flow->placement;
+    if (placement->mX != &placement->mThing2) {
+        f32 rates[9];
+        for (auto& rate : rates)
+            rate = 1.0f;
+        u32 mask = 0;
+        for (u32 i = 0; i < 9; ++i) {
+            const char* weather = ksys::world::Manager::getWeatherTypeString(i);
+            const ore::StringView key(weather);
+            arg.param_accessor.FindFloat(&rates[i], key);
+            if (rates[i] > sead::GlobalRandom::instance()->getF32())
+                mask |= 1u << i;
+        }
+        placement->_e = mask;
+    }
+    handler->Invoke();
 }
 
 // Reads the action's "Category" parameter into the placement's category byte and marks the action
