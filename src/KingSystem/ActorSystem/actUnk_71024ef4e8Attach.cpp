@@ -7,4 +7,12 @@ void Unk_71024ef4e8::AttachInfo::sub_7100EB0D30() {
     mConstraint->sub_7100F6A074();
 }
 
+void Unk_71024ef4e8::AttachInfo::sub_7100EB1660() {
+    _17c = true;
+}
+
+bool Unk_71024ef4e8::AttachInfo::sub_7100EB166C() const {
+    return _17c;
+}
+
 }  // namespace ksys::act

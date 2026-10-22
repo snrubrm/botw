@@ -23,6 +23,8 @@ public:
     void sub_7100EBBCB8(bool fixed);
     // 0x7100ebbce4 (placeholder name): sets or clears flag 0x100 (TrolleyOnRail::calc_ sets it).
     void sub_7100EBBCE4(bool on);
+    // 0x7100ebbd04 (placeholder name): sets the byte at +0x90 to 10.
+    void sub_7100EBBD04();
 
     // Two sound handles that are faded together.
     struct SoundHandles {

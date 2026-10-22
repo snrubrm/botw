@@ -212,6 +212,8 @@ public:
         void sub_71006FC6C8(const sead::Matrix34f& matrix);
         // 0x71006fc348 (declared only): stores the matrix at +0x20 (identity if it has a NaN).
         void sub_71006FC348(const sead::Matrix34f& matrix);
+        // 0x71006fc340: sets the history segment spacing at +0x890.
+        void sub_71006FC340(f32 value);
 
         // 0x71006fb8a8 (placeholder name): with flags 2 and 3 set, detaches the three bone parts and every
         // valid named part of _850 from the actor (Actor::sub_71011DA868), then clears flag 3.

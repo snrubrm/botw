@@ -283,6 +283,10 @@ void Dragon::sub_710000EC50() {
     mASList->startAnimationMaybe(-1.0f, -1.0f, "Appear", 5, 2, true);
 }
 
+void Dragon::Unk_710000b710::sub_71006FC340(f32 value) {
+    _890 = value;
+}
+
 void Dragon::Unk_710000b710::sub_71006FB3FC(const sead::Matrix34f& matrix) {
     _20 = matrix;
     for (int i = 0; i < 3; ++i) {

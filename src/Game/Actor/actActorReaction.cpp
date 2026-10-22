@@ -54,6 +54,10 @@ void ActorUnk6b8::sub_7100EBBCE4(bool on) {
     _88 = on ? (_88 | 0x100) : (_88 & ~0x100);
 }
 
+void ActorUnk6b8::sub_7100EBBD04() {
+    _90 = 10;
+}
+
 // NON_MATCHING: the original calls the base constructor 0x7100ebf8a0 (ours inlines it; it is defined above) and
 // stores _84 before _7c.
 ActorUnk6b8::ActorUnk6b8(const InitArg& arg) : Unk_71024efd58(arg) {

@@ -45,6 +45,9 @@ public:
     struct AttachInfo {
         // 0x7100eb0d30 (out of line; defined in its own file so that the caller does not inline it).
         void sub_7100EB0D30();
+        // 0x7100eb1660 / 0x7100eb166c: sets / reads the flag at +0x17c.
+        void sub_7100EB1660();
+        bool sub_7100EB166C() const;
         phys::RigidBody* getBody() const { return mBody; }
 
         u8 _0[8];
@@ -64,7 +67,10 @@ public:
         /* 0x140 */ sead::Vector3f _140;
         u8 _14c[0x158 - 0x14c];
         BaseProcLink mTargetLink;
-        u8 _168[0x180 - 0x168];
+        u8 _168[0x17c - 0x168];
+        // 0x7100eb1660 / 0x7100eb166c: set / query the attach flag.
+        bool _17c;
+        u8 _17d[0x180 - 0x17d];
         /* 0x180 */ sead::Vector3f _180;  // velocity of the attachment (Player::getStatusEffectSpeed)
     };
 

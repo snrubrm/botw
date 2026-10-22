@@ -123,6 +123,10 @@ public:
     // Declaration only: both native holder-context callers pass this owner; the body reads
     // its global watch flag without using the receiver.
     bool sub_7100D9D520() const;
+    // 0x7100d9d52c: the neighbouring watch flag at 0x7102600F84.
+    bool sub_7100D9D52C() const;
+    // 0x7100d9ae5c (placeholder name): sets flag 0x80 in _c8.
+    void sub_7100D9AE5C();
     // 0x7100d99fec .. 0x7100d9a1b8 (placeholder names): the floats sUnk_71024DD450 ..
     // sUnk_71024DD488 (.data, read only by these getters).
     f32 sub_7100D99FEC() const;
