@@ -185,6 +185,7 @@ private:
     friend void sub_7100652F3C(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler);
     friend void sub_7100653178(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler);
     friend void sub_7100652FF4(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler);
+    friend void sub_7100652CB0(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler);
 
     struct ObjectRef {
         ksys::map::Object* obj;

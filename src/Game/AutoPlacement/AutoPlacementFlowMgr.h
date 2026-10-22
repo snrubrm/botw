@@ -40,7 +40,7 @@ struct AutoPlacementFlowRes {
     evfl::FlowchartContext flowchart_ctx;
     AutoPlacement* placement;
     sead::SafeString unit_name;
-    u8 idx;
+    s8 idx;
     s8 placement_type;
     u16 _10a;
     sead::PtrArray<sead::SafeString> actor_names;
@@ -95,5 +95,18 @@ s32 apQueryCheckTimeType(const evfl::QueryArg& arg);
 s32 apQueryNavMeshFace(const evfl::QueryArg& arg);
 s32 apQueryEcoAreaActorName(const evfl::QueryArg& arg);
 s32 apQueryRailDistance(const evfl::QueryArg& arg);
+
+// 0x7100652cb0 (CSV sub_7100652CB0): the flow's "Group" action; reads MinNum / MaxNum /
+// GroupRadius / OffsetPosY / EquipWeaponActorCount / Mimicry / RideList and spawns a group.
+void sub_7100652CB0(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler);
+
+// 0x710064f54c (still undecompiled): whether a placement group slot matches the given unit name,
+// weapon-slot range and flags. Declared for sub_7100652CB0.
+bool sub_710064F54C(AutoPlacement* placement, const sead::SafeString& unit_name, s32 min_num,
+                    s32 max_num, s32 idx, bool mimicry);
+// 0x710064e344 (still undecompiled): spawns a group of `count` actors around the placement.
+void sub_710064E344(AutoPlacement* placement, AutoPlacementFlowRes* flow, s32 count,
+                    s32 equip_count, const sead::SafeString& ride_list, bool mimicry,
+                    f32 group_radius, f32 offset_pos_y);
 
 }  // namespace uking

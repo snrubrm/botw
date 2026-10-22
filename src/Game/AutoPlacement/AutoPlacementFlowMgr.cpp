@@ -162,6 +162,47 @@ void sub_7100652FF4(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler
     handler->Invoke();
 }
 
+// The flow's "Group" action: reads the group parameters, picks a count in [MinNum, MaxNum] and
+// either test-spawns into the placement's current slot or spawns a group around it.
+// NON_MATCHING: our C++17 build evaluates GlobalRandom::instance() before the range arguments, so
+// the instance load is scheduled three instructions earlier; the original used C++14 order.
+void sub_7100652CB0(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) {
+    AutoPlacementFlowRes* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
+    AutoPlacement* placement = flow->placement;
+
+    s32 min_num = 1;
+    s32 max_num = 1;
+    s32 equip_count = -1;
+    f32 group_radius = 0.0f;
+    f32 offset_pos_y = 0.0f;
+    bool mimicry = false;
+    ore::StringView ride_name;
+    sead::SafeString ride_list;
+
+    arg.param_accessor.FindInt(&min_num, "MinNum");
+    arg.param_accessor.FindInt(&max_num, "MaxNum");
+    arg.param_accessor.FindFloat(&group_radius, "GroupRadius");
+    arg.param_accessor.FindFloat(&offset_pos_y, "OffsetPosY");
+    arg.param_accessor.FindInt(&equip_count, "EquipWeaponActorCount");
+    arg.param_accessor.FindBool(&mimicry, "Mimicry");
+    if (arg.param_accessor.FindString(&ride_name, "RideList"))
+        ride_list = ride_name.data();
+
+    const s32 count = sead::GlobalRandom::instance()->getS32Range(min_num, max_num + 1);
+
+    if (placement->mX == &placement->mThing2) {
+        if (sub_710064F54C(placement, flow->unit_name, min_num, max_num, flow->idx, mimicry)) {
+            placement->_9 = 1;
+            placement->sub_710064F744(count, equip_count);
+        }
+    } else {
+        sub_710064E344(placement, flow, count, equip_count, ride_list, mimicry, group_radius,
+                       offset_pos_y);
+    }
+
+    handler->Invoke();
+}
+
 // Reads the action's "Category" parameter into the placement's category byte and marks the action
 // done.
 void sub_7100653178(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) {
