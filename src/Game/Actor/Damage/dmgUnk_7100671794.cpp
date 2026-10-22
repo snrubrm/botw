@@ -76,12 +76,17 @@ bool Unk_7100671794::sub_7100671A74(Unk_7100671794_Entry* entry, s32 count) {
 
     for (s32 i = 0; i < 8; ++i) {
         auto& e = mEntries[i];
-        if (!e.mLink.hasProc())
-            continue;
-        const f32 slack = e._14 ? 10.0f : 0.0f;
-        if (entry->mDistance < e.mDistance - slack)
-            break;
-        if (--count < 1)
+        if (e.mLink.hasProc()) {
+            const f32 slack = e._14 ? 10.0f : 0.0f;
+            if (entry->mDistance < e.mDistance - slack) {
+                for (s32 j = i + 1; j < 8; ++j)
+                    mEntries[j - 1] = mEntries[j];
+                mEntries[7].mLink.reset();
+                break;
+            }
+            --count;
+        }
+        if (count < 1)
             return false;
     }
 
