@@ -37,37 +37,37 @@ MotionType motionTypeFromText(const sead::SafeString& text) {
     return MotionType::Unknown;
 }
 
-// NON_MATCHING: the original's mask temporary is 4 bytes (getMaterialMaskFromCollidable only writes
-// material_mask), so it keeps one frame instead of tail-calling the height field slot.
+// The out parameter is the 4-byte material mask alone; getMaterialMaskFromCollidable never writes
+// the other two RigidBodyCollisionMasks fields (its parameter is the mask word).
 u32 getMaterialMaskFromShape(const hkpShape& shape, const u32* shape_key,
                              const sead::Vector3f& position) {
+    u32 material_mask;
+    u32 collision_filter_info;
     if (shape.getType() == hkcdShapeType::SAMPLED_HEIGHT_FIELD)
         return static_cast<const hkpSampledHeightFieldShape&>(shape).m28(position);
 
-    RigidBodyCollisionMasks masks;
-    u32 collision_filter_info;
-    getMaterialMaskFromCollidable(&masks, &collision_filter_info, shape, shape_key);
-    return masks.material_mask;
+    getMaterialMaskFromCollidable(&material_mask, &collision_filter_info, shape, shape_key);
+    return material_mask;
 }
 
 // NON_MATCHING: shape tests are reordered and the compound instance array is loaded after the filter call.
-u32 getMaterialMaskFromCollidable(RigidBodyCollisionMasks* p_masks, u32* p_collision_filter_info,
+u32 getMaterialMaskFromCollidable(u32* p_material_mask, u32* p_collision_filter_info,
                                    const hkpShape& shape, const u32* shape_key) {
     switch (shape.getType()) {
     case hkcdShapeType::LIST: {
         if (*shape_key == HK_INVALID_SHAPE_KEY) {
-            p_masks->material_mask = 0;
+            *p_material_mask = 0;
             *p_collision_filter_info = 0;
             return 1;
         }
         hkpShapeBuffer buffer;
         const auto& list = static_cast<const hkpListShape&>(shape);
         const hkpShape* child = list.getChildShape(*shape_key, buffer);
-        return getMaterialMaskFromCollidable(p_masks, p_collision_filter_info, *child, shape_key);
+        return getMaterialMaskFromCollidable(p_material_mask, p_collision_filter_info, *child, shape_key);
     }
     case hkcdShapeType::STATIC_COMPOUND: {
         if (*shape_key == HK_INVALID_SHAPE_KEY) {
-            p_masks->material_mask = 0;
+            *p_material_mask = 0;
             *p_collision_filter_info = 0;
             return 1;
         }
@@ -76,13 +76,13 @@ u32 getMaterialMaskFromCollidable(RigidBodyCollisionMasks* p_masks, u32* p_colli
         hkpShapeKey child_key;
         compound.decomposeShapeKey(*shape_key, instance_id, child_key);
         *p_collision_filter_info = compound.getCollisionFilterInfo(*shape_key);
-        return getMaterialMaskFromCollidable(p_masks, p_collision_filter_info,
+        return getMaterialMaskFromCollidable(p_material_mask, p_collision_filter_info,
                                              *compound.getInstances()[instance_id].getShape(),
                                              &child_key);
     }
     case hkcdShapeType::BV_COMPRESSED_MESH: {
         if (*shape_key == HK_INVALID_SHAPE_KEY) {
-            p_masks->material_mask = 0;
+            *p_material_mask = 0;
             *p_collision_filter_info = 0;
             return 1;
         }
@@ -91,13 +91,13 @@ u32 getMaterialMaskFromCollidable(RigidBodyCollisionMasks* p_masks, u32* p_colli
             hkpBvCompressedMeshShape::PER_PRIMITIVE_DATA_PALETTE)
             *p_collision_filter_info = mesh.getCollisionFilterInfo(*shape_key);
         if (mesh.getUserDataMode() != hkpBvCompressedMeshShape::PER_PRIMITIVE_DATA_NONE)
-            p_masks->material_mask = mesh.getPrimitiveUserData(*shape_key);
+            *p_material_mask = mesh.getPrimitiveUserData(*shape_key);
         else
-            p_masks->material_mask = shape.getUserData();
+            *p_material_mask = shape.getUserData();
         return 0;
     }
     default:
-        p_masks->material_mask = shape.getUserData();
+        *p_material_mask = shape.getUserData();
         return 0;
     }
 }
@@ -122,7 +122,7 @@ u32 getCollisionFilterInfoFromCollidable(RigidBodyCollisionMasks* p_masks,
                                          u32* p_collision_filter_info,
                                          const hkpCollidable& collidable, const u32* shape_key) {
     *p_collision_filter_info = collidable.getCollisionFilterInfo();
-    return getMaterialMaskFromCollidable(p_masks, p_collision_filter_info,
+    return getMaterialMaskFromCollidable(&p_masks->material_mask, p_collision_filter_info,
                                          *collidable.getShape(), shape_key);
 }
 
