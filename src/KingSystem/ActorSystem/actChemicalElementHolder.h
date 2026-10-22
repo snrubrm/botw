@@ -130,12 +130,12 @@ public:
     // 0x7100d9ae24 / 0x7100d9ae40 (placeholder names): store a vector at _188 and set _c8 bit 5 / 6.
     void sub_7100D9AE24(sead::Vector3f value);
     void sub_7100D9AE40(sead::Vector3f value);
-    // 0x7100d9adec / 0x7100d9adb0 (placeholder names): store two vectors at _170 / _17c, a value at
-    // _194 and set the _c8 0x8+0x100 / 0x10+0x100 bits.
+    // 0x7100d9adec / 0x7100d9adb0 (placeholder names): store two vectors at _170 / _17c and set the
+    // _c8 0x8+0x100 / 0x10+0x100 bits; only D9ADB0 also stores the value at _194.
     void sub_7100D9ADEC(bool on, sead::Vector3f a, sead::Vector3f b, f32 value);
     void sub_7100D9ADB0(bool on, sead::Vector3f a, sead::Vector3f b, f32 value);
     // 0x7100d9ae6c / 0x7100d9ae90: the bounds-checked _f8 element getter and _f8 size.
-    void* sub_7100D9AE6C(s32 index) const;
+    Unk_71024dd1c8* sub_7100D9AE6C(s32 index) const;
     s32 sub_7100D9AE90() const;
     // 0x7100d99fec .. 0x7100d9a1b8 (placeholder names): the floats sUnk_71024DD450 ..
     // sUnk_71024DD488 (.data, read only by these getters).
@@ -191,7 +191,7 @@ public:
     // D9A384 allocates this Chemical array; D9AA84/D9AAE4 dispatch Chemical methods on it.
     sead::PtrArray<Chemical> mChemicals;
     sead::PtrArrayImpl _e8;
-    sead::PtrArrayImpl _f8;
+    sead::PtrArray<Unk_71024dd1c8> _f8;
     sead::PtrArrayImpl _108;
     // D9A384 allocates these with CreateArg::_0 entries and clears them.
     struct PtrBuffer {
