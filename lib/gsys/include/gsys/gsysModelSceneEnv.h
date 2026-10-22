@@ -21,6 +21,8 @@ namespace gsys {
 class ModelSceneEnv : public ModelSceneComponent {
 public:
     struct Parts;
+    // The argument of the environment apply callback delegate; only the name is recovered.
+    struct ApplyCallbackArg;
 
     ModelSceneEnv();
     ~ModelSceneEnv() override;

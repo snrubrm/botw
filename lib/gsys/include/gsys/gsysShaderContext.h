@@ -26,6 +26,9 @@ class ModelNW;
 // 0x7100c5d7d4; that row's existing PrimitiveOcclusionHolder identity is unresolved.
 class ShaderContext {
 public:
+    // The argument of the shader-context callback delegate; only the name is recovered.
+    struct CallbackArg;
+
     ShaderContext();
     ~ShaderContext();
 

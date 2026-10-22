@@ -1,12 +1,16 @@
 #include <prim/seadSafeString.h>
+#include <devenv/seadGameConfig.h>
+#include <framework/seadTaskBase.h>
+#include <prim/seadDelegate.h>
+#include "KingSystem/World/worldTimeMgr.h"
 
 // Explicit instantiations of the assignment operators of sead::FixedSafeString<N> / FixedSafeStringBase<char, N> for
 // the sizes N whose out-of-line copy the original binary contains (it keeps one copy per N; no decompiled function
-// calls them directly). Only the member functions are instantiated: instantiating the classes would also emit their
-// vtables. Sizes whose copy the original's vtables share with other sizes (identical-code folding) are left out: the
-// vtable slots would be named differently.
+// calls them directly). Where only the assignment operator is needed, only that member is instantiated: instantiating
+// the classes would also emit their vtables. Sizes whose copy the original's vtables share with other sizes
+// (identical-code folding) are left out: the vtable slots would be named differently. The classes in the second
+// block are instantiated in full because their deleting destructors are separate original rows.
 namespace sead {
-template FixedSafeStringBase<char, 3>& FixedSafeStringBase<char, 3>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 4>& FixedSafeStringBase<char, 4>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 7>& FixedSafeStringBase<char, 7>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 8>& FixedSafeStringBase<char, 8>::operator=(const SafeString&);
@@ -25,16 +29,12 @@ template FixedSafeStringBase<char, 24>& FixedSafeStringBase<char, 24>::operator=
 template FixedSafeStringBase<char, 26>& FixedSafeStringBase<char, 26>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 28>& FixedSafeStringBase<char, 28>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 29>& FixedSafeStringBase<char, 29>::operator=(const SafeString&);
-template FixedSafeStringBase<char, 30>& FixedSafeStringBase<char, 30>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 32>& FixedSafeStringBase<char, 32>::operator=(const SafeString&);
-template FixedSafeStringBase<char, 33>& FixedSafeStringBase<char, 33>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 34>& FixedSafeStringBase<char, 34>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 35>& FixedSafeStringBase<char, 35>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 39>& FixedSafeStringBase<char, 39>::operator=(const SafeString&);
-template FixedSafeStringBase<char, 40>& FixedSafeStringBase<char, 40>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 42>& FixedSafeStringBase<char, 42>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 44>& FixedSafeStringBase<char, 44>::operator=(const SafeString&);
-template FixedSafeStringBase<char, 46>& FixedSafeStringBase<char, 46>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 49>& FixedSafeStringBase<char, 49>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 51>& FixedSafeStringBase<char, 51>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 53>& FixedSafeStringBase<char, 53>::operator=(const SafeString&);
@@ -64,9 +64,7 @@ template FixedSafeStringBase<char, 141>& FixedSafeStringBase<char, 141>::operato
 template FixedSafeStringBase<char, 165>& FixedSafeStringBase<char, 165>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 168>& FixedSafeStringBase<char, 168>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 172>& FixedSafeStringBase<char, 172>::operator=(const SafeString&);
-template FixedSafeStringBase<char, 180>& FixedSafeStringBase<char, 180>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 223>& FixedSafeStringBase<char, 223>::operator=(const SafeString&);
-template FixedSafeStringBase<char, 236>& FixedSafeStringBase<char, 236>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 244>& FixedSafeStringBase<char, 244>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 250>& FixedSafeStringBase<char, 250>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 256>& FixedSafeStringBase<char, 256>::operator=(const SafeString&);
@@ -80,7 +78,6 @@ template FixedSafeStringBase<char, 518>& FixedSafeStringBase<char, 518>::operato
 template FixedSafeStringBase<char, 655>& FixedSafeStringBase<char, 655>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 912>& FixedSafeStringBase<char, 912>::operator=(const SafeString&);
 
-template FixedSafeString<3>& FixedSafeString<3>::operator=(const SafeString&);
 template FixedSafeString<4>& FixedSafeString<4>::operator=(const SafeString&);
 template FixedSafeString<6>& FixedSafeString<6>::operator=(const SafeString&);
 template FixedSafeString<7>& FixedSafeString<7>::operator=(const SafeString&);
@@ -100,9 +97,7 @@ template FixedSafeString<24>& FixedSafeString<24>::operator=(const SafeString&);
 template FixedSafeString<26>& FixedSafeString<26>::operator=(const SafeString&);
 template FixedSafeString<28>& FixedSafeString<28>::operator=(const SafeString&);
 template FixedSafeString<29>& FixedSafeString<29>::operator=(const SafeString&);
-template FixedSafeString<30>& FixedSafeString<30>::operator=(const SafeString&);
 template FixedSafeString<32>& FixedSafeString<32>::operator=(const SafeString&);
-template FixedSafeString<33>& FixedSafeString<33>::operator=(const SafeString&);
 template FixedSafeString<34>& FixedSafeString<34>::operator=(const SafeString&);
 template FixedSafeString<35>& FixedSafeString<35>::operator=(const SafeString&);
 template FixedSafeString<36>& FixedSafeString<36>::operator=(const SafeString&);
@@ -111,7 +106,6 @@ template FixedSafeString<39>& FixedSafeString<39>::operator=(const SafeString&);
 template FixedSafeString<40>& FixedSafeString<40>::operator=(const SafeString&);
 template FixedSafeString<42>& FixedSafeString<42>::operator=(const SafeString&);
 template FixedSafeString<44>& FixedSafeString<44>::operator=(const SafeString&);
-template FixedSafeString<46>& FixedSafeString<46>::operator=(const SafeString&);
 template FixedSafeString<49>& FixedSafeString<49>::operator=(const SafeString&);
 template FixedSafeString<51>& FixedSafeString<51>::operator=(const SafeString&);
 template FixedSafeString<53>& FixedSafeString<53>::operator=(const SafeString&);
@@ -147,7 +141,6 @@ template FixedSafeString<168>& FixedSafeString<168>::operator=(const SafeString&
 template FixedSafeString<170>& FixedSafeString<170>::operator=(const SafeString&);
 template FixedSafeString<172>& FixedSafeString<172>::operator=(const SafeString&);
 template FixedSafeString<223>& FixedSafeString<223>::operator=(const SafeString&);
-template FixedSafeString<236>& FixedSafeString<236>::operator=(const SafeString&);
 template FixedSafeString<244>& FixedSafeString<244>::operator=(const SafeString&);
 template FixedSafeString<250>& FixedSafeString<250>::operator=(const SafeString&);
 template FixedSafeString<256>& FixedSafeString<256>::operator=(const SafeString&);
@@ -161,5 +154,23 @@ template FixedSafeString<757>& FixedSafeString<757>::operator=(const SafeString&
 template FixedSafeString<912>& FixedSafeString<912>::operator=(const SafeString&);
 template FixedSafeString<1559>& FixedSafeString<1559>::operator=(const SafeString&);
 template FixedSafeString<4096>& FixedSafeString<4096>::operator=(const SafeString&);
+
+
+// The deleting destructors of these sizes are emitted in the original; instantiating the
+// classes produces D0 (and the base D0) without a separate out-of-line body.
+template class FixedSafeString<3>;
+template class FixedSafeString<30>;
+template class FixedSafeString<33>;
+template class FixedSafeString<46>;
+template class FixedSafeString<236>;
+template class FixedSafeStringBase<char, 40>;
+template class FixedSafeStringBase<char, 180>;
+
+// IDelegate1 / IDelegate2 / IDelegateR are the interface bases of the out-of-line delegates in
+// these game TUs; their clone / isNoDummy bodies are inline in seadDelegate.h.
+template class IDelegate1<const ksys::world::TimeMgr::NewDayEvent&>;
+template class IDelegate1<TaskBase*>;
+template class IDelegate2<SafeStringBase<char>&, GameConfig::ParamValueType&>;
+template class IDelegateR<const SafeStringBase<char>&>;
 
 }  // namespace sead

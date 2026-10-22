@@ -119,6 +119,7 @@ add_library(gsys OBJECT
   src/gsys/gsysSystemTask.cpp
   src/gsys/gsysModelAssignRenderInfo.cpp
   src/gsys/gsysModelSceneBuffer.cpp
+  src/gsys/gsysDelegateInstantiations.cpp
 )
 
 target_compile_options(gsys PRIVATE -fno-exceptions)

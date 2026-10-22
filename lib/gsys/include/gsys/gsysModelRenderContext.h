@@ -33,6 +33,9 @@ enum class ShaderAssignType;
 class ModelRenderContext {
     friend class ModelRenderCache;
 public:
+    // The argument of the render-context callback delegate; only the name is recovered.
+    struct CallbackArg;
+
     struct CreateArg {
         CreateArg();
         int _0;
