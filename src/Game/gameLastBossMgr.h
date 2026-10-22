@@ -45,6 +45,9 @@ public:
     ksys::MesTransceiverId& getMesTransceiverId() { return mMesTransceiverId; }
 
 private:
+    // Resets the boss link, the slots and their message ids (inline in the destructor).
+    void clear();
+
     // The current boss actor link; its message id is reset by postCalc when the link is empty.
     /* 0x028 */ ksys::act::BaseProcLink mBossLink;
     // The slots' actor links.

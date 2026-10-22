@@ -14,6 +14,25 @@ struct Unk_71025C5DE0 {
 };
 KSYS_VISIBILITY_HIDDEN Unk_71025C5DE0 sUnk_71025C5DE0;
 
+// NON_MATCHING: the safe-array member is not value-initialised in the original (it zeroes
+// 0x38..0x238 before constructing the links and zeroes the id block from 0x240).
+LastBossMgr::LastBossMgr() : _560(0) {}
+
+void LastBossMgr::clear() {
+    mBossLink.reset();
+    mMesTransceiverId = sUnk_71025C5DE0.mId;
+    for (u32 i = 0; i < 32; ++i) {
+        auto& link = mLinks[i];
+        link.reset();
+        mLinkIds[i] = sUnk_71025C5DE0.mId;
+    }
+}
+
+// NON_MATCHING: two loop base registers are allocated the other way round (x24/x25).
+LastBossMgr::~LastBossMgr() {
+    clear();
+}
+
 void LastBossMgr::postCalc() {
     if (!mBossLink.hasProc())
         mMesTransceiverId = sUnk_71025C5DE0.mId;
