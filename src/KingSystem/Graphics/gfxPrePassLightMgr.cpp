@@ -37,6 +37,43 @@ void PrePassLightMgr::calc() {
     }
 }
 
+// NON_MATCHING: the body and calls match; clang keeps the draw-count pointer and the light
+// iterator in different registers than the original (frame 0x70 vs 0x80, two loop-invariant sets).
+s32 PrePassLightMgr::calcView(s32 view, const void* context, s32 a) {
+    u32* count = &mDrawLightNums[view];
+    *count = 0;
+    if (mValidNum == 0)
+        return 0;
+
+    const u32 num = sead::Mathu::min(u32(mLights.size()), u32(mValidNum));
+    if (num == 0)
+        return 0;
+
+    for (u32 i = 0; i != num; ++i) {
+        if (!isLightEnabled(s32(i)))
+            continue;
+
+        DrawLight* light = &mLights(0) + i;
+        const bool visible = m33(light, view, context);
+
+        LightData& data = mLights[i].mLightData[view];
+        if (visible)
+            data.mFlags &= ~1u;
+        else
+            data.mFlags |= 1u;
+        if (!visible)
+            continue;
+
+        light->mLightData[view].mUniformBlock.setBufferIndexMaybe(u8(a));
+        ++*count;
+    }
+    return s32(*count);
+}
+
+bool PrePassLightMgr::m33(DrawLight* light, s32 view, const void* context) {
+    return true;
+}
+
 void PrePassLightMgr::updateGPU() const {
     if (mValidNum == 0)
         return;

@@ -67,7 +67,8 @@ public:
     // 0x7100f14f30: calls m31 once, then for every enabled light below min(light num, valid
     // num) calls m32 with the record.
     virtual void calc();
-    virtual void calcView(s32 view, const void* context, s32 a);
+    // 0x7100f14fc4: counts the view's lights in mDrawLightNums and returns the count.
+    virtual s32 calcView(s32 view, const void* context, s32 a);
     virtual void updateGPU() const;
     virtual void updateViewGPU(s32 view, const void* context) const;
     virtual void draw(void* draw_context, s32 view, const void* context, void* callback) const;
@@ -108,7 +109,8 @@ public:
     virtual void m30();
     virtual void m31();
     virtual void m32(DrawLight* light);
-    virtual void m33();
+    // 0x7100f159c8: the per-light view predicate calcView calls; the template default is true.
+    virtual bool m33(DrawLight* light, s32 view, const void* context);
     virtual void m34() const;
     virtual void m35(const DrawLight* light) const;
     // 0x7100f159d4 / 0x7100f159d8 / 0x7100f159dc: the per-view GPU update callbacks.
