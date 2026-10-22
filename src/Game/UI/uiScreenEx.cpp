@@ -7,8 +7,18 @@
 #include "Game/UI/euiButton.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Utils/Thread/Message.h"
+#include "KingSystem/Utils/Thread/MessageDispatcher.h"
 
 namespace uking::ui {
+
+// 0x7100a48628: sends a debug board message of `type` with `user` data through the 0x1e0 transceiver.
+void Screen::sub_7100A48628(const ksys::MessageType* type, void* user) {
+    Unk_710246c4f8 sender;
+    if (ksys::MessageDispatcher::instance()->isProcessingOnCurrentThread())
+        sender.sub_710089CAF4(&_1e0, type, user, false);
+    else
+        sender.sub_710089CA9C(&_1e0, type, user, false);
+}
 
 // NON_MATCHING: one register choice for the 0x1048 offset (w9 instead of w8)
 ScreenEx::ScreenEx() {

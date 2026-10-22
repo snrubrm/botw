@@ -157,7 +157,13 @@ public:
 
 class Unk_710246c4f8 {
 public:
+    Unk_710246c4f8();
     virtual ~Unk_710246c4f8();
+    // Forward to the debug board's registered destination through the transceiver.
+    bool sub_710089CA9C(ksys::MessageTransceiverBase* transceiver,
+                        const ksys::MessageType* type, void* target, bool ack);
+    bool sub_710089CAF4(ksys::MessageTransceiverBase* transceiver,
+                        const ksys::MessageType* type, void* target, bool ack);
 };
 
 class Unk_710246c4d8 : public Unk_710246c4f8 {
@@ -173,3 +179,5 @@ public:
 using DebugBoardMessageSender = Unk_710246c478;
 
 extern ksys::MesTransceiverId sDebugBoardMessageTarget;
+// The destination of the sender above (0x71025d06e0); its owning TU is not modelled yet.
+extern ksys::MesTransceiverId sUnk_71025d06e0;

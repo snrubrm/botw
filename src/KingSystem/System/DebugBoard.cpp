@@ -53,6 +53,26 @@ bool Unk_710246c4d8::sub_710089CA04(const DebugBoardTransceiverArgMaybe& arg) {
 
 Unk_710246c4f8::~Unk_710246c4f8() = default;
 
+// 0x710089ca50
+Unk_710246c4f8::Unk_710246c4f8() = default;
+
+// 0x710089ca9c
+bool Unk_710246c4f8::sub_710089CA9C(ksys::MessageTransceiverBase* transceiver,
+                                     const ksys::MessageType* type, void* target, bool ack) {
+    if (!transceiver)
+        return false;
+    return transceiver->sendMessage(sUnk_71025d06e0, ksys::MessageType(*type), target, ack);
+}
+
+// 0x710089caf4
+bool Unk_710246c4f8::sub_710089CAF4(ksys::MessageTransceiverBase* transceiver,
+                                     const ksys::MessageType* type, void* target, bool ack) {
+    if (!transceiver)
+        return false;
+    return transceiver->sendMessageOnProcessingThread(sUnk_71025d06e0, ksys::MessageType(*type),
+                                                      target, ack);
+}
+
 void DebugBoardMgr::sub_710089BA4C(bool on) {
     _44c0 = on ? _44c0 | 0x20000 : _44c0 & ~0x20000u;
 }
