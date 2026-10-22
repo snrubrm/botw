@@ -10,6 +10,15 @@
 
 namespace ksys::tera {
 
+// 0x710113f34c: whether the 0x4ae0 sub-object has flag _888 set and its _3ad8 flag. Defined in this TU
+// (its address neighbours live here) so Terrain::sub_710114D920 in teraTerrain.cpp calls it.
+bool Terrain::Unk370::sub_710113F34C() const {
+    const Unk4ae0* data = _4ae0;
+    if (!data->_10._888)
+        return false;
+    return data->_3ad8;
+}
+
 void System::allocateApertureMapsCollectorImage(sead::Heap* heap) {
     const u32 count = mScenes.size();
     for (u32 i = 0; i < count; ++i)
