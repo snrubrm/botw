@@ -326,6 +326,8 @@ private:
     u8 _a0[8];
 };
 static_assert(sizeof(Unk_71024753a8) == 0xa8);
+class AppMapIconPart;
+
 // Map parameters, written by sinitMapStrings (0x710094f9e4); +0x3c is the map size in world units.
 struct Unk_71025d6c70 {
     u8 _00[0x28];
@@ -337,7 +339,9 @@ struct Unk_71025d6c70 {
     /* 0x3c */ sead::Vector2f size;
     u8 _44[0xc];
     /* 0x50 */ ScreenAppMapWidget* _50 = nullptr;  // returned by sub_71009630FC (the map widget: Unk_7102478d00::m10)
-    u8 _58[0x78 - 0x58];
+    // The icon part whose mode selects the marker visibility row (Unk_7102475c68::m13 / m30).
+    /* 0x58 */ AppMapIconPart* _58;
+    u8 _60[0x78 - 0x60];
     // Initialised to FLT_MAX by 0x710094f9e4; compared against the map position in sub_7100961CD4.
     /* 0x78 */ sead::Vector3f _78;
     /* 0x84 */ sead::Vector3f _84{0.2f, 0.0f, -0.2f};

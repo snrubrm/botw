@@ -1,4 +1,5 @@
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/euiAnimator.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "Game/UI/uiManager.h"
@@ -29,6 +30,15 @@ KSYS_VISIBILITY_HIDDEN extern bool sUnk_71025d6a98;
 // members of the TU's merged static block sUnk_71025d6c70.
 static sead::Vector2f sUnk_71025d6a88{-100000.0f, 0.0f};
 
+
+
+// 0x7101e7d24e: the last four rows of sUnk_7101e7cfc4, used by Unk_7102475c68::m13 / m30 for the icon part's mode.
+static const bool sUnk_7101e7d24e[4][26] = {
+    {true, true, true, true, true, true, true, true, false, true, true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true},
+    {true, true, true, true, true, true, true, true, false, true, true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true},
+    {true, true, true, true, true, true, true, true, false, true, true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true},
+    {false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true},
+};
 
 // 0x7101e7cfc4: whether a marker of kind `_20` (0 - 25) is shown in map mode UiSubsys1::_6e4 (0 - 28)
 static const bool sUnk_7101e7cfc4[29][26] = {
@@ -953,6 +963,62 @@ void Unk_7102475c68::m12() {
         _3c &= ~0x80;
     } else if (_50 && _50->_8 != ksys::gdt::InvalidHandle) {
         _3c = ksys::gdt::getFlagGenericBool(_50->_8) ? _3c | 0x80 : _3c & ~0x80;
+    }
+}
+
+// 0x7100955afc
+// inline-only in the original; name is a guess.
+static inline bool isMarkerKindShownForMode(UiSubsys1Entry::Kind kind, s32 mode) {
+    return sUnk_7101e7d24e[mode][kind];
+}
+
+// NON_MATCHING: the SEAD_ENUM kind copy is scheduled after the part load instead of before it.
+// 0x710095a48: shows the entry's marker if the mode's visibility table allows it
+void Unk_7102475c68::m13() {
+    UiSubsys1Entry::m13();
+    const u32 flags = _3c;
+    if (flags & 0x80) {
+        const UiSubsys1Entry::Kind kind = _20;
+        bool shown = true;
+        if (auto* part = sUnk_71025d6c70._58) {
+            const s32 mode = part->_344[0];
+            shown = isMarkerKindShownForMode(kind, mode);
+        }
+        if (flags & 0x10) {
+            if (!shown)
+                m25(false);
+        } else if (shown) {
+            m25(true);
+        }
+    } else if (flags & 0x10) {
+        m25(false);
+    }
+}
+
+// NON_MATCHING: as m13 (kind copy scheduling).
+// 0x710095c34: as m13, and the entry is flagged as visible (bit 3) when the marker is shown
+void Unk_7102475c68::m30() {
+    UiSubsys1Entry::m13();
+    const u32 flags = _3c;
+    if (flags & 0x80) {
+        const UiSubsys1Entry::Kind kind = _20;
+        bool shown = true;
+        if (auto* part = sUnk_71025d6c70._58) {
+            const s32 mode = part->_344[0];
+            shown = isMarkerKindShownForMode(kind, mode);
+        }
+        if (flags & 0x10) {
+            if (!shown) {
+                _3c |= 8;
+                m25(false);
+            }
+        } else if (shown) {
+            _3c |= 8;
+            m25(true);
+        }
+    } else if (flags & 0x10) {
+        _3c |= 8;
+        m25(false);
     }
 }
 
