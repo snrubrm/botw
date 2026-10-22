@@ -158,7 +158,7 @@ public:
         /* 0x190 */ sead::Vector3f _190;
         u8 _19c[0x1a8 - 0x19c];
         /* 0x1a8 */ sead::Vector3f _1a8;
-        u8 _1b4[0x1c0 - 0x1b4];
+        /* 0x1b4 */ sead::Vector3f _1b4;
         /* 0x1c0 */ sead::Vector3f _1c0;
         u8 _1cc[0x1d8 - 0x1cc];
         /* 0x1d8 */ sead::Vector3f _1d8;  // the target position (valid while _1f0 bit 5 is set)
@@ -188,6 +188,9 @@ public:
 
     // 0x7100eb2394: applies the buoyancy scale, the centre of mass and the masses to the bodies. 0x7100eb4814 / 0x7100eb4928 (declared only; 276 / 1892 bytes).
     void sub_7100EB2394();
+    // 0x7100eb2884 (placeholder name): feeds the negated Unk2 contact offset at _1a8 / _1b4 to the
+    // character controller when the attach is active and the floor does not stop the move.
+    void sub_7100EB2884();
     void sub_7100EB4814(int type, int a2, f32 f);
     void sub_7100EB4928(int type, int a2, const sead::Vector3f& a, const sead::Vector3f& b, bool flag,
                         f32 f);

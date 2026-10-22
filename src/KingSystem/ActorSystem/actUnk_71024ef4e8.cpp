@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actUnk_71024ef620.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
@@ -393,6 +394,22 @@ u32 Unk_71024ef4e8::sub_7100EB59E8(const sead::Vector3f& target,
 void Unk_71024ef4e8::sub_7100EB2448() {
     if (mAttachInfo)
         mAttachInfo->sub_7100EB0D30();
+}
+
+// NON_MATCHING: the original loads the controller (_10) after the first two fneg; ours hoists that load.
+void Unk_71024ef4e8::sub_7100EB2884() {
+    const sead::BitFlag32 flags = _110;
+    if (!flags.isOnBit(0))
+        return;
+    const auto& mask = _10->sub_7100F609CC();
+    if (!flags.isOnBit(10))
+        return;
+    if (mask.getFloorCode() == phys::FloorCode::NoPreventFall)
+        return;
+    if ((_c8->_1f0 & 0x802) == 0)
+        return;
+    const sead::Vector3f position = _c8->_1a8;
+    _10->sub_7100F63178(position, -_c8->_1b4);
 }
 
 // NON_MATCHING: the original tests _b8->_74 before the _110 mask (ours sinks it) and loads _c0->_60 with ldrh
