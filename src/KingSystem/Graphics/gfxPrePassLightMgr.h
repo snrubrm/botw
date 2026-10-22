@@ -110,6 +110,10 @@ public:
     virtual void m33();
     virtual void m34() const;
     virtual void m35(const DrawLight* light) const;
+    // 0x7100f159d4 / 0x7100f159d8 / 0x7100f159dc: the per-view GPU update callbacks.
+    virtual void m36(s32 view, const void* context) const;
+    virtual void m37(const DrawLight* light, s32 view, const void* context) const;
+    virtual void m38(const DrawLight* light, s32 view, const void* context) const;
     virtual void m36();
     virtual void m37();
     virtual void m38();

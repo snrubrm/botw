@@ -77,6 +77,37 @@ void PrePassLightMgr::m28(agl::UniformBlock* block, sead::Heap* heap) {
     block->declare_(agl::UniformBlock::cType_6, 1, 0, 1);
 }
 
+// NON_MATCHING: the record address is strength-reduced to a byte offset in the target (x24), ours
+// keeps an smaddl index multiply; the flush-block tail otherwise matches.
+void PrePassLightMgr::updateViewGPU(s32 view, const void* context) const {
+    if (mValidNum == 0)
+        return;
+    if (mDrawLightNums[view] == 0)
+        return;
+
+    m36(view, context);
+
+    const u32 valid_num = mValidNum;
+    const u32 record_num = mLights.size();
+    const u32 num = sead::Mathu::min(record_num, valid_num);
+    if (num == 0)
+        return;
+
+    for (u32 i = 0; i != num; ++i) {
+        if (!isLightEnabled(s32(i)))
+            continue;
+        if (!isVisible(s32(i), view))
+            continue;
+        const DrawLight& light = mLights[s32(i)];
+        const LightData& data = light.mLightData[view];
+        if (data.mFlags & 1)
+            continue;
+        m37(&light, view, context);
+        m38(&light, view, context);
+        data.mUniformBlock.flushCPUCache();
+    }
+}
+
 // NON_MATCHING: record-address strength reduction (the target keeps a byte offset and saves x27 in a
 // 0x60 frame; ours recomputes the record address with madd in a 0x50 frame).
 void PrePassLightMgr::drawDebug(void* draw_context, s32 view, const void* context) const {
