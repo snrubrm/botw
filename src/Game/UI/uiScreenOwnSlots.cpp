@@ -937,10 +937,8 @@ void ScreenPauseMenu::m172() {
 
 namespace uking::ui {
 
-// 0x7100a3ec14 (D1) / 0x7100a3ec58 (D0)
-Unk_7102493bd0::~Unk_7102493bd0() {
-    _28.freeBuffer();
-}
+// 0x7100a3ec14 (D1) / 0x7100a3ec58 (D0): defined inline in uiUnkTiny.h.
+
 
 // 0x7100a3eca4
 void Unk_7102493bd0::m2(const sead::Vector2f& a, const sead::Vector2f& b) {

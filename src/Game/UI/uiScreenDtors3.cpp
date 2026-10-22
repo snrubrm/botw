@@ -81,7 +81,20 @@ ScreenMainShortCut::~ScreenMainShortCut() {
     _3850.freeBuffer();
     _36f0.freeBuffer();
 }
-ScreenPauseMenu::~ScreenPauseMenu() = default;
+// 0x7100a3ec14 (D1) / 0x7100a3ec58 (D0): defined here, in the ScreenPauseMenu TU, so its destructor
+// inlines the member teardown like the original.
+Unk_7102493bd0::~Unk_7102493bd0() {
+    _28.freeBuffer();
+}
+
+// NON_MATCHING: the third inlined scroll-entry destructor recomputes the vtable address instead of
+// keeping it in a callee-saved register (one instruction and the frame size differ).
+// 0x7100a342ac (D1): frees the three arrays; the three scroll entries and the tab control are members.
+ScreenPauseMenu::~ScreenPauseMenu() {
+    _3bd8.freeBuffer();
+    _3be8.freeBuffer();
+    _3c00.freeBuffer();
+}
 // NON_MATCHING: the two gauge members have out-of-line destructors in our model (their D1 rows need the
 // symbol), so the calls here are not inlined as in the original.
 // 0x7100a2cb50 (D1): frees the records, then shows the skip screen again (m80(true)) if there is one

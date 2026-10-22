@@ -3217,7 +3217,9 @@ public:
     /* 0x3a30 */ s32 _3a30;
     /* 0x3a34 */ s32 _3a34;
     /* 0x3a38 */ Unk_7102474df8 _3a38;
-    u8 _pad_3ac0[0x3b80 - 0x3ac0];
+    /* 0x3ac0 */ Unk_7102493bd0 _3ac0;
+    /* 0x3b00 */ Unk_7102493bd0 _3b00;
+    /* 0x3b40 */ Unk_7102493bd0 _3b40;
     /* 0x3b80 */ s32 _3b80;
     /* 0x3b84 */ s32 _3b84;
     /* 0x3b88 */ s32 _3b88;
@@ -3234,11 +3236,14 @@ public:
     /* 0x3bb4 */ s32 _3bb4;
     /* 0x3bb8 */ UiTimer _3bb8;
     /* 0x3bd0 */ s32 _3bd0;  // button index in _3a00[_3a18] (m175)
-    u8 _pad_3bd4[0x3be8 - 0x3bd4];
+    u8 _pad_3bd4[4];
+    // The scroll entries of the three tab pages, the layout pair list and the check-button list.
+    /* 0x3bd8 */ sead::Buffer<u8> _3bd8;
     // The 20 layout pairs updated by sub_7100A38FE8 and the state (0 / 1 / 2) it uses.
     /* 0x3be8 */ sead::Buffer<Unk_7102474b38> _3be8;
     /* 0x3bf8 */ s32 _3bf8;
-    u8 _pad_3bfc[0x3c10 - 0x3bfc];
+    u8 _pad_3bfc[4];
+    /* 0x3c00 */ sead::Buffer<Unk_7102474ba8> _3c00;
     /* 0x3c10 */ u8 _3c10;
     u8 _pad_3c11[3];
     /* 0x3c14 */ UiTimer _3c14;
