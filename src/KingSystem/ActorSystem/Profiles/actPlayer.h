@@ -1099,9 +1099,11 @@ bool playerIsReloadingOrChargingOrShootingBow(Player* player);
 bool sub_7100882000(Player* player);
 bool sub_7100882128(Player* player);
 
-// 0x710086b194 (declaration only; placeholder name, no `this`): the Attention target type (0x1800000 if the
-// current target's accessor fails sub_7100D10FB8, else Attention::sub_7100D74880()).
-AttActionCodeValue sub_710086B194();
+// 0x710086b194 (placeholder name, no `this`): the raw AttActionCode value of the Attention target
+// (0x1800000 if the current target's accessor fails sub_7100D10FB8, else Attention::sub_7100D74880()).
+// Returned as an integer: the callers compare it with a movk immediate, while the Attention calls
+// take AttActionCodeValue.
+s32 sub_710086B194();
 
 }  // namespace ksys::act
 

@@ -20,7 +20,7 @@ void PlayerGrab::enter_(ksys::act::ai::InlineParamPack* params) {
         return;
 
     if (!static_cast<ksys::act::Player*>(mActor)->_d11) {
-        if (ksys::act::sub_710086B194() == ksys::act::AttActionCodeValue(0x1800004))
+        if (ksys::act::sub_710086B194() == 0x1800004)
             ksys::act::Attention::instance()->sub_7100D74514(nullptr);
         if (static_cast<ksys::act::Player*>(mActor)->m199())
             changeChild("持上げ", nullptr);

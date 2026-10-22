@@ -25,7 +25,7 @@ void PlayerGrabPut::enter_(ksys::act::ai::InlineParamPack* params) {
     static_cast<ksys::act::Player*>(mActor)->_1834 = sub_710092DBA4();
 
     auto* scene = GameSceneSubsys12::instance();
-    _28 = ksys::act::sub_710086B194() == ksys::act::AttActionCodeValue(0x1800027);
+    _28 = ksys::act::sub_710086B194() == 0x1800027;
     if (_28) {
         mActor->getASList()->x_6(0x10, 0, 1.5f);
     } else if (scene) {

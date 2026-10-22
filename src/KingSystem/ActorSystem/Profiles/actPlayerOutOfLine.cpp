@@ -100,12 +100,10 @@ void Player::sub_710086952C() {
     }
 }
 
-// NON_MATCHING: the original returns the value with `mov w0, w19` (ours: `mov x0, x19`, the struct built from an int)
-AttActionCodeValue sub_710086B194() {
+s32 sub_710086B194() {
     ActorLinkConstDataAccess accessor;
     Attention::instance()->sub_7100D7482C(&accessor);
-    return AttActionCodeValue(accessor.sub_7100D10FB8() ? 0x1800000 :
-                                                          int(Attention::instance()->sub_7100D74880()));
+    return accessor.sub_7100D10FB8() ? 0x1800000 : int(Attention::instance()->sub_7100D74880());
 }
 
 // Placeholder name: sets the ui tip type _1cb0 from the Attention target type (not while the camera rune is
