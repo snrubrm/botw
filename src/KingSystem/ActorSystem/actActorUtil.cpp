@@ -540,6 +540,35 @@ bool hasStopTimerShortTag(Actor* actor) {
     return hasTag(actor, tags::StopTimerShort);
 }
 
+bool canBeStasised(Actor* actor, bool force) {
+    bool flag = false;
+    bool no_actor = false;
+    if (!force) {
+        if (!actor->getStasisFlags().isOn(Actor::StasisFlag::_4))
+            return false;
+    } else if (!actor) {
+        no_actor = true;
+    }
+
+    if (!no_actor && actor->getParam()->getRes().mActorLink->hasTag(tags::StopTimerLong))
+        return true;
+
+    if (!gdt::Manager::instance()->getBool(sIsGetStopTimerLv2Handle, &flag, true))
+        return false;
+
+    if (flag) {
+        if (no_actor)
+            return false;
+    } else if (no_actor ||
+               !actor->getParam()->getRes().mActorLink->hasTag(tags::IsRemainsWaterBullet)) {
+        return false;
+    }
+
+    if (actor->getParam()->getRes().mActorLink->hasTag(tags::StopTimerMiddle))
+        return true;
+    return actor->getParam()->getRes().mActorLink->hasTag(tags::StopTimerShort);
+}
+
 // NON_MATCHING: the original selects the element address (`csel x8, &arr[idx], &arr[0]`), we select the index
 const char* arrowTypeToString(ArrowType idx) {
     return sArrowTypes[u32(idx)];
