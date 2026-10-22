@@ -1290,15 +1290,18 @@ void ASList::sub_710115E218(u32* mask, const res::AS* as, u32 index) {
 
 // 0x7101159ca0: the deleting/destructor body. The parameter values of some kinds are heap objects
 // and are deleted; the eight-entry name table has no destructor of its own.
-// NON_MATCHING: the original tests the parameter kind 0x15 before 0x40 at the top of the if-chain;
-// clang emits the 0x40 test first here (both branches and the rest of the loop match).
+// NON_MATCHING: the parameter-kind if-chain tests 0x40 before 0x15 here (the original tests 0x15
+// first), and the _138 buffer walk keeps a 32-bit counter where the original's iterator counter is
+// 64-bit (our sead::Buffer iterator is index based).
 ASList::~ASList() {
     sub_7101159F8C(true);
 
     _c8.freeBuffer();
     mSlots.freeBuffer();
-    delete _b0;
-    _b0 = nullptr;
+    if (_b0) {
+        delete _b0;
+        _b0 = nullptr;
+    }
 
     for (auto& entry : _138)
         entry.release();
