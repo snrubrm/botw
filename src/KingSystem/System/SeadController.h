@@ -86,7 +86,9 @@ private:
     u8 _1e1[3];
     u32 _1e4 = 0;
     u32 _1e8 = 0;
-    u8 _1ec[4];
+public:
+    // 0x710107e834 (the terrain editor's m6) stores 2 here.
+    u32 _1ec;
 };
 KSYS_CHECK_SIZE_NX150(SeadController, 0x1f0);
 

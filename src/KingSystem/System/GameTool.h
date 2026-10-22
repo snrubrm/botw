@@ -40,7 +40,7 @@ public:
     u64 _10 = 0;
     u64 _18 = 0;
     u64 _20 = 0;
-    void* _28 = nullptr;
+    ksys::SeadController* _28 = nullptr;
     u32 _30 = 5;
 };
 

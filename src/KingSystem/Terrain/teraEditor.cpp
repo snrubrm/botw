@@ -1,6 +1,9 @@
 #include "KingSystem/Terrain/teraEditor.h"
 #include <gsys/gsysModel.h>
+#include <gsys/gsysModelScene.h>
 #include <gsys/gsysModelUnit.h>
+#include "Game/gameGraphics.h"
+#include "Game/gameStageStateMaybe.h"
 #include "KingSystem/Terrain/teraSystem.h"
 
 // 0x710107e7cc
@@ -36,6 +39,30 @@ void Unk_7102504260::sub_710107E900(gsys::Model* model, bool visible) {
 
 bool Unk_7102504260::sub_710107EC48() const {
     return false;
+}
+
+// NON_MATCHING: the flag comparison in the original keeps the `state & 8` mask and compares shifted
+// (and / cmp with an lsr operand); clang folds the two single-bit tests into lsr / eor / tbnz, 4 bytes shorter.
+void Unk_7102504260::m6() {
+    // Discarded in the original (the tick is measured but not used).
+    nn::os::GetSystemTick();
+    if (uking::StageStateMaybe::isActiveNaviMaybe(this)) {
+        _28->_1ec = _40;
+        auto* terrain = ksys::tera::Terrain::instance();
+        const u32 flags = terrain->_a50->_18;
+        const u32 state = terrain->_30;
+        if (((flags >> 8) & 1) == ((state & 8) >> 3)) {
+            if (flags & 0x100)
+                terrain->_30 = state & ~8u;
+            else
+                terrain->_30 = state | 8u;
+        }
+        auto* scene = Graphics::instance()->getUnk_aa8();
+        if (scene)
+            terrain->_a50->_1b0 = scene->_7f8;
+    }
+    // The first model scene's rain intensity.
+    m20(Graphics::instance()->mModelScenes[0]->_5da0);
 }
 
 bool Unk_7102504260::m9() {

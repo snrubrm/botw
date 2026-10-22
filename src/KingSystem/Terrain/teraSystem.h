@@ -974,13 +974,13 @@ public:
     };
     Unk_a40* _a40;
     f64 _a48;
-    // Placeholder type: ForestRenderer::requestDraw 0x7100f03964 draws nothing when bit 5 of its byte at
-    // 0x18 is set.
+    // Placeholder type: ForestRenderer::requestDraw 0x7100f03964 draws nothing when bit 5 is set.
     struct Unk_a50 {
         u8 _0[0x18];
-        // Bit 7: sub_7101115584 skips sub_7101115338.
-        u8 _18;
-        u8 _19[0x1d - 0x19];
+        // Bits: 3 - Unk_710250fc48::sub_710114EA70 returns false; 5 - ForestRenderer::requestDraw draws nothing;
+        // 7 - sub_7101115584 skips sub_7101115338; 8 - the terrain editor's m6 copies it into editor _30 bit 3;
+        // 0x100 - m6 clears that bit instead.
+        u32 _18;
         // Bit 4: passed to ApertureMapsCollector::sub_7101100F08 by sub_7101115584 (unless System::_1338 bit 1).
         u8 _1d;
         u8 _1e[0x20 - 0x1e];
@@ -995,6 +995,9 @@ public:
         DebugMessage _70;
         u8 _100[0x110 - 0x100];
         DebugMessage _110;
+        u8 _1a0[0x10];
+        // The terrain editor's m6 copies Graphics::Unk_aa8::_7f8 (down direction) here.
+        /* 0x1b0 */ sead::Vector3f _1b0;
     };
     Unk_a50* _a50;
     u32 _a58;

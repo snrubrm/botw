@@ -28,10 +28,18 @@ public:
     void m10() override;
     virtual void m17() {}
     virtual void m18() {}
+    // Slots 19 - 23 are pure in this class (the original vtable has nulls there); Terrain overrides all five.
+    virtual void m19() = 0;
+    virtual void m20(f32 delta) = 0;
+    virtual bool m21() = 0;
+    virtual void m22() = 0;
+    virtual void m23() = 0;
 
     // Constructor 0x710107e724 writes through +0x2d8. The controller/debug state
     // at +0x48 retains opaque storage until its lifetime is modelled.
-    u8 _40[0x2c0 - 0x40];
+    // 0x40: the constructor stores 2; m6 copies it to the SeadController's _1ec.
+    u32 _40 = 2;
+    u8 _44[0x2c0 - 0x44];
     // Terrain image request arenas (absolute +0x2e0 / +0x2e8 in Terrain).
     ksys::OverlayArena* mTerrainArena;
     ksys::OverlayArena* mSteraArena;
@@ -45,9 +53,9 @@ KSYS_CHECK_SIZE_NX150(Unk_7102504260, 0x2e0);
 // of its new slots, so its own vtable is never emitted.
 class Unk_710250fb18 : public Unk_7102504260 {
 public:
-    virtual void m19() {}
-    virtual void m20(f32 delta);
-    virtual bool m21() { return false; }
-    virtual void m22() {}
-    virtual void m23() {}
+    void m19() override {}
+    void m20(f32 delta) override;
+    bool m21() override { return false; }
+    void m22() override {}
+    void m23() override {}
 };
