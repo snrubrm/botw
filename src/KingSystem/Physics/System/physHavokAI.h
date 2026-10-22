@@ -432,6 +432,11 @@ public:
     bool sub_7100F8688C(NavMeshCharacter* nav, const Unk2& query, const u32* tail, Unk1* result);
     bool sub_7100F864DC(NavMeshCharacter* nav, const Unk2& query, const u32* tail, Unk1* result);
 
+    // 0x7100f88724 (CSV HavokAI::__auto1; placeholder name, declaration only): the nearest navmesh
+    // face query. Writes the face point to `out` (may be null) and returns the face's material;
+    // 0x17 when no face was found.
+    s32 __auto1(sead::Vector3f* out, const sead::Vector3f& pos, f32 radius);
+
     // 0x7100f87ed0 (CSV HavokAI::__auto3, declaration only): the HavokAI counterpart of
     // NavMeshCharacter::sub_7100F76078 (closest navmesh point to `to`, written to `out`).
     Unk_7100f7e9f0 sub_7100F87ED0(sead::Vector3f* out, const sead::Vector3f& to, f32 a3);

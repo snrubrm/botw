@@ -7,6 +7,7 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtManagerInline.h"
 #include "KingSystem/System/UIGlue.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "KingSystem/World/worldManager.h"
 #include <evfl/ResFlowchart.h>
@@ -248,6 +249,15 @@ s32 apQueryWaterDistance(const evfl::QueryArg& arg) {
 
 s32 apQueryUnknown(const evfl::QueryArg& arg) {
     return 0;
+}
+
+// Whether the navmesh face under the current query point is not the "no face" material.
+s32 apQueryNavMeshFace(const evfl::QueryArg& arg) {
+    AutoPlacement* placement = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data)->placement;
+    ksys::phys::HavokAI* havok = ksys::phys::HavokAI::instance();
+    sead::Vector3f face;
+    return havok->__auto1(&face, placement->getCurrentThingMaybe()->getQueryPositionMaybe(), 0.5f) !=
+           0x17;
 }
 
 // The ground materials the flow queries know about; apQueryGroundMat returns their table index.
