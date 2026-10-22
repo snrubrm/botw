@@ -669,6 +669,9 @@ public:
     // 0x7100237928 (RestartStageFromGameOver::enter_): the only inlined use of BitFlag 0x80000; name is a guess.
     void onRestartStageFromGameOverMaybe() { mBitFlags.set(BitFlag::_80000); }
 
+    // 0x7100f3dcec (initBeforeStageGenB): the only inlined use of BitFlag 0x10; name is a guess.
+    void onInitBeforeStageGenMaybe() { mBitFlags.set(BitFlag::_10); }
+
     void onChangedByDebug() {
         setBool(true, "IsChangedByDebug");
         mBitFlags.set(BitFlag::_800);

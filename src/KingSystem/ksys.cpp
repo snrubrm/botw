@@ -21,6 +21,17 @@
 #include "KingSystem/System/UI/LayoutResourceMgr.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/ActorSystem/LOD/actLODMgr.h"
+#include "KingSystem/ActorSystem/Awareness/actAwareness.h"
+#include "KingSystem/ActorSystem/actReaction.h"
+#include "KingSystem/Sound/sndSound.h"
+#include "KingSystem/XLink/xlinkManager.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/System/SystemTimers.h"
+#include "KingSystem/Terrain/teraSystem.h"
+#include "Game/gameEventMgr1.h"
+#include "Game/gameEventMgrMiniGame.h"
 
 namespace ksys {
 
@@ -61,6 +72,52 @@ void sub_7100F3ED80() {
 void sub_7100F3EE94() {
     if (auto* mgr = world::Manager::instance())
         mgr->sub_71010F78A4();
+}
+
+// 0x7100e9cf78 (declared in another TU).
+void sub_7100E9CF78(bool value);
+
+// 0x7100f3dcec: the manager half of the stage-generation start; every subsystem that exists runs its
+// initBeforeStageGenB (or the stage-gen init), then the grass state and the stage-gen flag are reset.
+void initBeforeStageGenB() {
+    if (Graphics::instance())
+        Graphics::instance()->initBeforeStageGenB();
+    if (map::PlacementMgr::instance())
+        map::PlacementMgr::instance()->initBeforeStageGenB();
+    if (act::LODMgr::instance())
+        act::LODMgr::instance()->initBeforeStageGenB();
+    if (EventMgr1::instance())
+        EventMgr1::instance()->initBeforeStageGenB();
+    if (evt::Manager::instance())
+        evt::Manager::instance()->initBeforeStageGenB();
+    if (Unk_71024e80e0::instance())
+        Unk_71024e80e0::instance()->initBeforeStageGenB();
+    if (world::Manager::instance())
+        world::Manager::instance()->initBeforeStageGen();
+    if (act::Awareness::instance())
+        act::Awareness::instance()->initBeforeStageGen();
+    if (eft::Effect::instance())
+        eft::Effect::instance()->initBeforeStageGenB();
+    if (act::Reaction::instance())
+        act::Reaction::instance()->initBeforeStageGenB();
+    if (snd::SoundMgr::instance())
+        snd::SoundMgr::instance()->initBeforeStageGenB();
+    if (xlink::Manager::instance())
+        xlink::Manager::instance()->initBeforeStageGenB();
+    if (VFR::instance())
+        VFR::instance()->resetTimeMultipliers();
+    if (gdt::Manager::instance())
+        gdt::Manager::instance()->onInitBeforeStageGenMaybe();
+    if (aoc::Manager::instance())
+        aoc::Manager::instance()->setGameDataFlags();
+    if (SystemTimers::instance())
+        SystemTimers::instance()->init2();
+    if (tera::Terrain::instance()->isGrassEnabled()) {
+        tera::Terrain::instance()->sub_710114DE4C()->sub_71011509EC();
+        tera::Terrain::instance()->sub_710114DE4C()->sub_7101150A70();
+    }
+    sub_7100E9CF78(true);
+    sInitBeforeStageGenDone = true;
 }
 
 }  // namespace ksys

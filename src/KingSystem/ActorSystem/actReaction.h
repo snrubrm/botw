@@ -153,6 +153,8 @@ class Reaction {
     bool __auto3();
 
 public:
+    // 0x7100ec0d1c (placeholder name; CSV nullsub_4046): empty in this build.
+    void initBeforeStageGenB();
     // Placeholder: the object at _a8 (class unknown). 0x7100ec66fc sets its _110 to 2; the actor
     // argument is unused. Called by OctarockOptionRoot::calc_ when the player touches the rock.
     struct Unk1 {

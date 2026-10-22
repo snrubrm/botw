@@ -2070,6 +2070,8 @@ public:
     void sub_71011FC17C(UiSoundKind kind, s32 bit);
     // 0x71011fb5ac (CSV Sound::calc2; declaration only): called by MCMgr::invoked4.
     void sub_71011FB5AC();
+    // 0x71011fb5a8 (placeholder name; CSV nullsub_4689): empty in this build.
+    void initBeforeStageGenB();
     // 0x71011fb69c / 0x71011fb748 (declared only): steps of sub_71011FB5AC (the first does not use `this`).
     static void sub_71011FB69C();
     void sub_71011FB748();
