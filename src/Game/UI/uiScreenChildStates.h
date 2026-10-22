@@ -207,6 +207,11 @@ class Unk_7102479838 : public Unk_71024746d0 {
 public:
     explicit Unk_7102479838(eui::LayoutEx* layout);
     ~Unk_7102479838() override;
+    static const nn::font::detail::RuntimeTypeInfo* GetRuntimeTypeInfoStatic() {
+        static const nn::font::detail::RuntimeTypeInfo sTypeInfo(
+            Unk_71024746d0::GetRuntimeTypeInfoStatic());
+        return &sTypeInfo;
+    }
     const nn::font::detail::RuntimeTypeInfo* GetRuntimeTypeInfo() const override;
     void m24(sead::Heap* heap) override;
     void m25() override;

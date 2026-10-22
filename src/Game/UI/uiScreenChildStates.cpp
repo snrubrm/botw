@@ -44,6 +44,11 @@ void Unk_7102479838::m39(void* button) {
 
 Unk_7102479838::~Unk_7102479838() = default;
 
+// 0x71009a494c
+const nn::font::detail::RuntimeTypeInfo* Unk_7102479838::GetRuntimeTypeInfo() const {
+    return GetRuntimeTypeInfoStatic();
+}
+
 
 // 0x71009b30ec
 void Unk_710247ae48::m7() {
