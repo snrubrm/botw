@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include <container/seadObjArray.h>
 #include <container/seadPtrArray.h>
 #include <heap/seadDisposer.h>
@@ -35,6 +36,7 @@ struct DamageReactionRequest;
 
 namespace ksys::act {
 class Actor;
+class ActorUnk6b8;
 class BaseProcLink;
 class Unk_71024f02a8;
 
@@ -122,6 +124,20 @@ public:
     /* 0xb0 */ Actor* mActor = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(ActorReactionQueue, 0xb8);
+
+// Placeholder name: the list of reaction components (ActorUnk6b8) created for the current actors.
+// ctor 0x7101287168, init 0x7101287218, calc 0x71012873a0 (each calc step runs ActorUnk6b8::m5).
+class ActorReactions {
+public:
+    ActorReactions();
+    // Creates one component per actor of the list and links it at actor + 0x6b8.
+    void init(Actor* actor, sead::Heap* heap);
+    void calc();
+
+    /* 0x00 */ sead::Buffer<ActorUnk6b8*> mComponents;
+    /* 0x10 */ bool _10 = false;
+};
+KSYS_CHECK_SIZE_NX150(ActorReactions, 0x18);
 
 class Reaction {
     SEAD_SINGLETON_DISPOSER(Reaction)

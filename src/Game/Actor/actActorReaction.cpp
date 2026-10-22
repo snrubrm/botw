@@ -246,6 +246,13 @@ bool ActorReactionHandle::resume(Actor* actor, Actor* source, const sead::SafeSt
     return active;
 }
 
+ActorReactions::ActorReactions() = default;
+
+void ActorReactions::calc() {
+    for (s32 i = 0; i < mComponents.size(); ++i)
+        mComponents[i]->m5();
+}
+
 ActorReactionQueue::ActorReactionQueue() = default;
 
 void ActorReactionQueue::init(sead::Heap* heap, const sead::SafeString& name) {
