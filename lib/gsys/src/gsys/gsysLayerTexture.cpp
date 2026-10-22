@@ -30,8 +30,6 @@ void LayerTexture::allocDynamic_(const sead::Vector2f& size, const sead::Vector2
     setUp_(size, scale);
 }
 
-// NON_MATCHING: the bound-box min/max of `size` vs 0 come out as fmin/fmaxnm and the virtual size
-// copy as two word stores; the original has integer csels and a single paired store (304 vs 300 B).
 // 0x7100bf5af4
 void LayerTexture::setUp_(const sead::Vector2f& size, const sead::Vector2f& scale) {
     const agl::TextureFormat format = mTextureData.getFormat();
@@ -41,8 +39,8 @@ void LayerTexture::setUp_(const sead::Vector2f& size, const sead::Vector2f& scal
                                             mRenderTargetColor.getLayer());
     }
     agl::g3d::TextureUtilG3D::convertToResTexture(&mResTextureData, mTextureData, nullptr);
-    mRenderBuffer.setPhysicalArea(0.0f, 0.0f, size.x, size.y);
-    mRenderBuffer.setVirtualSize(scale);
+    mRenderBuffer.setPhysicalArea(sead::BoundBox2f(0.0f, 0.0f, size.x, size.y));
+    mRenderBuffer.setVirtualSize(sead::Vector2f(scale.x, scale.y));
 }
 
 // 0x7100bf5c20
