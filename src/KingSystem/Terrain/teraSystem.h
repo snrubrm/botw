@@ -329,7 +329,9 @@ public:
         u8 _20[0x28 - 0x20];
         // 0x7101150ba4 / 0x7101150f08 query this object (0x7101069db8).
         Unk_7102503a50* _28;
-        u8 _30[0x38 - 0x30];
+        // The grass renderer built by the constructor 0x710114eab0 (0x22c50 bytes).
+        void* _30;
+        u8 _34[4];
         // The area environment getter, built by the grass initialiser 0x710114eab0.
         AreaEnvGetter* _38;
         u8 _40[0x17b0 - 0x40];
@@ -2003,8 +2005,10 @@ bool checkTeraSystemStatus();
 // 0x710106bc54 / 0x71012e258c (declaration only): release the two parts of one grass entry.
 void sub_710106BC54(void* entry);
 void sub_71012E258C(void* object);
-// 0x71012dc42c (declaration only): the object Core::Grass::_30 forwards to.
+// 0x71012dc42c / 0x71012dafb8 (declaration only): the object Core::Grass::_30 forwards to; ctor
+// 0x71012dadf0 allocates 0x22c50 bytes, initialiser 0x71012daef8, renderer 0x71012dafb8.
 void sub_71012DC42C(void* object);
+void sub_71012DAFB8(void* object);
 
 // 0x71011190c8 (declaration only; placeholder name and signature): called by map::PlacementMapMgr::postPlaceActorsRouteStuff with
 // the tera system and every route of every map.

@@ -1812,6 +1812,15 @@ bool System::sub_7101118FC0(sead::Heap* heap, Unk_7101106F44* area, u32 index, b
     return true;
 }
 
+// 0x71011501c0 / 0x71011501c8: the two world::ChemicalMgr cleanup paths forward the grass
+// renderer at Core::Grass::_30.
+void sub_71011501C0(Core::Grass* grass) {
+    sub_71012DAFB8(grass->_30);
+}
+
+void sub_71011501C8(Core::Grass* grass) {
+    sub_71012DC42C(grass->_30);
+}
 
 }  // namespace ksys::tera
 

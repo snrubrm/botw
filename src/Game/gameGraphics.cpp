@@ -58,6 +58,11 @@ void Graphics::sub_7100F35FA4(bool value, bool second) {
     _280 |= 1;
 }
 
+void Graphics::editorCallback0(const gsys::IResourceEditorCallback::Arg& arg) {
+    if (arg._0)
+        _284.setBit(22);
+}
+
 void Graphics::editorCallback1(const gsys::IResourceEditorCallback::Arg& arg) {}
 
 void Graphics::editorCallback3(const gsys::IResourceEditorCallback::Arg& arg) {
