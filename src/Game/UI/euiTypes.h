@@ -37,6 +37,11 @@ void SetupDrawInfoPerspective(f32 fov, nn::ui2d::DrawInfo*, const nn::ui2d::Size
 bool SetupTextureInfoByAglTextureData(nn::ui2d::TextureInfo*, const agl::TextureData&,
                                     const agl::TextureCompSel*);
 
+// 0x7100bed208: points the resource texture of `info` at the AGL texture data and initialises it.
+// The reference is a ResourceTextureInfo (the body reads its mResource), but the original symbol takes a
+// TextureInfo reference.
+bool SetupAglTextureDataByTextureInfo(agl::TextureData*, const nn::ui2d::TextureInfo&);
+
 // 0x7100bed2bc: the angle (radians) of a box cursor route direction
 f32 GetRadAngleOfDirection(Direction direction);
 

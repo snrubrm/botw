@@ -5,6 +5,7 @@
 #include "Game/UI/euiWindowEx.h"
 #include <driver/aglNVNMgr.h>
 #include <gfx/seadCamera.h>
+#include <g3d/aglTextureDataInitializerG3D.h>
 #include <gfx/seadProjection.h>
 #include <math/seadBoundBox.h>
 #include <message/seadMessageSet.h>
@@ -18,6 +19,7 @@
 #include <nn/ui2d/Material.h>
 #include <nn/ui2d/Pane.h>
 #include <nn/ui2d/ResExtUserData.h>
+#include <nn/ui2d/ResourceTextureInfo.h>
 #include <nn/ui2d/TextureInfo.h>
 #include "Game/UI/euiCapturePane.h"
 #include "Game/UI/euiPartsEx.h"
@@ -154,6 +156,19 @@ void CalcPaneBoundBox(sead::BoundBox2f* box, const nn::ui2d::Pane& pane) {
     }
     box->setMin({x - width, y - height});
     box->setMax({x + width, y + height});
+}
+
+// 0x7100bed208
+bool SetupAglTextureDataByTextureInfo(agl::TextureData* texture, const nn::ui2d::TextureInfo& info) {
+    if (!info.GetTextureView())
+        return false;
+
+    const auto& resource_info = static_cast<const nn::ui2d::ResourceTextureInfo&>(info);
+    nn::gfx::ResTexture* resource = resource_info.GetResource();
+    resource->ToData().userDescriptorSlot.value =
+        resource_info.GetDescriptorSlot().ToData()->value;
+    agl::g3d::TextureDataInitializerG3D::initialize(texture, *resource);
+    return true;
 }
 
 // NON_MATCHING: matrix copies remain memcpy calls and the derived destructors are out of line.
