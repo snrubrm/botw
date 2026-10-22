@@ -67,18 +67,19 @@ void sub_71007041F0(ksys::act::Actor* actor) {
         neck->setContactLayer(ksys::phys::ContactLayer::EntityNPC);
 }
 
-// NON_MATCHING: the original's final selection keeps the index 32-bit, clamps a negative index and
-// keeps the 4-entry table load behind a bounds branch (200 vs 168 bytes); the counting and the
-// max/tie-break order match.
+// NON_MATCHING: the routine matches except for how the suffix guard is encoded: ours uses
+// `cmp #3; b.hi`, the original `cmp #4; b.hs` for the same unsigned `index < 4` test. The
+// counting, the tie-break order and the bounds branch are the same (200 bytes).
 // 0x7100704128: the suffix ("F", "B", "L" or "R") of the weak point group with the most active
 // points; ties go to the earlier group. Bits 0-17 of the flag word are the weak points.
 const char* sub_7100704128(const u32* active_flags) {
-    s32 front = 0;
-    s32 back = 0;
-    s32 left = 0;
+    s32 i = 0;
     s32 right = 0;
+    s32 left = 0;
+    s32 back = 0;
+    s32 front = 0;
 
-    for (s32 i = 0; i < 18; ++i) {
+    for (; i < 18; ++i) {
         if ((*active_flags & (1u << i)) == 0)
             continue;
         switch (i) {
@@ -111,9 +112,12 @@ const char* sub_7100704128(const u32* active_flags) {
         }
     }
 
-    static const char* const sSuffixes[] = {"F", "B", "L", "R"};
-    s32 index = 0;
-    s32 count = front;
+    s32 index = -1;
+    s32 count = -1;
+    if (front > count) {
+        count = front;
+        index = 0;
+    }
     if (back > count) {
         count = back;
         index = 1;
@@ -122,7 +126,13 @@ const char* sub_7100704128(const u32* active_flags) {
         count = left;
         index = 2;
     }
-    if (right > count)
+    if (right > count) {
+        count = right;
         index = 3;
-    return sSuffixes[index];
+    }
+    static const char* const sSuffixes[] = {"F", "B", "L", "R"};
+    if (u32(index) < 4)
+        return sSuffixes[index];
+    else
+        return "F";
 }
