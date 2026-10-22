@@ -216,17 +216,11 @@ void UiSubsys1::sub_7100960A1C() {
 }
 
 // 0x71009635dc
-// NON_MATCHING: the second `return false` block is placed before the second phase in ours and after it in the
-// original, so the two identical blocks land at different relative offsets.
+// NON_MATCHING: identical body; ours merges the two `return false` blocks and orders the index test's
+// return-true block differently (same instruction count, different branch layout).
 bool UiSubsys1::sub_71009635DC() {
-    if (_3860 == 0)
-        return false;
-    s32 mode = sead::BitFlagUtil::countOnBit(u32((_3860 & -_3860) - 1)) & 0xffff;
-    if (mode != 1) {
-        if (_3860 == 0)
-            return false;
-        mode = sead::BitFlagUtil::countOnBit(u32((_3860 & -_3860) - 1)) & 0xffff;
-        if (mode != 2)
+    if (getMapMode() != 1) {
+        if (getMapMode() != 2)
             return false;
     }
     if (_d88[4][12]._98 > 0)
@@ -234,17 +228,12 @@ bool UiSubsys1::sub_71009635DC() {
     const s64 index = _3830;
     if (index == -1)
         return true;
-    if (_3860 == 0)
+    if (getMapMode() == 6)
         return true;
-    mode = sead::BitFlagUtil::countOnBit(u32((_3860 & -_3860) - 1)) & 0xffff;
-    if (mode == 6)
+    const u16 mode = getMapMode();
+    if (u32(index) > 0xb)
         return true;
-    mode = sead::BitFlagUtil::countOnBit(u32((_3860 & -_3860) - 1)) & 0xffff;
-    if (index > 0xb)
-        return true;
-    if (mode >= 5)
-        mode = 0;
-    return _d88[mode][index]._0 < 3;
+    return _d88[mode < 5 ? mode : 0][index]._0 < 3;
 }
 
 // NON_MATCHING: same instructions, the scheduler hoists the two bounds loads above the flag stores and
