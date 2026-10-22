@@ -658,6 +658,11 @@ namespace uking::ui {
 // 0x71025d9d08 (set up by the TU initialiser 0x71009b27b4)
 static sead::SafeString sUnk_71025d9d08 = "IsPlayed_Demo";
 
+// 0x71009b9144
+const nn::font::detail::RuntimeTypeInfo* Unk_710247af10::GetRuntimeTypeInfo() const {
+    return GetRuntimeTypeInfoStatic();
+}
+
 // 0x71009b6b4c
 // NON_MATCHING: the original addresses the row table directly (it is TU-local there) and through the merged
 // globals for sUnk_71025d9d08; the two strings swap stack slots

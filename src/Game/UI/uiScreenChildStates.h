@@ -525,7 +525,13 @@ bool sub_71009BEB44();
 // ScreenChildUnk_71025d9b08 before.
 class Unk_710247af10 : public ScreenChildEx {
 public:
-    NN_RUNTIME_TYPEINFO(ScreenChildEx)
+    // The original caches a RuntimeTypeInfo built from the parent's (0x71009b9144 has the guard + cache).
+    static const nn::font::detail::RuntimeTypeInfo* GetRuntimeTypeInfoStatic() {
+        static const nn::font::detail::RuntimeTypeInfo sTypeInfo(
+            ScreenChildEx::GetRuntimeTypeInfoStatic());
+        return &sTypeInfo;
+    }
+    const nn::font::detail::RuntimeTypeInfo* GetRuntimeTypeInfo() const override;
     ~Unk_710247af10() override;
     // 0x71009b5234: empty override
     void m23(void* a1) override;
