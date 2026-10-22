@@ -297,4 +297,11 @@ Unk_7102513c38::~Unk_7102513c38() = default;
 
 namespace vlt {
 LayerMgrTask* LayerMgrTask::sInstance = nullptr;
+
+void LayerMgrTask::setInstance(LayerMgrTask* instance) {
+    if (!sInstance) {
+        sInstance = instance;
+        instance->_168 = true;
+    }
+}
 }  // namespace vlt
