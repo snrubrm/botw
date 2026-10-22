@@ -2,6 +2,7 @@
 #include <container/seadBuffer.h>
 #include <heap/seadExpHeap.h>
 #include <math/seadMathCalcCommon.h>
+#include <evfl/Action.h>
 #include <evfl/ResActor.h>
 #include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include "KingSystem/GameData/gdtManager.h"
@@ -133,6 +134,18 @@ AutoPlacementFlowRes* AutoPlacementFlowMgr::getFlow(const sead::SafeString& acto
         }
     }
     return nullptr;
+}
+
+// Reads the action's "WaitFrame" parameter into the placement's wait frame and marks the action
+// done.
+void sub_7100652F3C(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) {
+    s32 wait_frame;
+    if (arg.param_accessor.FindInt(&wait_frame, "WaitFrame")) {
+        AutoPlacementFlowRes* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
+        AutoPlacement* placement = flow->placement;
+        placement->_6 = wait_frame;
+    }
+    handler->Invoke();
 }
 
 void AutoPlacementFlowRes::start(AutoPlacement* placement, const char* unit_name,

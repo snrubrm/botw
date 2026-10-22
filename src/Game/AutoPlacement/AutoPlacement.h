@@ -18,6 +18,8 @@ class RigidBody;
 
 namespace evfl {
 struct QueryArg;
+struct ActionArg;
+class ActionDoneHandler;
 }  // namespace evfl
 
 namespace uking {
@@ -180,6 +182,7 @@ private:
     friend class AutoPlacementMgr;
     friend s32 apQueryCheckTimeType(const evfl::QueryArg& arg);
     friend s32 apQueryRailDistance(const evfl::QueryArg& arg);
+    friend void sub_7100652F3C(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler);
 
     struct ObjectRef {
         ksys::map::Object* obj;
