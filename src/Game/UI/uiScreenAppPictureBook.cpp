@@ -2959,3 +2959,22 @@ void Unk_7102482790::sub_71009F6220(const char* actor) {
     const eui::MessageString message(text.calcLength(), text.cstr());
     uking::ui::setWidgetString(_8, uking::ui::sUnk_71025eb9f8, message);
 }
+
+namespace uking::ui {
+
+// 0x7100a34590 (placeholder name): the six scroll / easing floats the picture book list setup
+// (0x7100a4bf00) reads after this call.
+struct PictureBookScrollParams {
+    f32 _0;
+    f32 _4;
+    f32 _8;
+    f32 _c;
+    f32 _10;
+    f32 _14;
+};
+
+void sub_7100A34590(PictureBookScrollParams* out) {
+    *out = PictureBookScrollParams{15.0f, 30.0f, 0.28f, 300.0f, 0.1f, 320.0f};
+}
+
+}  // namespace uking::ui
