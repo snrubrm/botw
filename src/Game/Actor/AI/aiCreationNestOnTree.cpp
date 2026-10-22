@@ -12,8 +12,8 @@ CreationNestOnTree::~CreationNestOnTree() = default;
 bool CreationNestOnTree::init_(sead::Heap* heap) {
     if (!ItemOnTree::init_(heap))
         return false;
-    return _d0.sub_7100711298(heap, sead::SafeString::cEmptyString,
-                              mActor->getMapObject() != nullptr);
+    const bool has_map_object = mActor->getMapObject() != nullptr;
+    return _d0.sub_7100711298(heap, sead::SafeString::cEmptyString, has_map_object);
 }
 
 // NON_MATCHING: the original loads mActor before the helper call (see lane1 log, borderline)
