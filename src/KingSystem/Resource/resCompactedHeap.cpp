@@ -1,5 +1,6 @@
 #include "KingSystem/Resource/resCompactedHeap.h"
 #include <math/seadMathCalcCommon.h>
+#include <prim/seadBitFlag.h>
 #include <atomic>
 #include <prim/seadScopedLock.h>
 
@@ -93,21 +94,21 @@ void CompactedHeap::Allocation::sub_71012B8CE8(bool x) {
     }
 }
 
-// NON_MATCHING: the call to CompactedHeap::x passes an argument its body never reads; the original
-// drops the argument setup because that function is in this TU, and our build only declares it. The
-// block-record scan is also strength-reduced to a 64-bit induction variable here.
+// NON_MATCHING: our call to CompactedHeap::x passes a zero sync flag (the callee never reads it);
+// the original materialises a one, so the original's x body has a codegen-free use of sync. The
+// bounds word at +0x5ca8 is also loaded through a materialised address there.
 // 0x71012b8a78 (placeholder name): records the in-use state of this allocation in its block
 // record and in the allocation header while the heap lock is held.
 void CompactedHeap::Allocation::sub_71012B8A78(bool x) {
     auto* heap = reinterpret_cast<CompactedHeap*>(mTaggedHeap & ~u64(3));
     auto* data = static_cast<u8*>(mData);
 
-    if (data < heap->_5ce8 || data >= heap->_5cf0 + sizeof(Header)) {
+    if (heap->_5ce8 > data || heap->_5cf0 + sizeof(Header) <= data) {
         // The data block is outside the heap's own range: find its block record by address.
         const u32 count = heap->_5cb8;
         if (!count)
             return;
-        for (s32 i = 0; i < count; ++i) {
+        for (u32 i = 0; i < count; ++i) {
             auto* block = heap->getBlock(i);
             if (!block->mInUse)
                 continue;
@@ -129,7 +130,8 @@ void CompactedHeap::Allocation::sub_71012B8A78(bool x) {
         {
             auto lock = sead::makeScopedLock(heap->_5cf8);
         }
-        reinterpret_cast<CompactedHeap*>(mTaggedHeap)->x(this, true);
+        auto* heap2 = reinterpret_cast<CompactedHeap*>(mTaggedHeap);
+        heap2->x(heap2->_5dc0, true);
     }
 
     std::atomic_thread_fence(std::memory_order_seq_cst);
@@ -146,8 +148,94 @@ void CompactedHeap::Allocation::sub_71012B8A78(bool x) {
     header->mInUse = x;
 }
 
-// NON_MATCHING: our call to CompactedHeap::x materialises its (unread) allocation argument in x1;
-// the original drops that setup because x is defined in this TU.
+// 0x71012b5900: checks the heap's block and free lists and then compacts the two indexed free
+// lists. The name and sync arguments are only read by the original's debug assertions.
+void CompactedHeap::x(const sead::SafeString& name, bool sync) {
+    auto lock = sead::makeScopedLock(_5cf8);
+
+    // The largest size class keeps 27 x 32 lists, the two indexed trees 32 x 32.
+    for (s32 i = 0; i < 27; ++i) {
+        for (s32 j = 0; j < 32; ++j) {
+            void* ptr = mFreeListTree3.mLists._0[i]._0[j];
+            if (!ptr)
+                continue;
+            const u32 magic = static_cast<Allocation::Header*>(ptr)->mMagic;
+            if (magic == Allocation::Header::cMagic || magic == Allocation::Header::cFreeMagic)
+                continue;
+            // The original only asserts here in debug builds.
+            { auto inner = sead::makeScopedLock(_5cf8); }
+        }
+    }
+
+    for (s32 i = 0; i < 32; ++i) {
+        for (s32 j = 0; j < 32; ++j) {
+            void* ptr = mFreeListTree.mLists._0[i]._0[j];
+            if (!ptr)
+                continue;
+            const u32 magic = static_cast<Allocation::Header*>(ptr)->mMagic;
+            if (magic == Allocation::Header::cMagic || magic == Allocation::Header::cFreeMagic)
+                continue;
+            // The original only asserts here in debug builds.
+            { auto inner = sead::makeScopedLock(_5cf8); }
+        }
+    }
+
+    FreeListTree32& tree = mFreeListTree;
+    if (!tree.mMask)
+        return;
+
+    x_7(true);
+
+    // Walk the chain of contiguous blocks.
+    auto* block = static_cast<Allocation::Header*>(_5ce0);
+    do {
+        const u32 magic = block->mMagic;
+        if (magic != Allocation::Header::cMagic && magic != Allocation::Header::cFreeMagic) {
+            // The original only asserts here in debug builds.
+            { auto inner = sead::makeScopedLock(_5cf8); }
+        }
+        block = block->getNextBlock();
+    } while (reinterpret_cast<Allocation::Header*>(_5cf0) != block);
+
+    {
+        const u32 mask = tree.mMask;
+        const s32 i = sead::BitFlagUtil::countOnBit((mask - 1) & ~mask);
+        const u32 mask2 = tree.mMask2[i];
+        const s32 j = sead::BitFlagUtil::countOnBit((mask2 - 1) & ~mask2);
+        auto* head = static_cast<Allocation::Header*>(tree.mLists._0[i]._0[j]);
+        do {
+            auto* node = head;
+            do {
+                const u32 magic = node->mMagic;
+                if (magic != Allocation::Header::cMagic &&
+                    magic != Allocation::Header::cFreeMagic) {
+                    // The original only asserts here in debug builds.
+                    { auto inner = sead::makeScopedLock(_5cf8); }
+                }
+                node = node->getListNext();
+            } while (node != head);
+            head = x_8(&tree, head, false);
+        } while (head);
+    }
+
+    {
+        const u32 mask = mFreeListTree2.mMask;
+        const s32 i = sead::BitFlagUtil::countOnBit((mask - 1) & ~mask);
+        const u32 mask2 = mFreeListTree2.mMask2[i];
+        const s32 j = sead::BitFlagUtil::countOnBit((mask2 - 1) & ~mask2);
+        auto* head = static_cast<Allocation::Header*>(mFreeListTree2.mLists._0[i]._0[j]);
+        do {
+            auto* node = head;
+            do {
+                node = node->getListNext();
+            } while (node != head);
+            head = x_8(&mFreeListTree2, head, false);
+        } while (head);
+    }
+}
+
+// NON_MATCHING: our call to CompactedHeap::x passes a zero sync flag (the callee never reads it);
+// the original materialises a one, so the original's x body has a codegen-free use of sync.
 // 0x71012b7448 (placeholder name): releases the allocation whose data block starts at `data`,
 // moving its size from the heap's free total to its used total.
 void CompactedHeap::x_19(void* data, bool sync) {
@@ -159,7 +247,7 @@ void CompactedHeap::x_19(void* data, bool sync) {
     if (header->mMagic != Allocation::Header::cMagic) {
         // The original locks and unlocks the heap again in this scope before the repair pass.
         { auto inner = sead::makeScopedLock(_5cf8); }
-        x(header, true);
+        x(_5dc0, true);
     }
 
     const u32 size = header->mSize;

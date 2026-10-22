@@ -49,6 +49,23 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Unk3, 0x2000);
 
+    // Two-level free-list index. Bit N of mMask selects mMask2[N]; bit M of that word selects the
+    // circular block list at mLists._0[N]._0[M]. 12B5900 processes the lowest set bit of each.
+    struct FreeListTree32 {
+        u32 mMask;
+        u32 mMask2[32];
+        Unk3 mLists;
+    };
+    KSYS_CHECK_SIZE_NX150(FreeListTree32, 0x2088);
+
+    // Same index with 27 first-level entries, used by the heap's largest size class.
+    struct FreeListTree27 {
+        u32 mMask;
+        u32 mMask2[27];
+        Unk1 mLists;
+    };
+    KSYS_CHECK_SIZE_NX150(FreeListTree27, 0x1b70);
+
     // Block record (stride 0x80, array at +0x5cb0). 12B8A78 / 12B78BC read the in-use byte at
     // +0x18, the used-byte state at +0x19, the data pointer at +0x30 and lock at +0x40.
     struct Block {
@@ -70,15 +87,38 @@ public:
         // byte at +0x1a, the block index at +0x1c and the state byte at +0x1d.
         struct Header {
             static constexpr u32 cMagic = 0xad000d1e;
+            static constexpr u32 cFreeMagic = 0xd15ab1ed;
             u32 mMagic;
             // 0x71012b7448 moves this from the heap's free total to its used total on release.
-            u32 mSize;
-            u8 _8[0xc];
+            // It is also the distance to the next block of the contiguous block chain.
+            s32 mSize;
+            // Distance to the previous block (the blocks are contiguous in address order).
+            s32 mPrevDistance;
+            // Links of the circular free-block lists; the distance is relative to the address of
+            // the field itself.
+            s32 mListNext;
+            s32 mListPrev;
             u32 _14;
             // The header sits one u16 distance before the data block it describes.
             static Header* get(void* data) {
                 auto* bytes = static_cast<u8*>(data);
                 return reinterpret_cast<Header*>(bytes - *reinterpret_cast<u16*>(bytes - 2));
+            }
+            // Next block of the heap's block chain; a zero distance terminates the chain.
+            Header* getNextBlock() {
+                const s32 distance = mSize;
+                return distance == 0
+                           ? nullptr
+                           : reinterpret_cast<Header*>(intptr_t(distance) +
+                                                       reinterpret_cast<uintptr_t>(this));
+            }
+            // Next block of the list this header is linked on.
+            Header* getListNext() {
+                const s32 distance = mListNext;
+                return distance == 0
+                           ? nullptr
+                           : reinterpret_cast<Header*>(intptr_t(distance) +
+                                                       reinterpret_cast<uintptr_t>(&mListNext));
             }
             u8 _18[2];
             u8 mInUse : 1;
@@ -112,9 +152,12 @@ public:
         return &_5cb0[index];
     }
     void x_21(Allocation* allocation);
-    // 0x71012b5900 (CSV CompactedHeap::x): walks the heap's allocation arrays and releases the
-    // blocks whose headers are not valid. The allocation argument is unread in the original.
-    void x(void* allocation, bool sync);
+    // 0x71012b5900 (CSV CompactedHeap::x): checks the heap's block and free lists and compacts
+    // the indexed free lists. The name is only read by the original's debug assertions.
+    void x(const sead::SafeString& name, bool sync);
+    void x_7(bool x);
+    // 0x71012b69f8 (placeholder name): compacts the free list selected by the tree word.
+    Allocation::Header* x_8(FreeListTree32* tree, Allocation::Header* list, bool x);
     // 0x71012b646c (placeholder name): releases one allocation whose header may be corrupt.
     void x_9(Allocation::Header* allocation);
     // Complete 12B7354 / 12B7448 and archive callers establish these raw helpers.
@@ -136,9 +179,6 @@ public:
     bool setBuffer(void* buffer, size_t size);
     bool compact();
 
-    // 0x71012b5900 (CSV CompactedHeap::x; declared only): the entry point the resource manager
-    // calls after a compaction and the repair pass x_19 / x_9 share.
-    void x(const sead::SafeString& name, bool b);
     // The state (_5c90): 3 once the compaction is finished.
     s32 getState() const { return _5c90; }
     void x_2();
@@ -152,7 +192,10 @@ private:
     friend class TextureHandleMgr;
     virtual ~CompactedHeap();
 
-    u8 _8[0x5c90 - 0x8];
+    u8 _8[0x8];
+    FreeListTree32 mFreeListTree;   // 0x10
+    FreeListTree32 mFreeListTree2;  // 0x2098
+    FreeListTree27 mFreeListTree3;  // 0x4120
     s32 _5c90;
     sead::Atomic<s32> mCompactionCount;
     void* _5c98;
