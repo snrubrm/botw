@@ -271,7 +271,21 @@ KSYS_CHECK_SIZE_NX150(Unk_7100efd9b8, 0x178);
 class GrudgeRenderer {
 public:
     void sub_710128F2A4();
+    // 0x710128f4bc: once flag bit 0 of _2ef8 is set, records the camera's world position, resets the
+    // distance at 0x264 to 20 and asks the model at 0x268 to draw.
+    void sub_710128F4BC(const sead::Camera* camera);
+
+private:
+    u8 _0[0x240];
+    sead::Vector3f _240;
+    u8 _24c[0x264 - 0x24c];
+    f32 _264;
+    gsys::Model* _268;
+    u8 _270[0x2ef8 - 0x270];
+    u8 _2ef8;
+    u8 _2ef9[0x2fb0 - 0x2ef9];
 };
+KSYS_CHECK_SIZE_NX150(GrudgeRenderer, 0x2fb0);
 
 // 0x7101290034 (placeholder name; in GrudgeRenderer's TU): ray cast from `start` along `displacement` against
 // the ground layer with the Grudge ground-hit filter; stores the hit position.
