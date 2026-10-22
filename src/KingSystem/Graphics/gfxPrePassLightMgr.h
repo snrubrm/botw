@@ -28,7 +28,8 @@ namespace ksys::gfx {
 
 // Name from the CSV rows at 0x7100f0bc9c .. 0x7100f15930 (initialize, destroy, calc, draw,
 // getDrawLightNum, genMessage, ...). The class is the terrain pass's pre-pass light manager.
-// Vtable 0x71024f3cd0 (vptr 0x71024f3ce0), 44 slots, first three from sead::hostio::Node.
+// Vtable 0x71024f3cd0 (vptr 0x71024f3ce0), 47 slots; slot 0 is sead::hostio::Node's
+// getNodeClassType and slots 1 / 2 the RTTI pair.
 // The per-light records at +0x10 hold one 0x80-byte light data object per view; initialize
 // allocates them and each record's data array.
 class PrePassLightMgr : public sead::hostio::Node {
@@ -114,17 +115,22 @@ public:
     virtual void m36(s32 view, const void* context) const;
     virtual void m37(const DrawLight* light, s32 view, const void* context) const;
     virtual void m38(const DrawLight* light, s32 view, const void* context) const;
-    virtual void m36();
-    virtual void m37();
-    virtual void m38();
+    // The draw group, at the same slots as the agl::lght::LightPrePassLightMgr template (the game
+    // class is that template's instantiation with these symbols): prepare at +0x138, then the
+    // per-record draw / debug draw implementations at +0x140 .. +0x150.
     virtual void m39(s32 view, const void* context, void* callback) const;
     virtual void m40(void* draw_context, const DrawLight* light, s32 view, const void* context,
                      void* callback) const;
-    // 0x7100f159e8 / 0x7100f159ec: the per-view debug draw callbacks (slots 41 / 42).
     virtual void m41(void* draw_context, const DrawLight* light, s32 view, const void* context) const;
     virtual void m42(void* draw_context, const DrawLight* light, s32 view, const void* context) const;
-    virtual void m42();
-    virtual void m43();
+    // vtable +0x158 .. +0x170: the hostio hooks, in the template's order. genMessage calls
+    // genMessagePrepareImpl_ once and genMessageImpl_ per record; listenPropertyEvent calls the two
+    // listenPropertyEvent hooks.
+    virtual void genMessagePrepareImpl_(sead::hostio::Context* context);
+    virtual void genMessageImpl_(sead::hostio::Context* context, DrawLight& light, s32 index);
+    virtual void listenPropertyEventPrepareImpl_(const sead::hostio::PropertyEvent* event);
+    virtual void listenPropertyEventImpl_(const sead::hostio::PropertyEvent* event, DrawLight& light,
+                                          s32 index);
 
 private:
     // vptr from sead::hostio::Node, then the context pointer.

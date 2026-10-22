@@ -2,6 +2,7 @@
 
 #include <common/aglUniformBlock.h>
 #include <math/seadMathCalcCommon.h>
+#include <prim/seadSafeString.h>
 
 namespace ksys::gfx {
 
@@ -75,6 +76,44 @@ s32 PrePassLightMgr::getRecordNum() const {
 void PrePassLightMgr::m28(agl::UniformBlock* block, sead::Heap* heap) {
     block->startDeclare(1, heap);
     block->declare_(agl::UniformBlock::cType_6, 1, 0, 1);
+}
+
+// The two debug strings are built and discarded in the original (the hostio group header calls that
+// consumed them were compiled out of the release build), as in LocationalLightRig::genMessage.
+// NON_MATCHING: the original reuses one stack slot for both discarded FormatFixedSafeString<256>
+// temporaries; clang gives ours two (frame 0x280 vs 0x170). The vtable calls and loop match.
+void PrePassLightMgr::genMessage(sead::hostio::Context* context) {
+    sead::FormatFixedSafeString<256>("Min=0, Max=%d", mLights.size() - 1);
+    genMessagePrepareImpl_(context);
+
+    const u32 valid_num = mValidNum;
+    const u32 record_num = mLights.size();
+    const u32 num = sead::Mathu::min(record_num, valid_num);
+    if (num == 0)
+        return;
+
+    DrawLight* light = &mLights(0);
+    for (u32 i = 0; i != num; ++i) {
+        sead::FormatFixedSafeString<256>("GroupHeader = %d", i);
+        genMessageImpl_(context, *light, s32(i));
+        ++light;
+    }
+}
+
+void PrePassLightMgr::listenPropertyEvent(const sead::hostio::PropertyEvent* event) {
+    listenPropertyEventPrepareImpl_(event);
+
+    const u32 valid_num = mValidNum;
+    const u32 record_num = mLights.size();
+    const u32 num = sead::Mathu::min(record_num, valid_num);
+    if (num == 0)
+        return;
+
+    DrawLight* light = &mLights(0);
+    for (u32 i = 0; i != num; ++i) {
+        listenPropertyEventImpl_(event, *light, s32(i));
+        ++light;
+    }
 }
 
 // NON_MATCHING: the record address is strength-reduced to a byte offset in the target (x24), ours

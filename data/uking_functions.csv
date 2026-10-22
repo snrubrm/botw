@@ -81762,8 +81762,8 @@ Address,Quality,Size,Name
 0x0000007100f157f0,O,000032,_ZN4ksys3gfx15PrePassLightMgr16setVisibleDirectEij
 0x0000007100f15810,O,000036,_ZN4ksys3gfx15PrePassLightMgr13setVisibleAllEib
 0x0000007100f15834,O,000048,_ZNK4ksys3gfx15PrePassLightMgr9isVisibleEii
-0x0000007100f15864,U,000204,ksys::gfx::PrePassLightMgr::genMessage
-0x0000007100f15930,U,000132,ksys::gfx::PrePassLightMgr::listenPropertyEvent
+0x0000007100f15864,W,000204,_ZN4ksys3gfx15PrePassLightMgr10genMessageEPN4sead6hostio7ContextE
+0x0000007100f15930,O,000132,_ZN4ksys3gfx15PrePassLightMgr19listenPropertyEventEPKN4sead6hostio13PropertyEventE
 0x0000007100f159b4,U,000004,nullsub_4096
 0x0000007100f159b8,U,000004,nullsub_4097
 0x0000007100f159bc,U,000004,nullsub_4098
