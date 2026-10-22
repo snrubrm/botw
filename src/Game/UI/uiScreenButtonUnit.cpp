@@ -29,15 +29,22 @@ s32 Unk_7102474e38::sub_7100939C68() const { return _18->mEntry->_2f0; }
 s32 Unk_7102474e38::sub_7100939C78() const {
     return _3c + _18->mRecord->_c * _18->mEntry->mParams._2a0 * _18->mEntry->mParams._2a4;
 }
-// NON_MATCHING: loop induction width and arithmetic scheduling differ.
+// NON_MATCHING: only the load of _2a4 is scheduled after the first mul (it is not hoisted like the
+// original); loop form, base/extra split and all compares match.
 bool Unk_7102474e38::sub_7100939CA0() const {
     s32 count = 0;
     if (_20->mEntries.data()) {
-        for (s32 i = 0; i < _18->mEntry->_2f0; ++i) {
-            if (u32(i) < _20->mEntries.size() && _20->mEntries.data()[i])
-                count += _20->mEntries.data()[i]->mParams._29c;
+        const s32 base =
+            _3c + _18->mRecord->_c * _18->mEntry->mParams._2a0 * _18->mEntry->mParams._2a4;
+        const s32 n = _18->mEntry->_2f0;
+        s32 extra = 0;
+        if (n > 0) {
+            for (s32 i = 0; i != n; ++i) {
+                if (_20->mEntries.size() > u32(i) && _20->mEntries.data()[i])
+                    extra += _20->mEntries.data()[i]->mParams._29c;
+            }
         }
-        count += _3c + _18->mEntry->mParams._2a0 * _18->mRecord->_c * _18->mEntry->mParams._2a4;
+        count = base + extra;
     }
     return _20->_2d8 == count;
 }
