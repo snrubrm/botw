@@ -18,17 +18,12 @@
 
 namespace ksys::as {
 
-// NON_MATCHING: the original value-initialises the name table (zeroing 0x200 bytes) before calling
-// its out-of-line constructor; a user-provided constructor here drops that zeroing and the compiler
-// tail-calls the final _f0 memset instead of returning.
 ASList::ASList()
     : _8(nullptr), _10(0), _11(0), _12(0), _13(0), _68(sead::Vector3f::zero),
       _74(sead::Vector3f::zero), _b0(nullptr), _d8(nullptr), _f0{}, _148(nullptr), _160(0),
-      _161(0), _162(0), _163(0), mNameTable{} {
-    std::memset(_f0.mBuffer, -1, sizeof(_f0.mBuffer));
+      _161(0), _162(0), _163(0), mNameTable() {
+    _f0.fill(-1);
 }
-
-ASList::NameTable::NameTable() {}
 
 ASList::InitArg::InitArg(act::Actor* actor, gsys::Model* model) : actor(actor), model(model) {}
 
