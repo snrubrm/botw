@@ -858,6 +858,8 @@ void ScreenAppMap::sub_71009ED97C() {
         _3628[6]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
 }
 
+// NON_MATCHING: the division and the frame-size conversion swap two registers (a commutative fmul
+// operand order); the arithmetic is the same.
 // 0x71009f1dbc
 void ScreenAppMap::sub_71009F1DBC() {
     if (_3c68) {
