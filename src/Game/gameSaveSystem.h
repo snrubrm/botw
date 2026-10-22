@@ -13,6 +13,7 @@
 #include "KingSystem/GameData/gdtManager.h"
 
 namespace sead {
+class ArchiveFileDevice;
 class FileDevice;
 }
 
@@ -25,9 +26,20 @@ namespace uking {
 // 0x7102473f70: the transfer save file name (defined in gameSaveSystem.cpp).
 extern const sead::SafeString sTransferTxt;
 
-// 0x71009181d4 (CSV invoked1_x; declared only, 3244 bytes): writes the save-transfer archive from
-// `data`/`size` and reports through `error` / `result`.
-bool saveTransferWriteArchive(void* data, u64 size, sead::Heap* heap, s32* result, s32* error);
+// 0x71009181d4 (CSV invoked1_x; 3244 bytes): writes the save-transfer archive from `data`/`size`,
+// reporting the progress through `progress` (0..1) and failures through `error`.
+bool saveTransferWriteArchive(void* data, u64 size, sead::Heap* heap, f32* progress, s32* error);
+
+// 0x710091900c (declaration only, 3812 bytes): writes the save slots into the archive `device`; the
+// returned bit mask holds the slots that were written.
+bool save_file_stuff(sead::FileDevice* device, const sead::SafeString& mount, u32* mask, s32 count,
+                     u32* wait_result);
+// 0x710091a184 (declaration only, 572 bytes): copies the save device directory `dir` into the archive.
+bool sub_710091A184(const sead::SafeString& dir, sead::ArchiveFileDevice& archive,
+                    sead::FileDevice* device, u8* buffer, u32 buffer_size, s32 count);
+// 0x710091a52c (declaration only, 360 bytes): copies one save device file into the archive.
+bool sub_710091A52C(const sead::SafeString& path, sead::ArchiveFileDevice& archive,
+                    sead::FileDevice* device, u8* buffer, u32 buffer_size);
 
 namespace save {
 // 0x710091ae00 (CSV save::tryDelete; declared only, 244 bytes): removes the transfer save file.
@@ -86,7 +98,7 @@ public:
     u64 mSize = 0;
     sead::Heap* mHeap = nullptr;
     sead::Atomic<s32> mState = 0;
-    s32 mResult = 0;
+    f32 mProgress = 0;
     s32 mError = 0;
     sead::Delegate1R<SaveTransferArchiveJob, void*, bool> mWork{this,
                                                                 &SaveTransferArchiveJob::invoked1};

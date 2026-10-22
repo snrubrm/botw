@@ -203,6 +203,11 @@ public:
     u32 get1050() const { return _1050; }
     u32 get1054() const { return _1054; }
     sead::BitFlag8 get1058() const { return _1058; }
+    // 0x3c: the save error state tested by saveTransferWriteArchive before copying each slot's caption.
+    u32 get3c() const { return _3c; }
+    // The transfer archive mount name; saveTransferWriteArchive assigns it while the archive is mounted.
+    sead::SafeString& get1040() { return _1040; }
+    void set1058(Flag1058 flag) { _1058.setBit(flag); }
 
 private:
     friend class uking::SaveSystem;
@@ -301,7 +306,8 @@ private:
     // Set to 0 by the constructor; x_18 records the offset of a match on this hash in _103c.
     s32 _1038;
     s32 _103c;
-    u8 _1040[0x1050 - 0x1040];
+    // 0x1040: the mount name of the archive that saveTransferWriteArchive builds (a sead::SafeString).
+    sead::SafeString _1040;
     u32 _1050;
     u32 _1054;
     sead::BitFlag8 _1058;

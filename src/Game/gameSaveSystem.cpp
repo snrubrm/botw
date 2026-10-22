@@ -1,11 +1,16 @@
 #include <nn/util/util_Compression.h>
 #include "Game/Scene/gameStageInfo.h"
 #include "Game/gameSaveSystem.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Event/evtEventResource.h"
+#include <filedevice/seadArchiveFileDevice.h>
 #include <filedevice/seadFileDevice.h>
 #include <filedevice/seadFileDeviceMgr.h>
 #include <filedevice/nin/seadNinSaveFileDeviceNin.h>
+#include <heap/seadExpHeap.h>
 #include <heap/seadFrameHeap.h>
+#include <resource/seadResource.h>
+#include <resource/seadResourceMgr.h>
 #include <time/seadTickSpan.h>
 #include "Game/AOC/aocHardModeManager.h"
 #include "Game/E3Mgr.h"
@@ -26,6 +31,19 @@
 
 // 0xa9bd38 (CSV isSelectedRuneEqualToItemType; lane2 UI code, declared only)
 bool isSelectedRuneEqualToItemType(s32 type, void* arg);
+
+namespace nn::oe {
+// 0x1800410 / 0x1800420 (SDK): brackets operations that an exit request must not interrupt.
+void EnterExitRequestHandlingSection();
+void LeaveExitRequestHandlingSection();
+}
+
+namespace ksys {
+// 0x7100fd1270 / 0x7100fd1184 (declared only; save block byte swap): whether a 0x10000-byte save
+// block needs byte swapping, and the swap itself.
+bool sub_7100FD1270(u8* data, u32 size);
+void sub_7100FD1184(u8* data, u32 size);
+}
 
 namespace uking::ui {
 // 0x7100a9e228 / 0x7100a9e260 (lane2 UI code, declared only)
@@ -616,6 +634,292 @@ bool saveTransferDecompressArchive(void** out, u64* out_size, const void* data, 
     return false;
 }
 
+// NON_MATCHING: the tracker file loop and the slot loop differ in block layout.
+// 0x71009181d4: builds the save-transfer archive: writes the slots and the album/tracker files into an
+// archive in a work heap, then replaces the transfer save file on the save device with it. `progress`
+// receives the completion fraction, `error` the 5xxx/6xxx/7xxx step code plus the save-manager result.
+bool saveTransferWriteArchive(void* data, u64 size, sead::Heap* heap, f32* progress, s32* error) {
+    u32 wait_result = 0;
+    nn::os::GetSystemTick();
+
+    sead::Heap* work_heap =
+        sead::ExpHeap::create(0, "ExtractWorkBuffer", heap, 8, sead::Heap::HeapDirection(1), false);
+
+    bool ok = false;
+    {
+        // The archive objects are released before the work heap.
+        sead::DirectResourceFactory<Unk_710249d608> factory;
+        sead::ResourceMgr::CreateArg arg;
+        arg.buffer = static_cast<u8*>(data);
+        arg.file_size = size;
+        arg.buffer_size = size;
+        arg.factory = &factory;
+        arg.heap = work_heap;
+
+        auto* archive = sead::DynamicCast<Unk_710249d608>(factory.create(arg));
+        if (!archive) {
+            if (error)
+                *error = wait_result + 5300;
+        } else if (archive->getError() != 0) {
+            wait_result = archive->getError();
+            if (error)
+                *error = wait_result + 5400;
+        } else {
+            if (progress)
+                *progress = 0.03f;
+
+            sead::SafeString mount = "savearc";
+            sead::ArchiveFileDevice dev(archive);
+            sead::FileDeviceMgr::instance()->mount(&dev, mount);
+            ksys::SaveMgr::instance()->get1040() = mount;
+            ksys::SaveMgr::instance()->set1058(ksys::SaveMgr::Flag1058::_2);
+
+            // Every step from here on reports a code and stops; the archive is always unmounted.
+            bool entered_handling_section = false;
+            do {
+                u32 mask = 0;
+                if (!save_file_stuff(&dev, mount, &mask, 8, &wait_result)) {
+                    if (error)
+                        *error = wait_result + 5500;
+                    break;
+                }
+
+                if (progress)
+                    *progress = 0.37f;
+
+                auto* device = sead::DynamicCast<sead::NinSaveFileDevice>(
+                    sead::FileDeviceMgr::instance()->findDevice(
+                        ksys::SaveMgr::instance()->getMountName()));
+                if (!device) {
+                    if (error)
+                        *error = wait_result + 5600;
+                    break;
+                }
+
+                nn::oe::EnterExitRequestHandlingSection();
+                entered_handling_section = true;
+
+                bool exists = false;
+                device->tryIsExistFile(&exists, sTransferTxt);
+                if (!exists) {
+                    sead::FileHandle handle;
+                    if (device->tryOpen(&handle, sTransferTxt,
+                                        sead::FileDevice::cFileOpenFlag_Create, 0)) {
+                        handle.close();
+                        if (!device->tryCommit()) {
+                            if (error)
+                                *error = wait_result + 5800;
+                            break;
+                        }
+                    } else {
+                        if (error)
+                            *error = wait_result + 5700;
+                        break;
+                    }
+                }
+
+                if (progress)
+                    *progress = 0.38f;
+
+                if (!save::sub_7100919EF0(device)) {
+                    if (error)
+                        *error = wait_result + 5900;
+                    break;
+                }
+
+                if (progress)
+                    *progress = 0.39f;
+
+                if (!device->tryCommit()) {
+                    if (error)
+                        *error = wait_result + 6000;
+                    break;
+                }
+
+                if (progress)
+                    *progress = 0.4f;
+
+                u8* buffer = static_cast<u8*>(work_heap->tryAlloc(0x100000, 0x40));
+                if (!buffer) {
+                    if (error)
+                        *error = wait_result + 6100;
+                    break;
+                }
+
+                if (!sub_710091A184("album", dev, device, buffer, 0x10000, 21)) {
+                    if (error)
+                        *error = wait_result + 6200;
+                    break;
+                }
+
+                if (progress)
+                    *progress = 0.46f;
+
+                if (!sub_710091A184("pict_book", dev, device, buffer, 0x5000, 44)) {
+                    if (error)
+                        *error = wait_result + 6300;
+                    break;
+                }
+
+                if (progress)
+                    *progress = 0.7f;
+
+                // If the archive has a tracker directory, copy its files out to the save device.
+                bool tracker_failed = false;
+                sead::DirectoryHandle dir;
+                if (dev.tryOpenDirectory(&dir, "tracker")) {
+                    if (!device->tryMakeDirectory("tracker", 0x755)) {
+                        if (error)
+                            *error = wait_result + 6400;
+                        break;
+                    }
+
+                    sead::DirectoryEntry entry;
+                    u32 file_count = 0;
+                    while (!tracker_failed) {
+                        u32 count = 0;
+                        dev.tryReadDirectory(&count, &dir, &entry, 1);
+                        if (count != 1) {
+                            dir.close();
+                            if (file_count != 0 && !device->tryCommit()) {
+                                if (error)
+                                    *error = wait_result + 7100;
+                                tracker_failed = true;
+                            }
+                            break;
+                        }
+
+                        if (entry.is_directory) {
+                            if (error)
+                                *error = wait_result + 6500;
+                            tracker_failed = true;
+                            break;
+                        }
+
+                        sead::FormatFixedSafeString<96> path("tracker/%s", entry.name.cstr());
+                        sead::FileHandle source;
+                        sead::FileHandle target;
+                        if (!dev.tryOpen(&source, path, sead::FileDevice::cFileOpenFlag_ReadOnly,
+                                         0)) {
+                            if (error)
+                                *error = wait_result + 6600;
+                            tracker_failed = true;
+                            break;
+                        }
+                        if (!device->tryOpen(&target, path,
+                                             sead::FileDevice::cFileOpenFlag_WriteOnly, 0)) {
+                            if (error)
+                                *error = wait_result + 6700;
+                            tracker_failed = true;
+                            break;
+                        }
+                        if (source.read(buffer, 0x100000) != 0x10000) {
+                            if (error)
+                                *error = wait_result + 6800;
+                            tracker_failed = true;
+                            break;
+                        }
+                        if (ksys::sub_7100FD1270(buffer, 0x10000))
+                            ksys::sub_7100FD1184(buffer, 0x10000);
+                        if (target.write(buffer, 0x10000) != 0x10000) {
+                            if (error)
+                                *error = wait_result + 6900;
+                            tracker_failed = true;
+                            break;
+                        }
+                        target.close();
+
+                        if (++file_count < 0x15)
+                            continue;
+                        if (!device->tryCommit()) {
+                            if (error)
+                                *error = wait_result + 7000;
+                            tracker_failed = true;
+                            break;
+                        }
+                        file_count = 0;
+                    }
+                }
+                if (tracker_failed)
+                    break;
+
+                if (progress)
+                    *progress = 0.75f;
+
+                static const sead::TickSpan sSleepSpan = sead::TickSpan::makeFromMilliSeconds(10);
+                s32 status = 0x2c;
+                for (s32 i = 0; i < 8; ++i) {
+                    sead::FormatFixedSafeString<96> slot_name("%d", i);
+                    if ((mask & (1u << i)) != 0) {
+                        SaveSystem::instance()->startLoad2(i);
+                        // The original reads the name's cstr() here and drops the result.
+                        (void)slot_name.cstr();
+                        if (!saveTransferWaitForSaveSystemToComplete(&wait_result)) {
+                            status = 1;
+                            if (error)
+                                *error = wait_result + 7200;
+                        } else {
+                            ksys::SaveMgr::instance()->auto6(i);
+                            while (ksys::SaveMgr::instance()->get38() != 0) {
+                                sead::ThreadMgr::instance()->isMainThread();
+                                sead::Thread::sleep(sSleepSpan);
+                            }
+                            if (ksys::SaveMgr::instance()->get3c() == 0) {
+                                sead::FormatFixedSafeString<96> path("%d/caption.jpg", i);
+                                status =
+                                    sub_710091A52C(path, dev, device, buffer, 0x2800) ? 0 : 1;
+                                if (status != 0 && error)
+                                    *error = wait_result + 7400;
+                            } else {
+                                status = 1;
+                                if (error)
+                                    *error = wait_result + 7300;
+                            }
+                        }
+                    }
+                    if (status != 0x2c && status != 0)
+                        break;
+                }
+                if (status != 0x2c && status != 0)
+                    break;
+
+                if (progress)
+                    *progress = 0.95f;
+
+                if (!device->tryRemove(sTransferTxt)) {
+                    if (error)
+                        *error = wait_result + 7500;
+                    break;
+                }
+
+                if (progress)
+                    *progress = 0.99f;
+
+                if (!device->tryCommit()) {
+                    if (error)
+                        *error = wait_result + 7600;
+                    break;
+                }
+
+                ok = true;
+            } while (false);
+
+            if (entered_handling_section)
+                nn::oe::LeaveExitRequestHandlingSection();
+
+            ksys::SaveMgr::instance()->set1058(ksys::SaveMgr::Flag1058::_2);
+            ksys::SaveMgr::instance()->get1040() = "";
+            sead::FileDeviceMgr::instance()->unmount(&dev);
+
+            if (ok && progress)
+                *progress = 1.0f;
+        }
+    }
+
+    work_heap->destroy();
+    return ok;
+}
+
 // NON_MATCHING: Request construction uses a different store order and register allocation.
 bool SaveArchiveWork::queue() {
     if (mState != 0)
@@ -707,7 +1011,7 @@ bool SaveTransferArchiveJob::invoked1(void* user_data) {
     if (mState == 3)
         return false;
     mState = 2;
-    const bool success = saveTransferWriteArchive(mData, mSize, mHeap, &mResult, &mError);
+    const bool success = saveTransferWriteArchive(mData, mSize, mHeap, &mProgress, &mError);
     mState = success ? 3 : 4;
     return success;
 }

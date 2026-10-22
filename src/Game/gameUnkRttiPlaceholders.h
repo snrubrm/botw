@@ -2397,6 +2397,9 @@ public:
     bool sub_7100A9238C(Entry* entry, const void* data, s32 remaining) const;
     s32 getLoadDataAlignment() const override { return 64; }
 
+    // 0x20: set by prepareArchive_ when the archive is not valid.
+    u32 getError() const { return mError; }
+
 protected:
     const void* getFileImpl_(const sead::SafeString& file_path,
                              sead::ArchiveRes::FileInfo* file_info) SEAD_ARCHIVERES_CONST_TOKEN override;
@@ -2409,6 +2412,8 @@ protected:
     bool closeDirectoryImpl_(sead::HandleBuffer* handle) SEAD_ARCHIVERES_CONST_TOKEN override;
     u32 readDirectoryImpl_(sead::HandleBuffer* handle, sead::DirectoryEntry* entries,
                            u32 num) SEAD_ARCHIVERES_CONST_TOKEN override;
+    // Declared only: the slot's body is still U (the class must be concrete for the archive factory).
+    bool isExistFileImpl_(const sead::SafeString& path) SEAD_ARCHIVERES_CONST_TOKEN override;
     bool prepareArchive_(const void* archive) override;
 
 private:
