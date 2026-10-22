@@ -484,6 +484,9 @@ public:
     // 0x7100f3592c (placeholder name): copies three floats to the object at 0xb70 + 0x110.
     void sub_7100F3592C(const sead::Vector3f& value);
 
+    // 0x7100f2f20c (placeholder name): the per-frame graphics update; takes the delta frame.
+    void sub_7100F2F20C(f32 value);
+
     // 0x7100f35de8 (placeholder name; lane2 s47): called by ui::Manager::sub_7100A7F81C; sets a byte
     // at +0x508 of _ad8.
     void sub_7100F35DE8();

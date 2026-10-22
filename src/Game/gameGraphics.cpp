@@ -13,6 +13,7 @@
 #include <postfx/aglDepthOfField.h>
 #include "KingSystem/World/worldDofMgr.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/System/VFR.h"
 
 // 0x7100f2a1d0 and the disposer vtables 0x71024f45a0 / 0x7100f2a100 / 0x7100f2a164: the source is
 // SEAD_SINGLETON_DISPOSER(Graphics) (written out here because sInstance is hand-declared in the header).
@@ -382,4 +383,13 @@ void Unk_71024f4cc0::initShaderProgram(agl::ShaderProgramArchive* archive, sead:
     program->createImageLocation(2, heap);
     program->setAttributeName(0, "aPosition");
     program->setAttributeName(1, "aExtInfo");
+}
+
+// 0x7100f3ecc4 (CSV name): a free wrapper in the Graphics TU that feeds the current core's delta
+// frame to the per-frame graphics update.
+void gameSceneCalcGraphicsStuff() {
+    Graphics* graphics = Graphics::instance();
+    if (graphics == nullptr)
+        return;
+    graphics->sub_7100F2F20C(ksys::VFR::instance()->getDeltaFrame());
 }
