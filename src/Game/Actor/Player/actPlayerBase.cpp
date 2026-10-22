@@ -3,6 +3,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGrab.h"
 #include "Game/Actor/aiUnk_7100EDD26C.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/uiTUStatics.h"
 #include "Game/Actor/aiUnk_7101e7c5d0.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
