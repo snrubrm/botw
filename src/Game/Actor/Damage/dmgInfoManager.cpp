@@ -75,6 +75,18 @@ bool DamageInfoMgr::UnkCe0::sub_7100673444(const sead::Vector3f& position) const
     return false;
 }
 
+void DamageInfoMgr::init(sead::Heap* heap) {
+    _28.sub_710065CAE8();
+    _450.sub_710065D0A4();
+    mUnkCe0.init(heap);
+    mReactionTable.load(heap);
+    _868.sub_71006682B8(heap);
+    if (_790._20.sub_71007107CC(heap, 5))
+        _790._20.mOwner = &_790;
+    _11e2 = 0;
+    mMasterSwordDisableTrueForm = false;
+}
+
 void DamageInfoMgr::sub_7100673D8C(sead::Heap* heap) {
     mReactionTable.sub_71006681D4();
 }

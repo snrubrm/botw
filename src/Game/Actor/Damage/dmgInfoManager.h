@@ -28,7 +28,7 @@ namespace uking::act {
 class DamageItem {
 public:
     s32 mField_0;  // the hash of the entry's name (DamageReactionTable::sub_71006681E4)
-    sead::SafeArray<u8, 3> mCanTakeDamageFromType;
+    sead::SafeArray<u8, 3> mCanTakeDamageFromType = {};
 };
 
 // Name from the CSV (DamageReactionTable::load 0x7100667de4): DamageInfoMgr + 0x5d0, the reaction table resource and
@@ -36,6 +36,8 @@ public:
 struct DamageReactionTable {
     DamageReactionTable();
     ~DamageReactionTable();
+    // 0x7100667de4: loads DamageParam/DamageReactionTable.bxml into mItems.
+    bool load(sead::Heap* heap);
     // 0x71006681a4: frees the reaction entries (DamageInfoMgr destruction).
     void sub_71006681A4();
     void sub_71006681D4();
@@ -55,6 +57,8 @@ class DamageInfoMgr {
     virtual ~DamageInfoMgr();
 
 public:
+    // 0x7100673da4: resets the actor lists and reloads the reaction table.
+    void init(sead::Heap* heap);
     // 0x710067428c (CSV DamageInfoMgr::postCalc; declared only).
     void postCalc();
     // Native readiness forwards to the reaction table at +0x5d0.
@@ -316,7 +320,9 @@ private:
     /* 0x0db8 */ u8 TEMP_db8[0xe98 - 0xdb8];
     /* 0x0e98 */ ClothStiffnessMgr mClothStiffnessMgr;
     /* 0x11e0 */ u8 _11e0;  // bit 0: no rain, bit 1: no snow (sub_7100674704 / 30)
-    u8 TEMP_11e1[0x11e4 - 0x11e1];
+    u8 TEMP_11e1;
+    /* 0x11e2 */ u8 _11e2;  // zeroed by init
+    u8 TEMP_11e3;
     /* 0x11e4 */ f32 mMasterSwordSearchEvilDist;
     /* 0x11e8 */ bool mMasterSwordDetectedEvil;
     /* 0x11e9 */ bool mMasterSwordDisableTrueForm;

@@ -1,5 +1,7 @@
 #include <utility/aglParameter.h>
 #include <prim/seadScopedLock.h>
+#include <resource/seadResource.h>
+#include "KingSystem/Resource/resLoadRequest.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
@@ -8,8 +10,59 @@
 
 namespace uking::act {
 
+// The reaction objects (one per damage source) and the flags each one carries.
+static const char* const sReactionTypes[] = {"Edge", "Blunt", "Arrow"};
+static const char* const sReactionFlags[] = {"Damage",   "Effect",       "Vibrate",
+                                             "SoundEffect", "EquipDamage", "InvincibleDodge"};
+
 DamageReactionTable::DamageReactionTable() = default;
 DamageReactionTable::~DamageReactionTable() = default;
+
+bool DamageReactionTable::load(sead::Heap* heap) {
+    ksys::res::Handle handle;
+    ksys::res::LoadRequest request;
+    request.mRequester = "DamageInfoMgr";
+    request._22 = false;
+
+    sead::FixedSafeString<128> path;
+    path.format("DamageParam/DamageReactionTable.bxml");
+    auto* resource = sead::DynamicCast<sead::DirectResource>(handle.load(path, &request));
+    if (!resource)
+        return false;
+
+    const agl::utl::ResParameterArchive archive(resource->getRawData());
+    const agl::utl::ResParameterList root = archive.getRootList();
+    if (root.getResParameterListNum() == 0)
+        return true;
+
+    mItems.tryAllocBuffer(root.getResParameterListNum(), heap);
+
+    for (auto it = root.listBegin(); it != root.listEnd(); ++it) {
+        const s32 i = it.getIndex();
+        const agl::utl::ResParameterList list = *it;
+        mItems[i].mField_0 = list.getParameterListNameHash();
+
+        for (s32 j = 0; j < 3; ++j) {
+            const agl::utl::ResParameterObj obj =
+                agl::utl::getResParameterObj(list, sReactionTypes[j]);
+            for (s32 k = 0; k < 6; ++k) {
+                const s32 index =
+                    obj.searchIndex(agl::utl::ParameterBase::calcHash(sReactionFlags[k]));
+                if (index < 0)
+                    continue;
+
+                const bool enabled = *obj.getParameterData<u32>(index) != 0;
+                u8& flags = mItems[i].mCanTakeDamageFromType[j];
+                if (enabled)
+                    flags |= 1u << index;
+                else
+                    flags &= ~(1u << index);
+            }
+        }
+    }
+
+    return true;
+}
 
 void DamageReactionTable::sub_71006681A4() {
     mItems.freeBuffer();
