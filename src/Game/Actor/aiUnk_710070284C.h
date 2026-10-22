@@ -1,5 +1,9 @@
 #pragma once
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace ksys::act {
 class Actor;
 }
@@ -18,3 +22,10 @@ bool sub_7100702894(ksys::act::Actor* actor);
 bool sub_71007028CC(ksys::act::Actor* actor);
 // 0x7100703bc8: the life is 1, 2 or 5 (1 without a life pointer).
 bool sub_7100703BC8(ksys::act::Actor* actor);
+
+// 0x710070427c: makes the actor's WeakPointLast sensor a query-only body and registers its Neck
+// body with the actor's physics instance set (both looked up by the getStr_Tgt / getStr_Body
+// names). Same GanonBeast part names as the helpers above.
+void sub_710070427C(ksys::act::Actor* actor);
+// 0x710070431c: the actor's WeakPoint_EyeLid body.
+ksys::phys::RigidBody* sub_710070431C(ksys::act::Actor* actor);
