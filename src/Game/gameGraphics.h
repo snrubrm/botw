@@ -10,6 +10,7 @@
 #include <gfx/seadCamera.h>
 #include <gfx/seadColor.h>
 #include <hostio/seadHostIONode.h>
+#include <heap/seadDisposer.h>
 #include <prim/seadBitFlag.h>
 #include <thread/seadCriticalSection.h>
 #include <gsys/gsysModelScene.h>
@@ -428,6 +429,8 @@ public:
     // Original instance pointer 0x710260b060 (GOT 0x7102579d58).
     static Graphics* instance() { return sInstance; }
     Unk_668* get668Maybe() const { return _668; }
+    // 0x7100f2a1d0: allocates the 0xfe8-byte instance and constructs it (SEAD_SINGLETON_DISPOSER).
+    static Graphics* createInstance(sead::Heap* heap);
     static Graphics* sInstance;
 
     // 0x7100f2a6bc (placeholder name): the docked screen size (1920 x 1080). The UI layout scales it
@@ -604,7 +607,21 @@ public:
     };
 
 private:
-    u8 _0[0x118];
+    // The vptr (the class has a virtual destructor) occupies 0x0; the unknown block follows it.
+    u8 _0[0xf0];
+
+public:
+    // SEAD_SINGLETON_DISPOSER expansion (createInstance 0x7100f2a1d0, disposer vtable 0x71024f45a0).
+    class SingletonDisposer_ : public sead::IDisposer {
+    public:
+        using sead::IDisposer::IDisposer;
+        virtual ~SingletonDisposer_();
+
+        static SingletonDisposer_* sStaticDisposer;
+    };
+
+private:
+    u32 mSingletonDisposerBuf_[sizeof(SingletonDisposer_) / sizeof(u32)];
 
 public:
     /* 0x118 */ Unk_118* _118;
@@ -708,11 +725,19 @@ private:
     // 0x7100f1d9b4 passes it as the second argument of fmodf).
     u8 _f60[0xf9c - 0xf60];
     /* 0xf9c */ f32 _f9c;
+    // The rest of the 0xfe8-byte instance is not modelled.
+    u8 _fa0[0xfe8 - 0xfa0];
 
 public:
+    // 0x7100f2a754 (declaration only); the destructor is virtual (the disposer calls it through the
+    // vtable slot at +0x50 of the original's vtable).
+    Graphics();
+    virtual ~Graphics();
+
     // The map state byte compared with 4 (sub_7100F2FAAC) and 7 (PlacementMgr::requestDraw).
     u8 getMapStateMaybe() const { return _f5a; }
 };
+KSYS_CHECK_SIZE_NX150(Graphics, 0xfe8);
 
 namespace agl {
 class ShaderProgramArchive;

@@ -14,6 +14,28 @@
 #include "KingSystem/World/worldDofMgr.h"
 #include "KingSystem/World/worldManager.h"
 
+// 0x7100f2a1d0 and the disposer vtables 0x71024f45a0 / 0x7100f2a100 / 0x7100f2a164: the source is
+// SEAD_SINGLETON_DISPOSER(Graphics) (written out here because sInstance is hand-declared in the header).
+// NON_MATCHING (the destructor pair): the original calls Graphics::~Graphics() through vtable slot 0x50;
+// the rest of the Graphics vtable is not modelled, so ours has the destructor in slot 0.
+Graphics::SingletonDisposer_::~SingletonDisposer_() {
+    if (this == sStaticDisposer) {
+        sStaticDisposer = nullptr;
+        Graphics::sInstance->~Graphics();
+        Graphics::sInstance = nullptr;
+    }
+}
+
+Graphics* Graphics::createInstance(sead::Heap* heap) {
+    if (!sInstance) {
+        auto* buffer = new (heap, alignof(Graphics)) u8[sizeof(Graphics)];
+        auto* disposer_buffer = buffer + offsetof(Graphics, mSingletonDisposerBuf_);
+        SingletonDisposer_::sStaticDisposer = new (disposer_buffer) SingletonDisposer_(heap);
+        sInstance = new (buffer) Graphics;
+    }
+    return sInstance;
+}
+
 // 0x7100f00018: clears bit 3 of the object's flag word.
 void sub_7100F00018(Unk_7100efd9b8Obj* object) {
     if (object->_638 & 8)
