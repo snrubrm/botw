@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 
 class Unk_71024f13f0;
+class Unk_7102504260;
 
 namespace uking {
 
@@ -30,7 +31,8 @@ public:
     virtual void m18();
     virtual void m19();
     virtual void m20();
-    virtual void m21();
+    // 0x71007d3460 passes the terrain editor (Terrain + 0x20, null when no terrain exists) and 0.
+    virtual void m21(Unk_7102504260* terrain_editor, s32 value);
     virtual void m22();
     virtual void m23();
     virtual Unk_71024f13f0* m24();

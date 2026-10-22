@@ -49786,7 +49786,7 @@ Address,Quality,Size,Name
 0x00000071007d3280,O,000104,_ZN16GameSceneSubsys718SingletonDisposer_D0Ev
 0x00000071007d32e8,O,000276,_ZN16GameSceneSubsys714createInstanceEPN4sead4HeapE
 0x00000071007d33fc,O,000100,_ZN16GameSceneSubsys74initEPN4sead4HeapE
-0x00000071007d3460,U,000192,GameSceneSubsys7::createTeraSystem
+0x00000071007d3460,O,000192,_ZN16GameSceneSubsys716createTeraSystemEv
 0x00000071007d3520,U,002072,GameSceneSubsys7::loadTscbMaybe
 0x00000071007d3d38,O,000008,_ZNK16GameSceneSubsys713getTeraSystemEv
 0x00000071007d3d40,O,000012,_ZN5uking13TitleStageArg2m8Ev
@@ -82249,7 +82249,7 @@ Address,Quality,Size,Name
 0x0000007100f3f784,O,000200,_ZN4ksys4tera16loadTerrainModelEv
 0x0000007100f3f84c,O,000028,_Z14sub_7100F3F84Cj
 0x0000007100f3f868,O,000052,_ZN4ksys4tera24waitForTerrainModelReadyEv
-0x0000007100f3f89c,U,002448,ksys::CreateTeraSystem
+0x0000007100f3f89c,U,002448,_ZN4ksys16CreateTeraSystemEPKNS_19CreateTeraSystemArgE
 0x0000007100f4022c,U,000292,_ZN4sead7TreeMapINS_14SafeStringBaseIcEEiE6insertERKS2_RKi
 0x0000007100f40350,O,000016,_ZN4ksys4tera6System8instanceEv
 0x0000007100f40360,O,000016,_Z25setInitBeforeStageGenDoneb

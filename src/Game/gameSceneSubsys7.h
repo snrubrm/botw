@@ -7,10 +7,33 @@
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace gsys {
+class ModelScene;
+}
+
+namespace ksys {
+namespace tera {
+class System;
+}
+// 0x7100f3f89c (declared only; 2448 B): creates the terrain system. The argument block is the one
+// GameSceneSubsys7::createTeraSystem builds; only its layout is known.
+struct CreateTeraSystemArg {
+    sead::Heap* mHeap;
+    void* _8;
+    void* _10;
+    gsys::ModelScene* mModelScene;
+    ksys::res::Handle* mResourceHandle;
+    bool _28;
+    u8 _29[7];
+};
+static_assert(sizeof(CreateTeraSystemArg) == 0x30);
+tera::System* CreateTeraSystem(const CreateTeraSystemArg* arg);
+}  // namespace ksys
+
 // Name from the CSV (GameSceneSubsys7::createInstance 0x71007d32e8, init 0x71007d33fc,
 // createTeraSystem 0x71007d3460, loadTscbMaybe 0x71007d3520, getTeraSystem; the CSV name has no
 // namespace). A sead singleton without vtable that owns the terrain system and its heap.
-// TODO: incomplete (createTeraSystem and loadTscbMaybe are not decompiled).
+// TODO: incomplete (loadTscbMaybe is not decompiled).
 class GameSceneSubsys7 {
     SEAD_SINGLETON_DISPOSER(GameSceneSubsys7)
     GameSceneSubsys7() = default;
@@ -23,6 +46,9 @@ public:
     // 0x71007d3520 (declared only; CSV loadTscbMaybe): loads the TSCB of stage type `type` for `map_type`
     // into the terrain system (GameScene::loadTera passes its binder's getType()).
     void loadTscbMaybe(s32 type, const sead::SafeString& map_type);
+    // 0x71007d3460: creates the terrain system (once) for the first graphics model scene, then points the
+    // stage state's second object at the terrain editor.
+    void createTeraSystem();
 
 private:
     ksys::res::Handle _20;
