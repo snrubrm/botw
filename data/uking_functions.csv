@@ -96109,7 +96109,7 @@ Address,Quality,Size,Name
 0x00000071012b5fc8,U,000524,CompactedHeap::x_0
 0x00000071012b61d4,U,000328,CompactedHeap::x_10
 0x00000071012b631c,U,000336,CompactedHeap::x_11
-0x00000071012b646c,U,000540,CompactedHeap::x_9
+0x00000071012b646c,U,000540,_ZN4ksys3res13CompactedHeap3x_9EPNS1_10Allocation6HeaderE
 0x00000071012b6688,U,000568,_ZN4ksys3res13CompactedHeap4x_13Eji
 0x00000071012b68c0,U,000312,CompactedHeap::x_14
 0x00000071012b69f8,U,000444,CompactedHeap::x_8
