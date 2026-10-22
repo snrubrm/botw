@@ -68,6 +68,8 @@ public:
     // mask and applies the tree scale; for kind 0 it fills the alpha table, adds the "Tgt" body to the
     // world and subscribes its contact point info to layers 39 and 40.
     void sub_7100E18578();
+    // 0x7100e18f4c (placeholder name): true when either fallen-tree handle has a unit or failed.
+    bool sub_7100E18F4C();
 
     ksys::phys::ContactPointInfo* mContactPointInfo = nullptr;
     u16 _10;

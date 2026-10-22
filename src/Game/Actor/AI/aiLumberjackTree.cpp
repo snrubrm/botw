@@ -74,6 +74,14 @@ void Unk_71024e1b58::sub_7100E18B90(const char* name1, const char* name2) {
     }
 }
 
+bool Unk_71024e1b58::sub_7100E18F4C() {
+    if (_18.isAllocatedOrFailed())
+        return true;
+    if (_28.isAllocatedOrFailed())
+        return true;
+    return false;
+}
+
 void Unk_71024e1b58::sub_7100E18578() {
     if ((_10 & 0x100) != 0)
         return;

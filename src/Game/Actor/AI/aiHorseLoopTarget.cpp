@@ -120,4 +120,9 @@ sead::Vector3f HorseLoopTarget::sub_710127FFD8() {
     return _168->getPointTranslate(_160);
 }
 
+// 0x710128024c (placeholder name): both arguments are 1.
+s32 sub_710128024C(s32 a, s32 b) {
+    return a == 1 && b == 1;
+}
+
 }  // namespace uking::ai
