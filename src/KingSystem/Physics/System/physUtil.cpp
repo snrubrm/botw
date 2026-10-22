@@ -50,36 +50,9 @@ u32 getMaterialMaskFromShape(const hkpShape& shape, const u32* shape_key,
     return material_mask;
 }
 
-// NON_MATCHING: shape tests are reordered and the compound instance array is loaded after the filter call.
 u32 getMaterialMaskFromCollidable(u32* p_material_mask, u32* p_collision_filter_info,
                                    const hkpShape& shape, const u32* shape_key) {
     switch (shape.getType()) {
-    case hkcdShapeType::LIST: {
-        if (*shape_key == HK_INVALID_SHAPE_KEY) {
-            *p_material_mask = 0;
-            *p_collision_filter_info = 0;
-            return 1;
-        }
-        hkpShapeBuffer buffer;
-        const auto& list = static_cast<const hkpListShape&>(shape);
-        const hkpShape* child = list.getChildShape(*shape_key, buffer);
-        return getMaterialMaskFromCollidable(p_material_mask, p_collision_filter_info, *child, shape_key);
-    }
-    case hkcdShapeType::STATIC_COMPOUND: {
-        if (*shape_key == HK_INVALID_SHAPE_KEY) {
-            *p_material_mask = 0;
-            *p_collision_filter_info = 0;
-            return 1;
-        }
-        const auto& compound = static_cast<const hkpStaticCompoundShape&>(shape);
-        int instance_id;
-        hkpShapeKey child_key;
-        compound.decomposeShapeKey(*shape_key, instance_id, child_key);
-        *p_collision_filter_info = compound.getCollisionFilterInfo(*shape_key);
-        return getMaterialMaskFromCollidable(p_material_mask, p_collision_filter_info,
-                                             *compound.getInstances()[instance_id].getShape(),
-                                             &child_key);
-    }
     case hkcdShapeType::BV_COMPRESSED_MESH: {
         if (*shape_key == HK_INVALID_SHAPE_KEY) {
             *p_material_mask = 0;
@@ -95,6 +68,32 @@ u32 getMaterialMaskFromCollidable(u32* p_material_mask, u32* p_collision_filter_
         else
             *p_material_mask = shape.getUserData();
         return 0;
+    }
+    case hkcdShapeType::STATIC_COMPOUND: {
+        if (*shape_key == HK_INVALID_SHAPE_KEY) {
+            *p_material_mask = 0;
+            *p_collision_filter_info = 0;
+            return 1;
+        }
+        const auto& compound = static_cast<const hkpStaticCompoundShape&>(shape);
+        int instance_id;
+        hkpShapeKey child_key;
+        compound.decomposeShapeKey(*shape_key, instance_id, child_key);
+        const auto& instance = compound.getInstances()[instance_id];
+        *p_collision_filter_info = compound.getCollisionFilterInfo(*shape_key);
+        return getMaterialMaskFromCollidable(p_material_mask, p_collision_filter_info,
+                                             *instance.getShape(), &child_key);
+    }
+    case hkcdShapeType::LIST: {
+        if (*shape_key == HK_INVALID_SHAPE_KEY) {
+            *p_material_mask = 0;
+            *p_collision_filter_info = 0;
+            return 1;
+        }
+        hkpShapeBuffer buffer;
+        const auto& list = static_cast<const hkpListShape&>(shape);
+        const hkpShape* child = list.getChildShape(*shape_key, buffer);
+        return getMaterialMaskFromCollidable(p_material_mask, p_collision_filter_info, *child, shape_key);
     }
     default:
         *p_material_mask = shape.getUserData();
