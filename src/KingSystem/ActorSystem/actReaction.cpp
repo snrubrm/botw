@@ -75,6 +75,18 @@ const sead::SafeString& Unk_7100ebf9e4::getName() const {
     return sead::SafeString::cEmptyString;
 }
 
+void Reaction::initStubbed() {}
+
+bool Reaction::__auto3() {
+    if (!(_b8 & 0x200))
+        return true;
+    if (mHandles[0].isProcReady() && mHandles[1].isProcReady() &&
+        mHandles[2].isProcReady() && mHandles[3].isProcReady() &&
+        mHandles[4].isProcReady())
+        return true;
+    return false;
+}
+
 void Reaction::Unk1::sub_7100EC66FC(Actor* actor) {
     _110 = 2;
 }

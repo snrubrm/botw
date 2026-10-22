@@ -11,6 +11,7 @@
 #include <prim/seadSafeString.h>
 #include <xlink2/xlink2HandleSLink.h>
 
+#include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/Physics/System/physUserTag.h"
 
 namespace xlink2 {
@@ -126,6 +127,11 @@ class Reaction {
     Reaction();
     virtual ~Reaction();
 
+    // 0x7100ec0458: empty in the original (CSV name).
+    void initStubbed();
+    // 0x7100ec045c: true while the five queued procs are not all ready, or when _b8 bit 9 is clear.
+    bool __auto3();
+
 public:
     // Placeholder: the object at _a8 (class unknown). 0x7100ec66fc sets its _110 to 2; the actor
     // argument is unused. Called by OctarockOptionRoot::calc_ when the player touches the rock.
@@ -239,11 +245,14 @@ public:
     Actor* _28;
     Actor* _30;
     Actor* _38;
-    u8 _40[0xa0 - 0x40];
+    u8 _40[0x50 - 0x40];
+    /* 0x50 */ BaseProcHandle mHandles[5];
     /* 0xa0 */ Unk_7101286868* _a0;
     /* 0xa8 */ Unk1* _a8;
     /* 0xb0 */ bool _b0;
-    u8 _b1[0x180 - 0xb1];
+    u8 _b1[0xb8 - 0xb1];
+    /* 0xb8 */ u32 _b8;
+    u8 _bc[0x180 - 0xbc];
 };
 static_assert(offsetof(Unk_7101286868, _38) == 0x38);
 static_assert(offsetof(Reaction, _28) == 0x28);
