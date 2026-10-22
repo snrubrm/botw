@@ -1144,7 +1144,8 @@ void HorseBase::sub_7100E6BEC0(bool on) {
 bool HorseBase::sub_7100E6BF00() const {
     if (!_b18)
         return false;
-    return _b18->_8.isOnBit(Unk_71024eb548::Flag(Unk_71024eb548::Flag::_1));
+    const u8 mask = sead::BitFlag8::makeMask(Unk_71024eb548::Flag(Unk_71024eb548::Flag::_1));
+    return _b18->_8.isOn(mask);
 }
 
 void HorseBase::sub_7100E6BF3C(bool on) {
