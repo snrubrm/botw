@@ -2688,16 +2688,28 @@ public:
     virtual void m5() {}
     virtual void m6() {}
     virtual void m7() {}
-    virtual void m8();
-    virtual void m9();
-    virtual void m10();
-    virtual void m11();
-    virtual void m12();
-    virtual void m13();
-    virtual void m14();
-    virtual void m15();
-    virtual void m16();
-    virtual void m17();
+    virtual sead::Vector2f* m8();
+    virtual void m9(const sead::Vector2f& value);
+    virtual sead::Vector2f* m10();
+    virtual void m11(const sead::Vector2f& value);
+    virtual sead::Vector2f* m12();
+    virtual void m13(const sead::Vector2f& value);
+    virtual f32* m14();
+    virtual sead::Vector2f* m15();
+    virtual sead::Vector2f* m16();
+    virtual void m17(const f32& value);
+
+    sead::Vector2f* _8;
+    u8 _10[0x10];
+    sead::Vector2f _20;
+    s32 _28;
+    u8 _2c[4];
+    u8 _30[8];
+    u32 _38;
+    u32 _3c;
+    f32 _40;
+    sead::Vector2f _44;
+    sead::Vector2f _4c;
 };
 
 // typeinfo 0x71026529f0; the original has no vtable for this class (an abstract base: only its RTTI

@@ -155,3 +155,64 @@ Unk_71024dd5a8::~Unk_71024dd5a8() = default;
 Unk_71024dd588::~Unk_71024dd588() = default;
 
 Unk_7102514540::~Unk_7102514540() = default;
+
+void Unk_7102514540::m4() {
+    switch (_28) {
+    case 1:
+        if (_38 < _3c) {
+            *m8() += *m10() + *m12() * 0.5f;
+            *m10() += *m12();
+            ++_38;
+        } else {
+            m9(_20);
+            m11(sead::Vector2f::zero);
+            m13(sead::Vector2f::zero);
+            _28 = 2;
+        }
+        break;
+    case 2:
+        if (*m8() != _20)
+            _28 = 0;
+        break;
+    }
+}
+
+sead::Vector2f* Unk_7102514540::m8() {
+    return _8;
+}
+
+void Unk_7102514540::m9(const sead::Vector2f& value) {
+    *m8() = value;
+}
+
+sead::Vector2f* Unk_7102514540::m10() {
+    return m15();
+}
+
+void Unk_7102514540::m11(const sead::Vector2f& value) {
+    *m10() = value;
+}
+
+sead::Vector2f* Unk_7102514540::m12() {
+    return m16();
+}
+
+void Unk_7102514540::m13(const sead::Vector2f& value) {
+    *m12() = value;
+}
+
+f32* Unk_7102514540::m14() {
+    return &_40;
+}
+
+sead::Vector2f* Unk_7102514540::m15() {
+    return &_44;
+}
+
+sead::Vector2f* Unk_7102514540::m16() {
+    return &_4c;
+}
+
+void Unk_7102514540::m17(const f32& value) {
+    _40 = value;
+}
