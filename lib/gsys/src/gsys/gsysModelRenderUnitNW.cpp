@@ -29,7 +29,7 @@ ModelRenderUnitNW::~ModelRenderUnitNW() {
 
 // 0x7100c09d40
 sead::SafeString ModelRenderUnitNW::getName() const {
-    return sead::SafeString(mResShapeEx->getShapeName().getStringTop());
+    return sead::SafeString(mResShapeEx->getShapeName());
 }
 
 void ModelRenderUnitNW::setPolygonCtrl(u32 value) {
