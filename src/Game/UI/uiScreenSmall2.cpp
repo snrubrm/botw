@@ -36,6 +36,8 @@
 #include "Game/UI/uiManager.h"
 #include "Game/gameSaveSystem.h"
 #include "KingSystem/System/VFR.h"
+#include "KingSystem/System/PlayReportMgr.h"
+#include "KingSystem/System/PlayerTrackReporter.h"
 #include "Game/gameRoot1.h"
 #include "Game/gameRuneMgr.h"
 #include "Game/UI/uiUnkSingletons.h"
@@ -4363,6 +4365,32 @@ void ScreenSaveTransferWindow::m275() {
         _3788 = "0066";
         getStateMachine().changeState(&sUnk_71025f2cc0);
         break;
+    }
+}
+
+// 0x7100a45bcc
+void ScreenSaveTransferWindow::m283() {
+    const u32 save_state = SaveSystem::instance()->_3c;
+    const bool special = (save_state | 1) == 7;
+
+    f32 factor = 1.0f;
+    if (special) {
+        ksys::Timer::update(&_379c, 1.0f);
+        factor = 1.0f - 150.0f / (_379c + 150.0f);
+    }
+
+    // Ease the completion from 0.95 to 1.0.
+    const f32 target = 0.95f + factor * (1.0f - 0.95f);
+    const f32 speed = sUnk_7101e78f6c[!(target >= 1.0f)];
+    const bool done = ksys::VFR::chase(&_3798, target, speed);
+    mControlPtrs._3628->Stop(_3798 * 100.0f);
+
+    if (!special && factor == 1.0f && done) {
+        if (auto* mgr = ksys::PlayReportMgr::instance()) {
+            if (auto* reporter = mgr->getPlayerTrackReporter())
+                reporter->mBlocks.clear();
+        }
+        getStateMachine().changeState(&sUnk_71025f2ba0);
     }
 }
 
