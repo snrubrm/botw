@@ -1662,6 +1662,10 @@ class Unk_710251ba58 : public aal::SpatialCalculator {
     SEAD_RTTI_OVERRIDE(Unk_710251ba58, aal::SpatialCalculator)
 public:
     ~Unk_710251ba58() override;
+
+protected:
+    bool calcDistReduction_(aal::SpatialCalcResult* result, const aal::Listener& listener, s32 index,
+                            aal::DebuggerResult* debugger_result) override;
 };
 
 // vtable 0x710251bb98 (8 slots); placeholder generated from the vtable (genskel.py).

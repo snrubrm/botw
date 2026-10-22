@@ -133,6 +133,15 @@ bool Unk_710251b710::sub_71012CE4D8(Unk_710251b6f0* sound) {
 
 Unk_710251ba58::~Unk_710251ba58() = default;
 
+// NON_MATCHING: the constant and result->_10 loads are scheduled in the opposite order.
+bool Unk_710251ba58::calcDistReduction_(aal::SpatialCalcResult* result, const aal::Listener& listener,
+                                        s32 index, aal::DebuggerResult* debugger_result) {
+    const bool audible = aal::SpatialCalculator::calcDistReduction_(result, listener, index, debugger_result);
+    if (audible)
+        result->_10 *= 0.7f;
+    return audible;
+}
+
 void Unk_710251bb98::m31(agl::DrawContext* context, s32 part, s32 mask, bool use_lists) {
     if (use_lists) {
         auto& lists = _c0[part];
