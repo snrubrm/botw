@@ -60,6 +60,11 @@ public:
         // the 250 m quarter-of-quarter mask inside it (0xff when it is set).
         void sub_7100F076D8(const sead::Vector3f& pos);
 
+        // Index of the cell's entry in Entry::_28 (80 entries per 1 km cell, or 1600 quarters in x/z order).
+        s32 index() const {
+            return (mFlags & 1) ? mZ * 10 + mX : mZ * 0xa0 + mX * 0x10 + mMask;
+        }
+
         u8 mFlags;
         s8 mX;
         s8 mZ;

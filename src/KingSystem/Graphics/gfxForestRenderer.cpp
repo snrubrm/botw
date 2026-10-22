@@ -268,7 +268,8 @@ bool ForestRenderer::Entry::sub_7100F071C4(const sead::SafeString& name, const s
 }
 
 // 0x7100f0663c: the item index of the record at `pos` inside the cell's `_28` range, or -1.
-// NON_MATCHING: the original rematerialises the conditional index for the second _28 access; ours computes it once.
+// NON_MATCHING: same code and block contents, but the three early returns are laid out with an inverted
+// branch (b.ls to the next block plus an unconditional branch to the -1 block) instead of the target's b.hi.
 s32 ForestRenderer::Entry::sub_7100F0663C(const sead::Vector3f& pos) {
     GridCell cell;
     cell.mFlags = _8 & 1;
@@ -279,10 +280,8 @@ s32 ForestRenderer::Entry::sub_7100F0663C(const sead::Vector3f& pos) {
         return -1;
     if ((cell.mFlags & 1) == 0 && u32(cell.mMask) > 0xf)
         return -1;
-    const s32 index = (cell.mFlags & 1) ? cell.mZ * 10 + cell.mX
-                                        : cell.mZ * 0xa0 + cell.mX * 0x10 + cell.mMask;
-    const u16 first = _28[index]._0;
-    const u16 count = _28[index]._2;
+    const u16 first = _28[cell.index()]._0;
+    const u16 count = _28[cell.index()]._2;
     if (count == 0)
         return -1;
     for (s32 i = 0; i < count; ++i) {
