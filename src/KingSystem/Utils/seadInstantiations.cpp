@@ -38,6 +38,8 @@ template FixedSafeStringBase<char, 29>& FixedSafeStringBase<char, 29>::operator=
 template FixedSafeStringBase<char, 32>& FixedSafeStringBase<char, 32>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 34>& FixedSafeStringBase<char, 34>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 35>& FixedSafeStringBase<char, 35>::operator=(const SafeString&);
+template FixedSafeStringBase<char, 37>& FixedSafeStringBase<char, 37>::operator=(const SafeString&);
+template FixedSafeStringBase<char, 38>& FixedSafeStringBase<char, 38>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 39>& FixedSafeStringBase<char, 39>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 42>& FixedSafeStringBase<char, 42>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 44>& FixedSafeStringBase<char, 44>::operator=(const SafeString&);
@@ -62,6 +64,7 @@ template FixedSafeStringBase<char, 91>& FixedSafeStringBase<char, 91>::operator=
 template FixedSafeStringBase<char, 94>& FixedSafeStringBase<char, 94>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 95>& FixedSafeStringBase<char, 95>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 100>& FixedSafeStringBase<char, 100>::operator=(const SafeString&);
+template FixedSafeStringBase<char, 1007>& FixedSafeStringBase<char, 1007>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 106>& FixedSafeStringBase<char, 106>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 110>& FixedSafeStringBase<char, 110>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 133>& FixedSafeStringBase<char, 133>::operator=(const SafeString&);
@@ -71,6 +74,7 @@ template FixedSafeStringBase<char, 165>& FixedSafeStringBase<char, 165>::operato
 template FixedSafeStringBase<char, 168>& FixedSafeStringBase<char, 168>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 172>& FixedSafeStringBase<char, 172>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 223>& FixedSafeStringBase<char, 223>::operator=(const SafeString&);
+template FixedSafeStringBase<char, 228>& FixedSafeStringBase<char, 228>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 244>& FixedSafeStringBase<char, 244>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 250>& FixedSafeStringBase<char, 250>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 256>& FixedSafeStringBase<char, 256>::operator=(const SafeString&);
@@ -80,6 +84,7 @@ template FixedSafeStringBase<char, 357>& FixedSafeStringBase<char, 357>::operato
 template FixedSafeStringBase<char, 377>& FixedSafeStringBase<char, 377>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 385>& FixedSafeStringBase<char, 385>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 480>& FixedSafeStringBase<char, 480>::operator=(const SafeString&);
+template FixedSafeStringBase<char, 501>& FixedSafeStringBase<char, 501>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 518>& FixedSafeStringBase<char, 518>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 655>& FixedSafeStringBase<char, 655>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 912>& FixedSafeStringBase<char, 912>::operator=(const SafeString&);
@@ -147,6 +152,7 @@ template FixedSafeString<168>& FixedSafeString<168>::operator=(const SafeString&
 template FixedSafeString<170>& FixedSafeString<170>::operator=(const SafeString&);
 template FixedSafeString<172>& FixedSafeString<172>::operator=(const SafeString&);
 template FixedSafeString<223>& FixedSafeString<223>::operator=(const SafeString&);
+template FixedSafeString<228>& FixedSafeString<228>::operator=(const SafeString&);
 template FixedSafeString<244>& FixedSafeString<244>::operator=(const SafeString&);
 template FixedSafeString<250>& FixedSafeString<250>::operator=(const SafeString&);
 template FixedSafeString<256>& FixedSafeString<256>::operator=(const SafeString&);
@@ -155,11 +161,17 @@ template FixedSafeString<318>& FixedSafeString<318>::operator=(const SafeString&
 template FixedSafeString<357>& FixedSafeString<357>::operator=(const SafeString&);
 template FixedSafeString<377>& FixedSafeString<377>::operator=(const SafeString&);
 template FixedSafeString<480>& FixedSafeString<480>::operator=(const SafeString&);
+template FixedSafeString<501>& FixedSafeString<501>::operator=(const SafeString&);
 template FixedSafeString<518>& FixedSafeString<518>::operator=(const SafeString&);
 template FixedSafeString<757>& FixedSafeString<757>::operator=(const SafeString&);
 template FixedSafeString<912>& FixedSafeString<912>::operator=(const SafeString&);
 template FixedSafeString<1559>& FixedSafeString<1559>::operator=(const SafeString&);
 template FixedSafeString<4096>& FixedSafeString<4096>::operator=(const SafeString&);
+
+// Wide strings: the original keeps one out-of-line copy for this size.
+template FixedSafeStringBase<char16, 3>&
+FixedSafeStringBase<char16, 3>::operator=(const SafeStringBase<char16>&);
+template WFixedSafeString<3>& WFixedSafeString<3>::operator=(const WSafeString&);
 
 
 // The deleting destructors of these sizes are emitted in the original; instantiating the
