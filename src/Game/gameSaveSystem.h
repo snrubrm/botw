@@ -54,6 +54,8 @@ bool sub_7100919EF0(sead::FileDevice* device);
 // 0 idle, 1 queued, 2 working, 3 complete, 4 failed.
 class SaveArchiveWork {
 public:
+    // 0x710091aef4 (4 bytes, empty): out-of-line in the original.
+    ~SaveArchiveWork();
     void reset(bool free_data);
     bool queue();
     bool run(void* user_data);
@@ -70,6 +72,8 @@ KSYS_CHECK_SIZE_NX150(SaveArchiveWork, 0x48);
 
 class LoadArchiveWork {
 public:
+    // 0x710091b060 (4 bytes, empty): out-of-line in the original.
+    ~LoadArchiveWork();
     void reset(bool free_data);
     bool queue(const void* data, u64 size);
     bool run(void* user_data);
@@ -90,6 +94,8 @@ KSYS_CHECK_SIZE_NX150(LoadArchiveWork, 0x50);
 // name is "saveTransferArchiveJobRun".
 class SaveTransferArchiveJob {
 public:
+    // 0x710091b1d4 (4 bytes, empty): out-of-line in the original.
+    ~SaveTransferArchiveJob();
     void reset();
     bool queue(void* data, u64 size);
     bool invoked1(void* user_data);
@@ -109,6 +115,8 @@ KSYS_CHECK_SIZE_NX150(SaveTransferArchiveJob, 0x48);
 // the low-priority task name is "runSaveDeleteJob". The state is shared with the worker thread.
 class SaveDeleteJob {
 public:
+    // 0x710091b2f8 (4 bytes, empty): out-of-line in the original.
+    ~SaveDeleteJob();
     void reset();
     bool queue();
     bool run(void* user_data);

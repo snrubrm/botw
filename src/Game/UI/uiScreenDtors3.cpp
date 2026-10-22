@@ -83,7 +83,11 @@ ScreenMainShortCut::~ScreenMainShortCut() {
 }
 ScreenPauseMenu::~ScreenPauseMenu() = default;
 ScreenPauseMenuInfo::~ScreenPauseMenuInfo() = default;
-ScreenSaveTransferWindow::~ScreenSaveTransferWindow() = default;
+// 0x7100a421a0
+ScreenSaveTransferWindow::~ScreenSaveTransferWindow() {
+    mSaveWork.reset(true);
+    mLoadWork.reset(true);
+}
 // 0x7100a28cec
 ScreenOptionWindow::~ScreenOptionWindow() {
     for (s32 i = 0, n = _3698.size(); i < n; ++i)

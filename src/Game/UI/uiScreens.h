@@ -6029,20 +6029,10 @@ public:
     virtual s32 m185();
 
     // 0x7100a45fc0 (placeholder name): starts state 6 through the save system singleton.
-    bool sub_7100A45FC0();
     // 0x7100a45da0 / 0x7100a46124 / 0x7100a46268 (placeholder names): the m158 pattern with _3668 set to 0 / 1 / 4
-    void sub_7100A45DA0();
-    void sub_7100A46124();
-    void sub_7100A46268();
-    void sub_7100A46004();
     // 0x7100a45fd0 (placeholder name): leaves the window's state when the save system is not in state 7
-    void sub_7100A45FD0();
-    void sub_7100A44544();
-    void sub_7100A44458();
-    void sub_7100A44878();
     // 0x7100a4473c (declared only; 240 bytes): the save transfer's per-frame step, tail-called by m223
     void sub_7100A4473C();
-    void sub_7100A45080();
     // NetworkCalcThread's Delegate2 callback (a44a34); its arguments are unused.
     void sub_7100A44B80(sead::Thread* thread, s64 message);
     // 0x3610: the eleven control pointers. The constructor zero-initialises the whole 0x58-byte block
@@ -6110,11 +6100,11 @@ public:
     virtual void m211();
     virtual void m212();
     virtual s32 m213();
-    virtual void m214();
+    virtual void sub_7100A44458();
     virtual void m215();
     virtual void m216();
     virtual s32 m217();
-    virtual void m218();
+    virtual void sub_7100A44544();
     virtual void m219();
     virtual void m220();
     virtual s32 m221();
@@ -6130,7 +6120,7 @@ public:
     virtual void m231();
     virtual void m232();
     virtual s32 m233();
-    virtual void m234();
+    virtual void sub_7100A44878();
     virtual void m235();
     virtual void m236();
     virtual s32 m237();
@@ -6154,7 +6144,7 @@ public:
     virtual void m255();
     virtual void m256();
     virtual s32 m257();
-    virtual void m258();
+    virtual void sub_7100A45080();
     virtual void m259();
     virtual void m260();
     virtual s32 m261();
@@ -6182,7 +6172,7 @@ public:
     virtual void m283();
     virtual void m284();
     virtual s32 m285();
-    virtual void m286();
+    virtual void sub_7100A45DA0();
     virtual void m287();
     virtual void m288();
     virtual s32 m289();
@@ -6190,15 +6180,15 @@ public:
     virtual void m291();
     virtual void m292();
     virtual s32 m293();
-    virtual void m294();
-    virtual void m295();
+    virtual bool sub_7100A45FC0();
+    virtual void sub_7100A45FD0();
     virtual void m296();
     virtual s32 m297();
-    virtual void m298();
+    virtual void sub_7100A46004();
     virtual void m299();
     virtual void m300();
     virtual s32 m301();
-    virtual void m302();
+    virtual void sub_7100A46124();
     virtual void m303();
     virtual void m304();
     virtual s32 m305();
@@ -6210,7 +6200,7 @@ public:
     virtual void m311();
     virtual void m312();
     virtual s32 m313();
-    virtual void m314();
+    virtual void sub_7100A46268();
     virtual void m315();
     virtual void m316();
     virtual s32 m317();

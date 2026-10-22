@@ -597,6 +597,9 @@ bool SaveSystem::savePictureBook(void* data, const sead::SafeString& name, s32 s
     return true;
 }
 
+// 0x710091aef4
+SaveArchiveWork::~SaveArchiveWork() {}
+
 void SaveArchiveWork::reset(bool free_data) {
     if ((mState == 0 || mState == 3 || mState == 4) && free_data && mData)
         mHeap->free(mData);
@@ -945,6 +948,9 @@ bool SaveArchiveWork::run(void* user_data) {
     return success;
 }
 
+// 0x710091b060
+LoadArchiveWork::~LoadArchiveWork() {}
+
 void LoadArchiveWork::reset(bool free_data) {
     if ((mState == 0 || mState == 3 || mState == 4) && free_data && mData)
         mHeap->free(mData);
@@ -982,6 +988,9 @@ bool LoadArchiveWork::run(void* user_data) {
     return success;
 }
 
+// 0x710091b1d4
+SaveTransferArchiveJob::~SaveTransferArchiveJob() {}
+
 void SaveTransferArchiveJob::reset() {
     // The original reads the state again in the busy arm and drops the result (the atomic load is
     // kept by the compiler, its comparison is not).
@@ -1016,6 +1025,9 @@ bool SaveTransferArchiveJob::invoked1(void* user_data) {
     mState = success ? 3 : 4;
     return success;
 }
+
+// 0x710091b2f8
+SaveDeleteJob::~SaveDeleteJob() {}
 
 void SaveDeleteJob::reset() {
     if (mState != 0 && mState != 3)
