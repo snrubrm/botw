@@ -9,6 +9,7 @@
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/Physics/System/physSystem.h"
 #include "Game/AutoPlacement/AutoPlacementFlowMgr.h"
+#include "KingSystem/Ecosystem/ecoSystem.h"
 
 namespace uking {
 
@@ -389,6 +390,29 @@ bool AutoPlacementMgr::sub_7100659E40(ksys::act::Actor* actor, const sead::SafeS
 }
 
 // NON_MATCHING: the original reads the counter once more (a discarded volatile load) after the decrement
+// 0x7100657d2c (placeholder name): fills `set` with the enemy area items of the field area that
+// contains `pos` and returns the first positive-weight item named `name`.
+ksys::eco::AreaItem* sub_7100657D2C(ksys::eco::AreaItemSet* set, const sead::Vector3f& pos,
+                                   const sead::SafeString& name) {
+    ksys::eco::Ecosystem* eco = ksys::eco::Ecosystem::instance();
+    if (!eco)
+        return nullptr;
+
+    s32 area = eco->getFieldMapArea(pos.x, pos.z);
+    if (area < 0)
+        return nullptr;
+
+    eco->getAreaItems(area, ksys::eco::AreaItemType::Enemy, set);
+
+    for (s32 i = 0; i < set->count; ++i) {
+        ksys::eco::AreaItem* item = &set->items[i];
+        if (item->num > 0.0f && name == item->name)
+            return item;
+    }
+
+    return nullptr;
+}
+
 void AutoPlacementMgr::sub_7100659DE0(int type, bool enable) {
     if (enable) {
         ++_171e4c[type];
