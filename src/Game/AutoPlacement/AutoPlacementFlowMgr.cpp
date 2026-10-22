@@ -315,15 +315,15 @@ s32 apQueryWaterSubMat(const evfl::QueryArg& arg) {
 }
 
 // Whether the "Label" game-data bool flag is set.
-// NON_MATCHING: only the stack slot of the "Label" key temporary differs (the original frame is
-// 16 bytes larger).
+// NON_MATCHING: only the order of two independent stores differs (the key length and the out view).
 s32 apQueryCheckGameData(const evfl::QueryArg& arg) {
     ksys::gdt::Manager* mgr = ksys::gdt::Manager::instance();
     if (!mgr)
         return -1;
 
+    const ore::StringView key("Label");
     ore::StringView label;
-    if (!arg.param_accessor.FindString(&label, "Label"))
+    if (!arg.param_accessor.FindString(&label, key))
         return -1;
 
     bool value = false;
