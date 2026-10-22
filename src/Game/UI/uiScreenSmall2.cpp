@@ -205,8 +205,8 @@ void ScreenAppAlbum::m162() {
     }
 }
 
-// NON_MATCHING: the camera count is loaded sign-extended in the original and its fill loop keeps the
-// signed end compare; ours zero-extends the count load and ends the unrolled loop on !=.
+// NON_MATCHING: count is sign-extended (ldrsw) as in the original now; the unrolled fill loop still ends on
+// != where the original keeps the signed end compare (b.lt), one instruction different.
 // 0x71009d5fa4
 void ScreenAppAlbum::m163() {
     if (isTrigMaybe(8)) {
@@ -237,7 +237,7 @@ void ScreenAppAlbum::m163() {
         } else {
             invokeSoundLink2Event_("mc_Select_AllPicture");
             sUnk_71025DC54C.fill(false);
-            const s32 count = _3610;
+            const s64 count = _3610;
             sUnk_71025DC890._10 = count;
             for (s32 i = 0; i < count; ++i)
                 sUnk_71025DC54C[i] = true;
