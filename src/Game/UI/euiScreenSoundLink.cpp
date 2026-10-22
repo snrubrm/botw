@@ -183,6 +183,35 @@ void EffectLinkUser::m0() {
     }
 }
 
+// 0x71009d00b8: copies each pane's 3x4 matrix into the bone's 4x4 world matrix (transposed, zero
+// fourth column), then runs the xlink user's pre/post calculation.
+// NON_MATCHING: the original transposes with one NEON zip/ext block (the game's sead 4x4 transpose);
+// our lib's Matrix44CalcCommon::transposeTo is scalar, so this writes the same values element-wise.
+void EffectLinkUser::m1() {
+    for (auto& bone : mBones) {
+        const auto& mtx = bone.mPane->GetMtx();
+        bone.mMtx.m[0][0] = mtx.m[0][0];
+        bone.mMtx.m[0][1] = mtx.m[1][0];
+        bone.mMtx.m[0][2] = mtx.m[2][0];
+        bone.mMtx.m[0][3] = 0.0f;
+        bone.mMtx.m[1][0] = mtx.m[0][1];
+        bone.mMtx.m[1][1] = mtx.m[1][1];
+        bone.mMtx.m[1][2] = mtx.m[2][1];
+        bone.mMtx.m[1][3] = 0.0f;
+        bone.mMtx.m[2][0] = mtx.m[0][2];
+        bone.mMtx.m[2][1] = mtx.m[1][2];
+        bone.mMtx.m[2][2] = mtx.m[2][2];
+        bone.mMtx.m[2][3] = 0.0f;
+        bone._50.x = mtx.m[0][3];
+        bone._50.y = mtx.m[1][3];
+        bone._50.z = mtx.m[2][3];
+        bone._50.w = 0.0f;
+    }
+    xlink2::UserInstance* instance = mUserInstance;
+    instance->preCalc();
+    instance->postCalc();
+}
+
 // 0x71009d0144
 void EffectLinkUser::m3() {
     mUserInstance->setIsActive(true);

@@ -20,13 +20,15 @@ class LayoutEx;
 class EffectLinkUser : public xlink2::IUser, public ScreenUnkE8 {
 public:
     // One effect bone: a pane and its world matrix (0x60 bytes, allocated with 16-byte alignment).
+    // The matrix is 0x40 bytes: the first three rows are the Matrix34f the xlink getter returns,
+    // the fourth row follows it (written with the rest by m1).
     struct Bone {
         nn::ui2d::Pane* mPane = nullptr;
         void* _8 = nullptr;
         const char* mName = nullptr;
         u8 _18[0x20 - 0x18];
         /* 0x20 */ sead::Matrix34f mMtx;
-        u8 _50[0x60 - 0x50];
+        /* 0x50 */ sead::Vector4f _50;
     };
     static_assert(sizeof(Bone) == 0x60);
 
