@@ -673,3 +673,13 @@ public:
     // The map state byte compared with 4 (sub_7100F2FAAC) and 7 (PlacementMgr::requestDraw).
     u8 getMapStateMaybe() const { return _f5a; }
 };
+
+namespace agl {
+class ShaderProgramArchive;
+}
+
+namespace ksys::gfx {
+// 0x7101294a7c (called by Graphics::init): sets up the "light_analyzer" program's shader storage
+// block, its five sampler locations and its "cContext" uniform block.
+void sub_7101294A7C(agl::ShaderProgramArchive* archive, sead::Heap* heap);
+}  // namespace ksys::gfx

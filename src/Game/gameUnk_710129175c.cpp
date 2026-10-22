@@ -2,6 +2,7 @@
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelScene.h>
 #include <gsys/gsysModelUnit.h>
+#include <common/aglShaderProgramArchive.h>
 
 // Graphics' render-record TUs (0x71012915bc .. 0x71012955xx). Unk_710129175c and Unk_710129421c
 // are constructed by gameGraphics.cpp's initializer but their methods live here.
@@ -148,3 +149,20 @@ void Unk_710129421c::sub_71012955AC(f32 value, s32 index) {
     mEntries[index]._7e4 = value;
 }
 
+
+namespace ksys::gfx {
+
+void sub_7101294A7C(agl::ShaderProgramArchive* archive, sead::Heap* heap) {
+    agl::ShaderProgram* program =
+        archive->getShaderProgram(archive->searchShaderProgramIndex("light_analyzer"));
+    program->createShaderStorageBlock(5, heap);
+    program->setSamplerLocationName(0, "cGBuffer");
+    program->setSamplerLocationName(1, "cShadingBuffer");
+    program->setSamplerLocationName(2, "cExposure");
+    program->setSamplerLocationName(3, "cCubeMap");
+    program->setSamplerLocationName(4, "cCubeMap2D");
+    program->createUniformBlock(1, heap);
+    program->setUniformBlockName(0, "cContext");
+}
+
+}  // namespace ksys::gfx
