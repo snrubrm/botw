@@ -23,26 +23,28 @@ bool Unk_7100d860d8::sub_7100D87BE4() const {
 
 // Set A (L / R / U / D).
 // NON_MATCHING: regalloc (the original keeps the ratio in the divisor's register)
+// NON_MATCHING: only the fdiv destination register differs (ours s0, the original s1).
 void Unk_7100d860d8::sub_7100D897E0(const f32& value, const s32& idx) {
     if (idx < 0 || idx >= _18.size())
         return;
     _a8 -= _18[idx]._104;
-    const f32 negated = -value;
+    const f32 new_value = -value;
     const f32 old = _18[idx]._104;
-    _18[idx]._104 = negated;
-    const f32 ratio = negated / old;
+    _18[idx]._104 = new_value;
+    const f32 ratio = new_value / old;
     _a8 += _18[idx]._104;
     _18[idx]._160 *= ratio;
 }
 
-// NON_MATCHING: regalloc (the original keeps the ratio in the divisor's register)
+// NON_MATCHING: only the fdiv destination register differs (ours s0, the original s1).
 void Unk_7100d860d8::sub_7100D89884(const f32& value, const s32& idx) {
     if (idx < 0 || idx >= _18.size())
         return;
     _ac -= _18[idx]._108;
+    const f32 new_value = value;
     const f32 old = _18[idx]._108;
-    _18[idx]._108 = value;
-    const f32 ratio = value / old;
+    _18[idx]._108 = new_value;
+    const f32 ratio = new_value / old;
     _ac += _18[idx]._108;
     _18[idx]._164 *= ratio;
 }
@@ -64,28 +66,28 @@ void Unk_7100d860d8::sub_7100D899A0(const f32& value, const s32& idx) {
 }
 
 // Set B.
-// NON_MATCHING: regalloc (the original keeps the ratio in the divisor's register)
+// NON_MATCHING: only the fdiv destination register differs (ours s0, the original s1).
 void Unk_7100d860d8::sub_7100D89A20(const f32& value, const s32& idx) {
     if (idx < 0 || idx >= _18.size())
         return;
     _b8 -= _18[idx]._124;
-    const f32 negated = -value;
+    const f32 new_value = -value;
     const f32 old = _18[idx]._124;
-    _18[idx]._124 = negated;
-    const f32 ratio = negated / old;
+    _18[idx]._124 = new_value;
+    const f32 ratio = new_value / old;
     _b8 += _18[idx]._124;
     _18[idx]._170 *= ratio;
 }
 
-// NON_MATCHING: regalloc (the original keeps the ratio in the divisor's register)
+// NON_MATCHING: only the fdiv destination register differs (ours s0, the original s1).
 void Unk_7100d860d8::sub_7100D89AC4(const f32& value, const s32& idx) {
     if (idx < 0 || idx >= _18.size())
         return;
     _bc -= _18[idx]._128;
-    const f32 negated = -value;
+    const f32 new_value = -value;
     const f32 old = _18[idx]._128;
     _18[idx]._128 = value;
-    const f32 ratio = negated / old;
+    const f32 ratio = new_value / old;
     _bc += _18[idx]._128;
     _18[idx]._174 *= ratio;
 }
