@@ -37,9 +37,10 @@ public:
                                            const agl::utl::DebugTexturePage*);
     void invalidateGPUWriteCache(agl::DrawContext*, const sead::SafeString&, Resolution) const;
 
-    // 0x7100c73af4: per-buffer format. setReduceFilter 0x7100c73b30 stays U because
-    // agl::TextureFilterType is not in the agl headers.
+    // 0x7100c73af4: per-buffer format.
     void setFormat(BufferType type, agl::TextureFormat format);
+    // 0x7100c73b30: per-buffer reduce filter.
+    void setReduceFilter(BufferType type, agl::TextureFilterType filter);
     // 0x7100c73b04: sets or clears bit 1 of the per-buffer flags.
     void enableMEM2(BufferType type, bool enable);
     // 0x7100c7259c: sets or clears bit 0 of the per-buffer flags and stores the clear colour.

@@ -21,6 +21,11 @@ void GBuffer::setFormat(BufferType type, agl::TextureFormat format) {
     mBufferRecords[int(type)].mFormat = format;
 }
 
+// 0x7100c73b30
+void GBuffer::setReduceFilter(BufferType type, agl::TextureFilterType filter) {
+    mBufferRecords[int(type)].mReduceFilter = u32(filter);
+}
+
 // 0x7100c7259c
 void GBuffer::setClearColor(BufferType type, bool enable, const sead::Color4f& color) {
     BufferRecord& record = mBufferRecords[int(type)];

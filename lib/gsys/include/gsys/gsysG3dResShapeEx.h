@@ -31,6 +31,9 @@ public:
     // and independently formats its name, also consumed by callback 1200AC0.
     const nn::g3d::ResShape* getResShape() const { return mResShape; }
 
+    // 0x7100c6f580: stores the shape and its owner.
+    void setResShape(nn::g3d::ResShape* res_shape);
+
     // Inline-only in the original; name is a guess. ksys::tera 0x71011413b4 reads the attribute of
     // each of the 15 passes at +0x30 + pass * 0x100.
     agl::g3d::ModelShaderAttribute* getShaderAttribute(s32 pass) const {

@@ -23,6 +23,9 @@ public:
     // 0x7100c6d228: the record size, 0x440.
     static s32 calcRequiredMemorySize(const nn::g3d::ResMaterial* res_material);
 
+    // 0x7100c6d21c: stores the material and its owner.
+    void setResMaterial(nn::g3d::ResMaterial* res_material);
+
     // ModelResource::searchModelShader 0x7100c0c20c passes this to the shader archives.
     const nn::g3d::ResMaterial* getResMaterial() const { return mResMaterial; }
 

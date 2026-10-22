@@ -109,6 +109,18 @@ void MaskedLight::setShadowMapImpl_(int, agl::lght::LightPrePass*, const agl::Te
 void MaskedLight::drawDebugImpl_(agl::DrawContext*, const sead::Matrix34f&,
                                  const sead::Matrix44f&, int) const {}
 
+// 0x7100c79d54
+void MaskedSpotLight::getLightInfo_(agl::lght::LightPrePass* light_pre_pass,
+                                    agl::lght::LightPrePass::LightInfo* info) const {
+    light_pre_pass->getSpotLightInfo(mIndex, info);
+}
+
+// 0x7100c7ac08
+void MaskedProjLight::getLightInfo_(agl::lght::LightPrePass* light_pre_pass,
+                                    agl::lght::LightPrePass::LightInfo* info) const {
+    light_pre_pass->getProjLightInfo(mIndex, info);
+}
+
 void MaskedLight::genMessageMaskedLight(sead::hostio::Context*) {}
 
 void MaskedLight::listenPropertyEventMaskedLight(const sead::hostio::PropertyEvent*) {}

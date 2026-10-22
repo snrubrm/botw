@@ -117,5 +117,11 @@ private:
     sead::Atomic<s32> mAnimationReferenceCounter;
     u8 _18c[0x190 - 0x18c];
     mutable sead::CriticalSection mCS;
+    u8 _1d0[4];
+    // G3dResModelEx::getBufferNum 0x7100c6e7e4 reads this byte.
+    u8 mBufferNum;
+
+public:
+    u8 getBufferNum() const { return mBufferNum; }
 };
 }  // namespace gsys

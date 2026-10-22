@@ -52,8 +52,15 @@ public:
     // The constructor zeroes the whole 32-bit word.
     sead::BitFlag32 mFlags;
 
+    // 0x7100c6588c: stores the frame update scale at +0x5b8.
+    void setFrameUpdateScale(f32 scale);
+    // 0x7100c66850: the system task has no separate calc attachment.
+    void attachCalcImpl() override;
+
 private:
-    u8 _tail[0x6a8 - 0x57c];
+    u8 _57c[0x5b8 - 0x57c];
+    f32 mFrameUpdateScale;
+    u8 _5bc[0x6a8 - 0x5bc];
 };
 
 static_assert(sizeof(SystemTask) == 0x6a8);

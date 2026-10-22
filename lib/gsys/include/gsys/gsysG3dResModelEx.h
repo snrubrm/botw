@@ -23,6 +23,8 @@ public:
     // Inline-only in the original; name is a guess. C6DD78 stores the resource;
     // independent C6F3CC formats its name and callback 1200AC0 reads it.
     const nn::g3d::ResModel* getResModel() const { return mResModel; }
+    // 0x7100c6e7e4: the buffer count byte at ModelResource+0x1d4.
+    int getBufferNum() const;
     // Inline-only in the original; names are guesses. ksys::tera 0x71011413b4 indexes the
     // material (+0x18, stride 0x440) and shape (+0x20, stride 0x1190) arrays.
     G3dResMaterialEx* getMaterial(s32 index) const { return &mMaterials[index]; }

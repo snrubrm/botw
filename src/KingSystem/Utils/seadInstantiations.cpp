@@ -1,4 +1,5 @@
 #include <prim/seadSafeString.h>
+#include <container/seadTreeMap.h>
 #include <devenv/seadGameConfig.h>
 #include <framework/seadTaskBase.h>
 #include <prim/seadDelegate.h>
@@ -165,6 +166,7 @@ template class FixedSafeString<46>;
 template class FixedSafeString<236>;
 template class FixedSafeStringBase<char, 40>;
 template class FixedSafeStringBase<char, 180>;
+template class TreeMapNode<SafeStringBase<char>>;
 
 // IDelegate1 / IDelegate2 / IDelegateR are the interface bases of the out-of-line delegates in
 // these game TUs; their clone / isNoDummy bodies are inline in seadDelegate.h.
