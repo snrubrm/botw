@@ -183,6 +183,7 @@ private:
     friend s32 apQueryCheckTimeType(const evfl::QueryArg& arg);
     friend s32 apQueryRailDistance(const evfl::QueryArg& arg);
     friend void sub_7100652F3C(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler);
+    friend void sub_7100653178(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler);
 
     struct ObjectRef {
         ksys::map::Object* obj;

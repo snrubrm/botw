@@ -136,6 +136,17 @@ AutoPlacementFlowRes* AutoPlacementFlowMgr::getFlow(const sead::SafeString& acto
     return nullptr;
 }
 
+// Reads the action's "Category" parameter into the placement's category byte and marks the action
+// done.
+void sub_7100653178(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) {
+    AutoPlacementFlowRes* flow = static_cast<AutoPlacementFlowRes*>(arg.actor_user_data);
+    AutoPlacement* placement = flow->placement;
+    s32 category = -1;
+    if (arg.param_accessor.FindInt(&category, "Category"))
+        placement->_b = category;
+    handler->Invoke();
+}
+
 // Reads the action's "WaitFrame" parameter into the placement's wait frame and marks the action
 // done.
 void sub_7100652F3C(const evfl::ActionArg& arg, evfl::ActionDoneHandler* handler) {
