@@ -276,6 +276,11 @@ void Graphics::sub_7100F300D0(const sead::Color4f& color) {
     setMaterialParamColor4f(_ea8, _f58, "uking_dynamic_toon_light_adjust_for_demo", color);
 }
 
+void Graphics::setEnvMaterialParamF32(const sead::SafeString& name, f32 value) {
+    auto lock = sead::makeScopedLock(_ed8);
+    setMaterialParamF32(_ea8, _f58, name.cstr(), value);
+}
+
 void Graphics::sub_7100F2E0F4(gsys::ModelNW* model, const nn::gfx::ResTexture* texture) {
     if (!texture) {
         model->setDisplayListDirty();

@@ -606,6 +606,8 @@ public:
         auto lock = sead::makeScopedLock(_ed8);
         setMaterialParamF32(_ea8, _f58, name, value);
     }
+    // 0x7100f2e1e8 (name is a guess): the sead::SafeString overload of the setter above.
+    void setEnvMaterialParamF32(const sead::SafeString& name, f32 value);
     // inline-only in the original; name is a guess: the Colour4f twin of setMaterialParamF32, inlined
     // in 0x7100f300d0 (the only user in this TU).
     static void setMaterialParamColor4f(gsys::ModelUnit* unit, s32 material,
