@@ -103,22 +103,24 @@ bool isCameraAnimAction(const sead::SafeString& name);
 // read its frame fields.
 class CameraAnimData {
 public:
-    /* 0x00 */ void* mData = nullptr;
-    /* 0x08 */ void* _8 = nullptr;
+    CameraAnimData();
+
+    /* 0x00 */ void* mData;
+    /* 0x08 */ void* _8;
     /* 0x10 */ sead::Matrix34f mMatrix;
     /* 0x40 */ act::BaseProcLink mLink;
-    /* 0x50 */ void* _50 = nullptr;
-    /* 0x58 */ s32 _58 = 0;
-    /* 0x5c */ f32 _5c = 0;
+    /* 0x50 */ void* _50;
+    /* 0x58 */ s32 _58;
+    /* 0x5c */ f32 _5c;
     u8 _60[0x68 - 0x60];
-    /* 0x68 */ f32 _68 = 0;
+    /* 0x68 */ f32 _68;
     u8 _6c[0x74 - 0x6c];
-    /* 0x74 */ s32 _74 = 0;
-    /* 0x78 */ f32 _78 = 0;
-    /* 0x7c */ f32 _7c = -4.0f;
+    /* 0x74 */ s32 _74;
+    /* 0x78 */ f32 _78;
+    /* 0x7c */ f32 _7c;
     u8 _80[0x100 - 0x80];
-    /* 0x100 */ u8 _100 = 1;
-    /* 0x101 */ u8 _101 = 0;
+    /* 0x100 */ u8 _100;
+    /* 0x101 */ u8 _101;
     u8 _102[0x108 - 0x102];
     /* 0x108 */ sead::FixedSafeString<128> mName;
 };
@@ -140,6 +142,9 @@ class CameraSystem {
 public:
     using LoadFn = sead::Delegate1R<CameraSystem, void*, bool>;
 
+    // 0x7100da3b8c
+    explicit CameraSystem(sead::Heap* heap);
+
     // 0x7100da3db4 / 0x7100da3edc (CSV unnamed)
     virtual ~CameraSystem();
 
@@ -150,12 +155,15 @@ public:
     // Constructor DA3B8C binds this member to LoadFn; finishLoad submits that callback.
     bool sub_7100DA3D14(void* user_data);
 
-    /* 0x08 */ s32 _8;  // 1: loading, 2: the low priority request has been submitted
+    /* 0x08 */ s32 _8 = 0;  // 1: loading, 2: the low priority request has been submitted
     u8 _c[4];
     /* 0x10 */ sead::Buffer<res::Handle> _10;
     /* 0x20 */ sead::Buffer<sead::FixedSafeString<32>> _20;  // the camera names of the resource
-    /* 0x30 */ s32 _30;  // the number of loaded camera names
-    u8 _34[0x280 - 0x34];
+    /* 0x30 */ s32 _30 = 0;  // the number of loaded camera names
+    u8 _34[0x238 - 0x34];
+    /* 0x238 */ s32 _238 = 0;
+    /* 0x240 */ sead::Heap* _240;
+    /* 0x248 */ sead::FixedSafeString<32> _248;
     /* 0x280 */ sead::Matrix34f _280;
     /* 0x2b0 */ CameraAnimSource mAnimSource;
     /* 0x2c0 */ CameraAnimData* _2c0;

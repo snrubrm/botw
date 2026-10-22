@@ -18,9 +18,29 @@ bool isCameraAnimAction(const sead::SafeString& name) {
            name == "Demo_AnimFlowForMapTower" || name == "Demo_CameraAnimFlowAbs";
 }
 
+// 0x7100da3b8c
+CameraAnimData::CameraAnimData() : mLink(), mName() {
+    mData = nullptr;
+    _8 = nullptr;
+    mMatrix = sead::Matrix34f::ident;
+    _100 = 1;
+    _101 = 0;
+    _50 = nullptr;
+    _58 = 0;
+    _74 = 0;
+    _78 = 0;
+    _7c = -1.0f;
+}
+
+// 0x7100da3b8c
+CameraSystem::CameraSystem(sead::Heap* heap) : _2c8(this, &CameraSystem::sub_7100DA3D14) {
+    _240 = heap;
+    _280 = sead::Matrix34f::ident;
+    _2c0 = new (heap, std::nothrow_t()) CameraAnimData;
+}
+
 // 0x7100da3db4
-CameraSystem::~CameraSystem() {
-    _20.freeBuffer();
+CameraSystem::~CameraSystem() {    _20.freeBuffer();
     _10.freeBuffer();
 
     if (auto* mgr = Manager::instance()) {
