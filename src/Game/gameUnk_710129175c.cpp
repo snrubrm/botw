@@ -165,4 +165,37 @@ void sub_7101294A7C(agl::ShaderProgramArchive* archive, sead::Heap* heap) {
     program->setUniformBlockName(0, "cContext");
 }
 
+void sub_7101288884(agl::ShaderProgramArchive* archive, sead::Heap* heap) {
+    agl::ShaderProgram* program =
+        archive->getShaderProgram(archive->searchShaderProgramIndex("depth_analyzer"));
+    program->createShaderStorageBlock(4, heap);
+    program->setSamplerLocationName(0, "cData0");
+    program->setSamplerLocationName(1, "cData1");
+    program->setSamplerLocationName(2, "cPrevData0");
+    program->setSamplerLocationName(3, "cPrevData1");
+    program->createUniformBlock(1, heap);
+    program->setUniformBlockName(0, "cContext");
+}
+
+void sub_7101291958(agl::ShaderProgramArchive* archive, sead::Heap* heap) {
+    agl::ShaderProgram* program =
+        archive->getShaderProgram(archive->searchShaderProgramIndex("analyze_actor"));
+    program->createShaderStorageBlock(5, heap);
+    program->setSamplerLocationName(0, "cTexturePtr");
+    program->setSamplerLocationName(1, "cTextureDetectPtr");
+    program->setSamplerLocationName(2, "cTextureDetectPixel");
+    program->setSamplerLocationName(3, "cTextureDepth");
+    program->setSamplerLocationName(4, "cTextureRawDepth");
+    program->createUniformBlock(1, heap);
+    program->setUniformBlockName(0, "cContext");
+}
+
+void sub_71012A3240(agl::ShaderProgramArchive* archive, sead::Heap* heap) {
+    agl::ShaderProgram* program =
+        archive->getShaderProgram(archive->searchShaderProgramIndex("star_render"));
+    program->createUniformBlock(2, heap);
+    program->setUniformBlockName(0, "Context");
+    program->setUniformBlockName(1, "UnitInfo");
+}
+
 }  // namespace ksys::gfx

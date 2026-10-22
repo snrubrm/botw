@@ -682,4 +682,12 @@ namespace ksys::gfx {
 // 0x7101294a7c (called by Graphics::init): sets up the "light_analyzer" program's shader storage
 // block, its five sampler locations and its "cContext" uniform block.
 void sub_7101294A7C(agl::ShaderProgramArchive* archive, sead::Heap* heap);
+// 0x7101288884 (called by Graphics::init): the "depth_analyzer" program's four-data storage block,
+// four sampler locations and its cContext uniform block.
+void sub_7101288884(agl::ShaderProgramArchive* archive, sead::Heap* heap);
+// 0x71012a3240 (called by Graphics::init): the "star_render" program's Context and UnitInfo uniforms.
+void sub_71012A3240(agl::ShaderProgramArchive* archive, sead::Heap* heap);
+// 0x7101291958 (called by Graphics::init): the "analyze_actor" program's five texture sampler
+// locations and its cContext uniform block.
+void sub_7101291958(agl::ShaderProgramArchive* archive, sead::Heap* heap);
 }  // namespace ksys::gfx
