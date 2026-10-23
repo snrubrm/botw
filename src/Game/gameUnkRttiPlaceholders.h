@@ -166,13 +166,19 @@ public:
     void m5() override;
     void m8() override;
     void m14() override;
-    // 9F57C4 (m13) calls this on the same picture-book unit receiver.
+    // 9F57C4 (m13) calls these on the same picture-book unit receiver.
     void sub_71009F6220(const char* actor);
+    // 0x71009f617c: shows the actor's "%s_PictureBook" message in T_SubTextB_00.
+    void sub_71009F617C(const char* actor);
+    // 0x71009f4f58: sets the sub-text panes from the picture book mode.
+    void sub_71009F4F58(s32 mode);
 
     /* 0x48 */ uking::ui::Unk_71009cb0c8 _48;
     // zeroed by the constructor with two memsets (inlined in ScreenAppPictureBookEntry::createUnits, 0x71009fb6fc;
     // 0x4f0 bytes)
-    /* 0x330 */ u8 _330[0x48]{};
+    /* 0x330 */ eui::Animator* _330 = nullptr;
+    /* 0x338 */ eui::Animator* _338 = nullptr;
+    /* 0x340 */ u8 _340[0x38]{};
     // 0x378: the fifteen parts' materials (m4 finds each one's Pane and stores its material).
     /* 0x378 */ nn::ui2d::Material* _378[15]{};
     /* 0x3f0 */ u8 _3f0[0x78]{};

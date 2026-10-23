@@ -2789,6 +2789,11 @@ void ScreenAppPictureBookUnk::sub_7100940288() {
 namespace uking::ui {
 // Picture-book TU objects initialized by 9F2EC0.
 static sead::SafeString sUnk_71025eb9f8 = "T_SubTextA_00";
+static sead::SafeString sUnk_71025eba08 = "T_SubTextB_00";
+static sead::SafeString sUnk_71025eba28 = "T_SubTextD_00";
+static sead::SafeString sUnk_71025eba48 = "T_SubTextF_00";
+static sead::SafeString sUnk_71025eba68 = "T_SubTitleA_00";
+static sead::SafeString sUnk_71025eba78 = "T_SubTitleF_00";
 static sead::SafeString sUnk_71025ebac8 = "LayoutMsg/AppPictureBook_00";
 // 0x71025eb478: the picture-book units' fallback texture info (an external texture with no
 // descriptor).
@@ -2976,6 +2981,71 @@ void Unk_7102482790::m14() {
     }
     for (u8& flag : _468)
         flag = 0;
+}
+
+// NON_MATCHING: ours references the widget-name SafeStrings directly instead of through the picture
+// book state block; the reference shape differs (see the block merge note above).
+void Unk_7102482790::sub_71009F4F58(s32 mode) {
+    uking::ui::setWidgetString(_8, uking::ui::sUnk_71025eba48, sead::SafeString::cEmptyString);
+    uking::ui::setWidgetString(_8, uking::ui::sUnk_71025eba28, sead::SafeString::cEmptyString);
+    if (!_338)
+        return;
+    s32 value = 0;
+    s32 second = -1;
+    switch (mode) {
+    case 0:
+        _338->Stop(0.0f);
+        break;
+    case 1:
+        value = 1;
+        _338->Stop(0.0f);
+        break;
+    case 2:
+        _338->Stop(2.0f);
+        second = 4;
+        break;
+    case 3:
+        value = 1;
+        _338->Stop(2.0f);
+        second = 4;
+        break;
+    case 4:
+        _338->Stop(3.0f);
+        second = 2;
+        value = 1;
+        break;
+    case 5:
+        _338->Stop(3.0f);
+        second = 3;
+        value = 1;
+        break;
+    }
+    {
+        sead::FormatFixedSafeString<16> label("%04d", value);
+        eui::MessageString message;
+        uking::ui::getMessage(uking::ui::sUnk_71025ebac8, label, &message);
+        uking::ui::setWidgetString(_8, uking::ui::sUnk_71025eba68, message);
+    }
+    if (second == -1)
+        return;
+    {
+        sead::FormatFixedSafeString<16> label("%04d", second);
+        eui::MessageString message;
+        uking::ui::getMessage(uking::ui::sUnk_71025ebac8, label, &message);
+        uking::ui::setWidgetString(_8, uking::ui::sUnk_71025eba78, message);
+    }
+}
+
+// NON_MATCHING: the widget-name SafeStrings are separate statics in our build, so the address is a
+// direct adrp + add; the original reaches them through the merged picture-book block (base + 0x1b8).
+void Unk_7102482790::sub_71009F617C(const char* actor) {
+    const char* profile;
+    ksys::act::InfoData::instance()->getActorProfile(&profile, actor);
+    sead::FormatFixedSafeString<64> actor_type("ActorType/%s", profile);
+    sead::FormatFixedSafeString<128> message_name("%s_PictureBook", actor);
+    eui::MessageString message;
+    if (uking::ui::getMessage(actor_type, message_name, &message) == 0)
+        uking::ui::setWidgetString(_8, uking::ui::sUnk_71025eba08, message);
 }
 
 void Unk_7102482790::sub_71009F6220(const char* actor) {
