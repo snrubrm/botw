@@ -7,6 +7,10 @@
 #include <math/seadVector.h>
 #include <xlink2/xlink2HandleSLink.h>
 
+namespace ksys::phys {
+class RigidBody;
+}
+
 namespace ksys::act {
 
 // Placeholder name: the object at Actor::_6b8. Sound emission checks its counter at +0x7a;
@@ -34,6 +38,13 @@ public:
     // ReactionSetting and passes it to Reaction::Unk1::sub_7100EC72A0.
     void sub_7100EBDCB0(f32 a, f32 b, f32 c, Actor* actor, const phys::MaterialMask* mask1,
                         const phys::MaterialMask* mask2);
+    // 0x7100ebd7dc: the land reaction entry. The original passes the contact mask as EBE328's
+    // fifth argument (in x3); the call sites do not set the fourth, so it is omitted here.
+    void sub_7100EBD7DC(const sead::Vector3f& velocity, const sead::Vector3f& normal,
+                        phys::RigidBody* body, phys::RigidBody* other_body,
+                        const phys::MaterialMask* mask1, const phys::MaterialMask* mask2);
+    // 0x7100ebe328: emits the additional land reaction sound (ReactionLandAdditional).
+    void sub_7100EBE328(f32 a, f32 b, Actor* actor, const phys::MaterialMask* mask);
 
     // Two sound handles that are faded together.
     struct SoundHandles {
@@ -52,7 +63,7 @@ public:
     sead::Vector3f _40 = sead::Vector3f::zero;
     sead::Vector3f _4c = sead::Vector3f::zero;
     phys::MaterialMask _58;
-    u32 _70 = 0;
+    f32 _70 = 0;
     f32 _74 = 0;
     u16 _78 = 0;
     // 0x710105e114: values below 2 skip the chemical sound spatial flags.

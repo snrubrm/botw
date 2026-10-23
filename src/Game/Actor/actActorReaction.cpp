@@ -5,6 +5,9 @@
 #include <xlink2/xlink2Locator.h>
 #include <xlink2/xlink2EventSLink.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
+#include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/actActorX6A0.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
@@ -184,6 +187,126 @@ void ActorUnk6b8::m10() {
 void ActorUnk6b8::SoundHandles::fade(s32 frame) {
     _0.fade(frame);
     _10.fade(frame);
+}
+
+// NON_MATCHING: the member address of _70 is kept in x28 by the original (ours reloads it through
+// this), the ragdoll check is a materialised bool, and the original passes the mask as EBE328's
+// fifth argument (in x3) although its call sites leave the fourth argument unset.
+// 0x7100ebd7dc: the land reaction of a contact. Uses the component of the incoming velocity that
+// is perpendicular to the contact normal as the reaction speed, emits the additional land sound
+// while the speed is below the threshold, sets the sound user's material properties, and otherwise
+// fades or rebuilds the land reaction event. `mask1` is the contact material, `mask2` the land
+// material; a ragdoll contact uses fixed mass/volume values.
+void ActorUnk6b8::sub_7100EBD7DC(const sead::Vector3f& velocity, const sead::Vector3f& normal,
+                                 phys::RigidBody* body, phys::RigidBody* other_body,
+                                 const phys::MaterialMask* mask1,
+                                 const phys::MaterialMask* mask2) {
+    if (!_8)
+        return;
+    if (_8->getActorFlags2().isOn(Actor::ActorFlag2::_40000000))
+        return;
+    auto* xlink = _8->getXLink();
+    if (xlink && !xlink->_73.isZero())
+        return;
+    if (_8b > 0)
+        return;
+    if (_88 & 0x2000)
+        return;
+
+    s32 ragdoll = 0;
+    if (mask1->getMaterial() == phys::Material::Ragdoll) {
+        auto* player = ActorSystem::instance()->getPlayer();
+        if (player && static_cast<Actor*>(player) == _8) {
+            auto* player_link = ActorSystem::instance()->getPlayerLink();
+            if (player_link) {
+                if (player_link->m194())
+                    return;
+                if (player_link->m186())
+                    return;
+                if (player_link->m185())
+                    return;
+            }
+        }
+        ragdoll = 1;
+    }
+    if (_88 & 0x10)
+        return;
+
+    auto* actor = _8;
+    if (!actor)
+        return;
+
+    f32 mass;
+    f32 volume;
+    if (ragdoll) {
+        mass = 1200.0f;
+        volume = 10.0f;
+    } else {
+        mass = body->getMass();
+        volume = body->getVolume();
+    }
+
+    auto* reaction = Reaction::instance()->_a8;
+    if (!reaction)
+        return;
+
+    const f32 dot = velocity.dot(normal);
+    const sead::Vector3f diff = velocity - normal * dot;
+    const f32 distance = diff.length();
+
+    f32 speed = distance;
+    if (_8d <= 0) {
+        _70 = distance;
+        speed = distance;
+    } else {
+        speed = reaction->sub_7100EC87AC() * _70;
+        _70 = speed;
+        if (distance > speed) {
+            speed = distance;
+            _70 = speed;
+        }
+    }
+
+    const f32 limit = reaction->sub_7100EC8790();
+    if (!(speed >= limit) || (_88 & 0x80)) {
+        if (_20._0.isActive() || _20._10.isActive())
+            sub_7100EBE328(_70, mass, actor, mask2);
+    } else {
+        if (_20._0.isActive() || _20._10.isActive()) {
+            if (!(_88 & 1)) {
+                if (auto* xlink2 = actor->getXLink()) {
+                    auto* user = xlink2->_50;
+                    if (user) {
+                        const int material = mask2->getMaterial();
+                        user->setPropertyValue(0, material);
+                        user->setPropertyValue(
+                            1, ksys::xlink::Manager::instance()->getSubMaterialIndex(
+                                   material, mask2->getSubMaterialIdx()));
+                        user->setPropertyValue(4, _70);
+                    }
+                }
+            } else if (((mask2->getRawData() ^ _58.getRawData()) & 0x3ff) != 0) {
+                _20._0.fade(reaction->sub_7100EC87A4());
+                _8d = 0;
+                _58 = *mask2;
+            }
+        }
+
+        const s32* life = actor->getLife();
+        if (life && *actor->getLife() <= 0 && !ragdoll) {
+            _20.fade(-1);
+        } else if (!(_8a & 2)) {
+            _20.fade(-1);
+        } else {
+            if (_20._0.isActive())
+                sub_7100EBE328(_70, mass, actor, mask2);
+            else
+                sub_7100EBDCB0(_70, mass, volume, actor, mask1, mask2);
+            _8d = reaction->sub_7100EC879C();
+        }
+    }
+
+    _88 |= 0x10;
 }
 
 // NON_MATCHING: the body and call sequence match, but the ReactionSetting, the ByamlIter local and
