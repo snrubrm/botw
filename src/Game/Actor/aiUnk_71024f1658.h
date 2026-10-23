@@ -45,6 +45,10 @@ public:
     /* 0x71 */ s8 _71 = 0;
     /* 0x72 */ s8 _72 = 1;
     /* 0x78 */ sead::SafeArray<sead::FixedSafeString<32>, 32> _78;
-    /* 0x778 */ u8 _778[0x40];
+    // Connection tables indexed by route point: the point is a valid neighbour in the forward /
+    // backward direction when the byte is non-zero (1 / -1 are the two route directions).
+    /* 0x778 */ sead::SafeArray<s8, 31> _778;
+    /* 0x797 */ sead::SafeArray<s8, 31> _797;
+    /* 0x7b6 */ u8 _7b6[2];
 };
 static_assert(sizeof(Unk_71024f1658) == 0x7b8);

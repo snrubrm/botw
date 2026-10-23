@@ -8,6 +8,7 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapRail.h"
 #include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
 #include <cfloat>
 
 Unk_71024f15c0::Unk_71024f15c0() = default;
@@ -408,6 +409,56 @@ bool Unk_71024f15c0::Data::sub_7100EEB514(const ksys::map::RailConnectablePoint*
 
 // NON_MATCHING: the original compares _71 with 1 (b.le); ours with 2 (b.lt). Same logic.
 Unk_71024f1658::Unk_71024f1658() : _78() {}
+
+// NON_MATCHING: the random-point/neighbour selection and all values match; the residual
+// differences are the original's `_71 > 1` compare (cmp #1 / b.le where ours uses cmp #2 /
+// b.lt, the same as this class's ctor), the signed 8-bit table loads (ours canonicalises them
+// to unsigned loads with equivalent compares) and the max(next, 0) lowering (bic vs csinc).
+bool Unk_71024f1658::m5() {
+    auto* mgr = ksys::map::PlacementMgr::instance();
+    if (!mgr)
+        return false;
+
+    const ksys::map::RailConnectablePoint* point;
+    if (_71 > 1) {
+        _70 = s8(sead::GlobalRandom::instance()->getU32(u32(_71)));
+        if (_70 == 0) {
+            _72 = 1;
+        } else if (_70 == _71 - 1) {
+            _72 = -1;
+        } else {
+            _72 = (sead::GlobalRandom::instance()->getU32() & 2) - 1;
+        }
+
+        const s32 step = _72 < 1 ? -1 : 0;
+        const auto& table = _72 > 0 ? _778 : _797;
+        s32 next = _70;
+        s32 value = table[next + step];
+        if (value == 0) {
+            next = _70 + _72;
+            if (next < 0)
+                next = 0;
+            if (next >= _71)
+                next = _71 - 2;
+            value = table[next + step];
+        }
+        _70 = next;
+        _58 = value == 1 || value == -1 ? value : 1;
+        point = ksys::map::PlacementMgr::instance()->__auto10(_78[next]);
+    } else {
+        point = mgr->roadStuff(_60);
+    }
+    if (!point) {
+        m2();
+        return false;
+    }
+    if (!_30.sub_7100EEB3B4(point)) {
+        m2();
+        return false;
+    }
+    x(0.1f);
+    return _30.rail != nullptr;
+}
 
 bool Unk_71024f1658::sub_7100EEDDA4(const sead::Vector3f& position) {
     if (_71 > 1)
