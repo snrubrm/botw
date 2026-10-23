@@ -897,7 +897,7 @@ public:
     virtual void m39() {}
     // Writes the record of a tree added by sub_7101084FB8 (declaration only).
     virtual void m40(const sead::Vector3f& pos, const sead::Vector3f& a, const sead::Vector3f& rotate,
-                     u32 b, u8 c, s32 index, s32 ix, s32 iz, f32 scale);
+                     u32 b, u32 c, s32 index, s32 ix, s32 iz, f32 scale);
     virtual void m41(void* arg) {}
     virtual u32 m42();
     virtual void m43();
@@ -910,7 +910,7 @@ public:
     void sub_7101084E78();
     // 0x7101084fb8: adds a tree record at `pos` (slot 40); its index, or -1 over the area limit.
     s32 sub_7101084FB8(const sead::Vector3f& pos, const sead::Vector3f& a, const sead::Vector3f& rotate,
-                       u32 b, u8 c, f32 scale);
+                       u32 b, u32 c, f32 scale);
     // 0x7101084d9c: counts a tree at `pos` (and its sub-cell while under the area limit).
     void sub_7101084D9C(const sead::Vector3f& pos);
     // 0x7101084f6c: clears this type's count table, then runs slot 39.

@@ -1263,6 +1263,96 @@ void Core::Unk_140::sub_71010827DC() {
     _14cd[1]->sub_7101084D04();
 }
 
+namespace {
+
+// The tree-placement record 0x7101082878 builds on its stack: position and rotation, the scale and
+// the command index. It writes the index as an integer where the scale's z would be (the command
+// still receives the three floats), so the two share their storage.
+struct TreePlacementMaybe {
+    sead::Vector3f mPosition;
+    sead::Vector3f mRotate;
+    struct Parts {
+        f32 mScaleX;
+        f32 mScaleY;
+        s32 mIndex;
+    };
+    union {
+        sead::Vector3f mScale;
+        Parts mParts;
+    };
+    u32 _24;
+    u32 _28;
+    f32 _2c;
+};
+static_assert(sizeof(TreePlacementMaybe) == 0x30);
+
+// The stack placer objects the two entry points hand to the shared dispatcher; each has one virtual
+// (vtable 0x7102504400 / 0x7102504418). Both classes are local to Core's TU in the original, which
+// reaches the vtables with a plain adrp + add.
+class TreePlacer {
+public:
+    virtual s32 m0(const TreePlacementMaybe& record) = 0;
+};
+
+// 0x7101084008: counts the record in the tree type selected by its index.
+class Unk_7102504400 : public TreePlacer {
+public:
+    explicit Unk_7102504400(sead::SafeArray<Unk_71025046d0*, 2>* cmds) : mCmds(cmds) {}
+    s32 m0(const TreePlacementMaybe& record) override;
+    sead::SafeArray<Unk_71025046d0*, 2>* mCmds;
+};
+
+// 0x7101084034: counts the record in the tile its position falls in, then adds it to the command
+// selected by its index.
+class Unk_7102504418 : public TreePlacer {
+public:
+    Unk_7102504418(Core::Unk_140::TableEntry (*tables)[8],
+                   sead::SafeArray<Unk_71025046d0*, 2>* cmds)
+        : mTables(tables), mCmds(cmds) {}
+    s32 m0(const TreePlacementMaybe& record) override;
+    Core::Unk_140::TableEntry (*mTables)[8];
+    sead::SafeArray<Unk_71025046d0*, 2>* mCmds;
+};
+
+// 0x7101082878 (declared only): builds the placement record and runs `placer.m0` on it.
+s32 sub_7101082878(TreePlacer& placer, const sead::SafeString& name, const sead::Vector3f& pos,
+                   const sead::Vector3f& a, const sead::Vector3f& b);
+
+s32 Unk_7102504400::m0(const TreePlacementMaybe& record) {
+    (*mCmds)[record.mParts.mIndex]->sub_7101084D9C(record.mPosition);
+    return 0;
+}
+
+// NON_MATCHING: the tile clamp keeps `cmp (floor + K), #0` in the original; our clang folds it to
+// `cmn floor, #K` and hoists the 9 / 7 constants (the same difference as 0x710107f9c4 / fa0c).
+s32 Unk_7102504418::m0(const TreePlacementMaybe& record) {
+    const s32 table = sead::Mathi::clamp(sead::Mathf::floor(record.mPosition.x / 1000.0f) + 5, 0, 9);
+    const s32 entry = sead::Mathi::clamp(sead::Mathf::floor(record.mPosition.z / 1000.0f) + 4, 0, 7);
+    mTables[table][entry].sub_7101083D50(record.mParts.mIndex, &record.mPosition);
+    return (*mCmds)[record.mParts.mIndex]->sub_7101084FB8(
+        record.mPosition, record.mScale, record.mRotate, record._24, record._28, record._2c);
+}
+
+}  // namespace
+
+// 0x7101082824 (unnamed): counts a tree placed at `pos` in the command-array placer.
+void Core::Unk_140::sub_7101082824(const sead::SafeString& name, const sead::Vector3f& pos) {
+    if (_8 & 4)
+        return;
+    Unk_7102504400 placer(&_14cd);
+    sub_7101082878(placer, name, pos, sead::Vector3f::zero, sead::Vector3f::ones);
+}
+
+// 0x71010832b0 (unnamed): counts a tree placed with `rotate` / `scale`; -1 unless (_8 & 6) == 2.
+s32 Core::Unk_140::sub_71010832B0(const sead::SafeString& name, const sead::Vector3f& pos,
+                                  const sead::Vector3f& rotate, const sead::Vector3f& scale,
+                                  f32 unk) {
+    if ((_8 & 6) != 2)
+        return -1;
+    Unk_7102504418 placer(mTables, &_14cd);
+    return sub_7101082878(placer, name, pos, rotate, scale);
+}
+
 // NON_MATCHING: the original peels five boxes out of the 21-box reset loop, our clang unrolls the loop
 // differently (same stores, different split).
 // 0x71010831f0 (unnamed): stores the table / entry indices and resets the 21 boxes.

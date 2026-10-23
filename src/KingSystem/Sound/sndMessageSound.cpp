@@ -384,7 +384,7 @@ void Unk_71025046d0::sub_7101084F6C() {
 
 // NON_MATCHING: instruction scheduling (the original loads all three offsets before the two increments).
 s32 Unk_71025046d0::sub_7101084FB8(const sead::Vector3f& pos, const sead::Vector3f& a,
-                                   const sead::Vector3f& rotate, u32 b, u8 c, f32 scale) {
+                                   const sead::Vector3f& rotate, u32 b, u32 c, f32 scale) {
     const u32 type = m28();
     const s32 ix = ksys::tera::sub_710107F9C4(pos.x);
     const s32 iz = ksys::tera::sub_710107FA0C(pos.z);
