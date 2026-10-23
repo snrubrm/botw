@@ -253,6 +253,16 @@ bool Core::sub_7101300D50(u32 index, bool a, bool b) {
     return true;
 }
 
+// 0x7101300800 (unnamed): runs the cleanup, deletes the core and destroys both of its heaps.
+void Core::sub_7101300800() {
+    sead::Heap* heap = mHeap;
+    sead::Heap* model_heap = mModelHeap;
+    sub_710130063C();
+    delete this;
+    model_heap->destroy();
+    heap->destroy();
+}
+
 void Core::releaseAllNodeGroups() {
     for (auto& system : mSystems)
         system.sub_7101117874();

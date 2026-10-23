@@ -31,6 +31,7 @@
 #include <thread/seadReadWriteLock.h>
 #include <thread/seadThread.h>
 #include <common/aglGPUMemAddr.h>
+#include <common/aglUniformBlock.h>
 #include <common/aglGPUMemBlock.h>
 #include <common/aglTextureSampler.h>
 #include <cull/aglViewFrustumCulling.h>
@@ -82,6 +83,14 @@ class Handle;
 namespace ksys::tera {
 
 struct GrassEntry;
+
+// One 0x2e8-byte tree-type record of the table at Core::Unk_140 + 0x10: the per-type buffer whose
+// index 0x71010816d0 sets from Core's _364 (an agl::UniformBlock at +0x270).
+struct TreeTypeMaybe {
+    u8 _0[0x270];
+    agl::UniformBlock mBlock;
+};
+KSYS_CHECK_SIZE_NX150(TreeTypeMaybe, 0x2e8);
 
 // Existing terrain draw-state setter called by GearMgr teardown.
 void sub_7100F418B8(void* value);
@@ -396,6 +405,10 @@ public:
     void releaseAllNodeGroups();
     void sub_71013009C4(sead::Heap* heap);
     bool sub_7101300D50(u32 index, bool a, bool b);
+    // 0x710130063c (unnamed): releases the model, the buffers and the grass / tree objects.
+    void sub_710130063C();
+    // 0x7101300800 (unnamed): runs the cleanup, deletes the core and destroys both of its heaps.
+    void sub_7101300800();
 
     class Model;
     class Tree;
@@ -472,12 +485,16 @@ public:
         // 0x7101080a0c (placeholder name): clears the low flag bits and advances the 0..15 counter unless the
         // terrain debug flag or _8 bit 0 stops it.
         void sub_7101080A0C();
-
+        // 0x71010816d0 (unnamed): unless the terrain debug flag or _8 bit 0 stops it, sets the buffer
+        // index of every tree type and of both draw commands.
+        void sub_71010816D0(u32 value);
         u8 _0[8];
         u32 _8;
         /* 0x0c */ u32 _c;
+        // 0x10: the tree-type records whose buffers 0x71010816d0 re-indexes.
+        sead::Buffer<TreeTypeMaybe> mTreeTypes;
+        u8 _20[8];
         // +0x28: heap passed to every table entry setup and to the two sub-objects.
-        u8 _d[0x28 - 0x10];
         sead::Heap* _28;
         // Ten tables of eight entries: table 0 / 1 at +0x30 / +0xd30 (0x7101083060 / 0x710108330c).
         TableEntry mTables[10][8];
