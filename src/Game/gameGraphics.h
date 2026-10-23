@@ -20,6 +20,9 @@
 #include <gsys/gsysModelRenderContext.h>
 #include <gsys/gsysModelRenderUnitNodeArray.h>
 #include <gsys/gsysModelUnit.h>
+#include <gsys/gsysModelSceneContext.h>
+#include <gsys/gsysModelRenderCache.h>
+#include <common/aglDrawContext.h>
 #include <common/aglTextureSampler.h>
 #include <common/aglUniformBlock.h>
 #include <cull/aglOcclusionQueryDrawer.h>

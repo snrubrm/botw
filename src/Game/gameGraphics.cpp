@@ -183,6 +183,16 @@ void Graphics::sub_7100F2DF04(Unk_7100F2DF04Arg* arg) {
     arg->_10->_64 = 5;
 }
 
+// 0x7100f2de80 (unnamed in the CSV; free function): draws one particle pass of a model render cache
+// in the particle editor; the fourth argument is not used.
+void sub_7100F2DE80(agl::DrawContext* draw, const gsys::RenderBufferContext& context,
+                    gsys::ModelSceneContext* scene, void* unk, gsys::ModelRenderCache* cache) {
+    cache->setPassViewProjIndex(Unk_710260af28::instance()->sub_7100F1EE98());
+    scene->drawParticle(draw, context, static_cast<gsys::ParticlePass>(0x1a),
+                        static_cast<gsys::ParticleShaderType>(0), 0, cache);
+    cache->setPassViewProjIndex(Unk_710260af28::instance()->sub_7100F1EEA0());
+}
+
 void Graphics::sub_7100F3590C(f32 value) {
     _370->sub_710129558C(value, 0);
 }
