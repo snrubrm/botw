@@ -630,4 +630,89 @@ void Reaction::Unk1::sub_7100EC4880(DamageReactionRequest* request) {
     }
 }
 
+// NON_MATCHING: the body is the same, but the original keeps the target kind in a stack slot
+// (str / ldr around the two adjustments) while ours if-converts them into a register, and it keeps
+// the per-kind mask in x22 across the calls; 8 instructions differ.
+// 0x7100ec4594 (placeholder name): the player / enemy hit reaction. The target kind 4 counts as 3
+// unless request bit 4 is set; the EnemyHit branch records a per-kind emitted bit and also emits the
+// SpHit event, and kinds 5 / 8 emit the object-hit reaction and the BreakByReaction event.
+void Reaction::Unk1::sub_7100EC4594(DamageReactionRequest* request) {
+    s32 kind = request->_98;
+    if (kind == 4 && !(request->_c4 & 0x10))
+        kind = 3;
+    else if (kind == 3 && request->_94 == 3)
+        kind = 5;
+
+    switch (kind) {
+    case 1: {
+        xlink2::HandleSLink handle;
+        if (request->mSource.mActor || request->mSource.mLink) {
+            sub_7100EC539C(request, &handle, "PlayerHit");
+            if (!handle.isActive())
+                sub_7100EC447C(_10, request, &handle, "PlayerHit");
+        } else {
+            sub_7100EC447C(_10, request, &handle, "PlayerHit");
+        }
+        break;
+    }
+    case 3: {
+        const s32 flag = (request->_94 == 8 || request->_94 == 5) ? 3 : 2;
+        const u8 mask = u8(1 << flag);
+        if (!(_104 & mask)) {
+            {
+                xlink2::HandleSLink handle;
+                if (request->mSource.mActor || request->mSource.mLink) {
+                    sub_7100EC539C(request, &handle, "EnemyHit");
+                    if (!handle.isActive())
+                        sub_7100EC447C(_10, request, &handle, "EnemyHit");
+                } else {
+                    sub_7100EC447C(_10, request, &handle, "EnemyHit");
+                }
+            }
+            if ((request->_a4 & ~1) == 2) {
+                xlink2::HandleSLink handle;
+                if (request->mSource.mActor || request->mSource.mLink) {
+                    sub_7100EC539C(request, &handle, "HitAdditional_SpHit");
+                    if (!handle.isActive())
+                        sub_7100EC447C(_10, request, &handle, "HitAdditional_SpHit");
+                } else {
+                    sub_7100EC447C(_10, request, &handle, "HitAdditional_SpHit");
+                }
+            }
+        }
+        _104 |= mask;
+        break;
+    }
+    case 5:
+    case 8: {
+        sub_7100EC6E30(request);
+        if (request->_c4 & 1) {
+            if (auto* actor = request->_b8) {
+                if (auto* xlink = actor->getXLink()) {
+                    if (xlink->_cc.isOn(0x200000)) {
+                        if (auto* user = xlink->_50) {
+                            auto break_handle = user->searchAndEmit("BreakByReaction");
+                            eft::sub_710105E060(&break_handle, request->mtx);
+                        }
+                    }
+                }
+            }
+        }
+        break;
+    }
+    case 9: {
+        xlink2::HandleSLink handle;
+        if (request->mSource.mActor || request->mSource.mLink) {
+            sub_7100EC539C(request, &handle, "EnemyHit");
+            if (!handle.isActive())
+                sub_7100EC447C(_10, request, &handle, "EnemyHit");
+        } else {
+            sub_7100EC447C(_10, request, &handle, "EnemyHit");
+        }
+        sub_7100EC6E30(request);
+        break;
+    }
+    }
+}
+
 }  // namespace ksys::act
