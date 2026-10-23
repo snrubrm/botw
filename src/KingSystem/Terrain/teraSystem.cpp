@@ -1234,13 +1234,13 @@ void Unk_7101106F44::sub_71011206E4(Unk_7101106F44** node, sead::Vector2f* cente
 void Core::Unk_140::sub_71010827DC() {
     if (_8 & 4)
         _8 &= ~4u;
-    _14cd0->sub_7101084D04();
-    _14cd8->sub_7101084D04();
+    _14cd[0]->sub_7101084D04();
+    _14cd[1]->sub_7101084D04();
 }
 
 void Core::Unk_140::sub_7101083028() {
-    _14cd0->sub_7101084E78();
-    _14cd8->sub_7101084E78();
+    _14cd[0]->sub_7101084E78();
+    _14cd[1]->sub_7101084E78();
 }
 
 // 0x7101080a0c (placeholder name): clears the low flag bits and advances the 0..15 counter unless the
@@ -1255,6 +1255,16 @@ void Core::Unk_140::sub_7101080A0C() {
         _c &= ~u32(3);
     if (++_14ccc > 15)
         _14ccc = 0;
+}
+
+// 0x7101083a58 (placeholder name): runs slot 31 of draw command `index`.
+s32 Core::Unk_140::sub_7101083A58(s32 index) {
+    return _14cd[index]->m31();
+}
+
+// 0x7101083a80 (placeholder name): runs slot 32 of draw command `index`.
+s32 Core::Unk_140::sub_7101083A80(s32 index) {
+    return _14cd[index]->m32();
 }
 
 // 0x71010839c4 (placeholder name): stores value (clamped to 0..1) scaled to 4000..8000 at +0x14cb8.
@@ -1272,8 +1282,8 @@ void Core::Unk_140::sub_7101083060() {
             for (s32 table = 0; table < 10; ++table)
                 mTables[table][index].init(table, index);
         }
-        _14cd0->sub_7101084F6C();
-        _14cd8->sub_7101084F6C();
+        _14cd[0]->sub_7101084F6C();
+        _14cd[1]->sub_7101084F6C();
     }
 }
 
@@ -1284,8 +1294,8 @@ void Core::Unk_140::sub_710108330C() {
             for (s32 table = 0; table < 10; ++table)
                 mTables[table][index].setup(_28);
         }
-        _14cd0->sub_710108515C(_28);
-        _14cd8->sub_710108515C(_28);
+        _14cd[0]->sub_710108515C(_28);
+        _14cd[1]->sub_710108515C(_28);
         _8 |= 4;
     }
 }

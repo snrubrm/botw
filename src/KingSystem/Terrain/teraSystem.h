@@ -415,6 +415,9 @@ public:
         void sub_7101083B78(u16 index, const sead::Vector3f& pos, bool b);
         // 0x71010839c4 (placeholder name): stores value (clamped to 0..1) scaled to 4000..8000 at +0x14cb8.
         void sub_71010839C4(f32 value);
+        // 0x7101083a58 / 0x7101083a80 (placeholder names): run slot 31 / 32 of draw command `index`.
+        s32 sub_7101083A58(s32 index);
+        s32 sub_7101083A80(s32 index);
         // 0x7101080a0c (placeholder name): clears the low flag bits and advances the 0..15 counter unless the
         // terrain debug flag or _8 bit 0 stops it.
         void sub_7101080A0C();
@@ -431,9 +434,9 @@ public:
         /* 0x14cb8 */ f32 _14cb8;
         u8 _14cbc[0x14ccc - 0x14cbc];
         /* 0x14ccc */ u32 _14ccc;
-        // The two tree draw commands.
-        Unk_71025046d0* _14cd0;
-        Unk_71025046d0* _14cd8;
+        // The two tree draw commands (0x14cd0 / 0x14cd8). Indexed through a SafeArray so the
+        // helpers 0x7101083a58 / 0x7101083a80 use its index-0 fallback.
+        sead::SafeArray<Unk_71025046d0*, 2> _14cd;
     };
 
     // gsys::IModelProcedural (0xe0) plus the Core fields at 0xe0..0xf0 (the heap at 0xe0).
