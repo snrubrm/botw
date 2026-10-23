@@ -362,6 +362,88 @@ void ScreenPauseMenu::m94() {
     }
 }
 
+// 0x7101e79508: the direction mask of each box cursor move mode (modes 3-6)
+static const s32 sUnk_7101e79508[4] = {0x400, 0x8, 0x1000, 0x2};
+
+// 0x7100a36400: the pause menu's button mask for this frame. A decided button wins, then the face /
+// direction triggers, then the box cursor's move direction; otherwise the hold / repeat state that
+// continues a close or a page move from the previous frame's mask (`_361c`).
+// NON_MATCHING: the 0x200 arm's csel lands in w0 (the original keeps the mask in w20 and shares the
+// tst / csel tail with the 0x100 arm) and the epilogue's mov w0, w20 is scheduled one load earlier.
+u32 ScreenPauseMenu::sub_7100A36400() {
+    u32 mask = 0;
+    if (mButtonGroup->FindDownButton()) {
+        mask = 1;
+    } else if (isTrigMaybe(0x1)) {
+        mask = 0x4002;
+    } else if (isTrigMaybe(0x2)) {
+        mask = 0x4004;
+    } else if (isTrigMaybe(0x8)) {
+        mask = 0x4008;
+    } else if (isTrigMaybe(0x10)) {
+        mask = 0x4010;
+    } else if (isTrigMaybe(0x40)) {
+        mask = 0x4020;
+    } else if (isTrigMaybe(0x4020)) {
+        mask = 0x4200;
+    } else if (isTrigMaybe(0x2004)) {
+        mask = 0x4100;
+    } else if (isTrigMaybe(0x08000000)) {
+        mask = 0x4080;
+    } else if (isTrigMaybe(0x04000000)) {
+        mask = 0x4040;
+    } else {
+        switch (eui::ScreenMgr::instance()->getBoxCursorMgr()->mMode) {
+        case eui::BoxCursorMgr::Mode::_3:
+            mask = 0x400;
+            break;
+        case eui::BoxCursorMgr::Mode::_4:
+            mask = 0x8;
+            break;
+        case eui::BoxCursorMgr::Mode::_5:
+            mask = 0x1000;
+            break;
+        case eui::BoxCursorMgr::Mode::_6:
+            mask = 0x2;
+            break;
+        default:
+            if (_361c & 0x200) {
+                mask = 0x10040;
+                if (isHoldMaybe(0x4020))
+                    mask += 0x1c0;
+                else
+                    mask = 0;
+            } else if (_361c & 0x100) {
+                mask = 0x10040;
+                if (isHoldMaybe(0x2004))
+                    mask += 0xc0;
+                else
+                    mask = 0;
+            } else if (_361c & 0x80) {
+                mask = 0x10040;
+                if (isHoldMaybe(0x08000000))
+                    mask += 0x40;
+                else
+                    mask = 0;
+                if ((_292 & 0x40) && sub_71010AA9D0() && mUIController &&
+                    mUIController->isRepeat(0x08000000))
+                    mask |= 0x8080;
+            } else if (_361c & 0x40) {
+                mask = 0x10040;
+                if (!isHoldMaybe(0x04000000))
+                    mask = 0;
+                if ((_292 & 0x40) && sub_71010AA9D0() && mUIController &&
+                    mUIController->isRepeat(0x04000000))
+                    mask |= 0x8040;
+            } else {
+                mask = 0;
+            }
+            break;
+        }
+    }
+    return mask;
+}
+
 // 0x7100a37d0c
 void ScreenPauseMenu::m99() {
     if (_3664.isUndef()) {
