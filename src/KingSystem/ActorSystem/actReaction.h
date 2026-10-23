@@ -309,7 +309,8 @@ public:
         /* 0x100 */ bool mHasBushTrack = false;
         // Player::m377 writes whether lower armor is Armor_Default_Lower; footstep assets use it.
         /* 0x101 */ bool mIsPlayerBarefoot = false;
-        u8 _102[2]{};
+        u8 _102 = 0;
+        /* 0x103 */ u8 _103 = 0;
         // Per-reaction-kind emitted flags: bit 0 for the Hit kind, bit 1 for the others.
         /* 0x104 */ u8 _104 = 0;
         u8 _105[3];
@@ -318,7 +319,7 @@ public:
         /* 0x108 */ s32 _108 = 0;
         /* 0x10c */ s32 _10c = 0;
         /* 0x110 */ s32 _110 = 0;
-        u8 _114[4]{};
+        /* 0x114 */ s32 _114 = 0;
         /* 0x118 */ s32 _118 = 0;
         u8 _11c[4]{};
     };

@@ -21,6 +21,23 @@ xlink2::UserInstanceSLink* sub_710105DE68(const char* name, act::Actor* actor, a
 
 namespace ksys::act {
 
+void Reaction::Unk1::sub_7100EC30C4() {
+    if (mSLinkLimiter)
+        mSLinkLimiter->calc();
+    mReactions.calc();
+    _108 = 0;
+    _10c = 0;
+    if (_110 > 0)
+        --_110;
+    if (_114 > 0)
+        --_114;
+    if (_118 > 0)
+        --_118;
+    if (_103)
+        --_103;
+    _104 = 0;
+}
+
 bool Reaction::Unk1::sub_7100EC6DD0(Actor* actor) {
     auto& reactions = mReactions;
     const sead::CoreId core = sead::CoreInfo::getCurrentCoreId();
