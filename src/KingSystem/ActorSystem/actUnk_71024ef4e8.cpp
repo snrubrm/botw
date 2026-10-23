@@ -15,6 +15,9 @@
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 #include "KingSystem/Physics/System/physShapeCast.h"
 #include "KingSystem/Utils/InitTimeInfo.h"
+#include "KingSystem/XLink/xlinkXLink.h"
+#include <xlink2/xlink2UserInstanceSLink.h>
+#include <xlink2/xlink2HandleSLink.h>
 
 namespace ksys::act {
 
@@ -431,8 +434,8 @@ void Unk_71024ef4e8::sub_7100EB57F0(const sead::Matrix34f& mtx) {
     _110.reset(0x880000);
     _110.set(0x80000);
     _188 = mtx;
-    _1b8 = 1.0f;
-    _1bc = 1.0f;
+    _1b8.value = 1.0f;
+    _1b8.previous_value = 1.0f;
 }
 
 // NON_MATCHING: same bodies and contact layers; the original loads the index array and the body
@@ -504,6 +507,23 @@ void Unk_71024ef4e8::sub_7100EB2394() {
         _18->getRigidBodies_()[i]->setMass(_60[i]);
 }
 
+// 0x7100eb3084 (placeholder name): interpolates the controller matrix towards the body transform
+// with the timer value; once the timer reaches one the transform is copied directly.
+void Unk_71024ef4e8::sub_7100EB3084() {
+    sead::Matrix34f mtx;
+    _c0->_10->getTransform(&mtx);
+    if (_1b8.value < 1.0f) {
+        _1b8.update();
+        sead::Matrix34CalcCommon<f32>::slerpTo(mMtx, _188, mtx, _1b8.value);
+        mMtx.setTranslation(_188.getTranslation() +
+                            (mtx.getTranslation() - _188.getTranslation()) * _1b8.value);
+    } else {
+        mMtx = mtx;
+    }
+    _10->sub_7100F5F938(mMtx);
+    _c0->sub_7100EBB670();
+}
+
 void Unk_71024ef4e8::sub_7100EB5550() {
     _110.set(0x4);
 }
@@ -546,9 +566,9 @@ void Unk_71024ef4e8::sub_7100EB5410() {
 }
 
 void Unk_71024ef4e8::sub_7100EB548C() {
-    _1b8 = 0;
-    _1bc = 0;
-    _1c0 = 0.2f;
+    _1b8.value = 0;
+    _1b8.previous_value = 0;
+    _1b8.rate = 0.2f;
     _10->physicsXXXGetMtx_1(&_188);
     _110.reset(0x8006);
     _110.set(0x2);
@@ -605,8 +625,7 @@ void Unk_71024ef4e8::sub_7100EB56E8() {
 
 // NON_MATCHING: only the register numbers of the flag byte and the mask address are swapped.
 phys::MaterialMask* Unk_71024ef4e8::Unk3::sub_7100EB9EA8() {
-    const u8 flags = _74;
-    return (flags & 2) ? &_138 : nullptr;
+    return (_74 & 2) ? &_138 : nullptr;
 }
 
 void Unk_71024ef4e8::Unk3::sub_7100EBA2EC(Actor* actor) {
@@ -614,6 +633,17 @@ void Unk_71024ef4e8::Unk3::sub_7100EBA2EC(Actor* actor) {
         return;
     _160 = actor;
     _168 = actor->getXLink();
+}
+
+void Unk_71024ef4e8::Unk3::emitSurfBump() {
+    if (!_168)
+        return;
+    auto* user = _168->_50;
+    if (!user)
+        return;
+    if (!(_74 & 2))
+        return;
+    user->searchAndEmit("SurfBump");
 }
 
 }  // namespace ksys::act

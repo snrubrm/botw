@@ -48,6 +48,8 @@ public:
     void sub_7100EBA9F0(as::ASList* as_list, bool flag);
     // 0x7100eba4c0 (declared only): starts the surfing body.
     void sub_7100EBA4C0();
+    // 0x7100ebb670 (empty in the original; CSV nullsub_4033): no-op called after the matrix update.
+    void sub_7100EBB670();
 
     /* 0x08 */ Actor* _8 = nullptr;
     /* 0x10 */ phys::RigidBody* _10;

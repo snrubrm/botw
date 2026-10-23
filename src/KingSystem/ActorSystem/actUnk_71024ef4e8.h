@@ -7,6 +7,7 @@
 #include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Physics/physMaterialMask.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::phys {
@@ -88,6 +89,8 @@ public:
         phys::MaterialMask* sub_7100EB9EA8();
         // 0x7100eba2ec: stores the actor and its XLink at +0x160 / +0x168.
         void sub_7100EBA2EC(Actor* actor);
+        // 0x7100eba130 (placeholder name): emits the "SurfBump" SLink event while _74 bit 1 is set.
+        void emitSurfBump();
 
         u8 _0[0x74];
         /* 0x74 */ u8 _74;
@@ -206,6 +209,9 @@ public:
 
     // 0x7100eb2394: applies the buoyancy scale, the centre of mass and the masses to the bodies. 0x7100eb4814 / 0x7100eb4928 (declared only; 276 / 1892 bytes).
     void sub_7100EB2394();
+    // 0x7100eb3084 (placeholder name): interpolates the controller matrix towards the body
+    // transform with the timer value, or copies it once the timer has reached one.
+    void sub_7100EB3084();
     // 0x7100eb2884 (placeholder name): feeds the negated Unk2 contact offset at _1a8 / _1b4 to the
     // character controller when the attach is active and the floor does not stop the move.
     void sub_7100EB2884();
@@ -290,9 +296,8 @@ public:
     /* 0x16c */ u8 _16c;  // Unk_710245a028::m2 counts a ground hit when set (player flag bit 19)
     u8 _16d[0x188 - 0x16d];
     /* 0x188 */ sead::Matrix34f _188;
-    /* 0x1b8 */ f32 _1b8;
-    /* 0x1bc */ f32 _1bc;
-    /* 0x1c0 */ f32 _1c0;
+    // The matrix interpolation timer (value / previous value / rate).
+    /* 0x1b8 */ ksys::Timer _1b8;
     u8 _1c4[4];
     /* 0x1c8 */ AttachConfig* _1c8;
     u8 _1d0[0x1e8 - 0x1d0];
