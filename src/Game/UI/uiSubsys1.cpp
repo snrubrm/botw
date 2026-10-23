@@ -1254,8 +1254,7 @@ void UiSubsys1::sub_710095F944() {
     }
     sub_710095F9D4();
     for (s32 i = 0; i < 5; ++i) {
-        // SafeStringBase::clear(): not modelled in our sead, so write its body.
-        const_cast<char*>(_d80[i].mSelected.mName.getStringTop())[0] = sead::SafeStringBase<char>::cNullChar;
+        _d80[i].mSelected.mName.clear();
         _d80[i].mSelected._98 = -1;
     }
 }
