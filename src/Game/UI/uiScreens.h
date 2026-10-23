@@ -3291,6 +3291,9 @@ public:
     // 0x7100a36784 (CSV unnamed): steps the page offset, then shows the page of the tab control that holds the
     // target page.
     void sub_7100A36784();
+    // 0x7100a37a78 (CSV unnamed): opens / closes the two guide layouts for the current / target page and
+    // tells the selected tab's guide control which of them to show.
+    void sub_7100A37A78();
     // 0x7100a36400 (CSV unnamed, declared only): the held-button mask for the open timer's debounce (m94)
     u32 sub_7100A36400();
     // 0x7100a3772c (CSV unnamed, declared only): lays the tab controls out for the current page

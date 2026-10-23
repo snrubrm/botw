@@ -444,6 +444,53 @@ u32 ScreenPauseMenu::sub_7100A36400() {
     return mask;
 }
 
+// 0x7100a37a78: opens / closes the two guide layouts for the current (or target) page and tells the
+// selected tab's guide control which of them to show.
+// NON_MATCHING: the compiler reorders the two _3620 comparisons (ours compares the second result first),
+// duplicates the show blocks for the two paths that reach them and colours the flags differently.
+void ScreenPauseMenu::sub_7100A37A78() {
+    if (!mFirstGuideLayout || !mSecondGuideLayout)
+        return;
+
+    bool show_first = false;
+    bool show_second = false;
+    if (getTabIndex(_3644) != -1) {
+        const s32* current_ptr = _3674 != 0 ? &_3648 : &_3644;
+        const s32 current = *current_ptr;
+        const s32 next = current + 1;
+        if (_3620 != -1) {
+            show_first = _3620 == s32(sub_7100A82D08(current - 1));
+            show_second = _3620 == s32(sub_7100A82D08(next));
+        } else if (current >= -1) {
+            const s32 num = _3624;
+            if (current >= 1)
+                show_first = current <= num && num > 0;
+            show_second = next < num && num > 0;
+        }
+    }
+
+    if (show_first) {
+        mFirstGuideLayout->sub_7100BDDE7C(false, 1, true);
+        mFirstGuideLayout->_70->PlayAuto(1.0f);
+    } else {
+        mFirstGuideLayout->startAnimCloseImpl_(false, true);
+    }
+    if (show_second) {
+        mSecondGuideLayout->sub_7100BDDE7C(false, 1, true);
+        mSecondGuideLayout->_70->PlayAuto(1.0f);
+    } else {
+        mSecondGuideLayout->startAnimCloseImpl_(false, true);
+    }
+
+    if (mSelectedCategory == -1) {
+        for (auto& entry : mTabControls.mEntries)
+            entry.mGuide.sub_7100936BD4(false, false);
+    } else {
+        const u32 index = u32(mSelectedCategory) < 7 ? mSelectedCategory : 0;
+        mTabControls.mEntries[index].mGuide.sub_7100936BD4(show_first, show_second);
+    }
+}
+
 // 0x7100a37d0c
 void ScreenPauseMenu::m99() {
     if (_3664.isUndef()) {
