@@ -491,6 +491,34 @@ void ScreenPauseMenu::sub_7100A37A78() {
     }
 }
 
+// 0x7100a39698: selects the category / tab that holds `page`, moves its page control to the page and
+// refreshes the info screen.
+void ScreenPauseMenu::sub_7100A39698(s32 page) {
+    const s32 category = s32(sub_7100A82D08(page));
+    if (category == -1)
+        return;
+
+    const u32 index = u32(category) < 7 ? category : 0;
+    if (mSelectedCategory == category) {
+        mTabControls.mEntries[index].mPage.sub_7100936A7C(
+            page - mTabControls.mEntries[index].mFirstItemIndex);
+        return;
+    }
+
+    mTabControls.mEntries[index].mButton.sub_710098802C(true);
+    mTabControls.mEntries[index].mPage.sub_7100936A7C(
+        page - mTabControls.mEntries[index].mFirstItemIndex);
+    mTabControls.mEntries[u32(mSelectedCategory) < 7 ? mSelectedCategory : 0]
+        .mButton.sub_710098802C(false);
+    mTabControls.mEntries[u32(mSelectedCategory) < 7 ? mSelectedCategory : 0]
+        .mPage.sub_7100936AD8();
+    mSelectedCategory = category;
+
+    if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo)))
+        info->sub_7100A3081C(mSelectedCategory, true);
+}
+
 // 0x7100a37d0c
 void ScreenPauseMenu::m99() {
     if (_3664.isUndef()) {
