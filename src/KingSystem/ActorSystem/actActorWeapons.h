@@ -10,6 +10,7 @@
 namespace ksys::act {
 
 class Actor;
+class InstParamPack;
 class ActorLinkConstDataAccess;
 class WeaponBase;
 struct Unk117;
@@ -33,8 +34,10 @@ public:
     explicit ActorWeapons(Actor* actor);
     ~ActorWeapons();
 
-    // FIXME: figure out return types, parameters and names
-    virtual void m0();
+    // 0x7100efbcfc (placeholder name, virtual slot 0): creates the weapon `name` with the owner's
+    // matrix and scale and equips it in slot `idx`; false when the creation fails.
+    virtual bool m0(s32 idx, const char* name, sead::Heap* heap, bool a4, bool a5,
+                    InstParamPack* params);
     // PlayerOrEnemy::m164 forwards its arguments here.
     virtual bool equipWeapon(s32 idx, Actor* weapon, bool a3, bool a4);
     // Called by Enemy::m177 before it records the weapon.

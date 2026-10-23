@@ -14,6 +14,16 @@ ActorWeapons::ActorWeapons(Actor* actor) : mActor(actor) {}
 
 ActorWeapons::~ActorWeapons() = default;
 
+// 0x7100efbcfc (placeholder name): creates a weapon at the owner's pose and equips it.
+bool ActorWeapons::m0(s32 idx, const char* name, sead::Heap* heap, bool a4, bool a5,
+                      InstParamPack* params) {
+    auto* weapon =
+        createWeaponND(name, mActor->getMtx(), mActor->getScale().x, heap, a4, a5, -1, params);
+    if (!weapon)
+        return false;
+    return equipWeapon(idx, weapon, false, false);
+}
+
 // NON_MATCHING: the inlined reset keeps the link address instead of recomputing it after m174.
 bool ActorWeapons::equipWeapon(s32 idx, Actor* weapon, bool a3, bool a4) {
     if (!weapon)
