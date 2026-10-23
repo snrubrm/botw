@@ -1,5 +1,6 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include <gsys/gsysModel.h>
+#include <gsys/gsysModelDrawObj.h>
 #include <cmath>
 #include "Game/gameUnkRttiPlaceholders.h"
 
@@ -251,6 +252,38 @@ bool Core::sub_7101300D50(u32 index, bool a, bool b) {
         debug->mPositions[debug->mPosIndex % debug->mPosCount] = sead::Vector2f(x, z);
     }
     return true;
+}
+
+// 0x710130063c (unnamed): releases the model, the per-unit buffers and the grass / tree objects.
+void Core::sub_710130063C() {
+    if (mModel) {
+        gsys::Model::sub_7100BF69F8(mModel);
+        mModel = nullptr;
+    }
+    if (mModelDrawObjs.size() != 0)
+        mModelDrawObjs.freeBuffer();
+    if (_110.size() != 0)
+        _110.freeBuffer();
+    if (mModelUnits.size() != 0)
+        mModelUnits.freeBuffer();
+    if (_138) {
+        _138->sub_710114EE20();
+        delete _138;
+        _138 = nullptr;
+    }
+    if (_140) {
+        _140->sub_7101080A08();
+        delete _140;
+        _140 = nullptr;
+    }
+    if (mPositions.size() != 0) {
+        for (s32 i = 0; i < mPositions.size(); ++i)
+            mPositions[i].mBlock.destroy();
+        mPositions.freeBuffer();
+    }
+    mStates.freeBuffer();
+    mHeap = nullptr;
+    mModelHeap = nullptr;
 }
 
 // 0x7101300800 (unnamed): runs the cleanup, deletes the core and destroys both of its heaps.

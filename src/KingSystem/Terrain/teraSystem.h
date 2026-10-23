@@ -138,9 +138,14 @@ public:
     void sub_7101302080();
     void sub_71013021E0(const gsys::ModelViewData* model_view_data, int view_index);
 
-    class Grass {
+    // The vtable (0x710250fc48) starts with sead::hostio::Node's getNodeClassType and then the
+    // destructor pair; the object at 0x138 is deleted through it.
+    class Grass : public sead::hostio::Node {
     public:
         using Entry = GrassEntry;
+        virtual ~Grass();
+        // 0x710114ee20 (unnamed): releases the record owner at +0x28 and deletes it.
+        void sub_710114EE20();
         struct Unk_7101150c24 {
             u32 _0;
             const sead::Vector3f* mPosition;
@@ -203,8 +208,8 @@ public:
         // 0x710114ee5c (placeholder name): sets or clears bit 5 of both objects of every entry.
         void sub_710114EE5C(bool on);
 
-        // Shared flags read and written by 0x7101150990 and 0x710114dd4c.
-        u8 _0[8];
+        // Shared flags read and written by 0x7101150990 and 0x710114dd4c. The vptr inherited
+        // from hostio::Node sits at +0.
         u32 mFlags;
         // 0x7101151a1c sets bit 0.
         u8 _c;
@@ -381,7 +386,11 @@ public:
         sead::Vector3f mPosition;
         // The previous position: 0x7101300d50 copies mPosition here.
         sead::Vector3f _14;
-        u8 _20[0x199 - 0x20];
+        u8 _20[0x120 - 0x20];
+        // The uniform block 0x71012ff9ec constructs for every record and 0x710130063c destroys
+        // before freeing the buffer.
+        agl::UniformBlock mBlock;
+        u8 _198;
         // The two flags 0x7101300d50 stores from its arguments.
         u8 _199;
         u8 _19a;
@@ -415,9 +424,13 @@ public:
 
     // Placeholder (the object at 0x140; ForestRenderer x_2 / x_3 / x_5 reach it through
     // Terrain::sub_710114DE70): flags at +0x8 (bit 2 checked by all three methods), two objects at
-    // +0x14cd0 / +0x14cd8.
-    class Unk_140 {
+    // +0x14cd0 / +0x14cd8. Its vtable (0x71025043d0) starts with the hostio::Node type getter and
+    // then the destructor pair, like Core::Grass; 0x710130063c deletes it through slot 2.
+    class Unk_140 : public sead::hostio::Node {
     public:
+        virtual ~Unk_140();
+        // 0x7101080a08 (empty in this release): called before the object is deleted.
+        void sub_7101080A08();
         // One 0x1a0-byte entry of the ten 8-entry tables at +0x30: 0x7101083060 stores its
         // table / entry indices and 0x710108330c hands it the heap. The per-entry bodies stay U.
         struct TableEntry {
@@ -488,7 +501,7 @@ public:
         // 0x71010816d0 (unnamed): unless the terrain debug flag or _8 bit 0 stops it, sets the buffer
         // index of every tree type and of both draw commands.
         void sub_71010816D0(u32 value);
-        u8 _0[8];
+        // +0 is the vptr inherited from hostio::Node.
         u32 _8;
         /* 0x0c */ u32 _c;
         // 0x10: the tree-type records whose buffers 0x71010816d0 re-indexes.
@@ -522,6 +535,9 @@ public:
     u32 _124;
     // The model-unit records 0x71013009c4 binds (the buffer at 0x128, 0x10-byte entries).
     struct ModelUnitRecord {
+        // The original destructor (0x71012e899c) is empty in this release; it is out of line, so
+        // the buffer's delete[] still calls it for every record.
+        ~ModelUnitRecord();
         gsys::ModelUnit* mUnit;
         u8 _8[8];
     };

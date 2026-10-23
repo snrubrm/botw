@@ -660,6 +660,13 @@ bool Unk_7102503a50::queueEvent(f32 radius, f32 value, s32 kind,
 
 namespace ksys::tera {
 
+// 0x710114ee20 (unnamed): tears down the record owner and deletes it.
+void Core::Grass::sub_710114EE20() {
+    _28->sub_7101064574();
+    delete _28;
+    _28 = nullptr;
+}
+
 // NON_MATCHING: the bounded uniform-buffer loop differs in scheduling.
 void Core::Grass::EntryPart::setBufferIndex(u32 index) {
     const u32 count = _68;

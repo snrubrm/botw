@@ -128,6 +128,9 @@ public:
     virtual ~Unk_7102503a50();                       //1063808
     struct InitArg { sead::Heap* mHeap; s32 mCount; };
     void sub_7101063904(const InitArg* arg);
+    // 0x7101064574 (unnamed): tears down every record of mRecords; called by Core::Grass before
+    // the owner is deleted (0x710114ee20).
+    void sub_7101064574();
     f32 sub_7101069760(const sead::Vector2f* position);
     f32 sub_71010699D0(const sead::Vector2f* position);
     f32 sub_7101069C44(const sead::Vector2f* position);

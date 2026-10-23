@@ -1232,6 +1232,10 @@ void Unk_7101106F44::sub_71011206E4(Unk_7101106F44** node, sead::Vector2f* cente
 }
 
 // 0x71010816d0 (unnamed): sets the buffer index of every tree type and of both draw commands.
+// 0x71012e899c (unnamed): the model-unit record destructor is empty in this release. Kept out of
+// teraCore.cpp so that Buffer::freeBuffer calls it out of line, as the original does.
+Core::ModelUnitRecord::~ModelUnitRecord() {}
+
 void Core::Unk_140::sub_71010816D0(u32 value) {
     Terrain* terrain = Terrain::instance();
     if (terrain) {
