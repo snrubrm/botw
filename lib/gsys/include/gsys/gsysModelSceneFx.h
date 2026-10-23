@@ -6,7 +6,10 @@
 
 namespace sead {
 class Heap;
+namespace hostio {
+class Node;
 }
+}  // namespace sead
 
 namespace agl {
 class DrawContext;
@@ -70,6 +73,8 @@ public:
     void drawOccludedEffect(agl::DrawContext* context, const ModelSceneContext& scene_context) const;
     void drawDecalBG(agl::DrawContext* context, ModelSceneContext* scene_context) const;
     void drawDebug(agl::DrawContext* context, const ModelSceneContext& scene_context) const override;
+    // 0x7100c30184: four-byte body, the component attaches no extra hostio children.
+    void attachHostIO(sead::hostio::Node* node) override;
     void releaseWaterNormalModify(int index) const;
     void releaseVolumeMaskTexture(int index) const;
 

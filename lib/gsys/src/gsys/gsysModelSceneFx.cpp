@@ -115,6 +115,65 @@ void ModelSceneFx::drawDecalBG(agl::DrawContext* context, ModelSceneContext* sce
     mDecalAoMgr->updateDecal_draw(context);
 }
 
+// 0x7100c2ff0c: per-view GPU setup for every effect manager.
+// NON_MATCHING: same instructions and size, but the cloud block's tail is scheduled differently
+// (the original emits mov w5 / ldp / madd / the two scalar loads / ldrb w1 / cset / add; ours
+// issues ldrb w1 and mov w5 before the cset).
+void ModelSceneFx::calcViewGPU(const ModelSceneContext& context) {
+    if (mOccludedEffect) {
+        if (_8->isFeatureEnabled(ModelSceneConfig::Feature::OccludedEffect))
+            mOccludedEffect->updateViewGPU(context._8, *context.mRenderBuffer);
+    }
+    if (mRadialBlur) {
+        if (_8->isFeatureEnabled(ModelSceneConfig::Feature::RadialBlur))
+            mRadialBlur->updateViewGPU(context._8);
+    }
+    if (mDecalDrawer) {
+        if (_8->isFeatureEnabled(ModelSceneConfig::Feature::Decal)) {
+            if (mDecalDrawer->_478) {
+                mDecalDrawer->calcGPU(context._8);
+                const ModelSceneContext::View& view = context.mViews[0];
+                mDecalSimple->calcGPU(context._8, view._60, view.mProjection, view._140, view._144,
+                                      view._154, view._14c);
+            }
+        }
+    }
+    if (mDecalAoMgr) {
+        if (_8->useDecalAo()) {
+            if (_8->isFeatureEnabled(ModelSceneConfig::Feature::Decal)) {
+                const ModelSceneContext::View& view = context.mViews[0];
+                mDecalAoMgr->calcGPU(context._8, view._60, view.mProjection, view._140, view._144,
+                                     view._154, view._14c);
+            }
+        }
+    }
+    if (mDecalTrailMgr) {
+        if (_8->useDecalTrail()) {
+            if (_8->isFeatureEnabled(ModelSceneConfig::Feature::Decal)) {
+                const ModelSceneContext::View& view = context.mViews[0];
+                mDecalTrailMgr->calcGPU(context._8, view._60, view.mProjection, view._140,
+                                        view._144, view._154, view._14c);
+            }
+        }
+    }
+    if (mNormalDrawer) {
+        if (_8->isFeatureEnabled(ModelSceneConfig::Feature::NormalDrawer)) {
+            const ModelSceneContext::View& view = context.mViews[0];
+            mNormalDrawer->calcGPU(context._8, view._60, view._140, view._144, 1280.0f, 720.0f);
+        }
+    }
+    if (mCloud) {
+        if (_8->isFeatureEnabled(ModelSceneConfig::Feature::Cloud)) {
+            if (mCloud->_460) {
+                const bool alloc_buffer = mCloud->_618 == 0;
+                const ModelSceneContext::View& view = context.mViews[context.mCurrentView];
+                mCloud->updateViewGPU(context._8, view.mView, view.mProjection, view._140,
+                                      view._144, alloc_buffer, 0);
+            }
+        }
+    }
+}
+
 // 0x7100c2f390: the scene's radial blur follows the first view's matrices.
 void ModelSceneFx::calcView(const ModelSceneContext& context) {
     if (!mRadialBlur)
@@ -168,5 +227,8 @@ void ModelSceneFx::drawDebug(agl::DrawContext* context,
         }
     }
 }
+
+// 0x7100c30184
+void ModelSceneFx::attachHostIO(sead::hostio::Node*) {}
 
 }  // namespace gsys

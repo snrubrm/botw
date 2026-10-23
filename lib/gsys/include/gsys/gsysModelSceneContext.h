@@ -49,14 +49,18 @@ public:
     // the projection at +0xc0, four scalars at +0x140 and a Vector2f at +0x15c.
     struct View {
         sead::Matrix34f mView;
-        u8 _30[0xc0 - 0x30];
+        /* 0x30 */ sead::Matrix34f mInverseView;
+        /* 0x60 */ sead::Matrix34f _60;
+        u8 _90[0xc0 - 0x90];
         sead::Matrix44f mProjection;
         u8 _100[0x140 - 0x100];
         f32 _140;
         f32 _144;
         f32 _148;
         f32 _14c;
-        u8 _150[0x15c - 0x150];
+        f32 _150;
+        f32 _154;
+        f32 _158;
         sead::Vector2f _15c;
         u8 _164[0x3a0 - 0x164];
     };
