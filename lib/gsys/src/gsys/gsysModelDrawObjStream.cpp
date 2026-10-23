@@ -38,10 +38,9 @@ void ModelDrawObjStream::add(const ModelDrawObj* obj, u32 value, s32 param) {
     entry.mOcclusionQuery = &obj->mOcclusionQuery;
 }
 
-// NON_MATCHING: the size select has its operands swapped.
 void ModelDrawObjStream::end(s32 core) {
     u8** ptr = ModelWorkBuffer::instance()->getBufferPtr(core);
-    if (!mFlags.isOnBit(1))
+    if (mFlags.isOffBit(1))
         *ptr += sizeof(const ModelDrawObj*) * mCount;
     else
         *ptr += sizeof(Entry) * mCount;
