@@ -480,6 +480,9 @@ ksys::act::Actor* getPlayerActor(ksys::act::Actor* actor);
 const sead::SafeString& sub_7100AA7D38(s32 index);
 // 0x7100aa46f0 (placeholder name): the index of `name` in that table, or -1
 s32 sub_7100AA46F0(const sead::SafeString& name);
+
+// 0x7100a39820 (placeholder name): the pause menu icon table index of `id`, -1 when it is not listed.
+s32 sub_7100A39820(s32 id);
 // 0x7100aa45cc (placeholder name): whether `name` is in that table
 bool sub_7100AA45CC(const sead::SafeString& name);
 

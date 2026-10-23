@@ -25,6 +25,7 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include <math/seadMathCalcCommon.h>
+#include "Game/UI/uiTUStatics.h"
 
 // Small leaf screen methods (named after their CSV address).
 namespace uking::ui {
@@ -571,13 +572,88 @@ void ScreenPauseMenu::adjstBoxCursor(sead::BoundBox2<f32>* box, const eui::BoxCu
         screen->close(-4);
 }
 
+// The pause menu TU's merged .bss block starts with the uiTUStatics.h objects and one extra FLT_MAX
+// vector pair; the statics below then land at +0x150 .. +0x180 as in the original initialiser
+// 0x7100a3324c.
+namespace {
+sead::Vector2f sMaxVector2{std::numeric_limits<f32>::max(), std::numeric_limits<f32>::max()};
+}
+
+// 0x71025f1210: layout name of the first page.
+static sead::SafeString sUnk_71025f1210 = "PauseMenu_00";
+// 0x71025f11f0: the three page layout names.
+static sead::SafeString sUnk_71025f11f0[3] = {"PauseMenu_00", "N_Slide_01", "N_Slide_02"};
+static sead::Buffer<sead::SafeString> sUnk_71025f1200(sUnk_71025f11f0);
+
 // 0x71025f1220: first button tag of each of the three pause menu pages (set up by the TU initialiser 0x7100a3324c)
 static s32 sUnk_7102493538[] = {9, 29, 49};
 static sead::Buffer<s32> sUnk_71025f1220(sUnk_7102493538);
 
+// 0x71025f1400: the pause menu's icon panes, indexed by the icon id.
+struct PauseMenuIcon {
+    s32 id;
+    sead::SafeString pane;
+};
+static PauseMenuIcon sUnk_71025f1400[14] = {
+    {0, "Pa_IconKagoG_00"},        {1, "Pa_IconKagoR_00"},       {2, "Pa_IconKagoY_00"},
+    {3, "Pa_IconKagoB_00"},        {4, "Pa_IconDungeonClear_00"}, {5, "Pa_IconWarpDLC_00"},
+    {6, "PaIconDLCAkashiG_00"},    {7, "PaIconDLCAkashiR_00"},   {8, "PaIconDLCAkashiY_00"},
+    {9, "PaIconDLCAkashiB_00"},    {10, "Pa_IconDLCKagoG_00"},   {11, "Pa_IconDLCKagoR_00"},
+    {12, "Pa_IconDLCKagoY_00"},    {13, "Pa_IconDLCKagoB_00"},
+};
+static sead::Buffer<PauseMenuIcon> sUnk_71025f1230(sUnk_71025f1400);
+
+// 0x7100a350ac
+const char* ScreenPauseMenu::getLayoutName_() const {
+    return sUnk_71025f1210.cstr();
+}
+
+// 0x7100a39820 (placeholder name): the icon table index of `id`, -1 when the icon is not listed.
+s32 sub_7100A39820(s32 id) {
+    if (id == -1)
+        return -1;
+    for (s32 i = 0; i < 14; ++i) {
+        if (sUnk_71025f1230[i].id == id)
+            return i;
+    }
+    return -1;
+}
+
+// 0x7100a382e0 (placeholder name): refreshes the categories of the page before / at / after `page`.
+// NON_MATCHING: the inlined wrapTab keeps the sign-extended argument in a second register in the
+// original; ours re-sign-extends after the first select and masks the result again (two extra
+// instructions, different registers).
+void ScreenPauseMenu::sub_7100A382E0(s32 page) {
+    s32 index = 2;
+    if (page < sUnk_71025f1220[2])
+        index = page >= sUnk_71025f1220[1] ? 1 : 0;
+    if (!_3a00[index])
+        return;
+    const u8 prev = wrapTab(u8(index - 1));
+    const u32 prev_index = prev < 3 ? prev : 0;
+    if (auto* unit = _3a00[prev_index]) {
+        const s32 category = unit->_130;
+        if (category >= 0)
+            sub_7100A82D08(category);
+    }
+    if (auto* unit = _3a00[index]) {
+        const s32 category = unit->_130;
+        unit->sub_71009B0484(page);
+        if (category >= 0)
+            sub_7100A82D08(category);
+    }
+    const u8 next = wrapTab(u8(index + 1));
+    const u32 next_index = next < 3 ? next : 0;
+    if (auto* unit = _3a00[next_index]) {
+        const s32 category = unit->_130;
+        if (category >= 0)
+            sub_7100A82D08(category);
+    }
+}
+
 // 0x7100a3a7fc
-// NON_MATCHING: the original reaches sUnk_71025f1220 through the TU's merged globals and keeps the page index
-// in a separate 64-bit register for the element address
+// NON_MATCHING: the original keeps the page index in a separate 64-bit register for the element
+// address; our clang reuses the 32-bit index with uxtw.
 bool ScreenPauseMenu::sub_7100A3A7FC(s32 page, s32 offset) {
     s32 i = 0;
     for (; i < 3; ++i) {

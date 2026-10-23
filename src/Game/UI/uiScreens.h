@@ -3312,6 +3312,8 @@ public:
     // 0x7100a3a7fc: moves the cursor to button tag (base tag of the page shown by `page` + offset); false if no
     // shown page matches or the tag is 0
     bool sub_7100A3A7FC(s32 page, s32 offset);
+    // 0x7100a382e0 (CSV unnamed, placeholder name): refreshes the categories of the page before / at / after `page`.
+    void sub_7100A382E0(s32 page);
     // 0x7100a38994: closes the TV box cursor screen when the cursor box leaves _3664
     void adjstBoxCursor(sead::BoundBox2<f32>* box, const eui::BoxCursorNode* node) const override;
     /* 0x3610 */ PauseMenuDataMgr* mPauseMenuDataMgr{};  // PauseMenuDataMgr::instance(), set by the creator
