@@ -12,6 +12,7 @@
 #include "Game/UI/uiManager.h"
 #include "Game/UI/uiUnk_7102506d38.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
+#include "Game/UI/uiUI.h"
 #include "Game/gameSaveSystem.h"
 #include <gfx/seadGraphics.h>
 #include "Game/UI/euiPartsEx.h"
@@ -269,6 +270,96 @@ void ScreenPauseMenu::sub_7100A379BC(s32 tab) {
 // 0x7100a34a04
 void ScreenPauseMenu::sub_7100A34A04() {
     _3bb4 = 1;
+}
+
+// 0x7101e7eaf0: model mode for each of the first three pause menu categories (m94 / m98)
+static const s32 sUnk_7101e7eaf0[3] = {0, 2, 1};
+
+// 0x7100a36034: the pause menu's per-frame update. It advances the open timer, settles the box cursor
+// when the page offset is back at zero, runs the close-button combination's release debounce, steps the
+// state machine and the tab pages, and starts / holds the info animators for the two pending bits.
+void ScreenPauseMenu::m94() {
+    if (_3642) {
+        Manager::instance()->sub_7100A7C904();
+        return;
+    }
+
+    eui::Screen::x_2();
+
+    if (_3c2c && isOpened()) {
+        if (_3c30 < UI::instance()->_a8)
+            _3c30 += getAnimationStep_();
+        else
+            _3c2c = false;
+    }
+
+    if (_3674 != 0 && _3650 >= -0.001f && _3650 <= 0.001f) {
+        _364c = -1;
+        _3650 = 0.0f;
+        // called through a pointer in the original (not devirtualised)
+        if (getStateMachine().getState()->getId() == (&sUnk_71025f0cf0)->getId()) {
+            const u32 idx = u32(_3a18) < 3 ? _3a18 : 0;
+            if (auto* unit = _3a00[idx])
+                unit->sub_71009B0224(true);
+        }
+        _3674 = 0;
+        if (auto* mgr = OnUiActorMgr::instance())
+            mgr->_10c = u32(mSelectedCategory) <= 2 ? sUnk_7101e7eaf0[mSelectedCategory] : 4;
+    }
+
+    _361c = sub_7100A36400();
+
+    if (!_3ba8) {
+        s32 mask = 0;
+        if ((_361c & 0x4200) == 0x4200)
+            mask = 0x200;
+        else if ((_361c & 0x4100) == 0x4100)
+            mask = 0x100;
+        if (mask != 0) {
+            _3ba8 = true;
+            _3bac = mask;
+            _3bb0 = 0;
+        }
+    } else {
+        const s32 frames = _3bb0;
+        ++_3bb0;
+        if ((~_361c & (_3bac | 0x4000)) == 0) {
+            _3bb0 = 0;
+        } else if (frames >= 7) {
+            _3ba8 = false;
+        }
+    }
+
+    getStateMachine().run();
+    sub_7100A36784();
+    _3a38.sub_7100938090(getAnimationStep_());
+
+    if (_3a19.isOnBit(0)) {
+        if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
+            if (auto* animator = info->_36b0) {
+                if (animator->mRate != 0.0f) {
+                    _3a19.set(1);
+                } else {
+                    animator->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+                    _3a19.reset(1);
+                }
+            }
+        }
+    }
+    if (_3a19.isOnBit(1)) {
+        if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
+            if (auto* animator = info->_36b8) {
+                if (animator->mRate != 0.0f) {
+                    _3a19.set(2);
+                } else {
+                    animator->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+                    _3a19.reset(2);
+                }
+            }
+        }
+    }
 }
 
 // 0x7100a37d0c

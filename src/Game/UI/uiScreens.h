@@ -3291,6 +3291,8 @@ public:
     // 0x7100a36784 (CSV unnamed): steps the page offset, then shows the page of the tab control that holds the
     // target page.
     void sub_7100A36784();
+    // 0x7100a36400 (CSV unnamed, declared only): the held-button mask for the open timer's debounce (m94)
+    u32 sub_7100A36400();
     // 0x7100a3772c (CSV unnamed, declared only): lays the tab controls out for the current page
     void sub_7100A3772C();
     // 0x7100a399f4 (CSV unnamed, placeholder name): enables the buttons of the last `_3628` items of tab `tab`
@@ -3337,7 +3339,7 @@ public:
     u8 _39fc[4];
     /* 0x3a00 */ Unk_710247a028* _3a00[3];
     /* 0x3a18 */ u8 _3a18;
-    /* 0x3a19 */ u8 _3a19;
+    /* 0x3a19 */ sead::BitFlag8 _3a19;  // 1 / 2: info animator _36b0 / _36b8 is pending (m94)
     u8 _pad_3a1a[0x3a20 - 0x3a1a];
     /* 0x3a20 */ eui::LayoutEx* mFirstGuideLayout;
     /* 0x3a28 */ eui::LayoutEx* mSecondGuideLayout;
@@ -3359,7 +3361,7 @@ public:
     /* 0x3ba8 */ bool _3ba8;
     u8 _pad_3ba9[3];
     /* 0x3bac */ s32 _3bac;
-    u8 _pad_3bb0[0x3bb4 - 0x3bb0];
+    /* 0x3bb0 */ s32 _3bb0;  // frames the _3ba8 combination has been released (m94)
     /* 0x3bb4 */ s32 _3bb4;
     /* 0x3bb8 */ UiTimer _3bb8;
     /* 0x3bd0 */ s32 _3bd0;  // button index in _3a00[_3a18] (m175)
@@ -3375,7 +3377,13 @@ public:
     u8 _pad_3c11[3];
     /* 0x3c14 */ UiTimer _3c14;
     /* 0x3c2c */ bool _3c2c;  // blocks sub_7100A34A80 (set by m100's reset)
+    u8 _pad_3c2d[3];
+    // accumulated while _3c2c is set; cleared when it reaches UI::_a8 (m94)
+    /* 0x3c30 */ f32 _3c30;
 
+    // 0x7100a36034: the per-frame update (open timer, box cursor settle, button combination, state
+    // machine and info animators).
+    void m94() override;
     // inherited slot; the pause menu decides from it whether the state may settle
     void m99() override;
     // 0x7100a36938: forwards to Screen::doDraw_ (vtable slot 33)

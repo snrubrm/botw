@@ -753,14 +753,14 @@ void ScreenPauseMenu::m154() {
                 eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
             if (info->_36a0) {
                 info->_36a0->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
-                _3a19 &= ~1;
+                _3a19.reset(1);
             }
         }
         if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
                 eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
             if (info->_36a8) {
                 info->_36a8->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
-                _3a19 &= ~2;
+                _3a19.reset(2);
             }
         }
     }

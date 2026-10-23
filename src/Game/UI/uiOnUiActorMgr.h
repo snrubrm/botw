@@ -86,6 +86,7 @@ public:
 private:
     // PauseMenuInfo state animation reads bit 0, as its native m94 does.
     friend class ScreenPauseMenuInfo;
+    friend class ScreenPauseMenu;
     friend class uking::act::PauseMenuPlayer;
     friend class uking::ai::PauseMenuPlayerRoot;
 
@@ -98,7 +99,11 @@ private:
     /* 0x98 */ gsys::ModelScene* _98;  // the scene the handed-over weapons' models are bound to
     u8 _a0[0xb0 - 0xa0];
     /* 0xb0 */ sead::FixedSafeString<64> _b0;
-    u8 _108[0x1f4 - 0x108];
+    u8 _108[0x10c - 0x108];
+    // The pause menu's model mode for the selected category (m94 / m98): 0, 2, 1 for the first three
+    // categories, 4 for the others.
+    /* 0x10c */ s32 _10c;
+    u8 _110[0x1f4 - 0x110];
     /* 0x1f4 */ sead::BitFlag8 _1f4;
     u8 _1f5[3];
 };
