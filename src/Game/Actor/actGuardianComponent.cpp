@@ -179,6 +179,19 @@ void Unk_710235b4f8::m13() {
 
 Unk_710235b660::~Unk_710235b660() = default;
 
+// The TU's constants block at 0x710235b770; the original loads this one from it.
+namespace {
+const f32 sUnk_710235B78C = 1.0f;
+}
+
+// NON_MATCHING: the original loads sUnk_710235B78C from the TU's merged data block
+// (0x710235b78c); with only this function in the TU our clang folds the factor away.
+void Unk_710235b660::m8(ksys::act::BaseProc* proc, s32 value) {
+    _10 = value;
+    const s32 count = static_cast<Guardian*>(proc)->sub_7100033E10();
+    _c4 = count != 0 ? f32(value) * sUnk_710235B78C / f32(count) : 0.0f;
+}
+
 void Unk_710235b660::m7(const ksys::act::BaseProc::PreDeleteArg&) {}
 
 void Unk_710235b660::m13() {}
