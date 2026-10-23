@@ -451,6 +451,10 @@ void sub_7100F3A528(u32 value) {
     ksys::tera::sUnk_710260B188 = value & 1;
 }
 
+void Graphics::initBeforeStageGenB() {}
+
+void Graphics::initBeforeStageGenA() {}
+
 void Graphics::sub_7100F2DDF0(s32 preset) {
     auto* lens_flare = mModelScenes[0]->mOfxManager->getOfx<agl::fx::OfxLensFlare>(0);
     if (!lens_flare)
