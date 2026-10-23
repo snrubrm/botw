@@ -50,6 +50,7 @@ class ShaderProgram;
 
 namespace gsys {
 class Model;
+class ModelDrawObj;
 class ModelResource;
 class ModelScene;
 class ModelUnit;
@@ -111,7 +112,23 @@ class VegeTeraMatMgr;
 // Core is a procedural model unit: the constructor 0x71012ff868 calls gsys::IModelProcedural's
 // constructor (0xc7fbec) and stores its vtable at +0. Its own members therefore start at 0xe0.
 class Core : public gsys::IModelProcedural {
+    SEAD_RTTI_OVERRIDE(Core, gsys::IModelProcedural)
 public:
+    // 0x71012ff868: the base constructor, the null members, the four uniform blocks of the
+    // terrain draw (0x710114deb8 indexes them as 3 * b + a) and the system list offset.
+    Core();
+    ~Core() override;
+
+    // Both run only for the bound scene and while Terrain's _a58 bits 1 and 2 are set.
+    void postCalcWorld(const gsys::ModelScene* scene, u32 a, u32 b,
+                       const gsys::ModelViewData* model_view_data, int view_index) override;
+    void calcBeforeDraw(gsys::ModelScene* scene, const gsys::ModelViewData* model_view_data,
+                        int view_index) override;
+
+    void sub_71013019BC(const gsys::ModelViewData* model_view_data, int view_index);
+    void sub_7101302080();
+    void sub_71013021E0(const gsys::ModelViewData* model_view_data, int view_index);
+
     class Grass {
     public:
         using Entry = GrassEntry;
@@ -472,12 +489,19 @@ public:
         sead::SafeArray<Unk_71025046d0*, 2> _14cd;
     };
 
-    // gsys::IModelProcedural (0xe0) plus the Core fields at 0xe0..0xf0 (the heap at 0xe0).
-    u8 _e0[0xf0 - 0xe0];
-    // The model scene the model _f8 is bound to (0x71013009c4 calls Model::bind with it).
-    gsys::ModelScene* _f0;
-    gsys::Model* _f8;
-    u8 _100[0x28];
+    // gsys::IModelProcedural (0xe0) plus the Core fields. Both heaps are named after the class:
+    // 0xe0 is "ksys::tera::Core" and 0xe8 "ksys::tera::Core::Model" (0x71012ff9ec creates them).
+    sead::Heap* mHeap = nullptr;
+    sead::Heap* mModelHeap = nullptr;
+    // The model scene the model mModel is bound to (0x71013009c4 calls Model::bind with it).
+    gsys::ModelScene* mScene = nullptr;
+    gsys::Model* mModel = nullptr;
+    // One draw object per map unit: 0x71012ff9ec allocates _120 of them and initialises each.
+    sead::Buffer<gsys::ModelDrawObj> mModelDrawObjs;
+    // Allocated next to mModelDrawObjs by 0x71012ff9ec; only the cleanup 0x710130063c reads it.
+    sead::Buffer<void*> _110;
+    /* 0x120 */ s32 _120 = 0;
+    u32 _124;
     // The model-unit records 0x71013009c4 binds (the buffer at 0x128, 0x10-byte entries).
     struct ModelUnitRecord {
         gsys::ModelUnit* mUnit;
@@ -485,27 +509,28 @@ public:
     };
     static_assert(sizeof(ModelUnitRecord) == 0x10);
     sead::Buffer<ModelUnitRecord> mModelUnits;
-    Grass* _138;
-    Unk_140* _140;
+    Grass* _138 = nullptr;
+    Unk_140* _140 = nullptr;
     // Getter 0x710114dd84 and setter 0x71013010d4 share this two-byte record buffer.
     sead::Buffer<Unk_71013010d4> mStates;
     sead::Buffer<Unk_7101300b4c> mPositions;
-    // The registered systems (0x7101301068 iterates it and calls System::sub_7101115158).
+    // The registered systems (0x7101301068 iterates it and calls System::sub_7101115158); the
+    // node lives at +0x1340 of a System.
     sead::OffsetList<System> mSystems;
-    // Four 0x78-byte records (0x710114deb8 indexes them as 3 * b + a).
-    struct Record {
-        u8 _0[0x78];
-    };
-    Record mRecords[4];
-    static_assert(sizeof(Record) == 0x78);
+    // The four 0x78-byte agl::UniformBlocks the terrain draw fills (0x710114deb8 indexes them
+    // as 3 * b + a).
+    agl::UniformBlock mUniformBlocks[4];
     // Original 0x710130085c and 0x710130089c reset this word with exclusive-loop exchanges.
-    sead::Atomic<u32> _360;
-    u8 _364[0x10];
+    sead::Atomic<u32> _360{0};
+    u32 _364 = 0;
+    // Used as a vector by 0x7101301100; starts at sead::Vector3f::zero.
+    sead::Vector3f _368 = sead::Vector3f::zero;
     // 0x71013008e4 increments this counter for every registered system.
-    sead::Atomic<u32> _374;
-    u8 _378[0x37c - 0x378];
-    u8 _37c;
+    sead::Atomic<u32> _374{0};
+    u32 _378 = 0;
+    u8 _37c = 9;
 };
+KSYS_CHECK_SIZE_NX150(Core, 0x380);
 
 // One 0x2c0-byte grass entry shared by both actual grid owners.
 struct GrassEntry {

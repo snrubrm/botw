@@ -57,14 +57,14 @@ void Core::sub_71013019B8() {}
 
 void Core::sub_710130085C() {
     if (_37c & 1)
-        _f8->requestUpdate(6);
+        mModel->requestUpdate(6);
     _360.exchange(0);
 }
 
 // NON_MATCHING: the compiler moves the flag load across the relaxed atomic exchange.
 void Core::sub_710130089C() {
     if (_37c & 1)
-        _f8->requestDraw();
+        mModel->requestDraw();
     _360.exchange(0);
     _37c |= 4;
 }
@@ -134,11 +134,18 @@ void Core::sub_71013010D4(const Unk_71013010d4& state, s32 index) {
 
 }  // namespace ksys::tera
 
-// NON_MATCHING: one address computation (_180) is scheduled earlier.
-Unk_710251f878::~Unk_710251f878() = default;
+namespace ksys::tera {
 
-void Unk_710251f878::postCalcWorld(const gsys::ModelScene* scene, u32 a, u32 b,
-                                   const gsys::ModelViewData* model_view_data, int view_index) {
+// NON_MATCHING: one address computation (_180) is scheduled earlier.
+Core::~Core() = default;
+
+Core::Core() {
+    mSystems.initOffset(0x1340);
+    _37c = 9;
+}
+
+void Core::postCalcWorld(const gsys::ModelScene* scene, u32 a, u32 b,
+                         const gsys::ModelViewData* model_view_data, int view_index) {
     if (mScene != scene)
         return;
     if ((~ksys::tera::Terrain::instance()->_a58 & 6) != 0)
@@ -147,8 +154,8 @@ void Unk_710251f878::postCalcWorld(const gsys::ModelScene* scene, u32 a, u32 b,
     sub_71013019BC(model_view_data, view_index);
 }
 
-void Unk_710251f878::calcBeforeDraw(gsys::ModelScene* scene,
-                                    const gsys::ModelViewData* model_view_data, int view_index) {
+void Core::calcBeforeDraw(gsys::ModelScene* scene, const gsys::ModelViewData* model_view_data,
+                          int view_index) {
     if (mScene != scene)
         return;
     if ((~ksys::tera::Terrain::instance()->_a58 & 6) != 0)
@@ -157,7 +164,6 @@ void Unk_710251f878::calcBeforeDraw(gsys::ModelScene* scene,
     sub_71013021E0(model_view_data, view_index);
 }
 
-namespace ksys::tera {
 
 void Core::sub_7101301068(bool update) {
     for (auto& system : mSystems)
@@ -173,34 +179,34 @@ void Core::sub_71013008E4(sead::Heap* heap, System* system) {
     }
     System::InitArgMaybe arg;
     arg.heap = heap;
-    arg.model = _f0 ? _f8 : nullptr;
+    arg.model = mScene ? mModel : nullptr;
     arg.count = mStates.size();
     system->sub_7101112E78(arg);
 }
 
 void Core::sub_71013009C4(sead::Heap* heap) {
-    if (!_f0)
+    if (!mScene)
         return;
 
     const u32 count = mModelUnits.size();
     for (u32 i = 0; i != count; ++i)
-        _f8->sub_7100BF7114(mModelUnits[i].mUnit, true, heap);
-    _f8->bind(_f0);
-    _f8->sub_7100BF9CA8(sead::SafeString("テライン"));
-    Terrain::instance()->sub_710107E900(_f8, false);
+        mModel->sub_7100BF7114(mModelUnits[i].mUnit, true, heap);
+    mModel->bind(mScene);
+    mModel->sub_7100BF9CA8(sead::SafeString("テライン"));
+    Terrain::instance()->sub_710107E900(mModel, false);
 }
 
 // 0x7101300aac: sets the visibility mask of every unit of the model (all bits when `visible`).
 void Core::sub_7101300AAC(bool visible) {
-    for (u32 i = 0; i < _f8->getUnits().size(); ++i) {
-        gsys::ModelUnit* unit = _f8->getUnits()(i)->mModelUnit;
+    for (u32 i = 0; i < mModel->getUnits().size(); ++i) {
+        gsys::ModelUnit* unit = mModel->getUnits()(i)->mModelUnit;
         if (unit != this)
             unit->setVisibilityMask(visible ? 0xffff : 0);
     }
 
     if (visible) {
         if (Terrain::instance()->_a58 & 0x10)
-            Terrain::instance()->sub_710107E900(_f8, true);
+            Terrain::instance()->sub_710107E900(mModel, true);
         _37c |= 8;
     } else {
         _37c = _37c & 0xf7;

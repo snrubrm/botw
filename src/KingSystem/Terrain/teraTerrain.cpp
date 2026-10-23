@@ -365,7 +365,7 @@ bool Terrain::sub_710114D7B8() {
 }
 
 void* Terrain::sub_710114DEB8(s32 a, s32 b) {
-    return &_360->mRecords[b * 3 + a];
+    return &_360->mUniformBlocks[b * 3 + a];
 }
 
 void sub_71012EB7DC(CellQuadMaybe* out, const sead::Vector2f* a, const sead::Vector2f* b) {
@@ -868,10 +868,10 @@ void Terrain::sub_710114DE7C(bool value) {
     _360->_37c = value ? _360->_37c | 1 : _360->_37c & ~1;
 }
 bool Terrain::sub_710114DE9C() { return (_360->_37c & 1) != 0; }
-gsys::Model* Terrain::sub_710114DEE0() { return _360->_f8; }
+gsys::Model* Terrain::sub_710114DEE0() { return _360->mModel; }
 bool Terrain::sub_710114DD40() { return false; }
 f64 Terrain::sub_710114D9E8() { return _a48; }
-void* Terrain::sub_710114DED4() { return _360->_f0; }
+void* Terrain::sub_710114DED4() { return _360->mScene; }
 void* Terrain::sub_710114D8D0() { return _360 ? &_360->mSystems : nullptr; }
 sead::Vector2f Terrain::sub_710114D8E4(const System* system) {
     return system->_10 * _3c8;
