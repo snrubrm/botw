@@ -1983,6 +1983,21 @@ void System::sub_7101118710(const s32* types, u32 count) {
     }
 }
 
+// 0x71011191bc (placeholder name): binds a map patcher to this system and pushes it onto the
+// +0xc0 list under the +0x80 lock.
+void System::sub_71011191BC(MapPatcher* patcher) {
+    auto lock = sead::makeScopedLock(mPatcherCS);
+    patcher->sub_710107E098(this);
+    mPatchers.pushBack(patcher);
+}
+
+// 0x710111921c (placeholder name): unbinds and removes a map patcher.
+void System::sub_710111921C(MapPatcher* patcher) {
+    patcher->sub_710107E098(nullptr);
+    auto lock = sead::makeScopedLock(mPatcherCS);
+    mPatchers.erase(patcher);
+}
+
 // 0x71011190c8 (placeholder name): registers an image user in the system's +0x68 list. The
 // element type is not recoverable from the callers (mapPlacementMap stores the routes as void*).
 void sub_71011190C8(void* tera_system, void* route) {

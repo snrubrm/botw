@@ -1589,6 +1589,9 @@ class MapPatcher {
 public:
     // 0x710107e060: toggles bit 30 of _328 and swaps the two 0x10-byte buffers.
     void sub_710107E060();
+    // 0x710107e098 (declaration only; placeholder name): binds the patcher to `system` (or unbinds
+    // it) and refreshes its patch block.
+    void sub_710107E098(System* system);
 
 private:
     u8 _0[0x20];
@@ -1667,6 +1670,11 @@ public:
     // 0x7101116d44 (placeholder name): flips the patch-buffer parity, points every scene's block at
     // the new buffer and swaps the buffers of the registered map patchers.
     void sub_7101116D44();
+    // 0x71011191bc (placeholder name): binds a map patcher to this system and pushes it onto the
+    // +0xc0 list under the +0x80 lock.
+    void sub_71011191BC(MapPatcher* patcher);
+    // 0x710111921c (placeholder name): unbinds and removes a map patcher.
+    void sub_710111921C(MapPatcher* patcher);
     // 0x71011167ac (declaration only; placeholder name): the per-scene update under the write lock.
     void sub_71011167AC(s32 index, bool arg);
     // 0x7101116e74 (placeholder name): under the read lock, updates scene `index`'s uniform block
