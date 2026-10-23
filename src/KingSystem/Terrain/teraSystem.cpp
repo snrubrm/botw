@@ -200,6 +200,14 @@ void Terrain::Unk4ae0::Unk_10::sub_71011406CC(u32 count) {
     _700 = count;
 }
 
+// 0x7101140810 (unnamed in the CSV): runs the material name setup, takes the material count from the
+// name table and then allocates the scale table.
+void Terrain::Unk4ae0::Unk_10::sub_7101140810(sead::Heap* heap) {
+    sub_7101140850();
+    _700 = _8 ? s32(mMaterialNames->mCount) : 0;
+    sub_71011406D4(heap);
+}
+
 // 0x71011406d4 (placeholder name): allocates the scale table for the _700 materials, initialises the
 // material texture (R8_G8_B8_A8, one level) and stores the scale of every table entry.
 // NON_MATCHING: the fill loop keeps an entry guard the original does not have (a register choice),

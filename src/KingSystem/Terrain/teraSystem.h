@@ -845,6 +845,11 @@ public:
             // 0x71011406d4 (placeholder name): allocates the _878 scale table for the _700 materials,
             // initialises the R8_G8_B8_A8 material texture _750 and stores the 0.25 scale of every entry.
             void sub_71011406D4(sead::Heap* heap);
+            // 0x7101140850 (declaration only; placeholder name): the material name tables setup.
+            void sub_7101140850();
+            // 0x7101140810 (unnamed in the CSV): runs that setup, takes the material count from the name
+            // table and allocates the scale table.
+            void sub_7101140810(sead::Heap* heap);
             // 0x7101140aa8 (placeholder name): the same as Water::setUpAttributeTable for this object's
             // tables (file names _718, main _728, sub _730; result in _738).
             void setUpAttributeTableMaybe(sead::Heap* heap, const AttributeMap* main_map,
