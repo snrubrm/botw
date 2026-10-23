@@ -184,6 +184,9 @@ public:
         f32 sub_7100EC8C28() const;
         // 0x7100ec6dd0: queues `actor` for the reaction of the current core (0x710128810c); false when full.
         bool sub_7100EC6DD0(Actor* actor);
+        // 0x7100ec6e30 (placeholder name): emits the "ObjHit" event and then the object-hit reaction
+        // event (named from the reaction kind and the material) for `request`.
+        void sub_7100EC6E30(::DamageReactionRequest* request);
         // 0x7100ec6070: emits the GrassTrack effect and the xlink properties for `request`.
         void sub_7100EC6070(f32 value, ::DamageReactionRequest* request, bool flag);
         // 0x7100ec61f8: fills the receiver from `request` (position, link, xlink properties).
@@ -245,7 +248,10 @@ public:
         /* 0x100 */ bool mHasBushTrack;
         // Player::m377 writes whether lower armor is Armor_Default_Lower; footstep assets use it.
         /* 0x101 */ bool mIsPlayerBarefoot;
-        u8 _102[0x110 - 0x102];
+        u8 _102[2];
+        // Per-reaction-kind emitted flags: bit 0 for the Hit kind, bit 1 for the others.
+        /* 0x104 */ u8 _104;
+        u8 _105[0x110 - 0x105];
         /* 0x110 */ s32 _110;
         u8 _114[4];
         /* 0x118 */ s32 _118;
