@@ -3235,9 +3235,35 @@ public:
             index = 0;
         return u8(index);
     }
-    void showTabPage(s32 tab, s32 page) {
-        if (page >= 0 && _3624 > page && _3624 > 0)
+    // inline-only in the original; name is a guess (0x7100a39464 inlines the wrap and the page check,
+    // and 0x7100a3772c uses the result to pick the show / hide arm)
+    bool showTabPage(s32 tab, s32 page) {
+        if (page >= 0 && _3624 > page && _3624 > 0) {
             sub_7100A38A48(tab, page);
+            return true;
+        }
+        return false;
+    }
+    // inline-only in the original; name is a guess (0x7100a3772c inlines the seven page-id tests twice)
+    s32 getTabIndex(s32 page) const {
+        const s32 tab = s32(sub_7100A82D08(page));
+        if (tab != -1)
+            return tab;
+        if (page == mTabControls.mEntries[0].mFirstItemIndex)
+            return 0;
+        if (page == mTabControls.mEntries[1].mFirstItemIndex)
+            return 1;
+        if (page == mTabControls.mEntries[2].mFirstItemIndex)
+            return 2;
+        if (page == mTabControls.mEntries[3].mFirstItemIndex)
+            return 3;
+        if (page == mTabControls.mEntries[4].mFirstItemIndex)
+            return 4;
+        if (page == mTabControls.mEntries[5].mFirstItemIndex)
+            return 5;
+        if (page == mTabControls.mEntries[6].mFirstItemIndex)
+            return 6;
+        return -1;
     }
     // inline-only in the original; name is a guess (m191 inlines this four times around the info animators)
     void playInfoAnimator(eui::Animator* ScreenPauseMenuInfo::*animator);

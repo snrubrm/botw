@@ -156,6 +156,37 @@ void ScreenPauseMenu::sub_7100A392D8() {
     mTabControls.mEntries[idx].mGuide.sub_7100936BD4(show_first, show_second);
 }
 
+// 0x7101e78f64: the x offset of a tab control one page away / one page away in another category.
+static const f32 sUnk_7101e78f64[2] = {505.0f, 490.0f};
+
+// 0x7100a3772c (placeholder name): lays the three visible tab controls out around the current page.
+// NON_MATCHING: the target's Unk_710247a028::sub_71009B01B4 call stays out of line there, but the
+// class is defined in this TU here and gets inlined (which also drops the saved d8 and hoists the
+// _3a18 load out of the loop).
+void ScreenPauseMenu::sub_7100A3772C() {
+    sub_7100AA9838();
+    for (s32 i = -1; i < 2; ++i) {
+        const u8 tab = wrapTab(s8(_3a18) + i);
+        auto* control = _3a00[tab < 3 ? tab : 0];
+        if (!control)
+            continue;
+        const s32 page = _3644 + i;
+        if (!showTabPage(tab, page)) {
+            control->sub_71009AFF68();
+            _3a00[tab < 3 ? tab : 0]->sub_71009B020C(false);
+            continue;
+        }
+        control->sub_71009B020C(true);
+        if (tab == _3a18)
+            continue;
+        const f32 step = sUnk_7101e78f64[getTabIndex(_3644) == getTabIndex(page) ? 1 : 0];
+        control->sub_71009B01C4(f32(i) * step +
+                                _3a00[_3a18 < 3 ? _3a18 : 0]->sub_71009B01B4().x);
+    }
+    sub_7100A38FE8(_3a18, false);
+    sub_7100AA9848();
+}
+
 // 0x7100a36784 (placeholder name): steps the page offset and re-lays the tab controls when the
 // current page moved; then shows the page of the tab control that holds the target page.
 // NON_MATCHING: the inlined wrapTab comparisons and the shared 2 constant differ per instance
