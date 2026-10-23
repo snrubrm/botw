@@ -715,6 +715,27 @@ void ScreenAppMap::sub_71009F0668() {
     }
 }
 
+// 0x71009f0804
+void ScreenAppMap::sub_71009F0804() {
+    auto* child = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0));
+    if ((child && child->sub_7100994E88()) || UiSubsys1::instance()->has3864Bit0() ||
+        UiSubsys1::instance()->isValid38e0() ||
+        (_3c98 && (_3c98->_104 == 7 ||
+                   (u32(_3c98->_104 - 1) <= 4 && ((_3c98->_104 - 1) & 1) == 0)))) {
+        UiSubsys1::instance()->sub_7100966E2C();
+        if (_3c10->mFrame == 0.0f)
+            return;
+        _3c10->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+        return;
+    }
+    if (_3c10->mFrame != 0.0f)
+        return;
+    UiSubsys1::instance()->update388c();
+    if (!UiSubsys1::instance()->checkEnded388c())
+        return;
+    _3c10->PlayAuto(1.0f);
+}
+
 // 0x71009ec054
 void ScreenAppMap::m98() {
     if (ksys::Patrol::instance() && ksys::Patrol::instance()->mField0 &&

@@ -2778,6 +2778,9 @@ public:
     // 0x71009f273c (placeholder name; called by Unk_710247c010::sub_71009BE260): Unk_71025d69f0::sub_710094E064, then
     // closes the screen
     void sub_71009F273C();
+    // 0x71009eaa24 (placeholder name): restarts the cursor timer, creates the map cursor layout and its animators,
+    // and finds the Pa_Cursor_00 pane
+    void sub_71009EAA24();
     // 0x71009eab28 (placeholder name): looks up the two screen children (group 4 and group 5)
     void sub_71009EAB28();
     // 0x71009eb0e0 (placeholder name; called by m94): toggles the UiSubsys1 map flags 0x38c8 / 0x6e4 and plays the
@@ -2823,6 +2826,8 @@ public:
     void sub_71009EF5D0();
     // 0x71009f0668 (placeholder name): creates the map cursor layout's six animators
     void sub_71009F0668();
+    // 0x71009f0804 (placeholder name): plays the cursor animators for the hovered marker or the camera preview
+    void sub_71009F0804();
     // 0x71009ed4e4 (CSV unnamed): switches the map children to the mode's state
     void sub_71009ED4E4(s32 mode);
     // 0x71009f14d8 (placeholder name): switches the map's animator and message to `mode`; mode 7 uses

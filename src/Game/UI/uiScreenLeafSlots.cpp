@@ -179,6 +179,24 @@ void ScreenAppMapDungeon::sub_71009E2584() {
     mSensorChild = nn::font::DynamicCast<Unk_710247c010>(nn::font::DynamicCast<ScreenChildEx>(getChild(0, 0)));
 }
 
+// 0x71009eaa24
+void ScreenAppMap::sub_71009EAA24() {
+    UiSubsys1::instance()->start388c();
+    UiSubsys1::instance()->set38c8();
+    _3bf8 = sub_7100BEAFB0("Pa_Cursor_00");
+    if (_3bf8)
+        _3bf8->sub_7100BDDE7C(true, 0, true);
+    sub_71009F0668();
+    _3c00->StopAtMin();
+    _3c10->StopAtMin();
+    _3c08->StopAtMin();
+    _3c18->mFlags |= 0x10;
+    _3c18->StopAtMin();
+    _3c20->StopAtMin();
+    _3c28->StopAtMin();
+    _3c30 = sub_7100A48104(sead::SafeString("Pa_Cursor_00"), nullptr);
+}
+
 // 0x71009eab28
 void ScreenAppMap::sub_71009EAB28() {
     _3c90 = nn::font::DynamicCast<ScreenAppMapUnk3c90>(nn::font::DynamicCast<ScreenChildEx>(getChild(4, 0)));
