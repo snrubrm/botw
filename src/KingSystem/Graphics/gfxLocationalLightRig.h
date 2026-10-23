@@ -20,6 +20,10 @@ namespace ksys::gfx {
 
 class LocationalLightRig;
 
+// 0x710260ad70: the rig type id the factory registration 0x7100f18540 stores (first halfword of
+// the type info object).
+extern s16* sTypeId;
+
 // F0CAF0 allocates 0x88-byte records and calls F18190. Model::pushBack uses
 // the inherited node at +8; F16F08 links the two owned nodes at +0x18/+0x28.
 class LocationalLightMgr::ObjectLight::Light : public gsys::IModelRigObj {

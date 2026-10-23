@@ -7,7 +7,6 @@
 
 namespace ksys::gfx {
 
-// 0x710260ad70: the rig type id the factory registration 0x7100f18540 stores.
 s16* sTypeId;
 
 s32 LocationalLightRig::getTypeID() const {

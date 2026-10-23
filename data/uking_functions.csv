@@ -81684,7 +81684,7 @@ Address,Quality,Size,Name
 0x0000007100f0aca8,U,000708,_ZN4ksys3gfx18LocationalLightMgrC1Ev
 0x0000007100f0af6c,U,001576,
 0x0000007100f0b594,U,000036,
-0x0000007100f0b5b8,U,000036,
+0x0000007100f0b5b8,O,000036,_ZN4ksys3gfx18LocationalLightMgr14sub_7100F0B5B8EPvPN3agl3env12EnvObjBuffer11AllocateArgE
 0x0000007100f0b5dc,U,001692,LocationalLightMgr::x
 0x0000007100f0bc78,U,000036,
 0x0000007100f0bc9c,U,000868,ksys::gfx::PrePassLightMgr::initialize

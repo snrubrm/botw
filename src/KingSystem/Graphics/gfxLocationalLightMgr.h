@@ -135,7 +135,9 @@ public:
 
 private:
     sead::CriticalSection mCS;
-    u8 _48[0x18];
+    u8 _48[0x10];
+    // 0x7100f0b5b8: the environment object being registered.
+    void* _58;
     // Ctor initialises this word to 0x1ff00000.
     u32 _60;
     u8 _64[4];
