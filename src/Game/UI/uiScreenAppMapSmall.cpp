@@ -27,6 +27,12 @@
 
 namespace uking::ui {
 
+// 0x71025def40: the "T_Name_00" widget name used for the map marker's name message.
+KSYS_VISIBILITY_HIDDEN sead::FixedSafeString<64> sUnk_71025def40("T_Name_00");
+
+// 0x710099f668 (CSV unnamed): builds the hovered map marker's name message for `part`.
+extern "C" void appMapStringStuff(AppMapIconPart* part, eui::MessageString* message);
+
 // 0x71009d9c40
 void ScreenAppCamera::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
     Unk_71024803b8 creator(mButtonGroup, &mControls, &_50);
@@ -840,6 +846,27 @@ void ScreenAppMap::sub_71009F0508(UiSubsys1Entry* icon) {
         sub_71009F08F8(id);
     }
     sub_71009F15A0(icon);
+}
+
+// 0x71009f0be4
+void ScreenAppMap::sub_71009F0BE4() {
+    eui::Animator* animator = _3c28;
+    if (animator) {
+        sead::Vector2f pos = sead::Vector2f::zero;
+        if (_3610)
+            _3610->sub_71009A9F4C(*UiSubsys1::instance()->getVec3878(), &pos);
+        if (UiSubsys1::instance()->isLessOrEqual3880(pos.x))
+            animator->StopAtMax();
+        else
+            animator->StopAtMin();
+    }
+    if (auto* child = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0))) {
+        eui::MessageString message;
+        appMapStringStuff(child, &message);
+        setWidgetString(_3bf8, sUnk_71025def40, message);
+    }
+    if (_3c08)
+        _3c08->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
 }
 
 // 0x71009f1b9c
