@@ -3336,6 +3336,8 @@ public:
     void sub_7100A3AEE4();
     // 0x7100a3bf0c (placeholder name): sorts the current category and re-lays the tabs, pages and cursor
     void sub_7100A3BF0C();
+    // 0x7100a3b994 (placeholder name): equips (puton) or unequips the item under the cursor
+    void sub_7100A3B994(bool puton);
     // 0x7100a382e0 (CSV unnamed, placeholder name): refreshes the categories of the page before / at / after `page`.
     void sub_7100A382E0(s32 page);
     // 0x7100a38994: closes the TV box cursor screen when the cursor box leaves _3664

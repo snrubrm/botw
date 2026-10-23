@@ -394,6 +394,8 @@ public:
     // 0x710097b050 (CSV x_0; declared only, placeholder name): moves the item at `value` of `category` to the
     // sorted position.
     void x_0(s32 category, s32 value);
+    // 0x71009762a8 (CSV x_19; declared only, placeholder name): equips item `value` of `category`.
+    void x_19(s32 category, s32 value);
     // 0x7100977128 (CSV x_3; declared only, placeholder name): clears the sort state of the inventory.
     void x_3(s32 a);
     // 0x710097b3b4 (CSV x_2; declared only, placeholder name): the page and item offset to show after a sort.

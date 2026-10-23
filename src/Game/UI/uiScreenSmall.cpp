@@ -20,7 +20,9 @@
 #include "KingSystem/Event/evtEvent.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
@@ -856,6 +858,104 @@ void ScreenPauseMenu::sub_7100A3BF0C() {
     sub_7100A37A78();
     sub_7100AA9570(s32(category), false);
     invokeSoundLink2Event_("mc_Sort");
+}
+
+// 0x7100a3b994 (placeholder name): equips (`puton`) or unequips the item under the cursor.
+// NON_MATCHING: our frame is 0x10 larger (an extra temporary around the item name lookup) and the item / unit
+// pointers stay in registers where the original reloads them from the slot.
+void ScreenPauseMenu::sub_7100A3B994(bool puton) {
+    u8 index = 0;
+    if (sUnk_71025f1220[2] <= _3638)
+        index = 2;
+    else if (sUnk_71025f1220[1] <= _3638)
+        index = 1;
+    if (!_3a00[index])
+        return;
+    const s32 category = _3a00[index]->_130;
+    const s32 value = _3a00[index]->sub_71009B0484(_3638);
+    const s32 button = _3a00[index]->sub_71009B0468(_3638);
+
+    bool has_soul = false;
+    bool has_other = false;
+    if (auto* info = ksys::act::InfoData::instance()) {
+        al::ByamlIter iter;
+        if (info->getActorIter(&iter, _3630->getName().cstr(), true)) {
+            has_soul = info->hasTag(iter, 0x19f6c13a);
+            has_other = info->hasTag(iter, 0x9723a5b4);
+        }
+    }
+    const PouchItemType type = _3630->getType();
+    auto* info_screen = sead::DynamicCast<ScreenPauseMenuInfo>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo));
+    if (has_soul) {
+        mPauseMenuDataMgr->x_19(category, value);
+        if (auto* mgr = OnUiActorMgr::instance())
+            mgr->sub_7100907F80(_3630->getName(), -1, true);
+    } else if (has_other) {
+        if (puton)
+            mPauseMenuDataMgr->x_19(category, value);
+        else
+            mPauseMenuDataMgr->x_20(category, value);
+        const s32 icon = sub_7100A39820(sub_7100AA46F0(_3630->getName()));
+        if (icon >= 0)
+            _3c00[icon].sub_7100933850(puton, true);
+        sub_7100A9B9F8(2);
+    } else {
+        const bool maybe = sub_7100A82E28(s32(type));
+        if (puton) {
+            auto* item = _3630;
+            if (uking::act::PlayerInfo::instance()->getPlayer()) {
+                const u8 slot = u8(getCreateEquipmentSlot(item->getType()));
+                _3bd8[slot].mItem = item;
+                _3bd8[slot].mChanged = false;
+                if (auto* mgr = OnUiActorMgr::instance())
+                    mgr->sub_7100907F80(item->getName(),
+                                        sub_7100A82E28(s32(item->getType())) ? item->getValue() : -1,
+                                        true);
+            }
+            mPauseMenuDataMgr->x_19(category, value);
+            if (maybe)
+                ksys::gdt::setFlag_Guide_Pause(true, false);
+        } else {
+            mPauseMenuDataMgr->x_20(category, value);
+            auto* item = _3630;
+            const u8 slot = u8(getCreateEquipmentSlot(item->getType()));
+            _3bd8[slot].mItem = nullptr;
+            _3bd8[slot].mChanged = true;
+            if (auto* mgr = OnUiActorMgr::instance())
+                mgr->sub_7100907F80(
+                    mPauseMenuDataMgr->getDefaultEquipment(EquipmentSlot(item->getType())), -1,
+                    true);
+        }
+        if (info_screen)
+            info_screen->sub_7100A2FD64(_3630, puton);
+        sub_7100A9B9F8(maybe ? 1 : 0);
+    }
+    if (puton) {
+        const PouchCategory cat = sub_7100A82D08(category);
+        if (sub_7100A82DB8(s32(cat)) < 2) {
+            _3a00[index]->sub_71009B0348();
+        } else {
+            const u8 prev = wrapTab(u8(index - 1));
+            if (category >= 1 && category <= _3624 && _3624 > 0 &&
+                sub_7100A82D08(category - 1) == cat) {
+                if (_3a00[prev])
+                    _3a00[prev]->sub_71009B0348();
+            }
+            if (category >= 0 && category < _3624 && _3624 > 0 &&
+                sub_7100A82D08(category) == cat && _3a00[index])
+                _3a00[index]->sub_71009B0348();
+            const u8 next = wrapTab(u8(index + 1));
+            if (category + 1 < _3624 && _3624 > 0 && sub_7100A82D08(category + 1) == cat &&
+                _3a00[next])
+                _3a00[next]->sub_71009B0348();
+        }
+    }
+    if (!has_other)
+        _3a00[index]->sub_71009B04E0(button, puton);
+    if (type == PouchItemType::Bow)
+        sub_7100A399F4(category, index);
+    invokeSoundLink2Event_(puton ? "mc_equip_puton" : "mc_equip_takeoff");
 }
 
 // 0x7100a3a7fc
