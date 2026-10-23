@@ -628,6 +628,18 @@ ZukanType getZukanType(Actor* actor) {
     return ZukanType::Invalid;
 }
 
+// 0x7100edea5c (placeholder name): whether the first model unit enables render view option 1
+// (view 0); false without a model or a unit.
+bool sub_7100EDEA5C(Actor* actor) {
+    auto* model = actor->getModel();
+    if (!model)
+        return false;
+    auto* unit = model->getUnits().unsafeAt(0)->mModelUnit;
+    if (!unit)
+        return false;
+    return unit->isRenderViewOptionEnabled(0, gsys::ModelEnum::RenderViewOption(1), 0);
+}
+
 static bool isProfile(const ActorLinkConstDataAccess& accessor, const sead::SafeString& profile) {
     return accessor.hasProc() && accessor.getProfile() == profile;
 }
