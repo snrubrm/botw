@@ -129,6 +129,43 @@ void ScreenAppMap::sub_71009F2300(s32 mode) {
     sub_71009F08F8(6);
 }
 
+// 0x71009f2430
+void ScreenAppMap::sub_71009F2430() {
+    if (UiSubsys1::instance()->is38e0Equal(1)) {
+        const s32 mode = UiSubsys1::instance()->sub_71009641E4();
+        if (mode == 0) {
+            createAndLoadScreenIfNeededImpl(ScreenId::AppSystemWindow, nullptr);
+            if (auto* window = sead::DynamicCast<ScreenAppSystemWindow>(
+                    eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow)))
+                window->m154(5);
+        } else if (mode == 1) {
+            createAndLoadScreenIfNeededImpl(ScreenId::AppSystemWindow, nullptr);
+            if (auto* window = sead::DynamicCast<ScreenAppSystemWindow>(
+                    eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow)))
+                window->m154(6);
+        }
+    }
+    if (auto* child = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0)))
+        sub_710099EF18(child, 4);
+    if (auto* child = sub_71009EA670(this, 3, 0))
+        sub_71009C5E4C(child, 4);
+    if (UiSubsys1::instance()->is38e0Equal(0))
+        UiSubsys1::instance()->set38e4(1);
+    UiSubsys1::instance()->set38e0(-1);
+    UiSubsys1::instance()->set38e4(2);
+    if (auto* child = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0))) {
+        if (auto* icon = child->getHoveredIconData()) {
+            const s32 hovered = icon->m10();
+            if (hovered == 1) {
+                if (!UiSubsys1::instance()->sub_7100960DF8())
+                    sub_71009F08F8(1);
+                return;
+            }
+            sub_71009F08F8(hovered);
+        }
+    }
+}
+
 // 0x71009e0df8
 bool ScreenAppMapDungeon::sub_71009E0DF8() const {
     if (mSensorChild)
