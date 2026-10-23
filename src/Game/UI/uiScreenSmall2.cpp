@@ -3043,6 +3043,33 @@ void ScreenShopBtnList15::m107(eui::AnimButton* button) {
     clearDecideWindowAlpha(button);
 }
 
+// 0x7100a4b120
+// NON_MATCHING: the ShopItem local's constructor is inlined here; the original calls the out-of-line
+// ShopItem ctor 0x7100985510 (our model names that symbol HorseItemString::HorseItemString).
+void ScreenShopBtnList15::m98() {
+    ShopItem item;
+    for (s32 i = 0; i != 15; ++i) {
+        if (!UiShopMgr::instance()->sub_71009831B0(i, &item) || item.name.isEmpty()) {
+            _3610.unload(i);
+        } else {
+            sead::FixedSafeString<128> name;
+            sub_7100AA3B50(item.name, &name, -1);
+            _3610.sub_7100A81B1C(name, i);
+        }
+    }
+    if (auto* layout = sub_7100BEAFB0("Pa_GuideA_00")) {
+        if (layout->_91 == 3 || layout->_91 == 0)
+            layout->sub_7100BDDE7C(false, 0, true);
+    }
+    if (auto* layout = sub_7100BEAFB0("Pa_GuideB_00")) {
+        if (layout->_91 == 3 || layout->_91 == 0)
+            layout->sub_7100BDDE7C(false, 0, true);
+    }
+    moveBoxCursorByTag_(0x7a);
+    UiShopMgr::instance()->sub_710098411C(0);
+    UiShopMgr::instance()->_b4 = 1;
+}
+
 // 0x7100a4ca6c
 void ScreenShopBtnList20::m107(eui::AnimButton* button) {
     if (UiShopMgr::instance()->_cd)

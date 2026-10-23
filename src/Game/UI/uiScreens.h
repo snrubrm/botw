@@ -5619,6 +5619,7 @@ public:
     ~ScreenShopBtnList15() override;
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList15, ScreenEx)
     void m94() override;
+    void m98() override;
     void m100() override;
     // 0x7100a4b444: a button was selected; tells the shop manager the index (tag - 122) of the item
     void m102(eui::AnimButton* button) override;
