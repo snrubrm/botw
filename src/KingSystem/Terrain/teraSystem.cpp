@@ -1926,6 +1926,22 @@ void System::sub_710111718C(s32 index) {
     mScenes[index].collector->sub_71011066F0();
 }
 
+// 0x710107e060: toggles the buffer-selection bit and points the two current-buffer pointers at the
+// two 0x10-byte buffers at +0x2d8.
+void MapPatcher::sub_710107E060() {
+    const u32 mask = 0x40000000;
+    const u32 flags = _328;
+    if ((flags & mask) == 0)
+        _328 = flags | mask;
+    else
+        _328 = flags & ~mask;
+    // NON_MATCHING: the original extracts bit 30 with ubfx and scales the two buffer addresses in
+    // the adds; ours folds the scale into the extraction (lsr / and) and uses an eor on it.
+    const u32 index = (_328 >> 30) & 1;
+    _300 = _2d8 + index * 0x10;
+    _2f8 = _2d8 + (index ^ 1) * 0x10;
+}
+
 // 0x7101116d44 (placeholder name): flips the patch-buffer parity, points every scene's block at the
 // new buffer and swaps the buffers of the registered map patchers.
 void System::sub_7101116D44() {
