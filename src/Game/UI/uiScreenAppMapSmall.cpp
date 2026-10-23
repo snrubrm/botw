@@ -24,6 +24,7 @@
 #include <layer/aglRenderer.h>
 #include <nn/font/font_Util.h>
 #include "Game/UI/euiPictureEx.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::ui {
 

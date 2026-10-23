@@ -216,6 +216,38 @@ void ScreenAppMap::sub_71009EB960() {
     }
 }
 
+// 0x71009eba68
+// NON_MATCHING: the original compares the entry's 4-byte id through stack temporaries (the field's type needs the
+// volatile int conversion), and the shared StopAtMin / StopAtMax blocks are laid out the other way round.
+void ScreenAppMap::sub_71009EBA68(UiSubsys1Entry* icon) {
+    if (!icon)
+        return;
+    if (icon->_1c == 2) {
+        if (sead::DynamicCast<Unk_71024755d8>(icon)) {
+            if (!(icon->_3c & 0x200000))
+                _3c20->StopAtMin();
+            else
+                _3c20->StopAtMax();
+        } else {
+            _3c20->StopAtMin();
+        }
+    } else if (icon->_1c == 0x2b) {
+        if (sead::DynamicCast<Unk_71024756f0>(icon)) {
+            if (!(icon->_3c & 0x200000))
+                _3c20->StopAtMin();
+            else
+                _3c20->StopAtMax();
+        } else {
+            _3c20->StopAtMin();
+        }
+    } else {
+        _3c20->StopAtMin();
+    }
+    sub_71009F0508(icon);
+    UiSubsys1::instance()->sub_7100966E2C();
+    UiSubsys1::instance()->set38e4(2);
+}
+
 // 0x71009eab28
 void ScreenAppMap::sub_71009EAB28() {
     _3c90 = nn::font::DynamicCast<ScreenAppMapUnk3c90>(nn::font::DynamicCast<ScreenChildEx>(getChild(4, 0)));

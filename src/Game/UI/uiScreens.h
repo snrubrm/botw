@@ -2780,6 +2780,8 @@ public:
     void sub_71009F273C();
     // 0x71009eb960 (placeholder name): handles the app system window's result state for the map's sub-state
     void sub_71009EB960();
+    // 0x71009eba68 (placeholder name): applies the selected marker entry to the map's sub-state
+    void sub_71009EBA68(UiSubsys1Entry* icon);
     // 0x71009f20f4 (placeholder name; declared only): map sub-run step for the closed app system window's result
     void sub_71009F20F4();
     // 0x71009eaa24 (placeholder name): restarts the cursor timer, creates the map cursor layout and its animators,
