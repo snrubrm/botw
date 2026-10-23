@@ -994,6 +994,13 @@ void Reaction::Unk1::sub_7100EC8C04(f32 a, Actor* actor, const sead::Vector3f& p
     sub_7100EC89D8(a, actor, position, ReactionSize(value), mask, "WaterFlowSplash", 5);
 }
 
+Reaction::Unk1::~Unk1() {
+    if (mSLinkLimiter) {
+        delete mSLinkLimiter;
+        mSLinkLimiter = nullptr;
+    }
+}
+
 // NON_MATCHING: clang folds the lower-bound test to a single fmax; the original keeps the ordered
 // fcmp / fcsel pair (and schedules the first bit-set before it). Same values.
 // 0x7100ec88f8 (placeholder name): the hit-volume scale of the event; the value is shifted by

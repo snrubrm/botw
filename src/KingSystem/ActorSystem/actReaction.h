@@ -188,6 +188,7 @@ public:
     // Placeholder: the object at _a8 (class unknown). 0x7100ec66fc sets its _110 to 2; the actor
     // argument is unused. Called by OctarockOptionRoot::calc_ when the player touches the rock.
     struct Unk1 {
+        virtual ~Unk1();
         // 0x7100ec30c4 (placeholder name): resets the per-core reaction queues and counters.
         void sub_7100EC30C4();
         // 0x7100ec313c (placeholder name): forwards the request to the reaction handlers.
@@ -288,7 +289,6 @@ public:
         void sub_7100EC7FBC(sead::FixedSafeString<64>* name, ReactionKind kind, ReactionSizeClass size,
                             const sead::SafeString& material);
 
-        u8 _0[8];
         /* 0x08 */ Actor* _8;
         /* 0x10 */ Actor* _10;
         u8 _18[8];
