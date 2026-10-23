@@ -536,8 +536,8 @@ s32 sub_7100A82DB8(s32 a) {
     return PauseMenuDataMgr::instance()->x_37(a);
 }
 
-void sub_7100A82DD0(s32 a) {
-    PauseMenuDataMgr::instance()->x_38(a);
+s32 sub_7100A82DD0(s32 a) {
+    return PauseMenuDataMgr::instance()->x_38(a);
 }
 
 // 0x71010a0de0 (a separate TU from the fade demo screen: the original calls it out of line)

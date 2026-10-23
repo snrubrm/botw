@@ -290,9 +290,9 @@ public:
     // 0x710097d79c: declaration only.
     void dyeGoodsStuff();
     // 0x710097c1d4 / 0x710097c7b0 (CSV x_37 / x_38).
-    // x_37 counts consecutive tabs for the category; x_38 remains declared only.
+    // x_37 counts consecutive tabs for the category; x_38 returns the first item index of the tab.
     s32 x_37(s32 a);
-    void x_38(s32 a);
+    s32 x_38(s32 a);
 
     static PouchItemType getType(const sead::SafeString& item, al::ByamlIter* iter = nullptr);
 
@@ -391,6 +391,13 @@ public:
     int x_25(s32 category, s32 value);
     // 0x71009764a0 (CSV x_20; declared only, placeholder name): un-equips item `value` of `category`.
     void x_20(s32 category, s32 value);
+    // 0x710097b050 (CSV x_0; declared only, placeholder name): moves the item at `value` of `category` to the
+    // sorted position.
+    void x_0(s32 category, s32 value);
+    // 0x7100977128 (CSV x_3; declared only, placeholder name): clears the sort state of the inventory.
+    void x_3(s32 a);
+    // 0x710097b3b4 (CSV x_2; declared only, placeholder name): the page and item offset to show after a sort.
+    bool x_2(s32* page, s32* offset);
     bool canGrabAnotherItem() const;
     bool isNothingBeingGrabbed() const;
     // 0x710097adfc

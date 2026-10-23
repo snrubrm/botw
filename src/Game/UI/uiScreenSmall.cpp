@@ -776,6 +776,88 @@ void ScreenPauseMenu::sub_7100A3AEE4() {
     _3be8[button].sub_7100932FDC(_3bf8, false);
 }
 
+// 0x7100a3bf0c (placeholder name): sorts the current category, rebuilds the tab first-item indices and re-lays
+// the pages and the cursor after the sort.
+// NON_MATCHING: the original keeps a second copy of the loop index for the three tab helpers and keeps the sort
+// offset in a callee-saved register across the cursor update; ours reuses one index and reloads the offset.
+void ScreenPauseMenu::sub_7100A3BF0C() {
+    if (!mPauseMenuDataMgr)
+        return;
+    const PouchCategory category = sub_7100A82D08(_3644);
+    if (u32(_3638 - 9) < 0x3c && mPauseMenuDataMgr) {
+        u8 index = 0;
+        if (sUnk_71025f1220[2] <= _3638)
+            index = 2;
+        else if (sUnk_71025f1220[1] <= _3638)
+            index = 1;
+        s32 cat = 0;
+        s32 value = -1;
+        if (_3a00[index]) {
+            value = _3a00[index]->sub_71009B0468(_3638);
+            cat = _3a00[index]->_130;
+        }
+        mPauseMenuDataMgr->x_0(cat, value);
+    }
+    mPauseMenuDataMgr->x_3(0);
+    mPauseMenuDataMgr->sortItems(category, false);
+    _3624 = sub_7100A82D20();
+    for (s32 i = 0; i != 7; ++i) {
+        if (sub_7100A82E20(i)) {
+            mTabControls.mEntries[i].mFirstItemIndex = sub_7100A82DD0(i);
+            mTabControls.mEntries[i]._7c = sub_7100A82D3C(PouchCategory(i));
+            if (i == 1)
+                _3628 = mPauseMenuDataMgr->countItems(PouchItemType::Arrow, false);
+        } else {
+            mTabControls.mEntries[i].mFirstItemIndex = -1;
+            mTabControls.mEntries[i]._7c = -1;
+            if (i == 1)
+                _3628 = 0;
+        }
+    }
+    s32 offset = 0;
+    if (!mPauseMenuDataMgr->x_2(&_3644, &offset)) {
+        _3644 = 0;
+        offset = 0;
+    }
+    _3648 = _3644;
+    sub_7100A3772C();
+    if (_3674 == 0) {
+        const s32 tag = sUnk_71025f1220[_3a18];
+        _3638 = offset + tag;
+        moveBoxCursorByTag_(_3638);
+    } else {
+        if (mActiveCursorNode) {
+            auto* button = mActiveCursorNode->mButton;
+            if (u32(button->mTag - 9) < 0x3c)
+                button->setFlag10(false);
+        }
+        _364c = offset;
+        _3630 = nullptr;
+        _3638 = 0;
+        if (!sub_7100A3A7FC(_3648, offset)) {
+            _3661 = 1;
+            if (auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::BoxCursorTV))
+                screen->close(-4);
+        }
+        if (_3661 == 0 && mActiveCursorNode)
+            _3638 = mActiveCursorNode->mButton->mTag;
+    }
+    if (_3638 == 0)
+        return;
+    _3630 = nullptr;
+    const u32 slot = u32(_3a18) < 3 ? _3a18 : 0;
+    const s32 value = _3a00[slot]->sub_71009B0484(_3638);
+    if (value >= 0)
+        _3630 = mPauseMenuDataMgr->__auto8(_3644, value);
+    if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo)))
+        info->sub_7100A2F274(_3630, true);
+    sub_7100A379BC(_3644);
+    sub_7100A37A78();
+    sub_7100AA9570(s32(category), false);
+    invokeSoundLink2Event_("mc_Sort");
+}
+
 // 0x7100a3a7fc
 // NON_MATCHING: the original keeps the page index in a separate 64-bit register for the element
 // address; our clang reuses the 32-bit index with uxtw.

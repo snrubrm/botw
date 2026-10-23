@@ -1014,6 +1014,9 @@ public:
     // A2E510 combines equipment resistance with deferred effect fields 3910/3914.
     void sub_7100A2E510(s32* hot, s32* cold, s32* fire);
     void sub_7100A2FEDC();
+    // 0x7100a2f274 (placeholder name): shows the info of the item at `_3630`, including the sort preview when
+    // `flag` is set.
+    void sub_7100A2F274(const PouchItem* item, bool flag);
     // 0x7100a2fd64 (placeholder name): shows the info of `item`; `flag` selects the empty name instead of the
     // item's own name for the resist line.
     void sub_7100A2FD64(const PouchItem* item, bool flag);
@@ -3331,6 +3334,8 @@ public:
     // 0x7100a3aee4 (placeholder name): holds the item under the cursor; when the item is equipped, clears its
     // equipment slot record and refreshes the info screen first
     void sub_7100A3AEE4();
+    // 0x7100a3bf0c (placeholder name): sorts the current category and re-lays the tabs, pages and cursor
+    void sub_7100A3BF0C();
     // 0x7100a382e0 (CSV unnamed, placeholder name): refreshes the categories of the page before / at / after `page`.
     void sub_7100A382E0(s32 page);
     // 0x7100a38994: closes the TV box cursor screen when the cursor box leaves _3664
