@@ -253,7 +253,7 @@ public:
         // volume and pitch scales from the four values (sub_7100EC7D50).
         // The parameter order is (handle, position, volume base, distance, volume factor, pitch factor).
         void sub_7100EC86F4(xlink2::HandleSLink* handle, const sead::Vector3f& position, f32 a, f32 b,
-                            f32 c, f32 d);
+                            f32 c, f32 d, bool flag);
         // Volume / pitch scale calculation behind sub_7100EC86F4.
         // The second and third floating-point inputs are unused by the native callee.
         void sub_7100EC7B90(f32 a, f32, f32, f32 d, f32 e, f32 f, f32 g,
@@ -323,7 +323,7 @@ public:
     // 0x7100ec2278 (placeholder name): size class 0-4 of the actor from the local AABB of its main body
     // (2 or 3 from the height alone without one). `is_long` (optional) is set when the body is longer than
     // 4.5 and much thinner in the other two directions.
-    u32 sub_7100EC2278(Actor* actor, bool* is_long);
+    u64 sub_7100EC2278(Actor* actor, bool* is_long);
     // 0x7100ec2598: the moving water footstep reaction: casts 5 / 10 units along the velocity and
     // forwards the speed along the hit normal with flag 1.
     void sub_7100EC2598(Actor* actor);

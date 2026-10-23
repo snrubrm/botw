@@ -13,6 +13,8 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actReaction.h"
 #include "KingSystem/ActorSystem/actReactionSLinkLimiter.h"
+#include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Sound/sndInfoData.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
@@ -270,7 +272,7 @@ void ActorUnk6b8::sub_7100EBD7DC(const sead::Vector3f& velocity, const sead::Vec
     const f32 limit = reaction->sub_7100EC8790();
     if (!(speed >= limit) || (_88 & 0x80)) {
         if (_20._0.isActive() || _20._10.isActive())
-            sub_7100EBE328(_70, mass, actor, mask2);
+            sub_7100EBE328(_70, mass, actor, mask1, mask2);
     } else {
         if (_20._0.isActive() || _20._10.isActive()) {
             if (!(_88 & 1)) {
@@ -299,7 +301,7 @@ void ActorUnk6b8::sub_7100EBD7DC(const sead::Vector3f& velocity, const sead::Vec
             _20.fade(-1);
         } else {
             if (_20._0.isActive())
-                sub_7100EBE328(_70, mass, actor, mask2);
+                sub_7100EBE328(_70, mass, actor, mask1, mask2);
             else
                 sub_7100EBDCB0(_70, mass, volume, actor, mask1, mask2);
             _8d = reaction->sub_7100EC879C();
@@ -307,6 +309,169 @@ void ActorUnk6b8::sub_7100EBD7DC(const sead::Vector3f& velocity, const sead::Vec
     }
 
     _88 |= 0x10;
+}
+
+// NON_MATCHING: the original build leaves the second argument of
+// snd::InfoData::getReactionSettingLandType unset (dead-argument elimination), so its outgoing
+// argument area is 0x18 smaller and every local sits 0x18 lower; the original also reads the
+// 0x88/0x89 flag bytes separately (ldrb) while our u16 _88 gives ldrh for the 0x4 test.
+// 0x7100ebcd48 (placeholder name): the land reaction of a contact. Emits the ReactionLand and
+// ReactionLandAdditional assets (or updates the existing land event), builds the land
+// ReactionSetting from the sound info when no event is held, then passes the contact to the
+// reaction receiver and the SLink limiter. `mask1` is the contact material, `mask2` the land
+// material.
+void ActorUnk6b8::sub_7100EBCD48(f32 a, f32 b, f32 c, f32 d, Actor* actor,
+                                 const phys::MaterialMask* mask1,
+                                 const phys::MaterialMask* mask2, bool flag) {
+    auto* reaction = Reaction::instance()->_a8;
+    if (!reaction)
+        return;
+
+    sead::Vector3f position = actor->getMtx().getTranslation();
+    if ((_88 & 0x200) && actor->getMainBody())
+        actor->getMainBody()->getCenterOfMassInWorld(&position);
+
+    if (mask2->getMaterial() == phys::Material::GrudgeSlow) {
+        reaction->sub_7100EC5C40(-a, 0.1f, actor, position,
+                                 Reaction::instance()->sub_7100EC2278(actor, nullptr), 1, mask2);
+        return;
+    }
+
+    bool can_equip = false;
+    if (InfoData::instance())
+        can_equip = InfoData::instance()->hasTag(actor->getName().cstr(), tags::CanEquip);
+
+    auto* limiter = reaction->mSLinkLimiter;
+    const bool no_limiter = !limiter | (_88 & 4) != 0;
+    if (!no_limiter) {
+        if (flag) {
+            if (!limiter->sub_7100EC9D84(0xc, position, false))
+                return;
+        } else {
+            if (StageInfo::sIsCDungeon) {
+                if (StageInfo::getCurrentMapName() == "Dungeon120")
+                    can_equip = true;
+            } else if (StageInfo::sIsFinalTrial) {
+                if (actor->getName() == "Priest_Boss_IronBall")
+                    can_equip = true;
+            }
+            if (!limiter->sub_7100EC9D84(0, position, can_equip))
+                return;
+        }
+    }
+
+    xlink2::HandleSLink land_handle;
+    xlink2::HandleSLink additional_handle;
+
+    if (auto* xlink = actor->getXLink()) {
+        if (auto* user = xlink->_50) {
+            xlink2::Locator locator;
+            if (user->searchAsset(&locator, "ReactionLand")) {
+                const int material = mask2->getMaterial();
+                user->setPropertyValue(0, material);
+                user->setPropertyValue(1, xlink::Manager::instance()->getSubMaterialIndex(
+                                               material, mask2->getSubMaterialIdx()));
+                user->setPropertyValue(4, a);
+                user->emit(locator, &land_handle);
+            }
+            if (land_handle.isActive()) {
+                if (user->searchAsset(&locator, "ReactionLandAdditional")) {
+                    if (auto* xlink2 = actor->getXLink()) {
+                        if (auto* user2 = xlink2->_50) {
+                            const int material = mask2->getMaterial();
+                            user2->setPropertyValue(0, material);
+                            user2->setPropertyValue(
+                                1, xlink::Manager::instance()->getSubMaterialIndex(
+                                       material, mask2->getSubMaterialIdx()));
+                            user2->setPropertyValue(4, a);
+                        }
+                    }
+                    user->emit(locator, &additional_handle);
+                }
+            }
+        }
+    }
+
+    if (land_handle.isActive()) {
+        f32 value = 0.0f;
+        if (actor->get68f())
+            value = actor->get6f4();
+        reaction->sub_7100EC7B90(a, b, c, value, d, 1.0f, 1.0f, &land_handle, &_20._0, nullptr,
+                                 nullptr);
+        if ((_88 & 0x200) && land_handle.isActive())
+            land_handle.setPosition(position);
+        f32 scale = -1.0f;
+        if (auto* xlink = actor->getXLink())
+            scale = xlink->sub_71012342A0();
+        if (scale >= 0.0f) {
+            if (land_handle.isActive())
+                land_handle.setVolumeScale(std::max(
+                    scale * static_cast<xlink2::EventSLink*>(land_handle.getEvent())->getVolumeScale(),
+                    0.0f));
+        }
+        if (additional_handle.isActive()) {
+            f32 volume = 1.0f;
+            if (value <= 1.0f)
+                volume = (1.0f - value) * (1.0f - value);
+            additional_handle.setVolumeScale(volume);
+            if (_88 & 0x200)
+                additional_handle.setPosition(position);
+            if (scale >= 0.0f)
+                additional_handle.setVolumeScale(std::max(scale * volume, 0.0f));
+        }
+    } else {
+        ReactionSetting setting;
+        setting.speed = a;
+        setting._14 = b;
+        setting._18 = c;
+        setting._24 = d;
+        setting.mask1 = *mask1;
+        setting.mask2 = *mask2;
+        setting.other = &_20._0;
+        if (actor->get68f())
+            setting._1c = actor->get6f4();
+        setting.name = actor->getName().cstr();
+        setting._20 = (actor->_6a0->_10._8 >> 3) & 1;
+
+        const char* user = InfoData::instance()->getSLinkUser(actor->getName().cstr());
+        al::ByamlIter info = snd::InfoData::instance()->getInfo(user);
+        sead::SafeString size_name =
+            snd::InfoData::instance()->getReactionSettingLandType(info, user);
+        s32 size = 0;
+        for (s32 i = 0; i < 37; ++i) {
+            if (size_name == sub_7100EBF054(i)) {
+                size = i;
+                break;
+            }
+        }
+        setting.size = size;
+        setting.pitch = snd::InfoData::instance()->getReactionSettingLandPitch(info);
+        f32 volume = snd::InfoData::instance()->getReactionSettingLandVolume(info);
+        f32 scale = -1.0f;
+        if (actor && actor->getXLink())
+            scale = actor->getXLink()->sub_71012342A0();
+        if (scale >= 0.0f)
+            volume *= scale;
+        setting.volume = volume;
+        reaction->sub_7100EC72A0(&land_handle, position, setting);
+    }
+
+    if (!land_handle.isActive() && !additional_handle.isActive())
+        return;
+
+    bool stone_bottom = false;
+    if (mask2->getMaterial() == phys::Material::Water)
+        stone_bottom = sead::SafeString(mask2->getSubMaterialName()) == "Water_StoneBottom";
+
+    reaction->sub_7100EC696C(a, actor, position, stone_bottom, true);
+    if (!no_limiter) {
+        if (flag)
+            limiter->sub_7100ECA2A0(0xc, position, land_handle);
+        else
+            limiter->sub_7100ECA2A0(0, position, land_handle);
+    }
+    ksys::eft::sub_710105E114(&land_handle, actor);
+    ++reaction->_108;
 }
 
 // NON_MATCHING: the body and call sequence match, but the ReactionSetting, the ByamlIter local and
@@ -445,6 +610,49 @@ void ActorUnk6b8::sub_7100EBDCB0(f32 a, f32 b, f32 c, Actor* actor,
         limiter->sub_7100ECA2A0(1, position, _20._0);
     ksys::eft::sub_710105E114(&_20._0, actor);
     ++reaction->_10c;
+}
+
+// NON_MATCHING: the volume / value callee-saved registers are swapped and the getXLink null test is
+// duplicated into the _88-bit-0 else arm (the original loads it once after the merge); the
+// getMainBody load is also repeated.
+// 0x7100ebe328: emits the additional land reaction sound with the velocity ratio, pitch and
+// volume of the slide setting. `mask1` is unused; the land mask is `mask2`. The event position is
+// the actor's matrix translation, or its centre of mass when the 0x200 flag is set.
+void ActorUnk6b8::sub_7100EBE328(f32 a, f32 b, Actor* actor, const phys::MaterialMask* mask1,
+                                 const phys::MaterialMask* mask2) {
+    if (!_20._0.isActive() && !_20._10.isActive())
+        return;
+
+    auto* reaction = Reaction::instance()->_a8;
+    if (!reaction)
+        return;
+
+    const char* user = InfoData::instance()->getSLinkUser(actor->getName().cstr());
+    al::ByamlIter info = snd::InfoData::instance()->getInfo(user);
+    const f32 ratio = snd::InfoData::instance()->getReactionSettingSlideVelocityRatio(info);
+    f32 value = 0.0f;
+    f32 pitch = 1.0f;
+    f32 volume = 1.0f;
+    if (_88 & 1) {
+        pitch = snd::InfoData::instance()->getReactionSettingSlidePitch(info);
+        volume = snd::InfoData::instance()->getReactionSettingSlideVolume(info);
+    }
+    f32 scale = -1.0f;
+    if (auto* xlink = actor->getXLink())
+        scale = xlink->sub_71012342A0();
+    if (scale >= 0.0f)
+        volume *= scale;
+    const f32 vol = std::max(ratio, value);
+    if (actor->get68f())
+        value = actor->get6f4();
+    sead::Vector3f position = actor->getMtx().getTranslation();
+    if ((_88 & 0x200) && actor->getMainBody())
+        actor->getMainBody()->getCenterOfMassInWorld(&position);
+    const f32 speed = vol * a;
+    reaction->sub_7100EC86F4(&_20._0, position, speed, value, volume, pitch, (_88 & 1) == 0);
+    sub_7100EBE92C(speed, b, value, volume, actor, *mask2);
+    ksys::eft::sub_710105E114(&_20._0, actor);
+    ksys::eft::sub_710105E114(&_20._10, actor);
 }
 
 }  // namespace ksys::act

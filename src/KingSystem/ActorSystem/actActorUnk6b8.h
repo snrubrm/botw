@@ -43,8 +43,13 @@ public:
     void sub_7100EBD7DC(const sead::Vector3f& velocity, const sead::Vector3f& normal,
                         phys::RigidBody* body, phys::RigidBody* other_body,
                         const phys::MaterialMask* mask1, const phys::MaterialMask* mask2);
-    // 0x7100ebe328: emits the additional land reaction sound (ReactionLandAdditional).
-    void sub_7100EBE328(f32 a, f32 b, Actor* actor, const phys::MaterialMask* mask);
+    // 0x7100ebcd48: the land reaction of a contact that has no active land event.
+    void sub_7100EBCD48(f32 a, f32 b, f32 c, f32 d, Actor* actor, const phys::MaterialMask* mask1,
+                        const phys::MaterialMask* mask2, bool flag);
+    // 0x7100ebe328: emits the additional land reaction sound (ReactionLandAdditional). The
+    // fourth parameter is unused by the body; the original passes the land mask as the fifth.
+    void sub_7100EBE328(f32 a, f32 b, Actor* actor, const phys::MaterialMask* mask1,
+                        const phys::MaterialMask* mask2);
 
     // Two sound handles that are faded together.
     struct SoundHandles {
