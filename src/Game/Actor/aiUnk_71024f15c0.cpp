@@ -407,6 +407,8 @@ bool Unk_71024f15c0::Data::sub_7100EEB514(const ksys::map::RailConnectablePoint*
 }
 
 // NON_MATCHING: the original compares _71 with 1 (b.le); ours with 2 (b.lt). Same logic.
+Unk_71024f1658::Unk_71024f1658() : _78() {}
+
 bool Unk_71024f1658::sub_7100EEDDA4(const sead::Vector3f& position) {
     if (_71 > 1)
         return sub_7100EED62C(position, nullptr, 0);
