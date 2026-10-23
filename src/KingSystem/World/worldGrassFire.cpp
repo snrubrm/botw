@@ -26,6 +26,14 @@ Unk_710251cea8::~Unk_710251cea8() {
     _50.freeBuffer();
 }
 
+Unk_7102503ca8::~Unk_7102503ca8() {
+    mBuffer.freeBuffer();
+}
+
+Unk_7102503cc8::~Unk_7102503cc8() {
+    mBuffer.freeBuffer();
+}
+
 // NON_MATCHING: bounded cell iteration and floor arithmetic differ in scheduling.
 void Unk_710251cea8::sub_71012E7990(f32 diameter, f32,
                                           const sead::Vector2f* position) {

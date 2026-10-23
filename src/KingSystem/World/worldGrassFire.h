@@ -22,6 +22,23 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102503c88, 0x18);
 
+// The same shape as Unk_7102503c88 (vtables 0x7102503ca8 / 0x7102503cc8, right after its own vtable).
+class Unk_7102503ca8 {
+public:
+    virtual ~Unk_7102503ca8();
+
+    sead::Buffer<u8> mBuffer;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102503ca8, 0x18);
+
+class Unk_7102503cc8 {
+public:
+    virtual ~Unk_7102503cc8();
+
+    sead::Buffer<u8> mBuffer;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102503cc8, 0x18);
+
 class Unk_710251ced0 {
 public:
     virtual ~Unk_710251ced0() { mBuffer.freeBuffer(); }
