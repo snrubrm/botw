@@ -11,15 +11,18 @@ public:
     class Preset {
     public:
         static const agl::env::TypeInfo* sTypeInfo;
+        s32 getTypeID() const;
     };
 
     static const agl::env::TypeInfo* sTypeInfo;
+    s32 getTypeID() const;
 };
 
 // TODO
 class OfxLensFlareRig {
 public:
     static const agl::env::TypeInfo* sTypeInfo;
+    s32 getTypeID() const;
 };
 
 // TODO
@@ -29,15 +32,18 @@ public:
     class Preset {
     public:
         static const agl::env::TypeInfo* sTypeInfo;
+        s32 getTypeID() const;
     };
 
     static const agl::env::TypeInfo* sTypeInfo;
+    s32 getTypeID() const;
 };
 
 // TODO
 class OfxLargeLensFlareRig {
 public:
     static const agl::env::TypeInfo* sTypeInfo;
+    s32 getTypeID() const;
 };
 
 }  // namespace gsys
