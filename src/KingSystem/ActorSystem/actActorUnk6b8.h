@@ -26,6 +26,14 @@ public:
     // 0x7100ebbd04 (placeholder name): sets the byte at +0x90 to 10.
     void sub_7100EBBD04();
 
+    // 0x7100ebe92c (declared only; placeholder name): emits the extra slide/land reaction sound
+    // (asset "ReactionSlideAdditional") with the extra volume/pitch scales.
+    void sub_7100EBE92C(f32 a, f32 b, f32 c, f32 d, Actor* actor, const phys::MaterialMask& mask);
+    // 0x7100ebdcb0 (declared in this class's TU): the slide reaction entry; builds a
+    // ReactionSetting and passes it to Reaction::Unk1::sub_7100EC72A0.
+    void sub_7100EBDCB0(f32 a, f32 b, f32 c, Actor* actor, const phys::MaterialMask* mask1,
+                        const phys::MaterialMask* mask2);
+
     // Two sound handles that are faded together.
     struct SoundHandles {
         // 0x7100ebed98
@@ -67,5 +75,32 @@ public:
     f32 _a4 = 0;
 };
 KSYS_CHECK_SIZE_NX150(ActorUnk6b8, 0xa8);
+
+// The reaction sound setting built on the stack by the slide/land reaction handlers
+// (0x7100ebcd48 / 0x7100ebdcb0) and passed to Reaction::Unk1's sound emitters. Size 0x68; the
+// material masks and the handle pointer are read by 0x7100ec72a0, the two words at +0 and +4
+// select the event-name prefix and the size class in 0x7100ec7468.
+struct ReactionSetting {
+    ReactionSetting() = default;
+
+    /* 0x00 */ s32 kind = 0;
+    /* 0x04 */ s32 size = 0;
+    /* 0x08 */ f32 speed = 1.0f;
+    /* 0x0c */ f32 volume = 1.0f;
+    /* 0x10 */ f32 pitch = 1.0f;
+    /* 0x14 */ f32 _14 = 50.0f;
+    /* 0x18 */ f32 _18 = 1.0f;
+    /* 0x1c */ f32 _1c = 0.0f;
+    /* 0x20 */ u8 _20 = 0;
+    /* 0x24 */ f32 _24 = 0.0f;
+    /* 0x28 */ phys::MaterialMask mask1;
+    /* 0x40 */ phys::MaterialMask mask2;
+    /* 0x58 */ xlink2::HandleSLink* other = nullptr;
+    /* 0x60 */ const char* name = nullptr;
+};
+static_assert(offsetof(ReactionSetting, mask1) == 0x28);
+static_assert(offsetof(ReactionSetting, mask2) == 0x40);
+static_assert(offsetof(ReactionSetting, other) == 0x58);
+static_assert(offsetof(ReactionSetting, name) == 0x60);
 
 }  // namespace ksys::act

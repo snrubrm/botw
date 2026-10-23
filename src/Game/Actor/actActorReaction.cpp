@@ -3,15 +3,30 @@
 #include "KingSystem/ActorSystem/actActorUnk6b8.h"
 #include <math/seadMathCalcCommon.h>
 #include <xlink2/xlink2Locator.h>
+#include <xlink2/xlink2EventSLink.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/ActorSystem/actActorX6A0.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actReaction.h"
+#include "KingSystem/ActorSystem/actReactionSLinkLimiter.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Sound/sndInfoData.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/XLink/xlinkManager.h"
 #include <xlink2/xlink2UserInstanceELink.h>
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "Game/Actor/aiXlinkHandle.h"
 #include "KingSystem/Sound/sndSound.h"
 #include <hostio/seadHostIOCurve.h>
+#include <algorithm>
+
+namespace ksys::act {
+// 0x7100ebe72c / 0x7100ebf054 (declared only; placeholder signatures): map the reaction slide
+// type name to its index and return the text of the reaction size enum.
+s32 sub_7100EBE72C(const al::ByamlIter& iter, const al::ByamlIter& iter2);
+const char* sub_7100EBF054(s32 index);
+}
 
 namespace uking::act {
 
@@ -169,6 +184,144 @@ void ActorUnk6b8::m10() {
 void ActorUnk6b8::SoundHandles::fade(s32 frame) {
     _0.fade(frame);
     _10.fade(frame);
+}
+
+// NON_MATCHING: the body and call sequence match, but the ReactionSetting, the ByamlIter local and
+// the by-value SafeString temporaries are laid out 0x18 higher on the stack than the original
+// (the size-name SafeString and the text temporary land in the local area instead of the outgoing
+// argument area), and the original writes kind/size with one stp instead of a 64-bit str.
+// 0x7100ebdcb0: the slide reaction of a contact. Emits the "ReactionSlide" asset for the actor's
+// sound user when the held event is gone, then either updates the still-active event or rebuilds
+// the full reaction setting (kind / size / material / volume / pitch) and emits it through the
+// reaction receiver. `a` is the incoming speed, `b` and `c` are passed through to the setting and
+// the extra sound, and the two masks are the contact materials.
+void ActorUnk6b8::sub_7100EBDCB0(f32 a, f32 b, f32 c, Actor* actor,
+                                 const phys::MaterialMask* mask1,
+                                 const phys::MaterialMask* mask2) {
+    _88 &= ~1;
+
+    if (_20._0.isActive() || (_88 & 0x2000))
+        return;
+
+    auto* reaction = Reaction::instance()->_a8;
+    if (!reaction)
+        return;
+
+    sead::Vector3f position = actor->getMtx().getTranslation();
+    if ((_88 & 0x200) && actor->getMainBody())
+        actor->getMainBody()->getCenterOfMassInWorld(&position);
+
+    if (reaction->_108 + reaction->_10c > 2)
+        return;
+
+    auto* limiter = reaction->mSLinkLimiter;
+    if (limiter && !limiter->sub_7100EC9D84(1, position, false))
+        return;
+
+    const f32 speed =
+        a * std::max(snd::InfoData::instance()->getReactionSettingSlideVelocityRatio(
+                         snd::InfoData::instance()->getInfo(
+                             act::InfoData::instance()->getSLinkUser(
+                                 actor->getName().cstr()))),
+                     0.0f);
+
+    if (auto* xlink = actor->getXLink()) {
+        if (auto* user = xlink->_50) {
+            if (!_20._0.isActive()) {
+                xlink2::Locator locator;
+                if (user->searchAsset(&locator, "ReactionSlide")) {
+                    if (auto* xlink2 = actor->getXLink()) {
+                        if (auto* user2 = xlink2->_50) {
+                            const s32 material = mask1->getMaterial();
+                            user2->setPropertyValue(0, material);
+                            const s32 sub_material =
+                                xlink::Manager::instance()->getSubMaterialIndex(
+                                    material, mask1->getSubMaterialIdx());
+                            user2->setPropertyValue(1, sub_material);
+                            user2->setPropertyValue(4, speed);
+                        }
+                    }
+                    user->emit(locator, &_20._0);
+                }
+            }
+        }
+    }
+
+    f32 arg4;
+    if (_20._0.isActive()) {
+        f32 value = 0.0f;
+        if (actor->get68f())
+            value = actor->get6f4();
+        reaction->sub_7100EC7D50(speed, value, 1.0f, 1.0f, &_20._0, nullptr, nullptr);
+        _20._0.setPosition(position);
+        arg4 = -1.0f;
+        if (auto* xlink = actor->getXLink()) {
+            arg4 = xlink->sub_71012342A0();
+            if (arg4 >= 0.0f) {
+                auto* event = static_cast<xlink2::EventSLink*>(_20._0.getEvent());
+                if (event && event->getCreateId() == _20._0.getCreateId())
+                    _20._0.setVolumeScale(std::max(arg4 * event->getVolumeScale(), 0.0f));
+            }
+        }
+    } else {
+        ReactionSetting setting;
+        setting.speed = speed;
+        setting._14 = b;
+        setting._18 = c;
+        setting.mask1 = *mask1;
+        setting.mask2 = *mask2;
+        setting.volume = 1.0f;
+        setting.pitch = 1.0f;
+        setting.kind = 1;
+        setting.size = 0;
+        setting._1c = 0.0f;
+        if (actor->get68f())
+            setting._1c = actor->get6f4();
+        setting.name = actor->getName().cstr();
+        setting._20 = (actor->_6a0->_10._8 >> 3) & 1;
+
+        al::ByamlIter info = snd::InfoData::instance()->getInfo(
+            act::InfoData::instance()->getSLinkUser(actor->getName().cstr()));
+        setting.kind = sub_7100EBE72C(info, info);
+
+        sead::SafeString size_name =
+            snd::InfoData::instance()->getReactionSettingSlideType(info);
+        s32 size = 0;
+        for (s32 i = 0; i < 37; ++i) {
+            if (size_name == sub_7100EBF054(i)) {
+                size = i;
+                break;
+            }
+        }
+        setting.size = size;
+
+        setting.pitch = snd::InfoData::instance()->getReactionSettingSlidePitch(info);
+        f32 volume = snd::InfoData::instance()->getReactionSettingSlideVolume(info);
+        f32 scale = -1.0f;
+        if (actor && actor->getXLink())
+            scale = actor->getXLink()->sub_71012342A0();
+        if (scale >= 0.0f)
+            volume *= scale;
+        setting.volume = volume;
+        arg4 = volume;
+
+        if (!(_88 & 0x2000))
+            reaction->sub_7100EC72A0(&_20._0, position, setting);
+
+        _88 |= 1;
+        _58 = setting.mask2;
+    }
+
+    if (_20._0.isActive())
+        _20._0.getEvent()->resetFlagBit(1);
+    if (auto* event = _20._0.getEvent())
+        event->resetFlagBit(3);
+
+    sub_7100EBE92C(speed, b, actor->get6f4(), arg4, actor, *mask2);
+    if (limiter)
+        limiter->sub_7100ECA2A0(1, position, _20._0);
+    ksys::eft::sub_710105E114(&_20._0, actor);
+    ++reaction->_10c;
 }
 
 }  // namespace ksys::act

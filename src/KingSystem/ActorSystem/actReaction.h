@@ -67,6 +67,11 @@ public:
     /* 0x38 */ Actor* _38;
 };
 
+// The reaction sound setting built on the stack by ActorUnk6b8's slide/land reaction handlers
+// (0x7100ebcd48, 0x7100ebdcb0) and passed to the sound emitters 0x7100ec72a0 / 0x7100ec7468.
+// Defined in actActorUnk6b8.h, which has the MaterialMask definition.
+struct ReactionSetting;
+
 // One xlink event of the reaction queue below: the actor it was emitted for, the sound handle and
 // whether the event has already been emitted. The class is 0x20 bytes (its pool is allocated with
 // 0x20-byte elements at 0x7101287d68).
@@ -236,6 +241,13 @@ public:
                             f32* volume, f32* pitch);
         void sub_7100EC7D50(f32 a, f32 b, f32 c, f32 d, xlink2::HandleSLink* handle, f32* volume,
                             f32* pitch);
+        // 0x7100ec72a0 (declared only): emits the reaction sound described by `setting` for
+        // `handle` at `position` (slide/land reaction handlers 0x7100ebcd48 / 0x7100ebdcb0).
+        void sub_7100EC72A0(xlink2::HandleSLink* handle, const sead::Vector3f& position,
+                            const ReactionSetting& setting);
+        // 0x7100ec7468 (declared only): builds the reaction event name from the setting's kind and
+        // size class; false when the name is empty.
+        bool sub_7100EC7468(sead::FixedSafeString<64>& name, const ReactionSetting& setting);
 
         u8 _0[8];
         /* 0x08 */ Actor* _8;
@@ -254,7 +266,11 @@ public:
         u8 _102[2];
         // Per-reaction-kind emitted flags: bit 0 for the Hit kind, bit 1 for the others.
         /* 0x104 */ u8 _104;
-        u8 _105[0x110 - 0x105];
+        u8 _105[3];
+        // Sound-reaction counter pair: 0x7100ebdcb0 skips the slide reaction while the sum exceeds
+        // 2 and increments _10c after emitting.
+        /* 0x108 */ s32 _108 = 0;
+        /* 0x10c */ s32 _10c = 0;
         /* 0x110 */ s32 _110;
         u8 _114[4];
         /* 0x118 */ s32 _118;

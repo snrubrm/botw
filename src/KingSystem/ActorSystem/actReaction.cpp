@@ -1005,6 +1005,50 @@ bool Reaction::Unk1::sub_7100EC7EDC(f32 speed, xlink2::HandleSLink* handle) {
 
 namespace ksys::act {
 
+// NON_MATCHING: the material-mask temporary is destroyed in its own block as in the original, but
+// the volume/pitch out-parameter pair is coloured into the freed mask slot (sp+0) instead of the
+// original's x29-0x28 pair, and the 7d50/7b90 argument loads are scheduled in a different order.
+// 0x7100ec72a0: emits the reaction sound for a slide/land setting. Builds the event name, sets the
+// material properties from the setting's second mask, emits it for the actor, then applies the
+// volume / pitch scales through 0x7100ec7d50 (slide kinds 1/2) or 0x7100ec7b90 (kind 0).
+void Reaction::Unk1::sub_7100EC72A0(xlink2::HandleSLink* handle, const sead::Vector3f& position,
+                                    const ReactionSetting& setting) {
+    if (!handle)
+        return;
+    if (!_8)
+        return;
+    if (setting.size == 1)
+        return;
+    if (setting.kind != 0 && handle->isActive())
+        return;
+
+    sead::FixedSafeString<64> name;
+    if (!sub_7100EC7468(name, setting))
+        return;
+
+    {
+        phys::MaterialMask mask = setting.mask2;
+        if (!sub_7100EC7AA0(mask, setting._20, setting.speed))
+            return;
+    }
+
+    ksys::eft::sub_710105DDDC(_8, name.cstr(), handle, position);
+    if (!handle->isActive())
+        return;
+
+    if (setting.kind == 1 || setting.kind == 2) {
+        f32 volume = 0.0f;
+        f32 pitch = 1.0f;
+        sub_7100EC7D50(setting.speed, setting._1c, setting.volume, setting.pitch, handle, &volume,
+                       &pitch);
+    } else if (setting.kind == 0) {
+        f32 volume = 0.0f;
+        f32 pitch = 1.0f;
+        sub_7100EC7B90(setting.speed, setting._14, setting._18, setting._1c, setting._24,
+                       setting.volume, setting.pitch, handle, setting.other, &volume, &pitch);
+    }
+}
+
 // NON_MATCHING: the original tests the material before the flag in the wetness check; ours hoists
 // the flag test. The values and the branch targets are the same.
 // 0x7100ec7aa0 (placeholder name): sets the material properties and the wetness property of the
