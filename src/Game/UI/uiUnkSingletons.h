@@ -1680,5 +1680,7 @@ f32 sub_7100965960(s32 index);
 // 0x7100966008 / 0x7100966018 (placeholder names): the layout screen size (1280 x 720) / half of it
 const sead::Vector2f* sub_7100966008();
 void sub_7100966018(sead::Vector2f* out);
+// 0x7100966118 (placeholder name): the marker threshold for a bit index (1 << n), -1 when invalid
+f32 sub_7100966118(s32 level);
 
 }  // namespace uking::ui

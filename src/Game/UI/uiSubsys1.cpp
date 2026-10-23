@@ -1204,6 +1204,20 @@ s32 sub_710096619C(s32 value) {
     return value / 120;
 }
 
+// 0x7100966118: the marker threshold for the bit index of `level` (1..8, four threshold entries).
+f32 sub_7100966118(s32 level) {
+    if (u32(level - 1) > 7)
+        return -1.0f;
+    s32 i = 0;
+    while ((level & 1) == 0) {
+        level >>= 1;
+        ++i;
+    }
+    if (u32(i) > 3)
+        return -1.0f;
+    return sUnk_71025d6c70._1e8[i];
+}
+
 // 0x71009661bc
 s32 sub_71009661BC(s32 value) {
     switch (value) {
