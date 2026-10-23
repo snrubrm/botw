@@ -741,6 +741,10 @@ bool isFindDungeonActivated();
 s32 sub_7100A9D800();
 // 0x7100a9d964 (CSV wm::formatTimeString; declared only, 1744 bytes): writes the in-game time to `out`
 void formatTimeString(sead::BufferedSafeString* out);
+// 0x7100a9d854 / 0x7100a9d884 / 0x7100a9d760 (uiWorldFacade.cpp): the in-game hour, minute and displayed temperature
+int getHour();
+int getMinute();
+f32 getWorldTemperatureForUI();
 }  // namespace wm
 
 // 0x7100a95214 (uiPouchFacade.cpp; global namespace in the CSV)

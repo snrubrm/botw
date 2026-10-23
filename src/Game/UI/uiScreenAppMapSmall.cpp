@@ -391,24 +391,6 @@ void ScreenAppMap::sub_71009F273C() {
 KSYS_VISIBILITY_HIDDEN u32 sUnk_71025df310;
 
 // 0x71025df330: the map screen's static data block; m143 returns its button pane path buffer at +0x170
-struct Unk_71025df330 {
-    u8 _0[0x10];
-    /* 0x10 */ f32 _10;  // the stop frame sub_71009EA83C passes to the DLC gauge animators
-    u8 _14[0x170 - 0x14];
-    /* 0x170 */ sead::Buffer<ButtonPanePath> mButtonPanePaths;
-    u8 _180[0x1a0 - 0x180];
-    // the animator names of the DLC map parts (sub_71009EEE04 / sub_71009EEF98)
-    /* 0x1a0 */ sead::Buffer<sead::SafeString> mDlcPlayerAnimatorNames;
-    /* 0x1b0 */ sead::Buffer<sead::SafeString> mDlcGaugeAnimatorNames;
-    /* 0x1c0 */ sead::Buffer<sead::SafeString> mDlcGaugePlayAnimatorNames;
-    u8 _1d0[0x1e0 - 0x1d0];
-    /* 0x1e0 */ sead::Buffer<sead::SafeString> mDlcCursorAnimatorNames;
-    // the map mode index of the four mode animators
-    /* 0x1f0 */ sead::Buffer<s32> mModeOrder;
-    /* 0x200 */ sead::Buffer<sead::SafeString> mHintAnimatorNames;
-    u8 _210[0x240 - 0x210];
-    /* 0x240 */ sead::Buffer<sead::SafeString> mCursorAnimatorNames;
-};
 KSYS_VISIBILITY_HIDDEN Unk_71025df330 sUnk_71025df330;
 
 // 0x71009ec420 (CSV ScreenAppMap::m143)

@@ -317,9 +317,36 @@ void ScreenAppMap::demoEnter() {
     _3610->_b350 = 0;
 }
 
+// 0x71009ebc68
+void ScreenAppMap::demoRun() {
+    sub_71009EBD6C();
+    _3c64 = 0;
+    const s32 hour = wm::getHour();
+    if (hour != _3c58) {
+        _3c58 = hour;
+        _3c64 = 1;
+    }
+    _3c65 = 0;
+    const s32 minute = wm::getMinute();
+    if (minute != _3c5c) {
+        _3c5c = minute;
+        _3c65 = 1;
+    }
+    sub_71009F1CA4(_3c78);
+    _3c66 = 0;
+    const f32 temperature = sead::Mathf::floor(wm::getWorldTemperatureForUI());
+    if (temperature != _3c60) {
+        _3c60 = temperature;
+        _3c66 = 1;
+    }
+    sub_71009F1B9C();
+    sub_71009EBEC8();
+    const f32 displayed_temperature = UiSubsys1::instance()->_850.get38();
+    ksys::gdt::Manager::instance()->setF32(displayed_temperature, sUnk_71025df330.mWorldTemperatureFlag);
+}
+
 // 0x71009ec01c (CSV ScreenAppMap::demoLeave)
-void ScreenAppMap::demoLeave() {
-    UiSubsys1::instance()->sub_7100968844();
+void ScreenAppMap::demoLeave() {    UiSubsys1::instance()->sub_7100968844();
     _3ad1 = 1;
 }
 

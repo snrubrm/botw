@@ -2765,6 +2765,31 @@ struct ScreenAppMapWidget : public ScreenChildEx {
 static_assert(sizeof(ScreenAppMapWidget) == 0xb538);
 static_assert(offsetof(ScreenAppMapWidget, mNormalMap) == 0x8f0);
 
+// 0x71025df330: the map screen's static data block; m143 returns its button pane path buffer at +0x170
+struct Unk_71025df330 {
+    u8 _0[0x10];
+    /* 0x10 */ f32 _10;  // the stop frame sub_71009EA83C passes to the DLC gauge animators
+    u8 _14[0x170 - 0x14];
+    /* 0x170 */ sead::Buffer<ButtonPanePath> mButtonPanePaths;
+    u8 _180[0x1a0 - 0x180];
+    // the animator names of the DLC map parts (sub_71009EEE04 / sub_71009EEF98)
+    /* 0x1a0 */ sead::Buffer<sead::SafeString> mDlcPlayerAnimatorNames;
+    /* 0x1b0 */ sead::Buffer<sead::SafeString> mDlcGaugeAnimatorNames;
+    /* 0x1c0 */ sead::Buffer<sead::SafeString> mDlcGaugePlayAnimatorNames;
+    u8 _1d0[0x1e0 - 0x1d0];
+    /* 0x1e0 */ sead::Buffer<sead::SafeString> mDlcCursorAnimatorNames;
+    // the map mode index of the four mode animators
+    /* 0x1f0 */ sead::Buffer<s32> mModeOrder;
+    /* 0x200 */ sead::Buffer<sead::SafeString> mHintAnimatorNames;
+    u8 _210[0x240 - 0x210];
+    /* 0x240 */ sead::Buffer<sead::SafeString> mCursorAnimatorNames;
+    u8 _250[0x2d0 - 0x250];
+    // the world temperature game data flag (demoRun stores the temperature through it)
+    /* 0x2d0 */ sead::SafeString mWorldTemperatureFlag;
+};
+// 0x71025df330 (defined in uiScreenAppMapSmall.cpp)
+KSYS_VISIBILITY_HIDDEN extern Unk_71025df330 sUnk_71025df330;
+
 class ScreenAppMap : public ScreenEx {
 public:
     // 0x71009eed18 (placeholder name): resets the map widget's footprint selection and mode, shows the map panes and
@@ -2782,6 +2807,9 @@ public:
     void sub_71009EB960();
     // 0x71009eba68 (placeholder name): applies the selected marker entry to the map's sub-state
     void sub_71009EBA68(UiSubsys1Entry* icon);
+    // 0x71009ebd6c / 0x71009ebec8 (placeholder names; declared only): the demo state's two run steps
+    void sub_71009EBD6C();
+    void sub_71009EBEC8();
     // 0x71009f20f4 (placeholder name; declared only): map sub-run step for the closed app system window's result
     void sub_71009F20F4();
     // 0x71009eaa24 (placeholder name): restarts the cursor timer, creates the map cursor layout and its animators,
@@ -2987,7 +3015,8 @@ public:
     /* 0x3c50 */ s32 _3c50;  // the map scale level applied to _3610
     /* 0x3c54 */ bool _3c54;  // riding a horse
     /* 0x3c55 */ bool _3c55;  // previous _3c54
-    u8 _3c56[0x3c60 - 0x3c56];
+    /* 0x3c58 */ s32 _3c58;  // the hour shown in T_Time_00
+    /* 0x3c5c */ s32 _3c5c;  // the minute shown in T_Time_00
     /* 0x3c60 */ f32 _3c60;  // the temperature shown in T_Temp_00
     /* 0x3c64 */ u8 _3c64;
     /* 0x3c65 */ u8 _3c65;
@@ -2995,7 +3024,7 @@ public:
     u8 _3c67;
     /* 0x3c68 */ eui::LayoutEx* _3c68;
     /* 0x3c70 */ eui::Animator* _3c70;
-    u8 _3c78[8];
+    /* 0x3c78 */ eui::LayoutEx* _3c78;
     /* 0x3c80 */ eui::LayoutEx* _3c80;
     /* 0x3c88 */ eui::Animator* _3c88;
     /* 0x3c90 */ ScreenAppMapUnk3c90* _3c90;
