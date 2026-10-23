@@ -41,6 +41,13 @@ class ActorUnk6b8;
 class BaseProcLink;
 class Unk_71024f02a8;
 
+// The size class of a reaction event name (the "Tiny" in "CmnObj_Land_TinySize_Body").
+// The text must stay unspaced: the original's enum text is "None,Tiny,...,Huge" (46 bytes).
+SEAD_ENUM(ReactionSizeClass, None,Tiny,Small,Half,Normal,Double,Giant,Huge)
+
+// The kind of a reaction event, which selects the Land / Drag / Roll name prefix.
+SEAD_ENUM(ReactionKind, Land, Drag, Roll)
+
 // Placeholder name: an actor given either directly or through a proc link (the reaction code keeps one at
 // +0xa8 of its request objects; 0x7100ec545c / 0x7101284954 read it). Accessors 0x7100ebf9e4..0x7100ebfad4.
 struct Unk_7100ebf9e4 {
@@ -252,9 +259,9 @@ public:
         // 0x7100ec7468 (declared only): builds the reaction event name from the setting's kind and
         // size class; false when the name is empty.
         bool sub_7100EC7468(sead::FixedSafeString<64>& name, const ReactionSetting& setting);
-        // 0x7100ec7fbc (declared only): builds the "CmnObj_" reaction event name of a size class
-        // and a material name for the auto-sized reaction settings.
-        void sub_7100EC7FBC(sead::FixedSafeString<64>& name, s32 kind, s32 size,
+        // 0x7100ec7fbc: builds the "CmnObj_" reaction event name of a size class and a material
+        // name for the auto-sized reaction settings.
+        void sub_7100EC7FBC(sead::FixedSafeString<64>* name, ReactionKind kind, ReactionSizeClass size,
                             const sead::SafeString& material);
 
         u8 _0[8];

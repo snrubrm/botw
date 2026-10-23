@@ -1141,10 +1141,37 @@ bool Reaction::Unk1::sub_7100EC7468(sead::FixedSafeString<64>& name,
         if (sead::SafeString(material_name).isEmpty())
             return false;
 
-        sub_7100EC7FBC(name, setting.kind, size, sead::SafeString(material_name));
+        sub_7100EC7FBC(&name, setting.kind, size, sead::SafeString(material_name));
     }
 
     return !name.isEmpty();
+}
+
+// 0x7100ec7fbc: builds the "CmnObj_" reaction event name of an auto-sized reaction setting:
+// the kind prefix (Land / Drag / Roll), the size class, "Size_" and the sound material name.
+void Reaction::Unk1::sub_7100EC7FBC(sead::FixedSafeString<64>* name, ReactionKind kind,
+                                    ReactionSizeClass size, const sead::SafeString& material) {
+    if (!name)
+        return;
+    name->clear();
+    if (size == ReactionSizeClass::None)
+        return;
+
+    name->append("CmnObj_");
+    switch (kind) {
+    case ReactionKind::Land:
+        name->append("Land_");
+        break;
+    case ReactionKind::Drag:
+        name->append("Drag_");
+        break;
+    case ReactionKind::Roll:
+        name->append("Roll_");
+        break;
+    }
+    name->append(size.text());
+    name->append("Size_");
+    name->append(material);
 }
 
 // NON_MATCHING: the original tests the material before the flag in the wetness check; ours hoists
