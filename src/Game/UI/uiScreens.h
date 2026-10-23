@@ -528,6 +528,10 @@ public:
     bool isTrigMaybe(u32 mask) {
         return (_292 & 0x40) && sub_71010AA9D0() && mUIController && mUIController->isTrig(mask);
     }
+    // same as isTrigMaybe for the hold mask (0x71009edb4c's last check)
+    bool isHoldMaybe(u32 mask) {
+        return (_292 & 0x40) && sub_71010AA9D0() && mUIController && mUIController->isHold(mask);
+    }
 
     // Overrides of the eui::Screen callbacks (CSV Screen::doAfterBuildLayout etc.)
     void doAfterBuildLayout_(sead::Heap* heap) override;
@@ -2889,6 +2893,9 @@ public:
     bool sub_71009ED860();
     // 0x71009ed97c (CSV unnamed): plays the map-mode animators around the current mode
     void sub_71009ED97C();
+    // 0x71009edb4c (placeholder name): the pad-button mask of the map screen (triggers mapped to the map's
+    // button bits, plus left held in map mode 2)
+    u64 sub_71009EDB4C();
     // 0x71009eda64 (CSV ScreenAppMap::x_2): the same animator change from get3900, called by x_1
     void x_2();
     // 0x71009f0be4 / 0x71009f2430 (CSV unnamed, declared only)

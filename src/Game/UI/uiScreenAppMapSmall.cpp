@@ -1071,6 +1071,29 @@ void ScreenAppMap::sub_71009ED97C() {
         _3628[6]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
 }
 
+// 0x71009edb4c: the pad-button mask the map screen currently reports: the face / right-stick / ZR trigger bits
+// map to the map's own button bits, plus left pad held while the map's mode value is 2.
+u64 ScreenAppMap::sub_71009EDB4C() {
+    u32 mask = 0;
+    if (isTrigMaybe(0x1))
+        mask |= 0x1;
+    if (isTrigMaybe(0x2))
+        mask |= 0x2;
+    if (isTrigMaybe(0x8))
+        mask |= 0x4;
+    if (isTrigMaybe(0x10))
+        mask |= 0x8;
+    else if (isTrigMaybe(0x1000000))
+        mask |= 0x20;
+    else if (isTrigMaybe(0x2000000))
+        mask |= 0x80;
+    else if (isTrigMaybe(0x40))
+        mask |= 0x100;
+    if (UiSubsys1::instance()->sub_7100965EA8() == 2 && isHoldMaybe(0x1000000))
+        mask |= 0x40;
+    return mask;
+}
+
 // NON_MATCHING: the division and the frame-size conversion swap two registers (a commutative fmul
 // operand order); the arithmetic is the same.
 // 0x71009f1dbc
