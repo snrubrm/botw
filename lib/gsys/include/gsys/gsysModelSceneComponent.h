@@ -32,8 +32,9 @@ public:
     // 0x7100c19c0c: stores the config pointer at +0x08.
     void initializeComponent(const ModelSceneConfig* config, sead::Heap* heap);
 
-    // Default virtuals (4 bytes each): the base component does nothing.
-    virtual void bind();
+    // Default virtuals (4 bytes each): the base component does nothing. bind takes the model:
+    // ModelScene::bind_ 0x7100c0ff48 calls this slot with the model, and ModelSceneFx overrides it.
+    virtual void bind(Model*);
     virtual void unbind(Model*);
     virtual void preCalcView(ModelSceneContext*);
     virtual void calcViewGPU(const ModelSceneContext&);

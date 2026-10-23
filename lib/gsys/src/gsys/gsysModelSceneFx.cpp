@@ -1,9 +1,15 @@
 #include <gsys/gsysModelSceneFx.h>
 
+#include <environment/aglEnvObjMgr.h>
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelRig.h>
 #include <gsys/gsysModelSceneConfig.h>
 #include <gsys/gsysModelSceneContext.h>
 #include <gsys/gsysEffectRadialBlurMgr.h>
+#include <gsys/gsysOfxLensFlareRig.h>
 #include <gsys/gsysParticleScene.h>
+#include <prim/seadRuntimeTypeInfo.h>
+#include <common/aglDrawContext.h>
 #include <common/aglRenderBuffer.h>
 #include <effect/aglFxCloud.h>
 #include <effect/aglFxDecalAoMgr.h>
@@ -245,6 +251,43 @@ void ModelSceneFx::drawDebug(agl::DrawContext* context,
                 mVolumeMask->drawDebug(context, scene_context.getViewIndex(), 0,
                                        scene_context.getViewData()[0].view);
         }
+    }
+}
+
+// 0x7100c2e904: drops the old rigs, then forwards the model to the ModelRig object of every
+// lens-flare rig of both types. The dynamic cast is trusted (the original dereferences its
+// result without a null test).
+// NON_MATCHING: same size and instruction set, but the loop preheader is scheduled differently
+// (the original delays the count-1 subtraction until after the typeinfo guard setup and keeps
+// the sign-extended type id in w11).
+void ModelSceneFx::bind(Model* model) {
+    unbind(model);
+    if (!mOccludedEffect)
+        return;
+    const s32 num_large = mEnvObjMgr->getObjectNum(OfxLargeLensFlareRig::sTypeInfo->id);
+    for (s32 i = 0; i <= num_large - 1; ++i) {
+        OfxLargeLensFlareRig* rig = sead::DynamicCast<OfxLargeLensFlareRig>(
+            mEnvObjMgr->getObject(OfxLargeLensFlareRig::sTypeInfo->id, i));
+        rig->m23(model);
+    }
+    const s32 num_lens = mEnvObjMgr->getObjectNum(OfxLensFlareRig::sTypeInfo->id);
+    for (s32 i = 0; i <= num_lens - 1; ++i) {
+        OfxLensFlareRig* rig = sead::DynamicCast<OfxLensFlareRig>(
+            mEnvObjMgr->getObject(OfxLensFlareRig::sTypeInfo->id, i));
+        rig->m23(model);
+    }
+}
+
+// 0x7100c2fb7c: draws the cloud, then finishes its render texture and rebinds this context.
+void ModelSceneFx::drawCloud(agl::DrawContext* context,
+                             const ModelSceneContext* scene_context) const {
+    agl::fx::Cloud* cloud = mCloud;
+    if (_8->isFeatureEnabled(ModelSceneConfig::Feature::Cloud) && cloud->_460) {
+        cloud->draw(context, scene_context->getViewIndex(), *scene_context->getRenderBuffer(), 0);
+    }
+    if (mCloud->_618) {
+        mCloud->finishRenderTexture(context, scene_context->getViewIndex());
+        scene_context->bind(context);
     }
 }
 

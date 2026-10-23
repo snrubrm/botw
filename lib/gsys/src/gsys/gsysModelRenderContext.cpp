@@ -61,7 +61,7 @@ void ModelRenderContext::calcGPU(bool flag) const {
 }
 
 // 0x7100c0887c
-void ModelRenderContext::bind(sead::DrawContext* draw_context) const {
+void ModelRenderContext::bind(sead::DrawContext* draw_context, bool) const {
     if (mRenderBuffer) {
         mRenderBuffer->bind(draw_context);
         return mViewport->apply(draw_context, *mRenderBuffer);

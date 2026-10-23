@@ -7,7 +7,7 @@ ModelSceneComponent::ModelSceneComponent() : _8(nullptr) {}
 ModelSceneComponent::~ModelSceneComponent() = default;
 
 
-void ModelSceneComponent::bind() {}
+void ModelSceneComponent::bind(Model*) {}
 void ModelSceneComponent::unbind(Model*) {}
 void ModelSceneComponent::preCalcView(ModelSceneContext*) {}
 void ModelSceneComponent::calcViewGPU(const ModelSceneContext&) {}

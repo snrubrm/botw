@@ -58,8 +58,8 @@ public:
     void initialize(const CreateArg& arg, agl::env::EnvObjMgr* env_obj_mgr, sead::Heap* heap,
                     sead::Heap* heap2);
 
-    void bind(Model* model);
-    void unbind(Model* model);
+    void bind(Model* model) override;
+    void unbind(Model* model) override;
     void calc(ParticleScene* scene);
     void calcDecal();
     void calcView(const ModelSceneContext& context);
@@ -73,6 +73,8 @@ public:
     void drawOccludedEffect(agl::DrawContext* context, const ModelSceneContext& scene_context) const;
     void drawDecalBG(agl::DrawContext* context, ModelSceneContext* scene_context) const;
     void drawDebug(agl::DrawContext* context, const ModelSceneContext& scene_context) const override;
+    // 0x7100c2fb7c
+    void drawCloud(agl::DrawContext* context, const ModelSceneContext* scene_context) const;
     // 0x7100c30184: four-byte body, the component attaches no extra hostio children.
     void attachHostIO(sead::hostio::Node* node) override;
     void releaseWaterNormalModify(int index) const;
@@ -81,7 +83,7 @@ public:
 private:
     // Zeroed by the constructor's memset; the effect managers the original allocates sit in
     // here at the offsets listed above.
-    /* 0x280 */ u8 _280[0x8];
+    /* 0x280 */ agl::env::EnvObjMgr* mEnvObjMgr = nullptr;
     /* 0x288 */ agl::fx::OccludedEffectMgr* mOccludedEffect = nullptr;
     /* 0x290 */ agl::fx::RadialBlur* mRadialBlur = nullptr;
     /* 0x298 */ agl::fx::DecalDrawer* mDecalDrawer = nullptr;

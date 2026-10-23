@@ -88,8 +88,10 @@ public:
     void calcView(int view, const sead::Matrix34f&, const sead::Projection&,
                   const sead::Matrix34f&);
     void draw(agl::DrawContext*, const DrawArg&) const;
-    // 0x7100c0887c (name is a guess): binds the render buffer, then applies the viewport to it.
-    void bind(sead::DrawContext* draw_context) const;
+    // 0x7100c0887c: binds the render buffer, then applies the viewport to it. Every caller
+    // 0x7100c0... passes zero in w2, so the second parameter is a defaulted flag the body does
+    // not read; its name and type are guesses.
+    void bind(sead::DrawContext* draw_context, bool flag = false) const;
     // 0x7100c08334: stores the two values in the pair selected by `type`.
     void setPolygonOffset(ModelEnum::PolygonOffsetType type, f32 a, f32 b);
 
