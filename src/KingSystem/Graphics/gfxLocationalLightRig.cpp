@@ -215,6 +215,33 @@ void LocationalLightRig::listenPropertyEventEnvObj(const sead::hostio::PropertyE
 
 }  // namespace ksys::gfx
 
+// NON_MATCHING: the members the original destroys after the group table (two cameras, the
+// projection, the debug texture page and the render targets/buffers between +0x10 and +0xeb8) are
+// still pads in the class, so only the group table and the render queue are torn down here.
+// 0x7100f18704: releases the unit groups the renderer owns (bit 0 of +0x21 set) and the group table.
+Unk_7100f185a4::~Unk_7100f185a4() {
+    for (u64 i = 0; i != 0x40; ++i) {
+        UnitGroup** groups = mUnitGroups.getBufferPtr();
+        const u32 group_count = mUnitGroups.size();
+        UnitGroup* group = *(group_count > i ? groups + i : groups);
+        if (!group)
+            continue;
+        if (!(group->_21 & 1))
+            continue;
+
+        UnitEntry* entry = group->mEntries.getBufferPtr();
+        const u32 count = group->mEntries.size();
+        for (u64 j = 0; j != count; ++j)
+            entry[j].mRefs.freeBuffer();
+        group->mEntries.freeBuffer();
+
+        const s32 index = group->_20;
+        delete group;
+        mUnitGroups[index] = nullptr;
+    }
+    mUnitGroups.freeBuffer();
+}
+
 // NON_MATCHING: the group table's base and count use the opposite registers, and the flags loop's
 // induction address is +0x60 (so its increment folds into the last store) instead of +0x5f.
 // 0x7100f19c4c: moves every unit's flags byte to +0x60 and clears it, for every present group with

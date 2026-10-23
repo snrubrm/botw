@@ -189,8 +189,11 @@ KSYS_CHECK_SIZE_NX150(Unk_710129175c, 0x268);
 // Declaration only: F2C140 constructs these (0x1010 bytes at 0x7100f185a4, stored at Graphics + 0x388;
 // 0x178 bytes at 0x7100efd9b8, stored at + 0x3a8) and the GrudgeRenderer at + 0x3a0 (0x2fb0 bytes; name from
 // the CSV, namespace unknown). Graphics::sub_7100F2E2A4 calls one method of each.
-class Unk_7100f185a4 {
+class Unk_7100f185a4 : public sead::hostio::Node {
 public:
+    // The vtable (0x71024f4218) starts with hostio::Node's type getter and then the destructor
+    // pair; 0x7100f18704 / 0x7100f1889c.
+    virtual ~Unk_7100f185a4();
     // One 0x68-byte map-unit entry of the tables at +0xfd0. The map screen sets the colour (+0x20),
     // the two floats at +0x54 and the flags (+0x5f) through the setters below.
     struct UnitEntry {
@@ -214,6 +217,10 @@ public:
         /* 0x60 */ u8 _60;
         /* 0x61 */ u8 mColorSetMaybe;
         u8 _62[0x68 - 0x62];
+
+        // The original destructor is empty but out of line, so the entries arrays carry an array
+        // cookie (the group destructor and the model-data teardown subtract 8 before delete[]).
+        ~UnitEntry() {}
     };
     static_assert(sizeof(UnitEntry) == 0x68);
 
@@ -253,7 +260,7 @@ public:
     void setMapModeMaybe(bool enabled) { mFlags.changeBit(3, enabled); }
 
 private:
-    u8 _0[8];
+    // +0 is the vptr inherited from hostio::Node.
     sead::BitFlag32 mFlags;
     u8 _c[0x50 - 0xc];
     u32 _50;
