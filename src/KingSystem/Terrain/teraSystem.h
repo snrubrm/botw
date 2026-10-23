@@ -412,12 +412,14 @@ public:
         s32 sub_71010832B0(const sead::SafeString& name, const sead::Vector3f& pos,
                            const sead::Vector3f& rotate, const sead::Vector3f& scale, f32 unk);
         // 0x7101083b78 (unnamed; declaration only): updates the table entry for a changed tree record.
-        void sub_7101083B78(u16 index, const sead::Vector3f& pos, bool b);
+        void sub_7101083B78(u32 index, const sead::Vector3f& pos, bool b);
         // 0x71010839c4 (placeholder name): stores value (clamped to 0..1) scaled to 4000..8000 at +0x14cb8.
         void sub_71010839C4(f32 value);
         // 0x7101083aa8 (unnamed): runs slot 33 on both draw commands unless the debug flag or _8 bit 0
         // stops it.
         void sub_7101083AA8(s32 index, void* p, u32 a, u32 b);
+        // 0x71010839fc (unnamed): whether either draw command reports slot 30.
+        bool sub_71010839FC();
         // 0x7101083a58 / 0x7101083a80 (placeholder names): run slot 31 / 32 of draw command `index`.
         s32 sub_7101083A58(s32 index);
         s32 sub_7101083A80(s32 index);

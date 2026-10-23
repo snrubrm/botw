@@ -869,7 +869,8 @@ public:
     virtual s32 m32();
     // The per-tree draw step both commands get (0x7101083aa8 passes the index, a pointer and two flags).
     virtual void m33(s32 index, void* p, bool a, bool b);
-    virtual void m34();
+    // 0x7101083b78 passes the index, a position and one flag and stops on true.
+    virtual bool m34(s32 index, const sead::Vector3f* pos, bool a);
     virtual void m35();
     // The value of record `index` at `pos` (-1 if there is none).
     virtual f32 m36(u32 index, const sead::Vector3f& pos);
