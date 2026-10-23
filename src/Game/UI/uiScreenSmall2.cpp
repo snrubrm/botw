@@ -4880,6 +4880,28 @@ void Unk_710247fbc0::m7() {
 // 0x7100a4d220
 Unk_71024975d0::~Unk_71024975d0() = default;
 
+// 0x7100a4d290
+void Unk_71024975d0::m4(sead::Heap* heap) {
+    if (_8) {
+        _48 = _8->createAnimatorAuto("State", true);
+        _50 = _8->createAnimatorAuto("NumOff", true);
+        _58 = _8->createAnimatorAuto("TexPattern", true);
+        _60 = _8->createAnimatorAuto("HaveNumOff", true);
+        _68 = _8->createAnimatorAuto("SoldOut", true);
+        _70 = _8->createAnimatorAuto("RupeeColor", true);
+        _78 = _8->createAnimatorAuto("Check", true);
+    }
+    if (_10)
+        static_cast<eui::UniteButton*>(_10)->sub_7100BDAFC0(eui::UniteButton::Type(4));
+    _80.sub_7100A814D8(heap, 0, 1, "ShopBtnList5_00Screen");
+    if (_8) {
+        if (auto* parts = _8->findPartsLayout("Pa_Icon_00")) {
+            if (auto* pane = parts->mPane->FindPaneByName("P_Icon_00", true))
+                _80.setMaterial(0, pane->GetMaterial(0), true);
+        }
+    }
+}
+
 // 0x7100a4d410
 void Unk_71024975d0::m6() {
     _80.sub_7100A816D8();

@@ -203,6 +203,7 @@ class Unk_71024975d0 : public uking::ui::Unk_7102474e38 {
     SEAD_RTTI_OVERRIDE(Unk_71024975d0, uking::ui::Unk_7102474e38)
 public:
     ~Unk_71024975d0() override;
+    void m4(sead::Heap* heap) override;
     void m6() override;
     void m7() override;
     void m8() override;
@@ -214,13 +215,14 @@ public:
     void sub_7100A4D41C();
 
     // 0x48 .. 0x78 are zeroed by the constructor (inlined in ScreenAppPictureBookEntry::createUnits, 0x7100a4e6ac)
-    /* 0x48 */ u64 _48 = 0;
-    /* 0x50 */ u64 _50 = 0;
-    /* 0x58 */ u64 _58 = 0;
-    /* 0x60 */ u64 _60 = 0;
-    /* 0x68 */ u64 _68 = 0;
-    /* 0x70 */ u64 _70 = 0;
-    /* 0x78 */ u64 _78 = 0;
+    // and filled by m4: State, NumOff, TexPattern, HaveNumOff, SoldOut, RupeeColor, Check.
+    /* 0x48 */ eui::Animator* _48 = nullptr;
+    /* 0x50 */ eui::Animator* _50 = nullptr;
+    /* 0x58 */ eui::Animator* _58 = nullptr;
+    /* 0x60 */ eui::Animator* _60 = nullptr;
+    /* 0x68 */ eui::Animator* _68 = nullptr;
+    /* 0x70 */ eui::Animator* _70 = nullptr;
+    /* 0x78 */ eui::Animator* _78 = nullptr;
     /* 0x80 */ uking::ui::UiTexSlots _80;
 };
 
