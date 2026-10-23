@@ -1484,9 +1484,16 @@ public:
     bool return0B() const;
     bool return0() const;
     s32 get3820() const;
-    sead::Vector3f* getVec3834();
+    ksys::Timer* getVec3834();
     void resetVec3834();
-    u8 get3858() const;
+    bool get3858() const;
+    // 0x71009679ac / 0x71009677cc / 0x7100968774 / 0x7100968b1c / 0x7100968c2c (CSV unnamed; declared only):
+    // the demo state's map camera steps
+    void sub_71009679AC();
+    void sub_71009677CC();
+    s32 sub_7100968774();
+    s32 sub_7100968B1C();
+    void sub_7100968C2C(s32 value);
     bool is38b8And38b9Clear() const;
     // 0x7100963538 / 0x7100963560 (placeholder names): range tests of an s32 (6..10 / <6 or 11..13)
     bool sub_7100963538(s32 value) const;
@@ -1621,9 +1628,9 @@ private:
     /* 0xd80 */ MapModeGroup _d80[5];
     u8 _3828[0x3830 - 0x3828];
     /* 0x3830 */ s32 _3830;
-    /* 0x3834 */ sead::Vector3f _3834;
+    /* 0x3834 */ ksys::Timer _3834;
     /* 0x3840 */ UiTimer _3840;
-    /* 0x3858 */ u8 _3858;
+    /* 0x3858 */ bool _3858;
     u8 _3859[0x3860 - 0x3859];
     /* 0x3860 */ u16 _3860;
     u8 _3862[0x3864 - 0x3862];

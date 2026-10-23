@@ -81,6 +81,8 @@ public:
     void sub_71009A61DC();
     // 0x71009a82a8: the byte at 0xa8ea (ScreenAppMap has loaded the normal map)
     bool sub_71009A82A8() const;
+    // 0x71009a829c: the byte at 0xa8e9 (the demo state's normal map ready flag)
+    bool sub_71009A829C() const;
 
     /* 0x08 */ UiSubsys1* _8 = nullptr;  // the UI subsystem (its _128 is the current map area)
     /* 0x10 */ Unk_71024753a8* _10;
@@ -88,7 +90,8 @@ public:
     /* 0x28 */ Unk_7102479bb0 mEntries[120];
     // 9A8224..9A822C retains the fixed-array bound check and index-zero fallback.
     /* 0x12e8 */ sead::SafeArray<Unk_7102479bf0, 240> mTiles;
-    u8 _a8e8[0xa8ea - 0xa8e8];
+    /* 0xa8e8 */ u8 _a8e8;
+    /* 0xa8e9 */ bool _a8e9;  // returned by sub_71009A829C
     /* 0xa8ea */ bool _a8ea;  // returned by sub_71009A82A8
     /* 0xa8eb */ u8 _a8eb;  // ScreenAppMapWidget::sub_71009A9438 / sub_71009AF37C read it
     u8 _a8ec[0xa8f0 - 0xa8ec];

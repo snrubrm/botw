@@ -958,17 +958,17 @@ s32 UiSubsys1::get3820() const {
 }
 
 // 0x7100968824 (CSV uiSubsys1::__auto1)
-sead::Vector3f* UiSubsys1::getVec3834() {
+ksys::Timer* UiSubsys1::getVec3834() {
     return &_3834;
 }
 
 // 0x7100968830 (CSV uiSubsys1::__auto19)
 void UiSubsys1::resetVec3834() {
-    _3834.set(0.0f, 0.0f, 1.0f);
+    _3834.reset(0.0f, 1.0f);
 }
 
 // 0x7100968cf8 (CSV uiSubsys1::__auto40)
-u8 UiSubsys1::get3858() const {
+bool UiSubsys1::get3858() const {
     return _3858;
 }
 

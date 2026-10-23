@@ -347,6 +347,38 @@ void ScreenAppMap::demoRun() {
     ksys::gdt::Manager::instance()->setF32(displayed_temperature, sUnk_71025df330.mWorldTemperatureFlag);
 }
 
+// 0x71009ebd6c
+void ScreenAppMap::sub_71009EBD6C() {
+    if (!_3610)
+        return;
+    UiSubsys1::instance()->getVec3834()->update();
+    if (_3cb1 && _3610->mNormalMap.sub_71009A829C())
+        _3cb1 = 0;
+    _3b18._10.sub_7100A816D8();
+    if (UiSubsys1::instance()->sub_7100968900(1))
+        sub_71009EF7EC();
+    if (!_3ad2) {
+        _3ad2 = Unk_71025d69f0::instance()->sub_710094F6F8() & 1;
+        if (!_3ad2)
+            return;
+    }
+    if (UiSubsys1::instance()->get3858()) {
+        if (UiSubsys1::instance()->return0B())
+            UiSubsys1::instance()->sub_71009679AC();
+        if (!UiSubsys1::instance()->sub_7100968D04())
+            return;
+        if (UiSubsys1::instance()->return0B())
+            UiSubsys1::instance()->sub_71009677CC();
+        UiSubsys1::instance()->sub_7100968774();
+        sub_71009EFAD4(UiSubsys1::instance()->sub_7100968B1C());
+        return;
+    }
+    if (UiSubsys1::instance()->sub_7100968B1C() == 11)
+        _3c90->sub_71009C1888(1);
+    if (sub_71009EF8DC())
+        UiSubsys1::instance()->sub_7100968C2C(1);
+}
+
 // 0x71009ebec8
 void ScreenAppMap::sub_71009EBEC8() {
     if (UiSubsys1::instance()->sub_7100967498()) {

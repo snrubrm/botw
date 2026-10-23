@@ -2807,9 +2807,13 @@ public:
     void sub_71009EB960();
     // 0x71009eba68 (placeholder name): applies the selected marker entry to the map's sub-state
     void sub_71009EBA68(UiSubsys1Entry* icon);
-    // 0x71009ebd6c / 0x71009ebec8 (placeholder names; declared only): the demo state's two run steps
+    // 0x71009ebd6c / 0x71009ebec8 (placeholder names): the demo state's two run steps
     void sub_71009EBD6C();
     void sub_71009EBEC8();
+    // 0x71009ef7ec / 0x71009efad4 / 0x71009ef8dc (placeholder names; declared only): demo state camera steps
+    void sub_71009EF7EC();
+    void sub_71009EFAD4(s32 mode);
+    bool sub_71009EF8DC();
     // 0x71009f20f4 (placeholder name; declared only): map sub-run step for the closed app system window's result
     void sub_71009F20F4();
     // 0x71009eaa24 (placeholder name): restarts the cursor timer, creates the map cursor layout and its animators,
@@ -3031,6 +3035,7 @@ public:
     /* 0x3c98 */ ScreenAppMapUnk3c98* _3c98;
     /* 0x3ca0 */ xlink2::HandleSLink _3ca0;  // the map cursor movement sound (mc_CursorMove)
     /* 0x3cb0 */ u8 _3cb0;  // the camera rune was selected when m130 last ran
+    /* 0x3cb1 */ u8 _3cb1;  // the normal map loaded flag of the demo state
 };
 
 // State of ScreenPauseMenu's state callbacks (0x71025f0cf0; placeholder name).
