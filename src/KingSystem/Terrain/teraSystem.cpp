@@ -1964,8 +1964,9 @@ void System::sub_7101116D44() {
 
 // 0x7101116e74 (placeholder name): under the read lock, updates scene `index`'s uniform block from
 // the culling frustum and runs the collector's per-scene update.
-// NON_MATCHING: our three stack records are 0x10 higher (frame 0xa0 vs 0x90) and the flush block's
-// loads and stores are scheduled differently; the calls, values and branches are the same.
+// NON_MATCHING: the frame is 0xa0 instead of 0x90 (the inline flush's temporary gets its own slot
+// instead of reusing the setData(7) one) and the flush block's loads and stores are scheduled
+// differently; the calls, values, stack records and branches are the same.
 void System::sub_7101116E74(s32 index, Unk_7101115584Arg* arg) {
     mLock.readLock();
 
@@ -1977,22 +1978,22 @@ void System::sub_7101116E74(s32 index, Unk_7101115584Arg* arg) {
     }
 
     if (arg->_0) {
-        struct Data6 {
-            u32 _0;
-            u32 _4;
-            f32 _8;
-            f32 _c;
-        } data6;
-
-        sead::Vector4f scale;
-        sub_7101116BBC(arg->_0->get_f4(), &scale);
-
         struct Data7 {
             u32 _0;
             u32 _4;
             u32 _8;
             u32 _c;
         } data7;
+
+        sead::Vector4f scale;
+        sub_7101116BBC(arg->_0->get_f4(), &scale);
+
+        struct Data6 {
+            u32 _0;
+            u32 _4;
+            f32 _8;
+            f32 _c;
+        } data6;
         data6._0 = 0;
         data6._4 = Terrain::instance()->_3f0;
         data6._8 = Terrain::instance()->sub_710107EC48() && (Terrain::instance()->_a58 & 0x10) ? 1.0f : 0.0f;
