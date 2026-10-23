@@ -2878,6 +2878,9 @@ public:
     void sub_71009F0804();
     // 0x71009ed4e4 (CSV unnamed): switches the map children to the mode's state
     void sub_71009ED4E4(s32 mode);
+    // 0x71009ed5d0 (placeholder name): enters the map mode with the tracker settings (frame from the number of
+    // tracker blocks); `a1` also stops the layout animations and places the tracker pane
+    void sub_71009ED5D0(bool a1);
     // 0x71009f14d8 (placeholder name): switches the map's animator and message to `mode`; mode 7 uses
     // the hovered icon's entry first
     void sub_71009F14D8(s32 mode);

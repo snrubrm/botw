@@ -25,6 +25,8 @@
 #include <nn/font/font_Util.h>
 #include "Game/UI/euiPictureEx.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "Game/AOC/aocHardModeManager.h"
+#include "KingSystem/GameData/gdtSaveMgr.h"
 
 namespace uking::ui {
 
@@ -1005,6 +1007,55 @@ void ScreenAppMap::sub_71009F1B9C() {
     sead::FixedSafeString<16> text;
     text.format("%+d", temperature);
     setWidgetString(_3c80, "T_Temp_00", text);
+}
+
+// 0x71009ed5d0: enters the map mode with the tracker settings: when `a1` is set it stops the layout animations,
+// places the tracker pane at the cursor, counts the tracker save blocks (the hard-mode names in master mode) and
+// sets the tracker animators' frame, otherwise it keeps the frame and restarts the animators at it.
+// NON_MATCHING: the original materialises the u8 mask of the block count before subtracting the widget's stored
+// count (and w9, w23, #0xff); our compiler folds it into the 8-bit difference.
+void ScreenAppMap::sub_71009ED5D0(bool a1) {
+    if (!_3610)
+        return;
+    _3610->setMode(1);
+    _3610->sub_71009AE1C0();
+    if (!a1) {
+        _36d8->Stop(_36f8);
+        _36e0->Stop(_36f8);
+        _3708->StopAtMin();
+    } else {
+        if (_36c8->_91 == 3 || _36c8->_91 == 0)
+            _36c8->sub_7100BDDE7C(false, 0, true);
+        if (u32(_3700->_91 - 1) <= 1)
+            _3700->startAnimCloseImpl_(false, false);
+        if (_3730->_91 == 3 || _3730->_91 == 0)
+            _3730->sub_7100BDDE7C(false, 0, true);
+        sead::Vector2f pos(0.0f, 0.0f);
+        _3610->sub_71009AF124(&pos);
+        _3740->SetPosition(nn::util::Float3{pos.x, pos.y, 0.0f});
+        s32 count = 0;
+        for (s32 i = 0; i < 0x20; ++i) {
+            sead::FormatFixedSafeString<32> name("tracker/trackblock%02d.sav", i);
+            if (aoc::HardModeManager::instance() &&
+                aoc::HardModeManager::instance()->checkFlag(
+                    aoc::HardModeManager::Flag::EnableHardMode))
+                name.format("tracker/trackblock_hard%02d.sav", i);
+            const bool exists = ksys::SaveMgr::instance()->sub_7100E0402C(name);
+            count += exists;
+            if (!exists)
+                break;
+        }
+        const s32 diff = s32(u8(count)) - s32(_3610->mFootPrint._140);
+        _36f8 = (32.0f - f32(s8(diff))) * 250.0f;
+        _36d8->Stop(_36f8);
+        _36e0->Stop(_36f8);
+        _3708->StopAtMin();
+        _3610->sub_71009AF058(s8(diff));
+    }
+    _3c30->SetVisible(true);
+    _3750->SetVisible(true);
+    sub_7100A48104("Pa_PlayerNavi_00", nullptr)->SetVisible(false);
+    _3610->sub_71009AA004();
 }
 
 // 0x71009ed4e4
