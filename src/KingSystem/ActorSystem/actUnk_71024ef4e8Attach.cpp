@@ -1,10 +1,16 @@
 #include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace ksys::act {
 
 void Unk_71024ef4e8::AttachInfo::sub_7100EB0D30() {
     mConstraint->sub_7100F6A074();
+}
+
+void Unk_71024ef4e8::AttachInfo::sub_7100EB0D38() {
+    mConstraint->sub_7100F6A074();
+    mBody->removeFromWorld();
 }
 
 void Unk_71024ef4e8::AttachInfo::sub_7100EB1660() {

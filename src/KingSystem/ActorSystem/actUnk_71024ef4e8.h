@@ -51,6 +51,8 @@ public:
     struct AttachInfo {
         // 0x7100eb0d30 (out of line; defined in its own file so that the caller does not inline it).
         void sub_7100EB0D30();
+        // 0x7100eb0d38: releases the attach constraint and removes the body from the world.
+        void sub_7100EB0D38();
         // 0x7100eb1660 / 0x7100eb166c: sets / reads the flag at +0x17c.
         void sub_7100EB1660();
         bool sub_7100EB166C() const;
