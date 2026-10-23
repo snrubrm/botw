@@ -44,6 +44,9 @@
 const char* sub_7100E367C0(s32 index);
 
 namespace ksys::act {
+
+// 0x7101284954 (placeholder name): the slanted water footstep reaction of the receiver.
+void sub_7101284954(Unk_7101286868* receiver, ::DamageReactionRequest* request);
 SEAD_SINGLETON_DISPOSER_IMPL(Reaction)
 
 xlink::XLink* Unk_7100ebf9e4::getXLink() const {
@@ -82,6 +85,33 @@ const sead::SafeString& Unk_7100ebf9e4::getName() const {
 }
 
 void Reaction::initStubbed() {}
+
+// 0x7100ec10b8: forwards a damage reaction request: an NPC damage kind / reaction kind pair skips
+// the forwarding, otherwise the water receiver (flag bit 2) and the reaction handler (bit 1) get it.
+bool Reaction::sub_7100EC10B8(::DamageReactionRequest* request) {
+    if (!_b0)
+        return false;
+    if ((request->_c4 & 0x20) && request->_90 == 1 && request->_98 == 5)
+        return true;
+    if (request->_c4 & 4)
+        sub_7101284954(_a0, request);
+    if (request->_c4 & 2)
+        _a8->sub_7100EC313C(request);
+    return true;
+}
+
+// 0x7100ec0e7c: runs the state reset, releases the reaction receiver, then caches the player of
+// the actor system's player link in _d8.
+void Reaction::sub_7100EC0E7C() {
+    x();
+    if (_a8)
+        _a8->sub_7100EC30C4();
+    if (!_d8) {
+        auto* player_link = ActorSystem::instance()->getPlayerLink();
+        if (player_link)
+            _d8 = player_link->getPlayer();
+    }
+}
 
 bool Reaction::__auto3() {
     if (!(_b8 & 0x200))

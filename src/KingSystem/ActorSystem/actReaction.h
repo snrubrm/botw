@@ -34,6 +34,10 @@ class XLink;
 
 struct DamageReactionRequest;
 
+namespace uking::act {
+class PlayerBase;
+}
+
 namespace ksys::act {
 class Actor;
 class ActorCreator;
@@ -166,6 +170,11 @@ class Reaction {
 
     // 0x7100ec0458: empty in the original (CSV name).
     void initStubbed();
+    // 0x7100ec0ed4 (placeholder name): resets the reaction state before the stage is generated.
+    void x();
+    // 0x7100ec0e7c (placeholder name): runs `x`, resets the reaction receiver, then caches the
+    // player link's player in _d8.
+    void sub_7100EC0E7C();
     // 0x7100ec045c: true while the five queued procs are not all ready, or when _b8 bit 9 is clear.
     bool __auto3();
 
@@ -178,6 +187,10 @@ public:
     // Placeholder: the object at _a8 (class unknown). 0x7100ec66fc sets its _110 to 2; the actor
     // argument is unused. Called by OctarockOptionRoot::calc_ when the player touches the rock.
     struct Unk1 {
+        // 0x7100ec30c4 (placeholder name): resets the per-core reaction queues and counters.
+        void sub_7100EC30C4();
+        // 0x7100ec313c (placeholder name): forwards the request to the reaction handlers.
+        void sub_7100EC313C(::DamageReactionRequest* request);
         void sub_7100EC66FC(Actor* actor);
         // Constant getters (0.7f / 7 / 5); placeholder names.
         f32 sub_7100EC877C() const;
@@ -333,7 +346,10 @@ public:
     /* 0xb0 */ bool _b0;
     u8 _b1[0xb8 - 0xb1];
     /* 0xb8 */ u32 _b8;
-    u8 _bc[0x180 - 0xbc];
+    u8 _bc[0xd8 - 0xbc];
+    // The player cached by sub_7100EC0E7C (vtable slot 82 of the player link).
+    /* 0xd8 */ uking::act::PlayerBase* _d8 = nullptr;
+    u8 _e0[0x180 - 0xe0];
 };
 static_assert(offsetof(Unk_7101286868, _38) == 0x38);
 static_assert(offsetof(Reaction, _28) == 0x28);
