@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/actUnk_71024ef4e8.h"
 #include <math/seadMathCalcCommon.h>
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actUnk_71024ef620.h"
 #include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -600,6 +601,19 @@ void Unk_71024ef4e8::sub_7100EB56E8() {
     _110.reset(0x150000);
     _148 = 0;
     _150 = 0;
+}
+
+// NON_MATCHING: only the register numbers of the flag byte and the mask address are swapped.
+phys::MaterialMask* Unk_71024ef4e8::Unk3::sub_7100EB9EA8() {
+    const u8 flags = _74;
+    return (flags & 2) ? &_138 : nullptr;
+}
+
+void Unk_71024ef4e8::Unk3::sub_7100EBA2EC(Actor* actor) {
+    if (!actor)
+        return;
+    _160 = actor;
+    _168 = actor->getXLink();
 }
 
 }  // namespace ksys::act

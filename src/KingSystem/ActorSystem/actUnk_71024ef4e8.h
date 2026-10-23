@@ -6,6 +6,7 @@
 #include <math/seadMatrix.h>
 #include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys::phys {
@@ -19,10 +20,15 @@ class MaterialMask;
 class ContactLayer;
 }
 
+namespace ksys::xlink {
+class XLink;
+}
+
 namespace ksys::act {
 
 class PlayerLink;
 class Unk_71024ef620;
+class Actor;
 
 // Placeholder name (vtable 0x71024ef4e8, only a trivial virtual dtor; methods in 0x7100eb2394-0x7100eb5900;
 // created with `new(0x2b8)` by 0x7100eb16a0 (CSV ActorPhysics::x_8, called with the actor's phys::InstanceSet
@@ -76,11 +82,21 @@ public:
 
     // Placeholder: the object at `_b8` (only the flag byte at +0x74 that sub_7100EB5784 tests is modeled).
     struct Unk3 {
+        // 0x7100eb9ea8: the material mask at +0x138 while _74 bit 1 is set, otherwise null.
+        phys::MaterialMask* sub_7100EB9EA8();
+        // 0x7100eba2ec: stores the actor and its XLink at +0x160 / +0x168.
+        void sub_7100EBA2EC(Actor* actor);
+
         u8 _0[0x74];
         /* 0x74 */ u8 _74;
         u8 _75[0xd8 - 0x75];
         // Passed as the ground position by Unk_710245a028::m2 when bit 1 of _74 is set.
         /* 0xd8 */ sead::Vector3f _d8;
+        u8 _e4[0x138 - 0xe4];
+        /* 0x138 */ phys::MaterialMask _138;
+        u8 _150[0x160 - 0x150];
+        /* 0x160 */ Actor* _160 = nullptr;
+        /* 0x168 */ xlink::XLink* _168 = nullptr;
     };
 
     // EA7300 constructs this 0x210-byte controller contact solver; EA79DC frees its buffers.
