@@ -874,7 +874,8 @@ public:
     virtual void m35();
     // The value of record `index` at `pos` (-1 if there is none).
     virtual f32 m36(u32 index, const sead::Vector3f& pos);
-    virtual void m37();
+    // 0x7101083c98 passes the index, a pointer and a value.
+    virtual void m37(u32 index, void* p, f32 value);
     virtual void m38();
     virtual void m39() {}
     // Writes the record of a tree added by sub_7101084FB8 (declaration only).
@@ -2870,7 +2871,8 @@ class Unk_71024de830 : public sead::GameFrameworkNx {
     SEAD_RTTI_OVERRIDE(Unk_71024de830, sead::GameFrameworkNx)
 public:
     ~Unk_71024de830() override;
-    virtual void m37();
+    // 0x7101083c98 passes the index, a pointer and a value.
+    virtual void m37(u32 index, void* p, f32 value);
     virtual void m38();
     virtual void m39();
     virtual void m40() {}

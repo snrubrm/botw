@@ -1259,6 +1259,21 @@ void Core::Unk_140::sub_7101080A0C() {
 
 // NON_MATCHING: the guard's branch layout differs (our epilogue is placed before the main body and the
 // debug-bit test is inverted); the instruction multiset is identical.
+// 0x7101083c98 (unnamed): runs slot 37 on both draw commands unless the debug flag or _8 bit 0 stops it.
+void Core::Unk_140::sub_7101083C98(u32 index, void* p, f32 value) {
+    Terrain* terrain = Terrain::instance();
+    if (terrain) {
+        if (terrain->_a50) {
+            if (terrain->_a50->_18 & 0x20)
+                return;
+        }
+    }
+    if (!(_8 & 1))
+        return;
+    _14cd[0]->m37(index, p, value);
+    _14cd[1]->m37(index, p, value);
+}
+
 // 0x7101083c20 (unnamed): the first non-negative tree value of the two draw commands, or -1.
 f32 Core::Unk_140::sub_7101083C20(u32 index, const sead::Vector3f& pos) {
     for (s32 i = 0; i <= 1; ++i) {
