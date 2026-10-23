@@ -2812,7 +2812,7 @@ public:
     // 0x71009f2300 (CSV unnamed, declared only): map mode 0 / 1 / 5 for the two children, then shows map mode 6
     void sub_71009F2300(s32 mode);
     // 0x71009f1828 (CSV unnamed, declared only): applies a map child's selection to the map screen
-    void sub_71009F1828(Unk_710247d8f8* child);
+    void sub_71009F1828(UiSubsys1Entry* icon);
     // 0x71009ea738 / 0x71009eee04 / 0x71009eef98 (placeholder names): find the DLC map layout parts and create
     // their layout animators
     void sub_71009EA738();
@@ -2830,6 +2830,9 @@ public:
     void sub_71009F14D8(s32 mode);
     // 0x71009f0508 (declared only): applies the hovered icon entry to the map screen
     void sub_71009F0508(UiSubsys1Entry* icon);
+    // 0x71009f1720 / 0x71009f1828 / 0x71009f15a0 (declared only): icon entry helpers of sub_71009F0508
+    void sub_71009F1720(UiSubsys1Entry* icon);
+    void sub_71009F15A0(UiSubsys1Entry* icon);
     // 0x71009ed084 / 0x71009ed1e4 (placeholder names): play the map mode animators forward / backward
     void sub_71009ED084();
     void sub_71009ED1E4();

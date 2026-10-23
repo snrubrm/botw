@@ -825,6 +825,23 @@ void ScreenAppMap::sub_71009F14D8(s32 mode) {
     sub_71009F08F8(mode);
 }
 
+// 0x71009f0508
+void ScreenAppMap::sub_71009F0508(UiSubsys1Entry* icon) {
+    const s32 id = icon->m10();
+    UiSubsys1::instance()->set3888(id);
+    if (icon)
+        sub_71009F1720(icon);
+    if (!icon || icon->m10() != -1)
+        sub_71009F1828(icon);
+    if (id == 1) {
+        if (!UiSubsys1::instance()->sub_7100960DF8())
+            sub_71009F08F8(1);
+    } else {
+        sub_71009F08F8(id);
+    }
+    sub_71009F15A0(icon);
+}
+
 // 0x71009f1b9c
 void ScreenAppMap::sub_71009F1B9C() {
     if (wm::sub_7100A9D800())
