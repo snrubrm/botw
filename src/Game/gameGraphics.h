@@ -194,7 +194,15 @@ public:
     // One 0x68-byte map-unit entry of the tables at +0xfd0. The map screen sets the colour (+0x20),
     // the two floats at +0x54 and the flags (+0x5f) through the setters below.
     struct UnitEntry {
-        u8 _0[0x20];
+        // +0x00: the reference records (8 bytes each; the byte at +2 is 0xfe for the special one).
+        struct RefRecord {
+            u8 _0[2];
+            u8 _2;
+            u8 _3[5];
+        };
+        static_assert(sizeof(RefRecord) == 8);
+        /* 0x00 */ sead::Buffer<RefRecord> mRefs;
+        u8 _10[0x20 - 0x10];
         /* 0x20 */ sead::Color4f mColor;
         /* 0x30 */ sead::Vector3f _30;
         /* 0x3c */ sead::Vector3f _3c;
@@ -220,6 +228,10 @@ public:
     // `id` when they (or the compared flag bit) differ, then sets bit 2 of its flags.
     void setMapUnitTransformMaybe(s32 id, const sead::Vector3f& value30, const sead::Vector3f& value48,
                                   const sead::Vector3f& value3c);
+    // 0x7100f1a034 (placeholder name): sets bit 4 of map unit `id`'s flags to `visible` and always
+    // sets bit 1; for type 3 units whose reference records contain 0xfe, updates bit 5 of every unit
+    // of the group.
+    void setMapUnitVisibleMaybe(s32 id, bool visible);
     // 0x7100f19928: destroys the model render data the renderer built.
     void sub_7100F19928(void* data);
     // 0x7100f1ab60: stores the two screen coordinates the map screen computes (each truncated to 16 bits).

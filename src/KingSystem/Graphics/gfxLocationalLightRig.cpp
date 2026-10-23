@@ -288,6 +288,57 @@ void Unk_7100f185a4::setMapUnitTransformMaybe(s32 id, const sead::Vector3f& valu
     entry->mFlags |= 4;
 }
 
+// NON_MATCHING: the reference-record loop's counter decrement is scheduled one slot before the
+// pointer increment (otherwise identical).
+// 0x7100f1a034: sets the visibility flag of map unit `id`; a type 3 unit whose reference records
+// contain 0xfe also updates the visibility flag of every unit of the group.
+void Unk_7100f185a4::setMapUnitVisibleMaybe(s32 id, bool visible) {
+    if (id == -1)
+        return;
+
+    sead::Buffer<UnitEntry>* group = mUnitGroups[id >> 16];
+    if (!group)
+        return;
+    const s32 index = s16(id);
+    const s32 count = group->getSize();
+    UnitEntry* entry = group->getBufferPtr();
+    if (u32(count) > u32(index))
+        entry += index;
+    if (!entry)
+        return;
+
+    entry->mFlags = visible ? (entry->mFlags | 0x12) : ((entry->mFlags & ~0x12) | 0x02);
+
+    if (entry->mType != 3)
+        return;
+    if (entry->mRefs.size() == 0)
+        return;
+
+    bool found = false;
+    const UnitEntry::RefRecord* ref = entry->mRefs.getBufferPtr();
+    for (s32 n = entry->mRefs.size(); n != 0; ++ref, --n) {
+        if (ref->_2 == 0xfe) {
+            found = true;
+            break;
+        }
+    }
+    if (!found)
+        return;
+
+    group = mUnitGroups[id >> 16];
+    const s32 group_count = group->getSize();
+    if (group_count == 0)
+        return;
+    UnitEntry* entries = group->getBufferPtr();
+    if (visible) {
+        for (s32 i = 0; i != group_count; ++i)
+            entries[i].mFlags |= 0x20;
+    } else {
+        for (s32 i = 0; i != group_count; ++i)
+            entries[i].mFlags &= 0xdf;
+    }
+}
+
 // 0x7100f1ab60: stores the two screen coordinates the map screen computes (each truncated to 16 bits).
 void Unk_7100f185a4::setPosXY(s32 x, s32 y) {
     _50 = static_cast<u16>(x);
