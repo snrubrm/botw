@@ -1,7 +1,14 @@
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiTUStatics.h"
 #include "Game/UI/uiScreenControlCreators.h"
+#include "Game/UI/uiScreens.h"
 #include "Game/UI/uiTagProcessor.h"
+#include "Game/UI/uiUI.h"
+#include "Game/UI/uiUnkSingletons.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
+#include "Game/UI/uiUtils.h"
+#include "KingSystem/ActorSystem/actInfoCommon.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
 
 namespace uking::ui {
 
@@ -57,6 +64,96 @@ s32 sub_7100A25474(s32 id) {
             return i;
     }
     return -1;
+}
+
+// 0x7100a2511c (placeholder name): updates the two equipment number panels from the displayed item
+// type: the hero soul icons for key items, the weapon stats for weapons and the armour defence for
+// the armour pieces (number set 0 / 1 / 2 by the weapon category).
+// NON_MATCHING: the instructions are the same, but the weapon category's `category = 1` / `= 0`
+// blocks are placed inline in the original and after the return in ours.
+void ScreenMessageGet::sub_7100A2511C() {
+    if (!sub_7100A9BA48())
+        return;
+    if (_3770 == -1)
+        return;
+
+    PauseMenuDataMgr* mgr = PauseMenuDataMgr::instance();
+    if (!mgr)
+        return;
+
+    if (_3770 == s32(PouchItemType::KeyItem)) {
+        if (!sub_7100A9BA78(2))
+            return;
+        sead::FixedSafeString<64> name;
+        sub_7100AA29C4(UI::instance()->_40, name);
+        const s32 soul = sub_7100AA46F0(name);
+        if (soul == -1)
+            return;
+        const s32 icon = sub_7100A25474(soul);
+        if (icon < 0)
+            return;
+        if (icon == 5) {
+            _37d8[5].sub_7100933850(UiSubsys1::instance()->get4b8(), false);
+        } else if (u32(icon - 6) <= 3) {
+            _37d8[icon].sub_7100933850(true, false);
+        } else {
+            _37d8[icon].sub_7100933850(mgr->isHeroSoulEnabled(name), false);
+        }
+        return;
+    }
+
+    s32 old_value = 0;
+    s32 value = 0;
+    s32 old_number = 0;
+    s32 number = 0;
+    u32 category = 0;
+    if (sub_7100A82E28(_3770)) {
+        if (!sub_7100A9BA78(1))
+            return;
+        sead::FixedSafeString<64> name;
+        sub_7100AA29C4(UI::instance()->_40, name);
+        if (auto* info = ksys::act::InfoData::instance()) {
+            if (_3780.getStringTop()[0] == sead::SafeString::cNullChar) {
+                const PouchItem* item = mgr->getEquippedItem(PauseMenuDataMgr::getType(name));
+                if (item)
+                    old_value = ksys::act::getArmorDefenceAddLevel(info, item->getName().cstr());
+            } else {
+                old_value = ksys::act::getArmorDefenceAddLevel(info, _3780.cstr());
+            }
+        }
+        value = _3774;
+        category = _3770 == s32(PouchItemType::ArmorHead) ? 3 : 4;
+        if (_3770 == s32(PouchItemType::ArmorLower))
+            category = 5;
+    } else {
+        if (u32(_3770) > 3)
+            return;
+        if (_3770 == s32(PouchItemType::Arrow))
+            return;
+        if (!sub_7100A9BA78(0))
+            return;
+        value = _3774;
+        number = _3778;
+        if (const PouchItem* item = mgr->getEquippedItem(PouchItemType(_3770))) {
+            WeaponStats stats;
+            getWeaponStats(*item, &stats);
+            old_value = stats.power;
+            old_number = stats.bow_add_value;
+        }
+        switch (PouchItemType(_3770)) {
+        case PouchItemType::Bow:
+            category = 1;
+            break;
+        case PouchItemType::Shield:
+            category = 2;
+            break;
+        default:
+            category = 0;
+            break;
+        }
+    }
+    _3670[0].view.sub_71009B2380(category, old_value, value, old_number, number);
+    _3670[1].view.sub_71009B2380(category, old_value, value, old_number, number);
 }
 
 }  // namespace uking::ui

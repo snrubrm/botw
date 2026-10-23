@@ -5498,6 +5498,10 @@ public:
 
     // 0x7100a23778 (CSV ScreenMessageGet::ctor)
     ScreenMessageGet();
+    // 0x7100a2511c (placeholder name): updates the two equipment number panels from the displayed
+    // item type: the hero soul icons for key items, the weapon stats for weapons, the armour
+    // defence for the armour pieces (0 / 1 / 2 number sets by type).
+    void sub_7100A2511C();
     // 0x7100a238c8 (placeholder name): app-tag handler bound to _3750 (same body as ScreenShopInfo::sub_7100A51790)
     u32 sub_7100A238C8(const sead::MessageSet<char16>::TagInfo* tag, sead::WBufferedSafeString* out);
 

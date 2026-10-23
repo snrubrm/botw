@@ -1311,6 +1311,8 @@ public:
     void set3885() { _3885 = true; }
     void clear3885() { _3885 = false; }
     void set4cc(bool value) { _4cc = value; }
+    // Placeholder name: the byte at 0x4b8, read by the message-get screen's equipment panel update.
+    bool get4b8() const { return _4b8; }
     // 0x71009644e8: entry `index` of the table at 0x658 (null if out of range).
     UiSubsys1Entry* sub_71009644E8(s32 index);
     void sub_71009645D0(const void* a1);
@@ -1571,7 +1573,10 @@ private:
     u8 _480[0x488 - 0x480];
     // The map's ELink / SLink handles; sub_71008B43CC kills the ELink event when its create id matches.
     /* 0x488 */ Unk_71012419b4 _488;
-    u8 _4a8[0x4bc - 0x4a8];
+    u8 _4a8[0x4b8 - 0x4a8];
+    // Read by the message-get screen's equipment panel update (0x7100a2511c).
+    /* 0x4b8 */ bool _4b8 = false;
+    u8 _4b9[0x4bc - 0x4b9];
     /* 0x4bc */ sead::Vector3f _4bc;
     /* 0x4c8 */ bool _4c8;
     u8 _4c9[0x4cc - 0x4c9];

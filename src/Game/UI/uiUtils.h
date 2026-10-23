@@ -598,6 +598,8 @@ void sub_7100A9A21C(const sead::Vector3f* world_pos, int scale_level);
 bool sub_7100A9BAEC(int state);
 // 0x7100a9ba78 (defined in uiManagerFacade.cpp): Manager::_649ec bit `bit`.
 bool sub_7100A9BA78(s32 bit);
+// 0x7100a9ba48 (defined in uiManagerFacade.cpp): whether any of Manager::_649ec's bits is set.
+bool sub_7100A9BA48();
 // 0x7100a9bc0c (defined in uiManagerFacade.cpp).
 bool sub_7100A9BC0C(s32 id);
 // 0x7100a9d0d4: forwards a terminal description (WarpActivateTerminal::TerminalInfo) to the UI singleton
