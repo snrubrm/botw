@@ -641,6 +641,40 @@ bool sub_7100EDEA5C(Actor* actor) {
     return unit->isRenderViewOptionEnabled(0, gsys::ModelEnum::RenderViewOption(1), 0);
 }
 
+// 0x7100ee19c0 (placeholder name): whether a material can bounce a projectile off a surface.
+bool sub_7100EE19C0(const phys::MaterialMask& mask) {
+    const phys::Material material = mask.getMaterial();
+    if (int(material) == int(phys::Material::Stone))
+        return false;
+    if (int(material) == int(phys::Material::Metal))
+        return false;
+    if (int(material) == int(phys::Material::Ice))
+        return false;
+    if (int(material) == int(phys::Material::Glass))
+        return false;
+    if (int(material) == int(phys::Material::WireNet))
+        return false;
+    if (int(material) == int(phys::Material::LaunchPad))
+        return false;
+    if (int(material) == int(phys::Material::Conveyer))
+        return false;
+    if (int(material) == int(phys::Material::Bone))
+        return false;
+    if (int(material) == int(phys::Material::Rail))
+        return false;
+    if (int(material) == int(phys::Material::Bomb))
+        return false;
+    if (int(material) == int(phys::Material::Grudge))
+        return false;
+    if (int(material) == int(phys::Material::MagicBall))
+        return false;
+    if (int(material) == int(phys::Material::Barrier))
+        return false;
+    if (int(material) == int(phys::Material::AirWall))
+        return false;
+    return int(material) != int(phys::Material::GrudgeSlow);
+}
+
 // 0x7100ee1b34 (placeholder name): false when custom material flag 0 is set.
 // NON_MATCHING: same size and body; our clang loads the material data before the volatile enum
 // conversion, the original loads it after the shifted mask.

@@ -131,6 +131,7 @@ ArrowType arrowTypeFromString(const sead::SafeString& name);
 ZukanType getZukanType(al::ByamlIter* iter);
 ZukanType getZukanType(Actor* actor);
 bool sub_7100EDEA5C(Actor* actor);
+bool sub_7100EE19C0(const phys::MaterialMask& mask);
 bool sub_7100EE1B34(const phys::MaterialMask& mask);
 
 bool isPlayerProfile(const ActorLinkConstDataAccess& accessor);
