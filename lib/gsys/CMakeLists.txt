@@ -67,6 +67,8 @@ add_library(gsys OBJECT
   src/gsys/gsysRenderDisplay.cpp
   src/gsys/gsysModelRig.cpp
   src/gsys/gsysPointLight.cpp
+  src/gsys/gsysSpotLight.cpp
+  src/gsys/gsysLightRigObj.cpp
   src/gsys/gsysMaskedLight.cpp
   src/gsys/gsysModelMgr.cpp
   src/gsys/gsysModelResource.cpp

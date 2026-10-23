@@ -5,6 +5,12 @@
 
 namespace gsys {
 
+// 0x7100c7c460
+s32 MaskedSpotLightRig::getTypeID() const {
+    return sTypeInfo->id;
+}
+
+
 MaskedLight::MaskedLight()
     : mIsEnableShadow(true, "IsEnableShadow", "影", this),
       mIsEnablePCF(false, "IsEnablePCF", "ソフトシャドウ", this),

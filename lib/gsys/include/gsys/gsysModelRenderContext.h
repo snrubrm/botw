@@ -33,8 +33,17 @@ enum class ShaderAssignType;
 class ModelRenderContext {
     friend class ModelRenderCache;
 public:
-    // The argument of the render-context callback delegate; only the name is recovered.
-    struct CallbackArg;
+    // The argument of the render-context callback delegate. Constructor 0x7100c07fa4 stores the
+    // timing word and zeroes the two following words; only that prefix is modelled.
+    struct CallbackArg {
+        enum class Timing : s32 {};
+        CallbackArg(Timing timing);
+        Timing mTiming;
+        u8 _4[4];
+        u64 _8;
+        u64 _10;
+    };
+    static_assert(sizeof(CallbackArg) == 0x18);
 
     struct CreateArg {
         CreateArg();

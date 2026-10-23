@@ -30,6 +30,7 @@ private:
 class MaskedSpotLightRig {
 public:
     static const agl::env::TypeInfo* sTypeInfo;
+    s32 getTypeID() const;
 };
 
 }  // namespace gsys

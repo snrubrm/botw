@@ -13,4 +13,9 @@ PointLight::PointLight()
 
 PointLight::~PointLight() = default;
 
+// 0x7100c57d4c
+s32 PointLightRig::getTypeID() const {
+    return sTypeInfo->id;
+}
+
 }  // namespace gsys

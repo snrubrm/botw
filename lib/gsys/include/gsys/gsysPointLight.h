@@ -37,6 +37,7 @@ static_assert(sizeof(PointLight) == 0x300);
 class PointLightRig {
 public:
     static const agl::env::TypeInfo* sTypeInfo;
+    s32 getTypeID() const;
 };
 
 }  // namespace gsys

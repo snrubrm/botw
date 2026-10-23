@@ -6,6 +6,11 @@
 
 namespace gsys {
 
+// 0x7100c07fa4
+ModelRenderContext::CallbackArg::CallbackArg(Timing timing)
+    : mTiming(timing), _8(0), _10(0) {}
+
+
 ModelRenderContext::DrawArg::DrawArg(const sead::SafeString& name, const ModelRenderQueue& queue,
                                    const sead::BitFlag32& mask, u32 value,
                                    ModelEnum::ShaderAssignType type, int view, u32 options,
