@@ -193,6 +193,9 @@ public:
         // 0x7100ec3088: copies the current actors from the Reaction instance and hands them to
         // the reaction queue.
         void setActor();
+        // 0x7100ec2fdc: sets the reaction labels on the two actors' XLinks, creates the SLink
+        // limiter and initialises the reaction queue.
+        void init(sead::Heap* heap);
         // 0x7100ec30c4 (placeholder name): resets the per-core reaction queues and counters.
         void sub_7100EC30C4();
         // 0x7100ec313c (placeholder name): forwards the request to the reaction handlers.

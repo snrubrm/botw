@@ -994,7 +994,24 @@ void Reaction::Unk1::sub_7100EC8C04(f32 a, Actor* actor, const sead::Vector3f& p
     sub_7100EC89D8(a, actor, position, ReactionSize(value), mask, "WaterFlowSplash", 5);
 }
 
+namespace {
+// 0x71024efe80: the extra labels the reaction XLinks are given by Unk1::init.
+const char* const sReactionLabels[] = {
+    "Default",        "PlayerHit",     "EnemyHit",       "Guard",     "PlayerGuardJust",
+    "EnemyGuardJust", "ArrowHit",      "ArrowDamage",    "HorseStep", "HorseWildStep",
+    "Woodcutter",     "Land",          "PlayerFootStep", "TreeSplit", "OreHit",
+};
+}  // namespace
+
 Reaction::Unk1::Unk1() = default;
+
+void Reaction::Unk1::init(sead::Heap* heap) {
+    setExtraLabels(_8, sReactionLabels, 15);
+    setExtraLabels(_10, sReactionLabels, 15);
+    mSLinkLimiter = new (heap, 8) Unk_71024f02a8();
+    mSLinkLimiter->init(heap);
+    mReactions.init(heap, "GrassTrackLoop");
+}
 
 void Reaction::Unk1::setActor() {
     Actor* actor = _8;

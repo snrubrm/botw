@@ -105,6 +105,11 @@ void xlinkEventOn(ksys::act::Actor* actor, u32 idx, s32 value, bool force) {
     }
 }
 
+void setExtraLabels(ksys::act::Actor* actor, const char* const* labels, s32 count) {
+    if (actor && actor->getXLink())
+        actor->getXLink()->setExtraLabels(labels, count);
+}
+
 // NON_MATCHING: the original stores the ELink event's scale (1, 1, 1) with two `stp` pairs interleaved with the
 // position's z; ours merges the constants into one 64-bit store (HandleELink::setPosition, lib/xlink2)
 void Unk_71012419b4::sub_71012419B4(const sead::Vector3f& pos) {

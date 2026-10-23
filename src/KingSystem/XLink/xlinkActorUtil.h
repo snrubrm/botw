@@ -60,6 +60,9 @@ void sub_71012412E4(ksys::act::Actor* actor, u32 idx, f32 value, bool force);
 /// 0x7101241390 (CSV Actor::xlinkEventOn): int version of sub_71012412E4.
 void xlinkEventOn(ksys::act::Actor* actor, u32 idx, s32 value, bool force);
 
+/// 0x710124143c: sets the extra labels of the actor's XLink (null-safe).
+void setExtraLabels(ksys::act::Actor* actor, const char* const* labels, s32 count);
+
 namespace ksys::eft {
 
 // Names from the CSV (eft::searchAndEmitELink 0x7100da07fc, eft::searchAndEmitSLink 0x710105dd24; the
