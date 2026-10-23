@@ -7,6 +7,8 @@
 
 bool checkIsGet(const sead::SafeString& name, bool mode);
 void setIsGetFlagEx(const sead::SafeString& name, bool value, bool mode);
+bool checkIsGet_0(const sead::SafeString& name, bool mode);
+void setIsGetFlagEx_0(const sead::SafeString& name, bool value, bool mode);
 
 // Source owner unknown: the event-flow caller uses this string prefix.
 const char* sub_7100EE9E80() {
@@ -54,4 +56,20 @@ bool checkIsGetSameGroupActor(ksys::act::Actor* actor, bool mode) {
     sead::SafeString group_name;
     const bool has_group = ksys::act::getSameGroupActorName(&group_name, actor);
     return checkIsGet(has_group ? group_name : actor->getName(), mode);
+}
+
+// Second copy of the IsGet helpers (same bodies, separate flag functions). Placeholder names
+// follow the CSV names of the callees.
+bool checkIsGetSameGroupActorName_0(const sead::SafeString& actor_name, bool mode) {
+    sead::SafeString group_name;
+    const bool has_group = ksys::act::getSameGroupActorName(&group_name, actor_name);
+    return checkIsGet_0(has_group ? group_name : actor_name, mode);
+}
+
+void setIsGetSameGroup_0(const sead::SafeString& actor_name, bool value, bool mode) {
+    sead::SafeString group_name;
+    if (ksys::act::getSameGroupActorName(&group_name, actor_name))
+        setIsGetFlagEx_0(group_name, value, mode);
+    else
+        setIsGetFlagEx_0(actor_name, value, mode);
 }
