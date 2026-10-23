@@ -7,6 +7,8 @@
 bool checkIsGetSameGroupActorName(const sead::SafeString& actor_name, bool mode);
 void setIsGetSameGroup(const sead::SafeString& actor_name, bool value, bool mode);
 bool checkIsGetSameGroupActor(ksys::act::Actor* actor, bool mode);
+bool checkIsGetSameGroupActorName_0(const sead::SafeString& actor_name, bool mode);
+void setIsGetSameGroup_0(const sead::SafeString& actor_name, bool value, bool mode);
 
 namespace ksys::gdt {
 
@@ -174,6 +176,15 @@ void setIsGetFlag(const sead::SafeString& actor_name, bool value, bool debug) {
 
 bool isGetSameGroupActorName(act::Actor* actor, bool debug) {
     return checkIsGetSameGroupActor(actor, debug);
+}
+
+// Second copies of the IsGet wrappers (use the second flag functions).
+bool isGetSameGroupActorName2(const sead::SafeString& actor_name, bool debug) {
+    return checkIsGetSameGroupActorName_0(actor_name, debug);
+}
+
+void setIsGetFlag_0(const sead::SafeString& actor_name, bool value, bool debug) {
+    setIsGetSameGroup_0(actor_name, value, debug);
 }
 
 f32 getF32ByKey(const sead::SafeString& flag, bool debug) {
