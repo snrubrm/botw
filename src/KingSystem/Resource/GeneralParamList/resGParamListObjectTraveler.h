@@ -36,6 +36,68 @@ public:
     GParamListObjectTraveler();
     const char* getName() const override { return "Traveler"; }
 
+    // 0x7100ef0314..0x7100ef0578 (declared only; placeholder names): the forward / backward
+    // entry-point string getter of each route point. The Traveler rail code calls them through
+    // the member function pointer tables at 0x71024f2290 / 0x71024f23c0.
+    const sead::SafeString& getRoutePoint0ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint1ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint2ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint3ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint4ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint5ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint6ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint7ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint8ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint9ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint10ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint11ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint12ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint13ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint14ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint15ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint16ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint17ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint18ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint19ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint20ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint21ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint22ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint23ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint24ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint25ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint26ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint27ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint28ForwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint0BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint1BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint2BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint3BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint4BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint5BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint6BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint7BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint8BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint9BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint10BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint11BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint12BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint13BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint14BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint15BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint16BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint17BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint18BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint19BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint20BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint21BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint22BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint23BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint24BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint25BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint26BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint27BackwardEntryPoint() const;
+    const sead::SafeString& getRoutePoint28BackwardEntryPoint() const;
+
     agl::utl::Parameter<sead::SafeString> mAppearGameDataName;
     agl::utl::Parameter<sead::SafeString> mDeleteGameDataName;
     agl::utl::Parameter<sead::SafeString> mRouteType;

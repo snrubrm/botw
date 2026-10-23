@@ -2,13 +2,17 @@
 #include "Game/Actor/aiUnk_71024f1658.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectTraveler.h"
 #include "KingSystem/Map/mapDebug.h"
 #include "KingSystem/Map/mapMubinIter.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapRail.h"
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
+#include <algorithm>
 #include <cfloat>
 
 Unk_71024f15c0::Unk_71024f15c0() = default;
@@ -628,4 +632,101 @@ bool Unk_71024f1658::sub_7100EEC8A8(const ksys::map::RailConnectablePoint* start
         next_direction = -1;
     }
     return sub_7100EEC8A8(next, end, next_direction, out_direction, false, changed);
+}
+
+namespace {
+using RoutePointStringGetter =
+    const sead::SafeString& (ksys::res::GParamListObjectTraveler::*)() const;
+
+// 0x71024f2290 / 0x71024f23c0: the forward / backward entry-point string getters of the 29 route
+// points, called through a member function pointer by sub_7100EEEE88.
+KSYS_VISIBILITY_HIDDEN const sead::SafeArray<RoutePointStringGetter, 29> sForwardEntryPoints = {{
+    &ksys::res::GParamListObjectTraveler::getRoutePoint0ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint1ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint2ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint3ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint4ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint5ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint6ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint7ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint8ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint9ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint10ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint11ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint12ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint13ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint14ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint15ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint16ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint17ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint18ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint19ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint20ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint21ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint22ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint23ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint24ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint25ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint26ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint27ForwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint28ForwardEntryPoint,
+}};
+KSYS_VISIBILITY_HIDDEN const sead::SafeArray<RoutePointStringGetter, 29> sBackwardEntryPoints = {{
+    &ksys::res::GParamListObjectTraveler::getRoutePoint0BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint1BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint2BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint3BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint4BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint5BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint6BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint7BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint8BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint9BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint10BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint11BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint12BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint13BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint14BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint15BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint16BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint17BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint18BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint19BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint20BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint21BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint22BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint23BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint24BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint25BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint26BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint27BackwardEntryPoint,
+    &ksys::res::GParamListObjectTraveler::getRoutePoint28BackwardEntryPoint,
+}};
+}  // namespace
+
+// NON_MATCHING: SafeArray::operator[] lowers to a clamped index plus one add; the original
+// selects between the two element addresses (and keeps the s32 index for the address multiply).
+// 0x7100eeee88: a Traveler route string for the current route point and direction. The direction
+// sign of _72 selects the forward / backward getter table; the backward index is the previous
+// route point. Returns "" when the actor has no Traveler parameters or route points (_71 < 2).
+const char* Unk_71024f1658::sub_7100EEEE88(ksys::act::Actor* actor) {
+    if (_71 < 2)
+        return sead::SafeString::cEmptyString.cstr();
+
+    const auto* gparam = actor->getParam()->getRes().mGParamList;
+    if (!gparam)
+        return sead::SafeString::cEmptyString.cstr();
+    const auto* traveler = gparam->getTraveler();
+    if (!traveler)
+        return sead::SafeString::cEmptyString.cstr();
+
+    const s32 index = _70;
+    if (_72 >= 0) {
+        const auto& getter = sForwardEntryPoints[index];
+        return (traveler->*getter)().cstr();
+    }
+
+    const s32 back = std::max<s32>(index - 1, 0);
+    const auto& getter = sBackwardEntryPoints[back];
+    return (traveler->*getter)().cstr();
 }
