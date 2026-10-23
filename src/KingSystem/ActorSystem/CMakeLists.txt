@@ -165,6 +165,8 @@ target_sources(uking PRIVATE
     actReactionSLinkLimiter.cpp
     actReactionSLinkLimiter.h
     actReaction.cpp
+    actReactionQueue.cpp
+    actReactionUnk1.cpp
     actSchedule.cpp
     actSchedule.h
     actStruct8Base.cpp
