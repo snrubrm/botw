@@ -117,6 +117,9 @@ public:
     // Inline-only in the original; name is a guess. ModelScene::isForceZPrePassEnabled
     // 0x7100c13d40 reads mZPrePassSelectable's value byte at +0x1138.
     bool isZPrePassSelectable() const { return *mZPrePassSelectable; }
+    // Inline-only in the original; name is a guess. ModelSceneFx::drawDebug 0x7100c300d0
+    // tests the useDecalAo parameter's value byte at +0x1558.
+    bool useDecalAo() const { return *mUseDecalAo; }
 
     static constexpr int cConfig_Max = 32;
 
