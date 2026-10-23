@@ -197,6 +197,25 @@ void ScreenAppMap::sub_71009EAA24() {
     _3c30 = sub_7100A48104(sead::SafeString("Pa_Cursor_00"), nullptr);
 }
 
+// 0x71009eb8b4
+void ScreenAppMap::subRun() {
+    sub_71009EB960();
+    if (_3c98) {
+        const s32 state = _3c98->_104;
+        if (u32(state - 2) <= 4 && ((state - 2) & 1) == 0) {
+            if (auto* child = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0))) {
+                if (child->sub_7100994E88()) {
+                    auto* hovered = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0));
+                    sub_71009EBA68(hovered ? hovered->getHoveredIconData() : nullptr);
+                }
+            }
+        }
+    }
+    if (sub_71009E9F48())
+        return;
+    getStateMachine().changeState(&sUnk_71025df180);
+}
+
 // 0x71009eb960
 void ScreenAppMap::sub_71009EB960() {
     auto* window = sead::DynamicCast<ScreenAppSystemWindow>(
