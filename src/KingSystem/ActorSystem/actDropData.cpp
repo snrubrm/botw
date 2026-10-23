@@ -26,12 +26,12 @@ void DropData::initFromActor(Actor* actor) {
     init(actor, drop_actor);
 }
 
-// NON_MATCHING: the original keeps the null check of GlobalParameter::instance() (ours drops it)
 bool DropData::getDropVelocity(const sead::SafeString& name, sead::Vector3f* velocity,
                                f32* random) {
     if (_c & 0x20) {
-        auto* global = GlobalParameter::instance();
-        const auto* param = global ? global->getGlobalParam() : nullptr;
+        const res::GParamListObjectGlobal* param = nullptr;
+        if (auto* global = GlobalParameter::instance())
+            param = global->getGlobalParam();
         *random = param->mDropItemVelRandomFromBomb.ref();
         velocity->x = 0.0f;
         velocity->y = param->mDropItemVelYFromBomb.ref();
@@ -40,8 +40,9 @@ bool DropData::getDropVelocity(const sead::SafeString& name, sead::Vector3f* vel
     }
 
     if (_c & 0x200) {
-        auto* global = GlobalParameter::instance();
-        const auto* param = global ? global->getGlobalParam() : nullptr;
+        const res::GParamListObjectGlobal* param = nullptr;
+        if (auto* global = GlobalParameter::instance())
+            param = global->getGlobalParam();
         *random = param->mDropItemVelRandomRupeeRabbit.ref();
         velocity->x = 0.0f;
         velocity->y = param->mDropItemVelYRupeeRabbit.ref();
@@ -50,8 +51,9 @@ bool DropData::getDropVelocity(const sead::SafeString& name, sead::Vector3f* vel
     }
 
     if (hasTag(name, tags::Rupee)) {
-        auto* global = GlobalParameter::instance();
-        const auto* param = global ? global->getGlobalParam() : nullptr;
+        const res::GParamListObjectGlobal* param = nullptr;
+        if (auto* global = GlobalParameter::instance())
+            param = global->getGlobalParam();
         *random = param->mDropItemVelRandomItemRupeeOnly.ref();
         velocity->x = 0.0f;
         velocity->y = param->mDropItemVelYItemRupeeOnly.ref();
@@ -62,12 +64,12 @@ bool DropData::getDropVelocity(const sead::SafeString& name, sead::Vector3f* vel
     return false;
 }
 
-// NON_MATCHING: same as getDropVelocity
 bool DropData::getDropAngVelFromBomb(f32* ang_velocity, f32* random) {
     if (!(_c & 0x20))
         return false;
-    auto* global = GlobalParameter::instance();
-    const auto* param = global ? global->getGlobalParam() : nullptr;
+    const res::GParamListObjectGlobal* param = nullptr;
+    if (auto* global = GlobalParameter::instance())
+        param = global->getGlobalParam();
     *ang_velocity = param->mDropItemAngVelFromBomb.ref();
     *random = param->mDropItemAngVelRandomFromBomb.ref();
     return true;

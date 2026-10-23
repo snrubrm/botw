@@ -419,6 +419,7 @@ void AutoPlacementMgr::sub_7100659DE0(int type, bool enable) {
         _171e68[type] = 5;
     } else {
         --_171e4c[type];
+        _171e4c[type].load();
     }
 }
 
