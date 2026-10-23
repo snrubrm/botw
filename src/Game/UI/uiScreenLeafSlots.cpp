@@ -979,6 +979,24 @@ ScreenChild* sub_71009DE4F0(const nn::ui2d::ControlSrc&, eui::LayoutEx* layout) 
 }  // namespace uking::ui
 
 // 0x71009f345c
+// 0x71009f34cc: sets up the picture book unit's texture capture part, registers it and creates its four
+// state animators.
+void Unk_71024826c0::m4(sead::Heap* heap) {
+    _48.sub_71009CBD48(heap, _8, "P_Capture_00");
+    _48.sub_71009CBDE8(_8, "PicLoad");
+    uking::ui::sUnk_71025eb5c0.pushBack(&_48);
+    if (_8) {
+        _330 = _8->tryCreateAnimatorAuto("Hatena", false);
+        _338 = _8->tryCreateAnimatorAuto("New", false);
+        _340 = _8->tryCreateAnimatorAuto("Born", false);
+        if (_340)
+            _340->StopAtMax();
+        _348 = _8->tryCreateAnimatorAuto("DLC", false);
+        if (_348)
+            _348->StopAtMin();
+    }
+}
+
 Unk_71024826c0::~Unk_71024826c0() = default;
 
 // 0x71009f3b20

@@ -145,16 +145,17 @@ class Unk_71024826c0 : public uking::ui::Unk_7102474e38 {
     SEAD_RTTI_OVERRIDE(Unk_71024826c0, uking::ui::Unk_7102474e38)
 public:
     ~Unk_71024826c0() override;
+    void m4(sead::Heap* heap) override;
     void m5() override {}
     void m8() override;
     void m14() override;
 
     /* 0x48 */ uking::ui::Unk_71009cb0c8 _48;
     // zeroed by the constructor (inlined in ScreenAppPictureBookEntry::createUnits, 0x71009fb528; 0x350 bytes)
-    /* 0x330 */ void* _330 = nullptr;
-    /* 0x338 */ void* _338 = nullptr;
-    /* 0x340 */ void* _340 = nullptr;
-    /* 0x348 */ void* _348 = nullptr;
+    /* 0x330 */ eui::Animator* _330 = nullptr;
+    /* 0x338 */ eui::Animator* _338 = nullptr;
+    /* 0x340 */ eui::Animator* _340 = nullptr;
+    /* 0x348 */ eui::Animator* _348 = nullptr;
 };
 
 // vtable 0x7102482790 (23 slots); placeholder generated from the vtable (genskel.py).
