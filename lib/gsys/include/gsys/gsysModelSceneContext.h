@@ -1,7 +1,9 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <gfx/seadViewport.h>
 #include <gsys/gsysModelRenderContext.h>
+#include <hostio/seadHostIONode.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
@@ -11,12 +13,9 @@ class DrawContext;
 class RenderBuffer;
 }
 
-namespace sead {
-class Viewport;
-}
-
 namespace gsys {
 
+class Layer3D;
 class ModelRenderQueue;
 class ModelRenderCache;
 class RenderBufferContext;
@@ -33,12 +32,13 @@ class ParticleDrawArg;
 // view records (+0x10 count, +0x18 array), the view byte at +0x8 and the render buffer / viewport at
 // +0x320 / +0x328, all of which the effect component reads through this type.
 //
-// The remaining 0x70 bytes are a second polymorphic base: the constructor and D1 store a second vptr at
-// +0x388 (the vtable group's secondary table, offset-to-top -0x388, one slot, hostio::Node's type getter)
-// and initializeScene 0x7100c21004 passes this + 0x388 to gsys::ORUtil::setNodeMetaIcon as a
-// sead::hostio::Node*. The class itself has no members. It is not modelled yet, so its vptr slot is padding.
+// The remaining 0x70 bytes start with a sead::hostio::Node base at +0x388. The constructor 0x7100c20ec4
+// stores the secondary table of ModelSceneContext's group there once and ends with the Viewport
+// constructor, so the Node subobject is just its vptr: the fields from +0x390 on are ModelSceneContext's
+// own members. initializeScene 0x7100c21004 passes this + 0x388 to gsys::ORUtil::setNodeMetaIcon as a
+// sead::hostio::Node*.
 // TODO: incomplete. Only the members that the particle group functions use are modelled.
-class ModelSceneContext : public ModelRenderContext {
+class ModelSceneContext : public ModelRenderContext, public sead::hostio::Node {
 public:
     // QueueType's enumerators are unrecovered; the accessor only indexes the 0x40-byte array.
     enum QueueType : int;
@@ -56,19 +56,25 @@ public:
                       ParticlePass pass, ParticleShaderType shader_type, u32 mask,
                       ModelRenderCache* cache) const;
 
-    // Padding for the unmodelled second base's vptr at +0x388.
-    u8 _388[8];
-    // Flag bytes. ModelScene::addParticleGroup sets bit 4 of +0x391 for group 0 and clearParticleGroup clears it.
-    u8 _390;
-    u8 _391;
-    u8 _392;
-    // The view index ModelSceneFx::calcViewOccludedEffect 0x7100c2f3c0 scales by 0x3a0.
-    /* 0x393 */ u8 mCurrentView;
-    u8 _394[0x3a0 - 0x394];
-    /* 0x3a0 */ ParticleDrawArg* mParticleDrawArg;
-    u8 _3a8[0x3b0 - 0x3a8];
+    // The fields after the Node subobject. The constructor 0x7100c20ec4 inlines their initial values.
+    /* 0x390 */ u8 mFlags = 0x30;
+    /* 0x391 */ u8 mParticleFlags = 0x01;
+    // Set to 0xff by calc 0x7100c21368.
+    /* 0x392 */ u8 _392;
+    /* 0x393 */ u8 mCurrentView = 0;
+    /* 0x394 */ u8 _394[0x398 - 0x394];
+    /* 0x398 */ Layer3D* _398 = nullptr;
+    /* 0x3a0 */ ParticleDrawArg* mParticleDrawArg = nullptr;
+    /* 0x3a8 */ void* _3a8 = nullptr;
+    // Cleared by initializeScene 0x7100c21004 and calc; not set by the constructor.
     /* 0x3b0 */ ModelRenderQueue* mRenderQueues;
-    u8 _3b8[0x3f8 - 0x3b8];
+    /* 0x3b8 */ f32 _3b8 = 1000.0f;
+    /* 0x3bc */ f32 _3bc = -1000.0f;
+    /* 0x3c0 */ f32 _3c0 = -1000.0f;
+    /* 0x3c4 */ f32 _3c4 = 0.2f;
+    /* 0x3c8 */ f32 _3c8 = 0;
+    /* 0x3cc */ u8 _3cc[4];
+    /* 0x3d0 */ sead::Viewport mViewport;
 };
 static_assert(sizeof(ModelSceneContext) == 0x3f8);
 

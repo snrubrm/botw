@@ -75,7 +75,7 @@ void ModelSceneBuffer::expandGBuffer(agl::DrawContext* draw_context,
 bool ModelSceneBuffer::isZPrePassEnabled(const ModelSceneContext& context) const {
     if (!_8->isFeatureEnabled(ModelSceneConfig::Feature::ZPrePass))
         return false;
-    return (context._390 >> 4) & 1;
+    return (context.mFlags >> 4) & 1;
 }
 
 // 0x7100c191bc

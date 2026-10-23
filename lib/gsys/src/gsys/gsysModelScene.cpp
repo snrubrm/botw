@@ -30,7 +30,7 @@ bool ModelScene::isForceZPrePassEnabled(int index) const {
 
 // 0x7100c21514
 bool ModelSceneContext::isDrawParticle(ParticlePass pass) const {
-    if ((~_391 & 3) != 0)
+    if ((~mParticleFlags & 3) != 0)
         return false;
     ParticleMgr* mgr = ParticleMgr::instance();
     if (!mgr)
@@ -93,14 +93,14 @@ void ModelScene::addParticleGroup(int group, int index) {
         ModelSceneContext& context = mContexts[index];
         context.mParticleDrawArg->addParticleGroup(group);
         if (group == 0)
-            context._391 |= 0x10;
+            context.mParticleFlags |= 0x10;
         return;
     }
 
     for (auto& context : mContexts) {
         context.mParticleDrawArg->addParticleGroup(group);
         if (group == 0)
-            context._391 |= 0x10;
+            context.mParticleFlags |= 0x10;
     }
 }
 
@@ -109,13 +109,13 @@ void ModelScene::clearParticleGroup(int index) {
     if (index >= 0) {
         ModelSceneContext& context = mContexts[index];
         context.mParticleDrawArg->clearParticleGroup();
-        context._391 &= ~0x10;
+        context.mParticleFlags &= ~0x10;
         return;
     }
 
     for (auto& context : mContexts) {
         context.mParticleDrawArg->clearParticleGroup();
-        context._391 &= ~0x10;
+        context.mParticleFlags &= ~0x10;
     }
 }
 
