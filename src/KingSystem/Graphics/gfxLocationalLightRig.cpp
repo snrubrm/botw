@@ -219,6 +219,21 @@ void LocationalLightRig::listenPropertyEventEnvObj(const sead::hostio::PropertyE
 // NON_MATCHING: the entry loop's pointer increment and counter decrement are scheduled in the
 // opposite order, and the loop reads the group table's base pointer once where the original
 // reloads it every iteration.
+// NON_MATCHING: the trailing member stores are emitted in a different order (the constructor and
+// its values are complete; only the independent store order differs, same size).
+// 0x7100f185a4: constructs the cameras, projection, render targets and buffers of the map renderer.
+Unk_7100f185a4::Unk_7100f185a4() {
+    _fc8 = nullptr;
+    _fc0 = nullptr;
+    _fe0 = 0;
+    mIdBuffers[0].mSize = 0;
+    mIdBuffers[0].mIds = nullptr;
+    mIdBuffers[1].mSize = 0;
+    mIdBuffers[1].mIds = nullptr;
+    _1008 = 0;
+    _1009 = 0;
+}
+
 // 0x7100f18704: releases the unit groups the renderer owns (bit 0 of +0x21 set) and the group table.
 Unk_7100f185a4::~Unk_7100f185a4() {
     for (u64 i = 0; i != 0x40; ++i) {

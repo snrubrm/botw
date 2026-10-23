@@ -201,6 +201,7 @@ class Unk_7100f185a4 : public sead::hostio::Node {
 public:
     // The vtable (0x71024f4218) starts with hostio::Node's type getter and then the destructor
     // pair; 0x7100f18704 / 0x7100f1889c.
+    Unk_7100f185a4();
     virtual ~Unk_7100f185a4();
     // One 0x68-byte map-unit entry of the tables at +0xfd0. The map screen sets the colour (+0x20),
     // the two floats at +0x54 and the flags (+0x5f) through the setters below.
@@ -269,23 +270,23 @@ public:
 
 private:
     // +0 is the vptr inherited from hostio::Node.
-    sead::BitFlag32 mFlags;
+    sead::BitFlag32 mFlags = 0;
     u8 _c[4];
     sead::CriticalSection mCS;
     // +0x50 / +0x54: both are 640 in the constructor.
-    u32 _50;
-    u32 _54;
+    u32 _50 = 640;
+    u32 _54 = 640;
     sead::DirectCamera mCameraA;
     sead::DirectCamera mCameraB;
     sead::PerspectiveProjection mProjection;
     // The projection's camera parameters.
-    f32 _1e8;
-    f32 _1ec;
-    f32 _1f0;
-    u8 _1f4;
+    f32 _1e8 = 45.0f;
+    f32 _1ec = 10.0f;
+    f32 _1f0 = 1500.0f;
+    u8 _1f4 = 0;
     u8 _1f5[3];
-    void* _1f8;
-    u32 _200;
+    void* _1f8 = nullptr;
+    u32 _200 = 0;
     u8 _204[4];
     agl::utl::DebugTexturePage mDebugPage;
     gsys::ModelRenderContext mRenderContext;
@@ -293,11 +294,11 @@ private:
     // +0x7e8: cleared by sub_7100F1AC58 with the frame flip.
     gsys::ModelRenderQueue mRenderQueue;
     // +0x828: cleared by sub_7100F1AC58 (purpose unknown).
-    s32 _828;
+    s32 _828 = 0;
     u8 _82c[4];
     agl::RenderBuffer mRenderBuffer;
     sead::Viewport mViewport;
-    void* _8c0;
+    void* _8c0 = nullptr;
     agl::TextureSampler mSampler0;
     agl::RenderTargetColor mRenderTargetColor;
     agl::RenderTargetDepth mRenderTargetDepth;
@@ -308,18 +309,19 @@ private:
     // 0xfd0: map-unit tables: the group is selected by the id's high half and each group is an
     // inline array of 0x68-byte entries indexed by the id's low 16 bits.
     sead::Buffer<UnitGroup*> mUnitGroups;
-    u8 _fe0[0xfe8 - 0xfe0];
+    u32 _fe0;
+    u8 _fe4[4];
     // Two double-buffered id arrays at +0xfe8 / +0xff8 (the byte at +0x1008 selects one);
-    // sub_7100F1AC58 clears the new one after flipping.
+    // sub_7100F1AC58 clears the new one after flipping. The second word is padding.
     struct IdBuffer {
         s32 mSize;
-        s32 mCapacity;
         u8* mIds;
     };
     static_assert(sizeof(IdBuffer) == 0x10);
     IdBuffer mIdBuffers[2];
     u8 _1008;
-    u8 _1009[0x1010 - 0x1009];
+    u8 _1009;
+    u8 _100a[0x1010 - 0x100a];
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100f185a4, 0x1010);
 // Placeholder: the object at Unk_7100efd9b8::_120 (the destructor calls its third virtual slot).
