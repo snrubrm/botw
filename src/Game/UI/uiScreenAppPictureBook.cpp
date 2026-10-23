@@ -2790,6 +2790,9 @@ namespace uking::ui {
 // Picture-book TU objects initialized by 9F2EC0.
 static sead::SafeString sUnk_71025eb9f8 = "T_SubTextA_00";
 static sead::SafeString sUnk_71025ebac8 = "LayoutMsg/AppPictureBook_00";
+// 0x71025eb478: the picture-book units' fallback texture info (an external texture with no
+// descriptor).
+static nn::ui2d::ExternalTextureInfo sUnk_71025eb478;
 
 // 0x71009f8dfc
 void ScreenAppPictureBook::m92(sead::Heap* heap) {
@@ -2947,6 +2950,32 @@ void Unk_7102482790::m5() {
         delete handle;
         handle = nullptr;
     }
+}
+
+// 0x71009f4edc
+void Unk_7102482790::m8() {
+    _48.sub_71009CC3A0();
+    for (s32 i = 0; i < 15; ++i) {
+        if (_378[i])
+            _378[i]->GetTexMapArray()[0].ReplaceTextureInfo(&uking::ui::sUnk_71025eb478);
+        if (_478[i] && _478[i]->requestedLoad())
+            _478[i]->requestUnload();
+    }
+    for (u8& flag : _468)
+        flag = 0;
+}
+
+// 0x71009f69e0: the same reset as m8.
+void Unk_7102482790::m14() {
+    _48.sub_71009CC3A0();
+    for (s32 i = 0; i < 15; ++i) {
+        if (_378[i])
+            _378[i]->GetTexMapArray()[0].ReplaceTextureInfo(&uking::ui::sUnk_71025eb478);
+        if (_478[i] && _478[i]->requestedLoad())
+            _478[i]->requestUnload();
+    }
+    for (u8& flag : _468)
+        flag = 0;
 }
 
 void Unk_7102482790::sub_71009F6220(const char* actor) {

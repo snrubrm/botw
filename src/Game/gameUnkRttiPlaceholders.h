@@ -164,13 +164,20 @@ class Unk_7102482790 : public uking::ui::Unk_7102474e38 {
 public:
     ~Unk_7102482790() override;
     void m5() override;
+    void m8() override;
+    void m14() override;
     // 9F57C4 (m13) calls this on the same picture-book unit receiver.
     void sub_71009F6220(const char* actor);
 
     /* 0x48 */ uking::ui::Unk_71009cb0c8 _48;
     // zeroed by the constructor with two memsets (inlined in ScreenAppPictureBookEntry::createUnits, 0x71009fb6fc;
     // 0x4f0 bytes)
-    /* 0x330 */ u8 _330[0x147]{};
+    /* 0x330 */ u8 _330[0x48]{};
+    // 0x378: the fifteen parts' materials (m4 finds each one's Pane and stores its material).
+    /* 0x378 */ nn::ui2d::Material* _378[15]{};
+    /* 0x3f0 */ u8 _3f0[0x78]{};
+    // 0x468: one "needs texture" flag per part.
+    /* 0x468 */ u8 _468[15]{};
     /* 0x478 */ ksys::res::Handle* _478[15]{};
 };
 
