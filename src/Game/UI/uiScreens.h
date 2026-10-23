@@ -2787,7 +2787,10 @@ struct Unk_71025df330 {
     /* 0x200 */ sead::Buffer<sead::SafeString> mHintAnimatorNames;
     u8 _210[0x240 - 0x210];
     /* 0x240 */ sead::Buffer<sead::SafeString> mCursorAnimatorNames;
-    u8 _250[0x2d0 - 0x250];
+    u8 _250[0x280 - 0x250];
+    // the map mode message labels (sub_71009F0CE4 indexes this with the mode)
+    /* 0x280 */ sead::Buffer<sead::SafeString> mLabelNames;
+    u8 _290[0x2d0 - 0x290];
     // the world temperature game data flag (demoRun stores the temperature through it)
     /* 0x2d0 */ sead::SafeString mWorldTemperatureFlag;
 };

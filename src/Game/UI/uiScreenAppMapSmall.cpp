@@ -963,6 +963,13 @@ void ScreenAppMap::sub_71009F0BE4() {
         _3c08->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
 }
 
+// 0x71009f0ce4: the AppMap message label for `mode` (-1 gives the empty string) from the map mode table.
+sead::FixedSafeString<256> sub_71009F0CE4(s32 mode) {
+    if (mode == -1)
+        return sead::FixedSafeString<256>(sead::SafeString::cEmptyString);
+    return sead::FixedSafeString<256>(sUnk_71025df330.mLabelNames[mode]);
+}
+
 // 0x71009f08f8: sets the cursor icon widget and refreshes the guide message for the hovered marker (or the
 // mode's label when there is none); a marker without the 0x200 flag shows an empty icon / guide instead.
 void ScreenAppMap::sub_71009F08F8(s32 mode) {
