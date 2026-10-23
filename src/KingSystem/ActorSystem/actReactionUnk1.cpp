@@ -471,4 +471,50 @@ void Reaction::Unk1::sub_7100EC4C00(xlink2::HandleSLink* handle, DamageReactionR
     xlink->_50->searchAndEmit(name.cstr(), handle);
 }
 
+// 0x7100ec5294 (placeholder name): the land reaction sound at the request position. On water with
+// the "Water_StoneBottom" sub-material the sound is marked as a stone-bottom landing; on GrudgeSlow
+// the grudge-slow splash is emitted as well.
+void Reaction::Unk1::sub_7100EC5294(Actor* actor, DamageReactionRequest* request) {
+    sead::Vector3f position;
+    request->mtx.getTranslation(position);
+
+    bool stone_bottom = false;
+    if (request->_78.getMaterial() == phys::Material::Water)
+        stone_bottom = sead::SafeString(request->_78.getSubMaterialName()) == "Water_StoneBottom";
+
+    sub_7100EC696C(0.5f, actor, position, stone_bottom, true);
+
+    if (request->_78.getMaterial() == phys::Material::GrudgeSlow)
+        sub_7100EC5C40(-6.0f, 0.1f, actor, position, 2, 1, &request->_78);
+}
+
+// 0x7100ec513c (placeholder name): the weapon-raise shock reaction; the event name gets the
+// material suffix for Metal / Wood / Bone, and otherwise the source actor's name is terminated.
+void Reaction::Unk1::sub_7100EC513C(DamageReactionRequest* request) {
+    xlink2::HandleSLink handle;
+    sub_7100EC539C(request, &handle, "WeaponRaiseShock");
+    if (handle.isActive())
+        return;
+
+    sead::FixedSafeString<32> name;
+    name.format("WeaponRaiseShock");
+
+    const s32 material = int(request->_60.getMaterial());
+    switch (material) {
+    case phys::Material::Metal:
+    case phys::Material::Wood:
+    case phys::Material::Bone:
+        name.appendWithFormat("_%s", phys::Material::text(material));
+        break;
+    default:
+        if (auto* xlink = request->mSource.getXLink()) {
+            if (xlink->mActor)
+                xlink->mActor->getName().cstr();
+        }
+        break;
+    }
+
+    sub_7100EC447C(_10, request, &handle, name.cstr());
+}
+
 }  // namespace ksys::act
