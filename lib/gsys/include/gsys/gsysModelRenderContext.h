@@ -103,9 +103,9 @@ public:
     void pushPassTexture(PassTextureType type, const agl::TextureData* texture);
     void popPassTexture(PassTextureType type);
 
-private:
     // initialize allocates this buffer with 0x3a0-byte entries and constructs
     // each frustum at +0x60. reset 0x7100c08098 initializes both leading matrices.
+    // ModelSceneContext derives from this class, so its effect component reads these records.
     struct ViewData {
         sead::Matrix34f view;
         sead::Matrix34f inverseView;
@@ -117,6 +117,14 @@ private:
     };
     static_assert(sizeof(ViewData) == 0x3a0);
 
+    // Inline-only in the original; names are guesses. The scene's effect component reads the
+    // view records, the view byte and the render buffer through the ModelSceneContext base.
+    const ViewData* getViewData() const { return mViewData.getBufferPtr(); }
+    u8 getViewIndex() const { return _8[0]; }
+    const agl::RenderBuffer* getRenderBuffer() const { return mRenderBuffer; }
+    const sead::Viewport* getViewport() const { return mViewport; }
+
+private:
     u8 _8[8];
     sead::Buffer<ViewData> mViewData;  // +0x10
     const agl::TextureData* mPassTextures[43];       // +0x20

@@ -142,53 +142,53 @@ void ModelSceneFx::drawDecalBG(agl::DrawContext* context, ModelSceneContext* sce
 void ModelSceneFx::calcViewGPU(const ModelSceneContext& context) {
     if (mOccludedEffect) {
         if (_8->isFeatureEnabled(ModelSceneConfig::Feature::OccludedEffect))
-            mOccludedEffect->updateViewGPU(context._8, *context.mRenderBuffer);
+            mOccludedEffect->updateViewGPU(context.getViewIndex(), *context.getRenderBuffer());
     }
     if (mRadialBlur) {
         if (_8->isFeatureEnabled(ModelSceneConfig::Feature::RadialBlur))
-            mRadialBlur->updateViewGPU(context._8);
+            mRadialBlur->updateViewGPU(context.getViewIndex());
     }
     if (mDecalDrawer) {
         if (_8->isFeatureEnabled(ModelSceneConfig::Feature::Decal)) {
             if (mDecalDrawer->_478) {
-                mDecalDrawer->calcGPU(context._8);
-                const ModelSceneContext::View& view = context.mViews[0];
-                mDecalSimple->calcGPU(context._8, view._60, view.mProjection, view._140, view._144,
-                                      view._154, view._14c);
+                mDecalDrawer->calcGPU(context.getViewIndex());
+                const ModelRenderContext::ViewData& view = context.getViewData()[0];
+                mDecalSimple->calcGPU(context.getViewIndex(), view.frustum.getViewMatrix(), view.frustum.getProjectionMatrix(), view.frustum.getNear(), view.frustum.getFar(),
+                                      view.frustum.get_f4(), view.frustum.getAspect());
             }
         }
     }
     if (mDecalAoMgr) {
         if (_8->useDecalAo()) {
             if (_8->isFeatureEnabled(ModelSceneConfig::Feature::Decal)) {
-                const ModelSceneContext::View& view = context.mViews[0];
-                mDecalAoMgr->calcGPU(context._8, view._60, view.mProjection, view._140, view._144,
-                                     view._154, view._14c);
+                const ModelRenderContext::ViewData& view = context.getViewData()[0];
+                mDecalAoMgr->calcGPU(context.getViewIndex(), view.frustum.getViewMatrix(), view.frustum.getProjectionMatrix(), view.frustum.getNear(), view.frustum.getFar(),
+                                     view.frustum.get_f4(), view.frustum.getAspect());
             }
         }
     }
     if (mDecalTrailMgr) {
         if (_8->useDecalTrail()) {
             if (_8->isFeatureEnabled(ModelSceneConfig::Feature::Decal)) {
-                const ModelSceneContext::View& view = context.mViews[0];
-                mDecalTrailMgr->calcGPU(context._8, view._60, view.mProjection, view._140,
-                                        view._144, view._154, view._14c);
+                const ModelRenderContext::ViewData& view = context.getViewData()[0];
+                mDecalTrailMgr->calcGPU(context.getViewIndex(), view.frustum.getViewMatrix(), view.frustum.getProjectionMatrix(), view.frustum.getNear(),
+                                        view.frustum.getFar(), view.frustum.get_f4(), view.frustum.getAspect());
             }
         }
     }
     if (mNormalDrawer) {
         if (_8->isFeatureEnabled(ModelSceneConfig::Feature::NormalDrawer)) {
-            const ModelSceneContext::View& view = context.mViews[0];
-            mNormalDrawer->calcGPU(context._8, view._60, view._140, view._144, 1280.0f, 720.0f);
+            const ModelRenderContext::ViewData& view = context.getViewData()[0];
+            mNormalDrawer->calcGPU(context.getViewIndex(), view.frustum.getViewMatrix(), view.frustum.getNear(), view.frustum.getFar(), 1280.0f, 720.0f);
         }
     }
     if (mCloud) {
         if (_8->isFeatureEnabled(ModelSceneConfig::Feature::Cloud)) {
             if (mCloud->_460) {
                 const bool alloc_buffer = mCloud->_618 == 0;
-                const ModelSceneContext::View& view = context.mViews[context.mCurrentView];
-                mCloud->updateViewGPU(context._8, view.mView, view.mProjection, view._140,
-                                      view._144, alloc_buffer, 0);
+                const ModelRenderContext::ViewData& view = context.getViewData()[context.mCurrentView];
+                mCloud->updateViewGPU(context.getViewIndex(), view.view, view.frustum.getProjectionMatrix(), view.frustum.getNear(),
+                                      view.frustum.getFar(), alloc_buffer, 0);
             }
         }
     }
@@ -200,7 +200,7 @@ void ModelSceneFx::calcView(const ModelSceneContext& context) {
         return;
     if (!_8->isFeatureEnabled(ModelSceneConfig::Feature::RadialBlur))
         return;
-    mRadialBlur->calcView(context._8, context.mViews[0].mView, context.mViews[0].mProjection);
+    mRadialBlur->calcView(context.getViewIndex(), context.getViewData()[0].view, context.getViewData()[0].frustum.getProjectionMatrix());
 }
 
 // 0x7100c2f3c0: the occluded effects follow the current view's matrices and factors.
@@ -209,9 +209,9 @@ void ModelSceneFx::calcViewOccludedEffect(const ModelSceneContext& context) {
         return;
     if (!_8->isFeatureEnabled(ModelSceneConfig::Feature::OccludedEffect))
         return;
-    const ModelSceneContext::View& view = context.mViews[context.mCurrentView];
-    mOccludedEffect->calcView(context._8, view.mView, view.mProjection, view._140, view._144,
-                              view._148, view._14c, view._15c);
+    const ModelRenderContext::ViewData& view = context.getViewData()[context.mCurrentView];
+    mOccludedEffect->calcView(context.getViewIndex(), view.view, view.frustum.getProjectionMatrix(), view.frustum.getNear(), view.frustum.getFar(),
+                              view.frustum.getFovy(), view.frustum.getAspect(), view.frustum.getOffset());
 }
 
 // 0x7100c2f40c: draws the occluded effects into the render buffer's depth target.
@@ -221,9 +221,9 @@ void ModelSceneFx::drawOccludedEffect(agl::DrawContext* context,
         return;
     if (!_8->isFeatureEnabled(ModelSceneConfig::Feature::OccludedEffect))
         return;
-    mOccludedEffect->draw(context, scene_context._8, *scene_context.mRenderBuffer,
-                          *scene_context.mViewport,
-                          *scene_context.mRenderBuffer->getRenderTargetDepth());
+    mOccludedEffect->draw(context, scene_context.getViewIndex(), *scene_context.getRenderBuffer(),
+                          *scene_context.getViewport(),
+                          *scene_context.getRenderBuffer()->getRenderTargetDepth());
 }
 
 // 0x7100c300d0
@@ -231,19 +231,19 @@ void ModelSceneFx::drawDebug(agl::DrawContext* context,
                              const ModelSceneContext& scene_context) const {
     if (mOccludedEffect) {
         if (_8->isFeatureEnabled(ModelSceneConfig::Feature::OccludedEffect))
-            mOccludedEffect->drawDebug(context, scene_context._8);
+            mOccludedEffect->drawDebug(context, scene_context.getViewIndex());
     }
     if (mDecalAoMgr) {
         if (_8->useDecalAo()) {
             if (_8->isFeatureEnabled(ModelSceneConfig::Feature::Decal))
-                mDecalAoMgr->drawDebug(context, scene_context._8);
+                mDecalAoMgr->drawDebug(context, scene_context.getViewIndex());
         }
     }
     if (mVolumeMask) {
         if (_8->isFeatureEnabled(ModelSceneConfig::Feature::VolumeMask)) {
             if (mVolumeMask->_4e0)
-                mVolumeMask->drawDebug(context, scene_context._8, 0,
-                                       scene_context.mViews[0].mView);
+                mVolumeMask->drawDebug(context, scene_context.getViewIndex(), 0,
+                                       scene_context.getViewData()[0].view);
         }
     }
 }
