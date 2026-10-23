@@ -120,6 +120,9 @@ public:
     // Inline-only in the original; name is a guess. ModelSceneFx::drawDebug 0x7100c300d0
     // tests the useDecalAo parameter's value byte at +0x1558.
     bool useDecalAo() const { return *mUseDecalAo; }
+    // Inline-only in the original; name is a guess. ModelSceneFx::calcDecal 0x7100c2f2b4
+    // tests the useDecalTrail parameter's value byte at +0x1638.
+    bool useDecalTrail() const { return *mUseDecalTrail; }
 
     static constexpr int cConfig_Max = 32;
 

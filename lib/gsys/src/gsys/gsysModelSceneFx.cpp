@@ -6,6 +6,8 @@
 #include <effect/aglFxCloud.h>
 #include <effect/aglFxDecalAoMgr.h>
 #include <effect/aglFxDecalDrawer.h>
+#include <effect/aglFxDecalSimple.h>
+#include <effect/aglFxDecalTrailMgr.h>
 #include <effect/aglFxNormalDrawer.h>
 #include <effect/aglFxOfxBase.h>
 #include <effect/aglFxRadialBlur.h>
@@ -70,6 +72,32 @@ void ModelSceneFx::releaseVolumeMaskTexture(int index) const {
     if (!mVolumeMask->_4e0)
         return;
     mVolumeMask->releaseMaskTexture(index);
+}
+
+// 0x7100c2f2b4: each decal pass runs when its feature and its own parameter are enabled.
+void ModelSceneFx::calcDecal() {
+    if (mDecalDrawer) {
+        if (_8->isFeatureEnabled(ModelSceneConfig::Feature::Decal)) {
+            if (mDecalDrawer->_478)
+                mDecalSimple->updateGPU();
+        }
+    }
+    if (mDecalAoMgr) {
+        if (_8->useDecalAo()) {
+            if (_8->isFeatureEnabled(ModelSceneConfig::Feature::Decal))
+                mDecalAoMgr->calc();
+        }
+    }
+    if (mDecalTrailMgr) {
+        if (_8->useDecalTrail()) {
+            if (_8->isFeatureEnabled(ModelSceneConfig::Feature::Decal))
+                mDecalTrailMgr->calc();
+        }
+    }
+    if (mNormalDrawer) {
+        if (_8->isFeatureEnabled(ModelSceneConfig::Feature::NormalDrawer))
+            mNormalDrawer->calc();
+    }
 }
 
 // 0x7100c2f57c: the decal AO pass draws after the decal drawer when both are enabled.
