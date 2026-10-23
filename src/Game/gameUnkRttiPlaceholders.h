@@ -126,6 +126,7 @@ class Unk_710247fbc0 : public uking::ui::Unk_7102474e38 {
 public:
     ~Unk_710247fbc0() override;
     void m5() override {}
+    void m6() override;
     void m7() override;
 
     /* 0x48 */ uking::ui::Unk_71009cb0c8 _48;

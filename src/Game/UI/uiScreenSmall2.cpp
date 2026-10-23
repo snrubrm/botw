@@ -4822,6 +4822,16 @@ void Unk_710247faf0::m14() {
 // 0x71009d29a0
 Unk_710247fbc0::~Unk_710247fbc0() = default;
 
+// 0x71009d2ab0: updates the entry's control and, while the picture book page is open (state 2 / 3), hides the
+// layout's root pane unless the entry is selected.
+void Unk_710247fbc0::m6() {
+    _48.sub_71009CBE38();
+    if (uking::ui::sUnk_71025DC890._c == 2 || uking::ui::sUnk_71025DC890._c == 3) {
+        if (!sub_7100939CA0() && _8)
+            _8->mPane->SetVisible(false);
+    }
+}
+
 // 0x71009d2b10
 void Unk_710247fbc0::m7() {
     m13();
