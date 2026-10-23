@@ -1931,16 +1931,13 @@ void System::sub_710111718C(s32 index) {
 void System::sub_7101116D44() {
     _1328 = 1 - _1328;
 
-    // NON_MATCHING: the original keeps the scene index in a 32-bit register and recomputes
-    // i * 0x90; clang widens our induction and strength-reduces the offset.
-    const s32 count = mScenes.size();
-    if (count != 0) {
-        const s32 last = count - 1;
-        s32 i = 0;
-        do {
-            mScenes[i].block.setBufferIndexMaybe(_1328);
-            mScenes[i].collector->sub_71011016F4();
-        } while (i++ != last);
+    // NON_MATCHING: in the inlined block update the original computes the zero-extended index
+    // before the flag store and loads the multiplier after it; ours schedules the two the other
+    // way round (same instructions).
+    const u32 count = mScenes.size();
+    for (u32 i = 0; i < count; ++i) {
+        mScenes[i].block.setBufferIndexMaybe(_1328);
+        mScenes[i].collector->sub_71011016F4();
     }
 
     mPatcherCS.lock();
