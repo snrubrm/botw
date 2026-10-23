@@ -63,14 +63,10 @@ void Vibration::sub_71010BB810(s32 idx) {
         _6c8[idx]._4e = 8;
 }
 
-// NON_MATCHING: the original keeps the two signed index checks (tbnz + b.gt); ours are merged into
-// one unsigned compare
 void Vibration::sub_71010BB82C(s32 idx, f32 damping) {
     if (idx < 0)
         return;
-    if (idx > 3)
-        return;
-    if (damping < 0.0f)
+    if (idx > 3 || damping < 0.0f)
         return;
     _6c8[idx]._48 = damping;
 }
