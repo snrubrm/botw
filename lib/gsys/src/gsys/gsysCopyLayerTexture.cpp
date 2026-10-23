@@ -26,7 +26,7 @@ void CopyLayerTexture::initialize(u32 width, u32 height, Format format, sead::He
     auto* block = new (heap) agl::GPUMemBlock<u8>;
     block->allocBuffer_(size, heap, 0x2000, agl::MemoryAttribute::Default);
     _510 = agl::GPUMemAddrBase(*block, 0);
-    _510.flushCPUCache(size);
+    _510.flushCPUCache(mTextureData.getImageByteSize());
     const agl::GPUMemVoidAddr image(_510);
     mTextureData.setImagePtr(image, 0);
 
