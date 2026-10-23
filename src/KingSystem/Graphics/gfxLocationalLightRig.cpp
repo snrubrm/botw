@@ -215,9 +215,9 @@ void LocationalLightRig::listenPropertyEventEnvObj(const sead::hostio::PropertyE
 
 }  // namespace ksys::gfx
 
-// NON_MATCHING: the members the original destroys after the group table (two cameras, the
-// projection, the debug texture page and the render targets/buffers between +0x10 and +0xeb8) are
-// still pads in the class, so only the group table and the render queue are torn down here.
+// NON_MATCHING: the entry loop's pointer increment and counter decrement are scheduled in the
+// opposite order, and the loop reads the group table's base pointer once where the original
+// reloads it every iteration.
 // 0x7100f18704: releases the unit groups the renderer owns (bit 0 of +0x21 set) and the group table.
 Unk_7100f185a4::~Unk_7100f185a4() {
     for (u64 i = 0; i != 0x40; ++i) {

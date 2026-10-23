@@ -9,18 +9,23 @@
 #include "KingSystem/Graphics/gfxLocationalLightMgr.h"
 #include <gfx/seadCamera.h>
 #include <gfx/seadColor.h>
+#include <gfx/seadProjection.h>
+#include <gfx/seadViewport.h>
 #include <hostio/seadHostIONode.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadBitFlag.h>
 #include <thread/seadCriticalSection.h>
 #include <gsys/gsysModelScene.h>
 #include <gsys/gsysModelRenderQueue.h>
+#include <gsys/gsysModelRenderContext.h>
+#include <gsys/gsysModelRenderUnitNodeArray.h>
 #include <gsys/gsysModelUnit.h>
 #include <common/aglTextureSampler.h>
 #include <common/aglUniformBlock.h>
 #include <cull/aglOcclusionQueryDrawer.h>
 #include <common/aglRenderBuffer.h>
 #include <common/aglRenderTarget.h>
+#include <common/aglTextureData.h>
 #include <utility/aglDebugTexturePage.h>
 #include <utility/aglParameter.h>
 #include <utility/aglParameterIO.h>
@@ -262,15 +267,41 @@ public:
 private:
     // +0 is the vptr inherited from hostio::Node.
     sead::BitFlag32 mFlags;
-    u8 _c[0x50 - 0xc];
+    u8 _c[4];
+    sead::CriticalSection mCS;
+    // +0x50 / +0x54: both are 640 in the constructor.
     u32 _50;
     u32 _54;
-    u8 _58[0x7e8 - 0x58];
+    sead::DirectCamera mCameraA;
+    sead::DirectCamera mCameraB;
+    sead::PerspectiveProjection mProjection;
+    // The projection's camera parameters.
+    f32 _1e8;
+    f32 _1ec;
+    f32 _1f0;
+    u8 _1f4;
+    u8 _1f5[3];
+    void* _1f8;
+    u32 _200;
+    u8 _204[4];
+    agl::utl::DebugTexturePage mDebugPage;
+    gsys::ModelRenderContext mRenderContext;
+    gsys::ModelRenderUnitNodeArray mRenderUnitNodes;
     // +0x7e8: cleared by sub_7100F1AC58 with the frame flip.
     gsys::ModelRenderQueue mRenderQueue;
     // +0x828: cleared by sub_7100F1AC58 (purpose unknown).
     s32 _828;
-    u8 _82c[0xfd0 - 0x82c];
+    u8 _82c[4];
+    agl::RenderBuffer mRenderBuffer;
+    sead::Viewport mViewport;
+    void* _8c0;
+    agl::TextureSampler mSampler0;
+    agl::RenderTargetColor mRenderTargetColor;
+    agl::RenderTargetDepth mRenderTargetDepth;
+    agl::TextureData mTextureData;
+    agl::TextureSampler mSampler1;
+    void* _fc0;
+    void* _fc8;
     // 0xfd0: map-unit tables: the group is selected by the id's high half and each group is an
     // inline array of 0x68-byte entries indexed by the id's low 16 bits.
     sead::Buffer<UnitGroup*> mUnitGroups;
@@ -287,6 +318,7 @@ private:
     u8 _1008;
     u8 _1009[0x1010 - 0x1009];
 };
+KSYS_CHECK_SIZE_NX150(Unk_7100f185a4, 0x1010);
 // Placeholder: the object at Unk_7100efd9b8::_120 (the destructor calls its third virtual slot).
 class Unk_7100efd9b8Obj {
 public:
