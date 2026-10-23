@@ -82,7 +82,7 @@ f32 TempMgr::calcTemperature() {
         const auto weather = Manager::instance()->getWeatherMgr()->getWeather();
         const auto* weather_mgr = Manager::instance()->getWeatherMgr();
         const f32 blend = weather_mgr->_24;
-        const s8 prev_weather = weather_mgr->_29;
+        const s8 prev_weather = weather_mgr->mWeather.prevType;
         const f32 offset = getWeatherTemperatureOffset(s8(weather));
         const f32 prev_offset = getWeatherTemperatureOffset(prev_weather);
         _30 = blend * offset + (1.0f - blend) * prev_offset;

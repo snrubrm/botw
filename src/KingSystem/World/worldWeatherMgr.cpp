@@ -46,6 +46,63 @@ sead::Vector3f sub_71010ED450(f32 distance, f32 angle) {
 
 WeatherMgr::~WeatherMgr() = default;
 
+WeatherMgr::WeatherMgr() : _24(1.0f), mWeather() {
+    _2ac.x = 0.0f;
+    _2a8 = 0;
+    _2a0 = 0;
+    _298 = 0;
+    _290 = 0;
+    _2a4 = 0;
+    _29c = 0;
+    _294 = 0;
+    _28c = 0;
+    _2ac.y = 1.0f;
+    _2ac.z = 0.0f;
+    mTransition = {};
+    _30c = 600.0f;
+    _310 = 0.02f;
+    _314 = 1;
+    _350 = 0;
+    _34c = 0;
+    _348 = 0;
+    _344 = 0;
+    _340 = 0;
+    _33c = 0;
+    _338 = 0;
+    _334 = 0;
+    _32c = 0;
+    _330 = 0;
+    _328 = 0;
+    _324 = 0;
+    _320 = 0;
+    mWeekDay = 0;
+    mTimeBlock = 0.0f;
+    _354 = 10;
+    _358 = 8;
+    _374 = 0;
+    _370 = 0;
+    _36c = 0;
+    _368 = 0;
+    _364 = 0;
+    _360 = 0;
+    _35c = 0;
+    _37c = 5;
+    _388 = 100;
+    _378 = 0xff;
+    _380 = 0;
+    _384 = 0;
+    _38c = 75;
+    _391 = false;
+    _393 = 0;
+    _394 = 0;
+    _20 = false;
+    _2a = {};
+    mClimateWeathers = {};
+    _392 = 0xff;
+    _284 = {};
+    _390 = false;
+}
+
 f32 WeatherMgr::sub_71010ED5B4(const sead::Vector3f& position) {
     sead::Vector3f start = position;
     start.y = 2000.0f;
@@ -64,7 +121,7 @@ f32 WeatherMgr::sub_71010ED5B4(const sead::Vector3f& position) {
 }
 
 WeatherType WeatherMgr::getWeather() const {
-    return WeatherType(weather);
+    return WeatherType(mWeather.type);
 }
 
 float WeatherMgr::getTime() const {
@@ -345,14 +402,14 @@ bool WeatherMgr::isRaining() {
     const f32 temp = wm->getTempMgr()->calcTemperature();
     if (temp <= -2.0f || wm->getTempMgr()->_60 <= -2.0f)
         return false;
-    return Manager::instance()->getWeatherMgr()->_2dc > 0.1f;
+    return Manager::instance()->getWeatherMgr()->mTransition._2dc > 0.1f;
 }
 
 bool WeatherMgr::isSnowing() {
     auto* wm = Manager::instance();
     const f32 temp = wm->getTempMgr()->calcTemperature();
     if (temp <= -2.0f || wm->getTempMgr()->_60 <= -2.0f) {
-        if (Manager::instance()->getWeatherMgr()->_2dc > 0.1f)
+        if (Manager::instance()->getWeatherMgr()->mTransition._2dc > 0.1f)
             return true;
     }
     return false;

@@ -164,7 +164,7 @@ void Reaction::sub_7100EC1C24(Actor* actor, const phys::MaterialMask& mask) cons
     else if (actor->_6a0->_10._8 & 8)
         wetness = 0.0f;
     else
-        wetness = world::Manager::instance()->getWeatherMgrUnchecked()->_2d0;
+        wetness = world::Manager::instance()->getWeatherMgrUnchecked()->mTransition._2d0;
     auto* xlink = actor->getXLink();
     if (!xlink)
         return;
@@ -780,7 +780,7 @@ void Reaction::Unk1::sub_7100EC56D8(xlink::XLink* xlink, DamageReactionRequest* 
     else if (request->_b8 && (request->_b8->_6a0->_10._8 & 8))
         wet = 0.0f;
     else
-        wet = world::Manager::instance()->getWeatherMgrUnchecked()->_2d0;
+        wet = world::Manager::instance()->getWeatherMgrUnchecked()->mTransition._2d0;
     user->setPropertyValue(7, std::max(request->_9c, wet));
 }
 
@@ -1031,7 +1031,7 @@ bool Reaction::Unk1::sub_7100EC7AA0(const phys::MaterialMask& mask, s32 flag, f3
         wetness = 1.0f;
     if (material != 8) {
         if (!(flag & 1))
-            wetness = ksys::world::Manager::instance()->getWeatherMgrUnchecked()->_2d0;
+            wetness = ksys::world::Manager::instance()->getWeatherMgrUnchecked()->mTransition._2d0;
     }
     user->setPropertyValue(7, wetness);
     return true;

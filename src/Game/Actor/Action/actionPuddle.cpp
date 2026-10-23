@@ -16,7 +16,7 @@ bool Puddle::init_(sead::Heap* heap) {
 
 void Puddle::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* actor = mActor;
-    const f32 depth = 1.0f - ksys::world::Manager::instance()->getWeatherMgrUnchecked()->_2d0;
+    const f32 depth = 1.0f - ksys::world::Manager::instance()->getWeatherMgrUnchecked()->mTransition._2d0;
     sead::Matrix34f mtx;
     actor->getHomeMtx(&mtx);
     mtx.m[1][3] -= depth;
@@ -31,7 +31,7 @@ void Puddle::loadParams_() {}
 
 void Puddle::calc_() {
     if (auto* body = mActor->getMainBody()) {
-        const f32 depth = 1.0f - ksys::world::Manager::instance()->getWeatherMgrUnchecked()->_2d8;
+        const f32 depth = 1.0f - ksys::world::Manager::instance()->getWeatherMgrUnchecked()->mTransition._2d8;
         sead::Matrix34f mtx;
         mActor->getHomeMtx(&mtx);
         mtx.m[1][3] -= depth;

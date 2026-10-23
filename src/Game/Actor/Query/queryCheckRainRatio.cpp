@@ -11,7 +11,7 @@ CheckRainRatio::~CheckRainRatio() = default;
 int CheckRainRatio::doQuery() {
     if (auto* manager = ksys::world::Manager::instance()) {
         if (auto* weather = manager->getWeatherMgr())
-            return weather->_2dc >= *mRainRatio;
+            return weather->mTransition._2dc >= *mRainRatio;
     }
     return 0;
 }

@@ -35,10 +35,10 @@ void Rainbow::calc() {
     const bool blocked = !clear || (Effect::instance()->_192b4 == 0.0f && !(mFlags & 1));
     const auto* weather_mgr = world->getWeatherMgrUnchecked();
     const bool environment_clear =
-        weather_mgr->_2e4 == 0.0f && weather_mgr->_2e8 == 0.0f &&
-        weather_mgr->_2f0 == 0.0f && weather_mgr->_2f4 == 0.0f &&
-        weather_mgr->_2f8 == 0.0f && weather_mgr->_2ec == 0.0f &&
-        weather_mgr->_2fc == 0.0f && world->getEnvMgr()->getConcentrationBM() == 0.0f;
+        weather_mgr->mTransition._2e4 == 0.0f && weather_mgr->mTransition._2e8 == 0.0f &&
+        weather_mgr->mTransition._2f0 == 0.0f && weather_mgr->mTransition._2f4 == 0.0f &&
+        weather_mgr->mTransition._2f8 == 0.0f && weather_mgr->mTransition._2ec == 0.0f &&
+        weather_mgr->mTransition._2fc == 0.0f && world->getEnvMgr()->getConcentrationBM() == 0.0f;
     const bool palette_clear = environment_clear &&
         u32(world->getEnvMgrUnchecked()->mPaletteSetOverride) + 1 < 2;
     if (!blocked && ((time > 90.0f && time < 135.0f) ||

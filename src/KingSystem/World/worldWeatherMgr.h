@@ -10,10 +10,36 @@ namespace ksys::world {
 
 constexpr u32 NumWeatherCycles = 3;
 
+// Current and previous weather type; the constructor clears both bytes at once.
+struct WeatherState {
+    u8 type;
+    s8 prevType;
+};
+
 // This may be incorrect
 struct ClimateWeathers {
     s32 weather[NumWeatherCycles];
 };
+
+// Weather interpolation state at 0x2c4; the constructor value-initialises it.
+// Field names keep the WeatherMgr offsets so the code below can stay readable.
+struct WeatherTransition {
+    u8 _2c4[0xc];
+    f32 _2d0;
+    u8 _2d4[4];
+    f32 _2d8;
+    f32 _2dc;
+    u8 _2e0[4];
+    f32 _2e4;
+    f32 _2e8;
+    f32 _2ec;
+    f32 _2f0;
+    f32 _2f4;
+    f32 _2f8;
+    f32 _2fc;
+    u8 _300[0xc];
+};
+KSYS_CHECK_SIZE_NX150(WeatherTransition, 0x48);
 
 // TODO
 class WeatherMgr : public Job {
@@ -72,41 +98,39 @@ protected:
 
 public:
 
-    u8 _20[0x24 - 0x20];
+    u8 _20;
     float _24;
-    // Unsure of the type / variable
-    u8 weather;
-    u8 _29;
+    WeatherState mWeather;  // 0x28
     sead::SafeArray<sead::SafeArray<WeatherType, NumWeatherCycles * 6>, NumClimates> _2a;
     u8 _193;
     // Three arrays of packed 6-nibble weather values (0x71010eab84 / loadInfo 0x71010ea34c).
-    s32 mClimateWeathers[3][NumClimates];  // 0x194
+    sead::SafeArray<sead::SafeArray<s32, NumClimates>, 3> mClimateWeathers;  // 0x194
     sead::SafeArray<u8, 6> _284;
-    u8 _28a[0x2ac - 0x28a];
+    u8 _28a[2];
+    // Zeroed by the constructor; no other function in the binary reads it yet.
+    s32 _28c;
+    s32 _290;
+    s32 _294;
+    s32 _298;
+    s32 _29c;
+    s32 _2a0;
+    s32 _2a4;
+    s32 _2a8;
     // Constructor sets (0, 1, 0); x_12 and x_9 write the camera-facing direction.
     sead::Vector3f _2ac;
-    u8 _2b8[0x2d0 - 0x2b8];
-    float _2d0;  // Puddle::enter_: 1 - _2d0 is subtracted from the home matrix height
-    u8 _2d4[0x2d8 - 0x2d4];
-    float _2d8;  // Puddle::calc_
-    float _2dc;
-    u8 _2e0[4];
-    // calcType2_ interpolates these float values; the rainbow checks them for zero.
-    f32 _2e4;
-    f32 _2e8;
-    f32 _2ec;
-    f32 _2f0;
-    f32 _2f4;
-    f32 _2f8;
-    f32 _2fc;
-    u8 _300[0x314 - 0x300];
+    u8 _2b8[0xc];
+    // Value-initialised by the constructor.
+    WeatherTransition mTransition;  // 0x2c4
+    f32 _30c;
+    f32 _310;
     int _314;
     float mTimeBlock;  // 0x318
     u32 mWeekDay;      // 0x31c
     int _320;
     int _324;
     int _328;
-    u8 _32c[0x334 - 0x32c];
+    u32 _32c;  // zeroed by the constructor
+    u32 _330;
     int _334;
     int _338;
     int _33c;
@@ -115,20 +139,32 @@ public:
     int _348;
     int _34c;
     int _350;
-    u8 _354[0x36c - 0x354];
+    s32 _354;
+    s32 _358;
+    u32 _35c;  // zeroed by the constructor
+    u32 _360;
+    u32 _364;
+    u32 _368;
     int _36c;
     int _370;
     int _374;
-    u8 _378[0x380 - 0x378];
+    s32 _378;
+    s32 _37c;
     int _380;
-    u8 _384[0x390 - 0x384];
+    s32 _384;
+    s32 _388;
+    s32 _38c;
     bool _390;
     bool _391;
-    u8 _392[0x398 - 0x392];
+    u8 _392;
+    u8 _393;
+    u16 _394;
+    u8 _396[2];
 };
 KSYS_CHECK_SIZE_NX150(WeatherMgr, 0x398);
-static_assert(offsetof(WeatherMgr, _2e4) == 0x2e4);
-static_assert(offsetof(WeatherMgr, _2fc) == 0x2fc);
+static_assert(offsetof(WeatherMgr, mTransition) == 0x2c4);
+static_assert(offsetof(WeatherTransition, _2e4) == 0x20);
+static_assert(offsetof(WeatherTransition, _2fc) == 0x38);
 
 // 0x71010eb430 (CSV wm::isGetPlayerStole2): the TimeMgr's "plateau done" flag.
 bool isGetPlayerStole2();
