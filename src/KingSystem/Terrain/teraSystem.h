@@ -1597,7 +1597,7 @@ private:
     u8 _0[0x20];
     sead::ListNode mNode;
     u8 _30[0x2d8 - 0x30];
-    u8 _2d8[0x20];
+    u8 _2d8[2][0x10];
     void* _2f8;
     void* _300;
     u8 _308[0x328 - 0x308];

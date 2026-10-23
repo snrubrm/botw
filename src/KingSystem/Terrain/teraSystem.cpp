@@ -1931,15 +1931,13 @@ void System::sub_710111718C(s32 index) {
 void MapPatcher::sub_710107E060() {
     const u32 mask = 0x40000000;
     const u32 flags = _328;
-    if ((flags & mask) == 0)
-        _328 = flags | mask;
-    else
-        _328 = flags & ~mask;
-    // NON_MATCHING: the original extracts bit 30 with ubfx and scales the two buffer addresses in
-    // the adds; ours folds the scale into the extraction (lsr / and) and uses an eor on it.
+    _328 = (flags & mask) == 0 ? flags | mask : flags & ~mask;
     const u32 index = (_328 >> 30) & 1;
-    _300 = _2d8 + index * 0x10;
-    _2f8 = _2d8 + (index ^ 1) * 0x10;
+    const u32 other = index ^ 1;
+    u8* const selected = _2d8[index];
+    u8* const alternate = _2d8[other];
+    _300 = selected;
+    _2f8 = alternate;
 }
 
 // 0x7101116d44 (placeholder name): flips the patch-buffer parity, points every scene's block at the
@@ -2021,9 +2019,8 @@ void sub_710111911C(void* tera_system, void* route) {
 
 // 0x7101116e74 (placeholder name): under the read lock, updates scene `index`'s uniform block from
 // the culling frustum and runs the collector's per-scene update.
-// NON_MATCHING: the frame is 0xa0 instead of 0x90 (the inline flush's temporary gets its own slot
-// instead of reusing the setData(7) one) and the flush block's loads and stores are scheduled
-// differently; the calls, values, stack records and branches are the same.
+// NON_MATCHING: the inline flush's loads and stores are scheduled differently (the same
+// instructions); the calls, values, stack records and branches are the same.
 void System::sub_7101116E74(s32 index, Unk_7101115584Arg* arg) {
     mLock.readLock();
 
@@ -2035,35 +2032,32 @@ void System::sub_7101116E74(s32 index, Unk_7101115584Arg* arg) {
     }
 
     if (arg->_0) {
-        struct Data7 {
-            u32 _0;
-            u32 _4;
-            u32 _8;
-            u32 _c;
-        } data7;
+        {
+            struct Data7 {
+                u32 _0;
+                sead::Vector3f _4;
+            } data7;
+            sead::Vector4f scale;
+            sub_7101116BBC(arg->_0->get_f4(), &scale);
 
-        sead::Vector4f scale;
-        sub_7101116BBC(arg->_0->get_f4(), &scale);
+            struct Data6 {
+                u32 _0;
+                u32 _4;
+                f32 _8;
+                f32 _c;
+            } data6;
+            data6._0 = 0;
+            data6._4 = Terrain::instance()->_3f0;
+            data6._8 = Terrain::instance()->sub_710107EC48() && (Terrain::instance()->_a58 & 0x10) ? 1.0f : 0.0f;
+            data6._c = Terrain::instance()->sub_710107EC48() && (Terrain::instance()->_a58 & 0x10) ? 0.0f : 1.0f;
 
-        struct Data6 {
-            u32 _0;
-            u32 _4;
-            f32 _8;
-            f32 _c;
-        } data6;
-        data6._0 = 0;
-        data6._4 = Terrain::instance()->_3f0;
-        data6._8 = Terrain::instance()->sub_710107EC48() && (Terrain::instance()->_a58 & 0x10) ? 1.0f : 0.0f;
-        data6._c = Terrain::instance()->sub_710107EC48() && (Terrain::instance()->_a58 & 0x10) ? 0.0f : 1.0f;
+            slot.block.setData(5, &scale, 0, 1);
+            slot.block.setData(6, &data6, 0, 1);
 
-        slot.block.setData(5, &scale, 0, 1);
-        slot.block.setData(6, &data6, 0, 1);
-
-        data7._0 = Terrain::instance()->_3f8;
-        data7._4 = 0;
-        data7._8 = 0;
-        data7._c = 0;
-        slot.block.setData(7, &data7, 0, 1);
+            data7._0 = Terrain::instance()->_3f8;
+            data7._4.set(0.0f, 0.0f, 0.0f);
+            slot.block.setData(7, &data7, 0, 1);
+        }
 
         slot.block.flushCPUCache();
     }
