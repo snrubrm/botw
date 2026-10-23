@@ -220,3 +220,16 @@ void Unk_7100f185a4::setPosXY(s32 x, s32 y) {
     _50 = static_cast<u16>(x);
     _54 = static_cast<u16>(y);
 }
+
+// 0x7100f1ac58: clears the render queue and the frame flag, flips the id buffer and clears the new
+// buffer's ids.
+void Unk_7100f185a4::sub_7100F1AC58() {
+    _828 = 0;
+    mRenderQueue.clear();
+    _1008 = 1 - _1008;
+
+    IdBuffer& buffer = mIdBuffers[_1008];
+    const s32 size = buffer.mSize;
+    for (s32 i = 0; i < size; ++i)
+        buffer.mIds[i] = 0;
+}

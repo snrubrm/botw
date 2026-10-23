@@ -14,6 +14,7 @@
 #include <prim/seadBitFlag.h>
 #include <thread/seadCriticalSection.h>
 #include <gsys/gsysModelScene.h>
+#include <gsys/gsysModelRenderQueue.h>
 #include <gsys/gsysModelUnit.h>
 #include <common/aglTextureSampler.h>
 #include <common/aglUniformBlock.h>
@@ -205,7 +206,23 @@ private:
     u8 _c[0x50 - 0xc];
     u32 _50;
     u32 _54;
-    u8 _58[0x1010 - 0x58];
+    u8 _58[0x7e8 - 0x58];
+    // +0x7e8: cleared by sub_7100F1AC58 with the frame flip.
+    gsys::ModelRenderQueue mRenderQueue;
+    // +0x828: cleared by sub_7100F1AC58 (purpose unknown).
+    s32 _828;
+    u8 _82c[0xfe8 - 0x82c];
+    // Two double-buffered id arrays at +0xfe8 / +0xff8 (the byte at +0x1008 selects one);
+    // sub_7100F1AC58 clears the new one after flipping.
+    struct IdBuffer {
+        s32 mSize;
+        s32 mCapacity;
+        u8* mIds;
+    };
+    static_assert(sizeof(IdBuffer) == 0x10);
+    IdBuffer mIdBuffers[2];
+    u8 _1008;
+    u8 _1009[0x1010 - 0x1009];
 };
 // Placeholder: the object at Unk_7100efd9b8::_120 (the destructor calls its third virtual slot).
 class Unk_7100efd9b8Obj {
