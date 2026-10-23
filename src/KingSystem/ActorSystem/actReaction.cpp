@@ -36,8 +36,11 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physLayerContactPointInfo.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/Physics/physMaterialMask.h"
+#include "KingSystem/System/StageInfo.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
 
 // Original enum ownership and source namespace are unknown; declaration only.
 // Existing FootstepReactionChanger callers use the same ABI.
@@ -85,6 +88,90 @@ const sead::SafeString& Unk_7100ebf9e4::getName() const {
 }
 
 void Reaction::initStubbed() {}
+
+// 0x7100ec07b4: requests the five reaction actors, then creates the two contact point managers
+// (ground pairs and water pairs) and the two reaction receivers.
+void Reaction::initBeforeStageGen(sead::Heap* heap, sead::Heap* debug_heap, ActorCreator* creator,
+                                  void* param) {
+    auto* create_heap = static_cast<sead::Heap*>(param);
+    _b0 = true;
+
+    if (_b8 & 0x200) {
+        creator->requestCreateActor("ReactionField", create_heap, &mHandles[0], nullptr, nullptr, 1);
+        creator->requestCreateActor("ReactionHit", create_heap, &mHandles[1], nullptr, nullptr, 1);
+        creator->requestCreateActor("Chemical", create_heap, &mHandles[2], nullptr, nullptr, 1);
+        creator->requestCreateActor("LocatorEffect", create_heap, &mHandles[3], nullptr, nullptr, 1);
+        creator->requestCreateActor("PlayerFootStep", create_heap, &mHandles[4], nullptr, nullptr, 1);
+    }
+
+    _b8 |= 0x100;
+
+    _c0 = phys::LayerContactPointInfo::make(heap, 0x800, 0x25, "ReactionMgr", 0, 0, 0);
+    _c0->set34(1);
+    _c0->registerLayerPair(phys::ContactLayer::EntityGround, phys::ContactLayer::EntityObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityGround, phys::ContactLayer::EntitySmallObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityGround, phys::ContactLayer::EntityGroundObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityGround, phys::ContactLayer::EntityRagdoll);
+    _c0->registerLayerPair(phys::ContactLayer::EntityGround, phys::ContactLayer::EntityTree);
+    _c0->registerLayerPair(phys::ContactLayer::EntityGround, phys::ContactLayer::EntityNPC);
+    _c0->registerLayerPair(phys::ContactLayer::EntityGround, phys::ContactLayer::EntityPlayer);
+    _c0->registerLayerPair(phys::ContactLayer::EntityGroundSmooth, phys::ContactLayer::EntityNPC);
+    _c0->registerLayerPair(phys::ContactLayer::EntityGroundSmooth, phys::ContactLayer::EntityPlayer);
+    _c0->registerLayerPair(phys::ContactLayer::EntityGroundRough, phys::ContactLayer::EntityObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityGroundRough, phys::ContactLayer::EntitySmallObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityGroundRough,
+                           phys::ContactLayer::EntityGroundObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityGroundRough, phys::ContactLayer::EntityRagdoll);
+    _c0->registerLayerPair(phys::ContactLayer::EntityGroundRough, phys::ContactLayer::EntityTree);
+    _c0->registerLayerPair(phys::ContactLayer::EntityObject, phys::ContactLayer::EntityObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntitySmallObject, phys::ContactLayer::EntityObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityGroundObject, phys::ContactLayer::EntityObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityRagdoll, phys::ContactLayer::EntityObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityTree, phys::ContactLayer::EntityObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityNPC, phys::ContactLayer::EntityObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityPlayer, phys::ContactLayer::EntityObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntitySmallObject,
+                           phys::ContactLayer::EntitySmallObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityGroundObject,
+                           phys::ContactLayer::EntitySmallObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityRagdoll, phys::ContactLayer::EntitySmallObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityTree, phys::ContactLayer::EntitySmallObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityPlayer, phys::ContactLayer::EntitySmallObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityGroundObject,
+                           phys::ContactLayer::EntityGroundObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityRagdoll,
+                           phys::ContactLayer::EntityGroundObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityTree, phys::ContactLayer::EntityGroundObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityNPC, phys::ContactLayer::EntityGroundObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityPlayer, phys::ContactLayer::EntityGroundObject);
+    _c0->registerLayerPair(phys::ContactLayer::EntityRagdoll, phys::ContactLayer::EntityRagdoll);
+    _c0->registerLayerPair(phys::ContactLayer::EntityTree, phys::ContactLayer::EntityRagdoll);
+    _c0->registerLayerPair(phys::ContactLayer::EntityTree, phys::ContactLayer::EntityTree);
+    _c0->registerLayerPair(phys::ContactLayer::EntityNPC, phys::ContactLayer::EntityTree);
+    _c0->registerLayerPair(phys::ContactLayer::EntityPlayer, phys::ContactLayer::EntityTree);
+
+    if (StageInfo::sIsFinalTrial)
+        _c0->registerLayerPair(phys::ContactLayer::EntityHitOnlyGround,
+                               phys::ContactLayer::EntityAirWall);
+
+    _c8 = phys::LayerContactPointInfo::make(heap, 0x800, 7, "ReactionMgr", 0, 0, 0);
+    _c8->registerLayerPair(phys::ContactLayer::EntityWater, phys::ContactLayer::EntityObject);
+    _c8->registerLayerPair(phys::ContactLayer::EntityWater, phys::ContactLayer::EntityGroundObject);
+    _c8->registerLayerPair(phys::ContactLayer::EntityWater, phys::ContactLayer::EntityPlayer);
+    _c8->registerLayerPair(phys::ContactLayer::EntityWater, phys::ContactLayer::EntityNPC);
+    _c8->registerLayerPair(phys::ContactLayer::EntityWater, phys::ContactLayer::EntityHitOnlyWater);
+    _c8->registerLayerPair(phys::ContactLayer::EntityWater, phys::ContactLayer::EntityTree);
+    _c8->registerLayerPair(phys::ContactLayer::EntityWater, phys::ContactLayer::EntitySmallObject);
+
+    _d0 = sub_7100F70990(heap);
+
+    _a0 = new (heap, 8) Unk_7101286868;
+    _a0->init(heap);
+    _a8 = new (heap, 8) Unk1;
+    _a8->init(heap);
+
+    _d8 = nullptr;
+}
 
 // 0x7100ec10b8: forwards a damage reaction request: an NPC damage kind / reaction kind pair skips
 // the forwarding, otherwise the water receiver (flag bit 2) and the reaction handler (bit 1) get it.
@@ -992,25 +1079,6 @@ void Reaction::Unk1::sub_7100EC89C4(f32 a, Actor* actor, const sead::Vector3f& p
 void Reaction::Unk1::sub_7100EC8C04(f32 a, Actor* actor, const sead::Vector3f& position, u64 value,
                                    const phys::MaterialMask& mask) {
     sub_7100EC89D8(a, actor, position, ReactionSize(value), mask, "WaterFlowSplash", 5);
-}
-
-namespace {
-// 0x71024efe80: the extra labels the reaction XLinks are given by Unk1::init.
-const char* const sReactionLabels[] = {
-    "Default",        "PlayerHit",     "EnemyHit",       "Guard",     "PlayerGuardJust",
-    "EnemyGuardJust", "ArrowHit",      "ArrowDamage",    "HorseStep", "HorseWildStep",
-    "Woodcutter",     "Land",          "PlayerFootStep", "TreeSplit", "OreHit",
-};
-}  // namespace
-
-Reaction::Unk1::Unk1() = default;
-
-void Reaction::Unk1::init(sead::Heap* heap) {
-    setExtraLabels(_8, sReactionLabels, 15);
-    setExtraLabels(_10, sReactionLabels, 15);
-    mSLinkLimiter = new (heap, 8) Unk_71024f02a8();
-    mSLinkLimiter->init(heap);
-    mReactions.init(heap, "GrassTrackLoop");
 }
 
 void Reaction::Unk1::setActor() {

@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actReaction.h"
+#include <basis/seadNew.h>
 #include <prim/seadSafeString.h>
 #include <xlink2/xlink2Locator.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
@@ -20,6 +21,25 @@ xlink2::UserInstanceSLink* sub_710105DE68(const char* name, act::Actor* actor, a
 }
 
 namespace ksys::act {
+
+namespace {
+// 0x71024efe80: the extra labels the reaction XLinks are given by Unk1::init.
+const char* const sReactionLabels[] = {
+    "Default",        "PlayerHit",     "EnemyHit",       "Guard",     "PlayerGuardJust",
+    "EnemyGuardJust", "ArrowHit",      "ArrowDamage",    "HorseStep", "HorseWildStep",
+    "Woodcutter",     "Land",          "PlayerFootStep", "TreeSplit", "OreHit",
+};
+}  // namespace
+
+Reaction::Unk1::Unk1() = default;
+
+void Reaction::Unk1::init(sead::Heap* heap) {
+    setExtraLabels(_8, sReactionLabels, 15);
+    setExtraLabels(_10, sReactionLabels, 15);
+    mSLinkLimiter = new (heap, 8) Unk_71024f02a8();
+    mSLinkLimiter->init(heap);
+    mReactions.init(heap, "GrassTrackLoop");
+}
 
 void Reaction::Unk1::sub_7100EC30C4() {
     if (mSLinkLimiter)

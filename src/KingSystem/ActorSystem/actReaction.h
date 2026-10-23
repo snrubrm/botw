@@ -26,6 +26,7 @@ struct Unk_71012497f8Entry;
 }
 
 namespace ksys::phys {
+class LayerContactPointInfo;
 class MaterialMask;
 }
 
@@ -71,13 +72,24 @@ struct Unk_7100ebf9e4 {
 // (ReactionWaterOut / ReactionWaterOut_Slant assets) for a footstep; called by 0x7100ec241c.
 class Unk_7101286868 {
 public:
+    // 0x71012847d0 (32 B, unnamed): zeroes the object and stores the class vtable.
+    Unk_7101286868();
+    // 0x71012847f8 (20 B, unnamed): stores the physics system at +0x28.
+    void init(sead::Heap* heap);
     void sub_7101286868(f32 speed, Actor* actor, const sead::Vector3f* pos,
                         const sead::Vector3f* dir, u64 size, u64 material, u64 flag);
     void sub_7101286BF8(xlink2::HandleELink* handle, ::DamageReactionRequest* request);
     u8 _0[0x38];
     // Fallback actor used when the request actor has no emitted effect.
     /* 0x38 */ Actor* _38;
+    u8 _40[0x18];
 };
+KSYS_CHECK_SIZE_NX150(Unk_7101286868, 0x58);
+
+// 0x7100f70990 (144 B, unnamed): allocates and registers the physics item list stored in
+// Reaction::_d0. The class is a global-namespace placeholder (its vtable is 0x71024f6670).
+class Unk_71024f6670;
+Unk_71024f6670* sub_7100F70990(sead::Heap* heap);
 
 // The reaction sound setting built on the stack by ActorUnk6b8's slide/land reaction handlers
 // (0x7100ebcd48, 0x7100ebdcb0) and passed to the sound emitters 0x7100ec72a0 / 0x7100ec7468.
@@ -366,8 +378,11 @@ public:
     /* 0xb0 */ bool _b0;
     u8 _b1[0xb8 - 0xb1];
     /* 0xb8 */ u32 _b8;
-    u8 _bc[0xd8 - 0xbc];
-    // The player cached by sub_7100EC0E7C (vtable slot 82 of the player link).
+    /* 0xbc */ u32 _bc;
+    // Contact point managers created by initBeforeStageGen.
+    /* 0xc0 */ phys::LayerContactPointInfo* _c0 = nullptr;
+    /* 0xc8 */ phys::LayerContactPointInfo* _c8 = nullptr;
+    /* 0xd0 */ Unk_71024f6670* _d0 = nullptr;
     /* 0xd8 */ uking::act::PlayerBase* _d8 = nullptr;
     u8 _e0[0x180 - 0xe0];
 };
