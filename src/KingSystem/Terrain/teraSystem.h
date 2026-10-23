@@ -22,6 +22,7 @@
 #include <thread/seadThread.h>
 #include <heap/seadHeap.h>
 #include <hostio/seadHostIONode.h>
+#include <gsys/gsysIModelProcedural.h>
 #include <container/seadTreeMap.h>
 #include <prim/seadBitFlag.h>
 #include <filedevice/seadFileDevice.h>
@@ -107,7 +108,9 @@ class AreaEnvGetter;
 // calls it through the first grass entry.
 class VegeTeraMatMgr;
 
-class Core {
+// Core is a procedural model unit: the constructor 0x71012ff868 calls gsys::IModelProcedural's
+// constructor (0xc7fbec) and stores its vtable at +0. Its own members therefore start at 0xe0.
+class Core : public gsys::IModelProcedural {
 public:
     class Grass {
     public:
@@ -433,7 +436,8 @@ public:
         Unk_71025046d0* _14cd8;
     };
 
-    u8 _0[0xf0];
+    // gsys::IModelProcedural (0xe0) plus the Core fields at 0xe0..0xf0 (the heap at 0xe0).
+    u8 _e0[0xf0 - 0xe0];
     // The model scene the model _f8 is bound to (0x71013009c4 calls Model::bind with it).
     gsys::ModelScene* _f0;
     gsys::Model* _f8;

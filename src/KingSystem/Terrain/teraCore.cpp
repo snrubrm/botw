@@ -190,6 +190,23 @@ void Core::sub_71013009C4(sead::Heap* heap) {
     Terrain::instance()->sub_710107E900(_f8, false);
 }
 
+// 0x7101300aac: sets the visibility mask of every unit of the model (all bits when `visible`).
+void Core::sub_7101300AAC(bool visible) {
+    for (u32 i = 0; i < _f8->getUnits().size(); ++i) {
+        gsys::ModelUnit* unit = _f8->getUnits()(i)->mModelUnit;
+        if (unit != this)
+            unit->setVisibilityMask(visible ? 0xffff : 0);
+    }
+
+    if (visible) {
+        if (Terrain::instance()->_a58 & 0x10)
+            Terrain::instance()->sub_710107E900(_f8, true);
+        _37c |= 8;
+    } else {
+        _37c = _37c & 0xf7;
+    }
+}
+
 // inline-only in the original (0x7101300d50 validates x, z and the squared length); name is a guess.
 static bool isValidFloatMaybe(f32 value) {
     if (sead::Mathf::isNan(value))
