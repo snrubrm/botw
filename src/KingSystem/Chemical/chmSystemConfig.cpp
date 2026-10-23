@@ -4,6 +4,10 @@ namespace ksys::chm {
 
 SEAD_SINGLETON_DISPOSER_IMPL(SystemConfig)
 
+Unk_71024DD238::~Unk_71024DD238() {
+    mBuffer.freeBuffer();
+}
+
 SystemConfig::~SystemConfig() {
     mMaterials.freeBuffer();
     mWorlds.freeBuffer();

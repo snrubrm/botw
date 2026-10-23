@@ -8,8 +8,19 @@
 #include <utility/aglParameterIO.h>
 #include <utility/aglParameterList.h>
 #include <utility/aglParameterObj.h>
+#include "KingSystem/Utils/Types.h"
 
 namespace ksys::chm {
+
+// Placeholder: a {vptr, sead::Buffer} holder (vtable 0x71024dd238, between ElementName and
+// SystemConfig) whose destructor only frees the buffer.
+class Unk_71024DD238 {
+public:
+    virtual ~Unk_71024DD238();
+
+    sead::Buffer<u8> mBuffer;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024DD238, 0x18);
 
 class SystemConfig : public agl::utl::IParameterIO, public sead::hostio::Node {
     SEAD_SINGLETON_DISPOSER(SystemConfig)
