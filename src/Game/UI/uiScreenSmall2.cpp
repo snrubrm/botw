@@ -3669,6 +3669,14 @@ void ScreenMessageGet::m101() {
     sub_7100A9B2D0();
 }
 
+// 0x7100a256f8 (slot 100)
+void ScreenMessageGet::m100() {
+    _3780 = sead::SafeString::cEmptyString;
+    _3770 = -1;
+    _3774 = 0;
+    _3778 = 0;
+}
+
 // 0x7100a25638
 void ScreenMessageGet::m99() {
     if (sub_7100A9760C()) {

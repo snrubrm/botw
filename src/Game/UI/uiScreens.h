@@ -5517,6 +5517,8 @@ public:
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
     void m99() override;
+    // 0x7100a256f8 (slot 100): clears the cached item name and the displayed item type / values.
+    void m100() override;
     // 0x7100a257f4 (slot 101): clears the UI singleton's actor name and runs ui::sub_7100A9B2D0
     void m101() override;
     // 0x7100a25ac0: forwards to Screen::doDraw_ (vtable slot 33)
