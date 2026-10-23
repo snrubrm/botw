@@ -1962,6 +1962,58 @@ void System::sub_7101116D44() {
     mPatcherCS.unlock();
 }
 
+// 0x7101116e74 (placeholder name): under the read lock, updates scene `index`'s uniform block from
+// the culling frustum and runs the collector's per-scene update.
+// NON_MATCHING: our three stack records are 0x10 higher (frame 0xa0 vs 0x90) and the flush block's
+// loads and stores are scheduled differently; the calls, values and branches are the same.
+void System::sub_7101116E74(s32 index, Unk_7101115584Arg* arg) {
+    mLock.readLock();
+
+    SceneSlot& slot = mScenes[index];
+    {
+        auto* terrain = Terrain::instance();
+        if (terrain->sub_710107EC48() && (terrain->_a58 & 0x10))
+            sub_71011167AC(index, false);
+    }
+
+    if (arg->_0) {
+        struct Data6 {
+            u32 _0;
+            u32 _4;
+            f32 _8;
+            f32 _c;
+        } data6;
+
+        sead::Vector4f scale;
+        sub_7101116BBC(arg->_0->get_f4(), &scale);
+
+        struct Data7 {
+            u32 _0;
+            u32 _4;
+            u32 _8;
+            u32 _c;
+        } data7;
+        data6._0 = 0;
+        data6._4 = Terrain::instance()->_3f0;
+        data6._8 = Terrain::instance()->sub_710107EC48() && (Terrain::instance()->_a58 & 0x10) ? 1.0f : 0.0f;
+        data6._c = Terrain::instance()->sub_710107EC48() && (Terrain::instance()->_a58 & 0x10) ? 0.0f : 1.0f;
+
+        slot.block.setData(5, &scale, 0, 1);
+        slot.block.setData(6, &data6, 0, 1);
+
+        data7._0 = Terrain::instance()->_3f8;
+        data7._4 = 0;
+        data7._8 = 0;
+        data7._c = 0;
+        slot.block.setData(7, &data7, 0, 1);
+
+        slot.block.flushCPUCache();
+    }
+
+    slot.collector->sub_7101101704(this, arg);
+    mLock.readUnlock();
+}
+
 void System::sub_7101117164(void* arg, s32 index, const sead::Vector3f* pos, u32 level) {
     mScenes[index].collector->sub_710110235C(arg, this, pos, level);
 }

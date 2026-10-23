@@ -1004,7 +1004,12 @@ public:
     u8 _3dc;
     u8 _3dd;
     u8 _3de;
-    u8 _3df[0x400 - 0x3df];
+    u8 _3df[0x3f0 - 0x3df];
+    // Read by the scene uniform update 0x7101116e74 (setData slots 6 / 7).
+    u32 _3f0;
+    u32 _3f4;
+    u32 _3f8;
+    u8 _3fc[0x400 - 0x3fc];
     f32 _400;
     u8 _404[0x418 - 0x404];
     // Placeholder: one render target set per core (0x710114c3c4 .. 0x710114ce48 index this buffer with
@@ -1465,6 +1470,8 @@ public:
     void sub_71010FFE70(s32 a, s32 b);
     // 0x71011016f4 (placeholder name): forwards the level _2942 to _2948.
     void sub_71011016F4();
+    // 0x7101101704 (declaration only; placeholder name): per-scene update with the frame's arg.
+    void sub_7101101704(System* system, Unk_7101115584Arg* arg);
     // 0x7101100260 (placeholder name): stores the four values as u16 into the sub-objects of
     // stride 0x460 (+0x1c).
     void sub_7101100260(s32 a, s32 b, s32 c, s32 d);
@@ -1594,6 +1601,10 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(MapPatcher, 0x330);
 
+// 0x7101116bbc (declaration only; placeholder name): builds the four texture-scale values of the
+// culling frustum (0x7101116e74 writes them to uniform slot 5).
+void sub_7101116BBC(f32 value, sead::Vector4f* out);
+
 class System {
 public:
     static System* instance();
@@ -1652,6 +1663,11 @@ public:
     // 0x7101116d44 (placeholder name): flips the patch-buffer parity, points every scene's block at
     // the new buffer and swaps the buffers of the registered map patchers.
     void sub_7101116D44();
+    // 0x71011167ac (declaration only; placeholder name): the per-scene update under the write lock.
+    void sub_71011167AC(s32 index, bool arg);
+    // 0x7101116e74 (placeholder name): under the read lock, updates scene `index`'s uniform block
+    // from the culling frustum and runs the collector's per-scene update.
+    void sub_7101116E74(s32 index, Unk_7101115584Arg* arg);
     // 0x7101117164 (placeholder name): requests the area images around `pos` from scene `index`.
     void sub_7101117164(void* arg, s32 index, const sead::Vector3f* pos, u32 level);
     // 0x7101117874 (CSV eui::BoxCursorNode::clearRouteAll is a wrong owner): clears the terrain images
