@@ -156,6 +156,47 @@ void ScreenPauseMenu::sub_7100A392D8() {
     mTabControls.mEntries[idx].mGuide.sub_7100936BD4(show_first, show_second);
 }
 
+// 0x7100a36784 (placeholder name): steps the page offset and re-lays the tab controls when the
+// current page moved; then shows the page of the tab control that holds the target page.
+// NON_MATCHING: the inlined wrapTab comparisons and the shared 2 constant differ per instance
+// (ours compares the selected value, the original the sign-extended argument).
+void ScreenPauseMenu::sub_7100A36784() {
+    _3660 = 0;
+    const f32 offset = _3650;
+    if (!(offset >= -0.001f && offset <= 0.001f)) {
+        const bool stepped = sub_7100AA2350(this, &_3650, 0.0f, 0.28f, 300.0f, 0.1f);
+        const bool moved = sub_7100A3A920(offset - _3650);
+        if (stepped || moved)
+            _3648 = _3644;
+    }
+    if (!_3660 || !_3661)
+        return;
+    if (!sub_7100A3A7FC(_3648, _364c))
+        return;
+    _3661 = 0;
+    const u8 tab = _3a18;
+    const s32 page = _3648;
+    u8 index;
+    const u8 prev = wrapTab(u8(tab - 1));
+    const u32 prev_index = prev < 3 ? prev : 0;
+    if (_3a00[prev_index]->_130 == page) {
+        index = prev;
+    } else {
+        const u8 cur = wrapTab(tab);
+        const u32 cur_index = cur < 3 ? cur : 0;
+        if (_3a00[cur_index]->_130 == page) {
+            index = cur;
+        } else {
+            const u8 next = wrapTab(u8(tab + 1));
+            const u32 next_index = next < 3 ? next : 0;
+            if (_3a00[next_index]->_130 != page)
+                return;
+            index = next;
+        }
+    }
+    sub_7100A38FE8(index, false);
+}
+
 // NON_MATCHING: the loop induction variable is widened in category comparisons.
 void ScreenPauseMenu::sub_7100A379BC(s32 tab) {
     mSelectedCategory = s32(sub_7100A82D08(tab));
