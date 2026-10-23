@@ -4,6 +4,8 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/Sound/sndSound.h"
+#include "KingSystem/XLink/xlinkManager.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -343,6 +345,36 @@ void ScreenAppMap::demoRun() {
     sub_71009EBEC8();
     const f32 displayed_temperature = UiSubsys1::instance()->_850.get38();
     ksys::gdt::Manager::instance()->setF32(displayed_temperature, sUnk_71025df330.mWorldTemperatureFlag);
+}
+
+// 0x71009ebec8
+void ScreenAppMap::sub_71009EBEC8() {
+    if (UiSubsys1::instance()->sub_7100967498()) {
+        if (_3c90)
+            _3c90->m5(true);
+    } else if (UiSubsys1::instance()->sub_71009674C0()) {
+        if (_3c90)
+            _3c90->m6(true);
+        if (_3c98)
+            _3c98->m6(true);
+    }
+    if (!UiSubsys1::instance()->get38ac())
+        return;
+    if (UiSubsys1::instance()->get38d8() && !UiSubsys1::instance()->get38d9()) {
+        if (_3c90) {
+            ksys::snd::ExpressionSoundCtrl::instance()->sub_710104F4BC();
+            const s32 type = UiSubsys1::instance()->get38a8();
+            _3c90->sub_71009C1198(type);
+        }
+    } else if (!UiSubsys1::instance()->get38d8() && UiSubsys1::instance()->get38d9()) {
+        if (_3c90) {
+            ksys::xlink::Manager::instance()->setGlobalProperty(26, 10000.0f);
+            ksys::xlink::Manager::instance()->setGlobalProperty(27, 0.0f);
+            ksys::snd::ExpressionSoundCtrl::instance()->sub_710104F4C0();
+            _3c90->sub_71009C1198(2);
+        }
+    }
+    UiSubsys1::instance()->copy38d8To38d9();
 }
 
 // 0x71009ec01c (CSV ScreenAppMap::demoLeave)

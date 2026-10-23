@@ -881,7 +881,7 @@ bool UiSubsys1::get38d8() const {
 }
 
 // 0x7100967478
-u8 UiSubsys1::get38d9() const {
+bool UiSubsys1::get38d9() const {
     return _38d9;
 }
 

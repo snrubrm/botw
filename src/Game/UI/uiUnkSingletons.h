@@ -1437,7 +1437,7 @@ public:
     bool get3884() const;
     u8 get38c8() const;
     bool get38d8() const;
-    u8 get38d9() const;
+    bool get38d9() const;
     void copy38c8To38c9();
     void copy38d8To38d9();
     void update388c();
@@ -1649,7 +1649,7 @@ private:
     /* 0x38c9 */ u8 _38c9;
     u8 _38ca[0x38d8 - 0x38ca];
     /* 0x38d8 */ bool _38d8;
-    /* 0x38d9 */ u8 _38d9;
+    /* 0x38d9 */ bool _38d9;
     u8 _38da[0x38e0 - 0x38da];
     /* 0x38e0 */ s32 _38e0;
     /* 0x38e4 */ s32 _38e4;
