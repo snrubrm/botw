@@ -29,6 +29,7 @@ class Rail;
 
 namespace ksys::phys {
 class CharacterController;
+class MaterialMask;
 class RayCast;
 class RigidBody;
 }  // namespace ksys::phys
@@ -130,6 +131,7 @@ ArrowType arrowTypeFromString(const sead::SafeString& name);
 ZukanType getZukanType(al::ByamlIter* iter);
 ZukanType getZukanType(Actor* actor);
 bool sub_7100EDEA5C(Actor* actor);
+bool sub_7100EE1B34(const phys::MaterialMask& mask);
 
 bool isPlayerProfile(const ActorLinkConstDataAccess& accessor);
 bool isPlayerProfile(Actor* actor);

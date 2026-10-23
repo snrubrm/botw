@@ -37,6 +37,7 @@
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -638,6 +639,14 @@ bool sub_7100EDEA5C(Actor* actor) {
     if (!unit)
         return false;
     return unit->isRenderViewOptionEnabled(0, gsys::ModelEnum::RenderViewOption(1), 0);
+}
+
+// 0x7100ee1b34 (placeholder name): false when custom material flag 0 is set.
+// NON_MATCHING: same size and body; our clang loads the material data before the volatile enum
+// conversion, the original loads it after the shifted mask.
+bool sub_7100EE1B34(const phys::MaterialMask& mask) {
+    const auto flag = phys::MaterialMaskData::CustomFlag::_0;
+    return !mask.getData().getCustomFlag(flag);
 }
 
 static bool isProfile(const ActorLinkConstDataAccess& accessor, const sead::SafeString& profile) {
