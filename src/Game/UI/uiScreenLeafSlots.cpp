@@ -197,6 +197,25 @@ void ScreenAppMap::sub_71009EAA24() {
     _3c30 = sub_7100A48104(sead::SafeString("Pa_Cursor_00"), nullptr);
 }
 
+// 0x71009eb960
+void ScreenAppMap::sub_71009EB960() {
+    auto* window = sead::DynamicCast<ScreenAppSystemWindow>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow));
+    if (!window)
+        return;
+    const s32 state = window->_3610;
+    if (u32(state - 3) <= 1) {
+        if (auto* child = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0)))
+            sub_7100990690(child);
+    } else if (state == 5) {
+        sub_71009F20F4();
+    } else if (state == 6) {
+        sub_71009F20F4();
+    } else if (state == 7) {
+        sub_71009F2204();
+    }
+}
+
 // 0x71009eab28
 void ScreenAppMap::sub_71009EAB28() {
     _3c90 = nn::font::DynamicCast<ScreenAppMapUnk3c90>(nn::font::DynamicCast<ScreenChildEx>(getChild(4, 0)));

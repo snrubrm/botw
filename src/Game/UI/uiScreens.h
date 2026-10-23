@@ -2778,6 +2778,10 @@ public:
     // 0x71009f273c (placeholder name; called by Unk_710247c010::sub_71009BE260): Unk_71025d69f0::sub_710094E064, then
     // closes the screen
     void sub_71009F273C();
+    // 0x71009eb960 (placeholder name): handles the app system window's result state for the map's sub-state
+    void sub_71009EB960();
+    // 0x71009f20f4 (placeholder name; declared only): map sub-run step for the closed app system window's result
+    void sub_71009F20F4();
     // 0x71009eaa24 (placeholder name): restarts the cursor timer, creates the map cursor layout and its animators,
     // and finds the Pa_Cursor_00 pane
     void sub_71009EAA24();
