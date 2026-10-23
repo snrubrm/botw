@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include "Game/gameGraphics.h"
 
 namespace ksys::gfx {
 
@@ -8,7 +9,9 @@ namespace ksys::gfx {
 // at +0x88 that the teardown frees is modelled.
 struct ModelRenderDataMaybe {
     struct Block {
-        u8 _0[0x30];
+        // The map renderer's unit group this render data registered.
+        Unk_7100f185a4::UnitGroup* mGroup;
+        u8 _8[0x28];
         // Freed with delete[] before the block itself is deleted.
         u8* _30;
     };

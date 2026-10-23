@@ -3,6 +3,7 @@
 #include <gsys/gsysModel.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 #include <prim/seadScopedLock.h>
+#include "KingSystem/Graphics/gfxUkingModelRenderOptionsMgr.h"
 
 namespace ksys::gfx {
 
@@ -240,6 +241,35 @@ Unk_7100f185a4::~Unk_7100f185a4() {
         mUnitGroups[index] = nullptr;
     }
     mUnitGroups.freeBuffer();
+}
+
+// NON_MATCHING: the entry loop's pointer increment and counter decrement are scheduled in the
+// opposite order (one instruction; same size).
+// 0x7100f19928: removes the unit group the model render data registered; a group owned by the
+// renderer (bit 0 of +0x21 set) only has its entries cleared.
+void Unk_7100f185a4::sub_7100F19928(ksys::gfx::ModelRenderDataMaybe* data) {
+    ksys::gfx::ModelRenderDataMaybe::Block* block = data->_88;
+    UnitGroup* group = block->mGroup;
+    if (!group)
+        return;
+
+    if (group->_21 & 1) {
+        UnitEntry* entry = group->mEntries.getBufferPtr();
+        const u32 count = group->mEntries.size();
+        for (u64 i = 0; i != count; ++i)
+            entry[i].mColorSetMaybe = 0;
+    } else {
+        mUnitGroups[group->_20] = nullptr;
+
+        UnitEntry* entry = group->mEntries.getBufferPtr();
+        const u32 count = group->mEntries.size();
+        for (u64 i = 0; i != count; ++i)
+            entry[i].mRefs.freeBuffer();
+        group->mEntries.freeBuffer();
+        delete group;
+    }
+
+    block->mGroup = nullptr;
 }
 
 // NON_MATCHING: the group table's base and count use the opposite registers, and the flags loop's
