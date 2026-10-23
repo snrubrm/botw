@@ -215,17 +215,44 @@ void LocationalLightRig::listenPropertyEventEnvObj(const sead::hostio::PropertyE
 
 }  // namespace ksys::gfx
 
+// NON_MATCHING: the group table's base and count use the opposite registers, and the flags loop's
+// induction address is +0x60 (so its increment folds into the last store) instead of +0x5f.
+// 0x7100f19c4c: moves every unit's flags byte to +0x60 and clears it, for every present group with
+// bit 0 of +0x21 clear.
+void Unk_7100f185a4::sub_7100F19C4C() {
+    for (u64 i = 0; i != 0x40; ++i) {
+        UnitGroup** groups = mUnitGroups.getBufferPtr();
+        const u32 group_count = mUnitGroups.size();
+        UnitGroup* group = *(group_count > i ? groups + i : groups);
+        if (!group)
+            continue;
+        if (group->_21 & 1)
+            continue;
+
+        const u32 count = group->mEntries.size();
+        if (count == 0)
+            continue;
+
+        UnitEntry* entry = group->mEntries.getBufferPtr();
+        for (u32 j = 0; j != count; ++j) {
+            const u8 flags = entry[j].mFlags;
+            entry[j].mFlags = 0;
+            entry[j]._60 = flags;
+        }
+    }
+}
+
 // 0x7100f19f90: sets the colour and bit 0 of the flags of map unit `id`.
 void Unk_7100f185a4::setMapUnitColorMaybe(s32 id, const sead::Color4f& color) {
     if (id == -1)
         return;
 
-    sead::Buffer<UnitEntry>* group = mUnitGroups[id >> 16];
+    Unk_7100f185a4::UnitGroup* group = mUnitGroups[id >> 16];
     if (!group)
         return;
     const s32 index = s16(id);
-    const s32 count = group->getSize();
-    UnitEntry* entry = group->getBufferPtr();
+    const s32 count = group->mEntries.size();
+    UnitEntry* entry = group->mEntries.getBufferPtr();
     if (u32(count) > u32(index))
         entry += index;
     if (!entry)
@@ -242,12 +269,12 @@ void Unk_7100f185a4::setMapUnitValueMaybe(s32 id, const sead::Vector2f& value) {
     if (id == -1)
         return;
 
-    sead::Buffer<UnitEntry>* group = mUnitGroups[id >> 16];
+    Unk_7100f185a4::UnitGroup* group = mUnitGroups[id >> 16];
     if (!group)
         return;
     const s32 index = s16(id);
-    const s32 count = group->getSize();
-    UnitEntry* entry = group->getBufferPtr();
+    const s32 count = group->mEntries.size();
+    UnitEntry* entry = group->mEntries.getBufferPtr();
     if (u32(count) > u32(index))
         entry += index;
     if (!entry)
@@ -266,12 +293,12 @@ void Unk_7100f185a4::setMapUnitTransformMaybe(s32 id, const sead::Vector3f& valu
     if (id == -1)
         return;
 
-    sead::Buffer<UnitEntry>* group = mUnitGroups[id >> 16];
+    Unk_7100f185a4::UnitGroup* group = mUnitGroups[id >> 16];
     if (!group)
         return;
     const s32 index = s16(id);
-    const s32 count = group->getSize();
-    UnitEntry* entry = group->getBufferPtr();
+    const s32 count = group->mEntries.size();
+    UnitEntry* entry = group->mEntries.getBufferPtr();
     if (u32(count) > u32(index))
         entry += index;
     if (!entry)
@@ -296,12 +323,12 @@ void Unk_7100f185a4::setMapUnitVisibleMaybe(s32 id, bool visible) {
     if (id == -1)
         return;
 
-    sead::Buffer<UnitEntry>* group = mUnitGroups[id >> 16];
+    Unk_7100f185a4::UnitGroup* group = mUnitGroups[id >> 16];
     if (!group)
         return;
     const s32 index = s16(id);
-    const s32 count = group->getSize();
-    UnitEntry* entry = group->getBufferPtr();
+    const s32 count = group->mEntries.size();
+    UnitEntry* entry = group->mEntries.getBufferPtr();
     if (u32(count) > u32(index))
         entry += index;
     if (!entry)
@@ -326,10 +353,10 @@ void Unk_7100f185a4::setMapUnitVisibleMaybe(s32 id, bool visible) {
         return;
 
     group = mUnitGroups[id >> 16];
-    const s32 group_count = group->getSize();
+    const s32 group_count = group->mEntries.size();
     if (group_count == 0)
         return;
-    UnitEntry* entries = group->getBufferPtr();
+    UnitEntry* entries = group->mEntries.getBufferPtr();
     if (visible) {
         for (s32 i = 0; i != group_count; ++i)
             entries[i].mFlags |= 0x20;

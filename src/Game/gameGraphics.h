@@ -217,7 +217,19 @@ public:
     };
     static_assert(sizeof(UnitEntry) == 0x68);
 
+    // One group of the table at +0xfd0: the 0x68-byte unit entries and the two flag bytes at +0x20 /
+    // +0x21 (0x7100f19c4c skips a group whose +0x21 bit 0 is set).
+    struct UnitGroup {
+        sead::Buffer<UnitEntry> mEntries;
+        u8 _10[0x10];
+        u8 _20;
+        u8 _21;
+    };
+
     void sub_7100F1AC58();
+    // 0x7100f19c4c: moves every unit's flags byte to +0x60 and clears it, for every group that is
+    // present and has bit 0 of +0x21 clear.
+    void sub_7100F19C4C();
     // 0x7100f19f90 (placeholder name): sets the colour of map unit `id` (group in the high half,
     // index in the low 16 bits) and sets bit 0 of its flags.
     void setMapUnitColorMaybe(s32 id, const sead::Color4f& color);
@@ -254,7 +266,7 @@ private:
     u8 _82c[0xfd0 - 0x82c];
     // 0xfd0: map-unit tables: the group is selected by the id's high half and each group is an
     // inline array of 0x68-byte entries indexed by the id's low 16 bits.
-    sead::Buffer<sead::Buffer<UnitEntry>*> mUnitGroups;
+    sead::Buffer<UnitGroup*> mUnitGroups;
     u8 _fe0[0xfe8 - 0xfe0];
     // Two double-buffered id arrays at +0xfe8 / +0xff8 (the byte at +0x1008 selects one);
     // sub_7100F1AC58 clears the new one after flipping.
