@@ -1914,6 +1914,14 @@ sead::Vector3f* System::sub_710111713C(s32 index) {
     return &mScenes[index].collector->_276c;
 }
 
+void System::sub_710111718C(s32 index) {
+    mScenes[index].collector->sub_71011066F0();
+}
+
+void System::sub_7101117164(void* arg, s32 index, const sead::Vector3f* pos, u32 level) {
+    mScenes[index].collector->sub_710110235C(arg, this, pos, level);
+}
+
 // NON_MATCHING: the original indexes _e8 with a sign-extended multiply each iteration; ours walks a pointer.
 void System::x_2() {
     f32 width;
@@ -2062,6 +2070,10 @@ void sub_71011501C0(Core::Grass* grass) {
 
 void sub_71011501C8(Core::Grass* grass) {
     sub_71012DC42C(grass->_30);
+}
+
+void sub_71011501D0(Core::Grass* grass) {
+    sub_71012DC608(grass->_30);
 }
 
 }  // namespace ksys::tera

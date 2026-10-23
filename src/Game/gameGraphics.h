@@ -566,11 +566,6 @@ public:
         u8 _14[0x540 - 0x14];
         /* 0x540 */ f32 mShadowNear;
         /* 0x544 */ f32 mShadowFar;
-
-        // 0x7100f0b5b8 / 0x7100f13060 / 0x7100f131c0 (forwarded to from Graphics m28 / m29 / m30).
-        void sub_7100F0B5B8(void* obj, agl::env::EnvObjBuffer::AllocateArg* arg);
-        void sub_7100F13060(void* obj);
-        void sub_7100F131C0(void* obj);
     };
 
     // Placeholder names (lane4 s64): the object at Graphics + 0x378 points (+0x18) to a block that holds two floats
@@ -990,12 +985,6 @@ public:
     virtual void m14(void* obj);
     // 0x7100f2e0d4 (slot m15): clears the occlusion query drawer when one is attached.
     virtual void m15();
-    // 0x7100f2e0ac (slot m28): the same environment callbacks for the shadow settings object.
-    virtual void m28(void* obj, agl::env::EnvObjBuffer::AllocateArg* arg);
-    // 0x7100f2e0bc (slot m29).
-    virtual void m29(void* obj);
-    // 0x7100f2e0cc (slot m30).
-    virtual void m30(void* obj);
 
     // The map state byte compared with 4 (sub_7100F2FAAC) and 7 (PlacementMgr::requestDraw).
     u8 getMapStateMaybe() const { return _f5a; }

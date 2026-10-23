@@ -594,6 +594,8 @@ static_assert(offsetof(GrassEntry, mCamera) == 0x28c);
 void sub_71011501C8(Core::Grass* grass);
 // 0x71011501c0 (declaration only): the same Grass thunk shape, called by world::ChemicalMgr::sub_71010CC5B4.
 void sub_71011501C0(Core::Grass* grass);
+// 0x71011501d0 (declaration only): the third of the three Grass cleanup thunks.
+void sub_71011501D0(Core::Grass* grass);
 
 // 0x7101159054 (unnamed in the CSV): the ground height at `pos` within `radius` (a ray cast
 // query); called by Core::Grass::sub_7101150A7C.
@@ -1413,6 +1415,11 @@ public:
     void sub_710110028C();
     // 0x7101100f08 (declaration only; placeholder name and signature; 1648 bytes).
     void sub_7101100F08(System* system, Unk_7101115584Arg* arg, bool flag);
+    // 0x71011066f0 (declaration only; placeholder name): clears the collector's four sub-blocks.
+    void sub_71011066F0();
+    // 0x710110235c (declaration only; placeholder name and signatures): request the area images of
+    // `arg` (System + 0x7101117164 passes the element and the centre / level).
+    void sub_710110235C(void* arg, System* system, const sead::Vector3f* pos, u32 level);
 
     // 0x71011001d4 (declaration only; placeholder name): stores the two levels at 0x2940 / 0x2941
     // (clamped) and sets flag 4.
@@ -1616,6 +1623,10 @@ public:
     bool sub_71011170F4(s32 index, u32 level);
     // 0x710111713c (CSV TeraSystem::x_1; placeholder name): ApertureMapsCollector::_276c of scene `index`.
     sead::Vector3f* sub_710111713C(s32 index);
+    // 0x710111718c (placeholder name): runs the scene's collector clear (0x71011066f0).
+    void sub_710111718C(s32 index);
+    // 0x7101117164 (placeholder name): requests the area images around `pos` from scene `index`.
+    void sub_7101117164(void* arg, s32 index, const sead::Vector3f* pos, u32 level);
     // 0x7101117874 (CSV eui::BoxCursorNode::clearRouteAll is a wrong owner): clears the terrain images
     // of every scene through ApertureMapsCollector::sub_7101101578(this, 0xff0000).
     void sub_7101117874();
@@ -2110,6 +2121,7 @@ void sub_71012E258C(void* object);
 // 0x71012dadf0 allocates 0x22c50 bytes, initialiser 0x71012daef8, renderer 0x71012dafb8.
 void sub_71012DC42C(void* object);
 void sub_71012DAFB8(void* object);
+void sub_71012DC608(void* object);
 
 // 0x71011190c8 (declaration only; placeholder name and signature): called by map::PlacementMapMgr::postPlaceActorsRouteStuff with
 // the tera system and every route of every map.
