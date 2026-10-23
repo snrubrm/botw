@@ -2,10 +2,8 @@
 
 namespace gsys {
 
-// NON_MATCHING: the +0x24/+0x28 pair (92.125f, 2.0f) takes three instructions to materialise
-// where the original uses two (ORR of 0x4000000040000000 plus one MOVK).
 GPUStressAnalyzer::GPUStressAnalyzer()
-    : mCount(0), mAdjustors(nullptr), _18(0), _1c(0), mFlags(0), _24(92.125f), _28(2.0f),
+    : mCount(0), mAdjustors(nullptr), _18(0), _1c(0), mFlags(0), _24(92.0f), _28(2.0f),
       _2c(2.0f), _30(2.0f), _34(0.03f), _38(0.05f) {}
 
 // 0x7100c74044
