@@ -415,6 +415,9 @@ public:
         void sub_7101083B78(u16 index, const sead::Vector3f& pos, bool b);
         // 0x71010839c4 (placeholder name): stores value (clamped to 0..1) scaled to 4000..8000 at +0x14cb8.
         void sub_71010839C4(f32 value);
+        // 0x7101083aa8 (unnamed): runs slot 33 on both draw commands unless the debug flag or _8 bit 0
+        // stops it.
+        void sub_7101083AA8(s32 index, void* p, u32 a, u32 b);
         // 0x7101083a58 / 0x7101083a80 (placeholder names): run slot 31 / 32 of draw command `index`.
         s32 sub_7101083A58(s32 index);
         s32 sub_7101083A80(s32 index);

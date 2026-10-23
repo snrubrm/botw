@@ -867,7 +867,8 @@ public:
     virtual bool m30();
     virtual s32 m31();
     virtual s32 m32();
-    virtual void m33();
+    // The per-tree draw step both commands get (0x7101083aa8 passes the index, a pointer and two flags).
+    virtual void m33(s32 index, void* p, bool a, bool b);
     virtual void m34();
     virtual void m35();
     // The value of record `index` at `pos` (-1 if there is none).
