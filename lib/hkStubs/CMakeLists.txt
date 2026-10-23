@@ -27,9 +27,15 @@ add_library(hkStubs OBJECT
   Havok/Ai/Pathfinding/Streaming/hkaiStreamingCollection.h
   Havok/Ai/Pathfinding/Utilities/hkaiLineOfSightUtil.h
   Havok/Ai/Pathfinding/Utilities/hkaiLineOfSightUtil.cpp
+  Havok/Ai/Pathfinding/Utilities/hkaiPathfindingUtil.h
+  Havok/Ai/Pathfinding/Utilities/hkaiPathfindingUtil.cpp
+  Havok/Ai/Pathfinding/Utilities/hkaiVolumePathfindingUtil.h
+  Havok/Ai/Pathfinding/Utilities/hkaiVolumePathfindingUtil.cpp
   Havok/Ai/Pathfinding/Utilities/hkaiNavMeshUtils.h
   Havok/Ai/Pathfinding/Utilities/hkaiUserEdgeUtils.h
   Havok/Ai/Pathfinding/hkaiAgentTraversalInfo.h
+  Havok/Ai/Pathfinding/hkaiEdgePath.h
+  Havok/Ai/Pathfinding/hkaiEdgePath.cpp
   Havok/Ai/Pathfinding/Astar/hkaiAstarEdgeFilter.h
   Havok/Ai/Pathfinding/Astar/hkaiDefaultAstarEdgeFilter.h
   Havok/Animation/Animation/Animation/hkaAnimation.h
