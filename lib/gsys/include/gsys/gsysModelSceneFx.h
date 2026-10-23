@@ -37,6 +37,10 @@ class ModelSceneContext;
 class ParticleScene;
 class RenderBufferContext;
 class ModelSceneShadow;
+class OfxLensFlareRig;
+class OfxLargeLensFlareRig;
+class OfxLensFlareImpl;
+class OfxLargeLensFlareImpl;
 
 // The ModelScene effect component at ModelScene +0x3478 (0x300 bytes). It is a
 // ModelSceneComponent plus an IParameterObj at +0x250; the effect managers it owns start at
@@ -54,6 +58,26 @@ public:
 
     ModelSceneFx();
     ~ModelSceneFx() override;
+
+    // Manager of the lens-flare rigs of one impl type. The game allocates two: the Lens one at
+    // +0x2f0 and the Large one at +0x2f8 (ModelSceneFx::initialize 0x7100c2d8b0). Both are 0x68
+    // bytes: a vtable, two PtrArray pairs at +0x8 / +0x18 / +0x28 / +0x38, a Buffer of 0x50-byte
+    // hooks at +0x48 and a Buffer of 0x28-byte objects at +0x58 (D2 0x7100c304a4 for the Lens one).
+    template <typename Rig, typename Impl>
+    class OfxResMgr {
+    public:
+        // 0x7100c2e350 (Lens) / 0x7100c2e628 (Large): allocates `rig_num` objects of the impl type
+        // and `hook_num` rig hooks.
+        void initialize(int rig_num, int hook_num, agl::env::EnvObjMgr* env_obj_mgr,
+                        agl::fx::OccludedEffectMgr* ofx_mgr, sead::Heap* heap);
+        // 0x7100c2ef04 (Lens) / 0x7100c2f0dc (Large)
+        void update();
+        // 0x7100c301cc (Large) / 0x7100c30338 (Lens): erases every hook of `rig`, `model` and
+        // `unit_index` from the active list, detaches it from the model and returns it to the free
+        // list.
+        void release(Rig* rig, Model* model, int unit_index);
+        virtual ~OfxResMgr();
+    };
 
     void initialize(const CreateArg& arg, agl::env::EnvObjMgr* env_obj_mgr, sead::Heap* heap,
                     sead::Heap* heap2);
@@ -97,8 +121,8 @@ private:
     /* 0x2d8 */ f32 _2d8 = 1.0f;
     /* 0x2e0 */ void* _2e0 = nullptr;
     /* 0x2e8 */ void* _2e8 = nullptr;
-    /* 0x2f0 */ void* _2f0 = nullptr;
-    /* 0x2f8 */ void* _2f8 = nullptr;
+    /* 0x2f0 */ OfxResMgr<OfxLensFlareRig, OfxLensFlareImpl>* mOfxLensFlare = nullptr;
+    /* 0x2f8 */ OfxResMgr<OfxLargeLensFlareRig, OfxLargeLensFlareImpl>* mOfxLargeLensFlare = nullptr;
 };
 static_assert(sizeof(ModelSceneFx) == 0x300);
 

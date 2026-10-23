@@ -278,6 +278,30 @@ void ModelSceneFx::bind(Model* model) {
     }
 }
 
+// 0x7100c2eb6c: releases the Lens and Large rigs of every model unit from the two managers.
+void ModelSceneFx::unbind(Model* model) {
+    if (!mOccludedEffect)
+        return;
+
+    const s32 num_large = mEnvObjMgr->getObjectNum(OfxLargeLensFlareRig::sTypeInfo->id);
+    for (s32 i = 0; i < num_large; ++i) {
+        for (s32 j = 0; j < model->getUnits().size(); ++j) {
+            OfxLargeLensFlareRig* rig = sead::DynamicCast<OfxLargeLensFlareRig>(
+                mEnvObjMgr->getObject(OfxLargeLensFlareRig::sTypeInfo->id, i));
+            mOfxLargeLensFlare->release(rig, model, j);
+        }
+    }
+
+    const s32 num_lens = mEnvObjMgr->getObjectNum(OfxLensFlareRig::sTypeInfo->id);
+    for (s32 i = 0; i < num_lens; ++i) {
+        for (s32 j = 0; j < model->getUnits().size(); ++j) {
+            OfxLensFlareRig* rig = sead::DynamicCast<OfxLensFlareRig>(
+                mEnvObjMgr->getObject(OfxLensFlareRig::sTypeInfo->id, i));
+            mOfxLensFlare->release(rig, model, j);
+        }
+    }
+}
+
 // 0x7100c2fb7c: draws the cloud, then finishes its render texture and rebinds this context.
 void ModelSceneFx::drawCloud(agl::DrawContext* context,
                              const ModelSceneContext* scene_context) const {
