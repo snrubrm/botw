@@ -212,6 +212,12 @@ public:
         void sub_7100EC30C4();
         // 0x7100ec313c (placeholder name): forwards the request to the reaction handlers.
         void sub_7100EC313C(::DamageReactionRequest* request);
+        // The damage-kind handlers of sub_7100EC313C (all declared only).
+        void sub_7100EC4594(::DamageReactionRequest* request);
+        void sub_7100EC4880(::DamageReactionRequest* request);
+        void sub_7100EC4C00(xlink2::HandleSLink* handle, ::DamageReactionRequest* request);
+        void sub_7100EC513C(::DamageReactionRequest* request);
+        void sub_7100EC5294(Actor* actor, ::DamageReactionRequest* request);
         void sub_7100EC66FC(Actor* actor);
         // Constant getters (0.7f / 7 / 5); placeholder names.
         f32 sub_7100EC877C() const;

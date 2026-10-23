@@ -20,6 +20,9 @@ xlink2::UserInstanceSLink* sub_710105DE68(const char* name, act::Actor* actor, a
                                           xlink2::Locator* locator);
 }
 
+// Original enum ownership and source namespace are unknown; declaration only.
+const char* sub_7100E367C0(s32 index);
+
 namespace ksys::act {
 
 namespace {
@@ -202,6 +205,224 @@ void Reaction::Unk1::sub_7100EC6708(Actor* actor, DamageReactionRequest* request
     eft::sub_710105E114(&handle, actor);
     if (mSLinkLimiter)
         mSLinkLimiter->sub_7100ECA2A0(list_type, position, handle);
+}
+
+// 0x7100ec313c (placeholder name): dispatches a reaction request to the handler of its damage kind.
+// NON_MATCHING: case 4 needs one `mov x0, x20` before sub_7100EC4C00 that the original lacks: that
+// callee never reads its `this` (it starts with `mov x0, x2`), and the original build passes `undef`
+// for it. Our build cannot drop the argument for a callee declared in another TU.
+void Reaction::Unk1::sub_7100EC313C(DamageReactionRequest* request) {
+    xlink2::HandleSLink handle;
+
+    if (StageInfo::sIsFinalTrial && request->_98 == 3) {
+        if (Actor* actor = request->_b8) {
+            if (actor->getName() == "Priest_Boss_ShadowClone")
+                return;
+        }
+    }
+
+    if (request->_c4 & 0x40) {
+        if (request->_98 == 3)
+            sub_7100EC447C(_10, request, &handle, "ObjHit_Metal");
+        else
+            sub_7100EC447C(_10, request, &handle, "EnemyHit_S");
+        return;
+    }
+
+    switch (request->_90) {
+    case 0: {
+        const s32 material = int(request->_60.getMaterial());
+        const s32 sub_material = request->_60.getSubMaterialIdx();
+        auto* manager = xlink::Manager::instance();
+        if (manager->getSubMaterialIndex(material, sub_material) !=
+            manager->getHolyWallSubMaterialIndex())
+            return;
+        if (_103)
+            return;
+        sub_7100EC447C(_10, request, &handle, "HolyWallHit");
+        _103 = 5;
+        return;
+    }
+    case 1:
+        sub_7100EC4594(request);
+        return;
+    case 2:
+        if (request->_98 != 5)
+            sub_7100EC4594(request);
+        return;
+    case 3:
+        sub_7100EC4880(request);
+        return;
+    case 4:
+        sub_7100EC4C00(&handle, request);
+        return;
+    case 5: {
+        xlink2::HandleSLink obj_hit_handle;
+        if (request->_b8) {
+            if (auto* xlink = request->_b8->getXLink()) {
+                if (auto* user = xlink->_50) {
+                    user->searchAndEmit(sub_7100E367C0(5), &obj_hit_handle);
+                    if (obj_hit_handle.isActive())
+                        return;
+                }
+            }
+        }
+        sub_7100EC447C(_10, request, &obj_hit_handle, sub_7100E367C0(request->_90));
+        return;
+    }
+    case 6:
+        if (_114)
+            return;
+        sub_7100EC447C(_10, request, &handle, sub_7100E367C0(6));
+        _114 = 2;
+        return;
+    case 7:
+        if (request->_98 != 1)
+            return;
+        sub_7100EC447C(_10, request, &handle, sub_7100E367C0(7));
+        return;
+    case 8: {
+        xlink2::HandleSLink ground_handle;
+        if (request->mSource.mActor || request->mSource.mLink) {
+            sub_7100EC539C(request, &ground_handle, "ReactionEnemyHitGround");
+            if (ground_handle.isActive())
+                return;
+        }
+        sub_7100EC447C(_8, request, &ground_handle, "ReactionEnemyHitGround");
+        return;
+    }
+    case 9:
+        sub_7100EC513C(request);
+        return;
+    case 10: {
+        const char* name = sub_7100E367C0(10);
+        xlink2::HandleSLink ground_handle;
+        if (request->mSource.mActor || request->mSource.mLink) {
+            sub_7100EC539C(request, &ground_handle, name);
+            if (ground_handle.isActive())
+                return;
+        }
+        sub_7100EC447C(_10, request, &ground_handle, name);
+        return;
+    }
+    case 12:
+    case 13:
+    case 17:
+    case 22:
+    case 23: {
+        if (!_8)
+            return;
+        auto* xlink = _8->getXLink();
+        if (!xlink || !xlink->_50)
+            return;
+        sub_7100EC6708(request->_b8, request);
+        return;
+    }
+    case 15: {
+        if (_102)
+            return;
+        if (_18) {
+            if (auto* xlink = _18->getXLink()) {
+                if (auto* user = xlink->_50)
+                    user->setPropertyValue(0xe, request->_a0);
+            }
+        }
+        if (_8) {
+            if (auto* xlink = _8->getXLink()) {
+                if (xlink->_50)
+                    sub_7100EC6708(request->_b8, request);
+            }
+        }
+        if (mIsPlayerBarefoot)
+            sub_7100EC447C(_18, request, &handle, "PlayerFootStepNaked");
+        else
+            sub_7100EC447C(_18, request, &handle, sub_7100E367C0(request->_90));
+        return;
+    }
+    case 19: {
+        if (_102)
+            return;
+        if (_18) {
+            if (auto* xlink = _18->getXLink()) {
+                if (auto* user = xlink->_50)
+                    user->setPropertyValue(0xe, request->_a0);
+            }
+        }
+        if (mIsPlayerBarefoot) {
+            sead::FixedSafeString<64> name("PlayerLandNaked");
+            if (request->_54 > 100.0f)
+                name.append("_Large");
+            else if (request->_54 > 10.0f)
+                name.append("_Normal");
+            else
+                name.append("_Small");
+            if (request->_94 == 0x18)
+                name.append("First");
+            else
+                name.append("Following");
+            sub_7100EC447C(_18, request, &handle, name.cstr());
+            sub_7100EC5294(request->_b8, request);
+            return;
+        }
+        if (request->_94 == 0x18) {
+            if (request->_54 > 100.0f)
+                sub_7100EC447C(_18, request, &handle, "FirstLand_Large");
+            else if (request->_54 > 10.0f)
+                sub_7100EC447C(_18, request, &handle, "FirstLand_Normal");
+            else
+                sub_7100EC447C(_18, request, &handle, "FirstLand_Small");
+        }
+        sub_7100EC5294(request->_b8, request);
+        return;
+    }
+    case 20: {
+        if (_18) {
+            if (auto* xlink = _18->getXLink()) {
+                if (auto* user = xlink->_50)
+                    user->setPropertyValue(0xe, request->_a0);
+            }
+        }
+        if (mIsPlayerBarefoot)
+            sub_7100EC447C(_18, request, &handle, "PlayerLadderStepNaked");
+        else
+            sub_7100EC447C(_18, request, &handle, "PlayerLadderStep");
+        return;
+    }
+    case 24: {
+        sead::FixedSafeString<64> name("PlayerClimb");
+        switch (request->_c0) {
+        case 1:
+            name.append("Weak");
+            break;
+        case 2:
+            name.append("Strong");
+            break;
+        case 3:
+            name.append("Hard");
+            break;
+        }
+        switch (request->_94) {
+        case 0xe:
+            name.append("FootL");
+            break;
+        case 0xf:
+            name.append("FootR");
+            break;
+        case 0x1a:
+            name.append("HandL");
+            break;
+        case 0x1b:
+            name.append("HandR");
+            break;
+        }
+        sub_7100EC539C(request, &handle, name.cstr());
+        return;
+    }
+    case 27:
+    case 28:
+        sub_7100EC545C(&handle, request);
+        return;
+    }
 }
 
 }  // namespace ksys::act

@@ -43,6 +43,8 @@ public:
     void removeSleep(XLink* xlink);
     void queueTransform(XLink* xlink, const sead::Matrix34f& matrix, bool flag);
     void removeTransform(XLink* xlink);
+    // The sub-material index of the "HolyWall" sub-material, found by name in XLink::init (0x710123e100).
+    s32 getHolyWallSubMaterialIndex() const { return mHolyWallSubMaterialIndex; }
     // The climate index at +0x1c8 (1240944 selects the climate name from it; 0x71010289d0 compares the
     // bird chirp type with it).
     s32 getClimateMaybe() const { return _1c8; }
@@ -66,7 +68,8 @@ private:
     /* 0x01a8 */ s32 mNumSubMaterials;
     /* 0x01b0 */ sead::FixedSafeString<64>* mSubMaterialNames;
     /* 0x01b8 */ s32* mSubMaterialOffsets;
-    /* 0x01c0 */ u8 _1c0[8];
+    /* 0x01c0 */ s32 mHolyWallSubMaterialIndex = -1;
+    /* 0x01c4 */ s32 _1c4;
     // Whole constructor clears this index; 1240944 selects the climate name,
     // independently consumed by sound calculation 12BE808.
     s32 _1c8;
