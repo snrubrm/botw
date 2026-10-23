@@ -31,9 +31,19 @@ public:
                        const ksys::map::RailConnectablePoint* end, s32 direction,
                        s32* out_direction, bool allow_junction, bool* changed);
 
-    // 0x7100eed62c (592 B, declaration only; placeholder name). The second argument is passed on to
-    // 0x7100eedac4 (type unknown; callers pass null).
+    // 0x7100eed62c (placeholder name): attaches the rail point near `position` to the rail data;
+    // `a3` is forwarded to 0x7100eedac4 (callers pass null).
     bool sub_7100EED62C(const sead::Vector3f& position, void* a3, s32 direction);
+    // 0x7100eed87c (placeholder name): the start point near `position` and, when the point joins
+    // more than one route, its two neighbours.
+    ksys::map::RailConnectablePoint* sub_7100EED87C(s32* index,
+                                                    const sead::Vector3f& position,
+                                                    ksys::map::RailConnectablePoint** next,
+                                                    ksys::map::RailConnectablePoint** prev);
+    // 0x7100eedac4 (placeholder name): the direction to take from `point` towards `next` / `prev`.
+    s32 sub_7100EEDAC4(ksys::map::RailConnectablePoint* point,
+                       ksys::map::RailConnectablePoint* next,
+                       ksys::map::RailConnectablePoint* prev, void* a3);
     // 0x7100eedf78 (placeholder name): for direction 1 / -1, sub_7100EED62C with route points, else slot 6.
     bool sub_7100EEDF78(const sead::Vector3f& position, s32 direction);
     // 0x7100eeee88: a Traveler route string for the current point and direction ("" if the actor

@@ -460,6 +460,78 @@ bool Unk_71024f1658::m5() {
     return _30.rail != nullptr;
 }
 
+// NON_MATCHING: the route-point walk and all values match; the residual differences are the
+// direction/a3 parameter registers, the branchless if-conversion of the direction override
+// (the original keeps two branches) and the canonicalised dir == ±1 test / ccmp order.
+bool Unk_71024f1658::sub_7100EED62C(const sead::Vector3f& position, void* a3, s32 direction) {
+    auto* mgr = ksys::map::PlacementMgr::instance();
+    if (!mgr)
+        return false;
+    if (_71 < 2)
+        return false;
+
+    ksys::map::RailConnectablePoint* next;
+    ksys::map::RailConnectablePoint* prev;
+    s32 index = 0;
+    auto* point = sub_7100EED87C(&index, position, &next, &prev);
+    if (!point) {
+        m2();
+        return false;
+    }
+    point->getTranslate();
+
+    s32 dir;
+    if (!next) {
+        _70 = 0;
+        _72 = 1;
+        dir = _778[0];
+    } else if (!prev) {
+        _70 = _71 - 1;
+        _72 = -1;
+        dir = _797[_70 - 1];
+    } else if (!a3) {
+        dir = (sead::GlobalRandom::instance()->getU32() & 2) - 1;
+    } else {
+        dir = sub_7100EEDAC4(point, next, prev, a3);
+    }
+
+    const s32 idx = index;
+    const s32 next_index = idx + 1 < _71 ? idx + 1 : idx;
+    auto* end = ksys::map::PlacementMgr::instance()->__auto10(_78[next_index]);
+    s32 out_direction;
+    bool changed;
+    const bool ok = sub_7100EEC8A8(point, end, dir, &out_direction, true, &changed);
+    _72 = ok ? 1 : -1;
+    if (direction != 0) {
+        if (_72 != direction) {
+            dir = -dir;
+            _72 = direction;
+        }
+    }
+
+    _70 = idx;
+    auto* rail = point->getJunctionRail();
+    if (_72 < 0) {
+        if (dir == -1) {
+            if (point != rail->getPoint(0))
+                ++_70;
+        } else if (dir == 1) {
+            if (point != rail->getPoint(rail->getNumPoints() - 1))
+                ++_70;
+        } else {
+            ++_70;
+        }
+    }
+
+    _58 = dir == 1 || dir == -1 ? dir : 1;
+    if (!_30.sub_7100EEB3B4(point)) {
+        m2();
+        return false;
+    }
+    x(0.1f);
+    return _30.rail != nullptr;
+}
+
 bool Unk_71024f1658::sub_7100EEDDA4(const sead::Vector3f& position) {
     if (_71 > 1)
         return sub_7100EED62C(position, nullptr, 0);
