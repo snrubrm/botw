@@ -408,11 +408,9 @@ public:
         // One 0x1a0-byte entry of the ten 8-entry tables at +0x30: 0x7101083060 stores its
         // table / entry indices and 0x710108330c hands it the heap. The per-entry bodies stay U.
         struct TableEntry {
-            // One 0x18-byte cell box (the 21 boxes reset by sub_71010831F0).
-            struct Box {
-                sead::Vector3f min;
-                sead::Vector3f max;
-            };
+            // One cell box of the 21 the entry keeps: [0] overall, [1..2] the 500-unit tiles,
+            // [5..20] the 250-unit tiles (0x7101083d50).
+            using Box = sead::BoundBox3f;
             static_assert(sizeof(Box) == 0x18);
             // The state object at +0x190.
             struct State {
@@ -422,13 +420,16 @@ public:
                 u32 _4;
                 u64 _8;
                 Box mBoxes[21];
-                u16 _208;
-                u16 _20a;
+                // The two per-tile counters 0x7101083d50 increments.
+                sead::SafeArray<u16, 2> mCounts;
             };
             void init(s32 table, s32 index);
             void setup(sead::Heap* heap);
             // 0x71010831f0 (unnamed): stores the table / entry indices and resets the 21 boxes.
             void sub_71010831F0(u8 table, u8 index);
+            // 0x7101083d50 (unnamed): counts a tree at `pos` and expands the overall box and the
+            // matching 500 / 250-unit tile boxes.
+            void sub_7101083D50(u32 index, const sead::Vector3f* pos);
             u8 _0[0x190];
             State* _190;
             u8 _198[0x19c - 0x198];

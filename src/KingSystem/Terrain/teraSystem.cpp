@@ -1250,11 +1250,11 @@ void Core::Unk_140::TableEntry::sub_71010831F0(u8 table, u8 index) {
     state->_4 = 0;
     state->_8 = 0;
     for (s32 i = 0; i < 21; ++i) {
-        _190->mBoxes[i].min = sead::Vector3f(3.4028235e38f, 3.4028235e38f, 3.4028235e38f);
-        _190->mBoxes[i].max = sead::Vector3f(-3.4028235e38f, -3.4028235e38f, -3.4028235e38f);
+        _190->mBoxes[i].set(sead::Vector3f(3.4028235e38f, 3.4028235e38f, 3.4028235e38f),
+                            sead::Vector3f(-3.4028235e38f, -3.4028235e38f, -3.4028235e38f));
     }
-    _190->_208 = 0;
-    _190->_20a = 0;
+    _190->mCounts[0] = 0;
+    state->mCounts[1] = 0;
 }
 
 void Core::Unk_140::sub_7101083028() {
@@ -1291,6 +1291,32 @@ void Core::Unk_140::sub_7101083C98(u32 index, void* p, f32 value) {
         return;
     _14cd[0]->m37(index, p, value);
     _14cd[1]->m37(index, p, value);
+}
+
+// NON_MATCHING: the low tile bit is combined with an OR instead of a bit insert, the constant box
+// offsets (1 / 5) are added to the index rather than kept in the load immediate, and the float
+// temporaries use different registers.
+// 0x7101083d50 (unnamed): counts a tree at `pos` and expands the overall box and the 500 / 250-unit
+// tile boxes the position falls in.
+void Core::Unk_140::TableEntry::sub_7101083D50(u32 index, const sead::Vector3f* pos) {
+    _190->mCounts[index]++;
+    _190->mBoxes[0].addPoint(*pos);
+
+    const f32 x = pos->x;
+    const f32 z = pos->z;
+    const f32 local_x = x - f32(sead::Mathf::floor(x / 1000.0f)) * 1000.0f;
+    const f32 local_z = z - f32(sead::Mathf::floor(z / 1000.0f)) * 1000.0f;
+
+    const bool right = local_x >= 500.0f;
+    const bool far = local_z >= 500.0f;
+    const f32 offset_x = right ? 500.0f : 0.0f;
+    const f32 offset_z = far ? 500.0f : 0.0f;
+    const bool fine_x = local_x - offset_x >= 250.0f;
+    const bool fine_z = local_z - offset_z >= 250.0f;
+
+    const u32 tiles = u32(right) << 2 | u32(far) << 3;
+    _190->mBoxes[1 + (tiles >> 2)].addPoint(*pos);
+    _190->mBoxes[5 + (tiles | u32(fine_x) | u32(fine_z) << 1)].addPoint(*pos);
 }
 
 // 0x7101083c20 (unnamed): the first non-negative tree value of the two draw commands, or -1.
