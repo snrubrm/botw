@@ -517,4 +517,117 @@ void Reaction::Unk1::sub_7100EC513C(DamageReactionRequest* request) {
     sub_7100EC447C(_10, request, &handle, name.cstr());
 }
 
+// NON_MATCHING: the blocks and calls are the same, but the original keeps the target kind in a
+// stack slot (stur / ldur) while ours holds it in x22; that also costs one extra callee-saved
+// register and 0x10 more frame.
+// 0x7100ec4880 (placeholder name): the hit reaction. The target kind (5 when both the target and
+// the reaction kind are 3) selects the event name; the SpHit / chemical hit-additional events and
+// the BreakByReaction event follow for the kinds that request them.
+void Reaction::Unk1::sub_7100EC4880(DamageReactionRequest* request) {
+    s32 target_kind = request->_98;
+    if (target_kind == 3 && request->_94 == 3)
+        target_kind = 5;
+
+    switch (target_kind) {
+    case 1: {
+        xlink2::HandleSLink handle;
+        if (request->mSource.mActor || request->mSource.mLink) {
+            sub_7100EC539C(request, &handle, "PlayerHit");
+            if (handle.isActive())
+                break;
+        }
+        sub_7100EC447C(_10, request, &handle, "PlayerHit");
+        break;
+    }
+    case 3:
+    case 4:
+    case 9: {
+        {
+            xlink2::HandleSLink handle;
+            if (request->mSource.mActor || request->mSource.mLink) {
+                sub_7100EC539C(request, &handle, "ArrowHit");
+                if (!handle.isActive())
+                    sub_7100EC447C(_10, request, &handle, "ArrowHit");
+            } else {
+                sub_7100EC447C(_10, request, &handle, "ArrowHit");
+            }
+        }
+        if ((request->_a4 & ~1) != 2)
+            break;
+        {
+            xlink2::HandleSLink handle;
+            if (request->mSource.mActor || request->mSource.mLink) {
+                sub_7100EC539C(request, &handle, "HitAdditional_SpHit");
+                if (handle.isActive())
+                    break;
+            }
+            sub_7100EC447C(_10, request, &handle, "HitAdditional_SpHit");
+        }
+        break;
+    }
+    case 5:
+    case 6:
+    case 8: {
+        xlink2::HandleSLink handle;
+        {
+            const s32 material = int(request->_60.getMaterial());
+            const s32 sub_material = request->_60.getSubMaterialIdx();
+            auto* manager = xlink::Manager::instance();
+            if (manager->getSubMaterialIndex(material, sub_material) ==
+                manager->getHolyWallSubMaterialIndex()) {
+                if (_103)
+                    break;
+                sub_7100EC447C(_10, request, &handle, "HolyWallHit");
+                _103 = 5;
+                break;
+            }
+        }
+        if (request->_c4 & 1)
+            break;
+        if ((request->_94 & ~1) == 10)
+            break;
+
+        if (int(request->_60.getMaterial()) == 0x20) {
+            sub_7100EC539C(request, &handle, "ArrowBarrierHit");
+        } else if (sub_7100EE19C0(request->_78) && !sub_7100EE1B34(request->_78)) {
+            sub_7100EC539C(request, &handle, "ArrowGroundBounce");
+        } else {
+            sub_7100EC539C(request, &handle, "ArrowGroundHit");
+        }
+
+        if (request->_c4 & 1) {
+            if (auto* actor = request->_b8) {
+                if (auto* xlink = actor->getXLink()) {
+                    if (xlink->_cc.isOn(0x200000)) {
+                        if (auto* user = xlink->_50) {
+                            auto break_handle = user->searchAndEmit("BreakByReaction");
+                            eft::sub_710105E060(&break_handle, request->mtx);
+                        }
+                    }
+                }
+            }
+        }
+        break;
+    }
+    case 7: {
+        xlink2::HandleSLink handle;
+        if (request->mSource.mActor || request->mSource.mLink) {
+            sub_7100EC539C(request, &handle, "ArrowWaterHit");
+            if (handle.isActive())
+                break;
+        }
+        sub_7100EC447C(_10, request, &handle, "ArrowWaterHit");
+        break;
+    }
+    }
+
+    if (target_kind != 2 && target_kind != 7) {
+        xlink2::HandleSLink handle;
+        if (target_kind == 6)
+            sub_7100EC539C(request, &handle, "HitAdditional_ChemicalToGround");
+        else
+            sub_7100EC539C(request, &handle, "HitAdditional_ChemicalToActor");
+    }
+}
+
 }  // namespace ksys::act
