@@ -24,7 +24,7 @@ f32 LocationalLightMgr::sub_7100F143FC() const {
 // maximum of 0x80 for the locational light rig type.
 void LocationalLightMgr::sub_7100F0B5B8(void* obj, agl::env::EnvObjBuffer::AllocateArg* arg) {
     _58 = obj;
-    arg->setContainMax(*sTypeId, 0x80);
+    arg->setContainMax(s16(*sTypeId), 0x80);
 }
 
 void LocationalLightMgr::RigLightPool::init(s32 capacity, sead::Heap* heap) {

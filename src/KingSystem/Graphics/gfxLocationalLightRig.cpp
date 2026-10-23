@@ -7,14 +7,24 @@
 
 namespace ksys::gfx {
 
-s16* sTypeId;
+// 0x710260ad68: only written by the class registration below.
+KSYS_VISIBILITY_HIDDEN s32 sUnk_710260AD68;
+
+u16* sTypeId;
 
 s32 LocationalLightRig::getTypeID() const {
-    return *sTypeId;
+    return s16(*sTypeId);
 }
 
-LocationalLightRig* LocationalLightRig::create(sead::Heap* heap) {
+agl::env::EnvObj* LocationalLightRig::create(sead::Heap* heap) {
     return new (heap, 8) LocationalLightRig;
+}
+
+// 0x7100f18540: registers the rig type with the environment-object manager.
+void sub_7100F18540() {
+    sUnk_710260AD68 = 0;
+    sTypeId = agl::env::EnvObj::registClass("LocationalLightRig", "LocationalLightRig",
+                                            LocationalLightRig::create, 0, sizeof(LocationalLightRig));
 }
 
 // Parameter names, labels and meta strings are the originals at 0x7101e1c976 .. 0x7101e1ca8b.

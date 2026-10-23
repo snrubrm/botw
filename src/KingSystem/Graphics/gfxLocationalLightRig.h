@@ -22,7 +22,7 @@ class LocationalLightRig;
 
 // 0x710260ad70: the rig type id the factory registration 0x7100f18540 stores (first halfword of
 // the type info object).
-extern s16* sTypeId;
+extern u16* sTypeId;
 
 // F0CAF0 allocates 0x88-byte records and calls F18190. Model::pushBack uses
 // the inherited node at +8; F16F08 links the two owned nodes at +0x18/+0x28.
@@ -77,7 +77,7 @@ class LocationalLightRig : public gsys::ModelRig {
     SEAD_RTTI_OVERRIDE(LocationalLightRig, agl::env::EnvObj)
 public:
     // 0x7100f18508: the factory the rig registration 0x7100f18540 passes.
-    static LocationalLightRig* create(sead::Heap* heap);
+    static agl::env::EnvObj* create(sead::Heap* heap);
     LocationalLightRig();
     ~LocationalLightRig() override;
     s32 getTypeID() const override;
