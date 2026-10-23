@@ -2,6 +2,8 @@
 
 #include <gsys/gsysModelSceneConfig.h>
 #include <gsys/gsysModelSceneContext.h>
+#include <gsys/gsysEffectRadialBlurMgr.h>
+#include <gsys/gsysParticleScene.h>
 #include <common/aglRenderBuffer.h>
 #include <effect/aglFxCloud.h>
 #include <effect/aglFxDecalAoMgr.h>
@@ -72,6 +74,24 @@ void ModelSceneFx::releaseVolumeMaskTexture(int index) const {
     if (!mVolumeMask->_4e0)
         return;
     mVolumeMask->releaseMaskTexture(index);
+}
+
+// 0x7100c2edf4: the radial blur and the cloud run their CPU-side calculation.
+void ModelSceneFx::calc(ParticleScene* scene) {
+    if (mRadialBlur) {
+        if (_8->isFeatureEnabled(ModelSceneConfig::Feature::RadialBlur)) {
+            scene->mEffectRadialBlurMgr->setRadialBlur(scene, *mRadialBlur);
+            mRadialBlur->calc();
+        }
+    }
+    if (mCloud) {
+        if (_8->isFeatureEnabled(ModelSceneConfig::Feature::Cloud)) {
+            if (mCloud->_460) {
+                mCloud->_7724 = _2d8;
+                mCloud->calc();
+            }
+        }
+    }
 }
 
 // 0x7100c2f2b4: each decal pass runs when its feature and its own parameter are enabled.
