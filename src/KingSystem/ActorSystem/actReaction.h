@@ -241,6 +241,10 @@ public:
                             f32* volume, f32* pitch);
         void sub_7100EC7D50(f32 a, f32 b, f32 c, f32 d, xlink2::HandleSLink* handle, f32* volume,
                             f32* pitch);
+        // 0x7100ec88f8 (placeholder name): sets the volume scale of `handle` from the incoming
+        // value: the value is shifted by -0.2 and scaled by 1/8 (flag) or 1/4, clamped to [0, 1],
+        // squared and floored at 0.2 / 0.4.
+        void sub_7100EC88F8(f32 value, xlink2::HandleSLink* handle, bool flag);
         // 0x7100ec72a0 (declared only): emits the reaction sound described by `setting` for
         // `handle` at `position` (slide/land reaction handlers 0x7100ebcd48 / 0x7100ebdcb0).
         void sub_7100EC72A0(xlink2::HandleSLink* handle, const sead::Vector3f& position,
