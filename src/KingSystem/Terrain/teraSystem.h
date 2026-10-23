@@ -1663,7 +1663,7 @@ public:
     void sub_710111718C(s32 index);
     // 0x7101118710 (declaration only; placeholder name): marks the collector image flags that
     // correspond to `types`.
-    void sub_7101118710(const s32* types, s32 count);
+    void sub_7101118710(const s32* types, u32 count);
     // 0x7101116d44 (placeholder name): flips the patch-buffer parity, points every scene's block at
     // the new buffer and swaps the buffers of the registered map patchers.
     void sub_7101116D44();

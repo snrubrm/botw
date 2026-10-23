@@ -1962,6 +1962,27 @@ void System::sub_7101116D44() {
     mPatcherCS.unlock();
 }
 
+// 0x7101118710 (placeholder name): marks the collector image flag that corresponds to each type
+// in `types`.
+void System::sub_7101118710(const s32* types, u32 count) {
+    for (s32 i = 0; i < count; ++i) {
+        const s32 type = types[i];
+        if (type == s32(sUnk_7101EC54AC.raw)) {
+            for (s32 j = 0; j < mScenes.size(); ++j)
+                mScenes[j].collector->_2998 |= 0x1100;
+        } else if (type == s32(sUnk_7101EC54B4.raw)) {
+            for (s32 j = 0; j < mScenes.size(); ++j)
+                mScenes[j].collector->_2998 |= 0x2200;
+        } else if (type == s32(sUnk_7101EC54B8.raw)) {
+            for (s32 j = 0; j < mScenes.size(); ++j)
+                mScenes[j].collector->_2998 |= 0x4400;
+        } else if (type == s32(sUnk_7101EC54BC.raw)) {
+            for (s32 j = 0; j < mScenes.size(); ++j)
+                mScenes[j].collector->_2998 |= 0x8800;
+        }
+    }
+}
+
 // 0x71011190c8 (placeholder name): registers an image user in the system's +0x68 list. The
 // element type is not recoverable from the callers (mapPlacementMap stores the routes as void*).
 void sub_71011190C8(void* tera_system, void* route) {
