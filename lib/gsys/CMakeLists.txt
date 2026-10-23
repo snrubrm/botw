@@ -128,6 +128,8 @@ add_library(gsys OBJECT
   src/gsys/gsysSystemTask.cpp
   src/gsys/gsysModelAssignRenderInfo.cpp
   src/gsys/gsysModelSceneBuffer.cpp
+  include/gsys/gsysGPUStressAnalyzer.h
+  src/gsys/gsysGPUStressAnalyzer.cpp
   src/gsys/gsysDelegateInstantiations.cpp
 )
 

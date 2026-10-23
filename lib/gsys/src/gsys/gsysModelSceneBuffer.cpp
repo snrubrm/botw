@@ -1,10 +1,15 @@
 #include "gsys/gsysModelSceneBuffer.h"
 #include "gsys/gsysModelSceneConfig.h"
 #include "gsys/gsysModelSceneContext.h"
+#include "gsys/gsysGPUStressAnalyzer.h"
 #include "gsys/gsysGBuffer.h"
 #include "gsys/gsysRenderBufferContext.h"
 
 namespace gsys {
+
+// The per-frame step the GPU stress adjustors apply (0x7101da2618 in the original). Kept in
+// this TU so the adjustors' loads are not folded into an immediate.
+__attribute__((visibility("hidden"))) const f32 sUnk_7101da2618 = -0.01f;
 
 ModelSceneBuffer::CreateArg::CreateArg() : _0(1) {}
 
