@@ -187,6 +187,9 @@ public:
         // 0x7100ec6e30 (placeholder name): emits the "ObjHit" event and then the object-hit reaction
         // event (named from the reaction kind and the material) for `request`.
         void sub_7100EC6E30(::DamageReactionRequest* request);
+        // 0x7100ec6708 (placeholder name): emits the WaterTrack event for the actor at the request
+        // position; the event name depends on the water material or the grudge property.
+        void sub_7100EC6708(Actor* actor, ::DamageReactionRequest* request);
         // 0x7100ec6070: emits the GrassTrack effect and the xlink properties for `request`.
         void sub_7100EC6070(f32 value, ::DamageReactionRequest* request, bool flag);
         // 0x7100ec61f8: fills the receiver from `request` (position, link, xlink properties).

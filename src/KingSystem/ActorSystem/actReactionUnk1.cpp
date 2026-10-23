@@ -1,12 +1,23 @@
 #include "KingSystem/ActorSystem/actReaction.h"
 #include <prim/seadSafeString.h>
+#include <xlink2/xlink2Locator.h>
+#include <xlink2/xlink2UserInstanceSLink.h>
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actReactionSLinkLimiter.h"
+#include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/System/StageInfo.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/XLink/xlinkManager.h"
 #include "KingSystem/XLink/xlinkXLink.h"
+
+namespace ksys::eft {
+xlink2::UserInstanceSLink* sub_710105DE68(const char* name, act::Actor* actor, act::Actor* other,
+                                          xlink2::Locator* locator);
+}
 
 namespace ksys::act {
 
@@ -75,6 +86,85 @@ void Reaction::Unk1::sub_7100EC6E30(DamageReactionRequest* request) {
         sub_7100EC447C(_10, request, &handle, name.cstr());
         _104 |= 1;
     }
+}
+
+// NON_MATCHING: same body and instruction order; clang if-converts the water/depth test as branches
+// instead of cset+orr, folds the 9/8 list-type select to cinc, and keeps the WaterTrack literal in
+// x24 for the fallback comparison (the target derives the fallback from the control flow).
+void Reaction::Unk1::sub_7100EC6708(Actor* actor, DamageReactionRequest* request) {
+    if (!actor)
+        return;
+
+    bool grudge = false;
+    if (auto* xlink = actor->getXLink()) {
+        if (auto* user = xlink->_50)
+            grudge = user->getPropertyValue(0).valueInt == int(phys::Material::GrudgeSlow);
+    }
+
+    const bool is_player = isPlayerProfile(actor);
+
+    f32 chemical_value = 0.0f;
+    if (is_player) {
+        if (auto* chemical = actor->sub_71011D8A44(0)) {
+            if (!(chemical->_c & 0x1000000))
+                chemical_value = chemical->_190;
+        }
+    }
+
+    f32 property_value = 0.0f;
+    if (auto* xlink = actor->getXLink()) {
+        if (auto* user = xlink->_50) {
+            const auto* values = user->getPropertyValues();
+            if (values)
+                property_value = values[7].valueFloat;
+        }
+    }
+
+    if (property_value > chemical_value)
+        chemical_value = property_value;
+
+    if (!(grudge || actor->get68f() || 0.4f <= chemical_value))
+        return;
+
+    xlink2::Locator locator;
+    const char* name = "WaterTrack";
+    if (grudge) {
+        name = "WaterTrackGrudge";
+    } else if (actor->get68f()) {
+        const int material = actor->get6fc();
+        if (material == int(phys::Material::GrudgeSlow))
+            name = "WaterTrackGrudge";
+        else if (material == int(phys::Material::Bog))
+            name = "WaterTrackBog";
+        else if (material == int(phys::Material::Lava))
+            name = "WaterTrackLava";
+    }
+
+    auto* user = eft::sub_710105DE68(name, actor, _8, &locator);
+    if (!user && name != "WaterTrack")
+        user = eft::sub_710105DE68("WaterTrack", actor, _8, &locator);
+    if (!user)
+        return;
+
+    sead::Vector3f position;
+    request->mtx.getTranslation(position);
+
+    const s32 list_type = is_player ? 9 : 8;
+
+    if (mSLinkLimiter) {
+        if (!mSLinkLimiter->sub_7100EC9D84(list_type, position, false))
+            return;
+    }
+
+    xlink2::HandleSLink handle;
+    user->emit(locator, &handle);
+    if (!handle.isActive())
+        return;
+
+    handle.setPosition(position);
+    eft::sub_710105E114(&handle, actor);
+    if (mSLinkLimiter)
+        mSLinkLimiter->sub_7100ECA2A0(list_type, position, handle);
 }
 
 }  // namespace ksys::act
