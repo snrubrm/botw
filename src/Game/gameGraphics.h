@@ -185,6 +185,8 @@ public:
     virtual ~Unk_710129175c();
 
     void sub_71012920C4(s32 index);
+    // 0x71012920ec (declaration only; placeholder name): refreshes record `view` of the blocks.
+    void sub_71012920EC(s32 view);
     // 0x710129276c (declaration only; placeholder name): copies record `index` (the first if out of range)
     // into `result`.
     void sub_710129276C(s32 index, Result* result);
@@ -595,6 +597,8 @@ public:
         // `index` of the 0x1530-byte blocks with the two vectors and the frame delta.
         void sub_7101289934(s32 index, const sead::Vector3f* a, const sead::Vector3f* b, f32 value,
                             f32 delta);
+        // 0x71012890fc (declaration only; placeholder name): refreshes record `view` of the blocks.
+        void sub_71012890FC(s32 view);
 
         u8 _0[0x18];
         /* 0x18 */ Unk_378_18* _18;
@@ -999,6 +1003,8 @@ public:
     virtual void m14(void* obj);
     // 0x7100f2e0d4 (slot m15): clears the occlusion query drawer when one is attached.
     virtual void m15();
+    // 0x7100f34e8c (slot m23): refreshes the view's records in the grid and model renderer blocks.
+    virtual void m23(gsys::ModelSceneContext* context);
 
     // The map state byte compared with 4 (sub_7100F2FAAC) and 7 (PlacementMgr::requestDraw).
     u8 getMapStateMaybe() const { return _f5a; }

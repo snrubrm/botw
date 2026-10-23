@@ -101,6 +101,13 @@ void Graphics::m15() {
         _3b0->clear();
 }
 
+void Graphics::m23(gsys::ModelSceneContext* context) {
+    if (_378)
+        _378->sub_71012890FC(context->_8);
+    if (_b38)
+        _b38->sub_71012920EC(context->_8);
+}
+
 void Graphics::sub_7100F35F50(agl::lyr::Layer* layer, bool value) {
     if (layer)
         layer->sub_7100B60DC4(value);
