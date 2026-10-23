@@ -196,12 +196,14 @@ public:
     struct UnitEntry {
         u8 _0[0x20];
         /* 0x20 */ sead::Color4f mColor;
-        u8 _30[0x54 - 0x30];
+        /* 0x30 */ sead::Vector3f _30;
+        /* 0x3c */ sead::Vector3f _3c;
+        /* 0x48 */ sead::Vector3f _48;
         /* 0x54 */ sead::Vector2f _54;
         u8 _5c[0x5e - 0x5c];
         /* 0x5e */ u8 mType;
         /* 0x5f */ u8 mFlags;
-        u8 _60;
+        /* 0x60 */ u8 _60;
         /* 0x61 */ u8 mColorSetMaybe;
         u8 _62[0x68 - 0x62];
     };
@@ -214,6 +216,10 @@ public:
     // 0x7100f1a30c (placeholder name): stores the two-float value at +0x54 of map unit `id` when
     // its type is 3, then sets bit 3 of its flags.
     void setMapUnitValueMaybe(s32 id, const sead::Vector2f& value);
+    // 0x7100f1a1b4 (placeholder name): stores the three vectors at +0x30 / +0x48 / +0x3c of map unit
+    // `id` when they (or the compared flag bit) differ, then sets bit 2 of its flags.
+    void setMapUnitTransformMaybe(s32 id, const sead::Vector3f& value30, const sead::Vector3f& value48,
+                                  const sead::Vector3f& value3c);
     // 0x7100f19928: destroys the model render data the renderer built.
     void sub_7100F19928(void* data);
     // 0x7100f1ab60: stores the two screen coordinates the map screen computes (each truncated to 16 bits).

@@ -259,6 +259,35 @@ void Unk_7100f185a4::setMapUnitValueMaybe(s32 id, const sead::Vector2f& value) {
     }
 }
 
+// 0x7100f1a1b4: stores the three vectors of map unit `id` when they or the compared flag bit differ.
+void Unk_7100f185a4::setMapUnitTransformMaybe(s32 id, const sead::Vector3f& value30,
+                                              const sead::Vector3f& value48,
+                                              const sead::Vector3f& value3c) {
+    if (id == -1)
+        return;
+
+    sead::Buffer<UnitEntry>* group = mUnitGroups[id >> 16];
+    if (!group)
+        return;
+    const s32 index = s16(id);
+    const s32 count = group->getSize();
+    UnitEntry* entry = group->getBufferPtr();
+    if (u32(count) > u32(index))
+        entry += index;
+    if (!entry)
+        return;
+
+    if (entry->mColorSetMaybe) {
+        if (entry->_30 == value30 && entry->_3c == value3c && entry->_48 == value48 &&
+            ((entry->_60 >> 4) & 1) == ((entry->mFlags & 0x10) >> 4))
+            return;
+    }
+    entry->_30 = value30;
+    entry->_3c = value3c;
+    entry->_48 = value48;
+    entry->mFlags |= 4;
+}
+
 // 0x7100f1ab60: stores the two screen coordinates the map screen computes (each truncated to 16 bits).
 void Unk_7100f185a4::setPosXY(s32 x, s32 y) {
     _50 = static_cast<u16>(x);
