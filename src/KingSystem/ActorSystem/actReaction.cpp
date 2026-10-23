@@ -994,6 +994,19 @@ void Reaction::Unk1::sub_7100EC8C04(f32 a, Actor* actor, const sead::Vector3f& p
     sub_7100EC89D8(a, actor, position, ReactionSize(value), mask, "WaterFlowSplash", 5);
 }
 
+Reaction::Unk1::Unk1() = default;
+
+void Reaction::Unk1::setActor() {
+    Actor* actor = _8;
+    if (auto* reaction = Reaction::instance()) {
+        _8 = reaction->_28;
+        _10 = reaction->_30;
+        _18 = reaction->_48;
+        actor = _8;
+    }
+    mReactions.setActor(actor);
+}
+
 Reaction::Unk1::~Unk1() {
     if (mSLinkLimiter) {
         delete mSLinkLimiter;

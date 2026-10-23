@@ -188,7 +188,11 @@ public:
     // Placeholder: the object at _a8 (class unknown). 0x7100ec66fc sets its _110 to 2; the actor
     // argument is unused. Called by OctarockOptionRoot::calc_ when the player touches the rock.
     struct Unk1 {
+        Unk1();
         virtual ~Unk1();
+        // 0x7100ec3088: copies the current actors from the Reaction instance and hands them to
+        // the reaction queue.
+        void setActor();
         // 0x7100ec30c4 (placeholder name): resets the per-core reaction queues and counters.
         void sub_7100EC30C4();
         // 0x7100ec313c (placeholder name): forwards the request to the reaction handlers.
@@ -289,31 +293,31 @@ public:
         void sub_7100EC7FBC(sead::FixedSafeString<64>* name, ReactionKind kind, ReactionSizeClass size,
                             const sead::SafeString& material);
 
-        /* 0x08 */ Actor* _8;
-        /* 0x10 */ Actor* _10;
-        u8 _18[8];
+        /* 0x08 */ Actor* _8 = nullptr;
+        /* 0x10 */ Actor* _10 = nullptr;
+        /* 0x18 */ Actor* _18 = nullptr;
         /* 0x20 */ xlink2::HandleSLink mGrassCutHandle;
         // The per-core reaction queue.
         /* 0x30 */ ActorReactionQueue mReactions;
-        /* 0xe8 */ Unk_71024f02a8* mSLinkLimiter;
+        /* 0xe8 */ Unk_71024f02a8* mSLinkLimiter = nullptr;
         // The BushTrack request producer stores its position, speed and emitted state here.
-        /* 0xf0 */ sead::Vector3f mBushTrackPosition;
-        /* 0xfc */ f32 mBushTrackSpeed;
-        /* 0x100 */ bool mHasBushTrack;
+        /* 0xf0 */ sead::Vector3f mBushTrackPosition = sead::Vector3f::zero;
+        /* 0xfc */ f32 mBushTrackSpeed = 0;
+        /* 0x100 */ bool mHasBushTrack = false;
         // Player::m377 writes whether lower armor is Armor_Default_Lower; footstep assets use it.
-        /* 0x101 */ bool mIsPlayerBarefoot;
-        u8 _102[2];
+        /* 0x101 */ bool mIsPlayerBarefoot = false;
+        u8 _102[2]{};
         // Per-reaction-kind emitted flags: bit 0 for the Hit kind, bit 1 for the others.
-        /* 0x104 */ u8 _104;
+        /* 0x104 */ u8 _104 = 0;
         u8 _105[3];
         // Sound-reaction counter pair: 0x7100ebdcb0 skips the slide reaction while the sum exceeds
         // 2 and increments _10c after emitting.
         /* 0x108 */ s32 _108 = 0;
         /* 0x10c */ s32 _10c = 0;
-        /* 0x110 */ s32 _110;
-        u8 _114[4];
-        /* 0x118 */ s32 _118;
-        u8 _11c[4];
+        /* 0x110 */ s32 _110 = 0;
+        u8 _114[4]{};
+        /* 0x118 */ s32 _118 = 0;
+        u8 _11c[4]{};
     };
 
     // 0x7100ec1c24 (placeholder name): sets the material, sub material and wetness properties of
@@ -350,7 +354,8 @@ public:
     Actor* _28;
     Actor* _30;
     Actor* _38;
-    u8 _40[0x50 - 0x40];
+    u8 _40[8];
+    /* 0x48 */ Actor* _48 = nullptr;
     /* 0x50 */ BaseProcHandle mHandles[5];
     /* 0xa0 */ Unk_7101286868* _a0;
     /* 0xa8 */ Unk1* _a8;
