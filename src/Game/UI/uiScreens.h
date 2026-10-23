@@ -2249,6 +2249,7 @@ public:
     ~ScreenShopHorse() override;
     SEAD_RTTI_OVERRIDE(ScreenShopHorse, ScreenEx)
     void m99() override;
+    void m100() override;
     /* 0x3610 */ u32 _3610 = 0;
     /* 0x3614 */ u32 _3614 = 0;
     u64 _3618[0xa0 / 8] = {};

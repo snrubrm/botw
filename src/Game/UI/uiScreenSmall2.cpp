@@ -2221,6 +2221,17 @@ void ScreenShopHorse::m99() {
     _36bc = 0;
 }
 
+// 0x7100a502ec
+void ScreenShopHorse::m100() {
+    _36b8 = 5;
+    mActiveCursorNode = nullptr;
+    if (auto* screen = sead::DynamicCast<ScreenShopBG>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::ShopBG)))
+        screen->close(-1);
+    if (_3748)
+        invokeSoundLink2Event_("mc_Close");
+}
+
 // 0x7100a5061c
 void ScreenShopHorse::m106(eui::AnimButton* button) {
     ksys::gdt::setFlag_Horse_SelectedIndex(button->mTag - 83, false);
