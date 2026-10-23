@@ -1489,19 +1489,64 @@ void CharacterController::sub_7100F6321C(bool on) {
 
 // Placeholder: the record whose fields 0xb4 / 0xd3 / 0xd8 / 0xdc / 0x758 the helpers below use.
 struct Unk_7100F6B7F4Maybe {
-    u8 _0[0xb4];
+    u8 _0[0xb2];
+    u8 _b2;
+    u8 _b3;
     f32 _b4;
-    u8 _b8[0xd3 - 0xb8];
+    u8 _b8[0xd2 - 0xb8];
+    u8 _d2;
     u8 _d3;
-    u8 _d4[4];
+    u8 _d4;
+    // Set by sub_7100F6B804: whether the +0xb4 value is below 3.40282e38f (a finiteness test).
+    u8 _d5;
+    u8 _d6[2];
     f32 _d8;
-    u32 _dc;
+    f32 _dc;
     u8 _e0[0x758 - 0xe0];
     s32 _758;
 };
 
 void sub_7100F6B7F4(Unk_7100F6B7F4Maybe* obj, f32 value) {
     obj->_d8 = value;
+}
+
+void sub_7100F6B804(Unk_7100F6B7F4Maybe* obj, f32 value) {
+    obj->_b4 = value;
+    obj->_d5 = value < 3.40282e38f;
+}
+
+// NON_MATCHING: the two int stores of each arm pick the opposite register pair (same values).
+void sub_7100F6B858(const Unk_7100F6B7F4Maybe* obj, u8 flag, s32* out) {
+    if (flag != 0 || obj->_d8 != 3.40282e38f) {
+        out[0] = 0x20;
+        out[1] = 4;
+    } else {
+        out[0] = 0;
+        out[1] = 0;
+    }
+}
+
+// NON_MATCHING: the second test is folded into cset where the original has a branch.
+bool sub_7100F6B894(const Unk_7100F6B7F4Maybe* obj) {
+    return obj->_d2 || obj->_b2;
+}
+
+void sub_7100F6B8BC(Unk_7100F6B7F4Maybe* obj, s32 value) {
+    switch (value) {
+    case 0:
+        obj->_b2 = 1;
+        obj->_d2 = 0;
+        break;
+    case 1:
+        obj->_b2 = 0;
+        obj->_d2 = 1;
+        break;
+    }
+}
+
+void* sub_7100F6B8F8(Unk_7100F6B7F4Maybe* obj, f32 value) {
+    obj->_dc = value < 0.0f ? 0.0f : (value > 1.0f ? 1.0f : value);
+    return nullptr;
 }
 
 f32 sub_7100F6B7FC(const Unk_7100F6B7F4Maybe* obj) {
@@ -1521,7 +1566,7 @@ u32 sub_7100F6B838(const Unk_7100F6B7F4Maybe* obj) {
 }
 
 void* sub_7100F6B8E8(const Unk_7100F6B7F4Maybe* obj, u32* out) {
-    *out = obj->_dc;
+    *out = sead::BitUtil::bitCast<u32>(obj->_dc);
     return nullptr;
 }
 
