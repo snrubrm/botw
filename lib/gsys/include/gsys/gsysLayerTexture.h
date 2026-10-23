@@ -19,6 +19,9 @@ namespace gsys {
 // +0x208 and a TextureData at +0x3d0 (its NVNtexture_ at +0x428). Layer embeds one at +0x3f0 and
 // constructs the next component (RenderBuffer at +0x8e8), so the size is 0x4f8.
 class LayerTexture : public sead::IDisposer {
+    // CopyLayerTexture::initialize 0x7100bf5e28 allocates the texture and its GPU block.
+    friend class CopyLayerTexture;
+
 public:
     LayerTexture();
     ~LayerTexture() override;

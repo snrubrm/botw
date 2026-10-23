@@ -52,15 +52,15 @@ public:
               const sead::Viewport& viewport);
 
 private:
-    /* 0x500 */ Layer* mLayer;
+    /* 0x500 */ Layer* mLayer = nullptr;
 
 public:
     // 0x508: stored as 0xff by the constructor and set to 1 by Graphics::sub_7100F35DE8
     // 0x7100f35de8 through the Graphics + 0xad8 pointer. Meaning unrecovered.
-    u8 _508;
+    u8 _508 = 0xff;
 
 private:
-    /* 0x509 */ u8 _509;
+    /* 0x509 */ u8 _509 = 0;
     u8 _50a[0x510 - 0x50a];
     /* 0x510 */ agl::GPUMemAddrBase _510;
     /* 0x528 */ agl::TextureSampler mSampler;

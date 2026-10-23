@@ -1,4 +1,5 @@
 #include <gsys/gsysLayerTexture.h>
+#include <gsys/gsysCopyLayerTexture.h>
 #include <common/aglDrawContext.h>
 #include <common/aglRenderBuffer.h>
 #include <common/aglRenderTarget.h>
@@ -9,6 +10,19 @@
 #include <utility/aglPrimitiveTexture.h>
 
 namespace gsys {
+
+// 0x7100bf5c6c
+CopyLayerTexture::CopyLayerTexture() {}
+
+// 0x7100bf580c
+LayerTexture::LayerTexture() : mDynamicTexture(nullptr) {
+    mRenderBuffer.setRenderTargetColor(&mRenderTargetColor, 0);
+}
+
+// 0x7100bf5868
+LayerTexture::~LayerTexture() {
+    freeDynamic_();
+}
 
 // 0x7100bf591c: return the dynamic texture to the allocator and restore the default texture data.
 void LayerTexture::freeDynamic_() {
