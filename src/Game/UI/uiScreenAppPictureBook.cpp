@@ -2938,6 +2938,17 @@ void ScreenAppPictureBookUnk::sub_710093E048(s32* col, s32* row, s32 entry_index
 
 // 0x71009f6220
 // NON_MATCHING: loop registers, string scheduling and TU-static address calculations differ.
+// 0x71009f4bb8: unloads and deletes the unit's fifteen resource handles.
+void Unk_7102482790::m5() {
+    for (auto*& handle : _478) {
+        if (!handle)
+            continue;
+        handle->requestUnload();
+        delete handle;
+        handle = nullptr;
+    }
+}
+
 void Unk_7102482790::sub_71009F6220(const char* actor) {
     auto* info = ksys::act::InfoData::instance();
     if (!info)

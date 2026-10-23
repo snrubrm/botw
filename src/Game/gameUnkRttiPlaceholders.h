@@ -14,6 +14,7 @@
 #include <container/seadRingBuffer.h>
 #include <container/seadTList.h>
 #include "KingSystem/Terrain/teraResourceNode.h"
+#include "KingSystem/Resource/resHandle.h"
 
 #include <prim/seadRuntimeTypeInfo.h>
 #include <devenv/seadDebugMenuSkin.h>
@@ -161,6 +162,7 @@ class Unk_7102482790 : public uking::ui::Unk_7102474e38 {
     SEAD_RTTI_OVERRIDE(Unk_7102482790, uking::ui::Unk_7102474e38)
 public:
     ~Unk_7102482790() override;
+    void m5() override;
     // 9F57C4 (m13) calls this on the same picture-book unit receiver.
     void sub_71009F6220(const char* actor);
 
@@ -168,7 +170,7 @@ public:
     // zeroed by the constructor with two memsets (inlined in ScreenAppPictureBookEntry::createUnits, 0x71009fb6fc;
     // 0x4f0 bytes)
     /* 0x330 */ u8 _330[0x147]{};
-    /* 0x478 */ u64 _478[15]{};
+    /* 0x478 */ ksys::res::Handle* _478[15]{};
 };
 
 // vtable 0x71024855a8 (23 slots); placeholder generated from the vtable (genskel.py).
