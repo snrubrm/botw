@@ -725,6 +725,37 @@ void ScreenAppMap::sub_71009EF5D0() {
     }
 }
 
+// 0x71009f038c
+void ScreenAppMap::sub_71009F038C() {
+    if (!_3610)
+        return;
+    UiSubsys1::instance()->copy38c8To38c9();
+    if (!UiSubsys1::instance()->get38c8()) {
+        _3c00->PlayAuto(-1.0f);
+        _3c08->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+        return;
+    }
+    if (sub_71009ED860())
+        _3c00->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+    auto* child = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0));
+    if (child && child->isHoveredIconChangedMaybe()) {
+        auto* hovered = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0));
+        sub_71009EBA68(hovered ? hovered->getHoveredIconData() : nullptr);
+    } else if (auto* lost = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0))) {
+        if (lost->isPrevHoveredIconLostMaybe()) {
+            auto* hovered = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0));
+            if (hovered)
+                hovered->getHoveredIconData();
+            UiSubsys1::instance()->set3888(3);
+            _3c08->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+            UiSubsys1::instance()->sub_7100966E2C();
+            UiSubsys1::instance()->set38e4(2);
+        }
+    }
+    sub_71009F0804();
+    UiSubsys1::instance()->sub_7100966E38();
+}
+
 // 0x71009f0668
 void ScreenAppMap::sub_71009F0668() {
     if (_3bf8) {

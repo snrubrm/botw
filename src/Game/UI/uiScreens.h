@@ -2862,6 +2862,8 @@ public:
     void sub_71009EEF98();
     // 0x71009ef5d0 (placeholder name): creates the map hint layout's four animators
     void sub_71009EF5D0();
+    // 0x71009f038c (placeholder name): the map's per-frame cursor / hovered marker update
+    void sub_71009F038C();
     // 0x71009f0668 (placeholder name): creates the map cursor layout's six animators
     void sub_71009F0668();
     // 0x71009f0804 (placeholder name): plays the cursor animators for the hovered marker or the camera preview

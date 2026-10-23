@@ -1435,10 +1435,12 @@ public:
     bool isLessOrEqual3880(f32 value) const;
     bool is3888Equal(s32 value) const;
     bool get3884() const;
-    u8 get38c8() const;
+    bool get38c8() const;
     bool get38d8() const;
     bool get38d9() const;
     void copy38c8To38c9();
+    // 0x7100966e38 (CSV nullsub_6135; empty in the release build): called at the end of the map's per-frame update
+    void sub_7100966E38();
     void copy38d8To38d9();
     void update388c();
     bool sub_7100966E64() const;
@@ -1652,7 +1654,7 @@ private:
     /* 0x38b8 */ bool _38b8;
     /* 0x38b9 */ u8 _38b9;
     u8 _38ba[0x38c8 - 0x38ba];
-    /* 0x38c8 */ u8 _38c8;
+    /* 0x38c8 */ bool _38c8;
     /* 0x38c9 */ u8 _38c9;
     u8 _38ca[0x38d8 - 0x38ca];
     /* 0x38d8 */ bool _38d8;
