@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <prim/seadEnum.h>
 #include "Game/gameUnkRttiClasses.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 #include <math/seadVector.h>
@@ -76,6 +77,14 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(ActorUnk6b8, 0xa8);
 
+// The reaction size class of a sound setting: "Auto" and "None" followed by the size / sound
+// material pairs (the text of 0x7100ebf054's 37-entry table at 0x71024...).
+SEAD_ENUM(ReactionSize, Auto, None, TinyBody, TinyMetal, TinyStone, TinyWater, TinyWood, SmallBody,
+          SmallMetal, SmallStone, SmallWater, SmallWood, HalfBody, HalfMetal, HalfStone, HalfWater,
+          HalfWood, NormalBody, NormalMetal, NormalStone, NormalWater, NormalWood, DoubleBody,
+          DoubleMetal, DoubleStone, DoubleWater, DoubleWood, GiantBody, GiantMetal, GiantStone,
+          GiantWater, GiantWood, HugeBody, HugeMetal, HugeStone, HugeWater, HugeWood)
+
 // The reaction sound setting built on the stack by the slide/land reaction handlers
 // (0x7100ebcd48 / 0x7100ebdcb0) and passed to Reaction::Unk1's sound emitters. Size 0x68; the
 // material masks and the handle pointer are read by 0x7100ec72a0, the two words at +0 and +4
@@ -84,7 +93,7 @@ struct ReactionSetting {
     ReactionSetting() = default;
 
     /* 0x00 */ s32 kind = 0;
-    /* 0x04 */ s32 size = 0;
+    /* 0x04 */ ReactionSize size = ReactionSize::Auto;
     /* 0x08 */ f32 speed = 1.0f;
     /* 0x0c */ f32 volume = 1.0f;
     /* 0x10 */ f32 pitch = 1.0f;

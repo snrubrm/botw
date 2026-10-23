@@ -252,6 +252,10 @@ public:
         // 0x7100ec7468 (declared only): builds the reaction event name from the setting's kind and
         // size class; false when the name is empty.
         bool sub_7100EC7468(sead::FixedSafeString<64>& name, const ReactionSetting& setting);
+        // 0x7100ec7fbc (declared only): builds the "CmnObj_" reaction event name of a size class
+        // and a material name for the auto-sized reaction settings.
+        void sub_7100EC7FBC(sead::FixedSafeString<64>& name, s32 kind, s32 size,
+                            const sead::SafeString& material);
 
         u8 _0[8];
         /* 0x08 */ Actor* _8;

@@ -1039,7 +1039,7 @@ void Reaction::Unk1::sub_7100EC72A0(xlink2::HandleSLink* handle, const sead::Vec
         return;
     if (!_8)
         return;
-    if (setting.size == 1)
+    if (setting.size == ReactionSize::None)
         return;
     if (setting.kind != 0 && handle->isActive())
         return;
@@ -1069,6 +1069,82 @@ void Reaction::Unk1::sub_7100EC72A0(xlink2::HandleSLink* handle, const sead::Vec
         sub_7100EC7B90(setting.speed, setting._14, setting._18, setting._1c, setting._24,
                        setting.volume, setting.pitch, handle, setting.other, &volume, &pitch);
     }
+}
+
+namespace {
+// 0x71024eff68: the sound material name of each phys::Material value (unused values are empty).
+const char* const sReactionMaterialNames[] = {
+    "Body",  "Body",  "Stone", "Body",  "Metal", "Metal", "Body",  "Wood",  "Water", "Body",
+    "Stone", "Water", "Water", "Body",  "Body",  "Stone", "Stone", "Body",  "Body",  "Body",
+    "Body",  "Metal", "Body",  "Water", "Stone", "Stone", "Metal", "Stone", "Body",  "Body",
+    "Stone", "",      "",      "",      "Body",  "Water",
+};
+// 0x71024f0088: the event name suffix of each reaction size class (Auto and None have none).
+const char* const sReactionSizeNames[] = {
+    "",              "",              "TinySize_Body",   "TinySize_Metal",  "TinySize_Stone",
+    "TinySize_Water", "TinySize_Wood", "SmallSize_Body",  "SmallSize_Metal", "SmallSize_Stone",
+    "SmallSize_Water", "SmallSize_Wood", "HalfSize_Body", "HalfSize_Metal",  "HalfSize_Stone",
+    "HalfSize_Water", "HalfSize_Wood", "NormalSize_Body", "NormalSize_Metal", "NormalSize_Stone",
+    "NormalSize_Water", "NormalSize_Wood", "DoubleSize_Body", "DoubleSize_Metal", "DoubleSize_Stone",
+    "DoubleSize_Water", "DoubleSize_Wood", "GiantSize_Body", "GiantSize_Metal", "GiantSize_Stone",
+    "GiantSize_Water", "GiantSize_Wood", "HugeSize_Body", "HugeSize_Metal", "HugeSize_Stone",
+    "HugeSize_Water", "HugeSize_Wood",
+};
+}  // namespace
+
+// 0x7100ec7468: builds the reaction event name of a setting: "CmnObj_" + the kind prefix
+// (Land / Drag / Roll) + the size class suffix. For an auto-sized setting (size Auto) the size
+// class is derived from the setting's height and the name is built through 0x7100ec7fbc with the
+// sound material name of the setting's first material mask.
+bool Reaction::Unk1::sub_7100EC7468(sead::FixedSafeString<64>& name,
+                                    const ReactionSetting& setting) {
+    if (setting.size != ReactionSize::Auto) {
+        name.clear();
+        name.append("CmnObj_");
+        switch (setting.kind) {
+        case 0:
+            name.append("Land_");
+            break;
+        case 1:
+            name.append("Drag_");
+            break;
+        case 2:
+            name.append("Roll_");
+            break;
+        }
+        {
+            const ReactionSize size = setting.size;
+            name.append(sReactionSizeNames[int(size)]);
+        }
+    } else {
+        if (setting.mask1.getMaterial() == phys::Material::CharControl && setting.kind == 0)
+            return false;
+
+        const f32 value = setting._18;
+        s32 size = 6;
+        if (value <= 0.06f)
+            size = 1;
+        else if (value <= 0.6f)
+            size = 2;
+        else if (value <= 4.2f)
+            size = 3;
+        else if (value <= 14.0f)
+            size = 4;
+        else if (value <= 200.0f)
+            size = 5;
+
+        const char* material_name;
+        {
+            const phys::Material material = setting.mask1.getMaterial();
+            material_name = sReactionMaterialNames[int(material)];
+        }
+        if (sead::SafeString(material_name).isEmpty())
+            return false;
+
+        sub_7100EC7FBC(name, setting.kind, size, sead::SafeString(material_name));
+    }
+
+    return !name.isEmpty();
 }
 
 // NON_MATCHING: the original tests the material before the flag in the wetness check; ours hoists
