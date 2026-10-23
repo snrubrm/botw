@@ -1259,6 +1259,16 @@ void Core::Unk_140::sub_7101080A0C() {
 
 // NON_MATCHING: the guard's branch layout differs (our epilogue is placed before the main body and the
 // debug-bit test is inverted); the instruction multiset is identical.
+// 0x7101083c20 (unnamed): the first non-negative tree value of the two draw commands, or -1.
+f32 Core::Unk_140::sub_7101083C20(u32 index, const sead::Vector3f& pos) {
+    for (s32 i = 0; i <= 1; ++i) {
+        const f32 value = _14cd[i]->m36(index, pos);
+        if (value >= 0.0f)
+            return value;
+    }
+    return -1.0f;
+}
+
 // 0x71010839fc (unnamed): whether either draw command reports slot 30.
 bool Core::Unk_140::sub_71010839FC() {
     if (_14cd[0]->m30())
