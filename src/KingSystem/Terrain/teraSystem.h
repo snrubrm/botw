@@ -119,6 +119,14 @@ class AreaEnvGetter;
 // calls it through the first grass entry.
 class VegeTeraMatMgr;
 
+// Placeholder: the draw argument the terrain draw hands to Core::sub_710130241C and
+// Terrain::sub_710114DEFC. Only the byte at +8 is read; it is the index of the registered
+// system state.
+struct DrawArgMaybe {
+    u8 _0[8];
+    u8 mSystemIndex;
+};
+
 // Core is a procedural model unit: the constructor 0x71012ff868 calls gsys::IModelProcedural's
 // constructor (0xc7fbec) and stores its vtable at +0. Its own members therefore start at 0xe0.
 class Core : public gsys::IModelProcedural {
@@ -138,6 +146,12 @@ public:
     void sub_71013019BC(const gsys::ModelViewData* model_view_data, int view_index);
     void sub_7101302080();
     void sub_71013021E0(const gsys::ModelViewData* model_view_data, int view_index);
+
+    // 0x7101302740 (placeholder name): empty in this release.
+    void drawProceduralPassMaybe(int index, gsys::ModelRenderCache* cache) const override {}
+    // 0x710130241c (placeholder name): draws the material of the state at `arg->mSystemIndex`:
+    // registers the model once, runs every registered system's draw and the grass draw.
+    virtual void sub_710130241C(agl::DrawContext* context, const DrawArgMaybe* arg);
 
     // The vtable (0x710250fc48) starts with sead::hostio::Node's getNodeClassType and then the
     // destructor pair; the object at 0x138 is deleted through it.
@@ -204,6 +218,8 @@ public:
         bool sub_7101151A14();
         // 0x7101152da0 (placeholder name): _274 of entry `index` (with the buffer's bounds fallback).
         sead::Vector3f* sub_7101152DA0(s32 index);
+        // 0x71011503cc (placeholder name): draws the grass of system `index`.
+        void sub_71011503CC(agl::DrawContext* context, s32 index, const DrawArgMaybe* arg);
         void sub_7101152B3C(f32 fovy, const sead::Vector3f* position,
                                const sead::Vector3f* target);
         // 0x710114ee5c (placeholder name): sets or clears bit 5 of both objects of every entry.
@@ -432,6 +448,8 @@ public:
         virtual ~Unk_140();
         // 0x7101080a08 (empty in this release): called before the object is deleted.
         void sub_7101080A08();
+        // 0x71010819d4 (empty in this release): Core::sub_710130241C calls it for the tree draw.
+        void sub_71010819D4(agl::DrawContext* context, s32 index, const DrawArgMaybe* arg);
         // One 0x1a0-byte entry of the ten 8-entry tables at +0x30: 0x7101083060 stores its
         // table / entry indices and 0x710108330c hands it the heap. The per-entry bodies stay U.
         struct TableEntry {
@@ -728,9 +746,9 @@ public:
     bool m21() override { return false; }
     void m22() override {}
     void m23() override {}
-    // 0x710114defc (slot 9 of the primary vtable; placeholder name): calls slot 0x2a0 of _360 while
-    // bits 1 and 2 of _a58 are set. Core's vtable is not modelled yet.
-    virtual void sub_710114DEFC();
+    // 0x710114defc (slot 9 of the primary vtable; placeholder name): while bits 1 and 2 of _a58 are
+    // set, forwards the draw context and draw argument to Core::sub_710130241C (slot 0x2a0).
+    virtual void sub_710114DEFC(agl::DrawContext* context, const DrawArgMaybe* arg);
     bool m9() override { return false; }
     void m10() override {}
     // 0x7101149bd4 (placeholder name): tears down the terrain systems; the destructor calls it while
@@ -954,6 +972,9 @@ public:
     struct Unk370 {
         // 0x710113f34c (placeholder name): _4ae0->_10._888 and _4ae0->_3ad8.
         bool sub_710113F34C() const;
+        // 0x710113f374 (placeholder name): called by Core::sub_710130241C when the model is
+        // registered for the first time.
+        void sub_710113F374(agl::DrawContext* context);
 
         u8 _0[0x478];
         // 0x710114cbf4 and 0x710113fdf4 select variants through ShaderProgram data.
@@ -1067,7 +1088,10 @@ public:
     sead::Buffer<RenderSet> mRenderSets;
     // Checked for image files by sub_710114D928.
     sead::FileDevice* _428;
-    u8 _430[0x680 - 0x430];
+    u8 _430[0x460 - 0x430];
+    // Read by Core::sub_710130241C as a draw skip guard (zeroed by the constructor).
+    u32 _460;
+    u8 _464[0x680 - 0x464];
     sead::Matrix44f mProjectionMatrix;
     sead::Matrix34f mViewMatrix;
     u8 _6f0[0xa40 - 0x6f0];
@@ -1657,6 +1681,8 @@ public:
     // 0x7101117048 (placeholder name): under the write lock, runs ApertureMapsCollector::sub_71011021E4 on scene `index`
     // and then sub_7101115BAC (only with Terrain flags 2 and 4).
     void sub_7101117048(s32 index, const sead::Vector3f* arg, bool request_all);
+    // 0x710111486c (placeholder name): Core::sub_710130241C runs it for every registered system.
+    void sub_710111486C(agl::DrawContext* context, s32 index, u8 a, u8 b);
     // 0x71011170f4 (CSV TeraSystem::x; placeholder name): ApertureMapsCollector::sub_71011020C0 of scene `index` (true
     // unless Terrain flags 2 and 4 are set).
     bool sub_71011170F4(s32 index, u32 level);

@@ -798,6 +798,13 @@ void Terrain::sub_710114D73C() {
         _360->sub_710130085C();
 }
 
+void Terrain::sub_710114DEFC(agl::DrawContext* context, const DrawArgMaybe* arg) {
+    if ((~_a58 & 6) != 0)
+        return;
+    if (_360)
+        _360->sub_710130241C(context, arg);
+}
+
 void Terrain::sub_7101149AF0(bool on) {
     if (((u32(on) ^ (_a58 >> 18)) & 1) == 0)
         return;

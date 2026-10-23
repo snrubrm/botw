@@ -1,6 +1,7 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelDrawObj.h>
+#include <common/aglGPUCache.h>
 #include <cmath>
 #include "Game/gameUnkRttiPlaceholders.h"
 
@@ -163,6 +164,37 @@ void Core::calcBeforeDraw(gsys::ModelScene* scene, const gsys::ModelViewData* mo
         return;
     sub_7101302080();
     sub_71013021E0(model_view_data, view_index);
+}
+
+void Core::sub_710130241C(agl::DrawContext* context, const DrawArgMaybe* arg) {
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return;
+
+    const Unk_71013010d4& state = mStates[arg->mSystemIndex];
+    const s8 material = state.mIndex;
+    if ((state.mFlags & 2) && material != -1) {
+        const Unk_7101300b4c& position = mPositions[material];
+        if (_360.compareExchange(0, 1))
+            Terrain::instance()->_370->sub_710113F374(context);
+        if (Terrain::instance()->_460 == 0) {
+            for (auto& system : mSystems) {
+                if (system._8)
+                    system.sub_710111486C(context, material, position._199, position._19a);
+            }
+            if (Terrain::instance()->_460 == 0 && !(Terrain::instance()->_a58 & 1)) {
+                u32 flags = Terrain::instance()->_a50->_18;
+                if ((~flags & 0x18) != 0) {
+                    _138->sub_71011503CC(context, material, arg);
+                    flags = Terrain::instance()->_a50->_18;
+                }
+                if (!(flags & 0x20))
+                    _140->sub_71010819D4(context, material, arg);
+            }
+        }
+    }
+
+    agl::GPUCache::invalidateAll(context);
+    _37c &= ~4u;
 }
 
 
