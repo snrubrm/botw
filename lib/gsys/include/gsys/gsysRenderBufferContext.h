@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
 #include <hostio/seadHostIONode.h>
+#include <cstddef>
 
 namespace agl {
 class DrawContext;
@@ -51,9 +52,18 @@ public:
     void endHalfBuffer(agl::DrawContext* context, int index);
     void release(int index, u32 mask);
 
+    // Item-filter mode of the first scene's render buffer: update 0x7101293fc0 stores 10 or 1.
+    void setItemFilterMode(s32 mode) { mItemFilterMode = mode; }
+    s32 getItemFilterMode() const { return mItemFilterMode; }
+
 private:
     sead::Buffer<Context> mContexts;
-    u8 _18[0xc0 - 0x18];
+    u8 _18[0x38 - 0x18];
+    // Item-filter mode write by the update 0x7101293fc0 through the ModelSceneBuffer pointer
+    // (ModelScene +0x39c8): 10 for a running filter, 1 when the filter is inactive. The update
+    // reads the first scene's +0x5da4 alpha and the byte at RenderBufferContext+0xc.
+    /* 0x38 */ s32 mItemFilterMode;
+    u8 _3c[0xc0 - 0x3c];
 };
 static_assert(sizeof(RenderBufferContext) == 0xc0);
 

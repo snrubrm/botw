@@ -46,7 +46,12 @@ public:
         BC1_uNorm,
         BC3_uNorm,
     };
-    enum class CopyTiming;
+    // The two values the Graphics callers pass in 0x7100bf4d10 / 0x7100bf4fe8; the involved
+    // enumerator spellings are unrecovered (guessed: the copy runs before and after the draws).
+    enum class CopyTiming : s32 {
+        Before,
+        After,
+    };
 
     // 0x7100bf5e28
     void initialize(u32 width, u32 height, Format format, sead::Heap* heap);
@@ -56,7 +61,7 @@ public:
     // 0x7100bf5ffc: copies the bound layer's viewport into mViewport.
     void adjustTrimViewportToLayer();
     // 0x7100bf6038
-    void copy(agl::DrawContext* draw_context, CopyTiming timing, const agl::RenderBuffer& buffer,
+    bool copy(agl::DrawContext* draw_context, CopyTiming timing, const agl::RenderBuffer& buffer,
               const sead::Viewport& viewport);
 
 private:
@@ -64,8 +69,9 @@ private:
 
 public:
     // 0x508: stored as 0xff by the constructor and set to 1 by Graphics::sub_7100F35DE8
-    // 0x7100f35de8 through the Graphics + 0xad8 pointer. Meaning unrecovered.
-    u8 _508 = 0xff;
+    // 0x7100f35de8 through the Graphics + 0xad8 pointer. copy() reads it with a sign-extending
+    // byte load and compares it with the CopyTiming argument. Meaning unrecovered.
+    s8 _508 = 0xff;
 
 private:
     /* 0x509 */ u8 _509 = 0;
