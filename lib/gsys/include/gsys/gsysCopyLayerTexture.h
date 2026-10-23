@@ -37,7 +37,15 @@ public:
     CopyLayerTexture();
     ~CopyLayerTexture() override;
 
-    enum class Format;
+    // Names are the agl::TextureFormat values the initialize table maps to; the original names
+    // are unrecovered. Values: 29 R8_G8_B8_A8_uNorm, 34 R10_G10_B10_A2_uNorm, 47 BC1_uNorm,
+    // 51 BC3_uNorm.
+    enum class Format {
+        R8_G8_B8_A8_uNorm,
+        R10_G10_B10_A2_uNorm,
+        BC1_uNorm,
+        BC3_uNorm,
+    };
     enum class CopyTiming;
 
     // 0x7100bf5e28
