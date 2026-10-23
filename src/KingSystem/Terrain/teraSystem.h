@@ -1575,6 +1575,25 @@ public:
     virtual void m0(Unk_7101106F44* area, s32 event) = 0;
 };
 
+// Placeholder: the 0x330-byte map patch object of System::mPatchers (create 0x710107db78,
+// update 0x710107e4b0). Only the list node and the two-buffer swap used by System are modelled.
+class MapPatcher {
+public:
+    // 0x710107e060: toggles bit 30 of _328 and swaps the two 0x10-byte buffers.
+    void sub_710107E060();
+
+private:
+    u8 _0[0x20];
+    sead::ListNode mNode;
+    u8 _30[0x2d8 - 0x30];
+    u8 _2d8[0x20];
+    void* _2f8;
+    void* _300;
+    u8 _308[0x328 - 0x308];
+    u32 _328;
+};
+KSYS_CHECK_SIZE_NX150(MapPatcher, 0x330);
+
 class System {
 public:
     static System* instance();
@@ -1630,6 +1649,9 @@ public:
     sead::Vector3f* sub_710111713C(s32 index);
     // 0x710111718c (placeholder name): runs the scene's collector clear (0x71011066f0).
     void sub_710111718C(s32 index);
+    // 0x7101116d44 (placeholder name): flips the patch-buffer parity, points every scene's block at
+    // the new buffer and swaps the buffers of the registered map patchers.
+    void sub_7101116D44();
     // 0x7101117164 (placeholder name): requests the area images around `pos` from scene `index`.
     void sub_7101117164(void* arg, s32 index, const sead::Vector3f* pos, u32 level);
     // 0x7101117874 (CSV eui::BoxCursorNode::clearRouteAll is a wrong owner): clears the terrain images
@@ -1789,7 +1811,10 @@ public:
     // Centre and size of _8.
     sead::Vector2f _1c;
     f32 _24;
-    u8 _28[0xc0 - 0x28];
+    u8 _28[0x80 - 0x28];
+    // Locks mPatchers (the register / unregister helpers and sub_7101116D44).
+    sead::CriticalSection mPatcherCS;
+    u8 _80_end[0xc0 - 0x80 - sizeof(sead::CriticalSection)];
     // System ctor11113D4 sets node offset20; registration11191BC links MapPatcher.
     sead::OffsetList<MapPatcher> mPatchers;
     sead::Buffer<SceneSlot> mScenes;
@@ -1837,7 +1862,10 @@ public:
     u8 _1068[0x1168 - 0x1068];
     // The last component of _1050 (set by sub_7101119278).
     sead::SafeString _1168;
-    u8 _1178[0x1330 - 0x1178];
+    u8 _1178[0x1328 - 0x1178];
+    // Toggled by sub_7101116D44 (parity of the patch buffers).
+    u8 _1328;
+    u8 _1329[0x1330 - 0x1329];
     // Copied into ImageResourceMgr load tasks (0x7101132fe0, 0x7101135f34).
     u32 _1330;
     // Two bytes copied together into handles (0x71012eb6e8 ldrh/strh; 0x71012eb70c compares with ldrh).

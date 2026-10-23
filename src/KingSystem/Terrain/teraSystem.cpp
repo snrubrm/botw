@@ -1926,6 +1926,29 @@ void System::sub_710111718C(s32 index) {
     mScenes[index].collector->sub_71011066F0();
 }
 
+// 0x7101116d44 (placeholder name): flips the patch-buffer parity, points every scene's block at the
+// new buffer and swaps the buffers of the registered map patchers.
+void System::sub_7101116D44() {
+    _1328 = 1 - _1328;
+
+    // NON_MATCHING: the original keeps the scene index in a 32-bit register and recomputes
+    // i * 0x90; clang widens our induction and strength-reduces the offset.
+    const s32 count = mScenes.size();
+    if (count != 0) {
+        const s32 last = count - 1;
+        s32 i = 0;
+        do {
+            mScenes[i].block.setBufferIndexMaybe(_1328);
+            mScenes[i].collector->sub_71011016F4();
+        } while (i++ != last);
+    }
+
+    mPatcherCS.lock();
+    for (MapPatcher& patcher : mPatchers)
+        patcher.sub_710107E060();
+    mPatcherCS.unlock();
+}
+
 void System::sub_7101117164(void* arg, s32 index, const sead::Vector3f* pos, u32 level) {
     mScenes[index].collector->sub_710110235C(arg, this, pos, level);
 }
