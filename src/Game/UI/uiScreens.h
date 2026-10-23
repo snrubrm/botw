@@ -97,6 +97,7 @@ class Unk_71025d6578;
 class TagProcessor;
 class ScreenEx;
 class UiSubsys1;
+class UiSubsys1Entry;
 class Unk_7102477110;
 class Unk_710247bcb8;
 class Unk_710247e0c8;
@@ -2824,6 +2825,11 @@ public:
     void sub_71009F0668();
     // 0x71009ed4e4 (CSV unnamed): switches the map children to the mode's state
     void sub_71009ED4E4(s32 mode);
+    // 0x71009f14d8 (placeholder name): switches the map's animator and message to `mode`; mode 7 uses
+    // the hovered icon's entry first
+    void sub_71009F14D8(s32 mode);
+    // 0x71009f0508 (declared only): applies the hovered icon entry to the map screen
+    void sub_71009F0508(UiSubsys1Entry* icon);
     // 0x71009ed084 / 0x71009ed1e4 (placeholder names): play the map mode animators forward / backward
     void sub_71009ED084();
     void sub_71009ED1E4();

@@ -798,6 +798,33 @@ void ScreenAppMap::sub_71009F1B18(sead::Vector2f* v) const {
     *v *= _3c48 / _3c4c;
 }
 
+// 0x71009f14d8
+// NON_MATCHING: our compiler materialises the shared tail's -1 in w1 instead of keeping it in w20, so the
+// shared sub_71009F08F8 tail block and one branch differ.
+void ScreenAppMap::sub_71009F14D8(s32 mode) {
+    if (mode == 7) {
+        if (auto* child = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0))) {
+            if (auto* icon = child->getHoveredIconData()) {
+                sub_71009F0508(icon);
+                return;
+            }
+        }
+    } else if (mode != -1) {
+        sub_71009F0BE4();
+        if (mode == 1) {
+            if (UiSubsys1::instance()->sub_7100960DF8())
+                return;
+            sub_71009F08F8(1);
+            return;
+        }
+        sub_71009F08F8(mode);
+        return;
+    }
+    _3c08->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    mode = -1;
+    sub_71009F08F8(mode);
+}
+
 // 0x71009f1b9c
 void ScreenAppMap::sub_71009F1B9C() {
     if (wm::sub_7100A9D800())
