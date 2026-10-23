@@ -1231,6 +1231,27 @@ void Unk_7101106F44::sub_71011206E4(Unk_7101106F44** node, sead::Vector2f* cente
     sub_7101120598(node, center, size, type);
 }
 
+// 0x71010816d0 (unnamed): sets the buffer index of every tree type and of both draw commands.
+void Core::Unk_140::sub_71010816D0(u32 value) {
+    Terrain* terrain = Terrain::instance();
+    if (terrain) {
+        if (terrain->_a50) {
+            if (terrain->_a50->_18 & 0x20)
+                return;
+        }
+    }
+    if (!(_8 & 1))
+        return;
+
+    const u32 count = mTreeTypes.size();
+    TreeTypeMaybe* type = mTreeTypes.getBufferPtr();
+    for (u32 i = 0; i != count; ++i)
+        type[i].mBlock.setBufferIndexMaybe(u8(value));
+
+    _14cd[0]->sub_7101085198(value);
+    _14cd[1]->sub_7101085198(value);
+}
+
 void Core::Unk_140::sub_71010827DC() {
     if (_8 & 4)
         _8 &= ~4u;
