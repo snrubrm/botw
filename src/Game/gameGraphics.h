@@ -583,11 +583,19 @@ public:
         u8 _0[0x12a8];
         // 10D103C indexes 0x20-byte cells with Buffer's bounds fallback and reads f32 +0x18.
         /* 0x12a8 */ sead::Buffer<Cell> _12a8;
-        u8 _12b8[0x1520 - 0x12b8];
+        u8 _12b8[0x1500 - 0x12b8];
+        // Bit 2 is the result of Graphics::sub_7100F35E5C.
+        /* 0x1500 */ u8 _1500;
+        u8 _1501[0x1520 - 0x1501];
         /* 0x1520 */ f32 _1520;
         /* 0x1524 */ f32 _1524;
     };
     struct Unk_378 {
+        // 0x7101289934 (declaration only; placeholder name and parameter types): updates record
+        // `index` of the 0x1530-byte blocks with the two vectors and the frame delta.
+        void sub_7101289934(s32 index, const sead::Vector3f* a, const sead::Vector3f* b, f32 value,
+                            f32 delta);
+
         u8 _0[0x18];
         /* 0x18 */ Unk_378_18* _18;
         u8 _20[0x268 - 0x20];
@@ -685,6 +693,9 @@ public:
     // 0x7100f3590c / 0x7100f35918 (placeholder names; SkyMgr::doCalc): set the value at +0x7e0 and
     // the colour at +0x7d0 of _370's first entry.
     void sub_7100F3590C(f32 value);
+    // 0x7100f35e5c (unnamed in the CSV): updates the _378 blocks with the two Camera vectors and
+    // the frame delta; returns bit 2 of the block's +0x1500 flag.
+    bool sub_7100F35E5C(f32 value, const sead::Vector3f* a, const sead::Vector3f* b);
     void sub_7100F35918(const sead::Color4f& color);
     f32 sub_7100F35F28() const;
     f32 sub_7100F35F38() const;

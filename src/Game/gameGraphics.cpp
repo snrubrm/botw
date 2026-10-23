@@ -193,6 +193,13 @@ void sub_7100F2DE80(agl::DrawContext* draw, const gsys::RenderBufferContext& con
     cache->setPassViewProjIndex(Unk_710260af28::instance()->sub_7100F1EEA0());
 }
 
+bool Graphics::sub_7100F35E5C(f32 value, const sead::Vector3f* a, const sead::Vector3f* b) {
+    if (!_378)
+        return false;
+    _378->sub_7101289934(0, a, b, value, ksys::VFR::instance()->getDeltaFrame());
+    return (_378->_18->_1500 >> 2) & 1;
+}
+
 void Graphics::sub_7100F3590C(f32 value) {
     _370->sub_710129558C(value, 0);
 }
