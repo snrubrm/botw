@@ -1527,7 +1527,7 @@ private:
     /* 0x29 */ u8 _29;
     u8 _2a[0x30 - 0x2a];
     // The fifteen map mode objects reset when the map screen closes (native 0x710095f944).
-    /* 0x30 */ Unk_7102476a40 _30[15];
+    /* 0x30 */ sead::SafeArray<Unk_7102476a40, 15> _30;
     // Bitmask of the map modes that are available (0x7100956c10 tests bit `index`)
     /* 0x120 */ u32 _120;
     /* 0x124 */ u32 _124;

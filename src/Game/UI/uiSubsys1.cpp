@@ -1247,12 +1247,10 @@ bool UiSubsys1::sub_7100968BD8() {
 
 // 0x710095f944: clears the map mode objects' state, runs the full UI state reset, then clears the
 // selected-entry name and state of each map mode group.
-// NON_MATCHING: our clang fully unrolls the 15-entry reset loop; the original keeps the loop (same
-// stores and offsets).
 void UiSubsys1::sub_710095F944() {
-    for (s32 i = 0; i < 15; ++i) {
-        _30[i]._8 = -1;
-        _30[i]._c = -1;
+    for (auto& group : _30) {
+        group._8 = -1;
+        group._c = 0;
     }
     sub_710095F9D4();
     for (s32 i = 0; i < 5; ++i) {
