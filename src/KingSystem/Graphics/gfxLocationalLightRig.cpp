@@ -217,8 +217,7 @@ void LocationalLightRig::listenPropertyEventEnvObj(const sead::hostio::PropertyE
 }  // namespace ksys::gfx
 
 // NON_MATCHING: the entry loop's pointer increment and counter decrement are scheduled in the
-// opposite order, and the loop reads the group table's base pointer once where the original
-// reloads it every iteration.
+// opposite order (one instruction; same size).
 // NON_MATCHING: the trailing member stores are emitted in a different order (the constructor and
 // its values are complete; only the independent store order differs, same size).
 // 0x7100f185a4: constructs the cameras, projection, render targets and buffers of the map renderer.
@@ -237,9 +236,9 @@ Unk_7100f185a4::Unk_7100f185a4() {
 // 0x7100f18704: releases the unit groups the renderer owns (bit 0 of +0x21 set) and the group table.
 Unk_7100f185a4::~Unk_7100f185a4() {
     for (u64 i = 0; i != 0x40; ++i) {
-        UnitGroup** groups = mUnitGroups.getBufferPtr();
         const u32 group_count = mUnitGroups.size();
-        UnitGroup* group = *(group_count > i ? groups + i : groups);
+        UnitGroup* group = *(group_count > i ? mUnitGroups.getBufferPtr() + i
+                                             : mUnitGroups.getBufferPtr());
         if (!group)
             continue;
         if (!(group->_21 & 1))
@@ -287,29 +286,30 @@ void Unk_7100f185a4::sub_7100F19928(ksys::gfx::ModelRenderDataMaybe* data) {
     block->mGroup = nullptr;
 }
 
-// NON_MATCHING: the group table's base and count use the opposite registers, and the flags loop's
-// induction address is +0x60 (so its increment folds into the last store) instead of +0x5f.
+// NON_MATCHING: the flags loop's peeled first block uses the +0x60 address as its induction (so the
+// increment folds into the last store) instead of the original's +0x5f (same stores).
 // 0x7100f19c4c: moves every unit's flags byte to +0x60 and clears it, for every present group with
 // bit 0 of +0x21 clear.
 void Unk_7100f185a4::sub_7100F19C4C() {
     for (u64 i = 0; i != 0x40; ++i) {
-        UnitGroup** groups = mUnitGroups.getBufferPtr();
         const u32 group_count = mUnitGroups.size();
-        UnitGroup* group = *(group_count > i ? groups + i : groups);
+        UnitGroup* group = *(group_count > i ? mUnitGroups.getBufferPtr() + i
+                                             : mUnitGroups.getBufferPtr());
         if (!group)
             continue;
         if (group->_21 & 1)
             continue;
 
-        const u64 count = group->mEntries.size();
+        const u32 count = group->mEntries.size();
         if (count == 0)
             continue;
 
         UnitEntry* entry = group->mEntries.getBufferPtr();
         for (u64 j = 0; j != count; ++j) {
-            const u8 flags = entry[j].mFlags;
-            entry[j].mFlags = 0;
-            entry[j]._60 = flags;
+            UnitEntry* e = entry + j;
+            const u8 flags = e->mFlags;
+            e->mFlags = 0;
+            e->_60 = flags;
         }
     }
 }
@@ -415,11 +415,14 @@ void Unk_7100f185a4::setMapUnitVisibleMaybe(s32 id, bool visible) {
 
     bool found = false;
     const UnitEntry::RefRecord* ref = entry->mRefs.getBufferPtr();
-    for (s32 n = entry->mRefs.size(); n != 0; ++ref, --n) {
+    s32 n = entry->mRefs.size();
+    while (n != 0) {
         if (ref->_2 == 0xfe) {
             found = true;
             break;
         }
+        ++ref;
+        --n;
     }
     if (!found)
         return;

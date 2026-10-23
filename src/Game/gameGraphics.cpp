@@ -101,6 +101,18 @@ void Graphics::m15() {
         _3b0->clear();
 }
 
+void Graphics::m28(void* obj, agl::env::EnvObjBuffer::AllocateArg* arg) {
+    _a98->sub_7100F0B5B8(obj, arg);
+}
+
+void Graphics::m29(void* obj) {
+    _a98->sub_7100F13060(obj);
+}
+
+void Graphics::m30(void* obj) {
+    _a98->sub_7100F131C0(obj);
+}
+
 void Graphics::sub_7100F35F50(agl::lyr::Layer* layer, bool value) {
     if (layer)
         layer->sub_7100B60DC4(value);
