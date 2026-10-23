@@ -258,6 +258,9 @@ static const ChildControlCreatorEntry sUnk_7102481768[] = {
     {"Pa_Comp_00", sub_71009E844C, 0},
 };
 static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102481758(sUnk_7102481768);
+
+// 0x71025de8b0: the AppMap layout message set used by sub_71009F08F8.
+KSYS_VISIBILITY_HIDDEN sead::SafeString sUnk_71025de8b0 = "LayoutMsg/AppMap_00";
 // 0x71009e7f30
 const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102481828::getEntries() const {
     return &sUnk_7102481758;
@@ -956,6 +959,38 @@ void ScreenAppMap::sub_71009F0BE4() {
     }
     if (_3c08)
         _3c08->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+}
+
+// 0x71009f08f8: sets the cursor icon widget and refreshes the guide message for the hovered marker (or the
+// mode's label when there is none); a marker without the 0x200 flag shows an empty icon / guide instead.
+void ScreenAppMap::sub_71009F08F8(s32 mode) {
+    UiSubsys1Entry* icon = nullptr;
+    bool has_icon = false;
+    if (auto* child = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0))) {
+        icon = child->getHoveredIconData();
+        if (icon) {
+            if (!(icon->_3c & 0x200)) {
+                setWidgetString(_3bf8, "T_Icon_00", sead::SafeString::cEmptyString);
+                setWidgetString(_3bf8, "T_Guide_00", sead::SafeString::cEmptyString);
+                return;
+            }
+            has_icon = true;
+        }
+    }
+    if (mode == -1)
+        return;
+
+    sub_7100AA34A4(_3bf8, "T_Icon_00", 6);
+    eui::MessageString message;
+    {
+        sead::FixedSafeString<256> label;
+        if (has_icon && icon->_1c == 0x15)
+            label.copy("0004");
+        else
+            label = sub_71009F0CE4(mode);
+        getMessage(sUnk_71025de8b0, label, &message);
+    }
+    setWidgetString(_3bf8, "T_Guide_00", message);
 }
 
 // 0x71009f1b9c

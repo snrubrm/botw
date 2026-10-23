@@ -2790,6 +2790,10 @@ struct Unk_71025df330 {
 // 0x71025df330 (defined in uiScreenAppMapSmall.cpp)
 KSYS_VISIBILITY_HIDDEN extern Unk_71025df330 sUnk_71025df330;
 
+// 0x71009f0ce4 (placeholder name; declared only): the AppMap message label for `mode` from the map mode
+// table (mode -1 gives the empty string).
+sead::FixedSafeString<256> sub_71009F0CE4(s32 mode);
+
 class ScreenAppMap : public ScreenEx {
 public:
     // 0x71009eed18 (placeholder name): resets the map widget's footprint selection and mode, shows the map panes and
