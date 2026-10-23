@@ -36,9 +36,10 @@ public:
     GParamListObjectTraveler();
     const char* getName() const override { return "Traveler"; }
 
-    // 0x7100ef0314..0x7100ef0578 (declared only; placeholder names): the forward / backward
-    // entry-point string getter of each route point. The Traveler rail code calls them through
-    // the member function pointer tables at 0x71024f2290 / 0x71024f23c0.
+    // 0x7100ef0314..0x7100ef0578 (placeholder names): the forward / backward entry-point string
+    // of each route point. The Traveler rail code calls them through the member function pointer
+    // tables at 0x71024f2290 / 0x71024f23c0. The getters return the SafeString inside the
+    // Parameter, at mRoutePoints + 0x158 / 0x218 (+ i * 0x1a8); mRoutePoints itself is at 0x118.
     const sead::SafeString& getRoutePoint0ForwardEntryPoint() const;
     const sead::SafeString& getRoutePoint1ForwardEntryPoint() const;
     const sead::SafeString& getRoutePoint2ForwardEntryPoint() const;
