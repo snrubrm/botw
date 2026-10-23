@@ -33,6 +33,7 @@
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/Quest/qstManager.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/StageInfo.h"
@@ -881,6 +882,18 @@ bool stageSpecificResourceLoaded(void* a1, s32 type) {
     if (type == 3)
         return ksys::ui::LayoutResourceMgr::instance()->loadTitleLayoutResource();
     return true;
+}
+
+// 0x71007b85cc (CSV name): reloads the quest resource, then the scene static bars, the voice cache
+// and the expression sound bars through the sound resource manager.
+void loadQuestRes_SceneStaticBars_staticVoicePack_expressionSound_voice() {
+    ksys::qst::Manager::instance()->resetAndLoadQuestInfo();
+    ksys::snd::SoundMgr::instance()->_60->sub_7101058650();
+}
+
+// 0x71007b85fc (CSV name): polls the quest resource load.
+bool questMgrLoadResource() {
+    return ksys::qst::Manager::instance()->sub_7100FD7820();
 }
 
 // 0x71007bea48 (CSV name)

@@ -49158,8 +49158,8 @@ Address,Quality,Size,Name
 0x00000071007b808c,O,000032,_ZN5uking27stageSpecificResourceLoadedEPvi
 0x00000071007b80ac,U,000900,initBeforeStageGen
 0x00000071007b8430,U,000412,
-0x00000071007b85cc,U,000048,loadQuestRes_SceneStaticBars_staticVoicePack_expressionSound_voice
-0x00000071007b85fc,U,000016,questMgrLoadResource
+0x00000071007b85cc,O,000048,_ZN5uking66loadQuestRes_SceneStaticBars_staticVoicePack_expressionSound_voiceEv
+0x00000071007b85fc,O,000016,_ZN5uking20questMgrLoadResourceEv
 0x00000071007b860c,U,000004,nullsub_2423
 0x00000071007b8610,U,000064,prepareStageUnload
 0x00000071007b8650,U,000188,postStageUnload1
@@ -82212,7 +82212,7 @@ Address,Quality,Size,Name
 0x0000007100f3b240,U,007612,ksys::InitializeApp
 0x0000007100f3cffc,O,000388,_ZN4ksys15initBaseProcMgrEPN4sead4HeapE
 0x0000007100f3d180,U,000052,deleteInstanceForNFPAwarenessAndKingEditor
-0x0000007100f3d1b4,U,000080,waitForResourceCreation1
+0x0000007100f3d1b4,O,000080,_ZN4ksys24waitForResourceCreation1Ev
 0x0000007100f3d204,U,000004,nullsub_4162
 0x0000007100f3d208,U,000252,gameScenePreCalc_
 0x0000007100f3d304,O,000016,_Z14getSceneStatusv
@@ -82220,7 +82220,7 @@ Address,Quality,Size,Name
 0x0000007100f3d480,U,000180,
 0x0000007100f3d534,U,000124,_ZN4ksys40CalcQuestAndEventAndActorDeleteOrPreloadEv
 0x0000007100f3d5b0,U,000564,
-0x0000007100f3d7e4,U,000128,_ZN4ksys12CalcWorldMgrEv
+0x0000007100f3d7e4,O,000128,_ZN4ksys12CalcWorldMgrEv
 0x0000007100f3d864,U,000096,_ZN4ksys26CalcParticleAndBaseProcMgrEv
 0x0000007100f3d8c4,U,000160,_ZN4ksys21CalcMessageDispatcherEv
 0x0000007100f3d964,U,000004,nullsub_4163
@@ -91103,7 +91103,7 @@ Address,Quality,Size,Name
 0x000000710114def0,O,000004,_ZThn32_N4ksys4tera7Terrain3m22Ev
 0x000000710114def4,O,000004,_ZN4ksys4tera7Terrain3m23Ev
 0x000000710114def8,O,000004,_ZThn32_N4ksys4tera7Terrain3m23Ev
-0x000000710114defc,U,000040,_ZN4ksys4tera7Terrain14sub_710114DEFCEv
+0x000000710114defc,U,000040,
 0x000000710114df24,m,000136,_ZN4ksys4tera7Terrain27resumeImageResourceMgrMaybeEv
 0x000000710114dfac,m,000200,_ZN4ksys4tera7Terrain14sub_710114DFACEb
 0x000000710114e074,O,000088,_ZN4ksys4tera7Terrain26startImageResourceMgrMaybeEv

@@ -90,6 +90,35 @@ public:
     void debugLog(...);
 };
 
+// 0x7100f3d1b4: waits for the stage resources and then runs the graphics stage-gen init.
+void waitForResourceCreation1() {
+    if (auto* placement = map::PlacementMgr::instance())
+        placement->_7a8 = -1;
+    if (phys::System::instance())
+        phys::System::instance()->waitForResourceCreation();
+    if (Graphics::instance())
+        Graphics::instance()->initBeforeStageGenB();
+}
+
+// 0x7100f3d7e4: the world manager's share of the frame calc. While the base proc manager runs a
+// special job (pre-calc) the world managers are left alone.
+void CalcWorldMgr() {
+    if (!act::BaseProcMgr::instance())
+        return;
+
+    if (auto* mgr = world::Manager::instance())
+        mgr->clearArray();
+
+    if (act::BaseProcMgr::instance()->isSpecialJobType(act::JobType::PreCalc))
+        return;
+
+    if (!world::Manager::instance())
+        return;
+    world::Manager::instance()->calc1(nullptr);
+    world::Manager::instance()->calc2(nullptr);
+    world::Manager::instance()->calc3(nullptr);
+}
+
 // 0x7100f3dbc0: the heap / reaction half of the stage-generation start. `param` is forwarded to the
 // reaction actor creation; when `flag` is set the debug logger runs too.
 void initBeforeStageGenA(sead::Heap* heap, void* param, bool flag) {
