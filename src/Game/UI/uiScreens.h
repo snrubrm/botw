@@ -319,6 +319,10 @@ public:
     void sub_71009B0DB4(const PouchItem* item);
     // 0x71009b0c24: sets the gauge _150 and clears its byte at 0x6c
     void sub_71009B0C24(eui::TraceGaugeControl* gauge);
+    // 0x71009b0c34: shows `name` as the item name and clears the cook name
+    void sub_71009B0C34(const sead::SafeString& name);
+    // 0x71009b0cf4: shows `name` as the cook name and clears the item name
+    void sub_71009B0CF4(const sead::SafeString& name);
     // 0x71009b10ec: sets the gauge to `value` out of 120 and closes the _190 layout
     void sub_71009B10EC(s32 value);
     // 0x71009b1024: forwards to _158.sub_71009B26A0
@@ -5505,19 +5509,6 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(ScreenEnergyMeterDLC, 0x37c0);
 
-// Placeholder name: the shop info tag row that shows a tag as either the item name or the cook name
-// (0x71009b0c34 / 0x71009b0cf4). Only the fields those two methods use are modelled.
-class ShopInfoTagRow {
-public:
-    void sub_71009B0C34(ShopInfoTagData* data);
-    void sub_71009B0CF4(ShopInfoTagData* data);
-
-    u8 _0[0x20];
-    /* 0x20 */ eui::LayoutEx* _20 = nullptr;
-    u8 _28[0x148 - 0x28];
-    /* 0x148 */ eui::LetterAnimControl* _148 = nullptr;
-};
-
 class ScreenMessageGet : public ScreenEx {
 public:
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
@@ -5541,6 +5532,10 @@ public:
     // item type: the hero soul icons for key items, the weapon stats for weapons, the armour
     // defence for the armour pieces (0 / 1 / 2 number sets by type).
     void sub_7100A2511C();
+    // 0x7100a24a40 (placeholder name): fills the item info panel and the two number panels from
+    // the displayed item, by item type.
+    void sub_7100A24A40(Unk_710247a6d8* panel, Unk_710247adc8* numbers, const PouchItem* item,
+                        const sead::SafeString& name, u32 type);
     // 0x7100a238c8 (placeholder name): app-tag handler bound to _3750 (same body as ScreenShopInfo::sub_7100A51790)
     u32 sub_7100A238C8(const sead::MessageSet<char16>::TagInfo* tag, sead::WBufferedSafeString* out);
 

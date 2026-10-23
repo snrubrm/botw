@@ -372,33 +372,33 @@ void Unk_710247a6d8::sub_71009B0C24(eui::TraceGaugeControl* gauge) {
         gauge->_6c = false;
 }
 
-// 0x71009b0c34 (placeholder name): shows the tag as the item name and clears the cook name
-void ShopInfoTagRow::sub_71009B0C34(ShopInfoTagData* data) {
+// 0x71009b0c34: shows `name` as the item name and clears the cook name
+void Unk_710247a6d8::sub_71009B0C34(const sead::SafeString& name) {
     {
         eui::MessageString message;
-        sub_7100AA2BDC(data->str, &message);
-        setWidgetString(_20, "T_ItemName_00", message);
-        setWidgetString(_20, "T_CookName_00", sead::SafeString::cEmptyString);
+        sub_7100AA2BDC(name, &message);
+        setWidgetString(mLayout, "T_ItemName_00", message);
+        setWidgetString(mLayout, "T_CookName_00", sead::SafeString::cEmptyString);
     }
     if (_148) {
         eui::MessageString tag_message;
-        sub_7100AA2E08(data->str, &tag_message);
+        sub_7100AA2E08(name, &tag_message);
         _148->sub_7100BD9CDC(tag_message, 0);
         _148->sub_7100BD9B5C();
     }
 }
 
-// 0x71009b0cf4 (placeholder name): shows the tag as the cook name and clears the item name
-void ShopInfoTagRow::sub_71009B0CF4(ShopInfoTagData* data) {
+// 0x71009b0cf4: shows `name` as the cook name and clears the item name
+void Unk_710247a6d8::sub_71009B0CF4(const sead::SafeString& name) {
     {
         eui::MessageString message;
-        sub_7100AA2BDC(data->str, &message);
-        setWidgetString(_20, "T_CookName_00", message);
-        setWidgetString(_20, "T_ItemName_00", sead::SafeString::cEmptyString);
+        sub_7100AA2BDC(name, &message);
+        setWidgetString(mLayout, "T_CookName_00", message);
+        setWidgetString(mLayout, "T_ItemName_00", sead::SafeString::cEmptyString);
     }
     if (_148) {
         eui::MessageString tag_message;
-        sub_7100AA2E08(data->str, &tag_message);
+        sub_7100AA2E08(name, &tag_message);
         _148->sub_7100BD9CDC(tag_message, 0);
         _148->sub_7100BD9B5C();
     }

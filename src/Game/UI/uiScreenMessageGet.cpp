@@ -9,6 +9,7 @@
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ui {
 
@@ -64,6 +65,142 @@ s32 sub_7100A25474(s32 id) {
             return i;
     }
     return -1;
+}
+
+// 0x7100a24a40 (placeholder name): fills the item info panel (and the two number panels) from the
+// displayed pouch item: the weapon stats for weapons, the armour defence for armour pieces, the
+// cooking info for food, the hit point recover for materials and the hero soul icons for key items.
+// NON_MATCHING: the instructions are the same, but our clang lays the weapon arm's equipped-item
+// stats block out of line (the original keeps it inline) and colours the spilled locals differently,
+// which also rotates the callee-saved registers.
+void ScreenMessageGet::sub_7100A24A40(Unk_710247a6d8* panel, Unk_710247adc8* numbers,
+                                      const PouchItem* item, const sead::SafeString& name, u32 type) {
+    _36f0.str.clear();
+    _36f0._58 = -1;
+    _36f0._5c = 1;
+    if (!panel)
+        return;
+    PauseMenuDataMgr* mgr = PauseMenuDataMgr::instance();
+    ksys::act::InfoData* info = ksys::act::InfoData::instance();
+    if (!mgr || !info)
+        return;
+
+    const sead::SafeString* display = item ? &item->getName() : &name;
+    if (type == u32(PouchItemType::Arrow)) {
+        panel->sub_71009B0EEC(0);
+    } else if (type <= u32(PouchItemType::Shield)) {
+        panel->sub_71009B0EEC(1);
+        const PouchItem* equipped = mgr->getEquippedItem(PouchItemType(type));
+        const u32 category =
+            type == u32(PouchItemType::Bow) ? 1 : 2 * (type == u32(PouchItemType::Shield));
+        s32 old_value = 0;
+        s32 value = 0;
+        s32 old_number = 0;
+        s32 number = 0;
+        if (item) {
+            WeaponStats stats;
+            getWeaponStats(*item, &stats);
+            value = stats.power;
+            number = stats.bow_add_value;
+            if (equipped && !item->isEquipped()) {
+                WeaponStats equipped_stats;
+                getWeaponStats(*equipped, &equipped_stats);
+                old_value = equipped_stats.power;
+                old_number = equipped_stats.bow_add_value;
+            }
+        } else {
+            value = sub_7100AA7A50(*display, type == u32(PouchItemType::Shield));
+            if (type == u32(PouchItemType::Bow))
+                number = getBowActorInfoAddValue(*display);
+        }
+        if (name == "Weapon_Sword_080" || name == "Weapon_Sword_081") {
+            value = ksys::act::getAttackPower(ksys::act::InfoData::instance(), display->cstr()) +
+                    ksys::gdt::getFlag_100enemy_SwordPower_StartTmp(false);
+        }
+        s32 override = 0;
+        if (sub_7100A9FC20(name, &override, true)) {
+            value = override;
+        } else {
+            const sead::SafeString equipped_name =
+                equipped ? equipped->getName() : sead::SafeString::cEmptyString;
+            if (sub_7100A9FC20(equipped_name, &override, false))
+                old_value = override;
+        }
+        numbers->sub_71009B2380(category, old_value, value, old_number, number);
+        _3770 = s32(type);
+        _3774 = u32(value);
+        _3778 = u32(number);
+        if (item)
+            panel->sub_71009B0FCC(item);
+        else
+            panel->sub_71009B1024();
+    } else if (sub_7100A82E28(s32(type))) {
+        panel->sub_71009B0EEC(2);
+        u32 category = type == u32(PouchItemType::ArmorHead) ? 3 : 4;
+        if (type == u32(PouchItemType::ArmorLower))
+            category = 5;
+        s32 old_value = 0;
+        if (_3780.isEmpty()) {
+            const PouchItem* equipped = mgr->getEquippedItem(PouchItemType(type));
+            if (equipped)
+                old_value = ksys::act::getArmorDefenceAddLevel(info, equipped->getName().cstr());
+        } else {
+            old_value = ksys::act::getArmorDefenceAddLevel(info, _3780.cstr());
+        }
+        const s32 value = ksys::act::getArmorDefenceAddLevel(info, display->cstr());
+        numbers->sub_71009B2380(category, old_value, value, 0, 0);
+        _3770 = s32(type);
+        _3774 = u32(value);
+        if (item)
+            panel->sub_71009B102C(item);
+        else
+            panel->sub_71009B108C(*display);
+    } else if (type == u32(PouchItemType::Material)) {
+        al::ByamlIter iter;
+        if (info->getActorIter(&iter, display->cstr(), true) &&
+            info->hasTag(iter, 0x14185415)) {
+            panel->sub_71009B0EEC(3);
+            panel->sub_71009B10EC(getItemHitPointRecover(*display));
+        } else {
+            panel->sub_71009B0EEC(0);
+        }
+    } else if (type == u32(PouchItemType::Food)) {
+        if (!item) {
+            panel->sub_71009B0EEC(0);
+        } else {
+            panel->sub_71009B0EEC(3);
+            CookingInfo cook;
+            al::ByamlIter iter;
+            if (info->getActorIter(&iter, display->cstr(), true) &&
+                info->hasTag(iter, 0x30a3552e)) {
+                sub_7100AA4810(*item, &cook);
+                _36f0.str.copy(name);
+                _36f0._58 = u32(cook.effect);
+                _36f0._5c = u32(cook.level);
+            } else {
+                cookingStuff_0(*display, &cook);
+            }
+            panel->sub_71009B1148(cook);
+        }
+    } else {
+        panel->sub_71009B0EEC(0);
+        if (type == u32(PouchItemType::KeyItem)) {
+            const s32 soul = sub_7100AA46F0(*display);
+            if (soul != -1) {
+                const s32 icon = sub_7100A25474(soul);
+                if (icon >= 0) {
+                    _37d8[icon].sub_710093372C(false);
+                    _37d8[icon].sub_7100933850(true, false);
+                    _3770 = 9;
+                }
+            }
+        }
+    }
+
+    if (_36f0.str.isEmpty())
+        panel->sub_71009B0C34(name);
+    else
+        panel->sub_71009B0CF4(name);
 }
 
 // 0x7100a2511c (placeholder name): updates the two equipment number panels from the displayed item
