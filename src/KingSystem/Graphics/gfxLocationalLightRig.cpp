@@ -229,12 +229,12 @@ void Unk_7100f185a4::sub_7100F19C4C() {
         if (group->_21 & 1)
             continue;
 
-        const u32 count = group->mEntries.size();
+        const u64 count = group->mEntries.size();
         if (count == 0)
             continue;
 
         UnitEntry* entry = group->mEntries.getBufferPtr();
-        for (u32 j = 0; j != count; ++j) {
+        for (u64 j = 0; j != count; ++j) {
             const u8 flags = entry[j].mFlags;
             entry[j].mFlags = 0;
             entry[j]._60 = flags;
