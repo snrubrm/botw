@@ -3051,6 +3051,27 @@ void ScreenShopBtnList20::m107(eui::AnimButton* button) {
         _3868 = button;
 }
 
+// 0x7100a4cb18
+void ScreenShopBtnList20::m100() {
+    _3860 = -1;
+    if (_3848)
+        _3848->m6(true);
+    if (_3850)
+        _3850->m6(true);
+    if (_3858)
+        _3858->m6(true);
+    if (_3864)
+        invokeSoundLink2Event_("mc_Close");
+    if (_3868) {
+        if (auto* pane = _3868->mLayout->mPane->FindPaneByName("W_Decide_00", true)) {
+            const u8 count = pane->GetMaterialCount();
+            for (s32 i = 0; i < count; ++i)
+                sub_7100AA1CB8(pane->GetMaterial(i), 0);
+        }
+        _3868 = nullptr;
+    }
+}
+
 // 0x7100a388ec
 void ScreenPauseMenu::m107(eui::AnimButton* button) {
     if (u32(button->mTag - 9) <= 0x3b && _3618 == 15)

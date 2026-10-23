@@ -5104,6 +5104,7 @@ public:
     SEAD_RTTI_OVERRIDE(ScreenShopBtnList20, ScreenEx)
     void m102(eui::AnimButton*) override;
     void m107(eui::AnimButton* button) override;
+    void m100() override;
     // 0x7100a4c9e0 (slot 98)
     void m94() override;
     void m98() override;
