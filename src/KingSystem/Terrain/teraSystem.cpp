@@ -1926,28 +1926,14 @@ void System::sub_710111718C(s32 index) {
     mScenes[index].collector->sub_71011066F0();
 }
 
-// 0x710107e060: toggles the buffer-selection bit and points the two current-buffer pointers at the
-// two 0x10-byte buffers at +0x2d8.
-void MapPatcher::sub_710107E060() {
-    const u32 mask = 0x40000000;
-    const u32 flags = _328;
-    _328 = (flags & mask) == 0 ? flags | mask : flags & ~mask;
-    const u32 index = (_328 >> 30) & 1;
-    const u32 other = index ^ 1;
-    u8* const selected = _2d8[index];
-    u8* const alternate = _2d8[other];
-    _300 = selected;
-    _2f8 = alternate;
-}
-
 // 0x7101116d44 (placeholder name): flips the patch-buffer parity, points every scene's block at the
 // new buffer and swaps the buffers of the registered map patchers.
 void System::sub_7101116D44() {
     _1328 = 1 - _1328;
 
-    // NON_MATCHING: in the inlined block update the original computes the zero-extended index
-    // before the flag store and loads the multiplier after it; ours schedules the two the other
-    // way round (same instructions).
+    // NON_MATCHING: in the inlined block update the original keeps the parity byte in a second
+    // zero-extended register for the multiply, while ours masks it in place after the flag store
+    // (the same instructions in a different order).
     const u32 count = mScenes.size();
     for (u32 i = 0; i < count; ++i) {
         mScenes[i].block.setBufferIndexMaybe(_1328);
@@ -2020,7 +2006,8 @@ void sub_710111911C(void* tera_system, void* route) {
 // 0x7101116e74 (placeholder name): under the read lock, updates scene `index`'s uniform block from
 // the culling frustum and runs the collector's per-scene update.
 // NON_MATCHING: the inline flush's loads and stores are scheduled differently (the same
-// instructions); the calls, values, stack records and branches are the same.
+// instructions, e.g. the block pointer is loaded and stored before the offset is computed); the
+// calls, values, stack records and branches are the same.
 void System::sub_7101116E74(s32 index, Unk_7101115584Arg* arg) {
     mLock.readLock();
 
@@ -2047,9 +2034,15 @@ void System::sub_7101116E74(s32 index, Unk_7101115584Arg* arg) {
                 f32 _c;
             } data6;
             data6._0 = 0;
-            data6._4 = Terrain::instance()->_3f0;
-            data6._8 = Terrain::instance()->sub_710107EC48() && (Terrain::instance()->_a58 & 0x10) ? 1.0f : 0.0f;
-            data6._c = Terrain::instance()->sub_710107EC48() && (Terrain::instance()->_a58 & 0x10) ? 0.0f : 1.0f;
+            {
+                auto* terrain = Terrain::instance();
+                data6._4 = terrain->_3f0;
+                data6._8 = terrain->sub_710107EC48() && (terrain->_a58 & 0x10) ? 1.0f : 0.0f;
+            }
+            {
+                auto* terrain = Terrain::instance();
+                data6._c = terrain->sub_710107EC48() && (terrain->_a58 & 0x10) ? 0.0f : 1.0f;
+            }
 
             slot.block.setData(5, &scale, 0, 1);
             slot.block.setData(6, &data6, 0, 1);

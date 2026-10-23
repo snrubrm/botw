@@ -4,6 +4,7 @@ target_sources(uking PRIVATE
   teraRoute.cpp
   teraRoute.h
   teraSystem.cpp
+  teraMapPatcher.cpp
   teraSystemScene.cpp
   teraTerrain.cpp
   teraGrass.cpp
