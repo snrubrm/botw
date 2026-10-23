@@ -13,6 +13,7 @@
 #include <xlink2/xlink2HandleSLink.h>
 
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
+#include "KingSystem/ActorSystem/actActorUnk6b8.h"
 #include "KingSystem/Physics/System/physUserTag.h"
 
 namespace xlink2 {
@@ -223,6 +224,16 @@ public:
         // properties 4 / 6 / 0 / 9 or 10, 608 B, still U).
         void sub_7100EC8F78(f32 speed, Actor* actor, const sead::Vector3f* pos, u64 size,
                             u64 material, u64 flag);
+        // 0x7100ec89d8 (declared only): emits the water flow splash event `name` with the limiter
+        // group `size` for `actor` at `position`; `value` is the reaction size from EC2278.
+        void sub_7100EC89D8(f32 a, Actor* actor, const sead::Vector3f& position, ReactionSize size,
+                            const phys::MaterialMask& mask, const char* name, int group);
+        // 0x7100ec89c4 / 0x7100ec8c04: "WaterFlowSplashMove" (group 11) and "WaterFlowSplash"
+        // (group 5) wrappers around sub_7100EC89D8.
+        void sub_7100EC89C4(f32 a, Actor* actor, const sead::Vector3f& position, u64 value,
+                            const phys::MaterialMask& mask);
+        void sub_7100EC8C04(f32 a, Actor* actor, const sead::Vector3f& position, u64 value,
+                            const phys::MaterialMask& mask);
 
         // Sound emission and property setup for the request source.
         void sub_7100EC539C(::DamageReactionRequest* request, xlink2::HandleSLink* handle,

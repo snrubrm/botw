@@ -984,6 +984,16 @@ void Reaction::Unk1::sub_7100EC86F4(xlink2::HandleSLink* handle, const sead::Vec
     sub_7100EC7D50(a, b, c, d, handle, &volume, &pitch);
 }
 
+void Reaction::Unk1::sub_7100EC89C4(f32 a, Actor* actor, const sead::Vector3f& position, u64 value,
+                                   const phys::MaterialMask& mask) {
+    sub_7100EC89D8(a, actor, position, ReactionSize(value), mask, "WaterFlowSplashMove", 11);
+}
+
+void Reaction::Unk1::sub_7100EC8C04(f32 a, Actor* actor, const sead::Vector3f& position, u64 value,
+                                   const phys::MaterialMask& mask) {
+    sub_7100EC89D8(a, actor, position, ReactionSize(value), mask, "WaterFlowSplash", 5);
+}
+
 // NON_MATCHING: clang folds the lower-bound test to a single fmax; the original keeps the ordered
 // fcmp / fcsel pair (and schedules the first bit-set before it). Same values.
 // 0x7100ec88f8 (placeholder name): the hit-volume scale of the event; the value is shifted by
