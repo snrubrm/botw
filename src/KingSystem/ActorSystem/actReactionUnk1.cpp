@@ -208,9 +208,10 @@ void Reaction::Unk1::sub_7100EC6708(Actor* actor, DamageReactionRequest* request
 }
 
 // 0x7100ec313c (placeholder name): dispatches a reaction request to the handler of its damage kind.
-// NON_MATCHING: case 4 needs one `mov x0, x20` before sub_7100EC4C00 that the original lacks: that
-// callee never reads its `this` (it starts with `mov x0, x2`), and the original build passes `undef`
-// for it. Our build cannot drop the argument for a callee declared in another TU.
+// NON_MATCHING: four load placements differ (cases 8 and 10 hoist `_8` / `_10` into a callee-saved
+// register before the calls in the original). `Actor* actor = _8;` / `= _10;` at the top of those
+// two cases reproduces them and makes the row match, but a local used once only to steer a load is
+// borderline, so it is not applied.
 void Reaction::Unk1::sub_7100EC313C(DamageReactionRequest* request) {
     xlink2::HandleSLink handle;
 
@@ -423,6 +424,51 @@ void Reaction::Unk1::sub_7100EC313C(DamageReactionRequest* request) {
         sub_7100EC545C(&handle, request);
         return;
     }
+}
+
+// 0x7100ec4c00 (placeholder name): the guard reaction. Emits "Guarded" and the chemical
+// hit-additional event for the request source, then "Guard_<material>" for the guarded actor.
+void Reaction::Unk1::sub_7100EC4C00(xlink2::HandleSLink* handle, DamageReactionRequest* request) {
+    if (request->mSource.mActor || request->mSource.mLink) {
+        if (auto* xlink = request->mSource.getXLink()) {
+            if (auto* user = xlink->_50) {
+                user->searchAndEmit("Guarded", handle);
+                xlink2::Locator locator;
+                if (user->searchAsset(&locator, "HitAdditional_ChemicalToActor")) {
+                    user->setPropertyValue(0x19, 3);
+                    user->emit(locator);
+                }
+            }
+        }
+        if (handle->isActive())
+            return;
+    }
+
+    if (!request->_b8)
+        return;
+
+    sead::FixedSafeString<19> name("Guard_");
+    sead::FixedSafeString<7> material;
+    if (request->_60.getMaterial() == phys::Material::Wood)
+        material = "Wood";
+    else if (request->_60.getMaterial() == phys::Material::Bone)
+        material = "Bone";
+    else if (request->_60.getMaterial() == phys::Material::Metal)
+        material = "Metal";
+    else {
+        auto* xlink = request->_b8->getXLink();
+        if (!xlink || !xlink->_50)
+            return;
+        xlink->_50->searchAndEmit("Guard", handle);
+        return;
+    }
+
+    name.append(material);
+
+    auto* xlink = request->_b8->getXLink();
+    if (!xlink || !xlink->_50)
+        return;
+    xlink->_50->searchAndEmit(name.cstr(), handle);
 }
 
 }  // namespace ksys::act
