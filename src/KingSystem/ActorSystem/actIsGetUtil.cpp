@@ -73,3 +73,11 @@ void setIsGetSameGroup_0(const sead::SafeString& actor_name, bool value, bool mo
     else
         setIsGetFlagEx_0(actor_name, value, mode);
 }
+
+// Second copy of the IsGet flag setter (same body, separate symbol).
+void setIsGetFlagEx_0(const sead::SafeString& name, bool value, bool mode) {
+    sead::FixedSafeString<96> flag_name{"IsGet_"};
+    flag_name.append(name);
+    if (auto* mgr = ksys::gdt::Manager::instance())
+        mgr->setBoolSpecial(value, flag_name, mode, true);
+}
