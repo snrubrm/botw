@@ -1238,6 +1238,25 @@ void Core::Unk_140::sub_71010827DC() {
     _14cd[1]->sub_7101084D04();
 }
 
+// NON_MATCHING: the original peels five boxes out of the 21-box reset loop, our clang unrolls the loop
+// differently (same stores, different split).
+// 0x71010831f0 (unnamed): stores the table / entry indices and resets the 21 boxes.
+void Core::Unk_140::TableEntry::sub_71010831F0(u8 table, u8 index) {
+    if (_19c & 1)
+        _19c &= 0xfe;
+    _190->mTable = table;
+    _190->mIndex = index;
+    State* state = _190;
+    state->_4 = 0;
+    state->_8 = 0;
+    for (s32 i = 0; i < 21; ++i) {
+        _190->mBoxes[i].min = sead::Vector3f(3.4028235e38f, 3.4028235e38f, 3.4028235e38f);
+        _190->mBoxes[i].max = sead::Vector3f(-3.4028235e38f, -3.4028235e38f, -3.4028235e38f);
+    }
+    _190->_208 = 0;
+    _190->_20a = 0;
+}
+
 void Core::Unk_140::sub_7101083028() {
     _14cd[0]->sub_7101084E78();
     _14cd[1]->sub_7101084E78();
