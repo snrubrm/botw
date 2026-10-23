@@ -19,16 +19,23 @@ class LayoutEx;
 // to the secondary base in Screen::_e8). Vtable 0x710247f430: 20 IUser / own slots, then the five ScreenUnkE8 slots.
 class EffectLinkUser : public xlink2::IUser, public ScreenUnkE8 {
 public:
+    // The bone's 0x40-byte world matrix: m1 transposes the pane's 3x4 matrix into it as a 4x4,
+    // while the xlink interface hands out its first three rows as a Matrix34f.
+    struct BoneMtx {
+        BoneMtx() : m44() {}
+        union {
+            sead::Matrix44f m44;
+            sead::Matrix34f m34;
+        };
+    };
+
     // One effect bone: a pane and its world matrix (0x60 bytes, allocated with 16-byte alignment).
-    // The matrix is 0x40 bytes: the first three rows are the Matrix34f the xlink getter returns,
-    // the fourth row follows it (written with the rest by m1).
     struct Bone {
         nn::ui2d::Pane* mPane = nullptr;
         void* _8 = nullptr;
         const char* mName = nullptr;
         u8 _18[0x20 - 0x18];
-        /* 0x20 */ sead::Matrix34f mMtx;
-        /* 0x50 */ sead::Vector4f _50;
+        /* 0x20 */ BoneMtx mMtx;
     };
     static_assert(sizeof(Bone) == 0x60);
 
