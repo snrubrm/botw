@@ -7,7 +7,10 @@
 
 namespace gsys {
 
+class CopyLayerTexture;
+
 class Layer : public agl::lyr::Layer {
+    friend class CopyLayerTexture;
 public:
     Layer();
     ~Layer() override;
@@ -45,7 +48,9 @@ private:
     u8 _208[0x3b0 - 0x208];
     // initializeImpl formats the layer name into this string and passes it to the debug page.
     sead::FixedSafeString<32> mDebugName;
-    u8 _3e8[8];
+    // 0x3e8: the copy-layer texture bound to this layer; CopyLayerTexture::setLayer 0x7100bf5fcc
+    // stores it here and keeps the other direction in CopyLayerTexture +0x500.
+    CopyLayerTexture* mCopyLayerTexture;
     // Constructor BF4378 constructs this at +0x3f0; postCalcCommandImpl frees its dynamic texture.
     LayerTexture mLayerTexture;
     u8 _8e8[0xc44 - 0x8e8];

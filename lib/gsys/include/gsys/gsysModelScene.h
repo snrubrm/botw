@@ -4,6 +4,7 @@
 #include <container/seadBuffer.h>
 #include <thread/seadAtomic.h>
 #include <cstddef>
+#include <effect/aglFxCloud.h>
 #include <environment/aglEnvObjBuffer.h>
 #include "gsys/gsysModelJobQueue.h"
 #include "gsys/gsysModelSceneContext.h"
@@ -108,7 +109,16 @@ public:
     // ModelScene 0x7100c2c840 / 0x7100c2c854 also dispatch through it.
     /* 0x3700 */ agl::fx::OccludedEffectMgr* mOfxManager;
 
-    u8 _3708[0x3758 - 0x3708];
+    u8 _3708[0x3740 - 0x3708];
+
+    // Pointer at ModelSceneFx + 0x2c8 (ModelSceneFx is the sub-object at +0x3478, not modelled
+    // separately). ModelSceneFx::initialize 0x7100c2e284 allocates the 0x7758-byte agl::fx::Cloud
+    // and stores it here; Graphics 0x7100f2dda0 clears its flag byte +0x460, and ModelSceneFx
+    // calcOccludedEffect 0x7100c2eea0 / isCloudEnabled 0x7100c2ee6c / drawCloud 0x7100c2fb7c
+    // test it.
+    /* 0x3740 */ agl::fx::Cloud* mCloud;
+
+    u8 _3748[0x3758 - 0x3748];
 
     // Effect-model draw manager of the scene. EffectModelData::addEffectModel 0x7100d9f8ac reads it from
     // the first Graphics model scene (`**(Graphics + 0x158)` = mModelScenes[0]) and calls
@@ -156,6 +166,7 @@ public:
 };
 static_assert(offsetof(ModelScene, mEnv) == 0x130);
 static_assert(offsetof(ModelScene, mDepthOfField) == 0x3428);
+static_assert(offsetof(ModelScene, mCloud) == 0x3740);
 static_assert(offsetof(ModelScene, mBuffer) == 0x3778);
 static_assert(offsetof(ModelScene, _52e0) == 0x52e0);
 static_assert(offsetof(ModelScene, mSceneModel) == 0x56d0);

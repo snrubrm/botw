@@ -20,7 +20,14 @@ public:
     struct Context {
         Context();
         ~Context();
-        u8 _0[0x3210];
+        u8 _0[0x3208];
+        // Per-axis render scale. The Context constructor path 0x7100c5934c copies the two words
+        // of the global pair at 0x7101e9ff10 into both this pair and 0x4b0/0x4b4; update
+        // 0x7100c59684 loads them as f32, multiplies them by the viewport scale, and Graphics
+        // calcModelSceneFrame 0x7100f30178 stores one f32 into both. DofMgr 0x71010d19b4 reads
+        // +0x3208 as f32.
+        f32 _3208;
+        f32 _320c;
         // C5934C constructs a GBuffer and retains it here; C590D4 destroys it.
         GBuffer* mGBuffer;
         u8 _3218[0x3878 - 0x3218];
