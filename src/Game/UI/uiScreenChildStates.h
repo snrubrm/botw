@@ -486,6 +486,8 @@ KSYS_VISIBILITY_HIDDEN extern AppMapIconPart* sUnk_71025D80AD8;
 // 0x7100990690 (placeholder name; AppMapIconPart): opens the app system window for the selected marker when the
 // map's sub-state ends
 void sub_7100990690(AppMapIconPart* self);
+// 0x710099edc0 (placeholder name; AppMapIconPart): the map sub-run step for the selected marker
+void sub_710099EDC0(AppMapIconPart* self);
 // 0x710099ef18 (placeholder name): the map icon mode dispatcher. Modes 0 and 1 share the first body.
 void sub_710099EF18(AppMapIconPart* self, s32 mode);
 // 0x710099ef78 / 0x710099f0f0 / 0x710099f490 (declared only; not decompiled)

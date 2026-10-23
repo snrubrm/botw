@@ -294,6 +294,23 @@ void sub_71009F202C() {
         screen->m154(7);
 }
 
+// 0x71009f20f4
+void ScreenAppMap::sub_71009F20F4() {
+    auto* window = sead::DynamicCast<ScreenAppSystemWindow>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow));
+    if (!window || window->isClosed())
+        return;
+    const s32 result = ScreenAppSystemWindow::sub_71009FC4A0();
+    if (result == 4) {
+        sub_71009F2300(1);
+    } else if (result == 5) {
+        if (auto* child = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0))) {
+            sub_710099EDC0(child);
+            _3c08->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+        }
+    }
+}
+
 // 0x71009f2204
 void sub_71009F2204() {
     auto* screen = sead::DynamicCast<ScreenAppSystemWindow>(
