@@ -16,6 +16,17 @@
 
 namespace uking::ui {
 
+// 0x7100a2cb14 (placeholder name): app-tag router bound to _3940.
+u32 ScreenPauseMenuInfo::sub_7100A2CB14(const sead::MessageSet<char16>::TagInfo* tag,
+                                        sead::WBufferedSafeString* out) {
+    if (tag->type != 8) {
+        if (tag->type != 7)
+            return 0;
+        return sub_7100AA4E60(&_3940, out);
+    }
+    return sub_7100AA5140(&_3940, out);
+}
+
 // 0x7100a2dc30, 168 B
 void ScreenPauseMenuInfo::sub_7100A2DC30(f32 delta) {
     if (!(delta <= 0.01f && delta >= -0.01f)) {

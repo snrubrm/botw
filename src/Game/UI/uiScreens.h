@@ -976,6 +976,12 @@ struct ScreenId {
     };
 };
 
+struct ShopInfoTagData {
+    sead::FixedSafeString<64> str;
+    u32 _58 = 0xffffffff;
+    u32 _5c = 1;
+};
+
 class ScreenPauseMenuInfo : public ScreenEx {
 public:
     void m94() override;
@@ -996,6 +1002,10 @@ public:
     void sub_7100A30DF0(bool a2);
     // 0x7100a2effc: updates gauge deltas and the deferred effect display
     void sub_7100A2EFFC();
+    // 0x7100a2cb14 (placeholder name): app-tag router bound to _3940 (same body as
+    // ScreenMessageGet::sub_7100A238C8).
+    u32 sub_7100A2CB14(const sead::MessageSet<char16>::TagInfo* tag,
+                       sead::WBufferedSafeString* out);
     void sub_7100A31998(f32 time, s32 effect, s32 level);
     // A2E510 combines equipment resistance with deferred effect fields 3910/3914.
     void sub_7100A2E510(s32* hot, s32* cold, s32* fire);
@@ -1058,7 +1068,9 @@ public:
     /* 0x3918 */ f32 _3918;
     /* 0x391c */ u8 _391c;
     // Setup A2CE68 stores child 2; A2DDE4 writes temperature 39b8 and fire level 39bc.
-    u8 _pad_391d[0x39a0 - 0x391d];
+    u8 _pad_391d[0x3940 - 0x391d];
+    // The app tag data of sub_7100A2CB14 (0x60 bytes, exactly up to _39a0).
+    /* 0x3940 */ ShopInfoTagData _3940;
     /* 0x39a0 */ Unk_710247e0c8* _39a0;
     /* 0x39a8 */ s32 _39a8;
     /* 0x39ac */ s32 _39ac;
@@ -5492,12 +5504,6 @@ public:
     /* 0x37b8 */ u64 _37b8 = 0;
 };
 KSYS_CHECK_SIZE_NX150(ScreenEnergyMeterDLC, 0x37c0);
-
-struct ShopInfoTagData {
-    sead::FixedSafeString<64> str;
-    u32 _58 = 0xffffffff;
-    u32 _5c = 1;
-};
 
 // Placeholder name: the shop info tag row that shows a tag as either the item name or the cook name
 // (0x71009b0c34 / 0x71009b0cf4). Only the fields those two methods use are modelled.
