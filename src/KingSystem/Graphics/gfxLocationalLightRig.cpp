@@ -215,6 +215,50 @@ void LocationalLightRig::listenPropertyEventEnvObj(const sead::hostio::PropertyE
 
 }  // namespace ksys::gfx
 
+// 0x7100f19f90: sets the colour and bit 0 of the flags of map unit `id`.
+void Unk_7100f185a4::setMapUnitColorMaybe(s32 id, const sead::Color4f& color) {
+    if (id == -1)
+        return;
+
+    sead::Buffer<UnitEntry>* group = mUnitGroups[id >> 16];
+    if (!group)
+        return;
+    const s32 index = s16(id);
+    const s32 count = group->getSize();
+    UnitEntry* entry = group->getBufferPtr();
+    if (u32(count) > u32(index))
+        entry += index;
+    if (!entry)
+        return;
+
+    if (entry->mColorSetMaybe && entry->mColor == color)
+        return;
+    entry->mColor = color;
+    entry->mFlags |= 1;
+}
+
+// 0x7100f1a30c: stores the two-float value and bit 3 of the flags of map unit `id`.
+void Unk_7100f185a4::setMapUnitValueMaybe(s32 id, const sead::Vector2f& value) {
+    if (id == -1)
+        return;
+
+    sead::Buffer<UnitEntry>* group = mUnitGroups[id >> 16];
+    if (!group)
+        return;
+    const s32 index = s16(id);
+    const s32 count = group->getSize();
+    UnitEntry* entry = group->getBufferPtr();
+    if (u32(count) > u32(index))
+        entry += index;
+    if (!entry)
+        return;
+
+    if (!entry->mColorSetMaybe || (entry->mType == 3 && entry->_54 != value)) {
+        entry->_54 = value;
+        entry->mFlags |= 8;
+    }
+}
+
 // 0x7100f1ab60: stores the two screen coordinates the map screen computes (each truncated to 16 bits).
 void Unk_7100f185a4::setPosXY(s32 x, s32 y) {
     _50 = static_cast<u16>(x);

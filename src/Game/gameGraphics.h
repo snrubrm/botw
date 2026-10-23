@@ -191,7 +191,29 @@ KSYS_CHECK_SIZE_NX150(Unk_710129175c, 0x268);
 // the CSV, namespace unknown). Graphics::sub_7100F2E2A4 calls one method of each.
 class Unk_7100f185a4 {
 public:
+    // One 0x68-byte map-unit entry of the tables at +0xfd0. The map screen sets the colour (+0x20),
+    // the two floats at +0x54 and the flags (+0x5f) through the setters below.
+    struct UnitEntry {
+        u8 _0[0x20];
+        /* 0x20 */ sead::Color4f mColor;
+        u8 _30[0x54 - 0x30];
+        /* 0x54 */ sead::Vector2f _54;
+        u8 _5c[0x5e - 0x5c];
+        /* 0x5e */ u8 mType;
+        /* 0x5f */ u8 mFlags;
+        u8 _60;
+        /* 0x61 */ u8 mColorSetMaybe;
+        u8 _62[0x68 - 0x62];
+    };
+    static_assert(sizeof(UnitEntry) == 0x68);
+
     void sub_7100F1AC58();
+    // 0x7100f19f90 (placeholder name): sets the colour of map unit `id` (group in the high half,
+    // index in the low 16 bits) and sets bit 0 of its flags.
+    void setMapUnitColorMaybe(s32 id, const sead::Color4f& color);
+    // 0x7100f1a30c (placeholder name): stores the two-float value at +0x54 of map unit `id` when
+    // its type is 3, then sets bit 3 of its flags.
+    void setMapUnitValueMaybe(s32 id, const sead::Vector2f& value);
     // 0x7100f19928: destroys the model render data the renderer built.
     void sub_7100F19928(void* data);
     // 0x7100f1ab60: stores the two screen coordinates the map screen computes (each truncated to 16 bits).
@@ -211,7 +233,11 @@ private:
     gsys::ModelRenderQueue mRenderQueue;
     // +0x828: cleared by sub_7100F1AC58 (purpose unknown).
     s32 _828;
-    u8 _82c[0xfe8 - 0x82c];
+    u8 _82c[0xfd0 - 0x82c];
+    // 0xfd0: map-unit tables: the group is selected by the id's high half and each group is an
+    // inline array of 0x68-byte entries indexed by the id's low 16 bits.
+    sead::Buffer<sead::Buffer<UnitEntry>*> mUnitGroups;
+    u8 _fe0[0xfe8 - 0xfe0];
     // Two double-buffered id arrays at +0xfe8 / +0xff8 (the byte at +0x1008 selects one);
     // sub_7100F1AC58 clears the new one after flipping.
     struct IdBuffer {
