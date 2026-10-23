@@ -395,6 +395,9 @@ public:
     bool hasZoraSoulPlus() const;
 
     int countItemsWithCategoryByType(PouchCategory category) const;
+    // 0x7100978c38 (CSV x_24; declared only, placeholder name): whether the button for item `value` of page
+    // `index` can be shown.
+    bool x_24(s32 index, s32 value) const;
     // inline-only in the original (UI facade sub_7100A82D20); name is a guess
     s32 getNumTabs() const { return mNumTabs; }
     const PouchItem* getItemByIndex(PouchCategory category, int index) const;

@@ -3183,7 +3183,8 @@ public:
         Unk_7102474c28 mPage;
         Unk_7102474c48 mGuide;
         s32 mFirstItemIndex = 0;
-        u8 _7c[4]{};
+        // Read as a word by ScreenPauseMenu::sub_7100A399F4 (the last button index to enable).
+        u32 _7c = 0;
     };
     Unk_7100A341D0();
     ~Unk_7100A341D0();
@@ -3276,6 +3277,9 @@ public:
     void sub_7100A36784();
     // 0x7100a3772c (CSV unnamed, declared only): lays the tab controls out for the current page
     void sub_7100A3772C();
+    // 0x7100a399f4 (CSV unnamed, placeholder name): enables the buttons of the last `_3628` items of tab `tab`
+    // when the sort flag changes.
+    void sub_7100A399F4(s32 a1, u8 tab);
     // 0x7100a3471c (CSV unnamed, declared only): the pause menu's per-frame page / animator step.
     void sub_7100A3471C();
     // 0x7100a34a28 (CSV unnamed): plays mc_Close once when opened, then runs the step.
@@ -3293,7 +3297,8 @@ public:
     };
     /* 0x3620 */ s32 _3620;  // the shown guide page (-1: none)
     /* 0x3624 */ s32 _3624;  // the number of guide pages
-    u8 _pad_3628[0x3630 - 0x3628];
+    /* 0x3628 */ s32 _3628;  // number of items added by the last page change (sub_7100A399F4)
+    /* 0x362c */ u8 _pad_362c[4];
     /* 0x3630 */ void* _3630;  // the recipe screen's item argument
     u8 _pad_3638[0x3640 - 0x3638];
     /* 0x3640 */ bool _3640;  // read by m180 to choose the info mode

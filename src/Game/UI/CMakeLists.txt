@@ -210,6 +210,7 @@ target_sources(uking PRIVATE
   uiShopSmall.cpp
   uiShopTagHelpers.cpp
   uiScreenSmall.cpp
+  uiScreenPageButtons.cpp
   uiShopMgr.h
   uiShopMgrSmall.cpp
   uiSubsys1.cpp
