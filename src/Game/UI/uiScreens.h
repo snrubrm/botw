@@ -1014,6 +1014,9 @@ public:
     // A2E510 combines equipment resistance with deferred effect fields 3910/3914.
     void sub_7100A2E510(s32* hot, s32* cold, s32* fire);
     void sub_7100A2FEDC();
+    // 0x7100a2fd64 (placeholder name): shows the info of `item`; `flag` selects the empty name instead of the
+    // item's own name for the resist line.
+    void sub_7100A2FD64(const PouchItem* item, bool flag);
     void sub_7100A300AC();
     void sub_7100A2E844();
     void sub_7100A30510(u32 mode);
@@ -3210,6 +3213,14 @@ public:
 KSYS_CHECK_SIZE_NX150(Unk_7100A341D0::Entry, 0x80);
 KSYS_CHECK_SIZE_NX150(Unk_7100A341D0, 0x380);
 
+// The six equipment slot records at ScreenPauseMenu + 0x3bd8 (allocated by 0x7100a351f8): the item that was
+// equipped and whether the slot changed.
+struct PauseMenuEquipSlot {
+    /* 0x00 */ const PouchItem* mItem;
+    /* 0x08 */ u8 mChanged;
+};
+KSYS_CHECK_SIZE_NX150(PauseMenuEquipSlot, 0x10);
+
 class ScreenPauseMenu : public ScreenEx {
 public:
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
@@ -3312,6 +3323,14 @@ public:
     // 0x7100a3a7fc: moves the cursor to button tag (base tag of the page shown by `page` + offset); false if no
     // shown page matches or the tag is 0
     bool sub_7100A3A7FC(s32 page, s32 offset);
+    // 0x7100a3ad30 (placeholder name): holds the item under the cursor on the current page
+    void sub_7100A3AD30();
+    // 0x7100a3b144 (placeholder name): whether the pause menu may act on the current item (the cursor's tag or
+    // the recipe argument is a material item of a page that belongs to the material tab)
+    bool sub_7100A3B144();
+    // 0x7100a3aee4 (placeholder name): holds the item under the cursor; when the item is equipped, clears its
+    // equipment slot record and refreshes the info screen first
+    void sub_7100A3AEE4();
     // 0x7100a382e0 (CSV unnamed, placeholder name): refreshes the categories of the page before / at / after `page`.
     void sub_7100A382E0(s32 page);
     // 0x7100a38994: closes the TV box cursor screen when the cursor box leaves _3664
@@ -3326,8 +3345,9 @@ public:
     /* 0x3624 */ s32 _3624;  // the number of guide pages
     /* 0x3628 */ s32 _3628;  // number of items added by the last page change (sub_7100A399F4)
     /* 0x362c */ u8 _pad_362c[4];
-    /* 0x3630 */ void* _3630;  // the recipe screen's item argument
-    u8 _pad_3638[0x3640 - 0x3638];
+    /* 0x3630 */ PouchItem* _3630;  // the recipe screen's item argument
+    /* 0x3638 */ s32 _3638;  // the page id of the item under the cursor
+    u8 _pad_363c[4];
     /* 0x3640 */ bool _3640;  // read by m180 to choose the info mode
     /* 0x3641 */ u8 _3641;
     /* 0x3642 */ bool _3642;
@@ -3376,7 +3396,7 @@ public:
     /* 0x3bd0 */ s32 _3bd0;  // button index in _3a00[_3a18] (m175)
     u8 _pad_3bd4[4];
     // The scroll entries of the three tab pages, the layout pair list and the check-button list.
-    /* 0x3bd8 */ sead::Buffer<u8> _3bd8;
+    /* 0x3bd8 */ sead::Buffer<PauseMenuEquipSlot> _3bd8;
     // The 20 layout pairs updated by sub_7100A38FE8 and the state (0 / 1 / 2) it uses.
     /* 0x3be8 */ sead::Buffer<Unk_7102474b38> _3be8;
     /* 0x3bf8 */ s32 _3bf8;

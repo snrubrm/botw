@@ -651,6 +651,131 @@ void ScreenPauseMenu::sub_7100A382E0(s32 page) {
     }
 }
 
+// 0x7100a3ad30 (placeholder name): holds the item under the cursor on the current page.
+void ScreenPauseMenu::sub_7100A3AD30() {
+    s32 index = 0;
+    if (sUnk_71025f1220[2] <= _3638)
+        index = 2;
+    else if (sUnk_71025f1220[1] <= _3638)
+        index = 1;
+    if (!_3a00[index])
+        return;
+    const s32 category = _3a00[index]->_130;
+    const s32 value = _3a00[index]->sub_71009B0484(_3638);
+    const s32 button = _3a00[index]->sub_71009B0468(_3638);
+    mPauseMenuDataMgr->holdOrTrashItem(category, value, 0);
+    auto* unit = _3a00[index];
+    const s32 item = mPauseMenuDataMgr->x_25(category, value);
+    unit->mButtons[button].sub_710098975C(item);
+    if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo)))
+        info->sub_7100A30380(mPauseMenuDataMgr->getNextGrabbedItemIndex());
+    if (auto* mgr = OnUiActorMgr::instance()) {
+        const s32 grabbed = mPauseMenuDataMgr->getNextGrabbedItemIndex();
+        mgr->sub_7100907C34(&grabbed);
+    }
+}
+
+// 0x7100a3b144 (placeholder name): whether the pause menu may act on the current item.
+// NON_MATCHING: our clang folds the three `if (x == 4) return true; return false;` pairs into one shared
+// `cset` block and encodes the value test as cmp #1 / b.lt; the original keeps four `return true` blocks
+// and compares against zero.
+bool ScreenPauseMenu::sub_7100A3B144() {
+    if (!sub_7100A82E38())
+        return false;
+    if (_3630 && _3630->isInInventory() && _3630->getValue() > 0) {
+        if (_3630->getType() == PouchItemType::Material)
+            return true;
+        return false;
+    }
+    if (_3674 == 0) {
+        if (mSelectedCategory == s32(PouchCategory::Material))
+            return true;
+    } else {
+        const s32 page = _3648;
+        const PouchCategory category = sub_7100A82D08(page);
+        if (category != PouchCategory::Material) {
+            if (category != PouchCategory::Invalid)
+                return false;
+            if (page == mTabControls.mEntries[0].mFirstItemIndex)
+                return false;
+            if (page == mTabControls.mEntries[1].mFirstItemIndex)
+                return false;
+            if (page == mTabControls.mEntries[2].mFirstItemIndex)
+                return false;
+            if (page == mTabControls.mEntries[3].mFirstItemIndex)
+                return false;
+            if (page != mTabControls.mEntries[4].mFirstItemIndex)
+                return false;
+        }
+        if (!mActiveCursorNode)
+            return false;
+        const s32 tag = mActiveCursorNode->mButton->mTag;
+        if (u32(tag - 9) > 0x3b)
+            return false;
+        s32 index = 0;
+        if (sUnk_71025f1220[2] <= tag)
+            index = 2;
+        else if (sUnk_71025f1220[1] <= tag)
+            index = 1;
+        auto* unit = _3a00[index];
+        if (!unit)
+            return false;
+        const PouchCategory category2 = sub_7100A82D08(unit->_130);
+        if (category2 == PouchCategory::Material)
+            return true;
+        if (category2 != PouchCategory::Invalid)
+            return false;
+        if (unit->_130 == mTabControls.mEntries[0].mFirstItemIndex)
+            return false;
+        if (unit->_130 == mTabControls.mEntries[1].mFirstItemIndex)
+            return false;
+        if (unit->_130 == mTabControls.mEntries[2].mFirstItemIndex)
+            return false;
+        if (unit->_130 == mTabControls.mEntries[3].mFirstItemIndex)
+            return false;
+        if (unit->_130 != mTabControls.mEntries[4].mFirstItemIndex)
+            return false;
+        return true;
+    }
+    return false;
+}
+
+// 0x7100a3aee4 (placeholder name): holds the item under the cursor. When the item is equipped, it clears the
+// item's equipment slot record, equips the slot's default item, refreshes the info screen and marks the UI busy
+// first.
+void ScreenPauseMenu::sub_7100A3AEE4() {
+    u8 index = 0;
+    if (sUnk_71025f1220[2] <= _3638)
+        index = 2;
+    else if (sUnk_71025f1220[1] <= _3638)
+        index = 1;
+    if (!_3a00[index])
+        return;
+    const s32 category = _3a00[index]->_130;
+    const s32 value = _3a00[index]->sub_71009B0484(_3638);
+    const s32 button = _3a00[index]->sub_71009B0468(_3638);
+    if (_3630->isEquipped()) {
+        mPauseMenuDataMgr->x_20(category, value);
+        const auto* item = _3630;
+        const u8 slot = u8(getCreateEquipmentSlot(item->getType()));
+        _3bd8[slot].mItem = nullptr;
+        _3bd8[slot].mChanged = true;
+        if (auto* mgr = OnUiActorMgr::instance())
+            mgr->sub_7100907F80(
+                mPauseMenuDataMgr->getDefaultEquipment(EquipmentSlot(item->getType())), -1, true);
+        if (_3630->getType() == PouchItemType::Bow)
+            sub_7100A399F4(category, index);
+        if (auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo)))
+            info->sub_7100A2FD64(_3630, false);
+        sub_7100A9B9F8(0);
+    }
+    mPauseMenuDataMgr->holdOrTrashItem(category, value, 0);
+    _3a00[index]->sub_71009B00E0(button);
+    _3be8[button].sub_7100932FDC(_3bf8, false);
+}
+
 // 0x7100a3a7fc
 // NON_MATCHING: the original keeps the page index in a separate 64-bit register for the element
 // address; our clang reuses the 32-bit index with uxtw.

@@ -383,6 +383,14 @@ public:
     int countAlreadyDyedArmor() const;
 
     int getNextGrabbedItemIndex() const;
+    // 0x71009766d8 (CSV placeholder name; declared only): holds the item `value` of `category`, or trashes it
+    // when the pouch is full.
+    void holdOrTrashItem(s32 category, s32 value, s32 flag);
+    // 0x7100978e20 (CSV x_25; declared only, placeholder name): the value shown on the button of item `value`
+    // of `category` after holding it.
+    int x_25(s32 category, s32 value);
+    // 0x71009764a0 (CSV x_20; declared only, placeholder name): un-equips item `value` of `category`.
+    void x_20(s32 category, s32 value);
     bool canGrabAnotherItem() const;
     bool isNothingBeingGrabbed() const;
     // 0x710097adfc

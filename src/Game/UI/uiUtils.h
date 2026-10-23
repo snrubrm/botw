@@ -437,6 +437,10 @@ bool sub_7100A79EC4();
 // 0x7100a82db8 / 0x7100a82dd0 (placeholder names): forward to PauseMenuDataMgr::x_37 / x_38.
 s32 sub_7100A82DB8(s32 a);
 void sub_7100A82DD0(s32 a);
+// 0x7100a82e38 (placeholder name, defined in uiPouchFacade.cpp): whether the player may pick up material items.
+bool sub_7100A82E38();
+// 0x7100a9b9f8 (defined in uiManagerFacade.cpp): sets a bit of the UI manager's global flag set.
+void sub_7100A9B9F8(s32 bit);
 
 // lane2 s47 (placeholder names, the evt::S7 TU 0x71008ae2a8 - 0x71008ae928; none of them uses `this`; the ones that take
 // arguments are ksys::evt::S7 members, see evtS7.h): helpers of the fade screens. 0x71008ae818 / 0x71008ae644 /

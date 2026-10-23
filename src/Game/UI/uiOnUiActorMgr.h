@@ -68,9 +68,14 @@ public:
     void sub_7100907BA8(const s32* value);
     void sub_7100907BDC(const s32* value);
     // 0x7100907c10 (placeholder name): sets the pause menu player's _c35 flag
-    void sub_7100907C10();
-    // 0x7100907c24 (placeholder name): updates the pause menu player's resist state
+    void sub_7100907C10();    // 0x7100907c24 (placeholder name): updates the pause menu player's resist state
     void sub_7100907C24();
+    // 0x7100907c34 (placeholder name): stores the grabbed item index at actor + 0xc38 and tells the pause menu
+    // player (message 0x91000000) that the grabbed item changed.
+    void sub_7100907C34(const s32* index);
+    // 0x7100907f80 (placeholder name): equips `name` in the pause menu player's `slot` (-1 keeps the current
+    // one) and returns whether it did.
+    bool sub_7100907F80(const sead::SafeString& name, s32 slot, bool flag);
     void sub_7100907A30();
     // 0x7100906f18 (CSV OnUiActorMgr::x_0, declared only): pushes the pause menu player's resist levels, stores the
     // model matrix scale at 0x1e8 / 0x1f0, sets bit 4 of _1f4 and either applies a rotation to the actor's pose or
