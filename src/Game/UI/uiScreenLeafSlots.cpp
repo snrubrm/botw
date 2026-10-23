@@ -589,6 +589,54 @@ void ScreenAppCamera::m159() {
     }
 }
 
+namespace {
+// 0x71025d6dc0 (partially modelled): the ScreenAppCamera run's record table; only the sead::Buffer at +0x170 is
+// used here, the rest of the original block is camera setup data.
+struct CameraRunRecord {
+    s32 id;
+    s32 value;
+    sead::SafeString text;
+};
+static_assert(sizeof(CameraRunRecord) == 0x18);
+struct CameraRunStatics {
+    u8 _0[0x170];
+    sead::Buffer<CameraRunRecord> mRecords;
+};
+CameraRunStatics sUnk_71025d6dc0;
+}  // namespace
+
+// 0x71009d80b8
+void ScreenAppCamera::sub_71009D80B8(s32 mode, s32 a2) {
+    _4368._128 = 1;
+    switch (mode) {
+    case 0:
+        _4368.sub_7100934308(sUnk_71025d6dc0.mRecords[0].id, sUnk_71025d6dc0.mRecords[0].text,
+                             sUnk_71025d6dc0.mRecords[0].value);
+        _4368.sub_7100934308(sUnk_71025d6dc0.mRecords[1].id, sUnk_71025d6dc0.mRecords[1].text,
+                             sUnk_71025d6dc0.mRecords[1].value);
+        _4368.sub_7100934308(sUnk_71025d6dc0.mRecords[2].id, sUnk_71025d6dc0.mRecords[2].text,
+                             sUnk_71025d6dc0.mRecords[2].value);
+        _4368.sub_7100934308(sUnk_71025d6dc0.mRecords[3].id, sUnk_71025d6dc0.mRecords[3].text,
+                             sUnk_71025d6dc0.mRecords[3].value);
+        _4368.sub_7100934308(sUnk_71025d6dc0.mRecords[4].id, sUnk_71025d6dc0.mRecords[4].text,
+                             sUnk_71025d6dc0.mRecords[4].value);
+        break;
+    case 1:
+        _4368.sub_7100934308(sUnk_71025d6dc0.mRecords[0].id, sUnk_71025d6dc0.mRecords[0].text,
+                             sUnk_71025d6dc0.mRecords[0].value);
+        _4368.sub_7100934308(sUnk_71025d6dc0.mRecords[1].id, sUnk_71025d6dc0.mRecords[1].text,
+                             sUnk_71025d6dc0.mRecords[1].value);
+        _4368.sub_7100934308(sUnk_71025d6dc0.mRecords[2].id, sUnk_71025d6dc0.mRecords[2].text,
+                             sUnk_71025d6dc0.mRecords[2].value);
+        _4368.sub_7100934308(sUnk_71025d6dc0.mRecords[3].id, sUnk_71025d6dc0.mRecords[3].text,
+                             sUnk_71025d6dc0.mRecords[3].value);
+        _4368.sub_7100934308(sUnk_71025d6dc0.mRecords[5].id, sUnk_71025d6dc0.mRecords[5].text,
+                             sUnk_71025d6dc0.mRecords[5].value);
+        break;
+    }
+    _4368.sub_7100934478(a2 & 1);
+}
+
 // 0x71009d9ad8
 void ScreenAppCamera::sub_71009D9AD8() {
     if (_3618)

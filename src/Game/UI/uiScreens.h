@@ -5405,7 +5405,7 @@ public:
     virtual void m163();
     virtual void m164();
     // 0x71009d80b8 (declared only; 404 bytes): tears down the camera run's allocations
-    void sub_71009D80B8(u8 a1, s32 a2);
+    void sub_71009D80B8(s32 a1, s32 a2);
     virtual s32 m165();
     virtual void m166();
 };
