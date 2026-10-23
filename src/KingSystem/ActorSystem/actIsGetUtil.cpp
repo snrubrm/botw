@@ -1,6 +1,7 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/GameData/gdtManager.h"
 
 // Link order puts these after mapDebug, apart from the actActorUtil block.
@@ -80,4 +81,14 @@ void setIsGetFlagEx_0(const sead::SafeString& name, bool value, bool mode) {
     flag_name.append(name);
     if (auto* mgr = ksys::gdt::Manager::instance())
         mgr->setBoolSpecial(value, flag_name, mode, true);
+}
+
+// Second copy of the actor-link IsGet query (uses the second flag functions).
+bool checkIsGetSameGroupActor_0(ksys::act::BaseProcLink* link, bool mode) {
+    sead::SafeString group_name;
+    if (ksys::act::getSameGroupActorName(&group_name, link))
+        return checkIsGet_0(group_name, mode);
+    ksys::act::ActorLinkConstDataAccess accessor;
+    acquireActor(link, &accessor);
+    return checkIsGet_0(accessor.getName(), mode);
 }
