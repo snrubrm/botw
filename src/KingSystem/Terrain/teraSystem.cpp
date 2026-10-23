@@ -1962,6 +1962,30 @@ void System::sub_7101116D44() {
     mPatcherCS.unlock();
 }
 
+// 0x71011190c8 (placeholder name): registers an image user in the system's +0x68 list. The
+// element type is not recoverable from the callers (mapPlacementMap stores the routes as void*).
+void sub_71011190C8(void* tera_system, void* route) {
+    auto* system = static_cast<System*>(tera_system);
+    auto lock = sead::makeScopedLock(system->mImageUsersCS);
+    system->mImageUsers.pushBack(static_cast<ImageUser*>(route));
+}
+
+// 0x710111911c (placeholder name): marks all four image types for an update and unregisters the
+// route from the system's +0x68 list.
+// NON_MATCHING: clang emits the final unlock as a call before the epilogue; the original restores
+// the registers first and tail-calls it.
+void sub_710111911C(void* tera_system, void* route) {
+    auto* system = static_cast<System*>(tera_system);
+    {
+        const s32 types[4] = {s32(sUnk_7101EC54AC.raw), s32(sUnk_7101EC54B4.raw),
+                              s32(sUnk_7101EC54B8.raw), s32(sUnk_7101EC54BC.raw)};
+        system->sub_7101118710(types, 4);
+    }
+    system->mImageUsersCS.lock();
+    system->mImageUsers.erase(static_cast<ImageUser*>(route));
+    system->mImageUsersCS.unlock();
+}
+
 // 0x7101116e74 (placeholder name): under the read lock, updates scene `index`'s uniform block from
 // the culling frustum and runs the collector's per-scene update.
 // NON_MATCHING: the frame is 0xa0 instead of 0x90 (the inline flush's temporary gets its own slot

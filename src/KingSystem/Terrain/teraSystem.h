@@ -112,6 +112,7 @@ class ApertureMaps {
 class ApertureMapsCollector;
 class System;
 class MapPatcher;
+class ImageUser;
 class Unk_7101106F44;
 class AreaEnvGetter;
 // The vegetation terrain material manager (0x7101078674 setDirty); Core::Grass::sub_7101150A70
@@ -1660,6 +1661,9 @@ public:
     sead::Vector3f* sub_710111713C(s32 index);
     // 0x710111718c (placeholder name): runs the scene's collector clear (0x71011066f0).
     void sub_710111718C(s32 index);
+    // 0x7101118710 (declaration only; placeholder name): marks the collector image flags that
+    // correspond to `types`.
+    void sub_7101118710(const s32* types, s32 count);
     // 0x7101116d44 (placeholder name): flips the patch-buffer parity, points every scene's block at
     // the new buffer and swaps the buffers of the registered map patchers.
     void sub_7101116D44();
@@ -1827,7 +1831,11 @@ public:
     // Centre and size of _8.
     sead::Vector2f _1c;
     f32 _24;
-    u8 _28[0x80 - 0x28];
+    // Locks mImageUsers (the register / unregister pair 0x71011190c8 / 0x710111911c).
+    sead::CriticalSection mImageUsersCS;
+    u8 _28_end[0x68 - 0x28 - sizeof(sead::CriticalSection)];
+    // Image users of the area nodes (the element type's node is at the list offset set by the ctor).
+    sead::OffsetList<ImageUser> mImageUsers;
     // Locks mPatchers (the register / unregister helpers and sub_7101116D44).
     sead::CriticalSection mPatcherCS;
     u8 _80_end[0xc0 - 0x80 - sizeof(sead::CriticalSection)];
@@ -2175,6 +2183,9 @@ void sub_71012DC608(void* object);
 // 0x71011190c8 (declaration only; placeholder name and signature): called by map::PlacementMapMgr::postPlaceActorsRouteStuff with
 // the tera system and every route of every map.
 void sub_71011190C8(void* tera_system, void* route);
+// 0x710111911c (placeholder name): marks all four image types for an update and unregisters the
+// route from the system's +0x68 list.
+void sub_710111911C(void* tera_system, void* route);
 
 // Placeholder: vtable 0x710250fc48 (hostio::Node::getNodeClassType, D1 0x710114e904, D0 0x710114ea4c),
 // ctor 0x710114e714 (sets _8 = 0x1e000481). Held by the renderer that calls sub_710114EA70 (0x71012dafb8).
