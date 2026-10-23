@@ -301,6 +301,17 @@ const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102480ab0::getEntries()
     return &sUnk_7102480a88;
 }
 
+// ScreenMessageGet creator; native getter/D0 precede its screen constructor.
+static const ChildControlCreatorEntry sUnk_710248f710[] = {
+    {"Pa_Gear_00", sub_7100A233EC, 0},
+    {"Pa_Gear_01", sub_7100A233EC, 0},
+};
+static const sead::Buffer<const ChildControlCreatorEntry> sUnk_710248f700(sUnk_710248f710);
+// 0x7100a233bc
+const sead::Buffer<const ChildControlCreatorEntry>* Unk_710248f740::getEntries() const {
+    return &sUnk_710248f700;
+}
+
 // ScreenShopInfo creator; native getter/D0 precede its screen constructor.
 static const ChildControlCreatorEntry sUnk_71024981e8[] = {
     {"Pa_ItemName_00", sub_7100A513A4, 0},
