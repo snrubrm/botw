@@ -158,6 +158,10 @@ void Unk_710250dbc8::m13(void* unused, const void* src, u32 size) {
     Unk_710250dcd8::m13(unused, src, size);
 }
 
+// 0x710110d8b8: empty in this release (a four-byte body); Unk_7101106F44::init calls it with the
+// resource name.
+void Unk_710250dc50::init(const sead::SafeString& name) {}
+
 Unk_710250dc50::Unk_710250dc50() = default;
 
 s32 Unk_710250dc50::m4() {

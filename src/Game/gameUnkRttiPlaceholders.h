@@ -1237,8 +1237,8 @@ public:
 class Unk_710250dc50 : public Unk_710250dcd8 {
     SEAD_RTTI_OVERRIDE(Unk_710250dc50, Unk_710250dcd8)
 public:
-    // 0x710110d8b8 (does nothing)
-    void init(const sead::SafeString& name) {}
+    // 0x710110d8b8: empty in this release (a four-byte body).
+    void init(const sead::SafeString& name);
     // 0x710110d860
     Unk_710250dc50();
     ~Unk_710250dc50() override;
