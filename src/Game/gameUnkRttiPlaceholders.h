@@ -60,6 +60,7 @@
 #include <gsys/gsysModelUnit.h>
 #include <common/aglDrawContext.h>
 #include <common/aglGPUMemBlock.h>
+#include <common/aglGPUMemAddr.h>
 
 namespace agl { class DisplayList; }
 namespace uking { class Unk_71024739f8; }
@@ -1739,12 +1740,10 @@ private:
     f32 _34 = 20.0f;
     // Default-initialised box (min at +0x38 is +FLT_MAX, max at +0x44 -FLT_MAX).
     sead::BoundBox3f mBounds;
-    u64 _50 = 0;
-    u32 _58 = 0;
-    u8 _5c[4];
-    u64 _60 = 0;
-    u64 _68 = 0;
-    // The record owns a texture sampler at +0x70 (its texture data pointer is freed from +0x68).
+    // 0x710129e6d8 releases this GPU block with deleteGPUMemBlock and deletes mTextureData.
+    agl::GPUMemAddrBase _50;
+    agl::TextureData* mTextureData = nullptr;
+    // The record owns a texture sampler at +0x70.
     agl::TextureSampler mSampler;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025197e8, 0x1e0);
