@@ -1683,8 +1683,9 @@ void Unk_71024753a8::set60(const sead::Vector2f& value) {
 }
 
 // 0x7100950310 (placeholder name): clamps `offset` to half the map extent when the map bounds are set.
-// NON_MATCHING: the compiler if-converts both clamps into fcsels and schedules the box loads before the
-// extent products (the original keeps the two compare branches and loads the box last).
+// NON_MATCHING: one instruction: the original stores the clamped x even when it is in range (the value of
+// `Mathf::clamp`), which our clang turns into two fcsels when written as a clamp-assignment; the explicit
+// nested ifs keep the branches, so only the in-range store is missing here.
 void Unk_71024753a8::sub_7100950310(f32 scale, sead::Vector2f* offset) {
     if (UiSubsys1::instance()->_848 == 0)
         return;
@@ -1697,8 +1698,18 @@ void Unk_71024753a8::sub_7100950310(f32 scale, sead::Vector2f* offset) {
     const f32 limit_x = std::max(half_x, 0.0f);
     const f32 limit_y = std::max(half_y, 0.0f);
 
-    offset->x = sead::Mathf::clamp(offset->x, -limit_x, limit_x);
-    offset->y = sead::Mathf::clamp(offset->y, -limit_y, sead::Mathf::maxNumber());
+    if (offset->x < -limit_x)
+        offset->x = -limit_x;
+    else {
+        if (offset->x > limit_x)
+            offset->x = limit_x;
+    }
+    if (offset->y < -limit_y)
+        offset->y = -limit_y;
+    else {
+        if (offset->y > sead::Mathf::maxNumber())
+            offset->y = sead::Mathf::maxNumber();
+    }
 }
 
 // 0x7100950408
