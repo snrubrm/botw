@@ -1450,6 +1450,26 @@ void ScreenAppMapDungeon::m94() {
     sub_71009E3258();
 }
 
+// 0x71009e2ea8 (placeholder name): moves the dungeon table's icons to the screen positions of their records.
+void ScreenAppMapDungeon::sub_71009E2EA8() {
+    if (!_118d8)
+        return;
+    if (mState == 0 || mState == 3)
+        return;
+    if (!Unk_71025d6550::instance()->isD78One())
+        return;
+
+    for (s32 i = 0; i < _118d8->mEntries.size(); ++i) {
+        sub_71009DFD64(_118d8->mEntries[i], _118d8->mEntries[i]._8, _118d8->mEntries[i]._20,
+                       _118d8->mEntries[i]._14);
+        nn::util::Float2 pos{0.0f, 0.0f};
+        sub_71009E42F4(_118d8->mEntries[i]._8, &pos);
+        mDungeonIcons.unsafeAt(i)->_8 = pos;
+        sub_71009E42F4(_118d8->mEntries[i]._14, &pos);
+        mDungeonIcons.unsafeAt(i)->_10 = pos;
+    }
+}
+
 // 0x71009e2fec (placeholder name): plays the map's castle-area animator when the player is at its start or end frame.
 void ScreenAppMapDungeon::sub_71009E2FEC() {
     if (Manager::instance()->_64c38 != 5)

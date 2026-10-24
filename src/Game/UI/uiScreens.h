@@ -5930,6 +5930,8 @@ public:
     void sub_71009E2FEC();
     void sub_71009E30D4();
     void sub_71009E3258();
+    // 0x71009e42f4 (placeholder name): the screen position of a world position through the map camera
+    void sub_71009E42F4(const sead::Vector3f& pos, nn::util::Float2* out);
     // 0x71009e34d0 (placeholder name): the map's per-frame camera control: follows the layer 1 camera while the
     // display mode is 0, turns the left stick into a masked input, drives screen 62 and the sensor child, then
     // reports the input to the map child
@@ -6009,9 +6011,37 @@ public:
     u8 _11898[0x118a8 - 0x11898];
     /* 0x118a8 */ s32 _118a8;  // dungeon display mode, set by sub_71009E78D8
     /* 0x118ac */ s32 _118ac;  // selected entry (-1: none)
-    u8 _118b0[0x118d0 - 0x118b0];
+    // One 0x98-byte record of the dungeon table (vtable 0x7102595338 + 0x10); the per-frame update fills the
+    // three transforms at +8 / +0x14 / +0x20.
+    struct DungeonEntry {
+        u8 _0[8];
+        /* 0x08 */ sead::Vector3f _8;   // world position
+        /* 0x14 */ sead::Vector3f _14;  // screen position
+        /* 0x20 */ sead::Vector3f _20;  // Euler rotation
+        u8 _2c[0x98 - 0x2c];
+    };
+    static_assert(sizeof(DungeonEntry) == 0x98);
+    // One 0x78-byte record of the table at the TU static 0x71025de1e0: an 8-byte header and the entries.
+    struct DungeonRecord {
+        u8 _0[8];
+        /* 0x08 */ sead::Buffer<DungeonEntry> mEntries;
+        u8 _18[0x78 - 0x18];
+    };
+    static_assert(sizeof(DungeonRecord) == 0x78);
+    // One 0x20-byte map icon moved by the per-frame update (polymorphic in the original; only the two offsets
+    // are used here).
+    struct DungeonIcon {
+        /* 0x00 */ void* _0;
+        /* 0x08 */ nn::util::Float2 _8;
+        /* 0x10 */ nn::util::Float2 _10;
+        u8 _18[8];
+    };
+    static_assert(sizeof(DungeonIcon) == 0x20);
+    /* 0x118b0 */ sead::PtrArray<DungeonIcon> mDungeonIcons;
+    u8 _118c0[0x118d0 - 0x118c0];
     /* 0x118d0 */ s32 _118d0;  // last selected entry
-    u8 _118d4[0x118e0 - 0x118d4];
+    u8 _118d4[0x118d8 - 0x118d4];
+    /* 0x118d8 */ DungeonRecord* _118d8;  // the dungeon table record selected by the map mode
     /* 0x118e0 */ UiTimer _118e0;
     /* 0x118f8 */ sead::Vector2f _118f8;  // left stick of the screen's controller
     /* 0x11900 */ bool _11900;
@@ -6035,6 +6065,11 @@ public:
     void sub_71009E5CA8(s32 index);
 };
 static_assert(sizeof(ScreenAppMapDungeon) == 0x11938);
+
+// 0x71009dfd64 (placeholder name): applies `rot` (Euler angles) and the entry's own model transform to `pos`
+// and writes the result to `out`.
+void sub_71009DFD64(const ScreenAppMapDungeon::DungeonEntry& entry, const sead::Vector3f& pos,
+                    const sead::Vector3f& rot, sead::Vector3f& out);
 
 class ScreenPickUp : public ScreenEx {
 public:
