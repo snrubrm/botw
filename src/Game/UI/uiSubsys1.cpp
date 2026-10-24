@@ -185,6 +185,21 @@ void UiSubsys1::set128(s32 value) {
     _128 = value;
 }
 
+// 0x7100968774: advances the selected map mode entry count until it reaches the mode's state count
+// NON_MATCHING: the original materialises this + 0x3830 for the two stores; ours uses the immediate offset.
+void UiSubsys1::sub_7100968774() {
+    if (getMapMode() == 6) {
+        ++_3830;
+        return;
+    }
+    const u16 mode = getMapMode();
+    if (_3830 == _d80[mode < 5 ? mode : 0].mSelected._98) {
+        _3830 = 0;
+        return;
+    }
+    ++_3830;
+}
+
 // 0x7100968af8: sets a bit of the 16-bit flag word at 0x3860
 void UiSubsys1::sub_7100968AF8(s32 index) {
     _3860 |= 1 << u16(index);

@@ -1496,7 +1496,7 @@ public:
     // the demo state's map camera steps
     void sub_71009679AC();
     void sub_71009677CC();
-    s32 sub_7100968774();
+    void sub_7100968774();
     s32 sub_7100968B1C();
     void sub_7100968C2C(s32 value);
     bool is38b8And38b9Clear() const;
