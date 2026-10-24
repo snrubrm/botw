@@ -1,4 +1,5 @@
 #include "KingSystem/GameData/gdtSpecialFlags.h"
+#include <cstring>
 #include "Game/UI/uiScreenControlCreators.h"
 #include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/uiScreens.h"
@@ -543,6 +544,40 @@ void ScreenAppPictureBook::m89() {
 void ScreenAppPictureBook::m128() {
     for (auto& controller : sUnk_71025eb5c0)
         controller.sub_71009CC970();
+}
+
+// 0x71009d98b8
+// NON_MATCHING: the original passes memset's return value as sub_71009DB9C8's first argument
+// (`ldr x1` reloads the buffer, x0 is the memset result); writing the natural two-statement form
+// our clang reloads the member into x0 and copies it, and the inline-memset form keeps the pointer
+// in a callee-saved register. The other difference is the register pair of the two `_6f8` / `_700`
+// stores.
+void ScreenAppCamera::m162() {
+    if (getViewerType() == 0) {
+        if (_4020) {
+            memset(_4020, 0, 0x1e000);
+            _4028 = s32(sub_71009DB9C8(_4020, _4020, &_36f8, 0x10000));
+        }
+        if (_401a) {
+            if (_4030) {
+                memset(_4030, 0, 0x1e000);
+                _4038 = s32(sub_71009DB9C8(_4030, _4030, &_3b88, 0x5000));
+            }
+        }
+    }
+    if (_3638)
+        _3638->StopAtMax();
+    eui::Screen::x_2();
+    Unk_710247dc90::Request request;
+    request.texture = &_36f8;
+    request.texture2 = &_3b88;
+    request.name = _4198;
+    request.flag = _401a;
+    sub_71009C6BF4(_3610, request);
+    _3610->_6f8 = _4040;
+    _3610->_700 = _4060;
+    _4368.sub_71009348D0(true);
+    _3620->PlayAuto(1.0f);
 }
 
 // 0x71009fa4b8

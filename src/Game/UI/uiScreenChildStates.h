@@ -358,10 +358,12 @@ public:
     // The photo the camera screen hands over (0x71009c6bf4 reads it; 0x71009db9c8 fills the textures).
     struct Request {
         agl::TextureData* texture;
-        bool flag;
+        bool flag = false;
         u8 _pad[7];
         agl::TextureData* texture2;
-        sead::SafeString name;
+        // The camera screen assigns the name after building the request; the original initializes it
+        // from cEmptyString (the original's name stores are a copy of that string).
+        sead::SafeString name = sead::SafeString::cEmptyString;
     };
 
     /* 0x408 */ Unk_71009cb0c8 _408;
