@@ -172,7 +172,7 @@ void Constraint::sub_7100F6A180(sead::Heap* heap) {
 void ConstraintListener::constraintRemovedCallback(hkpConstraintInstance* constraint) {
     auto* self = reinterpret_cast<Constraint*>(constraint->getUserData());
     if (self->_a0)
-        self->_a0->m0(self, true);
+        self->_a0->invoke(self, true);
 
     hkpConstraintOwner* owner = constraint->getOwner();
     self->_50 = (self->_50 & ~9) | 8;
@@ -278,7 +278,7 @@ bool Constraint::sub_7100F6A474(bool apply_pending) {
         }
     }
     if (_a0)
-        _a0->m0(this, false);
+        _a0->invoke(this, false);
     System::instance()->getRigidBodyRequestMgr()->addConstraintToWorld(mConstraintInstance);
     if (_20)
         System::instance()->sub_7101216AA8(_20);

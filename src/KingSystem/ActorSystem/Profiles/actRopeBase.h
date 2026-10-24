@@ -85,6 +85,10 @@ public:
     // 0x7100ecd4b0 (placeholder name): cuts the rope at _9ec (constraints past it, bodies to the
     // spare lists, chemicals restarted).
     void sub_7100ECD4B0();
+    // 0x7100ecd77c (placeholder name): attaches a BAndSCs constraint at rope end `end` (0 or 1): builds
+    // the end's frames, makes or updates the constraint and stores it in the segment list.
+    bool sub_7100ECD77C(phys::RigidBody* body, u32 end, const sead::Vector3f& position,
+                        const sead::Vector3f& direction);
     // 0x7100ecdc38 (placeholder name): hands one rope end constraint the frame position of its
     // rigid body and stores the end position.
     bool sub_7100ECDC38(const BaseProc* proc, phys::RigidBody* body, u32 end,

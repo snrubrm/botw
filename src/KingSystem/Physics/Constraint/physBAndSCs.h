@@ -13,11 +13,11 @@ class BAndSCs : public Constraint {
     SEAD_RTTI_OVERRIDE(BAndSCs, Constraint)
 public:
     struct Param : Constraint::Param {
-        // The factory does not consume this four-byte prefix before the pivots.
-        u8 _20[4];
-        sead::Vector3f pivot_a;
-        sead::Vector3f pivot_b;
+        bool _20 = true;
+        sead::Vector3f pivot_a = sead::Vector3f::zero;
+        sead::Vector3f pivot_b = sead::Vector3f::zero;
     };
+    static_assert(sizeof(Param) == 0x40);
     static BAndSCs* make(const Param& param, sead::Heap* heap);
 
     ~BAndSCs() override;

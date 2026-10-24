@@ -2,6 +2,7 @@
 
 #include <math/seadMatrix.h>
 #include <container/seadSafeArray.h>
+#include <prim/seadDelegate.h>
 #include <prim/seadEnum.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <thread/seadCriticalSection.h>
@@ -55,11 +56,9 @@ public:
     void constraintRemovedCallback(hkpConstraintInstance* constraint) override;
 };
 
-// Placeholder (the object at Constraint +0xa0): 0x7100f6a474 calls its first virtual with (this, false) before the
-// constraint is added to the world.
-struct ConstraintUnkA0 {
-    virtual void m0(Constraint* constraint, bool x) = 0;
-};
+// The object at Constraint +0xa0: a sead delegate invoked with the constraint and whether it is the second end,
+// before the constraint is added to the world (0x7100f6a474) and when it is removed (ConstraintListener).
+using ConstraintUnkA0 = sead::IDelegate2<Constraint*, s32>;
 
 class Constraint {
     SEAD_RTTI_BASE(Constraint)

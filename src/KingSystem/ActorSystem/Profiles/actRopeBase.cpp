@@ -18,6 +18,38 @@
 
 namespace ksys::act {
 
+// 0x7100eca978 (placeholder name): holds (flag 0) or releases (flag 1) the actor behind the second
+// body of `constraint`, through its PhysicsUserTag.
+void sub_7100ECA978(phys::Constraint* constraint, s32 release) {
+    if (constraint->sub_7100F6AC68())
+        return;
+
+    auto* body = constraint->x_0(1);
+    if (!body)
+        return;
+
+    auto* tag = body->getUserTag();
+    if (!sead::IsDerivedFrom<PhysicsUserTag>(tag))
+        return;
+
+    ActorLinkConstDataAccess accessor;
+    static_cast<PhysicsUserTag*>(tag)->acquireActor(&accessor);
+    if (accessor.hasProc()) {
+        switch (release) {
+        case 0:
+            accessor.sub_7100D15448();
+            break;
+        case 1:
+            accessor.sub_7100D154DC();
+            break;
+        }
+    }
+}
+
+// Stored in the rope end constraints' ConstraintUnkA0 hook (0x7100f6a474 and the removed callback
+// invoke it with false / true).
+sead::Delegate2Func<phys::Constraint*, s32> sEndConstraintActorHook(&sub_7100ECA978);
+
 RopeBase::~RopeBase() = default;
 
 // NON_MATCHING: the body and the failure path are the same, but our build places the shared
@@ -331,6 +363,61 @@ void RopeBase::sub_7100ECD620(s32 idx) {
         }
     }
     _840[idx] = nullptr;
+}
+
+// NON_MATCHING: the original keeps the Param's default stores (body_a / body_b / _18) that our DSE
+// removes, and inlines the element-wise makeIdentity where our sead model copies a constant matrix.
+// 0x7100ecd77c (placeholder name): attaches a BAndSCs constraint at rope end `end` (0 or 1): builds
+// the end's frames, makes or updates the constraint and stores it in the segment list.
+bool RopeBase::sub_7100ECD77C(phys::RigidBody* body, u32 end, const sead::Vector3f& position,
+                              const sead::Vector3f& direction) {
+    if (end > 1)
+        return false;
+
+    auto* heap = map::PlacementMgr::instance()->mDynamicHeap;
+    if (!heap)
+        return false;
+
+    s32 body_index = 0;
+    s32 index = 0;
+    if (end != 0) {
+        body_index = _930;
+        index = _930 + 1;
+    }
+
+    auto* body_a = _860[body_index];
+    sub_7100ECD620(index);
+
+    phys::BAndSCs::Param param{};
+    param.body_a = body_a;
+    param.body_b = body;
+    param.pivot_a.set(0.0f, end == 0 ? _93c : -_93c, 0.0f);
+    param.pivot_b.set(position);
+
+    _8f0[index].first.makeIdentity();
+    _8f0[index].first.setTranslation(param.pivot_a);
+    _8f0[index].second.makeIdentity();
+    _8f0[index].second.setTranslation(param.pivot_b);
+
+    param._18 = false;
+    _900[end] = direction * _93c + position;
+
+    if (_8b0[end]) {
+        auto* constraint = sead::DynamicCast<phys::BAndSCs>(_8b0[end]);
+        constraint->sub_7100F69FF0();
+        constraint->sub_7100F6AAA4(param.body_a, param.body_b);
+        constraint->sub_7100F6B144(param.pivot_a, param.pivot_b);
+        constraint->sub_7100F6AC04(param._18);
+    } else {
+        _8b0[end] = phys::BAndSCs::make(param, heap);
+    }
+
+    _840[index] = _8b0[end];
+    _840[index]->_a0 = &sEndConstraintActorHook;
+    _840[index]->sub_7100F69FF0();
+
+    sub_7100ECDAB8();
+    return true;
 }
 
 // 0x7100ecdc38 (placeholder name): when `body` is the end constraint's first body, hands that
