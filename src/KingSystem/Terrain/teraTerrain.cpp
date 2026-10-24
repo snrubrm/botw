@@ -11,6 +11,7 @@
 #include <g3d/aglNW4FToNN.h>
 #include "KingSystem/Terrain/teraResourceNode.h"
 #include <cmath>
+#include <layer/aglRenderer.h>
 #include <prim/seadScopedLock.h>
 #include <random/seadGlobalRandom.h>
 #include <prim/seadBitUtil.h>
@@ -846,6 +847,19 @@ void Terrain::sub_710114D804(bool enabled, const sead::Matrix44f* projection,
     _a58 = enabled ? _a58 | 0x1000 : _a58 & ~0x1000u;
     mProjectionMatrix = *projection;
     mViewMatrix = *view;
+}
+
+// 0x710114d758: while Terrain flags 2 and 4 are set and Core::_37c bit 0 is set, copies bit 1 of
+// agl::lyr::Renderer's word at +0x1b8 into bit 11 of _a58 and runs Core::sub_710130089C; otherwise
+// forwards to the image resource manager.
+void Terrain::sub_710114D758() {
+    if ((~_a58 & 6) == 0 && (_360->_37c & 1)) {
+        _a58 = (agl::lyr::Renderer::instance()->get_1b8() & 2) == 0 ? _a58 | 0x800
+                                                                    : _a58 & ~u32(0x800);
+        _360->sub_710130089C();
+    } else {
+        mImageResourceMgr->sub_7101131D64();
+    }
 }
 
 // 0x710114d7c0: empty in this release (a four-byte body); Core::sub_7101302080 calls it first.

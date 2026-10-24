@@ -765,6 +765,10 @@ public:
     // Core::sub_71013021E0 call them on Terrain::instance() before their per-view work.
     void sub_710114D7C0();
     void sub_710114D7C4();
+    // 0x710114d758 (placeholder name): while Terrain flags 2 and 4 are set and Core::_37c bit 0 is
+    // set, copies bit 1 of agl::lyr::Renderer's word at +0x1b8 into bit 11 of _a58 and runs
+    // Core::sub_710130089C; otherwise forwards to the image resource manager (0x7101131d64).
+    void sub_710114D758();
     // 0x710114dd48 (four-byte body, empty in this release): ksys::CreateTeraSystem calls it on
     // Terrain::instance() with the new System after the system's initial setup.
     void sub_710114DD48(System* system);
