@@ -37,9 +37,9 @@ void ModelRenderCache::setForceBlendColor(const sead::Color4f& color) {
 }
 
 // 0x7100c80100
-// NON_MATCHING: the source-level render state selection is the same, but clang if-converts the
-// second blend-factor arm into csinc/csel where the original branches (tbnz) and schedules the
-// GraphicsContext stores differently; the function is 0x10 bytes shorter.
+// NON_MATCHING: clang if-converts the two-instruction second blend-factor arm into csinc/csel
+// where the original branches; the original's arms also each end with the loop's first sampler
+// store, which only a branchy arm produces. Every other instruction sequence follows.
 ModelRenderCache::ModelRenderCache(agl::DrawContext* draw_context,
                                    const ModelRenderContext* context,
                                    sead::BitFlag32 flags, u32 a4,
@@ -69,16 +69,12 @@ ModelRenderCache::ModelRenderCache(agl::DrawContext* draw_context,
       _248(0),
       _24c(-1),
       mStatistics(statistics) {
-    _1a8 = 0;
-    mShaderProgram = nullptr;
-    _1b8 = 0;
-
     mGraphicsContext.setDepthTestEnable(true);
     mBlendMask = 0;
     mGraphicsContext.setDepthWriteEnable(1);
     mGraphicsContext.setDepthFuncMaybe(4, 5);
 
-    const u32 flag_bits = _4;
+    const u32 flag_bits = _0;
     u8 src;
     u8 dst;
     if ((flag_bits & 0x1000) != 0 || (a7 & 0x30) != 0) {
@@ -103,16 +99,22 @@ ModelRenderCache::ModelRenderCache(agl::DrawContext* draw_context,
     const u8 type_value = mShaderAssignType;
     u32 blend_bits = (flag_bits & 0x100) != 0 ? 0 : 1;
     u32 other_bits = 1;
-    if (type_value == 8 || type_value == 1) {
+    switch (type_value) {
+    case 1:
+    case 8:
         blend_bits = 0;
         other_bits = 0;
-    } else if (type_value == 3) {
+        break;
+    case 3:
         other_bits = 0;
+        break;
     }
     blend_bits |= (flag_bits & 0x2000) >> 13;
     other_bits |= (flag_bits & 0x4000) >> 14;
 
-    const u32 nibble = (blend_bits != 0 ? 7u : 0u) | (other_bits != 0 ? 8u : 0u);
+    const u32 blend_nibble = blend_bits != 0 ? 7u : 0u;
+    const u32 other_nibble = other_bits != 0 ? 8u : 0u;
+    const u32 nibble = blend_nibble | other_nibble;
     u32 replicated = nibble;
     replicated |= replicated << 4;
     replicated |= nibble << 8;
