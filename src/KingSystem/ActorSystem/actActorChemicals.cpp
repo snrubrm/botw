@@ -461,6 +461,16 @@ void Unk_71024e6428::sub_7100E3B3F4(Chemical* chemical) {
     _2c4.change(0x200, (chemical->mMaterial->attribute.ref() & 1) && !(chemical->_be & 1));
 }
 
+// 0x7100e3f3ac: gives the body the chemical manager's system group handler when the holder's
+// element type and _78 are both 2.
+void sub_7100E3F3AC(phys::RigidBody* body, Unk_71024dd1c8* holder) {
+    if (holder->_8->type.ref() != 2)
+        return;
+    if (holder->_78 != 2)
+        return;
+    body->setSystemGroupHandler(world::Manager::instance()->getChemicalMgrUnchecked()->_a8);
+}
+
 void sub_7100E3F3E8(phys::RigidBody* body, const Chemical* chemical, world::ChemicalMgr* manager) {
     if (chemical->mMaterial->attribute.ref() & 0x90040) {
         body->setSystemGroupHandler(nullptr);
