@@ -60,6 +60,9 @@ public:
     void sub_7100ED5010();
     // 0x7100eced04 (declared only, 1672 B): the pre-delete teardown; preDelete2_ forwards its flag.
     void sub_7100ECED04(bool do_not_destruct_immediately);
+    // 0x7100ecbb48 (placeholder name): creates the rope actor through the actor creator with the
+    // rope length as its Y scale and the dynamic heap, then stores the joint radii.
+    bool sub_7100ECBB48();
     // 0x7100ecba6c (placeholder name): sets the col impulse scale to 0 and bit 30 of the material
     // mask data of a capsule body (the rope's end bodies).
     void sub_7100ECBA6C(phys::RigidBody* body);
@@ -181,7 +184,11 @@ protected:
     f32 _9b8;
     u8 _9bc[0x9d0 - 0x9bc];
     BaseProcHandle _9d0;
-    u8 _9e0[0x9f0 - 0x9e0];
+    // Joint radii stored after the rope actor was created (0x7100ecbb48).
+    /* 0x9e0 */ f32 _9e0;
+    /* 0x9e4 */ f32 _9e4;
+    /* 0x9e8 */ f32 _9e8;
+    /* 0x9ec */ s32 _9ec;
     bool _9f0;
     u8 _9f1[0xa00 - 0x9f1];
 };

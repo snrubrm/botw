@@ -9,10 +9,40 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
 #include "KingSystem/Physics/physMaterialMask.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 
 namespace ksys::act {
 
 RopeBase::~RopeBase() = default;
+
+// NON_MATCHING: the body and the failure path are the same, but our build places the shared
+// `mov w0, wzr` failure block right after the condition chain (and splits it in two) where the
+// original keeps one copy at the end of the function.
+// 0x7100ecbb48 (placeholder name): creates the rope actor through the actor creator with the rope
+// length as its Y scale and the dynamic heap, then stores the joint radii.
+bool RopeBase::sub_7100ECBB48() {
+    auto* heap = map::PlacementMgr::instance()->mDynamicHeap;
+    const f32 length = _938 * static_cast<f32>(_92c - 1 - _9ec);
+    if (!heap || !heap->isLockEnabled() || _9d0.isAllocatedOrFailed() || length < _938)
+        return false;
+
+    InstParamPack pack;
+    pack->add(1, "RopeFlag");
+    pack->add(false, "RopeAlwaysUpdateRigidParam");
+    const sead::Vector3f scale{mScale.x, length, mScale.z};
+    pack->addScale(scale);
+
+    if (!ActorCreator::instance()->requestCreateActor(getName().cstr(), heap, &_9d0, &pack,
+                                                     nullptr, 2))
+        return false;
+
+    _9e0 = 6.0f;
+    _9e4 = 6.0f;
+    _9e8 = -1.0f;
+    return true;
+}
 
 // 0x7100ecba6c (placeholder name): stops a capsule body from pushing the rope and marks its
 // material mask as a rope material (bit 30 of the mask data).
