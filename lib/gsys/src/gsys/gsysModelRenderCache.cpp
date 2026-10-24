@@ -1,8 +1,13 @@
 #include "gsys/gsysModelRenderCache.h"
 #include <common/aglDrawContext.h>
+#include <common/aglTextureSampler.h>
+#include <common/aglUniformBlock.h>
 #include <cull/aglOcclusionQuery.h>
 #include <nvn/nvn_FuncPtrInline.h>
+#include "gsys/gsysG3dResShaderProgramEx.h"
+#include "gsys/gsysModelAssignRenderInfo.h"
 #include "gsys/gsysModelRenderContext.h"
+#include "gsys/gsysModelRenderUnitNW.h"
 #include "gsys/gsysShaderContext.h"
 
 namespace gsys {
@@ -63,6 +68,53 @@ void ModelRenderCache::loadOcclusionQuery(const agl::cull::OcclusionQuery* query
     mOcclusionQuery = query;
 }
 
+// 0x7100c80ff4
+void ModelRenderCache::loadResShaderProgram_(const ModelRenderUnitNW& unit,
+                                             const ModelAssignRenderInfo& info) {
+    G3dResShaderProgramEx* program = info.mShaderProgram.mEx;
+    mShaderProgram = program;
+    program->load(mDrawContext, info.mShaderProgram.mResShaderProgram,
+                  agl::ShaderOptimizeType(_23), false);
+
+    if (program->mProgramId != _148[0]) {
+        _148[0] = program->mProgramId;
+        _148[4] = program->mUniformBlockLocations[3].getLocation();
+        _148[6] = program->mUniformBlockLocations[5].getLocation();
+
+        const agl::ShaderLocation& uniform_location = program->mUniformBlockLocations[1];
+        const agl::ShaderLocation& scene_material_location = program->mUniformBlockLocations[10];
+
+        if (_148[2] != uniform_location.getLocation()) {
+            _148[2] = uniform_location.getLocation();
+            agl::UniformBlock* block = mRenderUBO;
+            agl::DrawContext* draw_context = mDrawContext;
+            block->setUniform(draw_context, block->getGPUAddressMaybe(), uniform_location, 0,
+                              block->getBlockSizeMaybe());
+        }
+
+        if (_148[11] != scene_material_location.getLocation()) {
+            _148[11] = scene_material_location.getLocation();
+            mContext->mShaderContext->loadSceneMaterial(mDrawContext, scene_material_location);
+        }
+
+        if (_148[7] != program->mUniformBlockLocations[6].getLocation()) {
+            _148[7] = program->mUniformBlockLocations[6].getLocation();
+            _34 = 0xff;
+        }
+    }
+
+    if (program->mRenderState != _40) {
+        _40 = program->mRenderState;
+        const u32 mask = program->mTextureMask;
+        if (mask & 0x1fffffff) {
+            const agl::ShaderLocation* sampler_location = program->mSamplerLocations;
+            for (s32 i = 0; i < 29; ++i, ++sampler_location) {
+                if (mask & (1u << i))
+                    mTextureSamplers[i]->activate(mDrawContext, *sampler_location, 0, true);
+            }        }
+    }
+}
+
 // 0x7100c80574: releases the occlusion query and returns the render state to its defaults.
 // NON_MATCHING: one redundant u8 mask (and w8, w10, #0xff) before the polygon-mode table is
 // missing, and the +0x40 store is scheduled after the +0x1b0 pair.
@@ -118,7 +170,7 @@ void ModelRenderCache::reset() {
     _34 = 0xff;
     _30 = 8;
     _1a8 = 0;
-    _1b0 = 0;
+    mShaderProgram = nullptr;
     _1b8 = 0;
     _40 = -1;
     for (s32 i = 0; i < 16; ++i)

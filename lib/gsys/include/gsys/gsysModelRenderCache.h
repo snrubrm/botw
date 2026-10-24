@@ -8,6 +8,7 @@
 
 namespace agl {
 class DrawContext;
+class TextureSampler;
 class UniformBlock;
 }
 namespace agl::cull {
@@ -17,6 +18,9 @@ class OcclusionQuery;
 namespace gsys {
 class ModelRenderContext;
 class ModelRenderStatistics;
+class G3dResShaderProgramEx;
+class ModelRenderUnitNW;
+class ModelAssignRenderInfo;
 namespace ModelEnum {
 enum class ShaderAssignType;
 }
@@ -35,6 +39,8 @@ public:
     void setForceBlendColor(const sead::Color4f& color);
     // 0x7100c80438
     void loadOcclusionQuery(const agl::cull::OcclusionQuery* query);
+    // 0x7100c80ff4
+    void loadResShaderProgram_(const ModelRenderUnitNW& unit, const ModelAssignRenderInfo& info);
     // 0x7100c80574: returns the cache to its default render state.
     void reset();
 
@@ -68,15 +74,17 @@ private:
     u8 _3a[2];
     u32 mChannelMask;
     u32 _40;
-    u8 _44[0x148 - 0x44];
-    /// The pass view-projection indices; -1 when a slot is unused.
+    /// The texture samplers copied from the render context by the constructor.
+    const agl::TextureSampler* mTextureSamplers[29];
+    u8 _130[0x148 - 0x130];
+    /// Cached shader program state words; reset invalidates all sixteen.
     s32 _148[16];
     u8 _188[0x18c - 0x188];
     sead::Color4f mForceBlendColor;
     u8 _19c[0x1a0 - 0x19c];
     const agl::cull::OcclusionQuery* mOcclusionQuery;
     u64 _1a8;
-    u64 _1b0;
+    G3dResShaderProgramEx* mShaderProgram;
     u64 _1b8;
     u64 _1c0;
     sead::GraphicsContext mGraphicsContext;

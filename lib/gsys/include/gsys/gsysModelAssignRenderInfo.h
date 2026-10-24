@@ -13,6 +13,8 @@ public:
     ~ModelAssignRenderInfo();
 
 private:
+    friend class ModelRenderCache;
+
     ModelShaderProgram mShaderProgram;
     bool _10 = false;
     void* _18 = nullptr;

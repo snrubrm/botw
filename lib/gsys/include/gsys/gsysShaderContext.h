@@ -7,7 +7,9 @@
 #include <math/seadVector.h>
 
 namespace agl {
+class DrawContext;
 class RenderBuffer;
+class ShaderLocation;
 }
 namespace sead {
 class Viewport;
@@ -38,6 +40,8 @@ public:
     // Name inferred from ModelSceneGI::setSceneMaterial (0x7100c309d0), which
     // forwards the same ModelNW pointer to this method at 0x7100c5dd30.
     void setSceneMaterial(ModelNW* model);
+    // 0x7100c5e744
+    void loadSceneMaterial(agl::DrawContext*, const agl::ShaderLocation&) const;
     agl::UniformBlock* getContextRenderUBO(int index) const;
     void calcGpuViewFlush(int index, const sead::Matrix34f& view,
                           const sead::Matrix44f& projection,

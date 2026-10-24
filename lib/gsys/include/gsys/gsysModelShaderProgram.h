@@ -15,6 +15,8 @@ class G3dResShaderProgramEx;
 // 0x7100c3d49c copies exactly 0x10 bytes.
 class ModelShaderProgram {
 public:
+    friend class ModelRenderCache;
+
     ModelShaderProgram();
     ~ModelShaderProgram();
 
