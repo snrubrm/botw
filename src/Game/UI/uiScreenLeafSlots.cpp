@@ -545,6 +545,39 @@ void ScreenAppPictureBook::m128() {
         controller.sub_71009CC970();
 }
 
+// 0x71009fa4b8
+void ScreenAppPictureBook::m129() {
+    if (!_3628 || !_3658 || !_3660)
+        return;
+    const f32 rate = _3628->mRate;
+    const bool at_start = rate < 0.0f ? true : _3628->mFrame == 0.0f;
+    const bool at_end = rate > 0.0f ? true : _3628->mFrame == f32(_3628->GetFrameSize());
+    if (at_start) {
+        for (auto& list : _3658->mGroupLists) {
+            for (auto& group : list.mUnits) {
+                if (!group.mEntry || !group.mRecord || group.mRecord->_c < 0)
+                    continue;
+                for (auto& unit : group.mUnits) {
+                    if (unit._30 & 4)
+                        unit.m13();
+                }
+            }
+        }
+    }
+    if (at_end) {
+        for (auto& list : _3660->mGroupLists) {
+            for (auto& group : list.mUnits) {
+                if (!group.mEntry || !group.mRecord || group.mRecord->_c < 0)
+                    continue;
+                for (auto& unit : group.mUnits) {
+                    if (unit._30 & 4)
+                        unit.m13();
+                }
+            }
+        }
+    }
+}
+
 // 0x71009fa2f8
 void ScreenAppPictureBook::m100() {
     if (_3658)

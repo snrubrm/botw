@@ -4218,6 +4218,7 @@ public:
     void m89() override;
     // 0x71009fa478
     void m128() override;
+    void m129() override;
     void m100() override;
     void m106(eui::AnimButton*) override;
     bool isEnableControl() const override;
