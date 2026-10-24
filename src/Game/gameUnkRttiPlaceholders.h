@@ -1713,11 +1713,11 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102519778, 0x120);
 
-// vtable 0x71025197e8 (0x10 header then 18 slots): the 0x1e0-byte record of the render-light pool
-// at LocationalLightMgr +0x538 (init 0x7100f0cd60 allocates the records, constructor 0x710129e67c).
-// Unlike the 0x130-byte light records above it has no sead RTTI: its virtual destructor is slots 0
-// and 1 at 0x710129e6d8 / 0x710129e740. The pool at +0x538 searches its free records by the
-// position at +0xc, and the 0x130-byte records keep one of these at +0x120.
+// vtable 0x71025197e8 (just the destructor pair): the 0x1e0-byte record of the render-light pool at
+// LocationalLightMgr +0x538 (init 0x7100f0cd60 allocates the records, constructor 0x710129e67c,
+// destructor 0x710129e6d8). Unlike the 0x130-byte light records above it has no sead RTTI. The pool
+// searches its free records by the position at +0xc, and the 0x130-byte records keep one of these
+// at +0x120.
 class Unk_71025197e8 {
 public:
     Unk_71025197e8();

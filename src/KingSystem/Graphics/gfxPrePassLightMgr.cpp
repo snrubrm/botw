@@ -74,6 +74,30 @@ bool PrePassLightMgr::m33(DrawLight* light, s32 view, const void* context) {
     return true;
 }
 
+// The template's per-light hooks are empty in this build (four-byte returning functions); the
+// original keeps them out of line in the vtable, so they are defined here rather than inline.
+void PrePassLightMgr::m26() {}
+void PrePassLightMgr::m27(DrawLight* light) {}
+void PrePassLightMgr::m29(DrawLight* light) {}
+void PrePassLightMgr::m30() {}
+void PrePassLightMgr::m31() {}
+void PrePassLightMgr::m32(DrawLight* light) {}
+void PrePassLightMgr::m34() const {}
+void PrePassLightMgr::m35(const DrawLight* light) const {}
+void PrePassLightMgr::m36(s32 view, const void* context) const {}
+void PrePassLightMgr::m37(const DrawLight* light, s32 view, const void* context) const {}
+void PrePassLightMgr::m38(const DrawLight* light, s32 view, const void* context) const {}
+void PrePassLightMgr::m39(s32 view, const void* context, void* callback) const {}
+void PrePassLightMgr::m41(void* draw_context, const DrawLight* light, s32 view,
+                          const void* context) const {}
+void PrePassLightMgr::m42(void* draw_context, const DrawLight* light, s32 view,
+                          const void* context) const {}
+void PrePassLightMgr::genMessagePrepareImpl_(sead::hostio::Context* context) {}
+void PrePassLightMgr::genMessageImpl_(sead::hostio::Context* context, DrawLight& light, s32 index) {}
+void PrePassLightMgr::listenPropertyEventPrepareImpl_(const sead::hostio::PropertyEvent* event) {}
+void PrePassLightMgr::listenPropertyEventImpl_(const sead::hostio::PropertyEvent* event,
+                                               DrawLight& light, s32 index) {}
+
 void PrePassLightMgr::updateGPU() const {
     if (mValidNum == 0)
         return;
