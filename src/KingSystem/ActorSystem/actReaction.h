@@ -250,6 +250,10 @@ public:
         // properties 4 / 6 / 0 / 9 or 10, 608 B).
         void sub_7100EC8F78(f32 speed, Actor* actor, const sead::Vector3f* pos, u64 size,
                             u64 material, u64 flag);
+        // 0x7100ec87c4: emits the "RagdollLand" effect for the reaction's second actor and scales
+        // its volume from how far the fall exceeded the landing threshold.
+        xlink2::HandleSLink sub_7100EC87C4(Actor* actor, const sead::Vector3f& position,
+                                           const phys::MaterialMask& mask, f32 offset, bool flag);
         // 0x7100ec8c30: the "OutCarryBoxLand" reaction of a carried box that lands. Casts a ray
         // down from the actor and applies the hit material properties to its SLink user.
         bool sub_7100EC8C30(Actor* actor);

@@ -938,4 +938,26 @@ void Reaction::Unk1::sub_7100EC8F78(f32 speed, Actor* actor, const sead::Vector3
         mSLinkLimiter->sub_7100ECA2A0(4, position, handle);
 }
 
+// 0x7100ec87c4: emits the "RagdollLand" effect for the reaction's second actor and sets the
+// event's volume from how far the fall exceeded the landing threshold. The `actor` argument is
+// unused by the original body.
+xlink2::HandleSLink Reaction::Unk1::sub_7100EC87C4(Actor* actor, const sead::Vector3f& position,
+                                                   const phys::MaterialMask& mask, f32 offset,
+                                                   bool flag) {
+    xlink2::HandleSLink handle;
+    if (_8 == nullptr || offset < 0.2f)
+        return handle;
+    {
+        phys::MaterialMask mask_copy = mask;
+        if (!sub_7100EC7AA0(mask_copy, flag, offset))
+            return handle;
+    }
+    ksys::eft::sub_710105DDDC(_8, "RagdollLand", &handle, position);
+    if (handle.isActive()) {
+        const f32 value = sead::Mathf::clamp((offset - 0.2f) * 0.25f, 0.0f, 1.0f);
+        handle.setVolumeScale(sead::Mathf::clampMin(value * value, 0.4f));
+    }
+    return handle;
+}
+
 }  // namespace ksys::act
