@@ -1002,7 +1002,10 @@ public:
     // The disposer buffer (mSingletonDisposerBuf_) is at 0x300.
     SEAD_SINGLETON_DISPOSER(Terrain)
 public:
-    u8 _320[0x360 - 0x320];
+    u8 _320[0x34c - 0x320];
+    // Read by System::sub_7101116BBC as the scale of the material texture mip calculation.
+    f32 _34c;
+    u8 _350[0x360 - 0x350];
     Core* _360;
     u8 _368[0x370 - 0x368];
     Unk370* _370;
@@ -1641,7 +1644,7 @@ KSYS_CHECK_SIZE_NX150(MapPatcher, 0x330);
 
 // 0x7101116bbc (declaration only; placeholder name): builds the four texture-scale values of the
 // culling frustum (0x7101116e74 writes them to uniform slot 5).
-void sub_7101116BBC(f32 value, sead::Vector4f* out);
+// 0x7101116bbc: moved to System (the original calls it with an unused this).
 
 class System {
 public:
@@ -1716,6 +1719,9 @@ public:
     // 0x7101116e74 (placeholder name): under the read lock, updates scene `index`'s uniform block
     // from the culling frustum and runs the collector's per-scene update.
     void sub_7101116E74(s32 index, Unk_7101115584Arg* arg);
+    // 0x7101116bbc (unnamed in the CSV): the material texture scale record of the terrain: the mip
+    // scale in x, the three half-texel offsets in y / z / w. `out` is a Vector4f.
+    void sub_7101116BBC(sead::Vector4f* out, f32 factor);
     // 0x7101117164 (placeholder name): requests the area images around `pos` from scene `index`.
     void sub_7101117164(void* arg, s32 index, const sead::Vector3f* pos, u32 level);
     // 0x7101117874 (CSV eui::BoxCursorNode::clearRouteAll is a wrong owner): clears the terrain images

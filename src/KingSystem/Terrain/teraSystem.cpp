@@ -2011,6 +2011,34 @@ void sub_710111911C(void* tera_system, void* route) {
     system->mImageUsers.erase(static_cast<ImageUser*>(route));
 }
 
+// 0x7101116bbc (unnamed in the CSV): the material texture scale record of the terrain. x is the mip
+// scale from the frame's factor and Terrain::_34c; y / z / w are the three half-texel offsets of the
+// material textures 0 / 1 / 2, the last two scaled by log2 of their width ratio.
+void System::sub_7101116BBC(sead::Vector4f* out, f32 factor) {
+    auto* textures = &Terrain::instance()->_370->_4ae0->_10;
+    const MaterialTextureMaybe* tex0 = textures->m12(0);
+    textures = &Terrain::instance()->_370->_4ae0->_10;
+    const MaterialTextureMaybe* tex1 = textures->m12(1);
+    textures = &Terrain::instance()->_370->_4ae0->_10;
+    const MaterialTextureMaybe* tex2 = textures->m12(2);
+
+    if (!tex0->material || !tex1->material || !tex2->material) {
+        out->set(1.0f, 0.0f, 0.0f, 0.0f);
+        return;
+    }
+
+    const u32 width0 = tex0->getWidthMaybe();
+    const u32 width1 = tex1->getWidthMaybe();
+    const u32 width2 = tex2->getWidthMaybe();
+
+    out->x = 1.0f / (0.5f / factor * Terrain::instance()->_34c);
+    out->y = tex0->sub_7101140644() - 1.25f;
+    out->z = (tex1->sub_7101140644() - 1.25f) +
+             logf(f32(width1) / f32(width0)) * 1.4426950f;
+    out->w = (tex2->sub_7101140644() - 1.25f) +
+             logf(f32(width2) / f32(width0)) * 1.4426950f;
+}
+
 // 0x7101116e74 (placeholder name): under the read lock, updates scene `index`'s uniform block from
 // the culling frustum and runs the collector's per-scene update.
 // NON_MATCHING: the inline flush's loads and stores are scheduled differently (the same
@@ -2033,7 +2061,7 @@ void System::sub_7101116E74(s32 index, Unk_7101115584Arg* arg) {
                 sead::Vector3f _4;
             } data7;
             sead::Vector4f scale;
-            sub_7101116BBC(arg->_0->get_f4(), &scale);
+            sub_7101116BBC(&scale, arg->_0->get_f4());
 
             struct Data6 {
                 u32 _0;

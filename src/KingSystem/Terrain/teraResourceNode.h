@@ -83,6 +83,9 @@ struct MaterialTextureMaybe {
     nn::gfx::ResTexture* getTexture() const;
     // 0x7101140620 (placeholder name): the texture's width.
     u32 getWidthMaybe() const;
+    // 0x7101140644 (unnamed in the CSV; placeholder name): the half-texel value of this material's
+    // texture record (the 0x20-byte entries of the table at material + 0x48, field + 0x10).
+    f32 sub_7101140644() const;
 
     nn::g3d::ResMaterial* material;
     s32 index;
