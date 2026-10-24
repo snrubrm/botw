@@ -7,10 +7,23 @@
 #include "KingSystem/Physics/Constraint/physBAndSCs.h"
 #include "KingSystem/Physics/Constraint/physBAndSLimitAngYCs.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
+#include "KingSystem/Physics/physMaterialMask.h"
 
 namespace ksys::act {
 
 RopeBase::~RopeBase() = default;
+
+// 0x7100ecba6c (placeholder name): stops a capsule body from pushing the rope and marks its
+// material mask as a rope material (bit 30 of the mask data).
+void RopeBase::sub_7100ECBA6C(phys::RigidBody* body) {
+    if (!sead::IsDerivedFrom<phys::CapsuleRigidBody>(body))
+        return;
+    body->setColImpulseScale(0.0f);
+    phys::MaterialMask mask = static_cast<phys::CapsuleRigidBody*>(body)->getMaterialMask();
+    mask.getData().raw |= 0x40000000;
+    static_cast<phys::CapsuleRigidBody*>(body)->setMaterialMask(mask);
+}
 
 // NON_MATCHING: translation temporary loads and stores are scheduled differently.
 void RopeBase::preDelete2_(const PreDeleteArg& arg) {

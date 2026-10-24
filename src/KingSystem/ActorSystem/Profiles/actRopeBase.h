@@ -60,6 +60,9 @@ public:
     void sub_7100ED5010();
     // 0x7100eced04 (declared only, 1672 B): the pre-delete teardown; preDelete2_ forwards its flag.
     void sub_7100ECED04(bool do_not_destruct_immediately);
+    // 0x7100ecba6c (placeholder name): sets the col impulse scale to 0 and bit 30 of the material
+    // mask data of a capsule body (the rope's end bodies).
+    void sub_7100ECBA6C(phys::RigidBody* body);
     // 0x7100ecde98: cancels the constraints and removes the rigid bodies of the rope from the world.
     void sub_7100ECDE98();
     // 0x7100ecd620 (placeholder name): switches off and clears the constraint of segment `idx`; for an end segment
