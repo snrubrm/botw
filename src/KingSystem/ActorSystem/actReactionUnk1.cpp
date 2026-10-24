@@ -942,7 +942,7 @@ void Reaction::Unk1::sub_7100EC8F78(f32 speed, Actor* actor, const sead::Vector3
 // event's volume from how far the fall exceeded the landing threshold. The `actor` argument is
 // unused by the original body.
 xlink2::HandleSLink Reaction::Unk1::sub_7100EC87C4(Actor* actor, const sead::Vector3f& position,
-                                                   const phys::MaterialMask& mask, f32 offset,
+                                                   phys::MaterialMask mask, f32 offset,
                                                    bool flag) {
     xlink2::HandleSLink handle;
     if (_8 == nullptr || offset < 0.2f)

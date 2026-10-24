@@ -34,6 +34,10 @@ public:
     // dead (its life value is zero). The voice is suppressed for some reaction kinds when the
     // actor's effect link has the flag at _cc bit 1.
     bool sub_7100EBCABC(Actor* actor);
+    // 0x7100ebcba0: emits the ragdoll "RagdollLand" event; the volume is scaled by how far the
+    // actor fell below the 0.5 landing threshold. Falls back to the reaction's other actor when
+    // the actor's own event is not active. The `this` pointer is unused.
+    void sub_7100EBCBA0(f32 volume, Actor* actor, const phys::MaterialMask* mask);
 
     // 0x7100ebe92c (declared only; placeholder name): emits the extra slide/land reaction sound
     // (asset "ReactionSlideAdditional") with the extra volume/pitch scales.

@@ -252,8 +252,9 @@ public:
                             u64 material, u64 flag);
         // 0x7100ec87c4: emits the "RagdollLand" effect for the reaction's second actor and scales
         // its volume from how far the fall exceeded the landing threshold.
+        // The mask is passed by value: the caller copies it into the argument slot.
         xlink2::HandleSLink sub_7100EC87C4(Actor* actor, const sead::Vector3f& position,
-                                           const phys::MaterialMask& mask, f32 offset, bool flag);
+                                           phys::MaterialMask mask, f32 offset, bool flag);
         // 0x7100ec8c30: the "OutCarryBoxLand" reaction of a carried box that lands. Casts a ray
         // down from the actor and applies the hit material properties to its SLink user.
         bool sub_7100EC8C30(Actor* actor);

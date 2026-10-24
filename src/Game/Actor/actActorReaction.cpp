@@ -339,6 +339,35 @@ bool ActorUnk6b8::sub_7100EBCABC(Actor* actor) {
     return true;
 }
 
+// NON_MATCHING: the original tests the ActorX6A0 flag with `tst w22, #0x8; cset w4, ne`; clang 4
+// canonicalises every single-bit `(x & 8) != 0` form to `ubfx` here (one instruction instead of
+// two), which also moves the last MaterialMask copy store past the flag computation.
+// 0x7100ebcba0: emits the ragdoll "RagdollLand" event. The volume is scaled by how far the actor
+// fell below the 0.5 landing threshold. When the actor's own event is still active its volume is
+// adjusted; otherwise the reaction's other actor emits the effect instead.
+void ActorUnk6b8::sub_7100EBCBA0(f32 volume, Actor* actor, const phys::MaterialMask* mask) {
+    auto* reaction = Reaction::instance()->_a8;
+    if (!reaction)
+        return;
+
+    if (actor->get68f()) {
+        const f32 value = actor->get6f4();
+        if (value >= 0.5f)
+            return;
+        volume *= (0.5f - value) * 2.0f;
+    }
+
+    const s32 flags = actor->_6a0->_10._8;
+    xlink2::HandleSLink handle = eft::searchAndEmitSLink(actor, "RagdollLand", false);
+    if (!handle.isActive()) {
+        xlink2::HandleSLink emitted = reaction->sub_7100EC87C4(
+            actor, actor->getMtx().getTranslation(), *mask, volume, (flags & 8) != 0);
+        eft::sub_710105E114(&emitted, actor);
+    } else {
+        reaction->sub_7100EC88F8(volume, &handle, actor->getProfile() == "SiteBoss");
+    }
+}
+
 // NON_MATCHING: the original build leaves the second argument of
 // snd::InfoData::getReactionSettingLandType unset (dead-argument elimination), so its outgoing
 // argument area is 0x18 smaller and every local sits 0x18 lower; the original also reads the
