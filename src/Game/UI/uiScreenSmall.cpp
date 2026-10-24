@@ -710,7 +710,7 @@ void ScreenPauseMenu::m98() {
                     _3628 = mPauseMenuDataMgr->countItems(PouchItemType::Arrow, false);
             } else {
                 entry.mFirstItemIndex = -1;
-                entry._7c = -1;
+                entry._7c = 0;
                 if (i == 1)
                     _3628 = 0;
             }
@@ -1259,7 +1259,7 @@ void ScreenPauseMenu::sub_7100A3BF0C() {
                 _3628 = mPauseMenuDataMgr->countItems(PouchItemType::Arrow, false);
         } else {
             mTabControls.mEntries[i].mFirstItemIndex = -1;
-            mTabControls.mEntries[i]._7c = -1;
+            mTabControls.mEntries[i]._7c = 0;
             if (i == 1)
                 _3628 = 0;
         }
