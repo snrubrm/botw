@@ -49,6 +49,7 @@ class ResTexture;
 }
 namespace gsys {
 class ModelNW;
+class ModelScene;
 }
 namespace agl::lyr {
 class Layer;
@@ -270,6 +271,10 @@ public:
     void setMapUnitVisibleMaybe(s32 id, bool visible);
     // 0x7100f19928: destroys the model render data the renderer built.
     void sub_7100F19928(ksys::gfx::ModelRenderDataMaybe* data);
+    // 0x7100f19a2c (declaration only; 176 B): stores the scene the renderer draws and the scene
+    // model's gsys::ModelNW (+0x56d8), then hands that model to the shader context's
+    // setSceneMaterial. Graphics::sub_7100F2C140 passes the scene it creates for the map.
+    void sub_7100F19A2C(gsys::ModelScene* scene);
     // 0x7100f1f170: slot 11 of the object's gsys::IModelMgrCallback table; destroys a render data
     // through the three renderers, exactly like ksys::gfx::UkingModelRenderOptionsMgr.
     void sub_7100F1F170(ksys::gfx::ModelRenderDataMaybe* data);

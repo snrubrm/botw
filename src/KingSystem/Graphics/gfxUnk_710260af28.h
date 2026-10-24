@@ -3,6 +3,10 @@
 #include <basis/seadTypes.h>
 #include <gfx/seadColor.h>
 
+namespace sead {
+class Heap;
+}
+
 namespace gsys {
 class Model;
 class ModelUnit;
@@ -95,6 +99,10 @@ public:
     // 0x7100f1d6bc: the same for one unit. PlacementMgr::invoked2_ calls it with half of a mounted
     // actor's scale.
     void sub_7100F1D6BC(f32 shape_value, f32 offset, gsys::ModelUnit* unit);
+    // 0x7100f1ef4c (declaration only; 412 B): allocates the unit's 0x48-byte render-data record on
+    // `heap`, initializes it and its per-material array, then enables render option 22, notifies
+    // the three Graphics renderers and sets the unit's LOD parameter and random shape value.
+    void sub_7100F1EF4C(gsys::ModelUnit* unit, sead::Heap* heap);
 
     // 0x7100f1e4dc (declaration only): Bullet and GolemRootBase pass their model and an unsigned value converted to
     // float.
