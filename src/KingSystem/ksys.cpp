@@ -33,6 +33,7 @@
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/System/SystemTimers.h"
 #include "KingSystem/Terrain/teraSystem.h"
+#include <gsys/gsysParticleMgr.h>
 #include "Game/gameEventMgr1.h"
 #include "Game/gameEventMgrMiniGame.h"
 
@@ -117,6 +118,16 @@ void CalcWorldMgr() {
     world::Manager::instance()->calc1(nullptr);
     world::Manager::instance()->calc2(nullptr);
     world::Manager::instance()->calc3(nullptr);
+}
+
+// 0x7100f3d864: asks the particle manager to calculate the emitters, runs the base proc manager's calc
+// step unless the terrain is loading, and finishes the event manager's frame step.
+void CalcParticleAndBaseProcMgr() {
+    gsys::ParticleMgr::instance()->getCalcFlags() |= 0x20000;
+    gsys::ParticleMgr::instance()->manualCalcEmitter();
+    if (tera::sUnk_710260B220._10 != 2)
+        act::BaseProcMgr::instance()->calc();
+    evt::Manager::instance()->stubbed();
 }
 
 // 0x7100f3dbc0: the heap / reaction half of the stage-generation start. `param` is forwarded to the

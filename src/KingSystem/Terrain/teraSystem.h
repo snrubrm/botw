@@ -37,6 +37,8 @@
 #include <cull/aglViewFrustumCulling.h>
 #include "KingSystem/System/DebugMessage.h"
 #include "KingSystem/Terrain/teraResourceNode.h"
+#include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Resource/resResource.h"
 #include "KingSystem/Utils/Types.h"
 #include <common/aglRenderBuffer.h>
 #include <common/aglRenderTarget.h>
@@ -2374,6 +2376,45 @@ void shiftGrassCellGrid(Core::Grass::EntryPart::Cell (*cells)[47],
                        sead::Vector2i* indices, sead::Vector2i* previous,
                        sead::Vector2i position,
                        Core::Grass::EntryPart::CellState (*states)[47]);
+
+// Placeholder: the load context of the terrain model (the byte at +0xa is set by loadTerrainModel before
+// the load).
+struct TeraContextMaybe : res::Context {
+    u8 _8[2];
+    bool _a = false;
+    u8 _b[0x30 - 0xb];
+};
+
+// 0x710260b220: the terrain subsystem's global manager state (defined in teraSystem.cpp). Only the
+// fields used so far are modelled.
+struct TeraManagerMaybe {
+    u8 _0[0x10];
+    // Read by ksys::CalcParticleAndBaseProcMgr 0x7100f3d864 (2 skips the BaseProcMgr step).
+    u32 _10;
+    // 0: not started, 7: not started (0x7100f406f4 returns true for every other value).
+    u32 _14;
+    u32 _18;
+    u8 _1c[0x30 - 0x1c];
+    void* _30;
+    u8 _38[0x50 - 0x38];
+    void* _50;
+    System* mSystem;
+    u8 _60[0xa8 - 0x60];
+    void* _a8;
+    // The image manager; 0x7100f406f4 tests byte 0x13d09 of it.
+    void* _b0;
+    sead::Vector3f _b8;
+    sead::Vector3f _c4;
+    u8 _d0[0xf0 - 0xd0];
+    u8 _f0[0x1c0 - 0xf0];
+    // The terrain model resource: waitForTerrainModelReady waits on the handle and parses it with this
+    // context; deleteInstanceForNFPAwarenessAndKingEditor requests its unload.
+    TeraContextMaybe _1c0;
+    u8 _1f0[0x260 - 0x1c0 - sizeof(TeraContextMaybe)];
+    res::Handle _260;
+};
+
+KSYS_VISIBILITY_HIDDEN extern TeraManagerMaybe sUnk_710260B220;
 
 }  // namespace ksys::tera
 

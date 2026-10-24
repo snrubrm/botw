@@ -45,39 +45,6 @@ bool System::sub_71011171AC(s32 index) {
     return (mScenes[index].collector->_2998 >> 1) & 1;
 }
 
-// Placeholder: the load context of the terrain model (the byte at +0xa is set by loadTerrainModel before the load).
-struct TeraContextMaybe : res::Context {
-    u8 _8[2];
-    bool _a = false;
-    u8 _b[0x30 - 0xb];
-};
-
-struct TeraManagerMaybe {
-    u8 _0[0x10];
-    u32 _10;
-    // 0: not started, 7: not started (0x7100f406f4 returns true for every other value).
-    u32 _14;
-    u32 _18;
-    u8 _1c[0x30 - 0x1c];
-    void* _30;
-    u8 _38[0x50 - 0x38];
-    void* _50;
-    System* mSystem;
-    u8 _60[0xa8 - 0x60];
-    void* _a8;
-    // The image manager; 0x7100f406f4 tests byte 0x13d09 of it.
-    void* _b0;
-    sead::Vector3f _b8;
-    sead::Vector3f _c4;
-    u8 _d0[0xf0 - 0xd0];
-    u8 _f0[0x1c0 - 0xf0];
-    // The terrain model resource: waitForTerrainModelReady waits on the handle and parses it with this
-    // context; deleteInstanceForNFPAwarenessAndKingEditor requests its unload.
-    TeraContextMaybe _1c0;
-    u8 _1f0[0x260 - 0x1c0 - sizeof(TeraContextMaybe)];
-    res::Handle _260;
-};
-
 TeraManagerMaybe sUnk_710260B220 KSYS_VISIBILITY_HIDDEN;
 KSYS_VISIBILITY_HIDDEN u8 sUnk_710260B184;
 KSYS_VISIBILITY_HIDDEN u8 sUnk_710260B188;
