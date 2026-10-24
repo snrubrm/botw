@@ -184,6 +184,33 @@ void Core::Grass::EntryPart::applyMaskBrush(f32 diameter, f32 blend,
 }
 
 
+// 0x7101075f10 (unnamed in the CSV): looks the cell at `pos` up in this part, writes whether the
+// cell's sub-cell bit is set to `out` and returns whether the part has the cell.
+// NON_MATCHING: three scheduling differences (the 46 / record-load constants are materialised two
+// instructions later) and the record mask test: the original uses and + tst #0xffff where ours fuses
+// the test into tst of the two operands.
+bool Core::Grass::EntryPart::sub_7101075F10(bool* out, const sead::Vector2f* pos) {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+
+    const f32 pos_z = pos->y / 3.0f;
+    const f32 pos_x = pos->x / 3.0f;
+    const s32 fz = sead::Mathf::floor(pos_z);
+    const s32 fx = sead::Mathf::floor(pos_x);
+    const s32 cell_x = sead::Mathi::clamp(fx - mGridPosition.x + 23, 0, 46);
+    const s32 cell_z = sead::Mathi::clamp(fz - mGridPosition.y + 23, 0, 46);
+    const s32 ix = (cell_x + mCellIndices.x) % 47;
+    const s32 iz = (cell_z + mCellIndices.y) % 47;
+    const Cell& cell = mCells[iz][ix];
+    if ((cell.mFlags & 5) != 5)
+        return false;
+
+    const s32 sub_x = s32((pos_x - fx) * 3.0f);
+    const s32 sub_z = s32((pos_z - fz) * 3.0f);
+    const u16 mask = 1u << sead::Mathi::clamp(sub_x + sub_z * 3, 0, 8);
+    *out = (cell.mRecord->_10 & mask) != 0;
+    return true;
+}
+
 // Clears newly exposed rows and columns while shifting the 47 x 47 rolling grid.
 void shiftGrassCellGrid(Core::Grass::EntryPart::Cell (*cells)[47],
                         sead::Vector2i* indices, sead::Vector2i* previous,
