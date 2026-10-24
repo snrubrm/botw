@@ -14,7 +14,9 @@
 
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actActorUnk6b8.h"
+#include "KingSystem/Physics/System/physLayerContactPointInfo.h"
 #include "KingSystem/Physics/System/physUserTag.h"
+#include "KingSystem/System/DebugMessage.h"
 
 namespace xlink2 {
 class Event;
@@ -74,12 +76,14 @@ class Unk_7101286868 {
 public:
     // 0x71012847d0 (32 B, unnamed): zeroes the object and stores the class vtable.
     Unk_7101286868();
+    // The Reaction destructor deletes the receiver through vtable slot 1.
+    virtual ~Unk_7101286868();
     // 0x71012847f8 (20 B, unnamed): stores the physics system at +0x28.
     void init(sead::Heap* heap);
     void sub_7101286868(f32 speed, Actor* actor, const sead::Vector3f* pos,
                         const sead::Vector3f* dir, u64 size, u64 material, u64 flag);
     void sub_7101286BF8(xlink2::HandleELink* handle, ::DamageReactionRequest* request);
-    u8 _0[0x38];
+    u8 _0[0x30];
     // Fallback actor used when the request actor has no emitted effect.
     /* 0x38 */ Actor* _38;
     u8 _40[0x18];
@@ -90,6 +94,8 @@ KSYS_CHECK_SIZE_NX150(Unk_7101286868, 0x58);
 // Reaction::_d0. The class is a global-namespace placeholder (its vtable is 0x71024f6670).
 class Unk_71024f6670;
 Unk_71024f6670* sub_7100F70990(sead::Heap* heap);
+// 0x7100f70a20 (unnamed): releases and unregisters the item list `sub_7100F70990` creates.
+void sub_7100F70A20(Unk_71024f6670* item);
 
 // The reaction sound setting built on the stack by ActorUnk6b8's slide/land reaction handlers
 // (0x7100ebcd48, 0x7100ebdcb0) and passed to the sound emitters 0x7100ec72a0 / 0x7100ec7468.
@@ -398,7 +404,9 @@ public:
     /* 0xc8 */ phys::LayerContactPointInfo* _c8 = nullptr;
     /* 0xd0 */ Unk_71024f6670* _d0 = nullptr;
     /* 0xd8 */ uking::act::PlayerBase* _d8 = nullptr;
-    u8 _e0[0x180 - 0xe0];
+    // The dtor's second vtable store (0x7100ec0374) is this member's DebugMessage vtable.
+    /* 0xe0 */ DebugMessage _e0;
+    u8 _170[0x180 - 0x170];
 };
 static_assert(offsetof(Unk_7101286868, _38) == 0x38);
 static_assert(offsetof(Reaction, _28) == 0x28);

@@ -48,6 +48,34 @@ const char* sub_7100E367C0(s32 index);
 
 namespace ksys::act {
 
+// NON_MATCHING: body and order agree; our implicit array destructor keeps the handle array base in
+// a callee-saved register for the tail call (`mov x0, x20` + an extra x20 save) where the original
+// recomputes `this + 0x50`.
+// 0x7100ec0374: releases the contact point managers, the reaction item list and the two receivers,
+// then the queued procs and the debug message (a member).
+Reaction::~Reaction() {
+    if (_c0) {
+        phys::LayerContactPointInfo::free(_c0);
+        _c0 = nullptr;
+    }
+    if (_c8) {
+        phys::LayerContactPointInfo::free(_c8);
+        _c8 = nullptr;
+    }
+    if (_d0) {
+        sub_7100F70A20(_d0);
+        _d0 = nullptr;
+    }
+    if (_a0) {
+        delete _a0;
+        _a0 = nullptr;
+    }
+    if (_a8) {
+        delete _a8;
+        _a8 = nullptr;
+    }
+}
+
 // 0x7101284954 (placeholder name): the slanted water footstep reaction of the receiver.
 void sub_7101284954(Unk_7101286868* receiver, ::DamageReactionRequest* request);
 SEAD_SINGLETON_DISPOSER_IMPL(Reaction)
