@@ -15,6 +15,21 @@ bool ModelNW::initialize(nn::g3d::ResModel* model, s32 buffer_num, sead::Heap* h
 }
 
 
+// 0x7100c07b80
+int ModelNW::getShapeNum() const {
+    return mModelObj.GetNumShapes();
+}
+
+// 0x7100c07b88
+int ModelNW::getViewNum() const {
+    return mModelObj.GetNumViews();
+}
+
+// 0x7100c07b90
+void ModelNW::createRenderUnitNW(int index, sead::Heap* heap) {
+    allocAndInitRenderUnitNW(index, heap);
+}
+
 // 0x7100f1d514
 int ModelNW::searchMaterialIndex(const char* material_name) const {
     const nn::util::ResDic* dict = mMaterialDic;

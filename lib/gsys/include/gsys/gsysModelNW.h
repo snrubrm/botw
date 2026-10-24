@@ -97,6 +97,8 @@ public:
     // 0x7100c07b80: the u16 render-unit count at ModelNW+0x110.
     int getModelRenderUnitNum() const override;
     int getShapeNum() const override;
+    // 0x7100c07b88: the byte at ModelObj +0x18.
+    int getViewNum() const;
     ModelRenderUnit* getModelRenderUnit(int idx) override;
     const ModelRenderUnit* getModelRenderUnit(int idx) const override;
     // Native vtable AP24ca120 +70 is c04df8; +80 is c04e48, which
@@ -105,6 +107,9 @@ public:
     void safeGetBoneWorldMatrix(sead::Matrix34f* matrix, int bone_idx) const override;
 
 protected:
+    // 0x7100c07b94 (declared only): creates and initializes the render unit `index`;
+    // createRenderUnitNW forwards to it.
+    void allocAndInitRenderUnitNW(int index, sead::Heap* heap);
     virtual void drawDetail(agl::DrawContext* context) const;
     virtual void createRenderUnitNW(int, sead::Heap* heap);
 
