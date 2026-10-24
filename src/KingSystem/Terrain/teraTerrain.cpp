@@ -854,6 +854,10 @@ void Terrain::sub_710114D7C0() {}
 // 0x710114d7c4: empty in this release (a four-byte body); Core::sub_71013021E0 calls it first.
 void Terrain::sub_710114D7C4() {}
 
+// 0x710114dd48: empty in this release (a four-byte body); ksys::CreateTeraSystem calls it on the
+// Terrain instance with the new System.
+void Terrain::sub_710114DD48(System* system) {}
+
 void Terrain::sub_710114D73C() {
     if ((~_a58 & 6) == 0)
         _360->sub_710130085C();
@@ -1468,6 +1472,9 @@ void ApertureMapsCollector::Unk_2948::sub_7101128BA0(s32 level) {
         records[i]._58 = static_cast<u8*>(data) + offset;
     }
 }
+
+// 0x710113808c: empty in this release (a four-byte body); Terrain::sub_7101149BD4 calls it on _380.
+void Terrain::Unk_380::sub_710113808C() {}
 
 void Terrain::Unk_380::sub_71011382EC() {
     for (Unk_710110d278::Key& item : mList.robustRange()) {

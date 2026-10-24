@@ -763,6 +763,9 @@ public:
     // Core::sub_71013021E0 call them on Terrain::instance() before their per-view work.
     void sub_710114D7C0();
     void sub_710114D7C4();
+    // 0x710114dd48 (four-byte body, empty in this release): ksys::CreateTeraSystem calls it on
+    // Terrain::instance() with the new System after the system's initial setup.
+    void sub_710114DD48(System* system);
     // 0x7101149af0 (CSV Terrain::__auto11; placeholder name): under the image manager's lock, sets
     // (clears) bit 18 of _a58 when it differs from `on`.
     void sub_7101149AF0(bool on);
@@ -1011,6 +1014,9 @@ public:
         // 0x7101138494 (declaration only; placeholder name): the item of mList whose name (SafeString at +0x8)
         // is `name`, or null. System::sub_71011194C4 passes the result to sub_7101118C40 as the key.
         Unk_710110d278::Key* sub_7101138494(const sead::SafeString& name);
+        // 0x710113808c (four-byte body, empty in this release): Terrain::sub_7101149BD4 calls it on
+        // _380 before releasing the object.
+        void sub_710113808C();
 
         sead::FreeList mFreeList;
         sead::OffsetList<Unk_710110d278::Key> mList;
