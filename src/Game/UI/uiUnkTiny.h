@@ -312,6 +312,8 @@ public:
     void set58(const sead::Vector2f& value);
     sead::Vector2f* get58();
     void set60(const sead::Vector2f& value);
+    // 0x7100950310 (placeholder name): clamps `offset` to half the map extent (when the map bounds are set)
+    void sub_7100950310(f32 scale, sead::Vector2f* offset);
 
 private:
     u8 _8[0x50 - 0x8];

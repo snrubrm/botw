@@ -1682,6 +1682,25 @@ void Unk_71024753a8::set60(const sead::Vector2f& value) {
     _60 = value;
 }
 
+// 0x7100950310 (placeholder name): clamps `offset` to half the map extent when the map bounds are set.
+// NON_MATCHING: the compiler if-converts both clamps into fcsels and schedules the box loads before the
+// extent products (the original keeps the two compare branches and loads the box last).
+void Unk_71024753a8::sub_7100950310(f32 scale, sead::Vector2f* offset) {
+    if (UiSubsys1::instance()->_848 == 0)
+        return;
+
+    const f32 inv_scale = 1.0f / scale;
+    const sead::Vector2f map_size = sUnk_71025d6c70.mLayoutSize * inv_scale;
+    const f32 max_y = sead::Mathf::abs(_90.getMax().y);
+    const f32 half_x = (_90.getMax().x - _90.getMin().x - map_size.x) * 0.5f;
+    const f32 half_y = max_y - map_size.y * 0.5f;
+    const f32 limit_x = std::max(half_x, 0.0f);
+    const f32 limit_y = std::max(half_y, 0.0f);
+
+    offset->x = sead::Mathf::clamp(offset->x, -limit_x, limit_x);
+    offset->y = sead::Mathf::clamp(offset->y, -limit_y, sead::Mathf::maxNumber());
+}
+
 // 0x7100950408
 void Unk_71024753a8::sub_7100950408() {
     const sead::Vector2f half_size(sUnk_71025d6c70.size.x * 0.5f, sUnk_71025d6c70.size.y * 0.5f);

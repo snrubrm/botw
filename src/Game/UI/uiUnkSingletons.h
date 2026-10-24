@@ -1246,6 +1246,7 @@ class UiSubsys1 {
     friend class ScreenAppMapWidget;
     // Native 9F05C0 reads the map view offsets (+0x30) and scale (+0x28) directly.
     friend class ScreenAppMap;
+    friend class Unk_71024753a8;
 public:
     static UiSubsys1* instance() { return sInstance; }
 
