@@ -57,6 +57,33 @@ bool ModelSceneEnv::AreaEnvGetter::isViewDependence(u32 index) const {
 
 void ModelSceneEnv::drawDebug(agl::DrawContext*, const ModelSceneContext&) const {}
 
+// NON_MATCHING: the body is the same, but clang keeps `result` in registers and materialises it in
+// one epilogue; the original stores the zeroed record into the sret buffer before the count check,
+// so the success-path binary/size stores land before the source-name call.
+// 0x7100c29298
+ModelSceneEnv::ApplyUserBinarySlotMaybe ModelSceneEnv::getApplyUserBinarySlot(
+    s32 slot, s32 data_set) const {
+    const DataSet& data = mDataSets[data_set];
+
+    const s32 index = data.mUserBinaryIndex;
+    if (index < 0)
+        return {};
+    ApplyUserBinarySlotMaybe result = {};
+    if (data.mUserBinaryCount <= u32(index))
+        return result;
+
+    const ApplySlot* apply_slot = data.mApplySlots[slot];
+    const EnvSet& env_set = data.mEnvSets[index];
+    const UserBinary* binary = env_set.mUserBinaries[apply_slot->mUserBinaryIndex];
+    if (!binary)
+        return result;
+
+    result.mBinary = binary->mBinary;
+    result.mSize = binary->mSize;
+    result.mSourceFileName = binary->mSourceFileName.cstr();
+    return result;
+}
+
 // 0x7100c2546c
 void ModelSceneEnv::setSourceFileName(agl::utl::IParameterIO* io, const sead::SafeString& file_name,
                                       u32 data_set) const {

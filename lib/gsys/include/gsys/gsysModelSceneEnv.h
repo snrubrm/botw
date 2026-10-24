@@ -34,21 +34,48 @@ public:
     void finalize();
 
     // Env-set record: 0x1e8 bytes; enabled byte at +0, SafeString name at +8.
+    struct UserBinary;
+    // The per-slot record reached from DataSet::mApplySlots; its +0x10 word selects an entry of
+    // EnvSet::mUserBinaries.
+    struct ApplySlot {
+        u8 _0[0x10];
+        s32 mUserBinaryIndex;
+    };
+    static_assert(sizeof(ApplySlot) == 0x14);
+
     struct EnvSet {
         u8 mEnabled;
         u8 _1[7];
         sead::SafeString mName;
-        u8 _18[0x1e8 - 0x18];
+        u8 _18[0x68 - 0x18];
+        // 48 pointers from +0x68 to the end of the record (getApplyUserBinarySlot 0x7100c29298
+        // indexes them by ApplySlot::mUserBinaryIndex).
+        UserBinary* mUserBinaries[48];
     };
     static_assert(sizeof(EnvSet) == 0x1e8);
 
-    // Data-set record: 0x5f0 bytes; env-set count at +0x438 and array at +0x440.
+    // A user binary record: the source-file name string at +8, the binary at +0x100 and its size at
+    // +0x108. Only the fields getApplyUserBinarySlot reads are modelled.
+    struct UserBinary {
+        u8 _0[8];
+        sead::SafeString mSourceFileName;
+        u8 _18[0x100 - 0x18];
+        const void* mBinary;
+        u32 mSize;
+    };
+
+    // Data-set record: 0x5f0 bytes; env-set array at +0x438.
     struct DataSet {
-        u8 _0[0x438];
-        s32 mEnvSetCount;
-        u8 _43c[4];
-        EnvSet* mEnvSets;
-        u8 _448[0x5c0 - 0x448];
+        u8 _0[0x260];
+        // The slot array and the user-binary index/count read by getApplyUserBinarySlot.
+        const ApplySlot* const* mApplySlots;
+        u8 _268[0x438 - 0x268];
+        sead::Buffer<EnvSet> mEnvSets;
+        u8 _448[0x458 - 0x448];
+        u32 mUserBinaryCount;
+        u8 _45c[0x490 - 0x45c];
+        s32 mUserBinaryIndex;
+        u8 _494[0x5c0 - 0x494];
         // setFilenameImpl 0x7100c2934c splits a path at its last '/' and stores the directory
         // here and the file name at +0x5d0; it clears the third string at +0x5e0.
         sead::SafeString mSourceDirectory;
@@ -116,7 +143,7 @@ public:
 
     // 0x7100c29298 (declared only): returns the user binary of the data set `data_set` for the
     // apply slot `slot`; both fields are cleared when the slot is absent.
-    ApplyUserBinarySlotMaybe getApplyUserBinarySlot(u32 slot, u32 data_set) const;
+    ApplyUserBinarySlotMaybe getApplyUserBinarySlot(s32 slot, s32 data_set) const;
     // 0x7100c2546c: joins the data set's source directory (set at +0x5c0 by setFilenameImpl) with
     // `file_name` and stores the result as the parameter I/O object's save path.
     void setSourceFileName(agl::utl::IParameterIO* io, const sead::SafeString& file_name,
