@@ -5911,8 +5911,14 @@ public:
     virtual void m164();
     virtual s32 m165();
 
-    // 0x71009e34d0 (placeholder name; 1468 bytes, not decompiled): runs before m155's sensor-state check
+    // 0x71009e34d0 (placeholder name): the map's per-frame camera control: follows the layer 1 camera while the
+    // display mode is 0, turns the left stick into a masked input, drives screen 62 and the sensor child, then
+    // reports the input to the map child
     void sub_71009E34D0();
+    // 0x71009e51ac / 0x71009e5438 (placeholder names): the display mode 1 refresh / the input forwarder to the
+    // dungeon table entry
+    void sub_71009E51AC();
+    void sub_71009E5438(u64 mask);
 
     // 0x71009e7020 (placeholder name): switches the sensor UI to `mode` (2 / 1 / 0) and forwards the mode
     // to the sensor child
@@ -5934,7 +5940,8 @@ public:
     u8 _3610[0x3658 - 0x3610];
     /* 0x3658 */ f32 _3658;  // camera pitch
     /* 0x365c */ f32 _365c;  // camera yaw
-    u8 _3660[0x3668 - 0x3660];
+    /* 0x3660 */ f32 _3660;  // camera follow distance
+    u8 _3664[0x3668 - 0x3664];
     /* 0x3668 */ sead::Vector3f _3668;
     u8 _3674[0x3680 - 0x3674];
     /* 0x3680 */ sead::LookAtCamera _3680;
@@ -5972,7 +5979,11 @@ public:
     /* 0x118ac */ s32 _118ac;  // selected entry (-1: none)
     u8 _118b0[0x118d0 - 0x118b0];
     /* 0x118d0 */ s32 _118d0;  // last selected entry
-    u8 _118d4[0x11918 - 0x118d4];
+    u8 _118d4[0x118e0 - 0x118d4];
+    /* 0x118e0 */ UiTimer _118e0;
+    /* 0x118f8 */ sead::Vector2f _118f8;  // left stick of the screen's controller
+    /* 0x11900 */ bool _11900;
+    u8 _11901[0x11918 - 0x11901];
     /* 0x11918 */ eui::Animator* _11918;
     u8 _11920[0x11938 - 0x11920];
 

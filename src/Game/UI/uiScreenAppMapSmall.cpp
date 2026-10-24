@@ -28,6 +28,7 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "Game/AOC/aocHardModeManager.h"
 #include "KingSystem/GameData/gdtSaveMgr.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 
 namespace uking::ui {
 
@@ -1353,6 +1354,88 @@ void ScreenAppMapDungeon::sub_71009E5CA8(s32 index) {
         if (auto* animator = _11798[base + index]->animator)
             animator->PlayAuto(1.0f);
     }
+}
+
+// 0x71009e34d0
+// NON_MATCHING: the zero-input test's float block is laid out inline where the original puts it after the
+// epilogue (the mask test branches instead of falling through); the sensor-child load also lands in x8 vs x0.
+void ScreenAppMapDungeon::sub_71009E34D0() {
+    _118e0.update();
+    Unk_71025d6550::instance()->setDAC(false);
+    if (Unk_71025d6550::instance()->isD78Zero() && mState != 0 && mState != 3) {
+        auto* layer_camera = agl::lyr::Renderer::instance()->mLayers[1]->sub_7100B60CE0();
+        if (!layer_camera)
+            return;
+        sead::Vector3f look = _3680.getAt() - _3668;
+        layer_camera->getLookVectorByMatrix(&look);
+        _3680.setPos(_3680.getAt() + look * _3660);
+        _3680.setUp(sead::Vector3f::ey);
+        _3680.normalizeUp();
+        _3680.updateViewMatrix();
+        return;
+    }
+
+    if (Unk_71025d6550::instance()->isD78One())
+        sub_71009E51AC();
+
+    u32 mask;
+    if (isTrigMaybe(0x10000))
+        mask = 8;
+    else if (isTrigMaybe(0x20000))
+        mask = 0x10;
+    else if (isTrigMaybe(0x40000))
+        mask = 0x20;
+    else if (isTrigMaybe(0x80000))
+        mask = 0x40;
+    else
+        mask = 0;
+    if (isTrigMaybe(1))
+        mask |= 1;
+    if (isTrigMaybe(0x10))
+        mask |= 2;
+    if (isTrigMaybe(8))
+        mask |= 4;
+
+    if (_118e0.isDone()) {
+        if (isTrigMaybe(0xf00000)) {
+            _11900 = true;
+            _118e0.reset();
+        } else {
+            _11900 = false;
+        }
+        const sead::Vector2f& stick =
+            ((_292 & 0x40) && sub_71010AA9D0() && mUIController) ? mUIController->getLeftStick() : sead::Vector2f::zero;
+        _118f8 = stick;
+    } else {
+        _118f8 = sead::Vector2f::zero;
+        _11900 = false;
+    }
+
+    if (mask & 4) {
+        createAndLoadScreenIfNeededImpl(0x3e, nullptr);
+        eui::Screen* screen = eui::ScreenMgr::instance()->getScreen(0x3e);
+        if (sead::IsDerivedFrom<ScreenAppSystemWindow>(screen)) {
+            if (!ksys::gdt::isWarpProhibited() && !sub_7100AA8F10() && !sub_7100AA8E5C())
+                static_cast<ScreenAppSystemWindow*>(screen)->m154(8);
+            else
+                static_cast<ScreenAppSystemWindow*>(screen)->m154(9);
+            return;
+        }
+    }
+
+    if ((mask & 2) && mSensorChild && sub_71009BEB44()) {
+        mSensorChild->m5(true);
+        return;
+    }
+
+    if (mask != 0 || _118f8.x != 0.0f || _118f8.y != 0.0f)
+        sub_71009E5438(mask);
+    if (sub_71009E5530())
+        return;
+    if (mState == 0 || mState == 3)
+        return;
+    if (mask & 1)
+        invokeSoundLink2Event_("mc_prohibited");
 }
 
 // 0x71009e62fc
