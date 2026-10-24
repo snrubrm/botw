@@ -1357,8 +1357,7 @@ void ScreenAppMapDungeon::sub_71009E5CA8(s32 index) {
 }
 
 // 0x71009e34d0
-// NON_MATCHING: the zero-input test's float block is laid out inline where the original puts it after the
-// epilogue (the mask test branches instead of falling through); the sensor-child load also lands in x8 vs x0.
+// NON_MATCHING: the sensor child load for the null test lands in x8 where the original uses x0 (regalloc).
 void ScreenAppMapDungeon::sub_71009E34D0() {
     _118e0.update();
     Unk_71025d6550::instance()->setDAC(false);
@@ -1423,12 +1422,16 @@ void ScreenAppMapDungeon::sub_71009E34D0() {
         }
     }
 
-    if ((mask & 2) && mSensorChild && sub_71009BEB44()) {
-        mSensorChild->m5(true);
-        return;
+    if (mask & 2) {
+        if (mSensorChild) {
+            if (sub_71009BEB44()) {
+                mSensorChild->m5(true);
+                return;
+            }
+        }
     }
 
-    if (mask != 0 || _118f8.x != 0.0f || _118f8.y != 0.0f)
+    if (!(mask == 0 && _118f8.x == 0.0f && _118f8.y == 0.0f))
         sub_71009E5438(mask);
     if (sub_71009E5530())
         return;
