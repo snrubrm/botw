@@ -274,20 +274,33 @@ public:
     sead::TypedBitFlag<Attribute, u16>& getAttributeFlags() { return mAttributeFlags; }
     const sead::TypedBitFlag<Attribute, u16>& getAttributeFlags() const { return mAttributeFlags; }
 
+    // The unit flags at +0x8 (bit 0 is Flag::Changed). ksys::gfx 0x7100f1dff0 sets bit 0 directly.
+    sead::TypedBitFlag<Flag, u8>& getFlags() { return mFlags; }
+    const sead::TypedBitFlag<Flag, u8>& getFlags() const { return mFlags; }
+
     // The byte at +0x9 (the ctor 0x7100c3d4b0 clears it): ksys::gfx 0x7100f1ed8c writes 22 to it
     // for the first mode and 0 for the second one.
     s8 getUnkIndex() const { return mUnkIndex; }
     void setUnkIndex(s8 index) { mUnkIndex = index; }
 
     // The record at +0x88 that ksys::gfx 0x7100f1d638 / 0x7100f1d6bc / 0x7100f1c538 write and
-    // read: a pair of floats at +0x38 / +0x3c and a flag word at +0x40 (bit 0 is set by both
-    // setters before the record is applied). The remaining fields are not modelled.
+    // read. The allocator 0x7100f1ef4c creates it with `new (heap, 8)` (0x48 bytes), sets +0x20 to
+    // -1 and zeroes +0x28, +0x30 and +0x40; 0x7100f1d638 fills +0x30 with the unit's shape count and
+    // a zeroed per-shape array; the setters write the pair of floats at +0x38 / +0x3c and set bit 0
+    // of the word at +0x40 before the record is applied.
     struct RenderDataMaybe {
-        u8 _0[0x38];
+        u8 _0[0x20];
+        s32 _20;  // -1 when the record is created
+        u32 _24;
+        s32 mShapeNum;
+        u32 _2c;
+        void* mShapeData;
         f32 mShapeInstanceValue;
         f32 mShapeInstanceValue2;
         u32 mFlags;
+        u32 _44;
     };
+    static_assert(sizeof(RenderDataMaybe) == 0x48, "RenderDataMaybe size");
     RenderDataMaybe* getRenderDataMaybe() const { return static_cast<RenderDataMaybe*>(_88); }
 
 protected:

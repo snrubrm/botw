@@ -35,6 +35,8 @@ class Model;
 
 class EffectModelDrawMgr;
 
+class ModelNW;
+
 class Layer3D;
 
 class ModelScene {
@@ -153,7 +155,10 @@ public:
     // here, binds the scene/procedural units, then binds the model to this scene.
     // ItemFilter 0x7101293d68 searches its named units; calc requests its draw.
     /* 0x56d0 */ Model* mSceneModel;
-    u8 _56d8[0x5d80 - 0x56d8];
+    // The first unit of the scene model as a ModelNW (initialize 0x7100c0d9fc stores the
+    // 0x308-byte ModelNW created by 0x7100c0334c; ksys::gfx 0x7100f19a2c dynamic-casts it).
+    /* 0x56d8 */ ModelNW* mSceneModelNW;
+    u8 _56e0[0x5d80 - 0x56e0];
 
     // Flags (0xa39 after construction). Game code sets bit 1 after it applied an env set (SystemApplyEnvSetAction)
     // and bit 13 when it creates the scene; ModelScene's own code reads bits 0, 1, 2, 5 and 8.
@@ -179,6 +184,7 @@ static_assert(offsetof(ModelScene, mCloud) == 0x3740);
 static_assert(offsetof(ModelScene, mBuffer) == 0x3778);
 static_assert(offsetof(ModelScene, _52e0) == 0x52e0);
 static_assert(offsetof(ModelScene, mSceneModel) == 0x56d0);
+static_assert(offsetof(ModelScene, mSceneModelNW) == 0x56d8);
 static_assert(offsetof(ModelScene, mFlags) == 0x5d80);
 static_assert(sizeof(ModelScene) == 0x5f20);
 

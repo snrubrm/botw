@@ -127,7 +127,9 @@ private:
         };
     };
     u8 _1b4[0x498 - 0x1b4];
-    u8 _498;
+    // Bit 0 is the enabled flag; 0x71012a2768 tests only its low byte, Graphics 0x7100f2ac88
+    // sets bit 2 with a word read-modify-write.
+    u32 _498;
 };
 
 // Declaration only: F2C140 constructs a 0x268-byte object at 129175C and stores it at B38.

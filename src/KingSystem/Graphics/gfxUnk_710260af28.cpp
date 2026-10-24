@@ -304,7 +304,9 @@ void Unk_710260af28::sub_7100F1C538(gsys::ModelUnit* unit) {
         const f32 base = _40 + data->mShapeInstanceValue2;
         const f32 top = data->mShapeInstanceValue < _4c ? data->mShapeInstanceValue : _4c;
         const f32 diff = top - base;
-        lod = diff < 0.0f ? _48 * top : base + _48 * diff;
+        const f32 a = _48 * top;
+        const f32 b = base + _48 * diff;
+        lod = diff < 0.0f ? a : b;
     } else {
         const f32 scale = _40 < data->mShapeInstanceValue ? _40 : data->mShapeInstanceValue;
         lod = data->mShapeInstanceValue2 + scale * _44;
