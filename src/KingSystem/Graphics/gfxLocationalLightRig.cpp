@@ -494,9 +494,8 @@ void Unk_7100f185a4::m3(const gsys::IModelResourceCallback::MaterialArg& arg) {
     }
 }
 
-// NON_MATCHING: agl::utl::PrimitiveTexture::getBlack2DSampler() returns mSamplers[6] (+0x58 in the
-// object); the original reads mSamplers[2] (+0x38). With index 2 in the lib accessor the row matches.
-// 0x7100f1b6e0: frees the dynamic map texture and puts the Black2D sampler back on mSampler0.
+// 0x7100f1b6e0: frees the dynamic map texture and puts the Black2D sampler (mSamplers[2], +0x38)
+// back on mSampler0.
 void Unk_7100f185a4::freeDynamicTextureMaybe() {
     if (_8c0) {
         agl::utl::DynamicTextureAllocator::instance()->free(_8c0);

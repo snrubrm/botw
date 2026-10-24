@@ -86,6 +86,16 @@ public:
     // 0x7100f1ba2c (declaration only; 2492 B): the per-unit body of sub_7100F1B9D0.
     void sub_7100F1BA2C(gsys::ModelUnit* unit);
 
+    // 0x7100f1c538 (declaration only; 456 B): updates the LOD parameter of `unit` from its render
+    // data and the LOD fields below. A unit whose name ends in "_Far" uses the far-distance form.
+    void sub_7100F1C538(gsys::ModelUnit* unit);
+    // 0x7100f1d638: stores the two shape values in the render data of every unit of `model`, then
+    // refreshes each unit's LOD parameter through sub_7100F1C538.
+    void sub_7100F1D638(f32 shape_value, f32 offset, gsys::Model* model);
+    // 0x7100f1d6bc: the same for one unit. PlacementMgr::invoked2_ calls it with half of a mounted
+    // actor's scale.
+    void sub_7100F1D6BC(f32 shape_value, f32 offset, gsys::ModelUnit* unit);
+
     // 0x7100f1e4dc (declaration only): Bullet and GolemRootBase pass their model and an unsigned value converted to
     // float.
     void sub_7100F1E4DC(gsys::Model* model, f32 value);
@@ -101,8 +111,18 @@ public:
     void sub_7100F1C700(gsys::ModelUnit* unit);
 
 private:
-    // Opaque state up to the flag byte at +0x5c; bit 3 skips the per-unit fade update.
-    u8 _0[0x5c];
+    // The LOD parameters: sub_7100F1D6BC / sub_7100F1D638 write the render data's two shape values
+    // and sub_7100F1C538 combines them with these floats. +0x54 / +0x58 are distance thresholds
+    // compared against a model unit's value in sub_7100F1BA2C.
+    u8 _0[0x40];
+    f32 _40;
+    f32 _44;
+    f32 _48;
+    f32 _4c;
+    f32 _50;
+    f32 _54;
+    f32 _58;
+    // Flag byte; bit 3 skips the per-unit fade update.
     u8 _5c;
     static Unk_710260af28* sInstance;
 };

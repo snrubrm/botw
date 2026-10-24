@@ -859,6 +859,11 @@ public:
     Unk_7100f185a4* getMapRendererMaybe() const { return _388; }
     Unk_ab0* getUnk_ab0() const { return _ab0; }
 
+    // Read by ScreenAppMapDungeon::m95: nonzero skips the scale-factor conversion of the map screen
+    // coordinates. The per-frame update 0x7100f2f2c8 latches the value of sub_7100F2AFE8's byte
+    // (_f5d) here, so normally it is 0.
+    u8 get_b5e() const { return _f5e; }
+
 public:
     // Placeholder: the object at 0x118 (SkyMgr::sub_71010E37C8 copies the sky light direction to _1c0).
     struct Unk_118 {

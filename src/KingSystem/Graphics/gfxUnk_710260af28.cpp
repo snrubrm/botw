@@ -289,6 +289,56 @@ s32 Unk_710260af28::sub_7100F1C774() {
     return 0;
 }
 
+// 0x7100f1c538: updates the LOD parameter of `unit` from its render data and the LOD fields. A
+// unit whose name ends in "_Far" (the far-distance variant of a map model) uses the far form.
+void Unk_710260af28::sub_7100F1C538(gsys::ModelUnit* unit) {
+    auto* data = unit->getRenderDataMaybe();
+    if (!data)
+        return;
+    if (!(data->mFlags & 1))
+        return;
+
+    f32 lod;
+    const sead::SafeString name = unit->getName();
+    if (name.endsWith("_Far")) {
+        const f32 base = _40 + data->mShapeInstanceValue2;
+        const f32 top = data->mShapeInstanceValue < _4c ? data->mShapeInstanceValue : _4c;
+        const f32 diff = top - base;
+        lod = diff < 0.0f ? _48 * top : base + _48 * diff;
+    } else {
+        const f32 scale = _40 < data->mShapeInstanceValue ? _40 : data->mShapeInstanceValue;
+        lod = data->mShapeInstanceValue2 + scale * _44;
+        lod = lod > _50 ? lod : _50;
+    }
+    unit->setLodParameter(lod, 1.0f, -1);
+}
+
+// 0x7100f1d638: stores the two shape values in the render data of every unit of `model`, then
+// refreshes each unit's LOD parameter.
+void Unk_710260af28::sub_7100F1D638(f32 shape_value, f32 offset, gsys::Model* model) {
+    for (s32 i = 0; i < model->getUnits().size(); ++i) {
+        auto* unit = model->getUnits()[i]->mModelUnit;
+        auto* data = unit->getRenderDataMaybe();
+        if (!data)
+            continue;
+        data->mShapeInstanceValue = shape_value;
+        data->mShapeInstanceValue2 = offset;
+        data->mFlags |= 1;
+        sub_7100F1C538(unit);
+    }
+}
+
+// 0x7100f1d6bc: the same for one unit.
+void Unk_710260af28::sub_7100F1D6BC(f32 shape_value, f32 offset, gsys::ModelUnit* unit) {
+    auto* data = unit->getRenderDataMaybe();
+    if (!data)
+        return;
+    data->mShapeInstanceValue = shape_value;
+    data->mShapeInstanceValue2 = offset;
+    data->mFlags |= 1;
+    sub_7100F1C538(unit);
+}
+
 // 0x7100f1f0f0 (CSV name): frees the model render data through the map renderer, the far model
 // renderer and the grudge renderer, then releases the block the data owns.
 void ksys::gfx::UkingModelRenderOptionsMgr::destroyModelRenderData(ModelRenderDataMaybe* data) {
