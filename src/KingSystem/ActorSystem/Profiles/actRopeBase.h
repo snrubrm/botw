@@ -58,6 +58,14 @@ public:
     void sub_7100ED4A80();
     void sub_7100ED4E50();
     void sub_7100ED5010();
+    // 0x7100ed19c0 (placeholder name): tracks whether the two end constraints are attached and
+    // runs the end steps when an end changed state.
+    void sub_7100ED19C0();
+    // 0x7100ed0ef0 (declared only): the end step run by sub_7100ED19C0.
+    void sub_7100ED0EF0();
+    // 0x7100ed1d78 (placeholder name): finds the last rope body with an active chemical element
+    // and starts the body update (_95c = index + 1, _954, _96c = 2).
+    void sub_7100ED1D78();
     // 0x7100eced04 (declared only, 1672 B): the pre-delete teardown; preDelete2_ forwards its flag.
     void sub_7100ECED04(bool do_not_destruct_immediately);
     // 0x7100ecbb48 (placeholder name): creates the rope actor through the actor creator with the
@@ -172,7 +180,10 @@ protected:
     bool _971;
     u8 _972[0x974 - 0x972];
     s32 _974;
-    u8 _978[0x988 - 0x978];
+    // The end-attachment states of the previous frame (written by 0x7100ed19c0).
+    bool _978;
+    bool _979;
+    u8 _97a[0x988 - 0x97a];
     bool _988;  // scale update enabled
     u8 _989;
     // BalloonRopeBase::enter_ clears this after attaching the rope (lane3 s70).

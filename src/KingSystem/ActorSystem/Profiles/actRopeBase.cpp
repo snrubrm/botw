@@ -46,6 +46,72 @@ bool RopeBase::sub_7100ECBB48() {
     return true;
 }
 
+// 0x7100ed19c0 (placeholder name): tracks whether the two end constraints are attached (the first
+// one and the one after the last segment) and runs sub_7100ECDAB8 / sub_7100ED0EF0 when an end
+// changed state; then makes the bodies static when _989 is set.
+void RopeBase::sub_7100ED19C0() {
+    bool first = false;
+    if (_840.size() != 0) {
+        auto* constraint = _840[0];
+        if (constraint) {
+            if ((constraint->_50 & 1) || constraint->sub_7100F6ACE8())
+                first = true;
+        }
+    }
+
+    bool second = false;
+    const u32 next = _930 + 1;
+    if (_840.size() > next) {
+        auto* constraint = _840[next];
+        if (constraint) {
+            if ((constraint->_50 & 1) || constraint->sub_7100F6ACE8())
+                second = true;
+        }
+    }
+
+    if ((!first && _978) || (!second && _979)) {
+        sub_7100ECDAB8();
+        sub_7100ED0EF0();
+        if (_989 && _92c > 0) {
+            for (s32 i = 0; i < _92c; ++i) {
+                if (_860[i] && _860[i]->getMotionType() != phys::MotionType::Dynamic)
+                    _860[i]->changeMotionType(phys::MotionType::Dynamic);
+            }
+        }
+    }
+
+    _978 = first;
+    _979 = second;
+}
+
+// 0x7100ed1d78 (placeholder name): start flag for the body update; finds the last rope body whose
+// chemical element is active and stores its index + 1 in _95c.
+void RopeBase::sub_7100ED1D78() {
+    if (!_957 || _954 || _9f0)
+        return;
+    if (!mChemical)
+        return;
+
+    s32 found = -1;
+    for (s32 i = 0; i <= _930; ++i) {
+        auto* chemical = mChemical->sub_7100E380FC(i);
+        if (!chemical || chemical->_c0 != 3)
+            continue;
+        auto* body = _860[i];
+        if (body && body->isAddedToWorld())
+            found = i;
+    }
+
+    if (found < 0)
+        return;
+
+    _95c = found + 1;
+    _954 = true;
+    _958 = false;
+    _959 = false;
+    _96c = 2;
+}
+
 // 0x7100ed4e50 (placeholder name): detaches the rope bodies whose chemical element is inactive
 // (moving them to the spare lists) and deletes the actor when the first body is inactive.
 void RopeBase::sub_7100ED4E50() {
