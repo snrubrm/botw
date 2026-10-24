@@ -200,6 +200,19 @@ void UiSubsys1::sub_7100968774() {
     ++_3830;
 }
 
+// 0x7100968b1c: the state of the selected entry of the current map mode group (0 when there is none)
+// NON_MATCHING: clang sinks the u16 mask of the second mode lookup into the final block; the original
+// truncates right after each lookup (same block order otherwise).
+s32 UiSubsys1::sub_7100968B1C() {
+    const s32 index = _3830;
+    if (index == -1 || getMapMode() == 6)
+        return 0;
+    const u16 mode = getMapMode();
+    if (u32(index) > 0xb)
+        return 0;
+    return _d80[mode < 5 ? mode : 0].mEntries[index]._8;
+}
+
 // 0x7100968af8: sets a bit of the 16-bit flag word at 0x3860
 void UiSubsys1::sub_7100968AF8(s32 index) {
     _3860 |= 1 << u16(index);
