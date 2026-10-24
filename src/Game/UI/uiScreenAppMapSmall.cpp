@@ -1394,6 +1394,60 @@ void ScreenAppMapDungeon::sub_71009E5CA8(s32 index) {
     }
 }
 
+// 0x71009e2be8
+void ScreenAppMapDungeon::m94() {
+    Unk_71025d6550::instance()->sub_7100948664();
+    if (sUnk_71025de180 & 1) {
+        if (sUnk_71025de180 & 2) {
+            getStateMachine().changeState(&sUnk_71025de120);
+            _114f8->StopAtMin();
+            _36e4 = false;
+            sUnk_71025de180 &= ~2;
+        }
+        if (Unk_71025d69f0::instance()->sub_710094F6F8() && _114f8) {
+            if (_114f8->mFrame == 0.0f) {
+                _114f8->PlayAuto(1.0f);
+            } else if (_114f8->mFrame == f32(_114f8->GetFrameSize()) &&
+                       Unk_71025d69f0::instance()->_36 != 0) {
+                _36e4 = true;
+            }
+        }
+    }
+    getStateMachine().run();
+    sub_71009E2EA8();
+
+    for (s32 i = 0; i < 11; ++i) {
+        PartsEntry& entry = _11530[i];
+        entry._28[0] = 0;
+        if (entry.animators[0] && (entry.animators[0]->mFlags & 1)) {
+            entry._28[0] = 1;
+            if (i != _118ac && entry.animators[2])
+                entry.animators[2]->PlayAuto(-1.0f);
+        }
+    }
+
+    if (Manager::instance()->_64c38 < 5) {
+        for (s32 i = 0; i < 11; ++i) {
+            if (!_11530[i]._28[0] || i == _118ac)
+                continue;
+            if (Manager::instance()->_64c38 == 3) {
+                const u32 index = u32(i) < 3 ? u32(i) : 0;
+                _11808[index].animator->PlayAuto(-1.0f);
+            } else {
+                const s32 base = _117b0[getDungeonTableIndex()];
+                if (base == -1)
+                    continue;
+                if (auto* animator = _11798[base + i]->animator)
+                    animator->PlayAuto(-1.0f);
+            }
+        }
+    }
+
+    sub_71009E2FEC();
+    sub_71009E30D4();
+    sub_71009E3258();
+}
+
 // 0x71009e34d0
 // NON_MATCHING: the sensor child load for the null test lands in x8 where the original uses x0 (regalloc).
 void ScreenAppMapDungeon::sub_71009E34D0() {

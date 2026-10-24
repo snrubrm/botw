@@ -4885,6 +4885,8 @@ void sub_71009F2204();
 void sub_71009E3B84();
 // 0x71025de180 (uiAppStateGlobals.cpp): flag bits of the AppMapDungeon screen functions
 extern u16 sUnk_71025de180;
+// 0x71025de120: the state ScreenAppMapDungeon::m94 changes to when bit 1 of sUnk_71025de180 is set
+extern const ksys::StateBase sUnk_71025de120;
 // 0x71009e5530 (placeholder name; ScreenAppMapDungeon TU): a dungeon-state check: false
 // while bit 0 of sUnk_71025de180 is set or the curse flag is on in states 0 - 3; per state the Divine Beast boss
 // appeared-and-died flags, the gear manager timer in state 4, false in state 5, true otherwise
@@ -5897,6 +5899,8 @@ public:
     bool sub_71009E0DF8() const;
     // 0x71009e2920
     void m89() override;
+    // 0x71009e2be8: the map update: state machine, the parts entries' animators and the dungeon display
+    void m94() override;
     void m100() override;
     void m101() override;
     // 0x71009e4f88: closes the screen when the camera rune is used, the screen is closing while sub_7100AA8F50 holds,
@@ -5921,6 +5925,11 @@ public:
     virtual void m164();
     virtual s32 m165();
 
+    // 0x71009e2ea8 / 0x71009e2fec / 0x71009e30d4 / 0x71009e3258 (declared only; unnamed helpers of m94)
+    void sub_71009E2EA8();
+    void sub_71009E2FEC();
+    void sub_71009E30D4();
+    void sub_71009E3258();
     // 0x71009e34d0 (placeholder name): the map's per-frame camera control: follows the layer 1 camera while the
     // display mode is 0, turns the left stick into a masked input, drives screen 62 and the sensor child, then
     // reports the input to the map child
@@ -5967,7 +5976,10 @@ public:
     u8 _36e5[0x114e8 - 0x36e5];
     // Animator created by 0x71009e1364; 0x71009e78d8 stops it at either endpoint.
     /* 0x114e8 */ eui::Animator* _114e8;
-    u8 _114f0[0x11518 - 0x114f0];
+    u8 _114f0[0x114f8 - 0x114f0];
+    // The camera-follow animator m94 plays backwards / forwards while the map is up.
+    /* 0x114f8 */ eui::Animator* _114f8;
+    u8 _11500[0x11518 - 0x11500];
     /* 0x11518 */ ScreenAppMapUnk3c90* _11518;
     /* 0x11520 */ Unk_710247c010* mSensorChild;
     u8 _11528[0x11530 - 0x11528];
