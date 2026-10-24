@@ -48,11 +48,8 @@ const char* sub_7100E367C0(s32 index);
 
 namespace ksys::act {
 
-// NON_MATCHING: body and order agree; our implicit array destructor keeps the handle array base in
-// a callee-saved register for the tail call (`mov x0, x20` + an extra x20 save) where the original
-// recomputes `this + 0x50`.
 // 0x7100ec0374: releases the contact point managers, the reaction item list and the two receivers,
-// then the queued procs and the debug message (a member).
+// then the five reaction actor handles (in reverse creation order) and the debug message member.
 Reaction::~Reaction() {
     if (_c0) {
         phys::LayerContactPointInfo::free(_c0);
@@ -125,11 +122,11 @@ void Reaction::initBeforeStageGen(sead::Heap* heap, sead::Heap* debug_heap, Acto
     _b0 = true;
 
     if (_b8 & 0x200) {
-        creator->requestCreateActor("ReactionField", create_heap, &mHandles[0], nullptr, nullptr, 1);
-        creator->requestCreateActor("ReactionHit", create_heap, &mHandles[1], nullptr, nullptr, 1);
-        creator->requestCreateActor("Chemical", create_heap, &mHandles[2], nullptr, nullptr, 1);
-        creator->requestCreateActor("LocatorEffect", create_heap, &mHandles[3], nullptr, nullptr, 1);
-        creator->requestCreateActor("PlayerFootStep", create_heap, &mHandles[4], nullptr, nullptr, 1);
+        creator->requestCreateActor("ReactionField", create_heap, &mReactionFieldHandle, nullptr, nullptr, 1);
+        creator->requestCreateActor("ReactionHit", create_heap, &mReactionHitHandle, nullptr, nullptr, 1);
+        creator->requestCreateActor("Chemical", create_heap, &mChemicalHandle, nullptr, nullptr, 1);
+        creator->requestCreateActor("LocatorEffect", create_heap, &mLocatorEffectHandle, nullptr, nullptr, 1);
+        creator->requestCreateActor("PlayerFootStep", create_heap, &mPlayerFootStepHandle, nullptr, nullptr, 1);
     }
 
     _b8 |= 0x100;
@@ -231,9 +228,9 @@ void Reaction::sub_7100EC0E7C() {
 bool Reaction::__auto3() {
     if (!(_b8 & 0x200))
         return true;
-    if (mHandles[0].isProcReady() && mHandles[1].isProcReady() &&
-        mHandles[2].isProcReady() && mHandles[3].isProcReady() &&
-        mHandles[4].isProcReady())
+    if (mReactionFieldHandle.isProcReady() && mReactionHitHandle.isProcReady() &&
+        mChemicalHandle.isProcReady() && mLocatorEffectHandle.isProcReady() &&
+        mPlayerFootStepHandle.isProcReady())
         return true;
     return false;
 }

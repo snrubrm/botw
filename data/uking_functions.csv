@@ -80335,7 +80335,7 @@ Address,Quality,Size,Name
 0x0000007100ec00cc,O,000108,_ZN4ksys3act8Reaction18SingletonDisposer_D0Ev
 0x0000007100ec0138,O,000136,_ZN4ksys3act8Reaction14createInstanceEPN4sead4HeapE
 0x0000007100ec01c0,U,000436,_ZN4ksys3act8ReactionC1Ev
-0x0000007100ec0374,m,000192,_ZN4ksys3act8ReactionD1Ev
+0x0000007100ec0374,O,000192,_ZN4ksys3act8ReactionD1Ev
 0x0000007100ec0434,O,000036,_ZN4ksys3act8ReactionD0Ev
 0x0000007100ec0458,O,000004,_ZN4ksys3act8Reaction11initStubbedEv
 0x0000007100ec045c,O,000116,_ZN4ksys3act8Reaction7__auto3Ev

@@ -392,7 +392,12 @@ public:
     Actor* _38;
     u8 _40[8];
     /* 0x48 */ Actor* _48 = nullptr;
-    /* 0x50 */ BaseProcHandle mHandles[5];
+    // The five reaction actors, in creation order (initBeforeStageGen requests them by name).
+    /* 0x50 */ BaseProcHandle mReactionFieldHandle;
+    /* 0x60 */ BaseProcHandle mReactionHitHandle;
+    /* 0x70 */ BaseProcHandle mChemicalHandle;
+    /* 0x80 */ BaseProcHandle mLocatorEffectHandle;
+    /* 0x90 */ BaseProcHandle mPlayerFootStepHandle;
     /* 0xa0 */ Unk_7101286868* _a0;
     /* 0xa8 */ Unk1* _a8;
     /* 0xb0 */ bool _b0;
