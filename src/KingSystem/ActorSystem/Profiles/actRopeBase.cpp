@@ -208,6 +208,41 @@ void RopeBase::sub_7100ED4E50() {
 
 // 0x7100ecba6c (placeholder name): stops a capsule body from pushing the rope and marks its
 // material mask as a rope material (bit 30 of the mask data).
+// NON_MATCHING: our attachment flag/condition materialisation needs three instructions more than the
+// original's `orn` test, and the `last` index and size registers are the other way round.
+// 0x7100ed0ef0 (placeholder name): with both end constraints attached and both end bodies static
+// compound bodies (or unavailable), keeps the wind force scale of the rope's chemicals at 0.25; clears
+// it to 0 otherwise.
+void RopeBase::sub_7100ED0EF0() {
+    auto* chemicals = mChemical;
+    if (!chemicals)
+        return;
+
+    bool detached = true;
+    if (_840.size() != 0 && _840[0] &&
+        ((_840[0]->_50 & 1) || _840[0]->sub_7100F6ACE8()))
+        detached = false;
+
+    const s32 last = _930 + 1;
+    const bool last_attached = _840.isIndexValid(last) && _840[last] &&
+                               ((_840[last]->_50 & 1) || _840[last]->sub_7100F6ACE8());
+    f32 damping = 0.25f;
+    if (!detached && last_attached) {
+        auto* first_body = _840[0]->x_0(1);
+        auto* last_body = _840[_930 + 1]->x_0(1);
+        if ((!_840[0]->sub_7100F6AC68() &&
+             first_body->getType() != phys::RigidBody::Type::StaticCompoundBody) ||
+            (!_840[_930 + 1]->sub_7100F6AC68() &&
+             last_body->getType() != phys::RigidBody::Type::StaticCompoundBody))
+            damping = 0.0f;
+    }
+
+    for (s32 i = 0; i < chemicals->_80; ++i) {
+        if (auto* chemical = chemicals->sub_7100E380FC(i))
+            chemical->_14c = damping;
+    }
+}
+
 void RopeBase::sub_7100ECBA6C(phys::RigidBody* body) {
     if (!sead::IsDerivedFrom<phys::CapsuleRigidBody>(body))
         return;
