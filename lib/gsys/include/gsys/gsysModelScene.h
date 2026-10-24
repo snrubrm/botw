@@ -13,6 +13,7 @@
 #include "gsys/gsysModelSceneBuffer.h"
 
 namespace agl::pfx {
+class ColorCorrection;
 class DepthOfField;
 }
 
@@ -82,6 +83,9 @@ public:
     // 0x7100c10a5c (the three int arguments' meanings are unrecovered).
     void calc(sead::WorkerMgr* wm, int, int, int);
 
+    // Inline in the original; ksys::world::EnvMgr::calcEntryJob 0x71010db0d4 reads the first scene's.
+    agl::pfx::ColorCorrection* getColorCorrection() const { return mColorCorrection; }
+
     u8 _0[0x108];
     // The render contexts (initialize 0x7100c0d9fc). 0x7100d9f8ac reads their number from Graphics' first scene
     // and passes it as EffectModelDrawUnit::CreateArg::_0, which createModel 0x7100c555f0 forwards to
@@ -102,7 +106,12 @@ public:
     // DepthOfField::setIndirectTextureData; 0x7100c11a80 copies context parameters into it.
     /* 0x3428 */ agl::pfx::DepthOfField* mDepthOfField;
 
-    u8 _3430[0x3700 - 0x3430];
+    u8 _3430[0x3438 - 0x3430];
+
+    // Read by ksys::world::EnvMgr::calcEntryJob 0x71010db0d4 through the first scene.
+    /* 0x3438 */ agl::pfx::ColorCorrection* mColorCorrection;
+
+    u8 _3440[0x3700 - 0x3440];
 
     // Ofx preset manager. Graphics 0x7100f2ddf0 looks up a preset through it (the manager is the
     // pointer it passes to OccludedEffectMgr::getOfx) and calls agl::fx::OfxBase::loadPresetByIndex;

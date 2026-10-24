@@ -43,8 +43,21 @@ public:
         const G3dResShapeEx* shape;
     };
     static_assert(sizeof(ShaderAssignArg) == 0x28);
-    // C811C0 produces {G3dResMaterialEx*, render-info receiver} for slot 3.
-    struct MaterialArg;
+    // C811C0 produces {G3dResMaterialEx*, render-info receiver} for slot 3. m3
+    // 0x7100f1f1f8 reads the material at +0 and updates byte +8 bit 6 and byte +0xa bit 2 of the
+    // receiver. Only the two bytes m3 touches are modelled; the owner is not.
+    struct MaterialArg {
+        struct RenderInfo {
+            u8 _0[8];
+            u8 _8;
+            u8 _9;
+            u8 _a;
+        };
+
+        const G3dResMaterialEx* material;
+        RenderInfo* render_info;
+    };
+    static_assert(sizeof(MaterialArg) == 0x10);
 
     virtual void m0(const ResourceArg& arg, sead::Heap* heap) {}
     virtual void m1(const ResourceArg& arg) {}
