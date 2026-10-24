@@ -646,6 +646,9 @@ public:
     void sub_7100F2E0F4(gsys::ModelNW* model, const nn::gfx::ResTexture* texture);
 
     // 0x7100f2ddf0: declaration only; selects a lens-flare preset, negative disables it.
+    // 0x7100f2dda0 (placeholder name): clears the first scene's cloud flag and, when the lens flare
+    // effect exists, bit 10 of _284.
+    void sub_7100F2DDA0();
     void sub_7100F2DDF0(s32 preset);
 
     // 0x7100f2b3dc: pushes the objects in the array at +0x178 into `array`.

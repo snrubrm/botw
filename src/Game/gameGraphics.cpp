@@ -3,6 +3,7 @@
 #include <common/aglShaderProgramArchive.h>
 #include <effect/aglFxOfxBase.h>
 #include <effect/aglFxOfxLensFlare.h>
+#include <effect/aglFxCloud.h>
 #include <g3d/aglNW4FToNN.h>
 #include <gsys/gsysModelNW.h>
 #include <gsys/gsysModelRenderUnit.h>
@@ -478,6 +479,13 @@ void sub_7100F3A528(u32 value) {
 void Graphics::initBeforeStageGenB() {}
 
 void Graphics::initBeforeStageGenA() {}
+
+// 0x7100f2dda0 (placeholder name): turns the cloud pass off and drops the lens flare enable flag.
+void Graphics::sub_7100F2DDA0() {
+    mModelScenes.unsafeAt(0)->mCloud->_460 = 0;
+    if (mModelScenes.unsafeAt(0)->mOfxManager->getOfx<agl::fx::OfxLensFlare>(0))
+        _284.resetBit(10);
+}
 
 void Graphics::sub_7100F2DDF0(s32 preset) {
     auto* lens_flare = mModelScenes[0]->mOfxManager->getOfx<agl::fx::OfxLensFlare>(0);
