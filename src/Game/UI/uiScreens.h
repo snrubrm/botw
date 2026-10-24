@@ -5437,8 +5437,9 @@ public:
     /* 0x3628 */ eui::Animator* _3628;
     /* 0x3630 */ eui::Animator* _3630;
     /* 0x3638 */ eui::Animator* _3638;
-    // passed as the user data of the message m94 sends to the manager
-    /* 0x3640 */ u8 _3640[8];
+    // passed as the user data of the message m94 sends to the manager: the zoom (0 - 1) and its step
+    /* 0x3640 */ f32 _3640;
+    /* 0x3644 */ f32 _3644;
     /* 0x3648 */ xlink2::HandleSLink _3648;  // the camera sound
     // the destination of the message m94 sends to the manager
     /* 0x3658 */ ksys::MesTransceiverId _3658;
@@ -5501,6 +5502,8 @@ public:
     // cleared by m94 when the screen is not opening
     /* 0x44d8 */ u8 _44d8;
 
+    // 0x71009d9028 (placeholder name): runs the camera zoom from the controller's up / down holds
+    void sub_71009D9028();
     // 0x71009d9ad8 (placeholder name): stops every animator of the screen at its start and applies it
     void sub_71009D9AD8();
 

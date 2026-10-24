@@ -15,6 +15,7 @@
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Thread/MessageDispatcher.h"
 
+#include "Game/UI/euiScreenSoundLinkUser.h"
 #include "Game/UI/euiTextSearcher.h"
 #include "Game/UI/euiMessageMgr.h"
 #include <gfx/nin/seadGraphicsNvn.h>
@@ -557,6 +558,51 @@ void ScreenAppPictureBook::m100() {
 void ScreenAppCamera::m99() {
     getStateMachine().changeState(&sUnk_71025dcca0);
     ksys::gdt::setFlag_IsOpenAppCamera(true, false);
+}
+
+namespace {
+// The zoom step per frame of the camera (hold up / down); the original table is at 0x7101e78e7c.
+const f32 sZoomSpeeds[2] = {0.01f, -0.01f};
+}  // namespace
+
+// 0x71009d9028: runs the camera zoom: steps it with the controller's up / down holds, clamps it to 0 - 1, applies
+// it to the zoom animator and the game data flag, and drives the "mc_zoomLoop" / "mc_zoomEnd" sounds
+// NON_MATCHING: zoom_moving lands in w8 instead of w9 (the event pointer then takes x9 instead of x8) and the
+// second cset's `and` is emitted before the last cset and the `orr` instead of after them
+void ScreenAppCamera::sub_71009D9028() {
+    bool zoom_moving;
+    bool zoom_ended;
+    if (isHoldMaybe(0x30000)) {
+        const f32 prev_zoom = _3640;
+        f32 speed = 0.01f;
+        if ((_292 & 0x40) && sub_71010AA9D0() && mUIController && mUIController->isHold(0x20000))
+            speed = sZoomSpeeds[1];
+        _3644 = sead::Mathf::clamp(speed + _3644, -0.06f, 0.06f);
+        _3640 = sead::Mathf::clamp(_3644 + _3640, 0.0f, 1.0f);
+        ksys::gdt::setFlag_CameraZoom(_3640, false);
+        if (_3630)
+            _3630->Stop(_3640 * 100.0f);
+        if (prev_zoom != _3640) {
+            zoom_moving = _3640 != 0.0f && _3640 != 1.0f;
+            zoom_ended = _3640 == 0.0f || _3640 == 1.0f;
+        } else {
+            zoom_ended = false;
+            zoom_moving = false;
+        }
+    } else {
+        zoom_ended = false;
+        zoom_moving = false;
+        _3644 = 0.0f;
+    }
+
+    if (zoom_moving) {
+        if (!_3648.isActive())
+            _3648 = static_cast<eui::SoundLink2User*>(_f0)->searchAndEmit("mc_zoomLoop");
+    } else if (_3648.isActive()) {
+        _3648.fade(-1);
+    }
+    if (zoom_ended)
+        invokeSoundLink2Event_("mc_zoomEnd");
 }
 
 // 0x71009d92e8: fades the camera sound and enters the camera mode
