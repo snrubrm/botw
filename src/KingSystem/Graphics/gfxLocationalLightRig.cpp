@@ -2,6 +2,8 @@
 #include "KingSystem/Graphics/gfxLocationalLightRig.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysG3dResMaterialEx.h>
+#include <utility/aglDynamicTextureAllocator.h>
+#include <utility/aglPrimitiveTexture.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Graphics/gfxUkingModelRenderOptionsMgr.h"
@@ -489,5 +491,17 @@ void Unk_7100f185a4::m3(const gsys::IModelResourceCallback::MaterialArg& arg) {
         arg.render_info->_a |= 0x4;
     } else {
         arg.render_info->_8 = arg.render_info->_8 & 0xbf;
+    }
+}
+
+// NON_MATCHING: agl::utl::PrimitiveTexture::getBlack2DSampler() returns mSamplers[6] (+0x58 in the
+// object); the original reads mSamplers[2] (+0x38). With index 2 in the lib accessor the row matches.
+// 0x7100f1b6e0: frees the dynamic map texture and puts the Black2D sampler back on mSampler0.
+void Unk_7100f185a4::freeDynamicTextureMaybe() {
+    if (_8c0) {
+        agl::utl::DynamicTextureAllocator::instance()->free(_8c0);
+        _8c0 = nullptr;
+        mSampler0.applyTextureData(
+            agl::utl::PrimitiveTexture::instance()->getBlack2DSampler()->getTextureData());
     }
 }

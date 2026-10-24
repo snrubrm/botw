@@ -249,6 +249,8 @@ public:
     };
 
     void sub_7100F1AC58();
+    // 0x7100f1b6e0: frees the dynamic map texture and puts the Black2D sampler back on mSampler0.
+    void freeDynamicTextureMaybe();
     // 0x7100f19c4c: moves every unit's flags byte to +0x60 and clears it, for every group that is
     // present and has bit 0 of +0x21 clear.
     void sub_7100F19C4C();
@@ -309,7 +311,8 @@ private:
     u8 _82c[4];
     agl::RenderBuffer mRenderBuffer;
     sead::Viewport mViewport;
-    void* _8c0 = nullptr;
+    // Filled from DynamicTextureAllocator::alloc and freed by freeDynamicTextureMaybe.
+    agl::TextureData* _8c0 = nullptr;
     agl::TextureSampler mSampler0;
     agl::RenderTargetColor mRenderTargetColor;
     agl::RenderTargetDepth mRenderTargetDepth;
