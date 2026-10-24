@@ -29,4 +29,13 @@ public:
     u32 sub_7100E33EA0(u32* out, u32 count, void* stats, const sead::Vector3f* pos);
 };
 
+// The implementations the three public query methods forward to (0x7100e33b14 / 0x7100e33ea4 /
+// 0x7100e34234). They take the manager as the first argument and remain undecompiled.
+u32 sub_7100E33B14(StatisticsMgr* mgr, f32* out, u32 count, void* stats,
+                   const sead::Vector3f* pos);
+u32 sub_7100E33EA4(StatisticsMgr* mgr, u32* out, u32 count, void* stats,
+                   const sead::Vector3f* pos);
+s32 sub_7100E34234(StatisticsMgr* mgr, f32* out, s32 count, void* stats,
+                   const sead::Vector3f* pos);
+
 }  // namespace uking

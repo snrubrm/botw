@@ -29,8 +29,8 @@
 #include <gsys/gsysResourceEditor.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 
-// Stage unload passes the stage heap; the release body remains undecompiled.
-void nullsub_2452(sead::Heap* heap);
+// 0x71007d102c: called with the stage heap on unload; empty in the original.
+void nullsub_2452(sead::Heap* heap) {}
 
 namespace uking {
 
