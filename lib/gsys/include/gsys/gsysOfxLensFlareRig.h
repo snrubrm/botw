@@ -14,10 +14,14 @@ public:
     public:
         static const agl::env::TypeInfo* sTypeInfo;
         s32 getTypeID() const;
+        // 0x7100c4d5fc: the original body returns 5.
+        s32 getMaxElementNum() const;
     };
 
     static const agl::env::TypeInfo* sTypeInfo;
     s32 getTypeID() const;
+    // 0x7100c4cde0: the original body returns 5.
+    s32 getMaxElementNum() const;
 };
 
 // TODO
@@ -38,10 +42,14 @@ public:
     public:
         static const agl::env::TypeInfo* sTypeInfo;
         s32 getTypeID() const;
+        // 0x7100c4d9b4: the original body returns 20.
+        s32 getMaxElementNum() const;
     };
 
     static const agl::env::TypeInfo* sTypeInfo;
     s32 getTypeID() const;
+    // 0x7100c4cf78: the original body returns 20.
+    s32 getMaxElementNum() const;
 };
 
 // TODO
