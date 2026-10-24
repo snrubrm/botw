@@ -5979,7 +5979,8 @@ public:
     u8 _114f0[0x114f8 - 0x114f0];
     // The camera-follow animator m94 plays backwards / forwards while the map is up.
     /* 0x114f8 */ eui::Animator* _114f8;
-    u8 _11500[0x11518 - 0x11500];
+    /* 0x11500 */ eui::Animator* _11500;
+    u8 _11508[0x11518 - 0x11508];
     /* 0x11518 */ ScreenAppMapUnk3c90* _11518;
     /* 0x11520 */ Unk_710247c010* mSensorChild;
     u8 _11528[0x11530 - 0x11528];
@@ -6016,7 +6017,9 @@ public:
     /* 0x11900 */ bool _11900;
     u8 _11901[0x11918 - 0x11901];
     /* 0x11918 */ eui::Animator* _11918;
-    u8 _11920[0x11938 - 0x11920];
+    u8 _11920[0x11930 - 0x11920];
+    /* 0x11930 */ bool _11930;
+    u8 _11931[0x11938 - 0x11931];
 
     // 0x71009e5868 (placeholder name): selects entry `index` (-1: none), playing its animators backwards / forwards
     void sub_71009E5868(s32 index);

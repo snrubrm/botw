@@ -29,6 +29,8 @@
 #include "Game/AOC/aocHardModeManager.h"
 #include "KingSystem/GameData/gdtSaveMgr.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
+#include "KingSystem/Sound/sndSound.h"
+#include "KingSystem/XLink/xlinkManager.h"
 
 namespace uking::ui {
 
@@ -1446,6 +1448,58 @@ void ScreenAppMapDungeon::m94() {
     sub_71009E2FEC();
     sub_71009E30D4();
     sub_71009E3258();
+}
+
+// 0x71009e2fec (placeholder name): plays the map's castle-area animator when the player is at its start or end frame.
+void ScreenAppMapDungeon::sub_71009E2FEC() {
+    if (Manager::instance()->_64c38 != 5)
+        return;
+    if (!ksys::gdt::getFlag_IsInHyruleCastleArea(false))
+        return;
+    eui::Animator* animator = _11500;
+    if (!animator)
+        return;
+
+    auto* player = static_cast<uking::act::PlayerBase*>(getPlayerActor(nullptr));
+    if ((player && player->m209()) || _11930) {
+        if (animator->mFrame == f32(animator->GetFrameSize()))
+            return;
+        animator->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+        return;
+    }
+    if (animator->mFrame == 0.0f)
+        return;
+    animator->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+}
+
+// 0x71009e30d4 (placeholder name): the map's animator / sensor child refresh, plus the dungeon table sound.
+void ScreenAppMapDungeon::sub_71009E30D4() {
+    if (UiSubsys1::instance()->sub_7100967498()) {
+        if (_11518)
+            _11518->m5(true);
+    } else if (UiSubsys1::instance()->sub_71009674C0()) {
+        if (_11518)
+            _11518->m6(true);
+        if (mSensorChild)
+            mSensorChild->m6(true);
+    }
+    if (!UiSubsys1::instance()->get38ac())
+        return;
+    if (UiSubsys1::instance()->get38d8() && !UiSubsys1::instance()->get38d9()) {
+        if (_11518) {
+            ksys::snd::ExpressionSoundCtrl::instance()->sub_710104F4BC();
+            const s32 type = UiSubsys1::instance()->get38a8();
+            _11518->sub_71009C1198(type);
+        }
+    } else if (!UiSubsys1::instance()->get38d8() && UiSubsys1::instance()->get38d9()) {
+        if (_11518) {
+            ksys::xlink::Manager::instance()->setGlobalProperty(26, 10000.0f);
+            ksys::xlink::Manager::instance()->setGlobalProperty(27, 0.0f);
+            ksys::snd::ExpressionSoundCtrl::instance()->sub_710104F4C0();
+            _11518->sub_71009C1198(2);
+        }
+    }
+    UiSubsys1::instance()->copy38d8To38d9();
 }
 
 // 0x71009e34d0
