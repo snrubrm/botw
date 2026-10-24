@@ -651,8 +651,9 @@ void ScreenPauseMenu::m98() {
         }
     } else {
         if (bg) {
-            mPageLayouts[0]._28[1] = static_cast<nn::ui2d::Pane*>(
-                bg->sub_7100A48328(sUnk_71025f1200[0], nullptr));
+            if (mPageLayouts[0]._38 >= 2)
+                mPageLayouts[0]._28[1] = static_cast<nn::ui2d::Pane*>(
+                    bg->sub_7100A48328(sUnk_71025f1200[0], nullptr));
             mPageLayouts[1]._10 =
                 static_cast<nn::ui2d::Pane*>(sub_7100A48328(sUnk_71025f1200[1], nullptr));
             if (mPageLayouts[1]._38 >= 2)
@@ -701,14 +702,15 @@ void ScreenPauseMenu::m98() {
         }
         _3624 = sub_7100A82D20();
         for (s32 i = 0; i != 7; ++i) {
+            auto& entry = mTabControls.mEntries[i];
             if (sub_7100A82E20(i)) {
-                mTabControls.mEntries[i].mFirstItemIndex = sub_7100A82DD0(i);
-                mTabControls.mEntries[i]._7c = sub_7100A82D3C(PouchCategory(i));
+                entry.mFirstItemIndex = sub_7100A82DD0(i);
+                entry._7c = sub_7100A82D3C(PouchCategory(i));
                 if (i == 1)
                     _3628 = mPauseMenuDataMgr->countItems(PouchItemType::Arrow, false);
             } else {
-                mTabControls.mEntries[i].mFirstItemIndex = -1;
-                mTabControls.mEntries[i]._7c = -1;
+                entry.mFirstItemIndex = -1;
+                entry._7c = -1;
                 if (i == 1)
                     _3628 = 0;
             }
@@ -748,15 +750,15 @@ void ScreenPauseMenu::m98() {
         const s32 tab = getTabIndex(page);
         if (tab == 1) {
             const s32 value = mTabControls.mEntries[1]._7c - _3628;
-            if (value < 1) {
-                _3bd0 = 0;
-                _3bb4 = 3;
-            } else {
+            if (value >= 1) {
                 _3bd0 = value;
                 _3bd0 -= 1;
                 if (_3a00[_3a18 < 3 ? _3a18 : 0])
                     _3a00[_3a18 < 3 ? _3a18 : 0]->sub_71009B0190(_3bd0, false);
                 page_offset = _3bd0;
+            } else {
+                _3bd0 = 0;
+                _3bb4 = 3;
             }
         } else if (tab != -1) {
             const s32 value = mTabControls.mEntries[tab]._7c;
@@ -776,7 +778,7 @@ void ScreenPauseMenu::m98() {
     }
 
     if (_3a00[_3a18 < 3 ? _3a18 : 0])
-        _3b80 = page_offset + sUnk_71025f1220[_3a18];
+        _3b80 = sUnk_71025f1220[_3a18] + page_offset;
 
     sub_7100A379BC(_3644);
     if (_3b98) {
