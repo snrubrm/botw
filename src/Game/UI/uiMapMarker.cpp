@@ -25,6 +25,7 @@
 namespace uking::ui {
 
 KSYS_VISIBILITY_HIDDEN extern bool sUnk_71025d6a98;
+KSYS_VISIBILITY_HIDDEN extern bool sUnk_71025d6a9c;
 
 // Written by the native marker initializer at 0x94F9E4. The three vectors and the tower name prefix are
 // members of the TU's merged static block sUnk_71025d6c70.
@@ -226,8 +227,36 @@ void Unk_71024754c0::m11() {
     _3c = (_3c & 0x8000) ? _3c | 0x80 : _3c & ~0x80;
 }
 
+static bool isMarkerKindShownForMode(UiSubsys1Entry::Kind kind, s32 mode);
+
 void Unk_71024754c0::m12() {
     _3c = (_3c & 0x8000) ? _3c | 0x80 : _3c & ~0x80;
+}
+
+// 0x7100951ca0
+// NON_MATCHING: the SEAD_ENUM kind copy is scheduled after the part load instead of before it (two
+// instructions, 0x951cec); everything else matches.
+void Unk_71024754c0::m13() {
+    UiSubsys1Entry::m13();
+    if (sUnk_71025d6a98 || sUnk_71025d6a9c)
+        return;
+    const u32 flags = _3c;
+    if (flags & 0x80) {
+        const UiSubsys1Entry::Kind kind = _20;
+        bool shown = true;
+        if (auto* part = sUnk_71025d6c70._58) {
+            const s32 mode = part->_344[0];
+            shown = isMarkerKindShownForMode(kind, mode);
+        }
+        if (flags & 0x10) {
+            if (!shown)
+                m25(false);
+        } else if (shown) {
+            m25(true);
+        }
+    } else if (flags & 0x10) {
+        m25(false);
+    }
 }
 
 // 0x7101e7ce54: two display values per marker type (46 types; the default type is 45)
