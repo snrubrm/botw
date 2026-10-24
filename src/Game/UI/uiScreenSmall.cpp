@@ -280,6 +280,17 @@ void ScreenPauseMenu::sub_7100A34A04() {
 // 0x7101e7eaf0: model mode for each of the first three pause menu categories (m94 / m98)
 static const s32 sUnk_7101e7eaf0[3] = {0, 2, 1};
 
+// 0x7100a35f68
+void ScreenPauseMenu::update() {
+    Screen::update();
+    if (auto* screen = sead::DynamicCast<Screen>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
+        screen->_292 |= 1;
+        screen->update();
+        screen->_292 &= ~1;
+    }
+}
+
 // 0x7100a36034: the pause menu's per-frame update. It advances the open timer, settles the box cursor
 // when the page offset is back at zero, runs the close-button combination's release debounce, steps the
 // state machine and the tab pages, and starts / holds the info animators for the two pending bits.

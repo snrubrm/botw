@@ -3235,6 +3235,8 @@ public:
     void m71() override;
     void m96() override;
     bool isEnableControl() const override;
+    // 0x7100a35f68: Screen::update, then the info screen's update with bit 0 of its _292 set
+    void update() override;
     ~ScreenPauseMenu() override;
     SEAD_RTTI_OVERRIDE(ScreenPauseMenu, ScreenEx)
     const char* getLayoutName_() const override;
