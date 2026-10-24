@@ -205,6 +205,10 @@ public:
     }
 
     bool isDemo() const { return mIsDemo; }
+    // Inline in the original: ksys::chm::Chemical::sub_7100D94750 tests the fire trial dungeon.
+    bool isFireTrialDungeon() const {
+        return mStageType == StageType::MainFieldDungeon && mRemainsType == RemainsType::Fire;
+    }
     bool isInFinalTrialBossBattleArea() const { return mInFinalTrialBossBattleArea; }
     StageType getStageType() const { return mStageType; }
     FieldType getFieldType() const { return mFieldType; }
