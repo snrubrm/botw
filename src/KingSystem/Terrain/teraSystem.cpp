@@ -140,6 +140,11 @@ u32 sub_7100F418F8(const Unk_7100F418C8Maybe* obj) {
     return obj->_4;
 }
 
+// 0x7100f41900 (unnamed in the CSV): whether either word of the record is non-zero.
+bool sub_7100F41900(const Unk_7100F418C8Maybe* obj) {
+    return obj->_0 != 0 || obj->_4 != 0;
+}
+
 System* System::instance() {
     return sUnk_710260B220.mSystem;
 }
