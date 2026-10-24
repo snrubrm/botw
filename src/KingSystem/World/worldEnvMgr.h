@@ -356,4 +356,7 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(EnvMgr, 0x6b618);
 
+// 0x71010d62c0: the environment update step EnvMgr::calcEntryJob runs first.
+void sub_71010D62C0(EnvMgr* mgr, bool);
+
 }  // namespace ksys::world

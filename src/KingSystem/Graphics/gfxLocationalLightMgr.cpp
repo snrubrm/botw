@@ -91,6 +91,22 @@ Unk_7102519378* LocationalLightMgr::RecordLightPool::allocate() {
     return light;
 }
 
+// The nine record pools share this release; the original inlines it into each arm of
+// sub_7100F13A58.
+bool LocationalLightMgr::RecordLightPool::release(Unk_7102519378* light) {
+    auto lock = sead::makeScopedLock(mCS);
+    light->reset();
+    s32 index = 0;
+    for (auto* it = mActiveLights.dataBegin(); it != mActiveLights.dataEnd(); ++it, ++index) {
+        if (*it == light) {
+            mActiveLights.erase(index);
+            mFreeLights.pushBack(light);
+            return true;
+        }
+    }
+    return false;
+}
+
 Unk_7102519378* LocationalLightMgr::sub_7100F1356C() {
     return mRecordPools[0].allocate();
 }
@@ -125,6 +141,56 @@ Unk_7102519378* LocationalLightMgr::sub_7100F13940() {
 
 Unk_7102519378* LocationalLightMgr::sub_7100F139CC() {
     return mRecordPools[8].allocate();
+}
+
+// 0x7100f13a58: returns a record to the pool that owns its type. The record's type tag (vtable
+// slot 5) picks the pool; the RTTI check verifies the tag before the record is touched.
+// NON_MATCHING: our loop latch in the inlined release() orders `sub x9 (pointer); add x1 (index)`
+// where the target has `add` then `sub` in all nine arms; everything else matches instruction for
+// instruction.
+bool LocationalLightMgr::sub_7100F13A58(Unk_7102519378* record) {
+    if (!record)
+        return false;
+
+    switch (record->m5()) {
+    case 0:
+        if (!sead::IsDerivedFrom<Unk_71025193e8>(record))
+            return false;
+        return mRecordPools[0].release(record);
+    case 1:
+        if (!sead::IsDerivedFrom<Unk_7102519460>(record))
+            return false;
+        return mRecordPools[1].release(record);
+    case 2:
+        if (!sead::IsDerivedFrom<Unk_71025194d0>(record))
+            return false;
+        return mRecordPools[2].release(record);
+    case 3:
+        if (!sead::IsDerivedFrom<Unk_7102519540>(record))
+            return false;
+        return mRecordPools[3].release(record);
+    case 4:
+        if (!sead::IsDerivedFrom<Unk_71025195b0>(record))
+            return false;
+        return mRecordPools[4].release(record);
+    case 5:
+        if (!sead::IsDerivedFrom<Unk_7102519620>(record))
+            return false;
+        return mRecordPools[5].release(record);
+    case 6:
+        if (!sead::IsDerivedFrom<Unk_7102519690>(record))
+            return false;
+        return mRecordPools[6].release(record);
+    case 7:
+        if (!sead::IsDerivedFrom<Unk_7102519708>(record))
+            return false;
+        return mRecordPools[7].release(record);
+    case 8:
+        if (!sead::IsDerivedFrom<Unk_7102519778>(record))
+            return false;
+        return mRecordPools[8].release(record);
+    }
+    return false;
 }
 
 bool LocationalLightMgr::sub_7100F13368(ObjectLight* light) {

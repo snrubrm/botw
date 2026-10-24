@@ -125,6 +125,7 @@ public:
     class RecordLightPool {
     public:
         Unk_7102519378* allocate();
+        bool release(Unk_7102519378* light);
 
         sead::CriticalSection mCS;
         sead::Buffer<Unk_71025193e8> mLights;

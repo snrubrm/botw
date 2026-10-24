@@ -1,4 +1,5 @@
 #include "KingSystem/World/worldEnvMgr.h"
+#include <postfx/aglColorCorrection.h>
 #include "Game/UI/uiScreens.h"
 #include "Game/gameGraphics.h"
 #include "KingSystem/Event/evtManager.h"
@@ -340,6 +341,11 @@ void EnvMgr::sub_71010DB0B0(u32 mode) {
 }
 
 void EnvMgr::calc_() {}
+
+// 0x71010db0d4 EnvMgr::calcEntryJob: blocked on lib/agl. The body is ready (sub_71010D62C0(this,
+// true); the first model scene's ColorCorrection at +0x3438; its enable byte +0x220 and word
+// +0x1398; the Lost Woods timer forcing the brightness to 0; otherwise VFR::lerp on _6b5b4), but
+// agl::pfx::ColorCorrection models those two fields as private members with no accessor.
 
 void EnvMgr::updateTimeDivision() {
     auto* wm = Manager::instance();
