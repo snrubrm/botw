@@ -5922,6 +5922,13 @@ public:
     // dungeon table entry
     void sub_71009E51AC();
     void sub_71009E5438(u64 mask);
+    // 0x71009e5670 (placeholder name): the entry to select from the stick input (the selected entry, -1: none)
+    s32 sub_71009E5670(u64 mask);
+    struct Entry11808;
+    // 0x71009e59d0 (placeholder name): starts the animators of entry `entry`
+    void sub_71009E59D0(Entry11808* entry);
+    // 0x71009e5f30 (placeholder name): refreshes the selected entry's dungeon display
+    void sub_71009E5F30();
 
     // 0x71009e7020 (placeholder name): switches the sensor UI to `mode` (2 / 1 / 0) and forwards the mode
     // to the sensor child
@@ -5972,12 +5979,14 @@ public:
     /* 0x11798 */ Entry11798** _11798;
     u8 _117a0[0x117b0 - 0x117a0];
     /* 0x117b0 */ sead::SafeArray<s32, 6> _117b0;
-    u8 _117c8[0x11818 - 0x117c8];
-    struct Entry11818 {
-        eui::Animator* animator;
-        u8 _8[0x30 - 0x8];
+    u8 _117c8[0x11808 - 0x117c8];
+    struct Entry11808 {
+        u8 _0[0x10];
+        /* 0x10 */ eui::Animator* animator;
+        u8 _18[0x30 - 0x18];
     };
-    /* 0x11818 */ sead::SafeArray<Entry11818, 3> _11818;
+    /* 0x11808 */ sead::SafeArray<Entry11808, 3> _11808;
+    u8 _11898[0x118a8 - 0x11898];
     /* 0x118a8 */ s32 _118a8;  // dungeon display mode, set by sub_71009E78D8
     /* 0x118ac */ s32 _118ac;  // selected entry (-1: none)
     u8 _118b0[0x118d0 - 0x118b0];

@@ -1206,6 +1206,44 @@ void ScreenAppMap::sub_71009F1CA4(eui::LayoutEx* layout) {
     }
 }
 
+// 0x71009e5438 (placeholder name): forwards the input mask to the entry the current dungeon state selects (state 3
+// uses the selected display entry, states 0 - 2 / 4 the dungeon table entry) and restarts its animation with the ok
+// button
+namespace {
+// inline-only in the original; name is a guess: the manager states whose dungeon table the map shows
+bool isDungeonTableState(s32 state) {
+    switch (state) {
+    case 0:
+    case 1:
+    case 2:
+    case 4:
+        return true;
+    default:
+        return false;
+    }
+}
+}  // namespace
+
+void ScreenAppMapDungeon::sub_71009E5438(u64 mask) {
+    const s32 state = Manager::instance()->_64c38;
+    if (state == 3) {
+        const s32 index = sub_71009E5670(u32(mask));
+        if (index != -1)
+            sub_71009E5868(index);
+        if (mask & 1) {
+            const s32 entry = _118ac;
+            if (entry != -1)
+                sub_71009E59D0(&_11808[entry]);
+        }
+    } else if (isDungeonTableState(state)) {
+        const s32 index = sub_71009E5670(u32(mask));
+        if (index != -1)
+            sub_71009E5CA8(index);
+        if (mask & 1)
+            sub_71009E5F30();
+    }
+}
+
 // 0x71009e5530
 bool sub_71009E5530() {
     if (sUnk_71025de180 & 1)
@@ -1279,7 +1317,7 @@ void ScreenAppMapDungeon::sub_71009E5868(s32 index) {
         _118ac = -1;
         if (auto* animator = _11530[prev].animators[2])
             animator->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
-        if (auto* animator = _11818[prev].animator)
+        if (auto* animator = _11808[prev].animator)
             animator->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
     }
     _118ac = index;
@@ -1289,7 +1327,7 @@ void ScreenAppMapDungeon::sub_71009E5868(s32 index) {
         return;
     }
     _118d0 = index;
-    if (auto* animator = _11818[index].animator)
+    if (auto* animator = _11808[index].animator)
         animator->PlayAuto(1.0f);
     if (auto* animator = _11530[index].animators[2])
         animator->PlayAuto(1.0f);
