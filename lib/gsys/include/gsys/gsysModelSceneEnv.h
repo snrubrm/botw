@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
 #include <prim/seadSafeString.h>
 #include "gsys/gsysModelSceneComponent.h"
 #include <common/aglTextureData.h>
@@ -47,7 +48,12 @@ public:
         s32 mEnvSetCount;
         u8 _43c[4];
         EnvSet* mEnvSets;
-        u8 _448[0x5f0 - 0x448];
+        u8 _448[0x5c0 - 0x448];
+        // setFilenameImpl 0x7100c2934c splits a path at its last '/' and stores the directory
+        // here and the file name at +0x5d0; it clears the third string at +0x5e0.
+        sead::SafeString mSourceDirectory;
+        sead::SafeString mSourceFileName;
+        sead::SafeString mSourceFileExtension;
     };
     static_assert(sizeof(DataSet) == 0x5f0);
 
@@ -93,7 +99,8 @@ public:
     // 0x7100c29f7c: the base component draws no debug output.
     virtual void drawDebug(agl::DrawContext*, const ModelSceneContext&) const;
 
-    DataSet* getDataSets() const { return mDataSets; }
+    DataSet* getDataSets() { return mDataSets.getBufferPtr(); }
+    const DataSet* getDataSets() const { return mDataSets.getBufferPtr(); }
     void clearImpl(DataSet* data_set, bool free_resource);
 
     // The 24-byte record returned by getApplyUserBinarySlot 0x7100c29298: the user-binary pointer,
@@ -110,10 +117,15 @@ public:
     // 0x7100c29298 (declared only): returns the user binary of the data set `data_set` for the
     // apply slot `slot`; both fields are cleared when the slot is absent.
     ApplyUserBinarySlotMaybe getApplyUserBinarySlot(u32 slot, u32 data_set) const;
-    // 0x7100c2546c (declared only): forwards the data set's source-file name to the parameter I/O
-    // helper 0x7100c25494.
+    // 0x7100c2546c: joins the data set's source directory (set at +0x5c0 by setFilenameImpl) with
+    // `file_name` and stores the result as the parameter I/O object's save path.
     void setSourceFileName(agl::utl::IParameterIO* io, const sead::SafeString& file_name,
                            u32 data_set) const;
+    // 0x7100c25494: the out-of-line path join behind setSourceFileName. It returns false when
+    // either the directory or the file name is empty and otherwise writes the 256-byte path
+    // buffer of `io` (IParameterIO +0xb0) as directory + '/' + file name.
+    static bool setSourceFileName_(agl::utl::IParameterIO* io, const sead::SafeString& directory,
+                                   const sead::SafeString& file_name);
 
     // Constructor 0x7100c21f8c sets this true; destructor 0x7100c22124 clears it
     // before finalization. load_ 0x7100c29658 and stage unload 0x71007c5d20 pass it to clearImpl.
@@ -143,9 +155,9 @@ private:
     /* 0xb38 */ u8 _b38[0xb40 - 0xb38];
     /* 0xb40 */ bool m_b40;
     /* 0xb41 */ u8 _b41[0xb98 - 0xb41];
-    /* 0xb98 */ s32 mDataSetCount;
-    /* 0xb9c */ u8 _b9c[4];
-    /* 0xba0 */ DataSet* mDataSets;
+    // Constructor 0x7100c21f8c clears the count and the array pointer; OpenWorldStage::unload
+    // 0x71007c5d20 passes the array to clearImpl.
+    /* 0xb98 */ sead::Buffer<DataSet> mDataSets;
     /* 0xba8 */ u8 _ba8[0xd88 - 0xba8];
     /* 0xd88 */ agl::utl::DebugTexturePage mDebugTexturePage;
     /* 0xfc8 */ u8 _fc8[0x1158 - 0xfc8];

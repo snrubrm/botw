@@ -57,4 +57,11 @@ bool ModelSceneEnv::AreaEnvGetter::isViewDependence(u32 index) const {
 
 void ModelSceneEnv::drawDebug(agl::DrawContext*, const ModelSceneContext&) const {}
 
+// 0x7100c2546c
+void ModelSceneEnv::setSourceFileName(agl::utl::IParameterIO* io, const sead::SafeString& file_name,
+                                      u32 data_set) const {
+    const DataSet& data = mDataSets[data_set];
+    setSourceFileName_(io, data.mSourceDirectory, file_name);
+}
+
 }  // namespace gsys
