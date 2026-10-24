@@ -389,6 +389,7 @@ class Unk_710247a028;  // defined below, after ScreenButton_7100989968
 // sub_7100A513A4 creates it (0x1e8 bytes, ctor 0x71009c1edc).
 class Unk_710247ca18 : public ScreenChildEx {
 public:
+    NN_RUNTIME_TYPEINFO(ScreenChildEx)
     explicit Unk_710247ca18(eui::LayoutEx* layout);
     // 0x71009c2100: creates the Equip / ItemParamNum animators and binds the three parameter layouts
     void m24(sead::Heap* heap) override;
