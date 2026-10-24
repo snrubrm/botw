@@ -32,6 +32,7 @@ enum class ShaderAssignType;
 // bytes, call constructor 0x7100c07fb0, then the named initialize method.
 class ModelRenderContext {
     friend class ModelRenderCache;
+    friend class ModelSceneContext;
 public:
     // The argument of the render-context callback delegate. Constructor 0x7100c07fa4 stores the
     // timing word and zeroes the two following words; only that prefix is modelled.
@@ -83,6 +84,8 @@ public:
     virtual ~ModelRenderContext();
 
     void initialize(const CreateArg&, sead::Heap*);
+    // 0x7100c08098
+    void clear();
     void calcGPU(bool flag) const;
     // 0x7100c08344 / 0x7100c08564: original names and signatures in the CSV.
     void calcView(int view, const sead::Matrix34f&, const sead::Projection&,

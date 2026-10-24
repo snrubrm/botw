@@ -11,6 +11,7 @@ class CopyLayerTexture;
 
 class Layer : public agl::lyr::Layer {
     friend class CopyLayerTexture;
+    friend class ModelSceneContext;
 public:
     Layer();
     ~Layer() override;
@@ -45,7 +46,10 @@ public:
 
 private:
     // Constructor BF4378 initializes components through the E88-byte extent.
-    u8 _208[0x3b0 - 0x208];
+    u8 _208[0x230 - 0x208];
+    // ModelSceneContext::calc skips the shader clear when forced invisible and this is set.
+    /* 0x230 */ void* _230;
+    u8 _238[0x3b0 - 0x238];
     // initializeImpl formats the layer name into this string and passes it to the debug page.
     sead::FixedSafeString<32> mDebugName;
     // 0x3e8: the copy-layer texture bound to this layer; CopyLayerTexture::setLayer 0x7100bf5fcc

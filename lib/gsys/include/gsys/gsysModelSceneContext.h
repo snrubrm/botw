@@ -45,6 +45,8 @@ public:
 
     ModelSceneContext();
     ~ModelSceneContext();
+    // 0x7100c21368
+    void calc(bool arg, bool unused, int value);
     // 0x7100c21490
     ModelRenderQueue* getRenderQueue(QueueType type) const;
     // 0x7100c21450

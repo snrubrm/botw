@@ -40,6 +40,8 @@ public:
     // Name inferred from ModelSceneGI::setSceneMaterial (0x7100c309d0), which
     // forwards the same ModelNW pointer to this method at 0x7100c5dd30.
     void setSceneMaterial(ModelNW* model);
+    // 0x7100c5dd70
+    void clear(int view, int arg);
     // 0x7100c5e744
     void loadSceneMaterial(agl::DrawContext*, const agl::ShaderLocation&) const;
     agl::UniformBlock* getContextRenderUBO(int index) const;

@@ -5,6 +5,7 @@
 #include <gsys/gsysModelRenderQueue.h>
 #include <gsys/gsysParticleDrawArg.h>
 #include <gsys/gsysParticleMgr.h>
+#include <gsys/gsysShaderContext.h>
 #include <gsys/gsysParticleDrawArg.h>
 
 namespace gsys {
@@ -42,6 +43,31 @@ ModelSceneContext::~ModelSceneContext() {
         delete mParticleDrawArg;
         mParticleDrawArg = nullptr;
     }
+}
+
+// 0x7100c21368
+void ModelSceneContext::calc(bool arg, bool, int value) {
+    mFlags = (mFlags & 0xf8) | 2;
+    if (!_398)
+        return;
+
+    ModelRenderContext::clear();
+    _392 = 0xff;
+    mRenderQueues = nullptr;
+    mViewport = _398->getLogicalViewport();
+    ModelRenderContext::mViewport = &mViewport;
+    if (!_398->get_9a())
+        return;
+    bool skip = (_398->mFlags & 0x20) != 0;
+    if (skip)
+        skip = _398->_230 != nullptr;
+    if (skip)
+        return;
+    if (!arg)
+        return;
+
+    mShaderContext->clear(getViewIndex(), value);
+    mFlags |= 9;
 }
 
 // 0x7100c21514
