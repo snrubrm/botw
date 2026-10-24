@@ -82,6 +82,9 @@ public:
     // 0x7100ecd620 (placeholder name): switches off and clears the constraint of segment `idx`; for an end segment
     // (0 or _928 - 1) also the matching active actor constraint and end attachment, else it keeps it in _850.
     void sub_7100ECD620(s32 idx);
+    // 0x7100ecd4b0 (placeholder name): cuts the rope at _9ec (constraints past it, bodies to the
+    // spare lists, chemicals restarted).
+    void sub_7100ECD4B0();
     // Filled by sub_7100ED2C24 for one end constraint of the rope (0x7100ecdab8 does both ends).
     struct EndState {
         f32 _0 = 0;  // _950, or the attached body's mass times a constant

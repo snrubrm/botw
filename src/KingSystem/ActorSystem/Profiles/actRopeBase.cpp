@@ -284,6 +284,30 @@ int RopeBase::getExtraHeapSize(const ActorHeapInitArgMaybe& arg) {
     return sead::Mathf::ceil(srt.scale.y * 16384.0f);
 }
 
+// 0x7100ecd4b0 (placeholder name): cuts the rope at _9ec. Drops the constraints past that index,
+// moves the segment bodies and their second set to the spare lists and restarts each chemical.
+void RopeBase::sub_7100ECD4B0() {
+    for (s32 i = _9ec; i <= _930; ++i)
+        sub_7100ECD620(i + 1);
+
+    for (s32 j = _9ec; j < _930; ++j) {
+        if (_860[j + 1]) {
+            _860[j + 1]->removeFromWorld();
+            _870[j + 1] = _860[j + 1];
+            _860[j + 1] = nullptr;
+        }
+        if (_880[j + 1]) {
+            _880[j + 1]->removeFromWorld();
+            _890[j + 1] = _880[j + 1];
+            _880[j + 1] = nullptr;
+        }
+        if (mChemical) {
+            if (auto* chemical = mChemical->sub_7100E380FC(j + 1))
+                chemical->sub_7100D8E87C();
+        }
+    }
+}
+
 // NON_MATCHING: after the _850 store the original reloads the _840 buffer; ours reuses it.
 void RopeBase::sub_7100ECD620(s32 idx) {
     if (!_840[idx] || u32(idx) >= u32(_840.size()))
