@@ -2546,6 +2546,8 @@ public:
 // The state ScreenAppMap::mainRun changes to (0x71025df1e0; placeholder name).
 extern const ksys::StateBase sUnk_71025df180;
 extern const ksys::StateBase sUnk_71025df1e0;
+extern const ksys::StateBase sUnk_71025de060;
+extern const ksys::StateBase sUnk_71025de0c0;
 
 // Full setup 9eab28 casts child group 5 to the same RTTI as Unk_710247c010 (9bf07c).
 class Unk_710247c010;
@@ -5906,6 +5908,9 @@ public:
     virtual void m164();
     virtual s32 m165();
 
+    // 0x71009e34d0 (placeholder name; 1468 bytes, not decompiled): runs before m155's sensor-state check
+    void sub_71009E34D0();
+
     // 0x71009e7020 (placeholder name): switches the sensor UI to `mode` (2 / 1 / 0) and forwards the mode
     // to the sensor child
     void sub_71009E7020(s32 mode);
@@ -5970,6 +5975,7 @@ public:
 
     // 0x71009e5868 (placeholder name): selects entry `index` (-1: none), playing its animators backwards / forwards
     void sub_71009E5868(s32 index);
+
     // 0x71009e2584 (placeholder name): looks up the two screen children (group 1 and group 0)
     void sub_71009E2584();
     // 0x71009e0c28 / 0x71009e0d14 (placeholder names): false while the sensor child is opening or closing or the

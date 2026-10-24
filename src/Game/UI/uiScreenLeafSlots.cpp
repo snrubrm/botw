@@ -847,10 +847,36 @@ s32 ScreenAppCamera::m165() {
 // ScreenAppMapDungeon
 // 0x71009e33dc
 void ScreenAppMapDungeon::m154() {}
+// 0x71009e33e0
+void ScreenAppMapDungeon::m155() {
+    sub_71009E34D0();
+    if (mSensorChild) {
+        const s32 state = mSensorChild->_104;
+        if (state == 7 || (u32(state - 1) <= 4 && ((state - 1) & 1) == 0)) {
+            getStateMachine().changeState(&sUnk_71025de0c0);
+            return;
+        }
+    }
+    if (sead::DynamicCast<ScreenAppSystemWindow>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow)))
+        getStateMachine().changeState(&sUnk_71025de0c0);
+}
 // 0x71009e3a8c
 void ScreenAppMapDungeon::m156() {}
 // 0x71009e3a90
 void ScreenAppMapDungeon::m158() {}
+// 0x71009e3a94
+void ScreenAppMapDungeon::m159() {
+    sub_71009E3B84();
+    if (mSensorChild) {
+        const s32 state = mSensorChild->_104;
+        if (state == 7 || (u32(state - 1) <= 4 && ((state - 1) & 1) == 0))
+            return;
+    }
+    if (!sead::DynamicCast<ScreenAppSystemWindow>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow)))
+        getStateMachine().changeState(&sUnk_71025de060);
+}
 // 0x71009e3c90
 void ScreenAppMapDungeon::m160() {}
 // 0x71009e3c94
