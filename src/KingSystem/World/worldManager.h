@@ -240,6 +240,13 @@ public:
     }
     // The environment manager of slot 6, or null when the world manager has too few managers.
     EnvMgr* getEnvMgrMaybe() const { return static_cast<EnvMgr*>(getMgrMaybe(6)); }
+    // The wind manager of slot 5, or null when the world manager has too few managers.
+    // Evidence: Core::Grass::sub_71011503CC compares the count against 6 with an unsigned
+    // `b.lo` and keeps the null arm out of line (the ternary shape).
+    WindMgr* getWindMgrMaybe() const {
+        return static_cast<u32>(mMgrs.size()) >= 6 ? static_cast<WindMgr*>(mMgrs.unsafeAt(5))
+                                                   : nullptr;
+    }
     DofMgr* getDofMgr() const { return static_cast<DofMgr*>(mMgrs[7]); }
     // Inline-only in the original; name is a guess. Evidence: Graphics::sub_7100F309FC reads `mMgrs[7]`
     // (+0x5c8 -> +0x38) without the bounds check of getDofMgr().

@@ -1385,6 +1385,14 @@ void Core::Unk_140::sub_7101083028() {
     _14cd[1]->sub_7101084E78();
 }
 
+// 0x7101080a08: empty in this release (a four-byte body); Core's teardown calls it before deleting
+// the tree object.
+void Core::Unk_140::sub_7101080A08() {}
+
+// 0x71010819d4: empty in this release (a four-byte body); Core::sub_710130241C calls it for the
+// tree draw.
+void Core::Unk_140::sub_71010819D4(agl::DrawContext* context, s32 index, const DrawArgMaybe* arg) {}
+
 // 0x7101080a0c (placeholder name): clears the low flag bits and advances the 0..15 counter unless the
 // terrain debug flag or _8 bit 0 stops it.
 void Core::Unk_140::sub_7101080A0C() {

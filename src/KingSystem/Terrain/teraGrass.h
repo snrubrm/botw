@@ -18,6 +18,7 @@
 #include <thread/seadCriticalSection.h>
 #include <cstddef>
 
+namespace agl { class DrawContext; }
 namespace ksys::phys { class ContactLayerCollisionInfoGroup; }
 
 class Unk_7102503ac0;
@@ -146,6 +147,9 @@ public:
     // 0x71010658e8 (unnamed in the CSV): stores `entry` and the position in the record for `index`
     // (the entry type is Core::Grass::Entry, which this header cannot see, so the pointer is void).
     void sub_71010658E8(s32 index, void* entry, const sead::Vector3f& pos);
+    // 0x7101066e14 (unnamed in the CSV): draws record `index` of mRecords. Core::Grass::sub_71011503CC
+    // calls it with the draw context and the system index.
+    void sub_7101066E14(agl::DrawContext* context, s32 index);
 
     sead::Heap* mHeap = nullptr;                    // +8
     sead::Buffer<Record> mRecords;                  // +10

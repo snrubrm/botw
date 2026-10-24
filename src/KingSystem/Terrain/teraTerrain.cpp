@@ -528,6 +528,34 @@ bool Core::Grass::sub_7101151A14() {
     return _28->sub_710106A2C4();
 }
 
+// 0x71011503cc (placeholder name): draws the grass of system `index`. Skipped while the world
+// manager is absent, the terrain debug bit 3 is set, or the two grass flags are clear; the wind
+// manager update only runs for system 0.
+void Core::Grass::sub_71011503CC(agl::DrawContext* context, s32 index, const DrawArgMaybe* arg) {
+    if (!world::Manager::instance())
+        return;
+    if (!(mFlags & 1))
+        return;
+    if (const auto* terrain = Terrain::instance()) {
+        if (const auto* debug = terrain->_a50) {
+            if ((debug->_18 & 8) != 0)
+                return;
+        }
+    }
+    if (!(mFlags & 2))
+        return;
+    auto& entry = mEntries[index];
+    if (!entry.mSystem)
+        return;
+    if (!entry.mSystem->sub_71011171AC(index))
+        return;
+    _28->sub_7101066E14(context, index);
+    entry._10->sub_710107873C(context);
+    if (index != 0)
+        return;
+    world::Manager::instance()->getWindMgrMaybe()->sub_71010EEEBC();
+}
+
 // 0x7101150a70 (unnamed in the CSV): marks the first grass entry's vegetation material dirty.
 void Core::Grass::sub_7101150A70() {
     mEntries.getBufferPtr()->_10->setDirty();
