@@ -9,9 +9,10 @@ namespace uking::ui {
 u16 sUnk_71025de180;
 // 0x71025de182
 KSYS_VISIBILITY_HIDDEN u8 sUnk_71025de182;
-// 0x71025eb5b8 / 0x71025eb5b4: mode set by sub_71009F8420
+// 0x71025eb5b8 / 0x71025eb5b4 / 0x71025eb5b0: mode and pane value set by sub_71009F8420 / m101
 s32 sUnk_71025eb5b8;
 u8 sUnk_71025eb5b4;
+s32 sUnk_71025eb5b0;
 // 0x71025ec540 / 0x71025ec549 (ScreenAppTool)
 AppToolState sUnk_71025ec540;
 bool sUnk_71025ec548;

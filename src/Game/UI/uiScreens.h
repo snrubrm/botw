@@ -4204,6 +4204,8 @@ extern const ksys::StateBase sUnk_71025eb550;
 extern s32 sUnk_71025eb5b8;
 // 0x71025eb5b4: cleared by sub_71009F8420
 extern u8 sUnk_71025eb5b4;
+// 0x71025eb5b0: the pane value m101 copies from the picture book list controllers
+extern s32 sUnk_71025eb5b0;
 
 // 0x71009f70b0 (declared only; placeholder name): shows the picture book page of the picture `name`
 void sub_71009F70B0(const sead::SafeString& name);
@@ -4231,6 +4233,8 @@ public:
     void m92(sead::Heap* heap) override;
     // 0x71009f9bb8: keeps the two panes at the negated root pane position, then updates the screen and its states
     void m94() override;
+    // 0x71009fa33c: copies the active list controller's pane value and stops the frame animator
+    void m101() override;
     // 0x71009f71f4 / 0x71009f8e28 (declared only; 4240 / 1948 bytes): layout setup steps of m92
     void sub_71009F71F4(sead::Heap* heap);
     void sub_71009F8E28(sead::Heap* heap);

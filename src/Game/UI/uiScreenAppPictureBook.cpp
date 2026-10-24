@@ -2611,38 +2611,6 @@ void ScreenAppPictureBookUnk::sub_7100943520(const sead::Vector2f& delta) {
     _304.x = offset.x - scale.x * (pos.x + delta.x - group->_10.x);
 }
 
-// 0x710093ff88
-void ScreenAppPictureBookUnk::sub_710093FF88() {
-    m9();
-    for (auto& list : mGroupLists) {
-        for (auto& group : list.mUnits) {
-            if (!group.mEntry || !group.mRecord || group.mRecord->_c < 0)
-                continue;
-            for (auto& unit : group.mUnits) {
-                if (unit._30 & 4)
-                    unit.m8();
-            }
-        }
-    }
-}
-
-// 0x710093feac
-void ScreenAppPictureBookUnk::sub_710093FEAC() {
-    m8();
-    for (auto& list : mGroupLists) {
-        for (auto it = list.mUnits.begin(), end = list.mUnits.end(); it != end; ++it) {
-            if (!it->mEntry || !it->mRecord || it->mRecord->_c < 0)
-                continue;
-            if (it->_40)
-                it->_40->m7();
-            for (auto& unit : it->mUnits) {
-                if (unit._30 & 4)
-                    unit.m7();
-            }
-        }
-    }
-}
-
 // NON_MATCHING: the clamp of the overall index (the original selects with csel) and register allocation; the same
 // sequence is inlined at the end of sub_710093EC3C / sub_710093EE8C
 // 0x710093e4b4
@@ -2679,11 +2647,6 @@ void ScreenAppPictureBookUnk::sub_710093DAD4(s32 value) {
 void ScreenAppPictureBookUnk::sub_710093DAE8(s32 value) {
     if (_33c <= value)
         _33c = value;
-}
-
-// 0x7100939f58
-bool ScreenAppPictureBookUnk::sub_7100939F58() const {
-    return _340 == 2;
 }
 
 // 0x710093f278
@@ -2813,6 +2776,27 @@ static sead::SafeString sUnk_71025ebac8 = "LayoutMsg/AppPictureBook_00";
 // 0x71025eb478: the picture-book units' fallback texture info (an external texture with no
 // descriptor).
 static nn::ui2d::ExternalTextureInfo sUnk_71025eb478;
+
+// 0x71009fa33c
+void ScreenAppPictureBook::m101() {
+    if (_3658 && _3660) {
+        if (_3660->sub_7100939F58()) {
+            sUnk_71025eb5b0 = _3660->_2d8;
+            sUnk_71025eb5b4 = 1;
+        } else if (sUnk_71025eb5b8 == 2) {
+            sUnk_71025eb5b4 = 0;
+        } else {
+            sUnk_71025eb5b0 = _3658->_30c;
+            sUnk_71025eb5b4 = 0;
+        }
+        _3658->sub_710093FF88();
+        _3660->sub_710093FF88();
+    }
+    if (_3628)
+        _3628->StopAtMin();
+    sUnk_71025eb850 = false;
+    sUnk_71025eb5b8 = 0;
+}
 
 // 0x71009f8dfc
 void ScreenAppPictureBook::m92(sead::Heap* heap) {
