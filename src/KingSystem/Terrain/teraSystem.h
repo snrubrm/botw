@@ -759,6 +759,10 @@ public:
     // 0x710114d73c (CSV Terrain::__auto21; placeholder name): Core::sub_710130085C while bits 1 and 2 of _a58 are
     // set.
     void sub_710114D73C();
+    // 0x710114d7c0 / 0x710114d7c4 (four-byte bodies, empty in this release): Core::sub_7101302080 and
+    // Core::sub_71013021E0 call them on Terrain::instance() before their per-view work.
+    void sub_710114D7C0();
+    void sub_710114D7C4();
     // 0x7101149af0 (CSV Terrain::__auto11; placeholder name): under the image manager's lock, sets
     // (clears) bit 18 of _a58 when it differs from `on`.
     void sub_7101149AF0(bool on);

@@ -848,6 +848,12 @@ void Terrain::sub_710114D804(bool enabled, const sead::Matrix44f* projection,
     mViewMatrix = *view;
 }
 
+// 0x710114d7c0: empty in this release (a four-byte body); Core::sub_7101302080 calls it first.
+void Terrain::sub_710114D7C0() {}
+
+// 0x710114d7c4: empty in this release (a four-byte body); Core::sub_71013021E0 calls it first.
+void Terrain::sub_710114D7C4() {}
+
 void Terrain::sub_710114D73C() {
     if ((~_a58 & 6) == 0)
         _360->sub_710130085C();
