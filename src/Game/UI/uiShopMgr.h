@@ -21,6 +21,8 @@ void sub_7100A9127C(s32 state, const sead::SafeString& item_name, s32 count);
 // the state helpers (0x7100a90e40 / 0x7100a91e84 / 0x7100a91f64 / 0x7100a92180) read the fields after
 // it through the same pointer, which is why the item is passed as one record.
 struct ShopItem {
+    ShopItem();
+
     /* 0x00 */ sead::FixedSafeString<64> name;
     /* 0x58 */ s32 _58 = 0;  // count (1 after sub_7100982A7C)
     /* 0x5c */ s32 _5c = 0;
