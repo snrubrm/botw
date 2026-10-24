@@ -9,6 +9,7 @@
 #include "KingSystem/Chemical/chmChemical.h"
 #include "KingSystem/Chemical/chmElement.h"
 #include "KingSystem/Chemical/chmSystemConfig.h"
+#include "KingSystem/World/worldManager.h"
 
 namespace ksys::act {
 
@@ -416,6 +417,42 @@ int Chemical::sub_7100D914C0() const {
 
 bool Chemical::sub_7100D9472C() const {
     return _60->_198 && _60->_1b0 == this;
+}
+
+// 0x7100d94750 (placeholder name): raises the heat level to the material's and the element
+// world's, zeroes it in the fire trial dungeon unless the element state allows heat, then moves
+// the heat flags in _bc (bit 4: heat is above _180, bit 5: bit 4's previous value).
+void Chemical::sub_7100D94750(f32 value) {
+    if (!_68)
+        return;
+
+    s32 heat = _68->_24;
+    const s32 world_heat = _60 ? _60->sub_7100D9A1C4() : 0;
+    heat = sead::Mathi::max(heat, world_heat);
+
+    if (world::Manager::instance()->isFireTrialDungeon()) {
+        // The original reads the flags byte as a signed value (its top bit gates the heat).
+        if (s8(_8) >= 0) {
+            heat = 0;
+        } else if (_bc & 0x300) {
+            heat = 0;
+        } else if (_c & 0x400) {
+            heat = 0;
+        }
+    }
+
+    if (heat > 0)
+        sub_7100D91CCC(nullptr, true, heat, true, value);
+
+    const u16 bc = _bc;
+    if (!(bc & 0x10))
+        _bc = bc & ~0x20;
+    else
+        _bc = bc | 0x20;
+    if (_180 < heat)
+        _bc |= 0x10;
+    else
+        _bc &= ~0x10;
 }
 
 // NON_MATCHING: the 16-bit flag mask narrows and the final owner predicate folds to a select.

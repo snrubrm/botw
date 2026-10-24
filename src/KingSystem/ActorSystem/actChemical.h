@@ -215,6 +215,9 @@ public:
     // 0x7100d94750 (placeholder name): updates the heat state from the material and the world,
     // then the heat flags in _bc.
     void sub_7100D94750(f32 value);
+    // 0x7100d91ccc (declaration only, placeholder name): applies the heat level and the element
+    // state to the chemical's element.
+    void sub_7100D91CCC(void* a1, bool a2, s32 a3, bool a4, f32 value);
     bool sub_7100D94628(f32 value);
     bool sub_7100D94684(bool force);
     // 2026-10-07: clears the two charge values at 0x1b4 / 0x1b8.
