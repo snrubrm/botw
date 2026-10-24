@@ -882,7 +882,10 @@ public:
 
 private:
     // The vptr (the class has a virtual destructor) occupies 0x0; the unknown block follows it.
-    u8 _0[0xf0];
+    u8 _8[0x19 - 0x8];
+    // Pass-view-projection index stored for the procedural draw (drawProceduralPassMaybe).
+    u8 _19;
+    u8 _1a[0xf8 - 0x1a];
 
 public:
     // SEAD_SINGLETON_DISPOSER expansion (createInstance 0x7100f2a1d0, disposer vtable 0x71024f45a0).
@@ -1034,6 +1037,18 @@ public:
     virtual void m15();
     // 0x7100f34e8c (slot m23): refreshes the view's records in the grid and model renderer blocks.
     virtual void m23(gsys::ModelSceneContext* context);
+    // 0x7100f34f1c (IModelProcedural's +0x298 virtual; its _ZThn16_ thunk is 0x7100f35028): for
+    // passes 2..7 stores `_19` in the procedural draw's render cache, for passes 0 / 1 invalidates
+    // the first scene's GBuffer write cache, and for pass 8 stores the particle editor's value.
+    virtual void drawProceduralPassMaybe(s32 pass, gsys::ModelRenderCache* cache) const;
+
+    // inline-only in the original; name is a guess: the map states 3 / 6 / 7 select the
+    // pass-view-projection index for the procedural draw.
+    bool usesPassViewProjMaybe() const {
+        if (_f5a > 7)
+            return false;
+        return ((1u << _f5a) & 0xc8) != 0;
+    }
 
     // The map state byte compared with 4 (sub_7100F2FAAC) and 7 (PlacementMgr::requestDraw).
     u8 getMapStateMaybe() const { return _f5a; }
