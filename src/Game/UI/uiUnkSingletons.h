@@ -711,7 +711,8 @@ static_assert(sizeof(Unk_7102476250) == 0x60);
 
 // Observed prefix of the Manager record used by native 0x956BAC.
 struct Unk_7100956bac {
-    u8 _0[0xc];
+    u8 _0[8];
+    /* 0x08 */ s32 _8;
     // read by Unk_7102478be0::setMapMarkerAncientText (animation frame / name for the location marker)
     /* 0x0c */ s32 _c;
     /* 0x10 */ const char* _10;
@@ -1247,6 +1248,7 @@ class UiSubsys1 {
     // Native 9F05C0 reads the map view offsets (+0x30) and scale (+0x28) directly.
     friend class ScreenAppMap;
     friend class Unk_71024753a8;
+    friend class Unk_7102478be0;
 public:
     static UiSubsys1* instance() { return sInstance; }
 

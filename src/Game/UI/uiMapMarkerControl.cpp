@@ -840,9 +840,31 @@ void Unk_7102478be0::m8() {
     }
 }
 
+// 0x710098eab8
+void Unk_7102478be0::sub_710098EAB8() {
+    if (!_8)
+        return;
+    auto* pane = _8->GetPane();
+    if (!pane)
+        return;
+    const auto* entry = sead::DynamicCast<Unk_7102476350>(_18);
+    s32 value = 0;
+    if (entry) {
+        if (entry->_50)
+            value = entry->_50->_8;
+        else if (entry->_58)
+            value = entry->_58->_8;
+    }
+    const f32 divisor = sub_7100966118(value);
+    const f32 ratio = UiSubsys1::instance()->_850.get28() / divisor;
+    nn::util::Float2 scale;
+    scale.x = ratio;
+    scale.y = ratio;
+    pane->SetScale(scale);
+}
+
 // 0x710098eb9c
-void Unk_7102478be0::m11() {
-    Unk_7102477fc0::m11();
+void Unk_7102478be0::m11() {    Unk_7102477fc0::m11();
     if (!_18)
         return;
     u32 flags = _18->_3c;
