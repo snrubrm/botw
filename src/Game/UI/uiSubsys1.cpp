@@ -268,6 +268,25 @@ void UiSubsys1::sub_7100960A1C() {
     _3840.init(duration);
 }
 
+// 0x7100968c2c
+// NON_MATCHING: clang sinks the second mode lookup's u16 mask past the index range test; the original
+// truncates right after each lookup (one instruction).
+void UiSubsys1::sub_7100968C2C(s32 a) {
+    UiTimer& timer = _3840;
+    const bool restart = (a & 1) != 0;
+    if (restart) {
+        f32 duration = 0.0f;
+        if (getMapMode() != 6) {
+            const u16 mode = getMapMode();
+            const s64 index = _3830;
+            if (u32(index) <= 0xb)
+                duration = _d80[mode < 5 ? mode : 0].mEntries[index]._c;
+        }
+        timer.init(duration);
+    }
+    _3858 = restart;
+}
+
 // 0x71009635dc: whether the map should be shown for the current mode and state.
 bool UiSubsys1::sub_71009635DC() {
     if (getMapMode() != 1) {
