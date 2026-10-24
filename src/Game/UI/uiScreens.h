@@ -5937,6 +5937,10 @@ public:
     // 0x71009e407c (placeholder name): plays _11918 forwards while the map is open and backwards while the
     // sensor child or the system window is up
     void sub_71009E407C();
+    // 0x71009e7420 (placeholder name): moves _11508 to its end frame and hides the two sub-device panes in mode 4
+    void sub_71009E7420();
+    // 0x71009e72a8 (declared only): the sub-device pane setup this member runs first
+    void sub_71009E72A8();
     // 0x71009e34d0 (placeholder name): the map's per-frame camera control: follows the layer 1 camera while the
     // display mode is 0, turns the left stick into a masked input, drives screen 62 and the sensor child, then
     // reports the input to the map child
@@ -5987,7 +5991,8 @@ public:
     // The camera-follow animator m94 plays backwards / forwards while the map is up.
     /* 0x114f8 */ eui::Animator* _114f8;
     /* 0x11500 */ eui::Animator* _11500;
-    u8 _11508[0x11518 - 0x11508];
+    /* 0x11508 */ eui::Animator* _11508;
+    u8 _11510[0x11518 - 0x11510];
     /* 0x11518 */ ScreenAppMapUnk3c90* _11518;
     /* 0x11520 */ Unk_710247c010* mSensorChild;
     u8 _11528[0x11530 - 0x11528];

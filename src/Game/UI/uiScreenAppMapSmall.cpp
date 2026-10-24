@@ -978,6 +978,30 @@ void ScreenAppMap::sub_71009F0BE4() {
         _3c08->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
 }
 
+// 0x71009f1720 (placeholder name): plays the icon entry's name message and moves _3c28 to the entry's side.
+// NON_MATCHING: the original evaluates icon->_28.x before UiSubsys1::instance() (C++14 argument order) and
+// keeps `icon` in x22; we get the instance first and icon in x21 (same instruction count).
+void ScreenAppMap::sub_71009F1720(UiSubsys1Entry* icon) {
+    if (!icon)
+        return;
+    auto* child = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0));
+    if (!child)
+        return;
+    if (eui::Animator* animator = _3c28) {
+        if (UiSubsys1::instance()->isLessOrEqual3880(icon->_28.x))
+            animator->StopAtMax();
+        else
+            animator->StopAtMin();
+    }
+    eui::MessageString message;
+    appMapStringStuff(child, &message);
+    setWidgetString(_3bf8, sUnk_71025def40, message);
+    if (_3c08)
+        _3c08->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+    if (!UiSubsys1::instance()->is38e4Equal(1) && !UiSubsys1::instance()->is38e4Equal(0))
+        invokeSoundLink2Event_("mc_CursorNameIn");
+}
+
 // 0x71009f0ce4: the AppMap message label for `mode` (-1 gives the empty string) from the map mode table.
 sead::FixedSafeString<256> sub_71009F0CE4(s32 mode) {
     if (mode == -1)
@@ -1560,6 +1584,25 @@ void ScreenAppMapDungeon::sub_71009E407C() {
         if (_11918)
             _11918->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
     }
+}
+
+// 0x71009e7420 (placeholder name): moves _11508 to its end frame and hides the two sub-device panes in mode 4.
+void ScreenAppMapDungeon::sub_71009E7420() {
+    if (!Unk_71025d6550::instance())
+        return;
+    sub_71009E72A8();
+    if (!Unk_71025d6550::instance()->sub_7100948D40()) {
+        _11508->StopAtMin();
+        return;
+    }
+    if (Manager::instance()->_64c38 != 4) {
+        _11508->StopAtMax();
+        return;
+    }
+    if (nn::ui2d::Pane* pane = findPane_("N_SubDevice_00"))
+        pane->SetVisible(false);
+    if (nn::ui2d::Pane* pane = findPane_("T_IconInfoDevice_00"))
+        pane->SetVisible(false);
 }
 
 // 0x71009e34d0
