@@ -45,7 +45,6 @@ void Unk_710243c280::sub_710066E548(Unk_710243c250* entry) {
     ++bucket.mSequence;
 }
 
-// NON_MATCHING: rank decrement uses subtraction instead of adding 255.
 void Unk_710243c280::sub_710066E648(Unk_710243c250* entry) {
     const s32 type = entry->_40.mControllerType;
     if (type >= mBuckets.size())
@@ -54,7 +53,7 @@ void Unk_710243c280::sub_710066E648(Unk_710243c250* entry) {
     auto lock = sead::makeScopedLock(bucket.mLock);
     for (auto* node = bucket.mEntries.next(entry); node && node->mData;
          node = bucket.mEntries.next(node)) {
-        --node->mData->_3c;
+        node->mData->_3c -= 1;
     }
     bucket.mEntries.erase(entry);
 }
