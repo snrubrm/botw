@@ -44,6 +44,7 @@ public:
     enum QueueType : int;
 
     ModelSceneContext();
+    ~ModelSceneContext();
     // 0x7100c21490
     ModelRenderQueue* getRenderQueue(QueueType type) const;
     // 0x7100c21450

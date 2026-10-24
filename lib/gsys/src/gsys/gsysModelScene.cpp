@@ -1,4 +1,5 @@
 #include <gsys/gsysModelScene.h>
+#include <gsys/gsysLayer3D.h>
 #include <gsys/gsysModelMgr.h>
 #include <gsys/gsysModelSceneConfig.h>
 #include <gsys/gsysModelRenderQueue.h>
@@ -26,6 +27,21 @@ bool ModelScene::isForceZPrePassEnabled(int index) const {
     if (!mBuffer.isZPrePassEnabled(mContexts[index]))
         return false;
     return mConfig->isZPrePassSelectable();
+}
+
+// NON_MATCHING: the original stores the 1000.0f / -1000.0f / -1000.0f fields with three 32-bit stores;
+// our clang merges adjacent constant member initialisers into 64-bit stores (116 bytes against 120).
+// 0x7100c20ec4
+ModelSceneContext::ModelSceneContext() = default;
+
+// 0x7100c20f3c
+ModelSceneContext::~ModelSceneContext() {
+    if (_398)
+        _398->setModelScene(nullptr);
+    if (mParticleDrawArg) {
+        delete mParticleDrawArg;
+        mParticleDrawArg = nullptr;
+    }
 }
 
 // 0x7100c21514
