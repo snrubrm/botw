@@ -6,6 +6,12 @@
 
 namespace uking::ui {
 
+// 0x71009af944
+Unk_710247a028::Unk_710247a028(eui::LayoutEx* layout)
+    : ScreenChildEx(layout), _130(-1), _134(), mButtons(), _c78() {
+    _c78.fill(-1);
+}
+
 // 0x71009afcf4
 void Unk_710247a028::m24(sead::Heap* heap) {
     _cc8.sub_7100A814D8(heap, 0, mButtons.size(), "uiPage20_00PAScreen");
