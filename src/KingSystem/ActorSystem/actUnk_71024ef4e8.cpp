@@ -18,6 +18,8 @@
 #include "KingSystem/XLink/xlinkXLink.h"
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include <xlink2/xlink2HandleSLink.h>
+#include "KingSystem/Framework/frmWorkerSupportThreadMgr.h"
+#include "KingSystem/ksys.h"
 
 namespace ksys::act {
 
@@ -436,6 +438,20 @@ void Unk_71024ef4e8::sub_7100EB57F0(const sead::Matrix34f& mtx) {
     _188 = mtx;
     _1b8.value = 1.0f;
     _1b8.previous_value = 1.0f;
+}
+
+// 0x7100eb58a4: queues the worker task that initialises the player ragdoll from `link` and `mtx`.
+void Unk_71024ef4e8::sub_7100EB58A4(f32 value, PlayerLink* link, const sead::Matrix34f& mtx,
+                                    s32 flag) {
+    if (!_110.isOnBit(0) || isGameOver())
+        return;
+
+    _270 = link;
+    _278 = mtx;
+    _2a8 = value;
+    _2ac = flag;
+    _2b0 = true;
+    frm::WorkerSupportThreadMgr::instance()->submitRequest(0, &_250);
 }
 
 // NON_MATCHING: same bodies and contact layers; the original loads the index array and the body

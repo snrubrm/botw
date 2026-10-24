@@ -5,6 +5,7 @@
 #include <container/seadRingBuffer.h>
 #include <math/seadMatrix.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadDelegate.h>
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/System/Timer.h"
@@ -203,9 +204,9 @@ public:
     bool sub_7100EB5784() const;
     // 0x7100eb57f0: stores `mtx` into _e0 / _188 (resets the scale at _1b8 to 1) and updates the flags at _110.
     void sub_7100EB57F0(const sead::Matrix34f& mtx);
-    // 0x7100eb58a4 (declared only; unnamed in the CSV): unless _110 bit 0 is set and not game over, stores the link,
+    // 0x7100eb58a4 (unnamed in the CSV): unless _110 bit 0 is set and not game over, stores the link,
     // matrix, value and flag (_270 - _2ac), sets _2b0 and submits a worker request (Player::m74).
-    void sub_7100EB58A4(f32 value, PlayerLink* link, const sead::Matrix34f& mtx, bool flag);
+    void sub_7100EB58A4(f32 value, PlayerLink* link, const sead::Matrix34f& mtx, s32 flag);
 
     // 0x7100eb2394: applies the buoyancy scale, the centre of mass and the masses to the bodies. 0x7100eb4814 / 0x7100eb4928 (declared only; 276 / 1892 bytes).
     void sub_7100EB2394();
@@ -306,7 +307,16 @@ public:
     /* 0x1f8 */ u32 _1f8;
     u8 _1fc[0x200 - 0x1fc];
     /* 0x200 */ sead::Vector3f _200;
-    u8 _20c[0x2b8 - 0x20c];
+    u8 _20c[0x250 - 0x20c];
+    // The worker task that initialises the player ragdoll (0x7100eb5ca4 is its invoke); submitted by
+    // sub_7100EB58A4 through WorkerSupportThreadMgr::submitRequest.
+    /* 0x250 */ sead::Delegate1R<Unk_71024ef4e8, void*, bool> _250;
+    /* 0x270 */ PlayerLink* _270;
+    /* 0x278 */ sead::Matrix34f _278;
+    /* 0x2a8 */ f32 _2a8;
+    /* 0x2ac */ s32 _2ac;
+    /* 0x2b0 */ bool _2b0;
+    u8 _2b1[0x2b8 - 0x2b1];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024ef4e8, 0x2b8);
 
