@@ -96,6 +96,35 @@ BaseProc::IsSpecialJobTypeResult WeaponBase::isSpecialJobType_(JobType type) {
     return Actor::isSpecialJobType_(type);
 }
 
+// 0x7100ef3a50 (placeholder name): the NpcEquipment "Scale" parameter of slot `index` (0 - 3); 1.0
+// when the actor, its GParamList or the NpcEquipment object is missing.
+f32 WeaponBase::sub_7100EF3A50(const Actor* actor, s32 index) {
+    f32 scale = 1.0f;
+    if (actor) {
+        const auto* gparam = actor->getParam()->getRes().mGParamList;
+        if (gparam) {
+            const auto* npc = gparam->getNpcEquipment();
+            if (npc) {
+                switch (index) {
+                case 0:
+                    scale = npc->mScale1.ref();
+                    break;
+                case 1:
+                    scale = npc->mScale2.ref();
+                    break;
+                case 2:
+                    scale = npc->mScale3.ref();
+                    break;
+                case 3:
+                    scale = npc->mScale4.ref();
+                    break;
+                }
+            }
+        }
+    }
+    return scale;
+}
+
 bool WeaponBase::canWakeUp_() {
     if (!Actor::canWakeUp_())
         return false;

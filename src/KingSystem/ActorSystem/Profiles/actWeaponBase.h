@@ -66,6 +66,9 @@ public:
     void spawnExtraActor2();
     // 0x7100ef91b0 (lane4 s45, unnamed in the CSV): sets `_ab0` (and the OptionalWeapon's `_94c` when `propagate`).
     void sub_7100EF91B0(bool ready, bool propagate);
+    // 0x7100ef3a50 (placeholder name): the NpcEquipment "Scale" parameter of slot `index` (0 - 3);
+    // 1.0 when the actor, its GParamList or the NpcEquipment object is missing.
+    f32 sub_7100EF3A50(const Actor* actor, s32 index);
 
     // FIXME: figure out return types, parameters and names
     virtual Actor* getParentActor();
