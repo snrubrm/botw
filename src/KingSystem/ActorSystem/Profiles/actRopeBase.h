@@ -66,6 +66,9 @@ public:
     // 0x7100ed1d78 (placeholder name): finds the last rope body with an active chemical element
     // and starts the body update (_95c = index + 1, _954, _96c = 2).
     void sub_7100ED1D78();
+    // 0x7100ed1e50 (placeholder name): gives both rope end constraints' owning actors the chemical
+    // element 5 state while the constraint is attached.
+    void sub_7100ED1E50();
     // 0x7100eced04 (declared only, 1672 B): the pre-delete teardown; preDelete2_ forwards its flag.
     void sub_7100ECED04(bool do_not_destruct_immediately);
     // 0x7100ecbb48 (placeholder name): creates the rope actor through the actor creator with the

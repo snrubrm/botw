@@ -112,6 +112,33 @@ void RopeBase::sub_7100ED1D78() {
     _96c = 2;
 }
 
+// NON_MATCHING: body and branch layout agree; the original sets the receiver (`mov x0, this`) before
+// sub_7100ED6910, ours omits it because that callee's definition is in this TU and clang drops the
+// unused receiver argument.
+// 0x7100ed1e50 (placeholder name): gives both rope end constraints' owning actors the chemical
+// element 5 state while the constraint is attached.
+void RopeBase::sub_7100ED1E50() {
+    auto* chemicals = mChemical;
+    if (!chemicals)
+        return;
+
+    if (_840.size() != 0) {
+        if (_840[0] && ((_840[0]->_50 & 1) || _840[0]->sub_7100F6ACE8())) {
+            ActorLinkConstDataAccess accessor;
+            if (sub_7100ED6910(&accessor, _840[0]))
+                accessor.sub_7100D12640(chemicals->sub_7100E3816C(0), 5);
+        }
+    }
+
+    if (_840.size() > u32(_930 + 1)) {
+        if (_840[_930 + 1] && ((_840[_930 + 1]->_50 & 1) || _840[_930 + 1]->sub_7100F6ACE8())) {
+            ActorLinkConstDataAccess accessor;
+            if (sub_7100ED6910(&accessor, _840[_930 + 1]))
+                accessor.sub_7100D12640(chemicals->sub_7100E3816C(_930), 5);
+        }
+    }
+}
+
 // 0x7100ed4e50 (placeholder name): detaches the rope bodies whose chemical element is inactive
 // (moving them to the spare lists) and deletes the actor when the first body is inactive.
 void RopeBase::sub_7100ED4E50() {
