@@ -43,6 +43,9 @@ void CalcParticleAndBaseProcMgr();
 void CalcPlayReportAndStatsMgr();
 void CalcAttentionAndVibration();
 void CalcView1();
+// 0x7100f3ed98 / 0x7100f41a54: the placement manager's per-frame calc and its thunk.
+void CalcPlacementMgr();
+void callCalcPlacementMgr();
 
 void sub_7100F3ED50();
 void sub_7100F3ED80();

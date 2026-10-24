@@ -103,7 +103,8 @@ public:
 
     // 0x71010bb36c (CSV __auto0): stops everything.
     void sub_71010BB36C();
-    // 0x71010bb428 (CSV __auto2): sub_71010BB468(request, false) unless an event says otherwise.
+    // 0x71010bb884 (CSV Vibration::calc): the per-frame rumble step.
+    void calc();    // 0x71010bb428 (CSV __auto2): sub_71010BB468(request, false) unless an event says otherwise.
     void sub_71010BB428(const Unk2& request);
     void sub_71010BB468(const Unk2& request, s32 a2);
     void sub_71010BB5E0(const Unk1& request, s32 a2);

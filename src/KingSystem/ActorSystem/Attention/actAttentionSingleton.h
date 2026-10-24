@@ -32,6 +32,8 @@ class Attention {
 public:
     // 0x7100d754b8 (CSV Attention::init): clears every target list and the request state.
     void init();
+    // 0x7100d75680 (CSV Attention::calc): the per-frame attention step.
+    void calc();
     // 0x7100d741a8 (CSV Attention::x): acquires the current target; false if there is none.
     bool x(BaseProcAccessor* out);
     // 0x7100d74148 (CSV Attention::__auto9): same for a BaseProcLink.

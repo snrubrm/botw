@@ -2388,7 +2388,12 @@ struct TeraContextMaybe : res::Context {
 // 0x710260b220: the terrain subsystem's global manager state (defined in teraSystem.cpp). Only the
 // fields used so far are modelled.
 struct TeraManagerMaybe {
-    u8 _0[0x10];
+    // +0 / +1 / +2: the per-frame job flags (CalcQuestAndEventAndActorDeleteOrPreload,
+    // CalcPlayReportAndStatsMgr and CalcAttentionAndVibration clear their own byte).
+    u8 _0[1];
+    u8 _1;
+    u8 _2;
+    u8 _3[0xd];
     // Read by ksys::CalcParticleAndBaseProcMgr 0x7100f3d864 (2 skips the BaseProcMgr step).
     u32 _10;
     // 0: not started, 7: not started (0x7100f406f4 returns true for every other value).

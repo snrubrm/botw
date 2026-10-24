@@ -130,6 +130,22 @@ void CalcParticleAndBaseProcMgr() {
     evt::Manager::instance()->stubbed();
 }
 
+// 0x7100f3f018: runs the attention and vibration managers once per `_2` request.
+void CalcAttentionAndVibration() {
+    if (tera::sUnk_710260B220._2 != 1)
+        return;
+    if (auto* attention = act::Attention::instance())
+        attention->calc();
+    if (auto* vibration = Vibration::instance())
+        vibration->calc();
+    tera::sUnk_710260B220._2 = 0;
+}
+
+// 0x7100f41a54: the placement manager job's entry point.
+void callCalcPlacementMgr() {
+    CalcPlacementMgr();
+}
+
 // 0x7100f3dbc0: the heap / reaction half of the stage-generation start. `param` is forwarded to the
 // reaction actor creation; when `flag` is set the debug logger runs too.
 void initBeforeStageGenA(sead::Heap* heap, void* param, bool flag) {
