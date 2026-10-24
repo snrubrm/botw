@@ -80,9 +80,11 @@ private:
     /// The texture samplers copied from the render context by the constructor.
     const agl::TextureSampler* mTextureSamplers[29];
     u8 _130[0x148 - 0x130];
-    /// Cached shader program state words; reset invalidates all sixteen.
-    s32 _148[16];
-    u8 _188[0x18c - 0x188];
+    /// The current shader program id.
+    s32 _148;
+    /// Cached shader program state words; the constructor and reset invalidate them.
+    s32 _14c[16] = {-1, -1, -1, -1, -1, -1, -1, -1,
+                    -1, -1, -1, -1, -1, -1, -1, -1};
     sead::Color4f mForceBlendColor;
     u8 _19c[0x1a0 - 0x19c];
     const agl::cull::OcclusionQuery* mOcclusionQuery;

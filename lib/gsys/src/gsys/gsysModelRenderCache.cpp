@@ -1,3 +1,4 @@
+#include <cstring>
 #include "gsys/gsysModelRenderCache.h"
 #include <common/aglDrawContext.h>
 #include <common/aglTextureSampler.h>
@@ -24,7 +25,7 @@ void ModelRenderCache::setPassViewProjIndex(int index) {
     if (mPassViewProjIndex != index) {
         mPassViewProjIndex = index;
         mRenderUBO = mContext->mShaderContext->getContextRenderUBO(mPassViewProjIndex);
-        _148[0] = -1;
+        _148 = -1;
     }
 }
 
@@ -33,6 +34,101 @@ void ModelRenderCache::setForceBlendColor(const sead::Color4f& color) {
     mForceBlendColor.g = color.g * color.a;
     mForceBlendColor.b = color.b * color.a;
     mForceBlendColor.a = color.a;
+}
+
+// 0x7100c80100
+// NON_MATCHING: the source-level render state selection is the same, but clang if-converts the
+// second blend-factor arm into csinc/csel where the original branches (tbnz) and schedules the
+// GraphicsContext stores differently; the function is 0x10 bytes shorter.
+ModelRenderCache::ModelRenderCache(agl::DrawContext* draw_context,
+                                   const ModelRenderContext* context,
+                                   sead::BitFlag32 flags, u32 a4,
+                                   ModelEnum::ShaderAssignType type, u32 a6, u32 a7,
+                                   u32 a8, u32 a9, ModelRenderStatistics* statistics)
+    : _0(a6),
+      _4(flags),
+      _8(a4),
+      _c(a9),
+      mContext(context),
+      mDrawContext(draw_context),
+      mViewIndex(context->getViewIndex()),
+      mShaderAssignType(static_cast<u8>(type)),
+      _22(a7),
+      _23(0),
+      mRenderUBO(nullptr),
+      _32(0xff),
+      _33(0xff),
+      _36(0),
+      _38(0xff),
+      mPassViewProjIndex(0xff),
+      mChannelMask(0),
+      mForceBlendColor(0, 0, 0, 0),
+      mOcclusionQuery(nullptr),
+      _1c0(0),
+      _240(0),
+      _248(0),
+      _24c(-1),
+      mStatistics(statistics) {
+    _1a8 = 0;
+    mShaderProgram = nullptr;
+    _1b8 = 0;
+
+    mGraphicsContext.setDepthTestEnable(true);
+    mBlendMask = 0;
+    mGraphicsContext.setDepthWriteEnable(1);
+    mGraphicsContext.setDepthFuncMaybe(4, 5);
+
+    const u32 flag_bits = _4;
+    u8 src;
+    u8 dst;
+    if ((flag_bits & 0x1000) != 0 || (a7 & 0x30) != 0) {
+        _36 |= 0x40;
+        src = 0x61;
+        dst = 0x64;
+    } else if ((flag_bits & 0x400) != 0) {
+        src = 9;
+        dst = 1;
+    } else {
+        src = 5;
+        dst = 6;
+    }
+
+    for (s32 i = 0; i < 8; ++i)
+        mGraphicsContext.setBlendControl(i, src, src, dst, dst, 1, 1);
+
+    mGraphicsContext.setBlendEnableMask(0);
+    mGraphicsContext.setUnk2Maybe(0);
+    mGraphicsContext.setBlendAlphaMaybe(0.5f);
+
+    const u8 type_value = mShaderAssignType;
+    u32 blend_bits = (flag_bits & 0x100) != 0 ? 0 : 1;
+    u32 other_bits = 1;
+    if (type_value == 8 || type_value == 1) {
+        blend_bits = 0;
+        other_bits = 0;
+    } else if (type_value == 3) {
+        other_bits = 0;
+    }
+    blend_bits |= (flag_bits & 0x2000) >> 13;
+    other_bits |= (flag_bits & 0x4000) >> 14;
+
+    const u32 nibble = (blend_bits != 0 ? 7u : 0u) | (other_bits != 0 ? 8u : 0u);
+    u32 replicated = nibble;
+    replicated |= replicated << 4;
+    replicated |= nibble << 8;
+    replicated |= nibble << 12;
+    replicated |= nibble << 16;
+    replicated |= nibble << 20;
+    replicated |= nibble << 24;
+    replicated |= nibble << 28;
+    mChannelMask = replicated & a8;
+
+    if ((flag_bits & 0x80000) != 0)
+        _36 |= 0x20;
+    else
+        _36 &= ~u16(0x20);
+
+    memcpy(mTextureSamplers, mContext->mPassTextures, sizeof(mTextureSamplers));
 }
 
 // 0x7100c803f4
@@ -76,29 +172,29 @@ void ModelRenderCache::loadResShaderProgram_(const ModelRenderUnitNW& unit,
     program->load(mDrawContext, info.mShaderProgram.mResShaderProgram,
                   agl::ShaderOptimizeType(_23), false);
 
-    if (program->mProgramId != _148[0]) {
-        _148[0] = program->mProgramId;
-        _148[4] = program->mUniformBlockLocations[3].getLocation();
-        _148[6] = program->mUniformBlockLocations[5].getLocation();
+    if (program->mProgramId != _148) {
+        _148 = program->mProgramId;
+        _14c[3] = program->mUniformBlockLocations[3].getLocation();
+        _14c[5] = program->mUniformBlockLocations[5].getLocation();
 
         const agl::ShaderLocation& uniform_location = program->mUniformBlockLocations[1];
         const agl::ShaderLocation& scene_material_location = program->mUniformBlockLocations[10];
 
-        if (_148[2] != uniform_location.getLocation()) {
-            _148[2] = uniform_location.getLocation();
+        if (_14c[1] != uniform_location.getLocation()) {
+            _14c[1] = uniform_location.getLocation();
             agl::UniformBlock* block = mRenderUBO;
             agl::DrawContext* draw_context = mDrawContext;
             block->setUniform(draw_context, block->getGPUAddressMaybe(), uniform_location, 0,
                               block->getBlockSizeMaybe());
         }
 
-        if (_148[11] != scene_material_location.getLocation()) {
-            _148[11] = scene_material_location.getLocation();
+        if (_14c[10] != scene_material_location.getLocation()) {
+            _14c[10] = scene_material_location.getLocation();
             mContext->mShaderContext->loadSceneMaterial(mDrawContext, scene_material_location);
         }
 
-        if (_148[7] != program->mUniformBlockLocations[6].getLocation()) {
-            _148[7] = program->mUniformBlockLocations[6].getLocation();
+        if (_14c[6] != program->mUniformBlockLocations[6].getLocation()) {
+            _14c[6] = program->mUniformBlockLocations[6].getLocation();
             _34 = 0xff;
         }
     }
@@ -215,8 +311,9 @@ void ModelRenderCache::reset() {
     mShaderProgram = nullptr;
     _1b8 = 0;
     _40 = -1;
-    for (s32 i = 0; i < 16; ++i)
-        _148[i] = -1;
+    _148 = -1;
+    for (s32 i = 0; i < 15; ++i)
+        _14c[i] = -1;
 }
 
 }  // namespace gsys
