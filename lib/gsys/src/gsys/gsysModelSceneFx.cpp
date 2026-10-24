@@ -23,6 +23,73 @@
 
 namespace gsys {
 
+// 0x7100c304a4 / 0x7100c30780: the two rig managers only own the four pointer arrays and
+// the two object buffers; the original frees the object group before the hook group.
+template <>
+ModelSceneFx::OfxResMgr<OfxLensFlareRig, OfxLensFlareImpl>::~OfxResMgr() {
+    mFreeObjs.freeBuffer();
+    mActiveObjs.freeBuffer();
+    mObjBuffer.freeBuffer();
+    mFreeHooks.freeBuffer();
+    mActiveHooks.freeBuffer();
+    mHookBuffer.freeBuffer();
+}
+
+template <>
+ModelSceneFx::OfxResMgr<OfxLargeLensFlareRig, OfxLargeLensFlareImpl>::~OfxResMgr() {
+    mFreeObjs.freeBuffer();
+    mActiveObjs.freeBuffer();
+    mObjBuffer.freeBuffer();
+    mFreeHooks.freeBuffer();
+    mActiveHooks.freeBuffer();
+    mHookBuffer.freeBuffer();
+}
+
+// 0x7100c301cc (Large) / 0x7100c30338 (Lens): unbinds every hook of `rig` from `model`
+// and returns it to the free list.
+// NON_MATCHING: the original's scan loops keep pointer-end iteration; clang 4 turns these
+// indexed loops into a countdown and the function is 0x24 bytes shorter.
+template <typename Rig, typename Impl>
+void ModelSceneFx::OfxResMgr<Rig, Impl>::release(Rig* rig, Model* model, int unit_index) {
+    OfxHook** const data = mActiveHooks.data();
+    for (s32 i = 0; i != mActiveHooks.size(); ++i) {
+        OfxHook* hook = data[i];
+        if (hook->mRig != rig || hook->mModel != model || hook->mUnitIndex != unit_index)
+            continue;
+
+        hook->mModel = nullptr;
+        hook->mPreviousUnitIndex = -1;
+        hook->mUnitIndex = -1;
+        model->erase(unit_index, hook);
+
+        for (s32 j = 0; j != mActiveHooks.size(); ++j) {
+            if (data[j] != hook)
+                continue;
+            mActiveHooks.erase(j);
+            mFreeHooks.pushBack(hook);
+
+            if (hook->mObj)
+                hook->mObj->mHook = nullptr;
+            if (hook->mRig)
+                hook->mRig->mHooks.erase(hook);
+            hook->mRig = nullptr;
+            hook->mObj = nullptr;
+            hook->mModel = nullptr;
+            hook->mVisible = 0xffff;
+            hook->mPreviousVisible = 0xffff;
+            break;
+        }
+
+        // The hook list shrank; restart the scan from the first entry.
+        i = -1;
+    }
+}
+
+template void ModelSceneFx::OfxResMgr<OfxLensFlareRig, OfxLensFlareImpl>::release(
+    OfxLensFlareRig*, Model*, int);
+template void ModelSceneFx::OfxResMgr<OfxLargeLensFlareRig, OfxLargeLensFlareImpl>::release(
+    OfxLargeLensFlareRig*, Model*, int);
+
 ModelSceneFx::CreateArg::CreateArg() : _0(1) {}
 
 // 0x7100c2ee6c: the cloud exists, the Cloud feature is enabled and the cloud itself is active.

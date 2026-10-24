@@ -2,6 +2,7 @@
 
 #include <environment/aglEnvObj.h>
 #include "gsys/gsysModelRig.h"
+#include "gsys/gsysOfxRig.h"
 
 namespace gsys {
 
@@ -20,10 +21,9 @@ public:
 };
 
 // TODO
-class OfxLensFlareRig : public ModelRig {
-    // The D0 0x7100c4c3b8 tail-calls ModelRig::~ModelRig, and checkDerived 0x7100c4c40c falls
-    // back to EnvObj's typeinfo, so the class derives from ModelRig but declares EnvObj as its
-    // RTTI base.
+class OfxLensFlareRig : public OfxRig<OfxLensFlareImpl> {
+    // The factory 0x7100c4d9ec allocates 0x2f0 bytes and calls OfxRig<OfxLensFlareImpl>::OfxRig();
+    // the D0 0x7100c4c3b8 then only replaces the first two vtable pointers.
     SEAD_RTTI_OVERRIDE(OfxLensFlareRig, agl::env::EnvObj)
 public:
     static const agl::env::TypeInfo* sTypeInfo;
@@ -45,7 +45,7 @@ public:
 };
 
 // TODO
-class OfxLargeLensFlareRig : public ModelRig {
+class OfxLargeLensFlareRig : public OfxRig<OfxLargeLensFlareImpl> {
     SEAD_RTTI_OVERRIDE(OfxLargeLensFlareRig, agl::env::EnvObj)
 public:
     static const agl::env::TypeInfo* sTypeInfo;

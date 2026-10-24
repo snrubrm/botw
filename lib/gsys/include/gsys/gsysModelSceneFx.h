@@ -1,7 +1,10 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
+#include <container/seadPtrArray.h>
 #include <gsys/gsysModelSceneComponent.h>
+#include <gsys/gsysOfxRig.h>
 #include <utility/aglParameterObj.h>
 
 namespace sead {
@@ -77,7 +80,19 @@ public:
         // list.
         void release(Rig* rig, Model* model, int unit_index);
         virtual ~OfxResMgr();
+
+    private:
+        using OfxObj = typename OfxRig<Impl>::OfxObj;
+        using OfxHook = typename OfxRig<Impl>::OfxHook;
+
+        /* 0x08 */ sead::PtrArray<OfxHook> mFreeHooks;
+        /* 0x18 */ sead::PtrArray<OfxHook> mActiveHooks;
+        /* 0x28 */ sead::PtrArray<OfxObj> mFreeObjs;
+        /* 0x38 */ sead::PtrArray<OfxObj> mActiveObjs;
+        /* 0x48 */ sead::Buffer<OfxHook> mHookBuffer;
+        /* 0x58 */ sead::Buffer<OfxObj> mObjBuffer;
     };
+    static_assert(sizeof(OfxResMgr<OfxLensFlareRig, OfxLensFlareImpl>) == 0x68);
 
     void initialize(const CreateArg& arg, agl::env::EnvObjMgr* env_obj_mgr, sead::Heap* heap,
                     sead::Heap* heap2);
