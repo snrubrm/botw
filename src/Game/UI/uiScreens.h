@@ -3328,6 +3328,10 @@ public:
     bool sub_7100A3A7FC(s32 page, s32 offset);
     // 0x7100a3ad30 (placeholder name): holds the item under the cursor on the current page
     void sub_7100A3AD30();
+    // 0x7100a3b2e8 (placeholder name): uses the item under the cursor (food / material): reads its cooking
+    // info, applies the effect to the player and the game data flags, then refreshes the item button and the
+    // info screen
+    void sub_7100A3B2E8();
     // 0x7100a3b144 (placeholder name): whether the pause menu may act on the current item (the cursor's tag or
     // the recipe argument is a material item of a page that belongs to the material tab)
     bool sub_7100A3B144();

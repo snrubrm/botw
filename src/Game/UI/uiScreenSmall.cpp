@@ -21,6 +21,7 @@
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -776,6 +777,177 @@ void ScreenPauseMenu::sub_7100A3AEE4() {
     mPauseMenuDataMgr->holdOrTrashItem(category, value, 0);
     _3a00[index]->sub_71009B00E0(button);
     _3be8[button].sub_7100932FDC(_3bf8, false);
+}
+
+// 0x7100a3b2e8 (placeholder name): uses the item under the cursor. Reads the item's cooking info, applies its
+// effect to the player and the game data flags, then refreshes the item button and the info screen.
+// NON_MATCHING: the compiler schedules the two loads of the ExGutsMaxUp stamina guard in the other order
+// (the rest of the function matches exactly).
+void ScreenPauseMenu::sub_7100A3B2E8() {
+    s32 index = 0;
+    if (sUnk_71025f1220[2] <= _3638)
+        index = 2;
+    else if (sUnk_71025f1220[1] <= _3638)
+        index = 1;
+    if (!_3a00[index])
+        return;
+    const s32 category = _3a00[index]->_130;
+    const s32 value = _3a00[index]->sub_71009B0484(_3638);
+    const s32 button = _3a00[index]->sub_71009B0468(_3638);
+
+    auto* player = uking::act::PlayerInfo::instance()->getPlayer();
+    auto* mgr = OnUiActorMgr::instance();
+    auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo));
+
+    CookingInfo cook;
+    if (_3630->getType() == PouchItemType::Food) {
+        if (ksys::act::InfoData::instance()->hasTag(_3630->getName().cstr(), 0x30a3552e))
+            sub_7100AA4810(*_3630, &cook);
+        else
+            cookingStuff_0(_3630->getName(), &cook);
+    } else {
+        cook.healthRecover = getItemHitPointRecover(_3630->getName());
+    }
+
+    if (player) {
+        s32 effect_kind = -1;
+        if (cook.effect != CookEffectId::None) {
+            if (!(cook.duration <= 0.01f && cook.duration >= -0.01f)) {
+                player->x_12(true);
+                if (mgr)
+                    mgr->sub_7100907C24();
+                ksys::gdt::resetFlag_Item_VelRate(false);
+                ksys::gdt::resetFlag_Item_VelTime(false);
+                ksys::gdt::resetFlag_Item_SwimVelRate(false);
+                ksys::gdt::resetFlag_Item_SwimVelTime(false);
+                ksys::gdt::resetFlag_Item_ClimbVelRate(false);
+                ksys::gdt::resetFlag_Item_ClimbVelTime(false);
+                ksys::gdt::resetFlag_Item_AttackRate(false);
+                ksys::gdt::resetFlag_Item_AttackTime(false);
+                ksys::gdt::resetFlag_Item_DefenceRate(false);
+                ksys::gdt::resetFlag_Item_DefenceTime(false);
+                ksys::gdt::resetFlag_Item_HotLevelAdd(false);
+                ksys::gdt::resetFlag_Item_HotLevelAddTime(false);
+                ksys::gdt::resetFlag_Item_ColdResistLevelAdd(false);
+                ksys::gdt::resetFlag_Item_ColdLevelAddTime(false);
+                ksys::gdt::resetFlag_Item_BurnLevelAdd(false);
+                ksys::gdt::resetFlag_Item_BurnLevelAddTime(false);
+                ksys::gdt::resetFlag_Item_ElectricLevelAdd(false);
+                ksys::gdt::resetFlag_Item_ElectricLevelAddTime(false);
+                ksys::gdt::resetFlag_Item_NoiseRate(false);
+                ksys::gdt::resetFlag_Item_NoiseTime(false);
+            }
+            switch (cook.effect) {
+            case CookEffectId::LifeMaxUp: {
+                auto* gauge = Unk_71025d6578::instance();
+                const u32 count = u32(cook._c);
+                if (gauge->_54 <= count) {
+                    cook._c = s32(gauge->sub_710094C094(count));
+                    player->setExtraLife(cook._c, 0.0f);
+                    ksys::gdt::setFlag_Item_LifeMaxAdd(cook._c, false);
+                    ksys::gdt::setFlag_Item_LifeMaxAddTime(0.0f, false);
+                }
+                break;
+            }
+            case CookEffectId::ResistHot:
+                player->sub_710084B860(cook.level, cook.duration);
+                ksys::gdt::setFlag_Item_HotLevelAdd(cook.level, false);
+                ksys::gdt::setFlag_Item_HotLevelAddTime(cook.duration, false);
+                if (mgr)
+                    mgr->sub_7100907B74(&cook.level);
+                effect_kind = 0;
+                break;
+            case CookEffectId::ResistCold:
+                player->sub_710084B8B0(cook.level, cook.duration);
+                ksys::gdt::setFlag_Item_ColdResistLevelAdd(cook.level, false);
+                ksys::gdt::setFlag_Item_ColdLevelAddTime(cook.duration, false);
+                if (mgr)
+                    mgr->sub_7100907BA8(&cook.level);
+                effect_kind = 1;
+                break;
+            case CookEffectId::ResistElectric:
+                player->sub_710084B9A0(cook.level, cook.duration);
+                ksys::gdt::setFlag_Item_ElectricLevelAdd(cook.level, false);
+                ksys::gdt::setFlag_Item_ElectricLevelAddTime(cook.duration, false);
+                effect_kind = 2;
+                break;
+            case CookEffectId::AttackUp:
+                player->sub_710084B7C0(cook.level, cook.duration);
+                ksys::gdt::setFlag_Item_AttackRate(cook.level, false);
+                ksys::gdt::setFlag_Item_AttackTime(cook.duration, false);
+                effect_kind = 4;
+                break;
+            case CookEffectId::DefenseUp:
+                player->sub_710084B810(cook.level, cook.duration);
+                ksys::gdt::setFlag_Item_DefenceRate(cook.level, false);
+                ksys::gdt::setFlag_Item_DefenceTime(cook.duration, false);
+                effect_kind = 5;
+                break;
+            case CookEffectId::Quietness:
+                player->sub_710084BA40(cook.level, cook.duration);
+                ksys::gdt::setFlag_Item_NoiseRate(cook.level, false);
+                ksys::gdt::setFlag_Item_NoiseTime(cook.duration, false);
+                effect_kind = 6;
+                break;
+            case CookEffectId::MovingSpeed:
+                player->setItemVel(cook.level, cook.duration);
+                player->setItemSwimVel(cook.level, cook.duration);
+                player->sub_710084B6D4(cook.level, cook.duration);
+                ksys::gdt::setFlag_Item_VelRate(cook.level, false);
+                ksys::gdt::setFlag_Item_VelTime(cook.duration, false);
+                ksys::gdt::setFlag_Item_SwimVelRate(cook.level, false);
+                ksys::gdt::setFlag_Item_SwimVelTime(cook.duration, false);
+                ksys::gdt::setFlag_Item_ClimbVelRate(cook.level, false);
+                ksys::gdt::setFlag_Item_ClimbVelTime(cook.duration, false);
+                effect_kind = 7;
+                break;
+            case CookEffectId::GutsRecover:
+                player->setStaminaDelta(cook._10);
+                if (mgr)
+                    mgr->sub_7100907C10();
+                break;
+            case CookEffectId::ExGutsMaxUp:
+                if (info && info->_38f8 < cook._10) {
+                    player->addExtraStamina(cook._10, 0.0f);
+                    ksys::gdt::setFlag_Item_EnergyMaxAdd(cook._10, false);
+                    ksys::gdt::setFlag_Item_EnergyMaxAddTime(0.0f, false);
+                } else {
+                    player->sub_710084AE78();
+                }
+                if (mgr)
+                    mgr->sub_7100907C10();
+                break;
+            case CookEffectId::Fireproof:
+                player->sub_710084B900(cook.level, cook.duration);
+                ksys::gdt::setFlag_Item_BurnLevelAdd(cook.level, false);
+                ksys::gdt::setFlag_Item_BurnLevelAddTime(cook.duration, false);
+                if (mgr)
+                    mgr->sub_7100907BDC(&cook.level);
+                effect_kind = 3;
+                break;
+            default:
+                break;
+            }
+        }
+        if (cook.healthRecover >= 1) {
+            const s32 recover = s32(Unk_71025d6578::instance()->sub_710094C0D4(u32(cook.healthRecover)));
+            cook.healthRecover = cook._c + recover;
+            player->addLifeDelta(cook.healthRecover);
+        }
+        if (info)
+            info->sub_7100A31998(cook.duration, effect_kind, cook.level);
+    }
+
+    mPauseMenuDataMgr->useMaybe(category, value, 1);
+    const bool has_count = mPauseMenuDataMgr->x_23(category, value);
+    auto* unit = _3a00[index];
+    if (!has_count) {
+        unit->sub_71009B00E0(button);
+    } else {
+        const s32 item = mPauseMenuDataMgr->x_25(category, value);
+        unit->mButtons[button].sub_710098975C(item);
+    }
 }
 
 // 0x7100a3bf0c (placeholder name): sorts the current category, rebuilds the tab first-item indices and re-lays

@@ -386,6 +386,11 @@ public:
     // 0x71009766d8 (CSV placeholder name; declared only): holds the item `value` of `category`, or trashes it
     // when the pouch is full.
     void holdOrTrashItem(s32 category, s32 value, s32 flag);
+    // 0x7100976cc4 (CSV useMaybe; declared only, placeholder name): uses item `value` of `category`.
+    void useMaybe(s32 category, s32 value, s32 flag);
+    // 0x7100978a50 (CSV x_23; declared only, placeholder name): whether the used item `value` of `category`
+    // still has a count to show on its button.
+    bool x_23(s32 category, s32 value);
     // 0x7100978e20 (CSV x_25; declared only, placeholder name): the value shown on the button of item `value`
     // of `category` after holding it.
     int x_25(s32 category, s32 value);
