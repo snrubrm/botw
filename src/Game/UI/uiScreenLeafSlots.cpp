@@ -877,6 +877,19 @@ void ScreenAppMapDungeon::m159() {
             eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow)))
         getStateMachine().changeState(&sUnk_71025de060);
 }
+// 0x71009e4e80
+void ScreenAppMapDungeon::m101() {
+    auto* home = sead::DynamicCast<ScreenAppHome>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome));
+    if (home) {
+        home->sub_71009DC77C(1, nullptr);
+        mLayout->mPane->SetPosition(
+            nn::util::Float3{sead::Vector2f::zero.x, sead::Vector2f::zero.y, 0.0f});
+    }
+    getStateMachine().changeState(&sUnk_71025de060);
+    sUnk_71025de180 &= ~1;
+    sUnk_71025de182 = 0;
+}
 // 0x71009e3c90
 void ScreenAppMapDungeon::m160() {}
 // 0x71009e3c94

@@ -5886,6 +5886,7 @@ public:
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     bool sub_71009E0DF8() const;
     void m100() override;
+    void m101() override;
     // 0x71009e4f88: closes the screen when the camera rune is used, the screen is closing while sub_7100AA8F50 holds,
     // the UI manager flags 0xa000 are both set or the remote bomb state bit is set
     void m130() override;
