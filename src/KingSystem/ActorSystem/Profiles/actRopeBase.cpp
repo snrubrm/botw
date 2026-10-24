@@ -11,6 +11,8 @@
 #include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/ActorSystem/actActorChemicals.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 
 namespace ksys::act {
@@ -42,6 +44,40 @@ bool RopeBase::sub_7100ECBB48() {
     _9e4 = 6.0f;
     _9e8 = -1.0f;
     return true;
+}
+
+// 0x7100ed4e50 (placeholder name): detaches the rope bodies whose chemical element is inactive
+// (moving them to the spare lists) and deletes the actor when the first body is inactive.
+void RopeBase::sub_7100ED4E50() {
+    _970 = false;
+    if (!mChemical || _9f0 || _92c < 1)
+        return;
+
+    for (s32 i = 0; i < _92c; ++i) {
+        auto* body = _860[i];
+        if (!body || !body->isAddedToWorld())
+            continue;
+
+        auto* chemical = mChemical->sub_7100E380FC(i);
+        if (!chemical || (chemical->_c & 1) || chemical->_c0 != 3)
+            continue;
+
+        if (i == 0) {
+            deleteAndEmit(0);
+            // called through a pointer in the original (not devirtualised)
+            (&*this)->m148(-1);
+        } else {
+            _860[i]->removeFromWorld();
+            _870[i] = _860[i];
+            _860[i] = nullptr;
+            _880[i]->removeFromWorld();
+            _890[i] = _880[i];
+            _880[i] = nullptr;
+            if (_930 >= i)
+                _930 = i - 1;
+        }
+        _970 = true;
+    }
 }
 
 // 0x7100ecba6c (placeholder name): stops a capsule body from pushing the rope and marks its
