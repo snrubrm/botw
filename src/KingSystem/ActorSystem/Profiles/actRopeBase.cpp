@@ -420,6 +420,56 @@ bool RopeBase::sub_7100ECD77C(phys::RigidBody* body, u32 end, const sead::Vector
     return true;
 }
 
+// NON_MATCHING: the original keeps the stack objects eight bytes lower (our extra slot), vectorises the
+// matrix row products and lays the isNan chain out differently; same bodies otherwise.
+// 0x7100ed1b00 (placeholder name): picks the end constraint nearest to the rope end's body and stores
+// the cut direction (five times the end's second vector) in _960.
+void RopeBase::sub_7100ED1B00() {
+    if (_954 || _9f0)
+        return;
+
+    phys::RigidBody* body;
+    sead::Vector3f a;
+    sead::Vector3f b;
+    if (!m150(&body, &a, &b))
+        return;
+    if (_930 < 0)
+        return;
+
+    for (s32 i = 0; i <= _930; ++i) {
+        if (body != _880[i])
+            continue;
+
+        sead::Matrix34f mtx = body->getTransform();
+        sead::Vector3f dir(0.0f, _93c, 0.0f);
+        dir.rotate(mtx);
+
+        const sead::Vector3f p = body->getPosition() + dir;
+        const sead::Vector3f q = body->getPosition() - dir;
+        if ((p - a).squaredLength() < (q - a).squaredLength()) {
+            _95c = i;
+            if (!_840.isIndexValid(i) || !_840[i] ||
+                !((_840[i]->_50 & 1) || _840[i]->sub_7100F6ACE8()))
+                _95c = i + 1;
+        } else {
+            _95c = i + 1;
+            if (!_840.isIndexValid(i + 1) || !_840[i + 1] ||
+                !((_840[i + 1]->_50 & 1) || _840[i + 1]->sub_7100F6ACE8()))
+                _95c = i;
+        }
+
+        sead::Vector3f v(0.0f, 0.0f, 0.0f);
+        if (!b.isNan())
+            v = b * 5.0f;
+        _960 = v;
+        _954 = true;
+        _958 = true;
+        _959 = true;
+        _96c = 1;
+        return;
+    }
+}
+
 // 0x7100ecdc38 (placeholder name): when `body` is the end constraint's first body, hands that
 // constraint the frame position of the body and stores the end position (_900[end]).
 bool RopeBase::sub_7100ECDC38(const BaseProc* proc, phys::RigidBody* body, u32 end,

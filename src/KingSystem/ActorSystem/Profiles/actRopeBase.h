@@ -85,6 +85,9 @@ public:
     // 0x7100ecd4b0 (placeholder name): cuts the rope at _9ec (constraints past it, bodies to the
     // spare lists, chemicals restarted).
     void sub_7100ECD4B0();
+    // 0x7100ed1b00 (placeholder name): picks the end constraint nearest to the rope end body and
+    // stores the cut direction (_960) and state 1.
+    void sub_7100ED1B00();
     // 0x7100ecd77c (placeholder name): attaches a BAndSCs constraint at rope end `end` (0 or 1): builds
     // the end's frames, makes or updates the constraint and stores it in the segment list.
     bool sub_7100ECD77C(phys::RigidBody* body, u32 end, const sead::Vector3f& position,
@@ -137,7 +140,9 @@ public:
     // FIXME: figure out return types, parameters and names
     virtual void m148(s32 idx) {}
     virtual void m149() {}
-    virtual void m150();
+    // 0x7100ed7574: finds the rope end's contact point; fills the body and two vectors, false when
+    // there is none.
+    virtual bool m150(phys::RigidBody** body, sead::Vector3f* a, sead::Vector3f* b);
 
     friend class acc::RopeBase;
     friend class uking::ai::RopeRoot;
@@ -187,7 +192,8 @@ protected:
     bool _95a;
     bool _95b;  // 0x7100ecdab8: slows the bodies and switches the constraints to PSI priority
     s32 _95c;
-    u8 _960[0x96c - 0x960];
+    // 0x7100ed1b00: the cut direction, five times the end's second vector.
+    sead::Vector3f _960;
     // 2026-10-07: ED1B00/ED1D78/ED33F0 write states 1/2/3; ED5010 switches on the state.
     s32 _96c;
     // ED4E50 clears this flag and sets it when a rigid body is detached.
