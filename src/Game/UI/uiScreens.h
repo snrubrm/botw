@@ -5932,6 +5932,11 @@ public:
     void sub_71009E3258();
     // 0x71009e42f4 (placeholder name): the screen position of a world position through the map camera
     void sub_71009E42F4(const sead::Vector3f& pos, nn::util::Float2* out);
+    // 0x71009e41ec (placeholder name): moves the _11910 child to the screen position of dungeon entry `index`
+    void sub_71009E41EC(s32 index);
+    // 0x71009e407c (placeholder name): plays _11918 forwards while the map is open and backwards while the
+    // sensor child or the system window is up
+    void sub_71009E407C();
     // 0x71009e34d0 (placeholder name): the map's per-frame camera control: follows the layer 1 camera while the
     // display mode is 0, turns the left stick into a masked input, drives screen 62 and the sensor child, then
     // reports the input to the map child

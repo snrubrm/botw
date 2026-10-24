@@ -1535,6 +1535,33 @@ void ScreenAppMapDungeon::sub_71009E3258() {
     _11920.fade();
 }
 
+// 0x71009e407c (placeholder name): plays the _11918 animator forwards while the map is open and backwards
+// once the sensor child or the system window takes over.
+void ScreenAppMapDungeon::sub_71009E407C() {
+    if (isClosed())
+        return;
+    if (Unk_71025d6550::instance()->isD78Zero())
+        return;
+    sub_71009E41EC(_118d0);
+
+    s32 state = 0;
+    if (mSensorChild)
+        state = mSensorChild->_104;
+    if (state == 7 || (u32(state - 1) <= 4 && ((state - 1) & 1) == 0)) {
+        if (_11918)
+            _11918->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    } else if (sead::IsDerivedFrom<ScreenAppSystemWindow>(eui::ScreenMgr::instance()->getScreen(0x3e))) {
+        if (_11918)
+            _11918->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    } else if (u32(mState - 1) <= 1 && _118ac != -1) {
+        if (_11918)
+            _11918->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+    } else {
+        if (_11918)
+            _11918->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    }
+}
+
 // 0x71009e34d0
 // NON_MATCHING: the sensor child load for the null test lands in x8 where the original uses x0 (regalloc).
 void ScreenAppMapDungeon::sub_71009E34D0() {
