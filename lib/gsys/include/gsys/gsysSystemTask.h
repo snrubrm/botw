@@ -56,6 +56,10 @@ public:
     void setFrameUpdateScale(f32 scale);
     // 0x7100c66850: the system task has no separate calc attachment.
     void attachCalcImpl() override;
+    // 0x7100c658f8: the draw-done callback; runs the GPU update when the flag is set.
+    static void waitDrawDoneCallback(bool flag);
+    // 0x7100c65d90 (declared only): submits the GPU work of the task.
+    void updateGPU_();
 
 private:
     u8 _57c[0x5b8 - 0x57c];

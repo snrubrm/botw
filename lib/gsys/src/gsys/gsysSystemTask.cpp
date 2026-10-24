@@ -20,6 +20,12 @@ void SystemTask::setFrameUpdateScale(f32 scale) {
 // 0x7100c66850
 void SystemTask::attachCalcImpl() {}
 
+// 0x7100c658f8
+void SystemTask::waitDrawDoneCallback(bool flag) {
+    if (flag)
+        instance()->updateGPU_();
+}
+
 bool SystemTask::searchAglShaderFile(void** binary, void** source,
                                      const sead::SafeString& name) const {
     return ApplicationPackage::instance()->searchAglShaderFile(binary, source, name);
