@@ -1839,30 +1839,31 @@ Actor* Actor::m141(const s32* index) {
     return nullptr;
 }
 
-// NON_MATCHING: the original keeps the default `_0 = 0` store of the request and stores `_0` again together
-// with the core number (the three Unk117 wrappers)
+// The `_0` assignment must come after the core number: the original stores the field's default 0 at
+// the declaration and stores `_0` again together with the core number.
 void Actor::x_15(void* a1, const char* a2) {
     Unk117 arg;
-    arg._0 = 0;
     arg._4 = sead::CoreInfo::getCurrentCoreId();
+    arg._0 = 0;
     arg._8 = nullptr;
     arg._10 = a1;
     arg._18 = a2;
     x_17(&arg);
 }
 
-// NON_MATCHING: see x_15
+// See x_15 for the `_0` assignment order.
 void Actor::sub_71011C98F8() {
     Unk117 arg;
-    arg._0 = 2;
     arg._4 = sead::CoreInfo::getCurrentCoreId();
+    arg._0 = 2;
     arg._8 = nullptr;
     arg._10 = nullptr;
     arg._18 = nullptr;
     x_17(&arg);
 }
 
-// NON_MATCHING: see x_15
+// NON_MATCHING: the first two fields follow x_15, but the kind 3 pointer moves the request to a
+// different stack slot here.
 void Actor::sub_71011C9964(Actor* other) {
     Unk117 arg;
     arg._0 = 3;
