@@ -255,6 +255,10 @@ public:
 
     // 0x7100e639c4: restores the S2 steering-rate pointers from the actor's AnimalUnit parameters.
     void sub_7100E639C4();
+    // 0x7100e6391c (placeholder name): the three steering gains of the AnimalUnit parameters: the Override
+    // values when `use_override` is 1 and all three are set (>= 0), the base values otherwise; false when
+    // there is no AnimalUnit object.
+    bool sub_7100E6391C(const f32** kp, const f32** ki, const f32** kd, u8 use_override);
 
     // Placeholder names (declared only: no callers identified yet; lane4 s28).
     // 0x7100e63900: sets bit 0x80 of _8 if bit 0x20 is set.

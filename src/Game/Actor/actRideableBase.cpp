@@ -28,6 +28,30 @@ RideableBase* RideableBase::make(sead::Heap* heap) {
 
 RideableBase::RideableBase() = default;
 
+// 0x7100e6391c (placeholder name): the three steering gains of the AnimalUnit parameters: the
+// Override values when `use_override` is 1 and all three are set (>= 0), the base values otherwise;
+// false when there is no AnimalUnit object.
+bool RideableBase::sub_7100E6391C(const f32** kp, const f32** ki, const f32** kd, u8 use_override) {
+    const auto* animal = mActor->getParam()->getRes().mGParamList->getAnimalUnit();
+    if (!animal)
+        return false;
+    if (use_override == 1) {
+        *kp = &animal->mOverrideSteeringOutputKp.ref();
+        *ki = &animal->mOverrideSteeringOutputKi.ref();
+        *kd = &animal->mOverrideSteeringOutputKd.ref();
+        if (**kp < 0.0f || **ki < 0.0f || **kd < 0.0f) {
+            *kp = &animal->mSteeringOutputKp.ref();
+            *ki = &animal->mSteeringOutputKi.ref();
+            *kd = &animal->mSteeringOutputKd.ref();
+        }
+        return true;
+    }
+    *kp = &animal->mSteeringOutputKp.ref();
+    *ki = &animal->mSteeringOutputKi.ref();
+    *kd = &animal->mSteeringOutputKd.ref();
+    return true;
+}
+
 void RideableBase::sub_7100E639C4() {
     const auto* animal = mActor->getParam()->getRes().mGParamList->getAnimalUnit();
     if (animal) {
