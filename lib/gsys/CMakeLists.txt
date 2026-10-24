@@ -62,6 +62,7 @@ add_library(gsys OBJECT
   include/gsys/gsysResourceEditor.h
   include/gsys/gsysORUtil.h
   include/gsys/gsysParticleMgr.h
+  include/gsys/gsysParticleScene.h
   include/gsys/gsysParticleConfig.h
   include/gsys/gsysPointLight.h
   include/gsys/gsysSpotLight.h
@@ -117,6 +118,7 @@ add_library(gsys OBJECT
   include/gsys/gsysParticleDrawArg.h
   src/gsys/gsysParticleDrawArg.cpp
   src/gsys/gsysParticleMgr.cpp
+  src/gsys/gsysParticleScene.cpp
   src/gsys/gsysParticleConfig.cpp
   src/gsys/gsysORUtil.cpp
   src/gsys/gsysModelJobQueue.cpp
