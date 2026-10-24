@@ -3196,6 +3196,8 @@ struct ScreenPauseMenuUnk3b98 {
     void sub_71009B5FC8(bool a1);
     // 0x71009b6040: the state machine is in state sUnk_71025d9900 or sUnk_71025d9960
     bool sub_71009B6040();
+    // 0x71009b60cc (CSV unnamed; declared only): resets the letter animator and the child contents
+    void sub_71009B60CC();
 };
 
 // Seven tab controls owned by ScreenPauseMenu (+0x3678); native ctor/dtor a341d0/a34434.
@@ -3239,6 +3241,8 @@ public:
     eui::TagProcessor* doCreateTagProcessor_(sead::Heap* heap) override;
 
     void m101() override;
+    // 0x7100a3693c (placeholder name): sets up the page layouts, tab controls, cursor and info screen on open
+    void m98() override;
     void m106(eui::AnimButton* button) override;
     void m107(eui::AnimButton* button) override;
     // 0x7100a3840c (CSV unnamed, 1248 bytes; declared only; tail-called by m106)
@@ -3386,9 +3390,8 @@ public:
     /* 0x3a30 */ s32 _3a30;
     /* 0x3a34 */ s32 _3a34;
     /* 0x3a38 */ Unk_7102474df8 _3a38;
-    /* 0x3ac0 */ Unk_7102493bd0 _3ac0;
-    /* 0x3b00 */ Unk_7102493bd0 _3b00;
-    /* 0x3b40 */ Unk_7102493bd0 _3b40;
+    // The three page-layout scroll records (this screen, the info screen, the BG screen); m98 fills them.
+    /* 0x3ac0 */ sead::SafeArray<Unk_7102493bd0, 3> mPageLayouts;
     /* 0x3b80 */ s32 _3b80;
     /* 0x3b84 */ s32 _3b84;
     /* 0x3b88 */ s32 _3b88;

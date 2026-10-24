@@ -29,6 +29,7 @@
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/UI/uiTUStatics.h"
+#include "Game/gameSceneSubsys12.h"
 
 // Small leaf screen methods (named after their CSV address).
 namespace uking::ui {
@@ -605,6 +606,279 @@ static PauseMenuIcon sUnk_71025f1400[14] = {
     {12, "Pa_IconDLCKagoY_00"},    {13, "Pa_IconDLCKagoB_00"},
 };
 static sead::Buffer<PauseMenuIcon> sUnk_71025f1230(sUnk_71025f1400);
+
+// 0x7100a3693c (placeholder name): sets up the pause menu on open. Creates the three page layouts for this
+// screen, the info screen and the BG screen, resets the button and check-button lists, refreshes the tab
+// controls from the pouch manager, then selects the page, cursor and info screen contents.
+// NON_MATCHING: block placement: the compiler duplicates the info-screen dispatch and the delayed effect
+// tail, and colours the loop and page indices differently (the calls and every field access match).
+void ScreenPauseMenu::m98() {
+    auto* info = sead::DynamicCast<ScreenPauseMenuInfo>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo));
+    auto* bg = sead::DynamicCast<ScreenPauseMenuBG>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuBG));
+
+    mPageLayouts[0]._10 =
+        static_cast<nn::ui2d::Pane*>(sub_7100A48328(sUnk_71025f1200[0], nullptr));
+    if (info) {
+        auto* pane = static_cast<nn::ui2d::Pane*>(info->sub_7100A48328(sUnk_71025f1200[0], nullptr));
+        if (mPageLayouts[0]._38 >= 1)
+            mPageLayouts[0]._28[0] = pane;
+        if (bg) {
+            pane = static_cast<nn::ui2d::Pane*>(bg->sub_7100A48328(sUnk_71025f1200[0], nullptr));
+            if (mPageLayouts[0]._38 > 1)
+                mPageLayouts[0]._28[1] = pane;
+        }
+        mPageLayouts[1]._10 =
+            static_cast<nn::ui2d::Pane*>(sub_7100A48328(sUnk_71025f1200[1], nullptr));
+        pane = static_cast<nn::ui2d::Pane*>(info->sub_7100A48328(sUnk_71025f1200[1], nullptr));
+        if (mPageLayouts[1]._38 >= 1)
+            mPageLayouts[1]._28[0] = pane;
+        if (bg) {
+            pane = static_cast<nn::ui2d::Pane*>(bg->sub_7100A48328(sUnk_71025f1200[1], nullptr));
+            if (mPageLayouts[1]._38 > 1)
+                mPageLayouts[1]._28[1] = pane;
+        }
+        mPageLayouts[2]._10 =
+            static_cast<nn::ui2d::Pane*>(sub_7100A48328(sUnk_71025f1200[2], nullptr));
+        pane = static_cast<nn::ui2d::Pane*>(info->sub_7100A48328(sUnk_71025f1200[2], nullptr));
+        if (mPageLayouts[2]._38 >= 1)
+            mPageLayouts[2]._28[0] = pane;
+        if (bg) {
+            pane = static_cast<nn::ui2d::Pane*>(bg->sub_7100A48328(sUnk_71025f1200[2], nullptr));
+            if (mPageLayouts[2]._38 >= 2)
+                mPageLayouts[2]._28[1] = pane;
+        }
+    } else {
+        if (bg) {
+            mPageLayouts[0]._28[1] = static_cast<nn::ui2d::Pane*>(
+                bg->sub_7100A48328(sUnk_71025f1200[0], nullptr));
+            mPageLayouts[1]._10 =
+                static_cast<nn::ui2d::Pane*>(sub_7100A48328(sUnk_71025f1200[1], nullptr));
+            if (mPageLayouts[1]._38 >= 2)
+                mPageLayouts[1]._28[1] = static_cast<nn::ui2d::Pane*>(
+                    bg->sub_7100A48328(sUnk_71025f1200[1], nullptr));
+        } else {
+            mPageLayouts[1]._10 =
+                static_cast<nn::ui2d::Pane*>(sub_7100A48328(sUnk_71025f1200[1], nullptr));
+        }
+        mPageLayouts[2]._10 =
+            static_cast<nn::ui2d::Pane*>(sub_7100A48328(sUnk_71025f1200[2], nullptr));
+        if (bg) {
+            if (mPageLayouts[2]._38 >= 2)
+                mPageLayouts[2]._28[1] = static_cast<nn::ui2d::Pane*>(
+                    bg->sub_7100A48328(sUnk_71025f1200[2], nullptr));
+        }
+    }
+
+    if (sub_7100A9B96C())
+        _3bf8 = 0;
+    else
+        _3bf8 = sub_7100A9B990() ? 1 : 2;
+
+    for (u32 i = 0; i < 20; ++i)
+        _3be8[i].sub_71009330E4();
+
+    _3c00[0].sub_7100933774(false);
+    _3c00[1].sub_7100933774(false);
+    _3c00[2].sub_7100933774(false);
+    _3c00[3].sub_7100933774(false);
+    _3c00[4].sub_7100933774(false);
+    _3c00[5].sub_7100933774(false);
+    _3c00[6].sub_7100933774(false);
+    _3c00[7].sub_7100933774(false);
+    _3c00[8].sub_7100933774(false);
+    _3c00[9].sub_7100933774(false);
+    _3c00[10].sub_7100933774(false);
+    _3c00[11].sub_7100933774(false);
+    _3c00[12].sub_7100933774(false);
+    _3c00[13].sub_7100933774(false);
+
+    if (mPauseMenuDataMgr) {
+        if (_3640) {
+            const s32 next = mPauseMenuDataMgr->getNextGrabbedItemIndex();
+            _3640 = next > 0;
+        }
+        _3624 = sub_7100A82D20();
+        for (s32 i = 0; i != 7; ++i) {
+            if (sub_7100A82E20(i)) {
+                mTabControls.mEntries[i].mFirstItemIndex = sub_7100A82DD0(i);
+                mTabControls.mEntries[i]._7c = sub_7100A82D3C(PouchCategory(i));
+                if (i == 1)
+                    _3628 = mPauseMenuDataMgr->countItems(PouchItemType::Arrow, false);
+            } else {
+                mTabControls.mEntries[i].mFirstItemIndex = -1;
+                mTabControls.mEntries[i]._7c = -1;
+                if (i == 1)
+                    _3628 = 0;
+            }
+        }
+    }
+
+    _3641 = sub_7100AA7BAC(nullptr) & 1;
+
+    bool open_page = false;
+    s32 pending_page = 0;
+    if (!isOpenedMessageGet() && !sub_7100AA0730()) {
+        if (_3640) {
+            _3620 = 4;
+        } else if ((_3620 = mPauseMenuDataMgr->_44500) == -1) {
+            if (sub_7100A82EE0())
+                open_page = true;
+            else
+                pending_page = mPauseMenuDataMgr->_444fc;
+        }
+    }
+    _3a30 = pending_page;
+
+    s32 page_offset = 0;
+    if (_3620 != -1)
+        _3644 = sub_7100A82DD0(_3620);
+    else if (open_page)
+        _3644 = sub_7100A82DD0(4);
+    else if (!mPauseMenuDataMgr->x_2(&_3644, &page_offset)) {
+        _3644 = 0;
+        page_offset = 0;
+    }
+    _3648 = _3644;
+    sub_7100A3772C();
+
+    if (_3bb4 == 1) {
+        const s32 page = _3644;
+        const s32 tab = getTabIndex(page);
+        if (tab == 1) {
+            const s32 value = mTabControls.mEntries[1]._7c - _3628;
+            if (value < 1) {
+                _3bd0 = 0;
+                _3bb4 = 3;
+            } else {
+                _3bd0 = value;
+                _3bd0 -= 1;
+                if (_3a00[_3a18 < 3 ? _3a18 : 0])
+                    _3a00[_3a18 < 3 ? _3a18 : 0]->sub_71009B0190(_3bd0, false);
+                page_offset = _3bd0;
+            }
+        } else if (tab != -1) {
+            const s32 value = mTabControls.mEntries[tab]._7c;
+            if (value == 0) {
+                _3bb4 = 3;
+            } else {
+                _3bd0 = value;
+                _3bd0 -= 1;
+                if (_3a00[_3a18 < 3 ? _3a18 : 0])
+                    _3a00[_3a18 < 3 ? _3a18 : 0]->sub_71009B0190(_3bd0, false);
+                page_offset = _3bd0;
+            }
+        } else {
+            _3bd0 = 0;
+            _3bb4 = 3;
+        }
+    }
+
+    if (_3a00[_3a18 < 3 ? _3a18 : 0])
+        _3b80 = page_offset + sUnk_71025f1220[_3a18];
+
+    sub_7100A379BC(_3644);
+    if (_3b98) {
+        _3b98->sub_71009B60CC();
+        _3ba0 = _3b98->_174;
+    }
+    mPageLayouts[_3a30].sub_7100937DA4(true);
+
+    bool flag = true;
+    if (_3a30 != 2) {
+        if (!sub_7100AA0730() || _3a30 != 0)
+            flag = GameSceneSubsys12::instance()->x();
+    }
+
+    if (auto* info_screen = sead::DynamicCast<ScreenPauseMenuInfo>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
+        if (auto* animator = info_screen->_36b0) {
+            if (flag)
+                animator->StopAtMax();
+            else
+                animator->StopAtMin();
+        }
+    }
+
+    bool flag2 = true;
+    if (_3a30 != 1)
+        flag2 = GameSceneSubsys12::instance()->x();
+
+    if (auto* info_screen = sead::DynamicCast<ScreenPauseMenuInfo>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
+        if (auto* animator = info_screen->_36b8) {
+            if (flag2)
+                animator->StopAtMax();
+            else
+                animator->StopAtMin();
+        }
+    }
+
+    if (auto* info_screen = sead::DynamicCast<ScreenPauseMenuInfo>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
+        info_screen->sub_7100A30444(u32(_3a30));
+        if (_3a30 == 2) {
+            info_screen->sub_7100A313A8(_3ba0, false);
+        } else if (_3a30 != 0) {
+            info_screen->sub_7100A31738(false);
+        } else if (_3640) {
+            info_screen->sub_7100A30DF0(false);
+            if (!GameSceneSubsys12::instance()->x())
+                info_screen->sub_7100A300AC();
+            if (mPauseMenuDataMgr)
+                info_screen->sub_7100A30380(mPauseMenuDataMgr->getNextGrabbedItemIndex());
+            else
+                info_screen->sub_7100A30380(0);
+        } else if (_3bb4) {
+            info_screen->sub_7100A31988(false);
+        } else {
+            info_screen->sub_7100A3081C(mSelectedCategory, false);
+            info_screen->sub_7100A30194();
+        }
+    }
+
+    sub_7100A37A78();
+
+    if (auto* mgr = OnUiActorMgr::instance()) {
+        mgr->sub_71009079EC(_3640);
+        if (auto* mgr2 = OnUiActorMgr::instance()) {
+            s32 mode;
+            switch (mSelectedCategory) {
+            case 0:
+                mode = 0;
+                break;
+            case 1:
+                mode = 2;
+                break;
+            case 2:
+                mode = 1;
+                break;
+            default:
+                mode = 4;
+                break;
+            }
+            mgr2->_10c = mode;
+        }
+    }
+
+    if (auto* info_screen = sead::DynamicCast<ScreenPauseMenuInfo>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
+        if (auto* animator = info_screen->_36a0)
+            animator->StopAtMax();
+    }
+
+    if (auto* info_screen = sead::DynamicCast<ScreenPauseMenuInfo>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo))) {
+        if (auto* animator = info_screen->_36a8)
+            animator->StopAtMax();
+    }
+
+    if (Manager::instance()->_64c30_bytes[0] & 1) {
+        _3c2c = true;
+        _3c30 = 0.0f;
+    }
+}
 
 // 0x7100a350ac
 const char* ScreenPauseMenu::getLayoutName_() const {

@@ -297,6 +297,10 @@ int sub_7100AA7AC8(const PouchItem& item);
 int sub_7100AA7B1C(const ksys::act::acc::Weapon& weapon, int kind);
 // 0x7100aa7bac: the arrow type of the equipped bow, copied to `out` if given; false if there is none.
 bool sub_7100AA7BAC(sead::BufferedSafeString* out);
+// 0x7100a9b96c / 0x7100a9b990 / 0x7100a82ee0 (uiManagerFacade.cpp): the pause menu's state queries
+bool sub_7100A9B96C();
+bool sub_7100A9B990();
+bool sub_7100A82EE0();
 // 0x7100a951b0 (uiPouchFacade.cpp)
 bool sub_7100A951B0();
 // 0x7100a9b94c (uiManagerFacade.cpp): the UI manager's `_a0`.
