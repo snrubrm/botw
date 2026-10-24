@@ -1,6 +1,7 @@
 #include "Game/gameGraphics.h"
 #include "KingSystem/Graphics/gfxLocationalLightRig.h"
 #include <gsys/gsysModel.h>
+#include <gsys/gsysG3dResMaterialEx.h>
 #include "Game/gameUnkRttiPlaceholders.h"
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Graphics/gfxUkingModelRenderOptionsMgr.h"
@@ -467,4 +468,26 @@ void Unk_7100f185a4::sub_7100F1AC58() {
     const s32 size = buffer.mSize;
     for (s32 i = 0; i < size; ++i)
         buffer.mIds[i] = 0;
+}
+
+// 0x7100f1f1f8: primary table slot 0x90. Sets the reverse polygon offset flag of the render state
+// from the material's shader option.
+void Unk_7100f185a4::setMaterialReversePolygonOffsetMaybe(
+    const gsys::IModelResourceCallback::MaterialArg& arg) {
+    if (arg.material->isShaderOptionBool("uking_reverse_polygon_offset")) {
+        arg.render_info->_8 |= 0x40;
+        arg.render_info->_a |= 0x4;
+    } else {
+        arg.render_info->_8 = arg.render_info->_8 & 0xbf;
+    }
+}
+
+// 0x7100f1f278: slot 3 of the object's IModelResourceCallback table; same body.
+void Unk_7100f185a4::m3(const gsys::IModelResourceCallback::MaterialArg& arg) {
+    if (arg.material->isShaderOptionBool("uking_reverse_polygon_offset")) {
+        arg.render_info->_8 |= 0x40;
+        arg.render_info->_a |= 0x4;
+    } else {
+        arg.render_info->_8 = arg.render_info->_8 & 0xbf;
+    }
 }

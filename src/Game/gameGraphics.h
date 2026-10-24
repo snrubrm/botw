@@ -22,6 +22,7 @@
 #include <gsys/gsysModelUnit.h>
 #include <gsys/gsysModelSceneContext.h>
 #include <gsys/gsysModelRenderCache.h>
+#include <gsys/gsysModelResource.h>
 #include <common/aglDrawContext.h>
 #include <common/aglTextureSampler.h>
 #include <common/aglUniformBlock.h>
@@ -272,6 +273,11 @@ public:
     // Inline-only in the original; name is a guess. ScreenAppMapDungeon 0x71009e78d8
     // changes bit 3 of the constructor's flags word at +8.
     void setMapModeMaybe(bool enabled) { mFlags.changeBit(3, enabled); }
+    // 0x7100f1f278 is slot 3 of the object's gsys::IModelResourceCallback table (+0x10 of the
+    // object); 0x7100f1f1f8 is slot 0x90 of the primary table and has the same signature. The
+    // callback bases are not modelled, so both are declared as plain members.
+    void m3(const gsys::IModelResourceCallback::MaterialArg& arg);
+    void setMaterialReversePolygonOffsetMaybe(const gsys::IModelResourceCallback::MaterialArg& arg);
 
 private:
     // +0 is the vptr inherited from hostio::Node.
