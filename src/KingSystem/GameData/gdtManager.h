@@ -666,6 +666,11 @@ public:
         return mGetMapNameDelegate ? mGetMapNameDelegate->invoke() : sead::SafeString::cEmptyString;
     }
 
+    // The high byte of the flag handles the manager currently hands out. SaveSystem's
+    // requestAutoSaveForGameClear reads it directly and lane4's horse-race obstacle flag setup
+    // (0x7100e72110) needs it through this accessor; it is inline in the original.
+    u32 getCurrentFlagHandlePrefix() const { return mCurrentFlagHandlePrefix; }
+
     // 0x7100237928 (RestartStageFromGameOver::enter_): the only inlined use of BitFlag 0x80000; name is a guess.
     void onRestartStageFromGameOverMaybe() { mBitFlags.set(BitFlag::_80000); }
 
