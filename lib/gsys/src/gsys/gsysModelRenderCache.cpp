@@ -115,6 +115,48 @@ void ModelRenderCache::loadResShaderProgram_(const ModelRenderUnitNW& unit,
     }
 }
 
+// 0x7100c80694
+// NON_MATCHING: instruction sequence is the same; only the register assignment of the loaded
+// polygon-offset byte and of the face shift differs.
+void ModelRenderCache::setGraphicsContextToPolygonCtrl(sead::GraphicsContext* context, u32 flags) {
+    context->setPolygonOffsetEnable((flags & 4) != 0);
+
+    const u32 face = flags & 8;
+    u32 cull_face;
+    switch (flags & 3) {
+    case 0:
+        cull_face = (face >> 3) + 1;
+        break;
+    case 1:
+        cull_face = 2 - (face >> 3);
+        break;
+    case 2:
+        cull_face = 0;
+        break;
+    case 3:
+        cull_face = 3;
+        break;
+    }
+    context->setCullFace(cull_face);
+
+    u32 polygon_mode;
+    switch ((static_cast<u8>(flags) >> 4) & 3) {
+    case 0:
+        polygon_mode = 2;
+        break;
+    case 1:
+        polygon_mode = 1;
+        break;
+    case 2:
+        polygon_mode = 0;
+        break;
+    default:
+        polygon_mode = 2;
+        break;
+    }
+    context->setPolygonMode(polygon_mode, polygon_mode);
+}
+
 // 0x7100c80574: releases the occlusion query and returns the render state to its defaults.
 // NON_MATCHING: one redundant u8 mask (and w8, w10, #0xff) before the polygon-mode table is
 // missing, and the +0x40 store is scheduled after the +0x1b0 pair.

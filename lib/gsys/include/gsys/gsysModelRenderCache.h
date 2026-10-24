@@ -41,6 +41,9 @@ public:
     void loadOcclusionQuery(const agl::cull::OcclusionQuery* query);
     // 0x7100c80ff4
     void loadResShaderProgram_(const ModelRenderUnitNW& unit, const ModelAssignRenderInfo& info);
+    // 0x7100c80694: the cull-face and polygon-mode mapping reset also uses. Static; the native
+    // first argument is the GraphicsContext.
+    static void setGraphicsContextToPolygonCtrl(sead::GraphicsContext* context, u32 flags);
     // 0x7100c80574: returns the cache to its default render state.
     void reset();
 
