@@ -505,3 +505,20 @@ void Unk_7100f185a4::freeDynamicTextureMaybe() {
             agl::utl::PrimitiveTexture::instance()->getBlack2DSampler()->getTextureData());
     }
 }
+
+// 0x7100f1f170: slot 11 of the object's IModelMgrCallback table. The original shares the teardown
+// with ksys::gfx::UkingModelRenderOptionsMgr::destroyModelRenderData, so the body is the same.
+void Unk_7100f185a4::sub_7100F1F170(ksys::gfx::ModelRenderDataMaybe* data) {
+    if (auto* map = Graphics::instance()->getMapRendererMaybe())
+        map->sub_7100F19928(data);
+    if (auto* far = Graphics::instance()->getFarModelRendererMaybe())
+        far->sub_7100EFDCE8(data);
+    if (auto* grudge = Graphics::instance()->getGrudgeRendererMaybe())
+        grudge->sub_710128F148(data);
+    if (auto* block = data->_88) {
+        if (block->_30)
+            delete[] block->_30;
+        delete block;
+        data->_88 = nullptr;
+    }
+}

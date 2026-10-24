@@ -268,6 +268,11 @@ void Unk_710260af28::sub_7100F1CEF4(gsys::Model* model, f32 value) {
 
 
 
+void Unk_710260af28::sub_7100F1B9D0(gsys::Model* model) {
+    for (s32 i = 0; i < model->getUnits().size(); ++i)
+        sub_7100F1BA2C(model->getUnits()[i]->mModelUnit);
+}
+
 s32 Unk_710260af28::sub_7100F1EE98() {
     return 22;
 }

@@ -81,8 +81,10 @@ public:
     s32 sub_7100F1C3E8();
     s32 sub_7100F1C774();
 
-    // 0x7100f1b9d0 (declaration only): walks the model's unit access array and forwards each unit.
+    // 0x7100f1b9d0: walks the model's unit access array and forwards each unit.
     void sub_7100F1B9D0(gsys::Model* model);
+    // 0x7100f1ba2c (declaration only; 2492 B): the per-unit body of sub_7100F1B9D0.
+    void sub_7100F1BA2C(gsys::ModelUnit* unit);
 
     // 0x7100f1e4dc (declaration only): Bullet and GolemRootBase pass their model and an unsigned value converted to
     // float.

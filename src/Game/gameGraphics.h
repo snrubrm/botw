@@ -270,6 +270,9 @@ public:
     void setMapUnitVisibleMaybe(s32 id, bool visible);
     // 0x7100f19928: destroys the model render data the renderer built.
     void sub_7100F19928(ksys::gfx::ModelRenderDataMaybe* data);
+    // 0x7100f1f170: slot 11 of the object's gsys::IModelMgrCallback table; destroys a render data
+    // through the three renderers, exactly like ksys::gfx::UkingModelRenderOptionsMgr.
+    void sub_7100F1F170(ksys::gfx::ModelRenderDataMaybe* data);
     // 0x7100f1ab60: stores the two screen coordinates the map screen computes (each truncated to 16 bits).
     void setPosXY(s32 x, s32 y);
     // Inline-only in the original; name is a guess. ScreenAppMapDungeon 0x71009e78d8

@@ -36,6 +36,18 @@ void* DualHeap::tryAlloc(size_t size, s32 alignment) {
     return ptr;
 }
 
+void* DualHeap::tryAlloc(size_t size, s32 alignment, bool* ok) {
+    void* ptr = sead::ExpHeap::tryAlloc(size, alignment);
+    bool from_secondary = false;
+    if (!ptr && mHeap2) {
+        _118 += size;
+        ptr = mHeap2->tryAlloc(size, alignment);
+        from_secondary = ptr != nullptr;
+    }
+    *ok = from_secondary;
+    return ptr;
+}
+
 size_t DualHeap::sub_71010BF054() const {
     return sead::ExpHeap::getFreeSize();
 }
