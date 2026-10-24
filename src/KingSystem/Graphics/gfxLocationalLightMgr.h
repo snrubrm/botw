@@ -14,6 +14,7 @@ namespace ksys::map { class Object; }
 namespace ksys::eft { class MothEffectEmitter; }
 class Unk_7102519378;
 class Unk_71025193e8;
+class Unk_71025197e8;
 
 namespace ksys::gfx {
 
@@ -63,19 +64,17 @@ public:
     static_assert(offsetof(RigLightPool, mFreeLights) == 0x50);
     static_assert(offsetof(RigLightPool, mActiveLights) == 0x60);
 
-    // 0x7100f15b18: the same pooled release for the render-light records at +0x538. The
-    // destructors 0x7101296100 / 0x7101296178 hand it their record at +0x120, whose vtable is
-    // 0x71025193f8 (class Unk_7102519378).
+    // 0x7100f15b18: the pooled release for the render-light records at +0x538 (the 0x1e0-byte
+    // Unk_71025197e8 records, not the 0x130-byte light records). The 0x130-byte records'
+    // destructors hand their record at +0x120 to this pool.
     class RenderLightPool {
     public:
-        bool release(Unk_7102519378* light);
+        bool release(Unk_71025197e8* light);
 
         sead::CriticalSection mCS;
-        /// Records are stored as the first concrete record type; the base record is abstract
-        /// (vtable slot 5 is __cxa_pure_virtual) and the subclasses only add virtuals.
-        sead::Buffer<Unk_71025193e8> mLights;
-        sead::PtrArray<Unk_7102519378> mFreeLights;
-        sead::PtrArray<Unk_7102519378> mActiveLights;
+        sead::Buffer<Unk_71025197e8> mLights;
+        sead::PtrArray<Unk_71025197e8> mFreeLights;
+        sead::PtrArray<Unk_71025197e8> mActiveLights;
     };
     KSYS_CHECK_SIZE_NX150(RenderLightPool, 0x70);
 
@@ -106,9 +105,11 @@ public:
     void sub_7100F0EC30(map::Object* object);
     // 0x7100f13a58: returns a typed light record to its pool after checking its RTTI.
     bool sub_7100F13A58(Unk_7102519378* record);
-    // The record destructors 0x7101296100 / 0x7101296178 hand their record at +0x120 to the
-    // render-light pool at +0x538 through the manager stored at record +0x50.
-    bool releaseRenderLight(Unk_7102519378* light) { return mRenderLightPool.release(light); }
+    // 0x7100f142b0 (pointer type from the +0x538 pool): takes the free record whose position
+    // equals `pos`, otherwise the last free record, and pushes it onto the active list.
+    Unk_71025197e8* sub_7100F142B0(const sead::Vector3f& pos);
+    // The 0x130-byte light records' destructors hand the record at +0x120 to the +0x538 pool.
+    bool releaseRenderLight(Unk_71025197e8* light) { return mRenderLightPool.release(light); }
     // Record updates 0x7101296bc4 / 0x7101298558 pass their manager at +0x50.
     // These read the manager's shared light thresholds, rather than record fields.
     f32 sub_7100F143E4() const;

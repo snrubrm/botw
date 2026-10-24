@@ -252,6 +252,9 @@ public:
     void sub_7100F1AC58();
     // 0x7100f1b6e0: frees the dynamic map texture and puts the Black2D sampler back on mSampler0.
     void freeDynamicTextureMaybe();
+    // The map draw override 0x71009e5080 passes the sampler's texture (this + 0x8d8) to
+    // eui::SetupTextureInfoByAglTextureData, so lane2 needs it through the sampler.
+    agl::TextureData& getMapTextureDataMaybe() { return mSampler0.getTextureData(); }
     // 0x7100f19c4c: moves every unit's flags byte to +0x60 and clears it, for every group that is
     // present and has bit 0 of +0x21 clear.
     void sub_7100F19C4C();

@@ -66,7 +66,7 @@ void LocationalLightMgr::sub_7100F1334C() {
     _60 |= 0x20000000;
 }
 
-bool LocationalLightMgr::RenderLightPool::release(Unk_7102519378* light) {
+bool LocationalLightMgr::RenderLightPool::release(Unk_71025197e8* light) {
     auto lock = sead::makeScopedLock(mCS);
     s32 index = 0;
     for (auto* it = mActiveLights.dataBegin(); it != mActiveLights.dataEnd(); ++it, ++index) {
@@ -77,6 +77,37 @@ bool LocationalLightMgr::RenderLightPool::release(Unk_7102519378* light) {
         }
     }
     return false;
+}
+
+// NON_MATCHING: the original's search loop keeps a byte trip count (`sub x9, x9, #8; cbnz`)
+// instead of our `cmp w8, w23; b.ne`, so it does not keep the free list's address live across the
+// loop and its frame is 0x10 smaller (same check, same erase and push order). Tried s64 / u64
+// indices, a local count, and both loop bound forms; none gives the byte countdown naturally.
+// 0x7100f142b0: takes the free render-light record at `pos` (erasing it from the free list),
+// otherwise the last free record, pushes it onto the active list and returns it.
+Unk_71025197e8* LocationalLightMgr::sub_7100F142B0(const sead::Vector3f& pos) {
+    auto lock = sead::makeScopedLock(mRenderLightPool.mCS);
+    Unk_71025197e8* light = nullptr;
+    const s32 count = mRenderLightPool.mFreeLights.size();
+    s32 index = 0;
+    for (; index != count; ++index) {
+        if (mRenderLightPool.mFreeLights.unsafeAt(index)->mPosition == pos)
+            break;
+    }
+    if (index != count) {
+        auto lock = sead::makeScopedLock(mRenderLightPool.mCS);
+        light = mRenderLightPool.mFreeLights.at(index);
+        mRenderLightPool.mFreeLights.erase(index);
+        if (light)
+            mRenderLightPool.mActiveLights.pushBack(light);
+    }
+    if (!light) {
+        auto lock = sead::makeScopedLock(mRenderLightPool.mCS);
+        light = mRenderLightPool.mFreeLights.popBack();
+        if (light)
+            mRenderLightPool.mActiveLights.pushBack(light);
+    }
+    return light;
 }
 
 // 0x7100f1356c / 0x7100f135f8: pops a record from the free list, pushes it on the active list

@@ -62,6 +62,7 @@
 
 namespace agl { class DisplayList; }
 namespace uking { class Unk_71024739f8; }
+class Unk_71025197e8;
 #include "Game/gameUnk_71024739f8.h"
 #include "controller/seadControllerAddon.h"
 #include "framework/seadSingleScreenMethodTreeMgr.h"
@@ -1395,7 +1396,7 @@ private:
     f32 _110 = 1.0f;
     f32 _114 = 1.0f;
     void* _118 = nullptr;
-    Unk_7102519378* mPoolLink = nullptr;
+    Unk_71025197e8* mPoolLink = nullptr;
     u32 _128 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025193e8, 0x130);
@@ -1624,7 +1625,7 @@ private:
     f32 _110 = 1.0f;
     f32 _114 = 1.0f;
     void* _118 = nullptr;
-    Unk_7102519378* mPoolLink = nullptr;
+    Unk_71025197e8* mPoolLink = nullptr;
     f32 _128 = 0;
 };
 
@@ -1709,6 +1710,24 @@ private:
     f32 _118 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102519778, 0x120);
+
+// vtable 0x71025197e8 (0x10 header then 18 slots): the 0x1e0-byte record of the render-light pool
+// at LocationalLightMgr +0x538 (init 0x7100f0cd60 allocates the records, constructor 0x710129e67c).
+// Unlike the 0x130-byte light records above it has no sead RTTI: its virtual destructor is slots 0
+// and 1 at 0x710129e6d8 / 0x710129e740. The pool at +0x538 searches its free records by the
+// position at +0xc, and the 0x130-byte records keep one of these at +0x120.
+class Unk_71025197e8 {
+public:
+    virtual ~Unk_71025197e8();
+
+    /* 0x0c */ sead::Vector3f mPosition{0, 0, 0};
+
+private:
+    u8 _18[0x70 - 0x18];
+    // The record owns a texture sampler at +0x70 (its texture data pointer is freed from +0x68).
+    agl::TextureSampler mSampler;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71025197e8, 0x1e0);
 
 // vtable 0x710251ba58 (10 slots); placeholder generated from the vtable (genskel.py).
 class Unk_710251ba58 : public aal::SpatialCalculator {
