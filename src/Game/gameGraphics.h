@@ -531,9 +531,10 @@ struct Unk_b70 {
 namespace gsys {
 
 // The resource editor's callback interface (vtable 0x71024f4a20, all ten slots point at the empty
-// out-of-line defaults 0x7100f36428 - 0x7100f36444). Graphics implements it as its first base: the
-// primary vtable 0x71024f45c0 has the ten overrides at +0x10 and its destructor pair right after.
-// Method names are from the original's symbols; the argument block is a placeholder.
+// out-of-line defaults 0x7100f36350 / 0x7100f36354 / 0x7100f36428 - 0x7100f36444). Graphics implements
+// it as its first base: the primary vtable 0x71024f45c0 has the ten overrides at +0x10 and its
+// destructor pair right after. Method names are from the original's symbols; the argument block is a
+// placeholder.
 class IResourceEditorCallback {
 public:
     // The two models the editor callbacks work on. Both callees they reach walk the model's unit
@@ -545,16 +546,16 @@ public:
         gsys::Model* _8;
     };
 
-    virtual void editorCallback0(const Arg& arg) {}
-    virtual void editorCallback1(const Arg& arg) {}
-    virtual void getModelFmdbPath(const char** path, const Arg& arg) {}
-    virtual void editorCallback3(const Arg& arg) {}
-    virtual void editorCallback4(const Arg& arg) {}
-    virtual void editorCallback5(const Arg& arg) {}
-    virtual void editorCallback6(const Arg& arg) {}
-    virtual void editorCallback7(const Arg& arg) {}
-    virtual void editorCallback8(const Arg& arg) {}
-    virtual void editorCallback9(const Arg& arg) {}
+    virtual void editorCallback0(const Arg& arg);
+    virtual void editorCallback1(const Arg& arg);
+    virtual void getModelFmdbPath(const char** path, const Arg& arg);
+    virtual void editorCallback3(const Arg& arg);
+    virtual void editorCallback4(const Arg& arg);
+    virtual void editorCallback5(const Arg& arg);
+    virtual void editorCallback6(const Arg& arg);
+    virtual void editorCallback7(const Arg& arg);
+    virtual void editorCallback8(const Arg& arg);
+    virtual void editorCallback9(const Arg& arg);
 };
 
 }  // namespace gsys

@@ -17,6 +17,23 @@
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/System/VFR.h"
 
+namespace gsys {
+
+// 0x7100f36350 / 0x7100f36354 / 0x7100f36428 - 0x7100f36444: the interface's ten out-of-line virtual
+// defaults, each a single return. Graphics overrides eight of them and inherits editorCallback4 / 9.
+void IResourceEditorCallback::editorCallback0(const Arg& arg) {}
+void IResourceEditorCallback::editorCallback1(const Arg& arg) {}
+void IResourceEditorCallback::getModelFmdbPath(const char** path, const Arg& arg) {}
+void IResourceEditorCallback::editorCallback3(const Arg& arg) {}
+void IResourceEditorCallback::editorCallback4(const Arg& arg) {}
+void IResourceEditorCallback::editorCallback5(const Arg& arg) {}
+void IResourceEditorCallback::editorCallback6(const Arg& arg) {}
+void IResourceEditorCallback::editorCallback7(const Arg& arg) {}
+void IResourceEditorCallback::editorCallback8(const Arg& arg) {}
+void IResourceEditorCallback::editorCallback9(const Arg& arg) {}
+
+}  // namespace gsys
+
 // 0x7100f2a1d0 and the disposer vtables 0x71024f45a0 / 0x7100f2a100 / 0x7100f2a164: the source is
 // SEAD_SINGLETON_DISPOSER(Graphics) (written out here because sInstance is hand-declared in the header).
 // NON_MATCHING (the destructor pair): the original calls Graphics::~Graphics() through vtable slot 0x50;
