@@ -14,6 +14,7 @@
 #include "KingSystem/System/BasicProfiler.h"
 #include "KingSystem/ActorSystem/LOD/actLODMgr.h"
 #include "KingSystem/ksysDebugInput.h"
+#include <common/aglGPUCache.h>
 #include <cstring>
 #include <utility>
 
@@ -2069,6 +2070,124 @@ void System::sub_7101116E74(s32 index, Unk_7101115584Arg* arg) {
 
 void System::sub_7101117164(void* arg, s32 index, const sead::Vector3f* pos, u32 level) {
     mScenes[index].collector->sub_710110235C(arg, this, pos, level);
+}
+
+void System::sub_71011120BC(const SceneDrawArgMaybe& arg) {
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return;
+    if (!_8)
+        return;
+    if (Terrain::instance()->_460 != 0)
+        return;
+
+    const s32 index = Terrain::instance()->sub_710114DD84(s32(arg.render_cache->getViewIndex()));
+    if (index == -1)
+        return;
+
+    SceneSlot& slot = mScenes[index];
+    if (!slot._88)
+        return;
+
+    const SceneSlotDrawArgMaybe draw_arg{&arg, &slot.block};
+    agl::GPUCache::invalidateAll(arg.render_cache->getDrawContext());
+    mScenes[index].collector->sub_7101105B2C(draw_arg);
+    arg.render_cache->reset();
+}
+
+void System::sub_7101112364(const SceneDrawArgMaybe& arg) {
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return;
+    if (!_8)
+        return;
+    if (Terrain::instance()->_460 != 0)
+        return;
+
+    const s32 index = Terrain::instance()->sub_710114DD84(s32(arg.render_cache->getViewIndex()));
+    if (index == -1)
+        return;
+
+    SceneSlot& slot = mScenes[index];
+    if (!slot._88)
+        return;
+
+    agl::GPUCache::invalidateAll(arg.render_cache->getDrawContext());
+    SceneSlotDrawArgMaybe draw_arg;
+    draw_arg.block = &mScenes[index].block;
+    draw_arg.scene = &arg;
+    mScenes[index].collector->sub_71011060E4(draw_arg);
+    arg.render_cache->reset();
+}
+
+void System::sub_710111243C(const SceneDrawArgMaybe& arg) {
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return;
+    if (!_8)
+        return;
+    if (Terrain::instance()->_460 != 0)
+        return;
+
+    const s32 index = Terrain::instance()->sub_710114DD84(s32(arg.render_cache->getViewIndex()));
+    if (index == -1)
+        return;
+
+    SceneSlot& slot = mScenes[index];
+    if (!slot._88)
+        return;
+
+    agl::GPUCache::invalidateAll(arg.render_cache->getDrawContext());
+    SceneSlotDrawArgMaybe draw_arg;
+    draw_arg.block = &mScenes[index].block;
+    draw_arg.scene = &arg;
+    mScenes[index].collector->sub_7101106284(draw_arg);
+    arg.render_cache->reset();
+}
+
+void System::sub_7101112514(const SceneDrawArgMaybe& arg) {
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return;
+    if (!_8)
+        return;
+    if (Terrain::instance()->_460 != 0)
+        return;
+
+    const s32 index = Terrain::instance()->sub_710114DD84(s32(arg.render_cache->getViewIndex()));
+    if (index == -1)
+        return;
+
+    SceneSlot& slot = mScenes[index];
+    if (!slot._88)
+        return;
+
+    agl::GPUCache::invalidateAll(arg.render_cache->getDrawContext());
+    SceneSlotDrawArgMaybe draw_arg;
+    draw_arg.block = &mScenes[index].block;
+    draw_arg.scene = &arg;
+    mScenes[index].collector->sub_71011064C0(draw_arg);
+    arg.render_cache->reset();
+}
+
+void System::sub_71011125EC(const SceneDrawArgMaybe& arg) {
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return;
+    if (!_8)
+        return;
+    if (Terrain::instance()->_460 != 0)
+        return;
+
+    const s32 index = Terrain::instance()->sub_710114DD84(s32(arg.render_cache->getViewIndex()));
+    if (index == -1)
+        return;
+
+    SceneSlot& slot = mScenes[index];
+    if (!slot._88)
+        return;
+
+    agl::GPUCache::invalidateAll(arg.render_cache->getDrawContext());
+    SceneSlotDrawArgMaybe draw_arg;
+    draw_arg.block = &mScenes[index].block;
+    draw_arg.scene = &arg;
+    mScenes[index].collector->sub_7101106600(draw_arg);
+    arg.render_cache->reset();
 }
 
 // NON_MATCHING: the original indexes _e8 with a sign-extended multiply each iteration; ours walks a pointer.

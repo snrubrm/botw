@@ -1447,6 +1447,19 @@ class Scene {
     void exportFileBinary();
 };
 
+// Placeholder: the per-pass argument of the System's per-scene draw steps (0x711120bc and its five
+// copies 0x71112194 .. 0x711125ec). The only member they read is the pass's model render cache.
+struct SceneDrawArgMaybe {
+    gsys::ModelRenderCache* render_cache;
+};
+
+// Placeholder: the argument of the collector draw steps the System steps call (0x7101105b2c and its
+// five neighbours): the draw step's argument and the scene slot's uniform block.
+struct SceneSlotDrawArgMaybe {
+    const SceneDrawArgMaybe* scene;
+    agl::UniformBlock* block;
+};
+
 // The objects in System's 0x90-byte slots (SceneSlot). Named from the asserts of 0x71010ffee0 /
 // 0x71011000b0 ("[ksys::tera::ApertureMapsCollector::allocateImage]" / "releaseImage"), whose `this` has
 // this layout (nine records at 0, flags _2998), and from System::allocateApertureMapsCollectorImage
@@ -1518,6 +1531,14 @@ public:
     // 0x71011020c0 (placeholder name): whether records 5 - 8 have no area below `level` that is not
     // loaded yet (Unk_71010FEDBC::areAreasReadyMaybe).
     bool sub_71011020C0(u32 level) const;
+    // 0x7101105b2c / 0x7101105ec0 / 0x71011060e4 / 0x7101106284 / 0x71011064c0 / 0x7101106600
+    // (placeholder names): the collector's per-scene draw steps. Their bodies are not decompiled yet.
+    void sub_7101105B2C(const SceneSlotDrawArgMaybe& arg);
+    void sub_7101105EC0(const SceneSlotDrawArgMaybe& arg);
+    void sub_71011060E4(const SceneSlotDrawArgMaybe& arg);
+    void sub_7101106284(const SceneSlotDrawArgMaybe& arg);
+    void sub_71011064C0(const SceneSlotDrawArgMaybe& arg);
+    void sub_7101106600(const SceneSlotDrawArgMaybe& arg);
 
     // [5] is returned by System::sub_710111F4F0, [8] by System::sub_710111F504.
     Unk_71010FEDBC _0[9];
@@ -1721,6 +1742,16 @@ public:
     // 0x7101116e74 (placeholder name): under the read lock, updates scene `index`'s uniform block
     // from the culling frustum and runs the collector's per-scene update.
     void sub_7101116E74(s32 index, Unk_7101115584Arg* arg);
+    // 0x711120bc / 0x711125ec (placeholder names): the per-scene draw steps. They do nothing unless
+    // Terrain flags 2 and 4 are set, the current area node exists and Terrain::_460 is clear; then the
+    // scene slot's collector runs the matching draw step with the slot's uniform block and the scene's
+    // render cache is reset. 0x71112194 adds the image-flag guards of its own.
+    void sub_71011120BC(const SceneDrawArgMaybe& arg);
+    void sub_7101112194(const SceneDrawArgMaybe& arg);
+    void sub_7101112364(const SceneDrawArgMaybe& arg);
+    void sub_710111243C(const SceneDrawArgMaybe& arg);
+    void sub_7101112514(const SceneDrawArgMaybe& arg);
+    void sub_71011125EC(const SceneDrawArgMaybe& arg);
     // 0x7101116bbc (unnamed in the CSV): the material texture scale record of the terrain: the mip
     // scale in x, the three half-texel offsets in y / z / w. `out` is a Vector4f.
     void sub_7101116BBC(sead::Vector4f* out, f32 factor);
