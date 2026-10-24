@@ -97,6 +97,10 @@ public:
     // 0x7100c07b80: the u16 render-unit count at ModelNW+0x110.
     int getModelRenderUnitNum() const override;
     int getShapeNum() const override;
+    // 0x7100c05248: clears the texture slots of material `index`.
+    void clearTexture(int index) override;
+    // 0x7100c06950: the two per-buffer ready bits at +0x170.
+    bool check(BoolType type) const override;
     // 0x7100c07b88: the byte at ModelObj +0x18.
     int getViewNum() const;
     ModelRenderUnit* getModelRenderUnit(int idx) override;

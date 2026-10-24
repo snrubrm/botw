@@ -1,6 +1,7 @@
 #include "gsys/gsysModelNW.h"
 #include "gsys/gsysModelRenderUnitNW.h"
 #include "gsys/gsysModelDynamicEnvInfo.h"
+#include <g3d/aglNW4FToNN.h>
 #include <nn/g3d/SkeletonObj.h>
 #include <nn/g3d/ResModel.h>
 #include <nn/util/util_ResDic.h>
@@ -14,6 +15,22 @@ bool ModelNW::initialize(nn::g3d::ResModel* model, s32 buffer_num, sead::Heap* h
     return initialize(arg, heap);
 }
 
+
+// 0x7100c05248
+void ModelNW::clearTexture(int index) {
+    agl::g3d::MaterialObj::ClearTexture(mModelObj.GetMaterial(index));
+}
+
+// 0x7100c06950
+bool ModelNW::check(BoolType type) const {
+    switch (static_cast<s32>(type)) {
+    case 0:
+        return (_200 & 0x40) != 0;
+    case 1:
+        return (_200 & 0x20) != 0;
+    }
+    return false;
+}
 
 // 0x7100c07b80
 int ModelNW::getShapeNum() const {
