@@ -524,6 +524,11 @@ bool Unk_7102519778::m11() const {
     return (_5c & 1) != 0;
 }
 
+// 0x710129e67c: the 0x1e0-byte render-light pool record (a position, a default box and a texture
+// sampler at +0x70).
+Unk_71025197e8::Unk_71025197e8() = default;
+Unk_71025197e8::~Unk_71025197e8() = default;
+
 f32 Unk_7102519778::setColor(const sead::Color4f& color) {
     const f32 luminance = sead::Mathf::clampMin(
         color.r * 0.298912f + color.g * 0.586611f + color.b * 0.114478f, 0.0f);

@@ -66,6 +66,15 @@ void LocationalLightMgr::sub_7100F1334C() {
     _60 |= 0x20000000;
 }
 
+// 0x7100f0cd60: allocates the render-light pool's records and gives every record to the free list.
+void LocationalLightMgr::RenderLightPool::init(s32 capacity, sead::Heap* heap) {
+    mLights.tryAllocBuffer(capacity, heap, 8);
+    mFreeLights.allocBuffer(capacity, heap, 8);
+    mActiveLights.allocBuffer(capacity, heap, 8);
+    for (s32 i = 0; i < capacity; ++i)
+        mFreeLights.pushBack(&mLights[i]);
+}
+
 bool LocationalLightMgr::RenderLightPool::release(Unk_71025197e8* light) {
     auto lock = sead::makeScopedLock(mCS);
     s32 index = 0;

@@ -17,6 +17,7 @@
 #include "KingSystem/Resource/resHandle.h"
 
 #include <prim/seadRuntimeTypeInfo.h>
+#include <math/seadBoundBox.h>
 #include <devenv/seadDebugMenuSkin.h>
 #include "KingSystem/Utils/Thread/MessageBroker.h"
 #include <common/aglUniformBlock.h>
@@ -1718,12 +1719,31 @@ KSYS_CHECK_SIZE_NX150(Unk_7102519778, 0x120);
 // position at +0xc, and the 0x130-byte records keep one of these at +0x120.
 class Unk_71025197e8 {
 public:
+    Unk_71025197e8();
     virtual ~Unk_71025197e8();
 
+private:
+    u8 _8 = 1;
+    u8 _9[3];
+
+public:
     /* 0x0c */ sead::Vector3f mPosition{0, 0, 0};
 
 private:
-    u8 _18[0x70 - 0x18];
+    f32 _18 = 0;
+    u32 _1c;
+    u32 _20 = 0;
+    u8 _24[4];
+    u64 _28 = 0;
+    f32 _30 = 0;
+    f32 _34 = 20.0f;
+    // Default-initialised box (min at +0x38 is +FLT_MAX, max at +0x44 -FLT_MAX).
+    sead::BoundBox3f mBounds;
+    u64 _50 = 0;
+    u32 _58 = 0;
+    u8 _5c[4];
+    u64 _60 = 0;
+    u64 _68 = 0;
     // The record owns a texture sampler at +0x70 (its texture data pointer is freed from +0x68).
     agl::TextureSampler mSampler;
 };

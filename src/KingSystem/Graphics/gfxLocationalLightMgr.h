@@ -69,6 +69,9 @@ public:
     // destructors hand their record at +0x120 to this pool.
     class RenderLightPool {
     public:
+        // 0x7100f0cd60: allocates `capacity` records (0x1e0 bytes each) and the two PtrArrays, then
+        // puts every record on the free list.
+        void init(s32 capacity, sead::Heap* heap);
         bool release(Unk_71025197e8* light);
 
         sead::CriticalSection mCS;
