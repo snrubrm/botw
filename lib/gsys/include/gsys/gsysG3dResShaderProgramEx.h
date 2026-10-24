@@ -27,6 +27,8 @@ public:
     // 0x7100c6ee24
     void load(agl::DrawContext*, const nn::g3d::ResShaderProgram*, agl::ShaderOptimizeType,
               bool) const;
+    // 0x7100c6e868: the original body is a four-byte empty function.
+    static void destroy(const nn::g3d::ResShaderProgram*);
 
 private:
     friend class ModelRenderCache;
