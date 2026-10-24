@@ -4,6 +4,7 @@
 #include "Game/gameSceneSubsys14.h"
 #include "KingSystem/System/Patrol.h"
 #include "Game/gameRuneMgr.h"
+#include "Game/gameWolfLinkMgr.h"
 #include "Game/gameGearMgr.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiManager.h"
@@ -169,6 +170,17 @@ void ScreenAppMap::sub_71009F2430() {
 }
 
 // 0x71009e0df8
+// 0x71009e2920
+void ScreenAppMapDungeon::m89() {
+    bool has_wolf_link = false;
+    if (const auto* wolf = WolfLinkMgr::instance(); wolf && wolf->_60 == 2)
+        has_wolf_link = sub_7100AA948C();
+    const auto* subsys = GameSceneSubsys14::instance();
+    if (subsys->_38.name == "HatenoLabo" ||
+        ksys::gdt::getFlag_LastBossGanonBeastGenerateFlag() || has_wolf_link)
+        _292 |= 0x20;
+}
+
 bool ScreenAppMapDungeon::sub_71009E0DF8() const {
     if (mSensorChild)
         return mSensorChild->mController.sub_71009CBFA4();

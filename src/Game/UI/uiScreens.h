@@ -5885,6 +5885,8 @@ public:
     void sub_71009E70B8();
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
     bool sub_71009E0DF8() const;
+    // 0x71009e2920
+    void m89() override;
     void m100() override;
     void m101() override;
     // 0x71009e4f88: closes the screen when the camera rune is used, the screen is closing while sub_7100AA8F50 holds,
