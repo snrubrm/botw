@@ -71,6 +71,16 @@ GameScene::sb::~sb() {
     clear();
 }
 
+// 0x71011f3a88: links `buffer` into the free list, then reserves `count` entries at the front and
+// default-constructs them (ObjArray::setBuffer + emplaceFrontN, both inlined in the original).
+// NON_MATCHING: two library-order differences: the original checks `count` before `buffer` (our
+// ObjArray::setBuffer checks the buffer first), and the DrawMethod vptr store comes before the zero
+// stores in the original.
+void GameScene::sb::init(s32 count, void* buffer) {
+    setBuffer(count, buffer);
+    emplaceFrontN(count);
+}
+
 void GameScene::sb::x(s32 index, agl::lyr::Layer* layer, s32 step) {
     layer->sub_7100B60B8C(step, at(index));
 }
