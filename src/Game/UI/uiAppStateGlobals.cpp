@@ -26,11 +26,6 @@ bool sUnk_71025dc580;
 // 0x7102483490 (.data, initial value 6)
 s32 sUnk_7102483490 = 6;
 
-namespace {
-// TU-local state of the AppPictureBook screen (0x71025eb850)
-bool sUnk_71025eb850;
-}  // namespace
-
 // 0x71009fc4a0
 s32 ScreenAppSystemWindow::sub_71009FC4A0() {
     const s32 value = sUnk_7102483490;
@@ -72,18 +67,8 @@ void sub_71009E7CE8(s32) {
     sUnk_71025de180 |= 3;
 }
 
-// 0x71009f8420
-void sub_71009F8420(s32 a1) {
-    sUnk_71025eb5b8 = a1;
-    sUnk_71025eb5b4 = 0;
-    if (a1 == 1)
-        sUnk_71025eb850 = true;
-}
-
-// 0x71009f8450
-bool sub_71009F8450() {
-    return !sUnk_71025eb850;
-}
+// 0x71009f8420 / 0x71009f8450 are in uiScreenAppPictureBook.cpp, next to the picture-book flag
+// they use.
 
 // 0x71009fd6c0
 void sub_71009FD6C0() {

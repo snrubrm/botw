@@ -15,13 +15,15 @@
 namespace uking::ui {
 
 // The AppPictureBook screen's new-picture name lists (0x71025ea0880 / 0x71025ea0e00 /
-// 0x71025eb0380) and the screen state (0x71025eb850). The lists hold the names of pictures taken
-// but not yet registered; the state keeps their counts. Only the members the decompiled functions
-// use are modelled so far.
+// 0x71025eb0380) and the screen's state block (0x71025eb850). The lists hold the names of pictures
+// taken but not yet registered; the block keeps the screen flag followed by the counts. Only the
+// members the decompiled functions use are modelled so far.
+// The flag is its own object: the block's other members are merged after it, and the original reads
+// the flag as a bool (0x71009f8450 tests it with `mvn / and #1`).
+static bool sUnk_71025eb850;
+
 struct PictureBookState {
-    /* 0x000 */ u8 _0 = 0;
-    /* 0x001 */ bool _1 = false;
-    /* 0x002 */ u8 _2[0x22];
+    /* 0x000 */ u8 _0[0x24];
     /* 0x024 */ u32 mNumNewEnemyPictures = 0;
     /* 0x028 */ u32 mNumNewBossPictures = 0;
     /* 0x02c */ u32 mNumNewWeaponPictures = 0;
@@ -31,7 +33,7 @@ struct PictureBookState {
 static sead::SafeArray<sead::FixedSafeString<64>, 16> sNewEnemyPictureBookNames;
 static sead::SafeArray<sead::FixedSafeString<64>, 16> sNewBossPictureBookNames;
 static sead::SafeArray<sead::FixedSafeString<64>, 2> sNewWeaponPictureBookNames;
-KSYS_VISIBILITY_HIDDEN PictureBookState sUnk_71025eb850;
+static PictureBookState sPictureBookCounts;
 // "Weapon_Bow_071" and "Weapon_Sword_070" (0x71009f8464).
 KSYS_VISIBILITY_HIDDEN sead::SafeString sUnk_71025eb0af0[2] = {"Weapon_Bow_071", "Weapon_Sword_070"};
 
@@ -54,16 +56,29 @@ bool ScreenAppPictureBook::sub_71009F8398() const {
         return false;
     const s32 mode = sUnk_71025eb5b8;
     if (mode == 2) {
-        if (sUnk_71025eb850._0 & 1)
+        if (sUnk_71025eb850)
             return false;
     }
     if (mode == 3)
         return false;
     if (mode == 1) {
-        if (sUnk_71025eb850._0 & 1)
+        if (sUnk_71025eb850)
             return false;
     }
     return true;
+}
+
+// 0x71009f8420
+void sub_71009F8420(s32 a1) {
+    sUnk_71025eb5b8 = a1;
+    sUnk_71025eb5b4 = 0;
+    if (a1 == 1)
+        sUnk_71025eb850 = true;
+}
+
+// 0x71009f8450
+bool sub_71009F8450() {
+    return !sUnk_71025eb850;
 }
 
 // 0x7100938c94
@@ -2826,7 +2841,7 @@ PictureBookNameIterator newEnemyPictureBookNamesBegin() {
 PictureBookNameIterator newEnemyPictureBookNamesEnd() {
     // NON_MATCHING: the original selects the clamp with 64-bit registers (csel x1); ours uses w1.
     return {sNewEnemyPictureBookNames.getBufferPtr(),
-            s32(sead::Mathu::min(sUnk_71025eb850.mNumNewEnemyPictures, 16u))};
+            s32(sead::Mathu::min(sPictureBookCounts.mNumNewEnemyPictures, 16u))};
 }
 
 // 0x71009f84a8
@@ -2837,7 +2852,7 @@ PictureBookNameIterator newBossPictureBookNamesBegin() {
 // 0x71009f84b8
 PictureBookNameIterator newBossPictureBookNamesEnd() {
     return {sNewBossPictureBookNames.getBufferPtr(),
-            s32(sead::Mathu::min(sUnk_71025eb850.mNumNewBossPictures, 16u))};
+            s32(sead::Mathu::min(sPictureBookCounts.mNumNewBossPictures, 16u))};
 }
 
 // 0x71009f84dc
@@ -2848,7 +2863,7 @@ PictureBookNameIterator newWeaponPictureBookNamesBegin() {
 // 0x71009f84ec
 PictureBookNameIterator newWeaponPictureBookNamesEnd() {
     return {sNewWeaponPictureBookNames.getBufferPtr(),
-            s32(sead::Mathu::min(sUnk_71025eb850.mNumNewWeaponPictures, 2u))};
+            s32(sead::Mathu::min(sPictureBookCounts.mNumNewWeaponPictures, 2u))};
 }
 
 // 0x71009f8464

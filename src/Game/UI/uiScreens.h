@@ -4202,6 +4202,8 @@ extern const ksys::StateBase sUnk_71025eb490;
 extern const ksys::StateBase sUnk_71025eb550;
 // 0x71025eb5b8: the app screen mode set by sub_71009F8420
 extern s32 sUnk_71025eb5b8;
+// 0x71025eb5b4: cleared by sub_71009F8420
+extern u8 sUnk_71025eb5b4;
 
 // 0x71009f70b0 (declared only; placeholder name): shows the picture book page of the picture `name`
 void sub_71009F70B0(const sead::SafeString& name);
