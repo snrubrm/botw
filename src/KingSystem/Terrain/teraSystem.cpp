@@ -2094,6 +2094,39 @@ void System::sub_71011120BC(const SceneDrawArgMaybe& arg) {
     arg.render_cache->reset();
 }
 
+void System::sub_7101112194(const SceneDrawArgMaybe& arg) {
+    if ((~Terrain::instance()->_a58 & 6) != 0)
+        return;
+    if (!_8)
+        return;
+    if (Terrain::instance()->_460 != 0)
+        return;
+
+    const Unk_7101106F44* area = _8;
+    const Unk_710250dcd8* image = area->getImageMaybe(sUnk_7101EC54AC);
+    if (!image)
+        return;
+    if ((image->_8 & 4) == 0)
+        return;
+    if (mImageUsers.size() == 0)
+        return;
+
+    const s32 index = Terrain::instance()->sub_710114DD84(s32(arg.render_cache->getViewIndex()));
+    if (index == -1)
+        return;
+
+    SceneSlot& slot = mScenes[index];
+    if (!slot._88)
+        return;
+
+    agl::GPUCache::invalidateAll(arg.render_cache->getDrawContext());
+    SceneSlotDrawArgMaybe draw_arg;
+    draw_arg.block = &mScenes[index].block;
+    draw_arg.scene = &arg;
+    mScenes[index].collector->sub_7101105EC0(draw_arg);
+    arg.render_cache->reset();
+}
+
 void System::sub_7101112364(const SceneDrawArgMaybe& arg) {
     if ((~Terrain::instance()->_a58 & 6) != 0)
         return;
