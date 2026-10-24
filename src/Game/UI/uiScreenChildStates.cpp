@@ -1957,6 +1957,21 @@ void sub_71009F490(AppMapIconPart* self) {
     self->_420->set38ec(self->_420->get38e0(), 3);
 }
 
+// 0x710099edc0 (placeholder name): the map icon mode 4 body. When the hovered marker is a shrine / tower
+// (kinds 0x15 / 0x16), disables its pin and refreshes the selected marker.
+// NON_MATCHING: clang folds the two Kind comparisons into a kind - 0x15 <= 1 range test; the original
+// keeps the Kind local and each temporary in stack slots.
+void sub_710099EDC0(AppMapIconPart* self) {
+    auto* entry = self->getHoveredIconData();
+    if (!entry)
+        return;
+    const auto kind = entry->_20;
+    if (kind == UiSubsys1Entry::Kind(0x15) || kind == UiSubsys1Entry::Kind(0x16)) {
+        entry->sub_7100951388(false);
+        UiSubsys1::instance()->sub_71009645A0();
+    }
+}
+
 // 0x710099ef18 (placeholder name): the map icon mode dispatcher. Modes 0 and 1 share the first body.
 void sub_710099EF18(AppMapIconPart* self, s32 mode) {
     switch (mode) {
