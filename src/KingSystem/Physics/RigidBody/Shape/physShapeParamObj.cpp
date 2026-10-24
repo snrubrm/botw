@@ -302,6 +302,7 @@ void Unk_71025194d0::setColorAndLuminance(const sead::Color4f& color) {
     _100 = setColor(color);
 }
 
+Unk_7102519540::Unk_7102519540() = default;
 Unk_7102519540::~Unk_7102519540() = default;
 
 f32 Unk_7102519540::setColor(const sead::Color4f& color) {
@@ -345,6 +346,7 @@ bool Unk_7102519540::m11() const {
     return (_5c & 2) != 0;
 }
 
+Unk_71025195b0::Unk_71025195b0() = default;
 Unk_71025195b0::~Unk_71025195b0() = default;
 
 void Unk_71025195b0::m9() {
@@ -463,6 +465,7 @@ void Unk_7102519690::m12() {
         m11();
 }
 
+Unk_7102519708::Unk_7102519708() = default;
 Unk_7102519708::~Unk_7102519708() = default;
 
 f32 Unk_7102519708::setColor(const sead::Color4f& color) {

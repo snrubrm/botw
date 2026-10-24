@@ -119,9 +119,20 @@ Unk_71025197e8* LocationalLightMgr::sub_7100F142B0(const sead::Vector3f& pos) {
     return light;
 }
 
+// 0x7100f0c008 / 0x7100f0c13c / ...: the record pools' shared init.
+template <typename T>
+void LocationalLightMgr::LightPool<T>::init(s32 capacity, sead::Heap* heap) {
+    mLights.tryAllocBuffer(capacity, heap, 8);
+    mFreeLights.allocBuffer(capacity, heap, 8);
+    mActiveLights.allocBuffer(capacity, heap, 8);
+    for (s32 i = 0; i < capacity; ++i)
+        mFreeLights.pushBack(&mLights[i]);
+}
+
 // 0x7100f1356c / 0x7100f135f8: pops a record from the free list, pushes it on the active list
 // and runs its init hook under the pool's lock.
-Unk_7102519378* LocationalLightMgr::RecordLightPool::allocate() {
+template <typename T>
+T* LocationalLightMgr::LightPool<T>::allocate() {
     auto lock = sead::makeScopedLock(mCS);
     auto* light = mFreeLights.popBack();
     if (light) {
@@ -133,7 +144,8 @@ Unk_7102519378* LocationalLightMgr::RecordLightPool::allocate() {
 
 // The nine record pools share this release; the original inlines it into each arm of
 // sub_7100F13A58.
-bool LocationalLightMgr::RecordLightPool::release(Unk_7102519378* light) {
+template <typename T>
+bool LocationalLightMgr::LightPool<T>::release(T* light) {
     auto lock = sead::makeScopedLock(mCS);
     light->reset();
     s32 index = 0;
@@ -147,40 +159,53 @@ bool LocationalLightMgr::RecordLightPool::release(Unk_7102519378* light) {
     return false;
 }
 
+template class LocationalLightMgr::LightPool<Unk_71025193e8>;
+template class LocationalLightMgr::LightPool<Unk_7102519460>;
+template class LocationalLightMgr::LightPool<Unk_71025194d0>;
+template class LocationalLightMgr::LightPool<Unk_7102519540>;
+template class LocationalLightMgr::LightPool<Unk_71025195b0>;
+template class LocationalLightMgr::LightPool<Unk_7102519620>;
+template class LocationalLightMgr::LightPool<Unk_7102519690>;
+template class LocationalLightMgr::LightPool<Unk_7102519708>;
+template class LocationalLightMgr::LightPool<Unk_7102519778>;
+// The object-light pool shares only init; its allocate / release are inlined at their call sites.
+template void LocationalLightMgr::LightPool<LocationalLightMgr::ObjectLight>::init(s32,
+                                                                                 sead::Heap*);
+
 Unk_7102519378* LocationalLightMgr::sub_7100F1356C() {
-    return mRecordPools[0].allocate();
+    return mRecordPool0.allocate();
 }
 
 Unk_7102519378* LocationalLightMgr::sub_7100F135F8() {
-    return mRecordPools[1].allocate();
+    return mRecordPool1.allocate();
 }
 
 Unk_7102519378* LocationalLightMgr::sub_7100F13684() {
-    return mRecordPools[2].allocate();
+    return mRecordPool2.allocate();
 }
 
 Unk_7102519378* LocationalLightMgr::sub_7100F13710() {
-    return mRecordPools[3].allocate();
+    return mRecordPool3.allocate();
 }
 
 Unk_7102519378* LocationalLightMgr::sub_7100F1379C() {
-    return mRecordPools[4].allocate();
+    return mRecordPool4.allocate();
 }
 
 Unk_7102519378* LocationalLightMgr::sub_7100F13828() {
-    return mRecordPools[5].allocate();
+    return mRecordPool5.allocate();
 }
 
 Unk_7102519378* LocationalLightMgr::sub_7100F138B4() {
-    return mRecordPools[6].allocate();
+    return mRecordPool6.allocate();
 }
 
 Unk_7102519378* LocationalLightMgr::sub_7100F13940() {
-    return mRecordPools[7].allocate();
+    return mRecordPool7.allocate();
 }
 
 Unk_7102519378* LocationalLightMgr::sub_7100F139CC() {
-    return mRecordPools[8].allocate();
+    return mRecordPool8.allocate();
 }
 
 // 0x7100f13a58: returns a record to the pool that owns its type. The record's type tag (vtable
@@ -196,54 +221,54 @@ bool LocationalLightMgr::sub_7100F13A58(Unk_7102519378* record) {
     case 0:
         if (!sead::IsDerivedFrom<Unk_71025193e8>(record))
             return false;
-        return mRecordPools[0].release(record);
+        return mRecordPool0.release(static_cast<Unk_71025193e8*>(record));
     case 1:
         if (!sead::IsDerivedFrom<Unk_7102519460>(record))
             return false;
-        return mRecordPools[1].release(record);
+        return mRecordPool1.release(static_cast<Unk_7102519460*>(record));
     case 2:
         if (!sead::IsDerivedFrom<Unk_71025194d0>(record))
             return false;
-        return mRecordPools[2].release(record);
+        return mRecordPool2.release(static_cast<Unk_71025194d0*>(record));
     case 3:
         if (!sead::IsDerivedFrom<Unk_7102519540>(record))
             return false;
-        return mRecordPools[3].release(record);
+        return mRecordPool3.release(static_cast<Unk_7102519540*>(record));
     case 4:
         if (!sead::IsDerivedFrom<Unk_71025195b0>(record))
             return false;
-        return mRecordPools[4].release(record);
+        return mRecordPool4.release(static_cast<Unk_71025195b0*>(record));
     case 5:
         if (!sead::IsDerivedFrom<Unk_7102519620>(record))
             return false;
-        return mRecordPools[5].release(record);
+        return mRecordPool5.release(static_cast<Unk_7102519620*>(record));
     case 6:
         if (!sead::IsDerivedFrom<Unk_7102519690>(record))
             return false;
-        return mRecordPools[6].release(record);
+        return mRecordPool6.release(static_cast<Unk_7102519690*>(record));
     case 7:
         if (!sead::IsDerivedFrom<Unk_7102519708>(record))
             return false;
-        return mRecordPools[7].release(record);
+        return mRecordPool7.release(static_cast<Unk_7102519708*>(record));
     case 8:
         if (!sead::IsDerivedFrom<Unk_7102519778>(record))
             return false;
-        return mRecordPools[8].release(record);
+        return mRecordPool8.release(static_cast<Unk_7102519778*>(record));
     }
     return false;
 }
 
 bool LocationalLightMgr::sub_7100F13368(ObjectLight* light) {
     static_assert(offsetof(LocationalLightMgr, mRigLightPool) == 0x458);
-    static_assert(offsetof(LocationalLightMgr, mObjectLightCS) == 0x4c8);
+    static_assert(offsetof(LocationalLightMgr, mObjectPool) == 0x4c8);
     if (light)
         light->detachObject();
-    auto lock = sead::makeScopedLock(mObjectLightCS);
+    auto lock = sead::makeScopedLock(mObjectPool.mCS);
     s32 index = 0;
-    for (auto& active : mActiveObjectLights) {
+    for (auto& active : mObjectPool.mActiveLights) {
         if (&active == light) {
-            mActiveObjectLights.erase(index);
-            mFreeObjectLights.pushBack(light);
+            mObjectPool.mActiveLights.erase(index);
+            mObjectPool.mFreeLights.pushBack(light);
             return true;
         }
         ++index;
@@ -255,15 +280,15 @@ void LocationalLightMgr::sub_7100F13420(gsys::ModelUnit* unit) {
     auto lock = sead::makeScopedLock(mCS);
     if (!unit)
         return;
-    auto light_lock = sead::makeScopedLock(mObjectLightCS);
+    auto light_lock = sead::makeScopedLock(mObjectPool.mCS);
     auto* placement_mgr = map::PlacementMgr::instance();
-    auto end = mActiveObjectLights.end();
-    for (auto it = mActiveObjectLights.begin(); it != end;) {
+    auto end = mObjectPool.mActiveLights.end();
+    for (auto it = mObjectPool.mActiveLights.begin(); it != end;) {
         auto* object = it->mObject;
         if (placement_mgr->mPlacementActors->mActorData[object->getActorDataIdx()]._10 == unit) {
             sub_7100F0EC30(object);
-            it = mActiveObjectLights.begin();
-            end = mActiveObjectLights.end();
+            it = mObjectPool.mActiveLights.begin();
+            end = mObjectPool.mActiveLights.end();
         } else {
             ++it;
         }
@@ -272,13 +297,13 @@ void LocationalLightMgr::sub_7100F13420(gsys::ModelUnit* unit) {
 
 void LocationalLightMgr::sub_7100F134E8(map::Object* first, map::Object* last) {
     auto lock = sead::makeScopedLock(mCS);
-    auto end = mActiveObjectLights.end();
-    for (auto it = mActiveObjectLights.begin(); it != end;) {
+    auto end = mObjectPool.mActiveLights.end();
+    for (auto it = mObjectPool.mActiveLights.begin(); it != end;) {
         auto* object = it->mObject;
         if (object > first && object < last) {
             sub_7100F0EC30(object);
-            it = mActiveObjectLights.begin();
-            end = mActiveObjectLights.end();
+            it = mObjectPool.mActiveLights.begin();
+            end = mObjectPool.mActiveLights.end();
         } else {
             ++it;
         }

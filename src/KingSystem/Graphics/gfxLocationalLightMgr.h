@@ -14,6 +14,14 @@ namespace ksys::map { class Object; }
 namespace ksys::eft { class MothEffectEmitter; }
 class Unk_7102519378;
 class Unk_71025193e8;
+class Unk_7102519460;
+class Unk_71025194d0;
+class Unk_7102519540;
+class Unk_71025195b0;
+class Unk_7102519620;
+class Unk_7102519690;
+class Unk_7102519708;
+class Unk_7102519778;
 class Unk_71025197e8;
 
 namespace ksys::gfx {
@@ -124,19 +132,23 @@ public:
     // 0x7101298558) test bit 13 of the manager flags at +0x60.
     bool testFlag2000() const { return _60 & 0x2000; }
 
-    // 0x7100f1356c / 0x7100f135f8: the nine identical record pools at +0x68..+0x3e8.
-    // Each one stores 0x130-byte render-light records and returns them through init().
-    class RecordLightPool {
+    // The locked pool of light records: a CriticalSection, the record buffer and the free / active
+    // pointer arrays. The original is one template with a pool per record class; its init
+    // (0x7100f0c008 .. 0x7100f0cc28) allocates the records and fills the free list, allocate
+    // (0x7100f1356c ..) pops one to the active list and release returns it.
+    template <typename T>
+    class LightPool {
     public:
-        Unk_7102519378* allocate();
-        bool release(Unk_7102519378* light);
+        void init(s32 capacity, sead::Heap* heap);
+        T* allocate();
+        bool release(T* light);
 
         sead::CriticalSection mCS;
-        sead::Buffer<Unk_71025193e8> mLights;
-        sead::PtrArray<Unk_7102519378> mFreeLights;
-        sead::PtrArray<Unk_7102519378> mActiveLights;
+        sead::Buffer<T> mLights;
+        sead::PtrArray<T> mFreeLights;
+        sead::PtrArray<T> mActiveLights;
     };
-    KSYS_CHECK_SIZE_NX150(RecordLightPool, 0x70);
+    KSYS_CHECK_SIZE_NX150(LightPool<Unk_71025193e8>, 0x70);
 
 private:
     sead::CriticalSection mCS;
@@ -146,12 +158,17 @@ private:
     // Ctor initialises this word to 0x1ff00000.
     u32 _60;
     u8 _64[4];
-    RecordLightPool mRecordPools[9];
+    LightPool<Unk_71025193e8> mRecordPool0;
+    LightPool<Unk_7102519460> mRecordPool1;
+    LightPool<Unk_71025194d0> mRecordPool2;
+    LightPool<Unk_7102519540> mRecordPool3;
+    LightPool<Unk_71025195b0> mRecordPool4;
+    LightPool<Unk_7102519620> mRecordPool5;
+    LightPool<Unk_7102519690> mRecordPool6;
+    LightPool<Unk_7102519708> mRecordPool7;
+    LightPool<Unk_7102519778> mRecordPool8;
     RigLightPool mRigLightPool;
-    sead::CriticalSection mObjectLightCS;
-    sead::Buffer<ObjectLight> mObjectLights;
-    sead::PtrArray<ObjectLight> mFreeObjectLights;
-    sead::PtrArray<ObjectLight> mActiveObjectLights;
+    LightPool<ObjectLight> mObjectPool;
     RenderLightPool mRenderLightPool;
     u8 _5a8[0x18d8 - 0x5a8];
 };

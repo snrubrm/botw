@@ -1486,6 +1486,9 @@ KSYS_CHECK_SIZE_NX150(Unk_71025194d0, 0x120);
 class Unk_7102519540 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_7102519540, Unk_7102519378)
 public:
+    // The real constructor 0x71012983b4 is not decompiled yet; this declaration only makes the
+    // pool's array new call it out of line.
+    Unk_7102519540();
     ~Unk_7102519540() override;
     // Stores the colour divided by its luminance (alpha kept) and returns the luminance.
     f32 setColor(const sead::Color4f& color);
@@ -1524,6 +1527,9 @@ KSYS_CHECK_SIZE_NX150(Unk_7102519540, 0x120);
 class Unk_71025195b0 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_71025195b0, Unk_7102519378)
 public:
+    // The real constructor 0x71012993c0 is not decompiled yet; this declaration only makes the
+    // pool's array new call it out of line.
+    Unk_71025195b0();
     ~Unk_71025195b0() override;
     // Stores the colour divided by its luminance (alpha kept) and returns the luminance.
     f32 setColor(const sead::Color4f& color);
@@ -1548,9 +1554,11 @@ private:
     sead::Color4f mColor;
     f32 _100;
     f32 _104;
-    u8 _108[0x158 - 0x108];
+    // The pool's array new uses sizeof(this) = 0x188 (0x7100f0c4e4), so the last 0x30 bytes are
+    // modelled as an unknown gap.
+    u8 _108[0x188 - 0x108];
 };
-KSYS_CHECK_SIZE_NX150(Unk_71025195b0, 0x158);
+KSYS_CHECK_SIZE_NX150(Unk_71025195b0, 0x188);
 
 // vtable 0x7102519620 (12 slots); placeholder generated from the vtable (genskel.py).
 class Unk_7102519620 : public Unk_7102519378 {
@@ -1635,6 +1643,9 @@ private:
 class Unk_7102519708 : public Unk_7102519378 {
     SEAD_RTTI_OVERRIDE(Unk_7102519708, Unk_7102519378)
 public:
+    // The real constructor 0x710129b774 is not decompiled yet; this declaration only makes the
+    // pool's array new call it out of line.
+    Unk_7102519708();
     ~Unk_7102519708() override;
     // Stores the colour divided by its luminance (black if the luminance is not positive; alpha
     // kept) and returns the luminance (at least 0).
