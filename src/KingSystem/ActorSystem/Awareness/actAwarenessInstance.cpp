@@ -32,6 +32,22 @@ void AwarenessInstance::disable() {
     }
 }
 
+// NON_MATCHING: the two flag index stack slots are swapped (target: the EventActive index at sp+8 and the
+// Paused one at sp+0xc; ours the other way round).
+// 0x7100d7c900 (placeholder name): nothing while Awareness is paused or in an event; otherwise the
+// sensor update (0x7100d7c978) and the cached transforms (sub_7100D7CF20).
+void AwarenessInstance::sub_7100D7C900() {
+    auto* awareness = Awareness::instance();
+    if (!awareness)
+        return;
+    if (awareness->checkFlag(Awareness::Flag::EventActive))
+        return;
+    if (awareness->checkFlag(Awareness::Flag::Paused))
+        return;
+    sub_7100D7C978();
+    sub_7100D7CF20();
+}
+
 bool AwarenessInstance::enable() {
     if (!((_260[0] && _260[0]->_50) || (_260[1] && _260[1]->_50) || (_260[2] && _260[2]->_50) ||
           (_260[3] && _260[3]->_50) || _337)) {

@@ -504,6 +504,11 @@ public:
     void sleep();
     void disable();
     bool enable();
+    // 0x7100d7c900 (placeholder name): nothing while Awareness is paused or in an event; otherwise the
+    // sensor update (0x7100d7c978) and the cached transforms (sub_7100D7CF20).
+    void sub_7100D7C900();
+    // 0x7100d7c978 (placeholder name, 1448 B): the sensor update sub_7100D7C900 runs.
+    void sub_7100D7C978();
     // 0x7100d7c494: _2f8 = max(the largest `sensor->m14() * sensor->_4c` (at least 0), _2f4).
     void sub_7100D7C494();
     void sub_7100D7EBE0(f32 value);
