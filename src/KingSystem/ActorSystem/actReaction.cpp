@@ -1099,26 +1099,26 @@ Reaction::Unk1::~Unk1() {
     }
 }
 
-// NON_MATCHING: clang folds the lower-bound test to a single fmax; the original keeps the ordered
-// fcmp / fcsel pair (and schedules the first bit-set before it). Same values.
 // 0x7100ec88f8 (placeholder name): the hit-volume scale of the event; the value is shifted by
 // -0.2 and scaled down, squared and floored, before it is applied as the event's volume scale.
+// The scale and the volume floor both depend on `flag`.
 void Reaction::Unk1::sub_7100EC88F8(f32 value, xlink2::HandleSLink* handle, bool flag) {
     if (!handle->isActive())
         return;
 
     value -= 0.2f;
     f32 volume;
+    f32 min_volume;
     if (flag) {
         volume = sead::Mathf::clamp(value * 0.125f, 0.0f, 1.0f);
         volume = volume * volume;
-        volume = volume < 0.2f ? 0.2f : volume;
+        min_volume = 0.2f;
     } else {
         volume = sead::Mathf::clamp(value * 0.25f, 0.0f, 1.0f);
         volume = volume * volume;
-        volume = volume < 0.4f ? 0.4f : volume;
+        min_volume = 0.4f;
     }
-    handle->setVolumeScale(volume);
+    handle->setVolumeScale(sead::Mathf::clampMin(volume, min_volume));
 }
 
 }  // namespace ksys::act
