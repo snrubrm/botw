@@ -6047,7 +6047,7 @@ public:
     /* 0x11900 */ bool _11900;
     u8 _11901[0x11918 - 0x11901];
     /* 0x11918 */ eui::Animator* _11918;
-    u8 _11920[0x11930 - 0x11920];
+    /* 0x11920 */ xlink2::HandleSLink _11920;  // the map cursor movement sound (mc_CursorMove)
     /* 0x11930 */ bool _11930;
     u8 _11931[0x11938 - 0x11931];
 

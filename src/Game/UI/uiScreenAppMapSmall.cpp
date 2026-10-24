@@ -1522,6 +1522,19 @@ void ScreenAppMapDungeon::sub_71009E30D4() {
     UiSubsys1::instance()->copy38d8To38d9();
 }
 
+// 0x71009e3258 (placeholder name): re-emits or fades the map cursor movement sound depending on the DAC state.
+void ScreenAppMapDungeon::sub_71009E3258() {
+    if (Unk_71025d6550::instance()->getDAC()) {
+        if (_11920.isActive())
+            return;
+        _11920 = static_cast<eui::SoundLink2User*>(_f0)->searchAndEmit("mc_CursorMove");
+        return;
+    }
+    if (!_11920.isActive())
+        return;
+    _11920.fade();
+}
+
 // 0x71009e34d0
 // NON_MATCHING: the sensor child load for the null test lands in x8 where the original uses x0 (regalloc).
 void ScreenAppMapDungeon::sub_71009E34D0() {
