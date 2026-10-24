@@ -30,6 +30,39 @@ void ModelRenderCache::setForceBlendColor(const sead::Color4f& color) {
     mForceBlendColor.a = color.a;
 }
 
+// 0x7100c803f4
+ModelRenderCache::~ModelRenderCache() {
+    if (mOcclusionQuery) {
+        nvnCommandBufferSetRenderEnable(
+            mDrawContext->getCommandBuffer()->ToData()->pNvnCommandBuffer, true);
+        mOcclusionQuery = nullptr;
+    }
+}
+
+// 0x7100c80438
+void ModelRenderCache::loadOcclusionQuery(const agl::cull::OcclusionQuery* query) {
+    if (mOcclusionQuery == query)
+        return;
+
+    if (mOcclusionQuery) {
+        nvnCommandBufferSetRenderEnable(
+            mDrawContext->getCommandBuffer()->ToData()->pNvnCommandBuffer, true);
+    }
+
+    if (query) {
+        if (sead::BitFlag16(sead::BitFlag16::makeMask(mViewIndex)).isOn(query->getViewMask())) {
+            nvnCommandBufferSetRenderEnableConditional(
+                mDrawContext->getCommandBuffer()->ToData()->pNvnCommandBuffer,
+                NVN_CONDITIONAL_RENDER_MODE_RENDER_IF_NOT_EQUAL,
+                nvnBufferGetAddress(&query->getBuffer()) + (query->getIndex() << 5));
+        } else {
+            query = nullptr;
+        }
+    }
+
+    mOcclusionQuery = query;
+}
+
 // 0x7100c80574: releases the occlusion query and returns the render state to its defaults.
 // NON_MATCHING: one redundant u8 mask (and w8, w10, #0xff) before the polygon-mode table is
 // missing, and the +0x40 store is scheduled after the +0x1b0 pair.

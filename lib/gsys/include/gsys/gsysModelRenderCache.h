@@ -33,6 +33,8 @@ public:
     void setChannelMask(u32 mask);
     void setPassViewProjIndex(int index);
     void setForceBlendColor(const sead::Color4f& color);
+    // 0x7100c80438
+    void loadOcclusionQuery(const agl::cull::OcclusionQuery* query);
     // 0x7100c80574: returns the cache to its default render state.
     void reset();
 
@@ -72,7 +74,7 @@ private:
     u8 _188[0x18c - 0x188];
     sead::Color4f mForceBlendColor;
     u8 _19c[0x1a0 - 0x19c];
-    agl::cull::OcclusionQuery* mOcclusionQuery;
+    const agl::cull::OcclusionQuery* mOcclusionQuery;
     u64 _1a8;
     u64 _1b0;
     u64 _1b8;
