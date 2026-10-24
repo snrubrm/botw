@@ -46,6 +46,26 @@ bool ScreenAppPictureBook::sub_71009F8284() const {
     return _3628 && _3628->mFrame != 0.0f;
 }
 
+// 0x71009f82a4 (placeholder name): whether the picture book may show its state.
+bool ScreenAppPictureBook::sub_71009F82A4() const {
+    if (sead::IsDerivedFrom<ScreenAppSystemWindow>(eui::ScreenMgr::instance()->getScreen(0x3e)))
+        return false;
+    const s32 mode = sUnk_71025eb5b8;
+    if (mode == 2) {
+        if (sUnk_71025eb850)
+            return false;
+    }
+    if (mode == 3)
+        return false;
+    if (mode == 1) {
+        if (sUnk_71025eb850)
+            return false;
+    }
+    if (_3628 && _3628->mRate != 0.0f)
+        return false;
+    return true;
+}
+
 // 0x71009f8398: false when the picture book already is in the app state's state; otherwise the app
 // screen mode decides (modes 1 and 2 follow the screen's flag, mode 3 is always false).
 // NON_MATCHING: same instructions; our compiler lays out the final return true / return false blocks

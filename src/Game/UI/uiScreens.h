@@ -4230,6 +4230,9 @@ public:
     bool sub_71009F8284() const;
     // 0x71009f8398 (placeholder name): whether the app screen mode wants the picture book's state shown
     bool sub_71009F8398() const;
+    // 0x71009f82a4 (placeholder name): whether the picture book may show its state: no system window, the app
+    // screen mode does not forbid it and the frame animator is at its start
+    bool sub_71009F82A4() const;
     // 0x71009f8dfc: runs the two layout setup steps below
     void m92(sead::Heap* heap) override;
     // 0x71009f9bb8: keeps the two panes at the negated root pane position, then updates the screen and its states
