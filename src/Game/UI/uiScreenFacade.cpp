@@ -311,7 +311,7 @@ bool sub_7100A94E08() {
     auto* screen = sead::DynamicCast<ScreenMainScreen3D>(eui::ScreenMgr::instance()->getScreen(ScreenId::MainScreen3D));
     if (!screen)
         return false;
-    return screen->_4010 || screen->_4090._b0;
+    return screen->_3f60._b0 || screen->_4090._b0;
 }
 
 // 0x7100a9a21c

@@ -166,6 +166,18 @@ void sub_7100A94B90() {
         s->_49 = 1;
 }
 
+// 0x7100a94c74
+void sub_7100A94C74(bool a, bool b) {
+    auto* screen = sead::DynamicCast<ScreenMainScreen3D>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::MainScreen3D));
+    if (!screen)
+        return;
+    if (a)
+        screen->_3f60.sub_71009470CC(b);
+    else
+        screen->_3f60.sub_7100947188(b);
+}
+
 // 0x7100a9b584
 void sub_7100A9B584(const sead::Vector3f* a0) {
     if (auto* s = Unk_71025d6550::instance())
