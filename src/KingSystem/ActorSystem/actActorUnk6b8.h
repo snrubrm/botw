@@ -30,6 +30,10 @@ public:
     void sub_7100EBBCE4(bool on);
     // 0x7100ebbd04 (placeholder name): sets the byte at +0x90 to 10.
     void sub_7100EBBD04();
+    // 0x7100ebcabc: emits the ragdoll landing voice of `actor` and returns whether the actor is
+    // dead (its life value is zero). The voice is suppressed for some reaction kinds when the
+    // actor's effect link has the flag at _cc bit 1.
+    bool sub_7100EBCABC(Actor* actor);
 
     // 0x7100ebe92c (declared only; placeholder name): emits the extra slide/land reaction sound
     // (asset "ReactionSlideAdditional") with the extra volume/pitch scales.

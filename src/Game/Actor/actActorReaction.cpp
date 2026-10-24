@@ -311,6 +311,34 @@ void ActorUnk6b8::sub_7100EBD7DC(const sead::Vector3f& velocity, const sead::Vec
     _88 |= 0x10;
 }
 
+// NON_MATCHING: the original masks the bit-table index (`(kind & 0x7ff)`) and keeps the two tests
+// in w20 without the extra int-to-bool conversion; the values are the same. The two discarded
+// searchAndEmitSLink handle temporaries also share one stack slot there, ours use two.
+// 0x7100ebcabc: emits the ragdoll landing voice of `actor` and returns whether the actor is dead
+// (its life value is zero). The voice is suppressed for some reaction kinds when the actor's
+// effect link has the flag at _cc bit 1 and property 22 is not one of the allowed kinds.
+bool ActorUnk6b8::sub_7100EBCABC(Actor* actor) {
+    bool can_emit = true;
+    if (auto* xlink = _8->getXLink()) {
+        if (auto* user = xlink->_50) {
+            if (xlink->_cc.isOnBit(1)) {
+                const s32 value = user->getPropertyValue(22).valueInt;
+                const u32 kind = u32(value - 3);
+                can_emit = (kind > 10) | (((0x76 >> kind) & 1) != 0);
+            }
+        }
+    }
+
+    if (!actor->getLife() || *actor->getLife() != 0) {
+        if (can_emit)
+            eft::searchAndEmitSLink(actor, "VoiceRagdollLand", false);
+        return false;
+    }
+    if (can_emit)
+        eft::searchAndEmitSLink(actor, "VoiceRagdollLandDead", false);
+    return true;
+}
+
 // NON_MATCHING: the original build leaves the second argument of
 // snd::InfoData::getReactionSettingLandType unset (dead-argument elimination), so its outgoing
 // argument area is 0x18 smaller and every local sits 0x18 lower; the original also reads the
