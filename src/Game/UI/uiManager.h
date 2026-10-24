@@ -206,6 +206,8 @@ public:
     bool sub_7100A7B92C(s32 id);
     // 0x7100a7041c (CSV uiManager::loadStaticInfo, 5.8 KB; declaration only)
     void loadStaticInfo(sead::Heap* heap);
+    // 0x7100a7f5e0 (placeholder name): the main-field area mask of mMainFieldAreaMasks entry `index`
+    u16 sub_7100A7F5E0(s32 index) const;
 
     // inline-only in the original; name is a guess. The same test is inlined at the start of
     // 14 functions (the GanonBeast actor "rain" update 0x7100710938, GameSceneSubsys14::postCalc,

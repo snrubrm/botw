@@ -45,6 +45,9 @@
 
 namespace uking::ui {
 
+// 0x71025f59f0: the empty main-field area mask returned for a missing list entry.
+static u16 sUnk_71025F59F0;
+
 // The manager's static screen load / unload lists (native 0x71025f5f90; each list is a sead::Buffer of 12-byte
 // entries whose first word is the ScreenId). The manager destructor unloads these lists.
 namespace {
@@ -478,6 +481,13 @@ void Manager::sub_7100A7F890() {
     if (_651c4)
         _651ac.reset();
     _651c4 = true;
+}
+
+// 0x7100a7f5e0 (placeholder name): the main-field area mask of mMainFieldAreaMasks entry `index` (an empty
+// mask when the entry does not exist)
+u16 Manager::sub_7100A7F5E0(s32 index) const {
+    const MainFieldAreaMask* mask = mMainFieldAreaMasks.nth(index);
+    return mask == nullptr ? sUnk_71025F59F0 : mask->mMask;
 }
 
 // 0x7100a7f8d4
