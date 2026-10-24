@@ -53,6 +53,7 @@
 #include "KingSystem/Utils/Thread/ActorMessageTransceiver.h"
 
 namespace eui {
+class AlignPane;
 class Animator;
 class CapturePane;
 class PartsEx;
@@ -389,6 +390,8 @@ class Unk_710247a028;  // defined below, after ScreenButton_7100989968
 class Unk_710247ca18 : public ScreenChildEx {
 public:
     explicit Unk_710247ca18(eui::LayoutEx* layout);
+    // 0x71009c2100: creates the Equip / ItemParamNum animators and binds the three parameter layouts
+    void m24(sead::Heap* heap) override;
     // 0x71009c28d0: stops _130 at its start and _138 at frame 0
     void sub_71009C28D0();
     // 0x71009c20f0: sets the gauge _170 and clears its byte at 0x6c

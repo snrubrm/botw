@@ -25,6 +25,7 @@ class Heap;
 }
 
 namespace eui {
+class AlignPane;
 class UniteButton;
 class Screen;
 class Animator;
@@ -547,7 +548,7 @@ public:
     void sub_71009B2010();
 
     /* 0x08 */ eui::LayoutEx* mLayout = nullptr;
-    /* 0x10 */ void* _10 = nullptr;
+    /* 0x10 */ eui::AlignPane* _10 = nullptr;
     /* 0x18 */ void* _18 = nullptr;
     /* 0x20 */ void* _20 = nullptr;
     /* 0x28 */ sead::Buffer<Unk_71024774c8> mIcons;

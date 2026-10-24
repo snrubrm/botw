@@ -17,6 +17,20 @@ namespace uking::ui {
 // 0x71009c1edc
 Unk_710247ca18::Unk_710247ca18(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 
+// 0x71009c2100
+void Unk_710247ca18::m24(sead::Heap* heap) {
+    _130 = mLayout->createAnimatorAuto("Equip", true);
+    if (_130)
+        _130->StopAtMin();
+    _138 = mLayout->createAnimatorAuto("ItemParamNum", true);
+    if (_138)
+        _138->StopAtMin();
+    _140.sub_71009B205C(mLayout->findPartsLayout("Pa_ParamNum_00"));
+    _178.sub_71009B252C(mLayout->findPartsLayout("Pa_ParamSp_00"));
+    _1b0.sub_71009B1B74(mLayout->findPartsLayout("Pa_ParamCookSp_00"), heap);
+    _1b0._10 = sub_71009B0B44(mLayout, "N_Align_01");
+}
+
 // 0x71009c20f0
 void Unk_710247ca18::sub_71009C20F0(eui::TraceGaugeControl* gauge) {
     _170 = gauge;
