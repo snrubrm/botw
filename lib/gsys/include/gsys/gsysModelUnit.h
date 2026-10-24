@@ -279,6 +279,17 @@ public:
     s8 getUnkIndex() const { return mUnkIndex; }
     void setUnkIndex(s8 index) { mUnkIndex = index; }
 
+    // The record at +0x88 that ksys::gfx 0x7100f1d638 / 0x7100f1d6bc / 0x7100f1c538 write and
+    // read: a pair of floats at +0x38 / +0x3c and a flag word at +0x40 (bit 0 is set by both
+    // setters before the record is applied). The remaining fields are not modelled.
+    struct RenderDataMaybe {
+        u8 _0[0x38];
+        f32 mShapeInstanceValue;
+        f32 mShapeInstanceValue2;
+        u32 mFlags;
+    };
+    RenderDataMaybe* getRenderDataMaybe() const { return static_cast<RenderDataMaybe*>(_88); }
+
 protected:
     friend class Model;
 

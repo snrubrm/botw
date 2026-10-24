@@ -8,7 +8,10 @@
 
 namespace agl {
 class DrawContext;
+namespace utl {
+class IParameterIO;
 }
+}  // namespace agl
 
 namespace gsys {
 
@@ -92,6 +95,25 @@ public:
 
     DataSet* getDataSets() const { return mDataSets; }
     void clearImpl(DataSet* data_set, bool free_resource);
+
+    // The 24-byte record returned by getApplyUserBinarySlot 0x7100c29298: the user-binary pointer,
+    // its size and the source-file name string. The native function is an out-of-line 180-byte
+    // helper, so only the shape is recovered here.
+    struct ApplyUserBinarySlotMaybe {
+        const void* mBinary;
+        u32 mSize;
+        u32 _c;
+        const char* mSourceFileName;
+    };
+    static_assert(sizeof(ApplyUserBinarySlotMaybe) == 0x18);
+
+    // 0x7100c29298 (declared only): returns the user binary of the data set `data_set` for the
+    // apply slot `slot`; both fields are cleared when the slot is absent.
+    ApplyUserBinarySlotMaybe getApplyUserBinarySlot(u32 slot, u32 data_set) const;
+    // 0x7100c2546c (declared only): forwards the data set's source-file name to the parameter I/O
+    // helper 0x7100c25494.
+    void setSourceFileName(agl::utl::IParameterIO* io, const sead::SafeString& file_name,
+                           u32 data_set) const;
 
     // Constructor 0x7100c21f8c sets this true; destructor 0x7100c22124 clears it
     // before finalization. load_ 0x7100c29658 and stage unload 0x71007c5d20 pass it to clearImpl.

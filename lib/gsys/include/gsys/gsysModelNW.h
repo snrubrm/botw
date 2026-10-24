@@ -73,6 +73,12 @@ public:
     void setDisplayListDirty();
     void setDisplayListDirty(int shape_idx);
 
+    // 0x7100c03cd0 (declared only): writes the shape instance value through the render-data record
+    // of every shape. The row's mangled name is ModelNW and the body reads ModelNW's own shape
+    // fields (+0x120 / +0x172), so the owner stays ModelNW; ksys::gfx 0x7100f1ef4c calls it on the
+    // map unit's ModelUnit base pointer.
+    void setShapeInstanceValue(f32 value);
+
     // 0x7100f1d514: looks the material name up in the dictionary at ModelUnit+0x60.
     // The native body takes a raw name (it calls strlen on the argument).
     int searchMaterialIndex(const char* material_name) const;
