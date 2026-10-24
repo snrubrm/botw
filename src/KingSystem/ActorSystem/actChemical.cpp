@@ -511,6 +511,24 @@ bool Chemical::sub_7100D913BC(const Chemical& other) {
     return result;
 }
 
+void Chemical::reset(f32 delta_frame) {
+    sub_7100D94750(delta_frame);
+    if (_a0 & 1) {
+        if (_a0 & 2) {
+            _90->_8 = nullptr;
+            _90->_0 = nullptr;
+        } else {
+            std::memset(_88, 0, _80);
+            _a2 = 0xff;
+            _a8 = -std::numeric_limits<f32>::max();
+            _ac = std::numeric_limits<f32>::max();
+            _b0 = std::numeric_limits<f32>::max();
+        }
+    }
+    _a0 = (_a0 & ~3) | 1;
+    _b8 = _90->_10;
+}
+
 void Chemical::sub_7100D944DC() {
     notifyWatch_();
     if (_a0 & 1) {

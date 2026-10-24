@@ -209,6 +209,12 @@ public:
     f32 sub_7100D945AC() const;
     void sub_7100D943F4(f32 value, f32 offset, f32 rate, u8 flags);
     void sub_7100D944DC();
+    // 0x7100d94848: refreshes the temperature state for `delta_frame`, then clears the active
+    // element data and marks the chemical as reset.
+    void reset(f32 delta_frame);
+    // 0x7100d94750 (placeholder name): updates the heat state from the material and the world,
+    // then the heat flags in _bc.
+    void sub_7100D94750(f32 value);
     bool sub_7100D94628(f32 value);
     bool sub_7100D94684(bool force);
     // 2026-10-07: clears the two charge values at 0x1b4 / 0x1b8.
@@ -251,12 +257,17 @@ public:
     /* 0x0a1 */ u8 _a1 = 0;
     /* 0x0a2 */ u8 _a2 = 0xff;
     /* 0x0a4 */ u32 _a4 = 0;
+    // Temperature state used by the main calc (D948D0), not read anywhere else: the calc raises
+    // _a8 to at least the current heat and lowers _ac to at most it, then clamps the integrated
+    // heat to [_ac, _a8] (d96cf0 / d97034); _b0 scales the heat rate (d96ddc). The constructor and
+    // every element reset widen them to -FLT_MAX / +FLT_MAX / +FLT_MAX.
     /* 0x0a8 */ f32 _a8;
     /* 0x0ac */ f32 _ac;
     /* 0x0b0 */ f32 _b0;
     /* 0x0b4 */ u8 _b4[0xb8 - 0xb4];
-    /* 0x0b8 */ u16 _b8 = 0;  // flags (16-bit: BeeSwarmReaction::calc_ reads it with ldrh, mask 0x284)
-    /* 0x0ba */ u8 _ba[0xbc - 0xba]{};
+    // 0x7100d94848 copies the element flags word here; the readers mask out the bits they need,
+    // so they only load a byte or a halfword (e.g. BeeSwarmReaction::calc_ reads mask 0x284).
+    /* 0x0b8 */ u32 _b8 = 0;
     /* 0x0bc */ u16 _bc = 0;  // flags (bit 3: Actor::m50, bit 13: SwitchWindHit::calc_)
     /* 0x0be */ u8 _be = 0;  // flags
     /* 0x0bf */ u8 _bf = 0;  // flags
