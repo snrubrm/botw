@@ -389,6 +389,12 @@ bool sub_71007A4064(s32 type) {
     return type == 2 || type == 3;
 }
 
+// 0x71007a4074: sets the contact layer of the actor's main body when it has one.
+void sub_71007A4074(Actor* actor, ksys::phys::ContactLayer layer) {
+    if (auto* body = sub_7100EE5FE4(actor))
+        body->setContactLayer(layer);
+}
+
 Unk_7102459df8::Unk_710079d5a0::Unk1* sub_71007A40D0(Actor* actor, int idx) {
     auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->m126());
     if (!obj)
