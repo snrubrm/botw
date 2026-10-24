@@ -4,6 +4,7 @@
 #include <g3d/aglNW4FToNN.h>
 #include <nn/g3d/SkeletonObj.h>
 #include <nn/g3d/ResModel.h>
+#include <nn/g3d/ResMaterial.h>
 #include <nn/util/util_ResDic.h>
 
 namespace gsys {
@@ -15,6 +16,16 @@ bool ModelNW::initialize(nn::g3d::ResModel* model, s32 buffer_num, sead::Heap* h
     return initialize(arg, heap);
 }
 
+
+// 0x7100c06dec
+int ModelNW::getMaterialNum() const {
+    return mModelObj.GetNumMaterials();
+}
+
+// 0x7100c06f30
+sead::SafeString ModelNW::getMaterialName(int index) const {
+    return sead::SafeString(mModelObj.GetMaterial(index)->GetResource()->m_pName + 2);
+}
 
 // 0x7100c05248
 void ModelNW::clearTexture(int index) {

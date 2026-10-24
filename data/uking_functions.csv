@@ -69045,9 +69045,9 @@ Address,Quality,Size,Name
 0x0000007100c06d60,U,000084,_ZN4gsys7ModelNW14setBoneVisibleEib
 0x0000007100c06db4,U,000036,gsys::ModelNW::isBoneVisible
 0x0000007100c06dd8,O,000020,_ZN4gsys7ModelNW20clearBoneLocalMatrixEv
-0x0000007100c06dec,U,000008,gsys::ModelNW::getMaterialNum
+0x0000007100c06dec,O,000008,_ZNK4gsys7ModelNW14getMaterialNumEv
 0x0000007100c06df4,U,000316,_ZNK4gsys15CameraAnimation16searchSceneIndexERKN4sead14SafeStringBaseIcEE
-0x0000007100c06f30,U,000040,gsys::ModelNW::getMaterialName
+0x0000007100c06f30,O,000040,_ZNK4gsys7ModelNW15getMaterialNameEi
 0x0000007100c06f58,U,000324,_ZNK4gsys7ModelNW15searchBoneIndexERKN4sead14SafeStringBaseIcEE
 0x0000007100c0709c,U,000052,_ZNK4gsys7ModelNW20getMaterialParamNameEii
 0x0000007100c070d0,U,000052,gsys::ModelNW::getMaterialParamBool
