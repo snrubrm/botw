@@ -10,6 +10,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -324,12 +325,54 @@ void RopeBase::sub_7100ECD620(s32 idx) {
             }
         }
         auto* constraint = _840[idx];
-        if ((_8b0 == constraint && (constraint->_50 & 1)) ||
-            (_8b8 == constraint && (constraint->_50 & 1))) {
+        if ((_8b0[0] == constraint && (constraint->_50 & 1)) ||
+            (_8b0[1] == constraint && (constraint->_50 & 1))) {
             constraint->sub_7100F6A074();
         }
     }
     _840[idx] = nullptr;
+}
+
+// 0x7100ecdc38 (placeholder name): when `body` is the end constraint's first body, hands that
+// constraint the frame position of the body and stores the end position (_900[end]).
+bool RopeBase::sub_7100ECDC38(const BaseProc* proc, phys::RigidBody* body, u32 end,
+                              const sead::Vector3f& position, const sead::Vector3f& direction) {
+    if (!proc || end > 1)
+        return false;
+
+    auto* constraint = _8b0[end];
+    if (!constraint || constraint->x_0(1) != body)
+        return false;
+
+    auto* parent = getConnectedCalcParent();
+    if (!sead::IsDerivedFrom<Actor>(parent))
+        return false;
+    if (parent->getId() != proc->getId())
+        return false;
+
+    auto* mgr = BaseProcMgr::instance();
+    if (mgr->getJobType() != JobType::PreCalc && mState == State::Calc) {
+        if (!mgr->isAccessingProcSafe(this, nullptr))
+            return false;
+    }
+
+    auto* ball = _8b0[end];
+    if (!sead::IsDerivedFrom<phys::BAndSCs>(ball))
+        return false;
+
+    const u32 index = end != 0 ? _930 + 1 : 0;
+    sead::Vector3f first;
+    first.x = _8f0[index].first.m[0][3];
+    first.y = _8f0[index].first.m[1][3];
+    first.z = _8f0[index].first.m[2][3];
+    static_cast<phys::BAndSCs*>(ball)->sub_7100F6B144(first, position);
+    auto& frames = _8f0[index];
+    frames.second.m[0][3] = position.x;
+    frames.second.m[1][3] = position.y;
+    frames.second.m[2][3] = position.z;
+
+    _900[end] = direction * _93c + position;
+    return true;
 }
 
 // NON_MATCHING: equivalent initial loop-bound comparisons differ.
@@ -338,10 +381,10 @@ void RopeBase::sub_7100ECDE98() {
         if (_840[i])
             _840[i]->sub_7100F6A074();
     }
-    if (_8b0)
-        _8b0->sub_7100F6A074();
-    if (_8b8)
-        _8b8->sub_7100F6A074();
+    if (_8b0[0])
+        _8b0[0]->sub_7100F6A074();
+    if (_8b0[1])
+        _8b0[1]->sub_7100F6A074();
     for (s32 i = 0; i < _92c; ++i) {
         if (_860[i])
             _860[i]->removeFromWorld();
@@ -367,15 +410,15 @@ void RopeBase::onEnterSleep_() {
         if (i == 0 || i == _928 - 1)
             _840[i] = nullptr;
     }
-    if (_8b0) {
-        _8b0->sub_7100F6A21C();
-        phys::Constraint::destroy(_8b0);
-        _8b0 = nullptr;
+    if (_8b0[0]) {
+        _8b0[0]->sub_7100F6A21C();
+        phys::Constraint::destroy(_8b0[0]);
+        _8b0[0] = nullptr;
     }
-    if (_8b8) {
-        _8b8->sub_7100F6A21C();
-        phys::Constraint::destroy(_8b8);
-        _8b8 = nullptr;
+    if (_8b0[1]) {
+        _8b0[1]->sub_7100F6A21C();
+        phys::Constraint::destroy(_8b0[1]);
+        _8b0[1] = nullptr;
     }
     resetConnectedCalcParent(false);
 }

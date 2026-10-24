@@ -85,6 +85,10 @@ public:
     // 0x7100ecd4b0 (placeholder name): cuts the rope at _9ec (constraints past it, bodies to the
     // spare lists, chemicals restarted).
     void sub_7100ECD4B0();
+    // 0x7100ecdc38 (placeholder name): hands one rope end constraint the frame position of its
+    // rigid body and stores the end position.
+    bool sub_7100ECDC38(const BaseProc* proc, phys::RigidBody* body, u32 end,
+                        const sead::Vector3f& position, const sead::Vector3f& direction);
     // Filled by sub_7100ED2C24 for one end constraint of the rope (0x7100ecdab8 does both ends).
     struct EndState {
         f32 _0 = 0;  // _950, or the attached body's mass times a constant
@@ -146,8 +150,7 @@ protected:
     sead::Buffer<phys::RigidBody*> _890;
     u8 _8a0[0x8b0 - 0x8a0];
     // The constraints attaching the rope ends (0x7100ecd620 switches them off with their segment).
-    phys::Constraint* _8b0;
-    phys::Constraint* _8b8;
+    phys::Constraint* _8b0[2];
     BaseProcLink _8c0[2];
     u8 _8e0[0x8f0 - 0x8e0];
     struct ConstraintFrames {
@@ -156,7 +159,9 @@ protected:
     };
     // Native scale update reads each pair at a 0x60-byte stride.
     sead::Buffer<ConstraintFrames> _8f0;
-    u8 _900[0x928 - 0x900];
+    // The rope end positions (one per end), built by sub_7100ECDC38.
+    sead::Vector3f _900[2];
+    u8 _918[0x928 - 0x918];
     s32 _928;  // number of constraint entries (the last index is an end segment)
     s32 _92c;
     s32 _930;
