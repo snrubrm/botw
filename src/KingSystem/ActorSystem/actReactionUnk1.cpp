@@ -1,16 +1,25 @@
 #include "KingSystem/ActorSystem/actReaction.h"
 #include <basis/seadNew.h>
 #include <prim/seadSafeString.h>
+#include <aal/aalHandle.h>
+#include <aal/aalSoundSource.h>
+#include <aal/aalSpatialSetting.h>
+#include <xlink2/xlink2AssetExecutorSLink.h>
+#include <xlink2/xlink2EventSLink.h>
 #include <xlink2/xlink2Locator.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorX6A0.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actReactionSLinkLimiter.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Physics/physMaterialMask.h"
 #include "KingSystem/System/StageInfo.h"
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldWeatherMgr.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/XLink/xlinkManager.h"
 #include "KingSystem/XLink/xlinkXLink.h"
@@ -31,6 +40,13 @@ const char* const sReactionLabels[] = {
     "Default",        "PlayerHit",     "EnemyHit",       "Guard",     "PlayerGuardJust",
     "EnemyGuardJust", "ArrowHit",      "ArrowDamage",    "HorseStep", "HorseWildStep",
     "Woodcutter",     "Land",          "PlayerFootStep", "TreeSplit", "OreHit",
+};
+
+// 0x71024f0290: the water-out asset names, indexed by the water-out kind (0-2).
+const char* const sReactionWaterOutNames[] = {
+    "ReactionWaterOut",
+    "ReactionWaterExit",
+    "ReactionWaterOut",
 };
 }  // namespace
 
@@ -713,6 +729,213 @@ void Reaction::Unk1::sub_7100EC4594(DamageReactionRequest* request) {
         break;
     }
     }
+}
+
+// NON_MATCHING: the original tests the property array pointer at user+0x70 against -20
+// (cmn x8, #0x14); the natural property-value check also loads the value.
+// 0x7100ec696c: emits the puddle-hit reaction for `actor` and writes the hit position into the
+// event. The actor's own SLink user is used when it has the asset; otherwise the reaction falls
+// back to the second actor's user. Property 7 is 1.0 for stone bottoms and the weather wetness
+// otherwise.
+bool Reaction::Unk1::sub_7100EC696C(f32 speed, Actor* actor, const sead::Vector3f& position,
+                                    bool stone_bottom, bool flag) {
+    if (!actor)
+        return false;
+    auto* reaction = Reaction::instance();
+    if (!reaction)
+        return false;
+    if (actor->get4f8() > 0.0f)
+        return false;
+    if (!flag)
+        return false;
+
+    f32 wetness;
+    auto* xlink = actor->getXLink();
+    if (xlink && xlink->_50 && xlink->_50->getPropertyValue(0).valueInt != -20) {
+        if (!stone_bottom)
+            return false;
+        wetness = 1.0f;
+    } else if (stone_bottom) {
+        wetness = 1.0f;
+    } else {
+        if (actor->_6a0->_10._8 & 8)
+            return false;
+        wetness = world::Manager::instance()->getWeatherMgrUnchecked()->mTransition._2d0;
+        if (wetness < 0.1f)
+            return false;
+    }
+
+    const s32 is_player = isPlayerProfile(actor);
+    if (mSLinkLimiter) {
+        s32 list_type = 6;
+        if (is_player)
+            list_type = 7;
+        if (!mSLinkLimiter->sub_7100EC9D84(list_type, position, false))
+            return false;
+    }
+
+    xlink2::HandleSLink handle;
+    if (auto* xlink = actor->getXLink()) {
+        if (auto* user = xlink->_50) {
+            user->setPropertyValue(4, speed);
+            handle = user->searchAndEmit("ReactionWaterHitPuddle");
+        }
+    }
+
+    if (!handle.isActive()) {
+        auto* xlink = _8->getXLink();
+        if (!xlink || !xlink->_50)
+            return false;
+        auto* user = xlink->_50;
+        if (!actor->getPhysicsMainBody())
+            return false;
+        bool is_long;
+        const s32 size = reaction->sub_7100EC2278(actor, &is_long);
+        user->setPropertyValue(6, size);
+        user->setPropertyValue(4, speed);
+        user->setPropertyValue(7, wetness);
+        handle = user->searchAndEmit("ReactionWaterHitPuddle");
+    }
+
+    if (handle.isActive()) {
+        handle.setPosition(position);
+        eft::sub_710105E114(&handle, actor);
+    }
+    if (!handle.isActive())
+        return false;
+    if (mSLinkLimiter) {
+        if (is_player)
+            mSLinkLimiter->sub_7100ECA2A0(7, position, handle);
+        else
+            mSLinkLimiter->sub_7100ECA2A0(6, position, handle);
+    }
+    return true;
+}
+
+// NON_MATCHING: the Locator store order and the SLink Manager instance load are scheduled
+// differently (two instruction groups).
+// 0x7100ec8c30: the "OutCarryBoxLand" reaction of a carried box that lands. Casts a short ray
+// down from the actor, applies the material properties to the SLink user and forwards the hit to
+// the puddle reaction and, for GrudgeSlow, the size-scaled reaction.
+bool Reaction::Unk1::sub_7100EC8C30(Actor* actor) {
+    if (!actor)
+        return false;
+
+    xlink2::Locator locator;
+    auto* xlink = actor->getXLink();
+    if (!xlink)
+        return false;
+    auto* user = xlink->_50;
+    if (!user)
+        return false;
+    if (!user->searchAsset(&locator, "OutCarryBoxLand"))
+        return false;
+
+    phys::RayCastBodyQuery query(nullptr, phys::GroundHit::HitAll);
+    query.enableLayer(phys::ContactLayer::EntityGround);
+    query.enableLayer(phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(phys::ContactLayer::EntityObject);
+    query.enableLayer(phys::ContactLayer::EntitySmallObject);
+    query.enableLayer(phys::ContactLayer::EntityTree);
+    query.enableLayer(phys::ContactLayer::EntityRagdoll);
+    query.enableLayer(phys::ContactLayer::EntityNPC);
+    query.enableLayer(phys::ContactLayer::EntityPlayer);
+    query.setStartAndDisplacement(actor->getMtx().getTranslation(), -sead::Vector3f::ey);
+    if (!query.worldRayCast(phys::ContactLayerType::Entity))
+        return false;
+
+    if (mSLinkLimiter) {
+        if (!mSLinkLimiter->sub_7100EC9D84(0xc, actor->getMtx().getTranslation(), false))
+            return false;
+    }
+
+    const auto& mask = query.getMaterialMask();
+    const s32 material = int(mask.getMaterial());
+    user->setPropertyValue(0, material);
+    user->setPropertyValue(1, xlink::Manager::instance()->getSubMaterialIndex(
+                                  material, mask.getSubMaterialIdx()));
+    xlink2::HandleSLink handle;
+    user->emit(locator, &handle);
+    const bool stone_bottom = mask.getMaterial() == phys::Material::Water &&
+        sead::SafeString(mask.getSubMaterialName()) == "Water_StoneBottom";
+    sub_7100EC696C(10.0f, actor, actor->getMtx().getTranslation(), stone_bottom, true);
+    if (mask.getMaterial() == phys::Material::GrudgeSlow) {
+        const u32 size = Reaction::instance()->sub_7100EC2278(actor, nullptr);
+        sub_7100EC5C40(10.0f, 0.1f, actor, actor->getMtx().getTranslation(), size, 1, &mask);
+    }
+    if (mSLinkLimiter)
+        mSLinkLimiter->sub_7100ECA2A0(0xc, actor->getMtx().getTranslation(), handle);
+    return handle.isActive();
+}
+
+// NON_MATCHING: size / material / flag stay in callee-saved registers where the original spills
+// them to the stack; that costs two more saved registers and 0x10 more frame.
+// 0x7100ec8f78: emits the water footstep asset of the water-out kind `flag` (0-2) for `actor`.
+// The event name comes from the actor's own SLink user when it has the asset, otherwise from the
+// second actor's user. Property 9 is used for the search-and-emit form and 10 for the emit form;
+// the event gets the actor position and the sound source gets the actor positioning.
+void Reaction::Unk1::sub_7100EC8F78(f32 speed, Actor* actor, const sead::Vector3f* pos, u64 size,
+                                    u64 material, u64 flag) {
+    if (!actor)
+        return;
+    if (actor->get4f8() > 0.0f)
+        return;
+    if (actor->getActorFlags2().isOn(Actor::ActorFlag2(0x21)))
+        return;
+
+    const bool is_player = isPlayerProfile(actor);
+    if (!is_player && mSLinkLimiter) {
+        if (!mSLinkLimiter->sub_7100EC9D84(4, actor->getMtx().getTranslation(), false))
+            return;
+    }
+
+    xlink2::Locator locator;
+    if (flag > 2)
+        return;
+    const char* name = sReactionWaterOutNames[flag];
+
+    xlink2::UserInstanceSLink* user = nullptr;
+    bool found = false;
+    if (auto* xlink = actor->getXLink()) {
+        if ((user = xlink->_50))
+            found = user->searchAsset(&locator, name);
+    }
+
+    if (!_8)
+        return;
+    if (!found) {
+        if (auto* xlink = _8->getXLink())
+            user = xlink->_50;
+    }
+    if (!user)
+        return;
+
+    user->setPropertyValue(4, speed);
+    user->setPropertyValue(6, s32(size));
+    user->setPropertyValue(0, s32(material));
+
+    const f32 value = speed / 30.0f;
+    xlink2::HandleSLink handle;
+    if (found) {
+        user->setPropertyValue(10, value);
+        user->emit(locator, &handle);
+    } else {
+        user->setPropertyValue(9, value);
+        user->searchAndEmit(name, &handle);
+    }
+
+    if (!handle.isActive())
+        return;
+
+    const sead::Vector3f position = actor->getMtx().getTranslation();
+    handle.setPosition(position);
+    if (auto* executor = static_cast<xlink2::EventSLink*>(handle.getEvent())
+                             ->getAliveAssetExecutor()) {
+        if (auto* source = executor->getHandle()->getSoundSource())
+            source->mSpatialSetting.setActorPositioning(position, sead::Vector3f::ones);
+    }
+    if (!is_player && mSLinkLimiter)
+        mSLinkLimiter->sub_7100ECA2A0(4, position, handle);
 }
 
 }  // namespace ksys::act

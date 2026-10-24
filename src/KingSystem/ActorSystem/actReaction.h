@@ -247,9 +247,12 @@ public:
         // 0x7100ec61f8: fills the receiver from `request` (position, link, xlink properties).
         void sub_7100EC61F8(::DamageReactionRequest* request);
         // 0x7100ec8f78: emits the water reaction asset for a footstep on `actor` (sets xlink
-        // properties 4 / 6 / 0 / 9 or 10, 608 B, still U).
+        // properties 4 / 6 / 0 / 9 or 10, 608 B).
         void sub_7100EC8F78(f32 speed, Actor* actor, const sead::Vector3f* pos, u64 size,
                             u64 material, u64 flag);
+        // 0x7100ec8c30: the "OutCarryBoxLand" reaction of a carried box that lands. Casts a ray
+        // down from the actor and applies the hit material properties to its SLink user.
+        bool sub_7100EC8C30(Actor* actor);
         // 0x7100ec89d8 (declared only): emits the water flow splash event `name` with the limiter
         // group `size` for `actor` at `position`; `value` is the reaction size from EC2278.
         void sub_7100EC89D8(f32 a, Actor* actor, const sead::Vector3f& position, ReactionSize size,
