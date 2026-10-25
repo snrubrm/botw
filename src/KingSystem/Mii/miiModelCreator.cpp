@@ -47,6 +47,8 @@ void ModelCreator::init(sead::Heap* heap) {
     _28._9 = false;
 }
 
+void ModelCreator::stubbed() {}
+
 void ModelCreator::loadUMiiConstructionInfo(sead::Heap* heap) {
     res::LoadRequest req;
     req.mRequester = "neModelCreator";

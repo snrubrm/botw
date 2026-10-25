@@ -46,6 +46,8 @@ public:
 
     // 0x7100f4c778: loads Mii/UMiiConstructionInfo.byml and Mii/umii.bnetfp.
     void init(sead::Heap* heap);
+    // 0x7100f5761c: an empty placeholder in the original; InitializeApp calls it after init.
+    void stubbed();
     void loadUMiiConstructionInfo(sead::Heap* heap);
     void loadUmiiBnetfp(sead::Heap* heap);
 
