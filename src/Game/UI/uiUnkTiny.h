@@ -358,6 +358,9 @@ struct Unk_71025d6c70 {
     u8 _1f8[0x298 - 0x1f8];
     // The map tower name prefix set by 0x710094f9e4.
     /* 0x298 */ sead::SafeString _298 = "MapTower_";
+    u8 _2a0[0x2d8 - 0x2a8];
+    // The district-name prefix set by 0x710094f9e4 (used by Unk_7102476548::updateDistrictFromPos).
+    /* 0x2d8 */ sead::SafeString _2d8 = "MapArea_";
 };
 KSYS_VISIBILITY_HIDDEN extern Unk_71025d6c70 sUnk_71025d6c70;
 // 0x71009630fc / 0x7100965eb0 (placeholder names): the map parameter fields at +0x50 / +0x28

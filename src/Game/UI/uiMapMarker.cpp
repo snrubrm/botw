@@ -1359,6 +1359,16 @@ void Unk_7102476450::m12() {
 Unk_7102476450::~Unk_7102476450() = default;
 
 
+// 0x710095731c
+void Unk_7102476548::updateDistrictFromPos(const sead::Vector3f* pos) {
+    UiSubsys1Entry::updateDistrictFromPos(pos);
+    if ((_3c & 0x2000) && _48) {
+        sead::FixedSafeString<256> name;
+        name.format("%s%s", sUnk_71025d6c70._2d8.cstr(), _48);
+        ksys::gdt::setFlag_SaveDistrictName(name, false);
+    }
+}
+
 void Unk_7102476548::m4() {
     _3c &= ~0x777f;
     m11();
