@@ -49,8 +49,9 @@ bool LynelMove::m34(const sead::Vector3f& pos, float x) {
     return true;
 }
 
-// NON_MATCHING: the gear table row / speed entry lookup and its clamp differ (the gear arguments are the
-// same by-value enum as the base class).
+// NON_MATCHING: the table lookup is right (both the row and the current gear are by-value enum locals,
+// so they spill and reload around their int conversions), but the target stores the row before the gear
+// value, adds the gear scale before the row scale, and commutes the first fmul's operands.
 bool LynelMove::m35(act::RideableBase* rideable, act::RideableBase::S1::UnkGear gear_type,
                    act::RideableBase::S1::UnkGear gear, act::RideableBase::S1::UnkGear min_gear_at_auto_down,
                    const sead::Vector3f& direction) {
@@ -58,13 +59,17 @@ bool LynelMove::m35(act::RideableBase* rideable, act::RideableBase::S1::UnkGear 
     if (!nav)
         return AnimalMoveBase::m35(rideable, gear_type, gear, min_gear_at_auto_down, direction);
 
-    const s32 current_gear = rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b;
-    s32 row = rideable->_18._a;
     const auto* speed = &act::sUnk_7102603058;
-    if (current_gear != 0 && rideable->_170) {
-        if (row >= rideable->_178)
-            row = 0;
-        speed = &rideable->_170->mGears[row][current_gear - 1];
+    {
+        act::RideableBase::S1::UnkGear row;
+        const act::RideableBase::S1::UnkGear current_gear =
+            rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b;
+        row = rideable->_18._a;
+        if (current_gear != act::RideableBase::S1::UnkGear::_0 && rideable->_170) {
+            if (int(row) >= rideable->_178)
+                row = act::RideableBase::S1::UnkGear::_0;
+            speed = &rideable->_170->mGears[int(row)][int(current_gear) - 1];
+        }
     }
     const f32 scale = speed->mSpeed * rideable->_164;
     nav->sub_7100F76260(direction * scale);
