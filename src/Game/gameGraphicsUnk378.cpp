@@ -9,3 +9,9 @@
 void Graphics::Unk_a98::setQuality(u32 quality) {
     mQuality = quality;
 }
+
+// 0x710128babc (unnamed in the CSV): bumps the change counter at +0x7c. Graphics' shadow mode
+// path (0x7100f1fdc8) calls it on the shadow settings block after testing a related flag.
+void Graphics::Unk_a98::incrementChangeCountMaybe() {
+    mChangeCount.increment();
+}
