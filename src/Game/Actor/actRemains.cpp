@@ -114,3 +114,16 @@ Unk_7100d3cd74* Remains::m101() {
 }
 
 }  // namespace uking::act
+
+// 0x71002ca850 (free function in the Remains TU): the main-field dungeon the map name belongs to.
+s32 getMainFieldDungeonType(const sead::SafeString& map_name) {
+    if (map_name.findIndex("RemainsWind") != -1)
+        return 0;
+    if (map_name.findIndex("RemainsElectric") != -1)
+        return 1;
+    if (map_name.findIndex("RemainsFire") != -1)
+        return 2;
+    if (map_name.findIndex("RemainsWater") != -1)
+        return 3;
+    return map_name.findIndex("FinalTrial") != -1 ? 4 : 0;
+}
