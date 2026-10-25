@@ -168,9 +168,11 @@ public:
     bool isLinkedToActor(ksys::act::Actor* actor);
     // 0x7100e84ab8 (CSV HorseMgr::__auto2; declared only): whether the link at +0x20 (the owned horse) is `actor`.
     bool sub_7100E84AB8(ksys::act::Actor* actor);
-    // 0x7100e84a04 (lane3 s71; declared only): true if `actor` is the owned horse (link at +0x20);
-    // otherwise sub_7100E84AE4(accessor of actor, name, flag), and on success 0x7100e84f0c and _d4 = -1.
+    // 0x7100e84a04 (lane3 s71): true if `actor` is the owned horse (link at +0x20); otherwise
+    // sub_7100E84AE4(accessor of actor, name, flag), and on success 0x7100e84f0c and _d4 = -1.
     bool sub_7100E84A04(ksys::act::Actor* actor, const sead::SafeString& name, bool flag);
+    // 0x7100e84f0c (declared only; 880 B): the post-registration step sub_7100E84A04 runs on the new horse.
+    void sub_7100E84F0C(ksys::act::Actor* actor);
     void setRiddenHorseMaybe(ksys::act::Actor* actor);
     // 0x7100e85334 (CSV HorseMgr::__auto0): whether `link` is the owned horse's link.
     bool sub_7100E85334(const ksys::act::BaseProcLink& link) const;
@@ -222,7 +224,8 @@ public:
     /* 0xb0 */ ksys::MesTransceiverId _b0;  // NPCHorseResurrect::oneShot_ messages the horse manager's receiver
     u8 _c8[0xd0 - 0xc8];
     /* 0x0d0 */ s32 _d0;  // the selected horse (-1: none)
-    u8 _d4[0xe0 - 0xd4];
+    /* 0x0d4 */ s32 _d4;
+    u8 _d8[0xe0 - 0xd8];
     // Torn down by the destructor (0x7100e82360) from the last to the first.
     /* 0xe0 */ ksys::act::BaseProcLink _e0[10];
     // Game data handles set by initHorseGameDataIters (0x7100e82500).

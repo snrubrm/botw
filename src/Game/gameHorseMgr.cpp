@@ -99,6 +99,23 @@ bool HorseMgr::sub_7100E8527C(ksys::act::BaseProcLink* link, const sead::SafeStr
     return true;
 }
 
+// NON_MATCHING: one instruction is scheduled differently (the accessor's last field is zeroed before
+// the acquire call; the target after it).
+bool HorseMgr::sub_7100E84A04(ksys::act::Actor* actor, const sead::SafeString& name, bool flag) {
+    if (!actor)
+        return false;
+    if (mOwnedHorse.hasProcById(actor))
+        return true;
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    accessor.acquire(actor);
+    if (!sub_7100E84AE4(accessor, name, flag))
+        return false;
+    sub_7100E84F0C(actor);
+    _d4 = -1;
+    return true;
+}
+
 bool HorseMgr::sub_7100E85334(const ksys::act::BaseProcLink& link) const {
     return mOwnedHorse == link;
 }
