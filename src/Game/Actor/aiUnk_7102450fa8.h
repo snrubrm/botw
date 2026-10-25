@@ -78,6 +78,8 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Unk3, 0x28);
 
+    // 0x7100717eec (declaration only): built by sub_7100718360.
+    Unk_7102450fa8();
     ~Unk_7102450fa8() override;
     // 0x7100717eec (804 B, still U): initialises the member buffers.
     Unk_7102450fa8();
