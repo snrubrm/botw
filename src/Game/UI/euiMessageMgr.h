@@ -71,6 +71,8 @@ public:
     // inline-only in the original; name is a guess. Tag preprocessing (0xbe6330) and ruby drawing
     // (0xbe6700) both read this flag before the processor's own ruby-enable flag.
     bool isRubyEnabled() const { return _50; }
+    // inline-only in the original; name is a guess (0x7100aa8784 stores the gdt TextRubyOnOff flag here).
+    void setRubyEnabled(bool enabled) { _50 = enabled; }
     // 0x7100be4988 (placeholder name): tag processing failure notification.
     void m0();
 

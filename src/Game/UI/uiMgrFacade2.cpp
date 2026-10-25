@@ -25,6 +25,8 @@
 #include "Game/gameRoot38.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "Game/gameRuneMgr.h"
+#include "Game/UI/euiMessageMgr.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/gameSaveSystem.h"
 #include "KingSystem/System/UI/LayoutResourceMgr.h"
 #include "KingSystem/System/VFR.h"
@@ -480,6 +482,28 @@ bool sub_7100AA8948() {
     if (screen && eui::ScreenMgr::instance()->getScreenTarget(screen->mId) >= 0)
         return screen->mButtonGroup->FindDownButton() != nullptr;
     return false;
+}
+
+// 0x7100aa8784: refreshes the balloon-text / text-ruby flags and, when the amiibo item flag is clear and the
+// current rune is the amiibo one, selects the first rune the player owns.
+void checkFlagsAndSetCurrentRuneStuff() {
+    auto* ui = UI::instance();
+    ui->mBalloonTextOn = ksys::gdt::getFlag_BalloonTextOnOff();
+    eui::ScreenMgr::instance()->getMessageMgr()->setRubyEnabled(
+        ksys::gdt::getFlag_TextRubyOnOff());
+    if (ksys::gdt::getFlag_AmiiboItemOnOff())
+        return;
+    auto* rune_mgr = RuneMgr::instance();
+    if (!rune_mgr)
+        return;
+    if (rune_mgr->getCurrentItem() != 7)
+        return;
+    for (s32 i = 0; i < 7; ++i) {
+        if (checkIsGetRune(i, 0)) {
+            rune_mgr->setCurrentItem(i);
+            return;
+        }
+    }
 }
 
 // 0x7100aa88a4 (placeholder name): true while the save system is idle; `*out` is set when a slot has both flags
