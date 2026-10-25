@@ -250,18 +250,26 @@ public:
         /* 0x18 */ const f32* _18;
         /* 0x20 */ const f32* _20;
         /* 0x28 */ const f32* _28;
-        u8 _30[0x40 - 0x30];
+        /* 0x30 */ u64 _30;
+        /* 0x38 */ u32 _38;
         // E6FA10 initializes these rates; E728F0 selects and dereferences them.
         const f32* _40;
         const f32* _48;
-        u8 _50[0x58 - 0x50];
+        /* 0x50 */ u32 _50;
+        /* 0x54 */ f32 _54;
         /* 0x58 */ const f32* _58;
-        u8 _60[0x7c - 0x60];
+        /* 0x60 */ f32 _60;
+        u8 _64[0x68 - 0x64];
+        /* 0x68 */ f32 _68;
+        /* 0x6c */ f32 _6c;
+        /* 0x70 */ f32 _70;
+        /* 0x74 */ f32 _74;
+        /* 0x78 */ f32 _78;
         // Movement update and AnimalMoveBase independently read both states as signed.
         /* 0x7c */ s16 _7c;
         /* 0x7e */ s16 _7e;
-        u8 _80[0x88 - 0x80];
-        /* 0x88 */ u16 _88 = 0;  // flags (bit 4 is tested by HorseRiddenByNPC::calc_)
+        /* 0x80 */ sead::Vector2f _80;
+        /* 0x88 */ u16 _88;  // flags (bit 4 is tested by HorseRiddenByNPC::calc_)
         u8 _8a[0x90 - 0x8a];
     };
 
@@ -369,6 +377,10 @@ static_assert(offsetof(RideableBase::S2, _88) == 0x88);
 extern RideableBase::SpeedEntry::Gear sUnk_7102603058;
 // Shared readonly rate used by S2 initialization and HorseRiddenByNPC entry.
 extern const f32 sUnk_7101EC1904;
+// S2's rate defaults (see S2::S2).
+extern const f32 sUnk_7101EC1934;
+extern const f32 sUnk_7101EC1938;
+extern const f32 sUnk_7101EC193c;
 // Start value of a gear request (6.0f, 0x7101ec1960).
 extern const f32 sUnk_7101EC1960;
 
