@@ -86,6 +86,8 @@ struct MaterialTextureMaybe {
     // 0x7101140644 (unnamed in the CSV; placeholder name): the half-texel value of this material's
     // texture record (the 0x20-byte entries of the table at material + 0x48, field + 0x10).
     f32 sub_7101140644() const;
+    // 0x710114065c (unnamed in the CSV; placeholder name): the float at +0x8 of the same record.
+    f32 sub_710114065C() const;
 
     nn::g3d::ResMaterial* material;
     s32 index;

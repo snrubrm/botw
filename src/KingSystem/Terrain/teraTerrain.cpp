@@ -1215,6 +1215,14 @@ u32 MaterialTextureMaybe::getWidthMaybe() const {
     return getTexture()->GetTextureInfo()->GetWidth();
 }
 
+f32 MaterialTextureMaybe::sub_7101140644() const {
+    return material->mTextureRecords[index]._10;
+}
+
+f32 MaterialTextureMaybe::sub_710114065C() const {
+    return material->mTextureRecords[index]._8;
+}
+
 // NON_MATCHING: loop counter kept as 64-bit in ours (the original sign-extends a 32-bit counter); first lookup
 // becomes a select.
 void Terrain::Unk4ae0::Unk_10::setUpAttributeTableMaybe(sead::Heap* heap, const AttributeMap* main_map,
