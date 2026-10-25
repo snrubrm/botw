@@ -45,6 +45,7 @@ public:
     void setEventActive(bool active);
     void calc();
 
+
 private:
     friend class AwarenessInstance;
     friend class Unk_71024dc858;
@@ -165,6 +166,13 @@ private:
 
     void finalize();
     bool loadSystemData();
+
+    // Placeholder names. Each looks the entry up by the hash of `name`; 0x7100d7aac0 (terror flags)
+    // and 0x7100d7ab40 (sensor flags) return 0 when there is no entry, 0x7100d7abc0 (sensor params)
+    // returns null.
+    u64 getTerrorFilterFlagsMaybe(const char* name) const;
+    u64 getSensorFilterFlagsMaybe(const char* name) const;
+    const SensorFilterBuffer::Params* getSensorFilterParamsMaybe(const char* name) const;
 
     bool checkFlag(Flag flag) const { return (1u << flag) & mFlags.getDirect(); }
     void setFlag(Flag flag) { mFlags.setBit(flag); }

@@ -75164,9 +75164,9 @@ Address,Quality,Size,Name
 0x0000007100d7aaa0,U,000008,
 0x0000007100d7aaa8,U,000012,
 0x0000007100d7aab4,U,000012,
-0x0000007100d7aac0,U,000128,
-0x0000007100d7ab40,U,000128,
-0x0000007100d7abc0,U,000128,
+0x0000007100d7aac0,O,000128,_ZNK4ksys3act9Awareness25getTerrorFilterFlagsMaybeEPKc
+0x0000007100d7ab40,O,000128,_ZNK4ksys3act9Awareness25getSensorFilterFlagsMaybeEPKc
+0x0000007100d7abc0,m,000128,_ZNK4ksys3act9Awareness26getSensorFilterParamsMaybeEPKc
 0x0000007100d7ac40,O,000052,_ZN4ksys3act9Awareness4Unk1D0Ev
 0x0000007100d7ac74,O,000004,_ZN4sead11TreeMapNodeINS_18OrderedSetItemImplIN4ksys3act9Awareness12TerrorFilterEEEED2Ev
 0x0000007100d7ac78,O,000004,_ZN4sead10OrderedSetIN4ksys3act9Awareness12TerrorFilterEE4NodeD0Ev

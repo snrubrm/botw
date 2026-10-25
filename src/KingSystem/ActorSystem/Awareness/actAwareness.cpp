@@ -6,6 +6,7 @@
 #include <utility/aglParameter.h>
 #include <utility/aglResParameter.h>
 #include "KingSystem/ActorSystem/Awareness/actAwarenessDefs.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessMiscUtils.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
@@ -113,6 +114,33 @@ bool Awareness::init(const Awareness::InitArg& arg, sead::Heap* heap) {
         return false;
 
     return true;
+}
+
+// 0x7100d7aac0: the terror filter flags of the entry whose target is the hash of `name`.
+u64 Awareness::getTerrorFilterFlagsMaybe(const char* name) const {
+    const auto* node = mTerrorFilters.find(TerrorFilter{0, calcAwarenessHash(name)});
+    if (!node)
+        return 0;
+    return node->value().flags;
+}
+
+// 0x7100d7ab40: the sensor filter flags of the entry whose target is the hash of `name`.
+u64 Awareness::getSensorFilterFlagsMaybe(const char* name) const {
+    const auto* node = mSensorFilters.find(SensorFilter{0, calcAwarenessHash(name)});
+    if (!node)
+        return 0;
+    return node->value().flags;
+}
+
+// NON_MATCHING: the null test is if-converted to a csel; the original branches to a null arm.
+// 0x7100d7abc0: the sensor filter parameters of the entry whose target is the hash of `name`.
+const Awareness::SensorFilterBuffer::Params* Awareness::getSensorFilterParamsMaybe(
+    const char* name) const {
+    const auto* node =
+        mSensorFilterBuffers.find(SensorFilterBuffer{SensorFilterBuffer::Params{}, calcAwarenessHash(name)});
+    if (!node)
+        return nullptr;
+    return &node->value().params;
 }
 
 // agl::utl::ResParameter::getParam being a pain as usual
