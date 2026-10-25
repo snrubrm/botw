@@ -298,8 +298,8 @@ public:
     /* 0x134 */ u32 _134 = 0;
     /* 0x138 */ f32 _138 = 0;
     /* 0x13c */ f32 _13c = 0;
-    /* 0x140 */ u32 _140 = 0;
-    /* 0x144 */ u32 _144 = 0;
+    /* 0x140 */ sead::Atomic<u32> _140{sead::AtomicDirectInitTag(), 0};
+    /* 0x144 */ sead::Atomic<u32> _144{sead::AtomicDirectInitTag(), 0};
     /* 0x148 */ sead::Vector3f _148 = sead::Vector3f::zero;
     /* 0x154 */ f32 _154 = 1.0;
     /* 0x158 */ sead::Vector3f _158 = sead::Vector3f::zero;

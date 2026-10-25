@@ -71,13 +71,13 @@ bool RideableBase::m4(ksys::act::Actor* actor, sead::Heap* heap) {
     return true;
 }
 
-// NON_MATCHING: the original keeps the S2 address in x21 and the AS list in x20 (ours the other way round) and
-// schedules the parameter pointer stores pair by pair; the instructions are otherwise the same.
+// NON_MATCHING: the original computes all four parameter pointer pairs before the first store; ours stores
+// each pair right after its two adds and materialises the masked bit earlier.
 void RideableBase::m5() {
     _18.sub_7100E761A4(true, true);
 
-    auto& s2 = _a0;
     auto* const as_list = mActor->getASList();
+    auto& s2 = _a0;
     auto* const nav = mActor->m45();
     as_list->sub_710115EC98(1, nullptr, 0);
     s2.sub_7100E6FAB4(this, as_list, nav);
@@ -167,7 +167,7 @@ void RideableBase::sub_7100E63900() {
 
 void RideableBase::sub_7100E6314C(Rank rank, f32 value, u32 id) {
     f32* ranked;
-    u32* ids;
+    sead::Atomic<u32>* ids;
     switch (rank) {
     case 1:
         ranked = &_138;
@@ -186,31 +186,31 @@ void RideableBase::sub_7100E6314C(Rank rank, f32 value, u32 id) {
     }
 }
 
-// NON_MATCHING: the original computes &_a0 before the m45 call and keeps it in a callee-saved register
 void RideableBase::sub_7100E62B84() {
     auto* as_list = mActor->getASList();
+    auto& s2 = _a0;
     auto* nav = mActor->m45();
     as_list->sub_710115EC98(1, nullptr, 0);
-    _a0.sub_7100E6FAB4(this, as_list, nav);
+    s2.sub_7100E6FAB4(this, as_list, nav);
 }
 
 // NON_MATCHING: the original computes the member address (`add x8, x0, #0x140`) and loads through it, with a 64-bit zero for
 // the third result; we fold the offset into the load and return a 32-bit zero.
 u64 RideableBase::sub_7100E63374() {
     if (_138 > 0.0f)
-        return _140;
+        return _140.load();
     if (_13c > 0.0f)
-        return _144;
+        return _144.load();
     return 0;
 }
 
-// NON_MATCHING: see sub_7100E62B84
 void RideableBase::sub_7100E633AC() {
     _18.sub_7100E761A4(true, true);
     auto* as_list = mActor->getASList();
+    auto& s2 = _a0;
     auto* nav = mActor->m45();
     as_list->sub_710115EC98(1, nullptr, 0);
-    _a0.sub_7100E6FAB4(this, as_list, nav);
+    s2.sub_7100E6FAB4(this, as_list, nav);
 }
 
 }  // namespace uking::act
