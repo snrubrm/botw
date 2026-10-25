@@ -3,6 +3,8 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/Sound/sndSound.h"
+#include "Game/UI/uiManager.h"
 
 namespace uking::ui {
 
@@ -58,6 +60,20 @@ bool Unk_71025d69f0::sub_710094E488() {
     if (!sub_710094E570(_28, &flag))
         return false;
     return !flag;
+}
+
+// 0x710094e0a0: ends the pause state: resets the map screen and re-enables the expression sounds unless the UI
+// manager is paused.
+void Unk_71025d69f0::sub_710094E0A0() {
+    sub_710094E1C0(true);
+    _34 = 0;
+    if (auto* map = sead::DynamicCast<ScreenAppMap>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap)))
+        map->sub_71009EC6CC();
+    if (Manager::instance()->isPausedMaybe())
+        return;
+    if (ksys::snd::ExpressionSoundCtrl::instance())
+        ksys::snd::ExpressionSoundCtrl::instance()->sub_710104ED9C();
 }
 
 // 0x710094e064
