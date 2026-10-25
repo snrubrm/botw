@@ -1,4 +1,7 @@
 #include "Game/gameGraphics.h"
+#include <gfx/seadGraphicsContext.h>
+#include <math/seadMathCalcCommon.h>
+#include <utility/aglDevTools.h>
 #include <new>
 
 // Home of the Graphics render-block TUs at 0x710128a000..0x710128cfff (Graphics::Unk_378 and the
@@ -15,6 +18,34 @@ void Graphics::Unk_a98::setQuality(u32 quality) {
 // path (0x7100f1fdc8) calls it on the shadow settings block after testing a related flag.
 void Graphics::Unk_a98::incrementChangeCountMaybe() {
     mChangeCount.increment();
+}
+
+// 0x710128ab14: constructs the two banks of debug render textures (each unit is a TextureData and
+// the GPUMemBlock that owns its image).
+Graphics::Unk_378_18_6b0::Unk_378_18_6b0() {}
+
+// 0x710128aa50: destroys the banks' textures and their GPU memory blocks.
+Graphics::Unk_378_18_6b0::~Unk_378_18_6b0() {}
+
+// 0x7101288658: constructs the debug block (Graphics' initializer stores it at Graphics + 0x378).
+Graphics::Unk_378::Unk_378()
+    : _8(6), mBlocks(), _20(nullptr), mPage(), _268(3), _26c(3), mSamples(), mSampleIndex(0), _284(1),
+      _288(4.0f), _28c(1.5f), _290(1.5f), _294(0.15f), _298(1.0f), _29c(0.001f), _2a0(0.4f),
+      _2a4(1.0f), _2a8(200.0f), _2ac(1.5f), _2b0(0.7f) {}
+
+// 0x7101288710: releases the sample history, then every block's cell buffer, then the block array.
+// The debug texture page and its disposer are destroyed as members.
+// NON_MATCHING: the block loop's latch orders the pointer increment after the counter decrement
+// (the original adds the stride first); every instruction and register is otherwise identical.
+Graphics::Unk_378::~Unk_378() {
+    mSamples.freeBuffer();
+    Unk_378_18* block = mBlocks.getBufferPtr();
+    const u64 count = u32(mBlocks.size());
+    for (u64 i = 0; i < count; ++i) {
+        block->_12a8.freeBuffer();
+        ++block;
+    }
+    mBlocks.freeBuffer();
 }
 
 // 0x710128ca44: constructs the focus controller at Graphics + 0x668 (vtable 0x71025190d0).
@@ -62,6 +93,24 @@ void Graphics::Unk_668::initMaybe(s32 count, sead::Heap* heap) {
         data->_70 = 1.0f;
         ++data;
     }
+}
+
+// 0x710128a988 (placeholder name): draws the block's debug grid in the XZ plane when the enable
+// flag is set.
+void Graphics::Unk_378::sub_710128A988(agl::DrawContext* context, u8) {
+    if (!(_8 & 1))
+        return;
+
+    sead::GraphicsContext graphics_context;
+    graphics_context.setDepthTestEnable(false);
+    graphics_context.setDepthWriteEnable(false);
+    graphics_context.apply(context);
+
+    sead::Matrix34f matrix;
+    matrix.makeR({sead::Mathf::piHalf(), 0.0f, 0.0f});
+
+    agl::utl::DevTools::beginDrawImm(context, matrix, sead::Matrix44f::ident);
+    agl::utl::DevTools::drawGridImm(context, 2.0f, 2.0f, _268, _26c, sead::Color4f::cWhite, 1.0f);
 }
 
 // 0x710128aa30 (placeholder name): stores `value` at +0x14f0 of block `view` (the block array is at

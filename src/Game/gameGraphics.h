@@ -36,6 +36,7 @@
 #include <utility/aglParameterIO.h>
 #include <utility/aglParameterObj.h>
 #include <common/aglGPUMemAddr.h>
+#include <common/aglGPUMemBlock.h>
 #include "KingSystem/Resource/resHandle.h"
 #include <prim/seadSafeString.h>
 #include <prim/seadScopedLock.h>
@@ -613,6 +614,35 @@ public:
         void incrementChangeCountMaybe();
     };
 
+    // The debug render texture bank at Unk_378_18 + 0x6b0: two banks of four {TextureData,
+    // GPUMemBlock<u8>} pairs, each bank followed by its own two matrices and parameters.
+    // 0x710128ab14 constructs it and 0x710128aa50 destroys it (both out of line in the
+    // render-block TU).
+    struct Unk_378_18_6b0 {
+        struct Unit {
+            agl::TextureData mTexture;
+            agl::GPUMemBlock<u8> mBlock;
+        };
+        static_assert(sizeof(Unit) == 0x160);
+        struct Bank {
+            Unit mUnits[4];
+            sead::Matrix34f _580;
+            sead::Matrix34f _5b0;
+            f32 _5e0;
+            f32 _5e4;
+            f32 _5e8;
+            u8 _5ec = 0;
+            u8 _5ed[3];
+        };
+        static_assert(sizeof(Bank) == 0x5f0);
+
+        Unk_378_18_6b0();
+        ~Unk_378_18_6b0();
+
+        Bank mBanks[2];
+    };
+    static_assert(sizeof(Unk_378_18_6b0) == 0xbe0);
+
     // Placeholder names (lane4 s64): the object at Graphics + 0x378 points (+0x18) to a block that holds two floats
     // at 0x1520 / 0x1524 (read by Camera::updateMatrix and sub_710079AE60 as clip distances).
     struct Unk_378_18 {
@@ -622,7 +652,16 @@ public:
             u8 _1c[4];
         };
         static_assert(sizeof(Cell) == 0x20);
-        u8 _0[0x12a8];
+        // The debug render targets and their samplers (destruction order from 0x7101288710).
+        /* 0x000 */ agl::UniformBlock _0;
+        /* 0x078 */ agl::RenderBuffer _78;
+        /* 0x0e0 */ agl::RenderTargetColor _e0;
+        /* 0x258 */ agl::RenderTargetColor _258;
+        /* 0x3d0 */ agl::TextureSampler _3d0;
+        /* 0x540 */ agl::TextureSampler _540;
+        /* 0x6b0 */ Unk_378_18_6b0 _6b0;
+        /* 0x1290 */ sead::Vector3f _1290;
+        /* 0x129c */ sead::Vector3f _129c;
         // 10D103C indexes 0x20-byte cells with Buffer's bounds fallback and reads f32 +0x18.
         /* 0x12a8 */ sead::Buffer<Cell> _12a8;
         u8 _12b8[0x14f0 - 0x12b8];
@@ -630,13 +669,22 @@ public:
         u8 _14f4[0x1500 - 0x14f4];
         // Bit 2 is the result of Graphics::sub_7100F35E5C.
         /* 0x1500 */ u8 _1500;
-        u8 _1501[0x1520 - 0x1501];
+        u8 _1501[0x1504 - 0x1501];
+        /* 0x1504 */ sead::Vector3f _1504;
+        /* 0x1510 */ sead::Vector3f _1510;
+        /* 0x151c */ f32 _151c;
         /* 0x1520 */ f32 _1520;
         /* 0x1524 */ f32 _1524;
-        u8 _1528[8];
+        u8 _1528[4];
+        /* 0x152c */ u32 _152c;
     };
     static_assert(sizeof(Unk_378_18) == 0x1530);
-    struct Unk_378 {
+    struct Unk_378 : public sead::hostio::Node {
+        // 0x7101288658: constructs the block (0x2b8 bytes; Graphics' initializer stores it at
+        // Graphics + 0x378).
+        Unk_378();
+        // 0x7101288710 / 0x7101288860
+        virtual ~Unk_378();
         // 0x7101289934 (declaration only; placeholder name and parameter types): updates record
         // `index` of the 0x1530-byte blocks with the two vectors and the frame delta.
         void sub_7101289934(s32 index, const sead::Vector3f* a, const sead::Vector3f* b, f32 value,
@@ -648,11 +696,28 @@ public:
         // 0x710128aa30 (placeholder name): stores `value` at +0x14f0 of block `view`.
         void setValueMaybe(f32 value, s32 view);
 
-        u8 _0[0x10];
-        /* 0x10 */ sead::Buffer<Unk_378_18> mBlocks;
-        u8 _20[0x268 - 0x20];
+        /* 0x008 */ u32 _8;  // set to 6 by the constructor
+        /* 0x010 */ sead::Buffer<Unk_378_18> mBlocks;
+        /* 0x020 */ void* _20;  // the "depth_analyzer" shader program (0x71012889a4)
+        /* 0x028 */ agl::utl::DebugTexturePage mPage;
         /* 0x268 */ s32 _268;  // grid row width used by 10D103C
+        /* 0x26c */ s32 _26c;  // grid column count
+        /* 0x270 */ sead::Buffer<f32> mSamples;  // history of the analyzer's values
+        /* 0x280 */ u32 mSampleIndex;
+        /* 0x284 */ u8 _284;
+        /* 0x288 */ f32 _288;
+        /* 0x28c */ f32 _28c;
+        /* 0x290 */ f32 _290;
+        /* 0x294 */ f32 _294;
+        /* 0x298 */ f32 _298;
+        /* 0x29c */ f32 _29c;
+        /* 0x2a0 */ f32 _2a0;
+        /* 0x2a4 */ f32 _2a4;
+        /* 0x2a8 */ f32 _2a8;
+        /* 0x2ac */ f32 _2ac;
+        /* 0x2b0 */ f32 _2b0;
     };
+    static_assert(sizeof(Unk_378) == 0x2b8);
 
     // Placeholder (type unknown): the object at +0x668. WorldMgr::calcEntryJob writes the
     // byte at +0x19 and the float at +0x10 + 0x6c.
