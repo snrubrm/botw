@@ -1,4 +1,7 @@
 #include "Game/Actor/actSandworm.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectSandworm.h"
 #include <basis/seadNew.h>
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/aiUnk_7102451120.h"
@@ -193,8 +196,30 @@ void Sandworm::m56(sead::Vector3f* pos) {
         x_18(pos);
 }
 
-void Sandworm::setNecklaceFlag(s32 index) {
-    if (index >= 1 && ksys::act::hasTag(this, 0x12ad8456))
+// Resets the snake state from the actor's Sandworm parameters.
+void Sandworm::m63() {
+    Enemy::m63();
+    _163c = TeraShape::_0;
+    _1640 = 0;
+
+    const auto* param = getParam()->getRes().mGParamList->getSandworm();
+    _14d0.sub_7100723AC4(param->mSnakeNodeChaseInterval.ref(), param->mSnakeNodeRotOffset.ref());
+    _14d0.sub_7100723E04(true);
+    _14d0.sub_7100723A84(param->mSnakeBaseNode.ref());
+
+    _15b0 = -8.0f;
+    _159c = -8.0f;
+    _1590.value = 0;
+    _1590.prev_value = 0;
+    _15ac = 0;
+    _1638 = 0;
+    _15a0 = param->mSnakeModelOffsetZ.ref();
+    _15a4 = 0;
+    _15a8 = 0;
+    getHomePos(&_1644);
+}
+
+void Sandworm::setNecklaceFlag(s32 index) {    if (index >= 1 && ksys::act::hasTag(this, 0x12ad8456))
         Enemy::setNecklaceFlag(index + 1);
 }
 

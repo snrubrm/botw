@@ -50,6 +50,11 @@ struct Unk_71007237d0 {
                         sead::Heap* heap);
     // 0x7100723a84 (placeholder name): searches the bone `name` of the actor's model for _8.
     bool sub_7100723A84(const sead::SafeString& name);
+    // 0x7100723ac4 (placeholder name): builds the snake's bone chain (Sandworm::m63): chase interval
+    // and node rotation offset.
+    void sub_7100723AC4(f32 chase_interval, const sead::Vector3f& rot_offset);
+    // 0x7100723e04 (placeholder name): resets the part values (Sandworm::m63).
+    void sub_7100723E04(bool on);
     // 0x710072479c (placeholder name): passes every part's bone handle to the actor (Actor::sub_71011DA868).
     // Called by Sandworm::preDelete2_ and startPreparingForPreDelete_.
     void sub_710072479C();
@@ -173,9 +178,9 @@ public:
     /* 0x1588 */ Unk_71023cfcf0* _1588 = nullptr;
     /* 0x1590 */ ksys::VFRValue _1590{0.0f};
     /* 0x159c */ f32 _159c = 0;
-    /* 0x15a0 */ u32 _15a0 = 0;
-    /* 0x15a4 */ u32 _15a4 = 0;
-    /* 0x15a8 */ u32 _15a8 = 0;
+    /* 0x15a0 */ f32 _15a0 = 0;  // Sandworm GParam SnakeModelOffsetZ (m63)
+    /* 0x15a4 */ f32 _15a4 = 0;
+    /* 0x15a8 */ f32 _15a8 = 0;
     /* 0x15ac */ f32 _15ac = 0;  // sand offset speed (SandwormASPlay)
     /* 0x15b0 */ f32 _15b0 = 0;  // target sand offset (SandwormASPlay)
     /* 0x15b4 */ u32 _15b4;
