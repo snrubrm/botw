@@ -16,6 +16,14 @@ const char* getTipString(s32 index);
 
 SEAD_SINGLETON_DISPOSER_IMPL(TipsMgr)
 
+// 0x71025d23d8: cleared when the first tips are shown (only this TU uses it).
+KSYS_VISIBILITY_HIDDEN bool sIsFirstTips = false;
+
+// 0x710091e14c
+void setIsFirstTipsToFalse() {
+    sIsFirstTips = false;
+}
+
 // 0x710091f434: when the fade screen (id 0x4e) is open and its tip flag is set, queries whether it
 // has finished opening. The only caller discards the result, so the original is void.
 void isFadeScreenOpened() {
