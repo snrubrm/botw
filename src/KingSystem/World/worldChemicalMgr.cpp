@@ -665,6 +665,48 @@ void ChemicalMgr::sub_71010CB39C() {
     }
 }
 
+// The file static the original writes entry._14 to before the placement query (0x710261ff70;
+// only its +0x20 Vector3f is observed).
+namespace {
+struct Unk_710261FF70 {
+    u8 _0[0x20];
+    sead::Vector3f _20;
+};
+Unk_710261FF70 sUnk_710261FF70;
+}  // namespace
+
+// NON_MATCHING: the original stores entry._14 at the file static before the placement query and
+// then reloads the entry address for the call; ours keeps the pre-indexed entry + 0x14 live across
+// the delegate construction, which costs one callee-saved register (x27) and reorders the stores.
+// Everything else (the holder clear, grass thunk, _68 lock, used-list walk, free-list move) matches.
+void ChemicalMgr::sub_71010CB5C0() {
+    if (_ae8)
+        _ae8->sub_7100D9AA30();
+    auto* terrain = ksys::tera::Terrain::instance();
+    if (terrain && terrain->isGrassEnabled() && _b14.isOnBit(2))
+        ksys::tera::sub_71011501D0(terrain->sub_710114DE4C());
+    sub_71010CB39C();
+    {
+        sead::ScopedLock<sead::CriticalSection> lock(&_68);
+        for (auto& entry : _c80.used) {
+            entry._0->sub_71010C69C4();
+            auto* placement = map::PlacementMgr::instance();
+            if (placement && !placement->isFlagOn(map::PlacementMgr::MgrFlag::_2)) {
+                sUnk_710261FF70._20 = entry._14;
+                sead::Delegate1R<ChemicalMgr, map::Unk_71012497f8Entry*, bool> callback(
+                    this, &ChemicalMgr::sub_71010CB754);
+                placement->sub_71011EB3F8(&entry._14, 0.01f, false, &callback);
+            }
+        }
+        {
+            sead::ScopedLock<sead::CriticalSection> lock(&_c80.lock);
+            for (auto& entry : _c80.used)
+                _c80.free.pushBack(&entry);
+            _c80.used.clear();
+        }
+    }
+}
+
 void ChemicalMgr::unload2() {
     sead::ScopedLock<sead::CriticalSection> lock(&mChemicalPairLock);
     act::ActorLinkConstDataAccess accessor;

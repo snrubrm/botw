@@ -95,6 +95,7 @@ KSYS_CHECK_SIZE_NX150(Unk_710250c8b0, 0x18);
 namespace ksys::map {
 class ActorData;
 class Object;
+struct Unk_71012497f8Entry;
 }
 namespace ksys::act {
 class ActorX6A0;
@@ -394,6 +395,9 @@ public:
     // Pair-processing helper at 0x71010CE7DC consumes the current VFR delta frame.
     void sub_71010CE7DC(f32 delta_frame);
     void sub_71010CB5C0();
+    // 0x71010cb754 (unnamed in the CSV; placeholder name): the placement callback of
+    // sub_71010CB5C0; true when the entry's InfoData has the chemical tag.
+    bool sub_71010CB754(map::Unk_71012497f8Entry* entry);
     // Original 0x71010cbdcc: enqueue a unique chemical pair and event type under the pool lock.
     void sub_71010CBDCC(act::Chemical* first, act::Chemical* second, s32 type);
     void sub_71010CBEAC(act::Chemical* chemical);
