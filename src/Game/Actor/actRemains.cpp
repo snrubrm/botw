@@ -1,12 +1,15 @@
 #include "Game/Actor/actRemains.h"
 #include <basis/seadNew.h>
 #include <math/seadMathCalcCommon.h>
+#include <prim/seadSafeString.h>
 #include "Game/Actor/aiUnk_71024f15c0.h"
+#include "Game/Actor/aiUnk_71002CA6AC.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapPlacement18.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
-
+#include "KingSystem/System/StagePreActorCache.h"
 namespace uking::act {
 
 Remains::Remains(const CreateArg& arg) : DynamicActor(arg) {}
@@ -114,6 +117,26 @@ Unk_7100d3cd74* Remains::m101() {
 }
 
 }  // namespace uking::act
+
+// 0x71025b6c90: the per-remains-type rail-name table. The two leading words are the original's
+// static-initializer values for the table header; their meaning is unknown.
+struct RemainsTypeRailNames {
+    u32 _0;
+    u32 _4;
+    sead::SafeString names[5];
+};
+KSYS_VISIBILITY_HIDDEN RemainsTypeRailNames sRemainsTypeRailNames;
+
+// 0x71002ca6ac (placeholder name): stores `pos` in the position table entry of the remains type `id`.
+void sub_71002CA6AC(s32 id, const sead::Vector3f& pos) {
+    uking::sUnk_71025b6c50.mPositions[id] = pos;
+}
+
+// 0x71002ca808 (placeholder name): the rail of the remains type `id`.
+ksys::map::Rail* sub_71002CA808(s32 id) {
+    return ksys::StagePreActorCache::instance()->getPlacement18()->sub_7100D48744(
+        sRemainsTypeRailNames.names[id]);
+}
 
 // 0x71002ca850 (free function in the Remains TU): the main-field dungeon the map name belongs to.
 s32 getMainFieldDungeonType(const sead::SafeString& map_name) {
