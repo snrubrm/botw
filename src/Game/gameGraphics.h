@@ -614,6 +614,9 @@ public:
     void initMaybe(sead::Heap* heap);
     // 0x7100f203d0 (placeholder name): allocates and fills the vertex and index GPU blocks.
     void sub_7100F203D0(sead::Heap* heap);
+    // 0x7100f20774 (placeholder name): uploads the gauge parameters and the 16 noise points to
+    // the uniform block, then flushes the block's GPU cache.
+    void updateUniformBlockMaybe();
     // 0x7100f208e4 (placeholder name): if no scratch texture is allocated yet, allocates it through
     // DynamicTextureAllocator, draws the gauge into it and applies it to mSampler.
     void drawMaybe(f32 scale, agl::DrawContext* context);
@@ -627,8 +630,9 @@ public:
 private:
     /* 0x08 */ u32 mFlags = 0xc00;
     u32 _c = 0;
-    u32 _10 = 0;
-    u32 _14 = 0;
+    // 0x7100f20774 stores both words into the uniform data as floats, so they are f32.
+    f32 _10 = 0;
+    f32 _14 = 0;
     // 0x18: 16 four-component noise points, allocated by initMaybe. The element type is trivial
     // (the allocation in the original emits no element constructor), so use a plain vector.
     sead::Buffer<sead::Vector4f> mPoints;

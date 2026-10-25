@@ -7,6 +7,8 @@
 namespace gfx {
 // 0x71024f4394: the noise gauge's amplitude constant, loaded directly by its initializer.
 KSYS_VISIBILITY_HIDDEN extern const f32 cNoiseGaugeAmplitude = 0.1f;
+// 0x71024f4390: the parameter word uploaded by 0x7100f20774, in the same data block.
+KSYS_VISIBILITY_HIDDEN extern const f32 cNoiseGaugeUnk0Maybe = 0.15f;
 }  // namespace gfx
 
 // Graphics' render-record TUs (0x71012915bc .. 0x71012955xx). Unk_710129175c and Unk_710129421c

@@ -611,6 +611,8 @@ namespace gfx {
 // 0x71024f4394 (defined in gameUnk_710129175c.cpp): hidden-visibility constant, so the load is a
 // direct adrp + ldr rather than a folded literal.
 KSYS_VISIBILITY_HIDDEN extern f32 cNoiseGaugeAmplitude;
+// 0x71024f4390: the second constant in the same block, uploaded as the fourth parameter word.
+KSYS_VISIBILITY_HIDDEN extern f32 cNoiseGaugeUnk0Maybe;
 
 // 0x7100f20000: constructs the sampler, the scratch render buffer / target colour, the viewport, the
 // uniform block, the two GPU memory blocks, the vertex / index streams and the debug texture page.
@@ -652,6 +654,34 @@ void NoiseGauge::initMaybe(sead::Heap* heap) {
     mVertexAttribute.create(1, heap);
     mVertexAttribute.setVertexStream(0, &mVertexBuffer, 0);
     mVertexAttribute.setUp();
+}
+
+// 0x7100f20774 (placeholder name): uploads the gauge parameters and the 16 noise points to the
+// uniform block, then flushes the block's GPU cache.
+// NON_MATCHING: target's 16-byte parameter blocks are built as two 8-byte stores per block
+// (128/_10 then _14/const, and x/y then zero/w); ours stores each field separately, costing two
+// extra instructions and a different load order in the flush block. Same instruction set.
+void NoiseGauge::updateUniformBlockMaybe() {
+    mUniformBlock.dcbz(0);
+
+    {
+        struct Data {
+            f32 a, b, c, d;
+        };
+        Data data = {128.0f, _10, _14, cNoiseGaugeUnk0Maybe};
+        mUniformBlock.setData(0, &data);
+
+        for (s32 i = 0; i < 16; ++i) {
+            const sead::Vector4f& point = mPoints[i];
+            data.a = point.x;
+            data.b = point.y;
+            data.c = 0.0f;
+            data.d = point.w;
+            mUniformBlock.setData(1, &data, i);
+        }
+    }
+
+    mUniformBlock.flushCPUCache();
 }
 
 // 0x7100f20c88: frees the noise gauge's scratch texture and puts the Black2D sampler (mSamplers[2],
