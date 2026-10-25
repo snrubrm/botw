@@ -22,9 +22,9 @@ static const f32 sUnk_7101EC1930 = 0.4f;
 // Start value of a gear request, loaded through the GOT by sub_7100E63224.
 const f32 sUnk_7101EC1960 = 6.0f;
 
-// NON_MATCHING: every value matches, but the target's scheduler keeps the constant loads next to
-// their stores while this build hoists the three GOT loads, and the _30 / _38 zero stores land in
-// different places.
+// NON_MATCHING: every value and the instruction count match, but the target's scheduler keeps the
+// constant loads next to their stores while this build hoists the three GOT loads, and the _30 / _38
+// zero stores land in different places.
 // 0x7100e6fa10: the S2 sub-object's defaults: the rate pointers, the movement state and the flags.
 RideableBase::S2::S2() {
     _0 = &sUnk_7101EC1920;
