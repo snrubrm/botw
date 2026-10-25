@@ -177,9 +177,14 @@ void Emitter::setDebugSolo(bool solo) {
 // 0x7100b9f3c0
 void Emitter::setDebugMute(bool mute) {
     const u8 flags = mDebugFlags;
-    const u8 cleared = flags & ~2;
-    const u8 set = flags | 2;
-    mDebugFlags = (flags & 1) ? cleared : (!mute ? cleared : set);
+    u8 value;
+    if (flags & 1)
+        value = flags & ~2;
+    else if (mute)
+        value = flags | 2;
+    else
+        value = flags & ~2;
+    mDebugFlags = value;
 }
 
 // 0x7100b9f3e8
