@@ -8,11 +8,24 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Resource/resResourceMgrTask.h"
+#include "Game/UI/uiScreens.h"
+#include "Game/UI/euiScreen.h"
 
 // 920CFC is the native sead enum text parser; text_(s32) returns const char*.
 const char* getTipString(s32 index);
 
 SEAD_SINGLETON_DISPOSER_IMPL(TipsMgr)
+
+// 0x710091f434: when the fade screen (id 0x4e) is open and its tip flag is set, queries whether it
+// has finished opening. The only caller discards the result, so the original is void.
+void isFadeScreenOpened() {
+    eui::Screen* screen = eui::ScreenMgr::instance()->getScreen(0x4e);
+    if (!sead::IsDerivedFrom<uking::ui::Fade>(screen))
+        return;
+    auto* fade = static_cast<uking::ui::Fade*>(screen);
+    if (fade->_3a8)
+        fade->isOpened();
+}
 
 // 92026C binds the Tips heap as both EventFlow allocator user data pointers.
 void* sub_7100921090(size_t size, size_t alignment, void* user_data) {
