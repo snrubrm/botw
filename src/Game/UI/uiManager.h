@@ -1,5 +1,6 @@
 #pragma once
 
+#include "KingSystem/GameData/gdtFlagHandle.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "Game/UI/uiMainFieldArea.h"
 #include "Game/UI/uiLocationRecord.h"
@@ -143,6 +144,8 @@ public:
     void sub_7100A79ED4();
     void sub_7100A7A4C0();
     void sub_7100A7A4C4();
+    // 0x7100a77d5c (placeholder name): stores "CompleteTreasure_<map>" for the current dungeon's treasure flags
+    void updateDungeonCompleteTreasureFlag();
     void sub_7100A7A6E4(s32 a1);
     // 0x7100a7e840: whether the pause menu may open
     bool sub_7100A7E840(bool a2);
@@ -357,8 +360,22 @@ public:
     /* 0x651e0 */ f32 _651e0;
     u8 _651e4[0x651e8 - 0x651e4];
     /* 0x651e8 */ ManagerTaskList mTaskList;
+    struct TreasureFlag {
+        ksys::gdt::FlagHandle handle;
+        u8 _4[4];
+    };
+
     /* 0x65218 */ bool _65218;
-    u8 _65219[0x652e8 - 0x65219];
+    u8 _65219[3];
+    // The current dungeon's treasure flags (armed by _65218): _6521c is the number of treasures, _65220 how many
+    // are found and mTreasureFlags the handles (8-byte records, the handle first).
+    /* 0x6521c */ s32 _6521c;
+    /* 0x65220 */ s32 _65220;
+    u8 _65224[4];
+    /* 0x65228 */ s32 _65228;
+    u8 _6522c[4];
+    /* 0x65230 */ const TreasureFlag* const* mTreasureFlags;
+    u8 _65238[0x652e8 - 0x65238];
     /* 0x652e8 */ u8 _652e8;
     u8 _652e9[0x652f0 - 0x652e9];
     /* 0x652f0 */ s32 _652f0;  // count of the panes

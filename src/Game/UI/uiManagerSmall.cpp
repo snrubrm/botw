@@ -1,5 +1,8 @@
 #include <container/seadBuffer.h>
 #include "KingSystem/GameData/gdtManager.h"
+#include "Game/Scene/gameStageInfo.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include "Game/UI/euiCapturePane.h"
 #include "Game/gameRuneMgr.h"
@@ -1188,6 +1191,24 @@ bool Manager::parseMainFieldAreas() {
         }
     }
     return true;
+}
+
+// 0x7100a77d5c (CSV placeholder name): stores whether every treasure of the current dungeon was found under
+// "CompleteTreasure_<map>" when the treasure flag block is armed.
+void Manager::updateDungeonCompleteTreasureFlag() {
+    if (!_65218)
+        return;
+    _65220 = 0;
+    const s32 count = _65228;
+    for (s32 i = 0; i < count; ++i) {
+        if (ksys::gdt::getFlagGenericBool(mTreasureFlags[i]->handle, false))
+            ++_65220;
+    }
+    const bool complete = _65220 == _6521c;
+    const sead::SafeString& map_name = uking::StageInfo::getCurrentMapName();
+    sead::FormatFixedSafeString<128> name("CompleteTreasure_%s", map_name.cstr());
+    ksys::gdt::setBoolByKey(complete, name, false);
+    _65218 = false;
 }
 
 }  // namespace uking::ui
