@@ -478,6 +478,28 @@ bool UiSubsys1::sub_7100960DAC(s32 index) const {
     return lowest == index;
 }
 
+// 0x7100962534
+void UiSubsys1::sub_7100962534() {
+    for (auto& marker : _458) {
+        if (marker._44 == 0xff || (UiSubsys1::instance()->_120 & (1u << marker._44))) {
+            if (marker.sub_7100956C34()) {
+                marker._3c |= 8;
+                marker.m25(true);
+            } else {
+                marker._3c |= 8;
+                marker.m25(false);
+            }
+        } else {
+            marker._3c |= 8;
+            marker.m25(false);
+        }
+    }
+    for (auto& control : _360) {
+        control.m12();
+        control.m30();
+    }
+}
+
 // 0x7100962cc8
 void UiSubsys1::sub_7100962CC8() {
     if (Manager::instance()->_64c38 >= 5)

@@ -1544,6 +1544,9 @@ public:
     void sub_7100960AD8();
     // 0x710095b530 (CSV uiSubsys1::x_0; not decompiled; called by ScreenAppMapWidget::m31)
     void sub_710095B530();
+    // 0x7100962534 (placeholder name): enables the location markers whose map modes are available and
+    // resets the marker controls.
+    void sub_7100962534();
     // 0x7100962cc8 (placeholder name): refreshes the four special markers' districts while the manager
     // state is below 5.
     void sub_7100962CC8();
@@ -1590,7 +1593,10 @@ private:
     /* 0x328 */ Unk_71024754c0* _328;
     /* 0x330 */ Unk_71024754c0* _330;
     /* 0x338 */ Unk_71024754c0* _338;
-    u8 _340[0x378 - 0x340];
+    u8 _340[0x360 - 0x340];
+    // The marker controls 0x7100962534 resets each frame (m12 then m30).
+    /* 0x360 */ sead::PtrArray<Unk_7102475c68> _360;
+    u8 _370[0x378 - 0x370];
     /* 0x378 */ UiSubsys1Unk378* _378;
     u8 _380[0x3a0 - 0x380];
 
@@ -1599,7 +1605,10 @@ public:
     /* 0x3a0 */ ksys::qst::Quest* _3a0;
 
 private:
-    u8 _3a8[0x478 - 0x3a8];
+    u8 _3a8[0x458 - 0x3a8];
+    // The location markers 0x7100962534 enables / disables each frame.
+    /* 0x458 */ sead::PtrArray<Unk_7102476350> _458;
+    u8 _468[0x478 - 0x468];
     /* 0x478 */ Unk_7102476548* _478;
     u8 _480[0x488 - 0x480];
     // The map's ELink / SLink handles; sub_71008B43CC kills the ELink event when its create id matches.
