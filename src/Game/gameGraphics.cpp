@@ -210,25 +210,30 @@ void Graphics::sub_7100F2DF04(Unk_7100F2DF04Arg* arg) {
     arg->_10->_64 = 5;
 }
 
-// NON_MATCHING: the body and branches are the original's, but clang encodes the 2..7 range test
-// as `cmp #5; b.hi` where the original has `cmp #6; b.hs`, keeps the free-list-style Buffer index
-// in a signed register (`madd` instead of the original's `umaddl`, which also swaps the size /
-// pointer loads), and places the shared setPassViewProjIndex tail-call epilogue after the pass-8
-// arm instead of before the pass-0 arm. Tried if / u32(pass - 2) / switch forms and a negated
-// range; none changes those three choices.
+// NON_MATCHING: the switch form reproduces the original's branch layout (2..7 range test as
+// `cmp #6; b.hs`, pass 0 / 1 arm before the pass-8 arm) and the shared setPassViewProjIndex
+// tail-call epilogue after the 2..7 arm. The first scene's Context lookup still differs in one
+// instruction: clang selects `madd` (and loads the Buffer size before its pointer) where the
+// original has `umaddl` / base first. The same accessor in the other Graphics and
+// ModelSceneBuffer functions is `madd` too, so this is local to the original's expression here.
 // 0x7100f34f1c: the procedural-model pass hook. For pass 2..7 it stores this object's
 // pass-view-projection byte in `cache`; pass 0 / 1 invalidates the first scene's GBuffer write
 // cache first (the map states 3 / 6 / 7 are the ones drawn procedurally); pass 8 takes the value
 // from the particle editor singleton.
 void Graphics::drawProceduralPassMaybe(s32 pass, gsys::ModelRenderCache* cache) const {
-    if (pass >= 2 && pass <= 7) {
+    switch (pass) {
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
         if (!usesPassViewProjMaybe())
             return;
         cache->setPassViewProjIndex(_19);
         return;
-    }
-
-    if (pass < 2) {
+    case 0:
+    case 1: {
         gsys::RenderBufferContext* buffer =
             mModelScenes.unsafeAt(0)->mBuffer.getRenderBufferContext();
         gsys::RenderBufferContext::Context* context = buffer->getContext(cache->getViewIndex());
@@ -236,12 +241,14 @@ void Graphics::drawProceduralPassMaybe(s32 pass, gsys::ModelRenderCache* cache) 
                                                    gsys::GBuffer::Resolution(0));
         return;
     }
-
-    if (pass != 8)
+    case 8:
+        if (!usesPassViewProjMaybe())
+            return;
+        cache->setPassViewProjIndex(Unk_710260af28::instance()->sub_7100F1EEA0());
         return;
-    if (!usesPassViewProjMaybe())
+    default:
         return;
-    cache->setPassViewProjIndex(Unk_710260af28::instance()->sub_7100F1EEA0());
+    }
 }
 
 // 0x7100f2de80 (unnamed in the CSV; free function): draws one particle pass of a model render cache
