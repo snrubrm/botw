@@ -107,8 +107,7 @@ bool HorseMgr::sub_7100E84A04(ksys::act::Actor* actor, const sead::SafeString& n
     if (mOwnedHorse.hasProcById(actor))
         return true;
 
-    ksys::act::ActorLinkConstDataAccess accessor;
-    accessor.acquire(actor);
+    ksys::act::ActorLinkConstDataAccess accessor(actor);
     if (!sub_7100E84AE4(accessor, name, flag))
         return false;
     sub_7100E84F0C(actor);
