@@ -376,6 +376,8 @@ public:
     void sub_7100EFE030();
     // 0x7100efdce8: destroys the model render data the renderer built.
     void sub_7100EFDCE8(void* data);
+    // 0x7100eff5e8 (declaration only; placeholder name): draws the renderer's debug geometry.
+    void sub_7100EFF5E8(agl::DrawContext* context, gsys::ModelRenderContext* render_context);
 
 private:
     u32 _8 = 0;
@@ -437,6 +439,8 @@ public:
     // 0x710128f9e0 (declaration only): walks the model's unit access array and marks the matching
     // name's flag.
     void sub_710128F9E0(gsys::Model* model);
+    // 0x710128f888 (declaration only; placeholder name): draws the renderer's debug geometry.
+    void sub_710128F888(agl::DrawContext* context, gsys::ModelRenderContext* render_context);
 
 private:
     u8 _0[0x240];
@@ -626,6 +630,8 @@ public:
                             f32 delta);
         // 0x71012890fc (declaration only; placeholder name): refreshes record `view` of the blocks.
         void sub_71012890FC(s32 view);
+        // 0x710128a988 (declaration only; placeholder name): draws the block's debug geometry.
+        void sub_710128A988(agl::DrawContext* context, u8 view_index);
 
         u8 _0[0x18];
         /* 0x18 */ Unk_378_18* _18;
@@ -644,6 +650,8 @@ public:
         Unk_668_10* _10;
         u8 _18;
         u8 _19;
+        // 0x710128cf08 (declaration only; placeholder name): draws the object's debug geometry.
+        void sub_710128CF08(agl::DrawContext* context, u8 view_index);
     };
 
     // Original instance pointer 0x710260b060 (GOT 0x7102579d58).
@@ -1043,6 +1051,12 @@ public:
     void bindModelScene(gsys::ModelScene* scene) override;
     void unbindModelScene(gsys::ModelScene* scene) override;
     void clearModelSceneQueue() override;
+    // 0x7100f34de4 (slot m22): the final-image pass draws the debug geometry of the occlusion query
+    // drawer and the four renderer blocks, for pass 0 only.
+    void drawModelSceneFinalImage(agl::DrawContext* draw_context, s32 pass, gsys::ModelScene* scene,
+                                  gsys::ModelRenderContext* context) override;
+    // 0x7100f35f48 (slot m25): empty in the original.
+    void resetModelSceneHostIO(gsys::ModelRenderContext* context) override;
     // 0x7100f34e8c (slot m23): refreshes the view's records in the grid and model renderer blocks.
     virtual void m23(gsys::ModelSceneContext* context);
     // 0x7100f34f1c (IModelProcedural's +0x298 virtual; its _ZThn16_ thunk is 0x7100f35028): for

@@ -122,6 +122,25 @@ void Graphics::clearModelSceneQueue() {
         _3b0->clear();
 }
 
+void Graphics::drawModelSceneFinalImage(agl::DrawContext* draw_context, s32 pass,
+                                        gsys::ModelScene* scene,
+                                        gsys::ModelRenderContext* context) {
+    if (pass != 0)
+        return;
+    if (_3b0)
+        _3b0->drawDebug(draw_context, context->getViewIndex());
+    if (_3a0)
+        _3a0->sub_710128F888(draw_context, context);
+    if (_3a8)
+        _3a8->sub_7100EFF5E8(draw_context, context);
+    if (_378)
+        _378->sub_710128A988(draw_context, context->getViewIndex());
+    if (_668)
+        _668->sub_710128CF08(draw_context, context->getViewIndex());
+}
+
+void Graphics::resetModelSceneHostIO(gsys::ModelRenderContext* context) {}
+
 void Graphics::m23(gsys::ModelSceneContext* context) {
     if (_378)
         _378->sub_71012890FC(context->getViewIndex());
