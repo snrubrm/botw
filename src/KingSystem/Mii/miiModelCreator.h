@@ -19,6 +19,14 @@ class UMii;
 
 extern sead::SafeArray<sead::SafeString, 4> s_rot_labels;
 
+// 0x710260d280 / 0x710260d400 / 0x710260d590 (filled by sinitUmiiStrings2 0x7100f5cc00): the bone
+// names the per-race model builders bind part models to, indexed by ModelCreator::Arg type.
+// The tables hold 9 / 4 / 4 entries (the index clamps in 0x7100f4cc88, 0x7100f4cec4 and
+// 0x7100f4d3e0 give the counts) and are reached through GOT slots, so they stay extern.
+extern sead::SafeArray<sead::SafeString, 9> sUnk_710260D280;
+extern sead::SafeArray<sead::SafeString, 4> sUnk_710260D400;
+extern sead::SafeArray<sead::SafeString, 4> sUnk_710260D590;
+
 // Name from the CSV (Netfp::ctor 0x7100f58078, Netfp::initParamsAndLoadArchive 0x7100f5833c, Netfp::dtor
 // 0x7100f59744); the namespace is a guess. ModelCreator owns one (0x8048 bytes) for Mii/umii.bnetfp.
 // Declaration only.

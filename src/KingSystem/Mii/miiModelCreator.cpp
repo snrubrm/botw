@@ -24,7 +24,11 @@ ModelCreator::~ModelCreator() {
 // 0x710260c550 (bss; filled from Mii/UMiiConstructionInfo.byml): the Mii actor-name tables, indexed by
 // sead::SafeArray::operator[] (which falls back to element 0 on an out-of-range index).
 struct ModelCreatorNames {
-    u8 _0[0x578];
+    u8 _0[0x70];
+    // The hair bone name race 0 falls back to when the hair style is the special one
+    // (0x7100f4cd28 passes &sUnk_710260C550._70 to Model::searchBone).
+    sead::SafeString _70;
+    u8 _80[0x578 - 0x80];
     sead::SafeArray<sead::SafeString, 8> names8;
     sead::SafeArray<sead::SafeString, 27> names27;
 };
