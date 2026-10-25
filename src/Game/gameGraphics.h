@@ -16,6 +16,7 @@
 #include <prim/seadBitFlag.h>
 #include <thread/seadCriticalSection.h>
 #include <gsys/gsysModelScene.h>
+#include <gsys/gsysModelScenePassCallback.h>
 #include <gsys/gsysModelRenderQueue.h>
 #include <gsys/gsysModelRenderContext.h>
 #include <gsys/gsysModelRenderUnitNodeArray.h>
@@ -584,7 +585,7 @@ public:
 // Partial declaration: name from the CSV Graphics::createInstance (0x7100f2a1d0).
 // Source namespace remains unknown; global spelling follows the existing scene placeholders.
 // No instance layout or construction is modeled here.
-class Graphics : public gsys::IResourceEditorCallback {
+class Graphics : public gsys::IResourceEditorCallback, public gsys::IModelScenePassCallback {
 public:
     // Placeholder name: the block at Graphics + 0xa98 (shadow settings; lane3 s35, only the fields
     // EventChangeShadowNearAndFar::calc_ writes are modeled).
@@ -883,8 +884,9 @@ public:
     };
 
 private:
-    // The vptr (the class has a virtual destructor) occupies 0x0; the unknown block follows it.
-    u8 _8[0x19 - 0x8];
+    // The primary vptr (the class has a virtual destructor) and the model-scene pass callback's vptr
+    // (0x71024f45c0 + 0xf0) occupy 0x0 and 0x8; the unknown block follows them.
+    u8 _10[0x19 - 0x10];
     // Pass-view-projection index stored for the procedural draw (drawProceduralPassMaybe).
     u8 _19;
     u8 _1a[0xf8 - 0x1a];
@@ -1028,15 +1030,16 @@ public:
     Graphics();
     virtual ~Graphics();
 
-    // 0x7100f2e0a4 (slot m12): pass an environment object and its allocation argument to the
-    // locational light manager.
-    virtual void m12(void* obj, agl::env::EnvObjBuffer::AllocateArg* arg);
-    // 0x7100f2e0b4 (slot m13): the same environment object re-registration.
-    virtual void m13(void* obj);
-    // 0x7100f2e0c4 (slot m14).
-    virtual void m14(void* obj);
-    // 0x7100f2e0d4 (slot m15): clears the occlusion query drawer when one is attached.
-    virtual void m15();
+    // The model-scene pass callback overrides. Graphics is gsys::IModelScenePassCallback at +8; the
+    // primary vtable holds each override's implementation (m12-m25) and the +8 table the adjusted
+    // copies (m28-m41). Slots m12-m15: 0x7100f2e0a4 / 0x7100f2e0b4 / 0x7100f2e0c4 / 0x7100f2e0d4,
+    // their +8 copies 0x7100f2e0ac / 0x7100f2e0bc / 0x7100f2e0cc / 0x7100f2e0e4. The methods read
+    // the same members (the light manager at 0xaa0, the occlusion query drawer at 0x3b0).
+    void initializeModelSceneEnvObj(gsys::ModelScene* scene,
+                                    agl::env::EnvObjBuffer::AllocateArg* arg) override;
+    void bindModelScene(gsys::ModelScene* scene) override;
+    void unbindModelScene(gsys::ModelScene* scene) override;
+    void clearModelSceneQueue() override;
     // 0x7100f34e8c (slot m23): refreshes the view's records in the grid and model renderer blocks.
     virtual void m23(gsys::ModelSceneContext* context);
     // 0x7100f34f1c (IModelProcedural's +0x298 virtual; its _ZThn16_ thunk is 0x7100f35028): for
