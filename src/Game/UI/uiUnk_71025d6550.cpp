@@ -5,6 +5,8 @@
 #include "Game/gameGearMgr.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/ActorSystem/actActor.h"
+#include "Game/Actor/AI/aiElectricCable.h"
 
 namespace uking::ui {
 
@@ -47,13 +49,24 @@ void Unk_71025d6550::sub_7100948CC4(const void* a1) {
     case 3: {
         const s32 index = u32(arg->index) - 0x193;
         if (u32(index) <= 2) {
-            auto& pin = instance()->_b80[index];
+            auto& pin = instance()->_b78[index];
             pin.value = arg->value;
             pin.pos = arg->pos;
             pin.valid = true;
         }
         break;
     }
+    }
+}
+
+// 0x7100948e44 (placeholder name): copies a cable argument into the target of its field-body group.
+void Unk_71025d6550::sub_7100948E44(const void* a1) {
+    const auto* info = static_cast<const ai::ElectricCableUiInfo*>(a1);
+    const s32 group = info->actor->getFieldBodyGroupId();
+    if (u32(group) <= 2) {
+        _c20.mCS.lock();
+        sub_7100947B84(&_c20.mTargets[group], a1);
+        _c20.mCS.unlock();
     }
 }
 
@@ -235,9 +248,9 @@ void Unk_71025d6550::sub_71009486F0() {
 
 // 0x71009487c0
 void Unk_71025d6550::sub_71009487C0() {
-    if (!_d38 && _b80[0].valid && _c60[0].valid) {
-        const sead::Vector3f& from = _b80[0].pos;
-        const sead::Vector3f& to = _c60[0].pos;
+    if (!_d38 && _b78[0].valid && _c20.mTargets[0].valid) {
+        const sead::Vector3f& from = _b78[0].pos;
+        const sead::Vector3f& to = _c20.mTargets[0].pos;
         const f32 angle =
             360.0f - sub_7100AA0B6C(sead::Mathf::idx2deg(sead::Mathf::atan2Idx(to.x - from.x, to.y - from.y)));
         _d38 = true;
@@ -245,9 +258,9 @@ void Unk_71025d6550::sub_71009487C0() {
         _d3c = angle;
         _d54[0] = 0;
     }
-    if (!_d39 && _b80[1].valid && _c60[1].valid) {
-        const sead::Vector3f& from = _b80[1].pos;
-        const sead::Vector3f& to = _c60[1].pos;
+    if (!_d39 && _b78[1].valid && _c20.mTargets[1].valid) {
+        const sead::Vector3f& from = _b78[1].pos;
+        const sead::Vector3f& to = _c20.mTargets[1].pos;
         const f32 angle =
             360.0f - sub_7100AA0B6C(sead::Mathf::idx2deg(sead::Mathf::atan2Idx(to.x - from.x, to.y - from.y)));
         _d39 = true;
@@ -255,9 +268,9 @@ void Unk_71025d6550::sub_71009487C0() {
         _d40 = angle;
         _d54[1] = 0;
     }
-    if (!_d3a && _b80[2].valid && _c60[2].valid) {
-        const sead::Vector3f& from = _b80[2].pos;
-        const sead::Vector3f& to = _c60[2].pos;
+    if (!_d3a && _b78[2].valid && _c20.mTargets[2].valid) {
+        const sead::Vector3f& from = _b78[2].pos;
+        const sead::Vector3f& to = _c20.mTargets[2].pos;
         const f32 angle =
             360.0f - sub_7100AA0B6C(sead::Mathf::idx2deg(sead::Mathf::atan2Idx(to.x - from.x, to.y - from.y)));
         _d3a = true;

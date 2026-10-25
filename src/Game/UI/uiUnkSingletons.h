@@ -307,17 +307,17 @@ public:
     /* 0xb6c */ s32 _b6c;
     /* 0xb70 */ f32 _b70;
     /* 0xb74 */ s32 _b74;
-    u8 _b78[0xb80 - 0xb78];
     // The three pins (index 0x193 - 0x195 of the pin argument) set by sub_7100948CC4 (placeholder layout).
     struct Pin {
-        sead::Vector3f pos;
-        u8 _c[0x18 - 0xc];
-        /* 0x18 */ s32 value;
-        /* 0x1c */ bool valid;
-        u8 _1d[0x38 - 0x1d];
+        u8 _0[8];
+        /* 0x08 */ sead::Vector3f pos;
+        u8 _14[0x20 - 0x14];
+        /* 0x20 */ s32 value;
+        /* 0x24 */ bool valid;
+        u8 _25[0x38 - 0x25];
     };
-    /* 0xb80 */ Pin _b80[3];
-    u8 _c28[0xc60 - 0xc28];
+    static_assert(sizeof(Pin) == 0x38);
+    /* 0xb78 */ Pin _b78[3];
     // Targets matching the pins (placeholder layout; sub_71009487C0 reads the position at 0x20 and the flag at 0x40)
     struct Target {
         u8 _0[0x20];
@@ -327,7 +327,13 @@ public:
         u8 _41[0x48 - 0x41];
     };
     static_assert(sizeof(Target) == 0x48);
-    /* 0xc60 */ Target _c60[3];
+    // The targets and the lock sub_7100948E44 holds while it copies a cable argument into one of them.
+    struct TargetGroup {
+        /* 0x00 */ sead::CriticalSection mCS;
+        /* 0x40 */ Target mTargets[3];
+    };
+    static_assert(sizeof(TargetGroup) == 0x40 + 3 * 0x48);
+    /* 0xc20 */ TargetGroup _c20;
     // set once the angle from pin i to target i is stored in _d3c / _d40 / _d44 (sub_71009487C0)
     /* 0xd38 */ bool _d38;
     /* 0xd39 */ bool _d39;
@@ -364,6 +370,9 @@ public:
 private:
     static Unk_71025d6550* sInstance;
 };
+
+// 0x7100947b84 (placeholder name): copies a pin / cable argument into `target` (declared only).
+void sub_7100947B84(Unk_71025d6550::Target* target, const void* info);
 
 // Singleton at 0x71025d69f0 (createInstance 0x710094d7b4, size 0x48, vtable 0x7102475348 with D1 / D0 0x710094d8c4 /
 // 0x710094d8c8, disposer vtable 0x7102475328; `_2c` is a state set by the facade functions).
