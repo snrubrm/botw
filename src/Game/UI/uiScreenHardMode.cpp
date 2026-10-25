@@ -112,6 +112,53 @@ void ScreenHardMode::x() {
     getStateMachine().changeState(&sUnk_71025ee9f0);
 }
 
+// 0x7100a0bd68: the per-frame update: runs the state machine, releases the cursor button on a B press, applies the
+// type / content animators' end frames and sets the two buttons from the display mode _3700.
+// NON_MATCHING: only block layout. The switch over _3700 is tested 0-before-3 here (the original tests 3 first)
+// and the six-case button switch lowers to a bit-test mask (0x39) instead of the original's jump table; same
+// instructions and targets.
+void ScreenHardMode::m94() {
+    getStateMachine().run();
+    if (isOpened() && (mButtonGroup->_38 & 2) && isTrigMaybe(2)) {
+        switch (_3700) {
+        case 1:
+        case 2:
+            sub_71010AA894();
+            _3638->DownOff(false);
+            break;
+        case 3:
+        case 0:
+            sub_71010AA894();
+            break;
+        }
+    }
+    if (_3620->mFlags & 2) {
+        _3620->StopAtMax();
+        if (_3700 != -1) {
+            _3610->Stop(f32(_3700));
+            _3618->PlayAuto(1.0f);
+        }
+        _3638->setFlag10(false);
+        _3640->setFlag10(false);
+    }
+    if (_3618->mFlags & 2) {
+        switch (_3700) {
+        case 0:
+        case 3:
+        case 4:
+        case 5:
+            _3638->setFlag10(false);
+            _3640->setFlag10(false);
+            break;
+        case 1:
+        case 2:
+            _3638->setFlag10(true);
+            _3640->setFlag10(true);
+            break;
+        }
+    }
+}
+
 // 0x7100a0bc24
 void ScreenHardMode::m93(sead::Heap*) {
     _3610 = mLayout->createAnimatorAuto("Type", true);

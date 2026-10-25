@@ -4362,6 +4362,7 @@ public:
     bool isEnableControl() const override;
     void close(s32 option) override;
     void m93(sead::Heap* heap) override;
+    void m94() override;
     void m98() override;
     void m99() override;
     void m106(eui::AnimButton* button) override;
