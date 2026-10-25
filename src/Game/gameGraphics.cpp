@@ -18,6 +18,8 @@
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/System/VFR.h"
+#include <utility/aglDynamicTextureAllocator.h>
+#include <utility/aglPrimitiveTexture.h>
 
 namespace gsys {
 
@@ -602,3 +604,18 @@ void gameSceneCalcGraphicsStuff() {
         return;
     graphics->sub_7100F2F20C(ksys::VFR::instance()->getDeltaFrame());
 }
+
+namespace gfx {
+
+// 0x7100f20c88: frees the noise gauge's scratch texture and puts the Black2D sampler (mSamplers[2],
+// +0x38) back on the gauge's sampler.
+void NoiseGauge::releaseMaybe() {
+    if (mDynamicTexture) {
+        agl::utl::DynamicTextureAllocator::instance()->free(mDynamicTexture);
+        mDynamicTexture = nullptr;
+        mSampler.applyTextureData(
+            agl::utl::PrimitiveTexture::instance()->getBlack2DSampler()->getTextureData());
+    }
+}
+
+}  // namespace gfx
