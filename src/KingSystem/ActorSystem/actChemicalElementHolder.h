@@ -127,6 +127,8 @@ public:
     bool sub_7100D9D520() const;
     // 0x7100d9d52c: the neighbouring watch flag at 0x7102600F84.
     bool sub_7100D9D52C() const;
+    // 0x7100d9d154 (placeholder name; declared only): frustum-culls and draws the holder's elements.
+    void sub_7100D9D154(sead::DrawContext* context);
     // 0x7100d9ae5c (placeholder name): sets flag 0x80 in _c8.
     void sub_7100D9AE5C();
     // 0x7100d9ae24 / 0x7100d9ae40 (placeholder names): store a vector at _188 and set _c8 bit 5 / 6.

@@ -1,4 +1,5 @@
 #include "KingSystem/Chemical/chmChemical.h"
+#include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "KingSystem/Chemical/chmSystemConfig.h"
 #include <cmath>
 #include <heap/seadExpHeap.h>
@@ -48,6 +49,11 @@ void Chemical::sub_7100D99760(act::Unk_71024dd490* holder) {
 
 s32 Chemical::sub_7100D9979C() {
     return _80.increment();
+}
+
+void Chemical::drawScene(sead::DrawContext* context) {
+    for (auto& holder : _68)
+        holder.sub_7100D9D154(context);
 }
 
 // Scales a value into [1, 1000) by powers of 1000 (the mantissa for an SI prefix).
