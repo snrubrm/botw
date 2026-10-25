@@ -10,6 +10,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <new>
 #include <nn/ui2d/Pane.h>
+#include <nn/ui2d/Util.h>
 
 namespace uking::ui {
 
@@ -829,3 +830,10 @@ u8* trackerLoadFileStuff(Unk_710249d330* work, u32 index) {
 }
 
 }  // namespace uking::ui
+
+namespace nn::font {
+
+// 0x71009af838: the out-of-line DynamicCast<eui::PictureEx>(Pane*) instantiation of this TU.
+template eui::PictureEx* DynamicCast<eui::PictureEx, nn::ui2d::Pane>(nn::ui2d::Pane*);
+
+}  // namespace nn::font

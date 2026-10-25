@@ -1,10 +1,12 @@
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/euiBoundingEx.h"
+#include <nn/ui2d/Util.h>
 
 namespace uking::ui {
 
-// 0x71009300e8 (placeholder name; not decompiled): DynamicCast of the pane to eui::PartsEx (a second copy of
+// 0x71009300e8 (placeholder name; not decompiled): DynamicCast of the pane to eui::BoundingEx (a second copy of
 // eui::sub_7100945088 in this TU)
-eui::PartsEx* sub_71009300E8(nn::ui2d::Pane* pane);
+eui::BoundingEx* sub_71009300E8(nn::ui2d::Pane* pane);
 
 Unk_71024746b0::Unk_71024746b0() = default;
 
@@ -77,3 +79,10 @@ Unk_71024746b0Item* Unk_71024746b0::sub_71009301F4(s32 index) {
 }
 
 }  // namespace uking::ui
+
+namespace nn::ui2d {
+
+// 0x71009300e8: the out-of-line DynamicCast<eui::BoundingEx*>(Pane*) instantiation of this TU.
+template eui::BoundingEx* DynamicCast<eui::BoundingEx*, nn::ui2d::Pane>(nn::ui2d::Pane*);
+
+}  // namespace nn::ui2d

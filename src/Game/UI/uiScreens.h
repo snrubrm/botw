@@ -55,6 +55,7 @@
 namespace eui {
 class AlignPane;
 class Animator;
+class BoundingEx;
 class CapturePane;
 class PartsEx;
 class TraceGaugeControl;
@@ -698,7 +699,7 @@ public:
     void sub_710092F374(bool a1);
 
     /* 0x08 */ Screen* mScreen{};
-    /* 0x10 */ eui::PartsEx* mParts{};
+    /* 0x10 */ eui::BoundingEx* mParts{};
     /* 0x18 */ u32 _18{};
     /* 0x1c */ u8 _1c{};
     /* 0x20 */ sead::Vector2f _20 = sead::ControllerBase::cInvalidPointer;
