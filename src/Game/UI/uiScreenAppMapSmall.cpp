@@ -1559,6 +1559,30 @@ void ScreenAppMapDungeon::sub_71009E3258() {
     _11920.fade();
 }
 
+// 0x71009e41ec (placeholder name): moves _11910 to the screen position of dungeon entry `index`.
+// NON_MATCHING: the original evaluates isForceGlbMtxDirty_() before loading the layout's vtable slot
+// (C++14 argument order) and schedules the two fsubs before the two fadds; our build loads the slot
+// early into x22 and finishes x before starting y.
+void ScreenAppMapDungeon::sub_71009E41EC(s32 index) {
+    if (index == -1)
+        return;
+    if (_118d8->mEntries.size() <= index)
+        return;
+    const DungeonEntry& entry = _118d8->mEntries[index];
+    if (!_11910)
+        return;
+    if (!_11908)
+        return;
+
+    nn::util::Float2 pos;
+    sub_71009E42F4(entry._14, &pos);
+    const nn::util::Float3& root = mLayout->GetPane()->GetPosition();
+    const nn::util::MatrixT4x3fType& mtx = _3630->GetMtx();
+    _11910->SetPosition(
+        nn::util::Float3{mtx.m[0][3] - root.x + pos.x, mtx.m[1][3] - root.y + pos.y, 0.0f});
+    _11908->CalculateImpl(*mDrawInfo, isForceGlbMtxDirty_());
+}
+
 // 0x71009e407c (placeholder name): plays the _11918 animator forwards while the map is open and backwards
 // once the sensor child or the system window takes over.
 void ScreenAppMapDungeon::sub_71009E407C() {

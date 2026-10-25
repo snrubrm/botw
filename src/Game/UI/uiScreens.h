@@ -5977,7 +5977,10 @@ public:
     void sub_71009E65D4();
 
     // Full ctor 9e00b0 and setup helper 9e2584; factory a81f34 allocates 0x11938 bytes.
-    u8 _3610[0x3658 - 0x3610];
+    u8 _3610[0x3630 - 0x3610];
+    // The P_3D_00 pane m93 finds in the screen layout; sub_71009E41EC reads its matrix translation.
+    /* 0x3630 */ nn::ui2d::Pane* _3630;
+    u8 _3638[0x3658 - 0x3638];
     /* 0x3658 */ f32 _3658;  // camera pitch
     /* 0x365c */ f32 _365c;  // camera yaw
     /* 0x3660 */ f32 _3660;  // camera follow distance
@@ -6058,7 +6061,10 @@ public:
     /* 0x118e0 */ UiTimer _118e0;
     /* 0x118f8 */ sead::Vector2f _118f8;  // left stick of the screen's controller
     /* 0x11900 */ bool _11900;
-    u8 _11901[0x11918 - 0x11901];
+    u8 _11901[0x11908 - 0x11901];
+    // The Pa_Cursor_00 parts layout and its root pane (created by sub_71009F9... in m93).
+    /* 0x11908 */ eui::LayoutEx* _11908;
+    /* 0x11910 */ nn::ui2d::Pane* _11910;
     /* 0x11918 */ eui::Animator* _11918;
     /* 0x11920 */ xlink2::HandleSLink _11920;  // the map cursor movement sound (mc_CursorMove)
     /* 0x11930 */ bool _11930;
