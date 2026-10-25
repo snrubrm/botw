@@ -1566,6 +1566,43 @@ void ScreenMainScreen::sub_7100A1AF60() {
         _3d68->sub_71009C0310();
 }
 
+// 0x7100a1b764 (placeholder name): opens / closes the clock child and refreshes its T_Time_00 text when the
+// cached hour or minute changed (called by m94).
+void ScreenMainScreen::sub_7100A1B764() {
+    if (!_36e0)
+        return;
+
+    if (wm::isFindDungeonActivated() && sub_7100AA948C() && !getMainScreenOnOff()) {
+        const s32 state = _36e0->_104;
+        if (state == 0 || (u32(state - 2) <= 4 && ((state - 2) & 1) == 0))
+            _36e0->m5(true);
+    } else {
+        const s32 state = _36e0->_104;
+        if (state == 7 || (u32(state - 1) <= 4 && ((state - 1) & 1) == 0)) {
+            _36e0->m6(false);
+            _36e8 = -1;
+            _36ec = -1;
+        }
+        return;
+    }
+
+    bool hour_changed = false;
+    const s32 hour = wm::getHour();
+    if (hour != _36e8) {
+        _36e8 = hour;
+        hour_changed = true;
+    }
+    const s32 minute = wm::getMinute();
+    if (minute != _36ec)
+        _36ec = minute;
+    else if (!hour_changed)
+        return;
+
+    sead::FixedSafeString<0x80> text;
+    wm::formatTimeString(&text);
+    setWidgetString(_36e0->mLayout, sead::SafeString("T_Time_00"), text);
+}
+
 // 0x7100a17ff4
 ScreenMainScreen::~ScreenMainScreen() = default;
 

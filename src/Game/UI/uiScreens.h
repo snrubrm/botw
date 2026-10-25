@@ -1397,7 +1397,12 @@ public:
     // The two ints are written together by sub_7100A1ABF8 ({1, 0}) and separately by sub_7100A1ABC8.
     /* 0x36b8 */ s32 _36b8;
     /* 0x36bc */ s32 _36bc;
-    u8 _pad_36c0[0x3704 - 0x36c0];
+    u8 _pad_36c0[0x36e0 - 0x36c0];
+    // The clock child updated by sub_7100A1B764 (a ScreenChild; its mLayout holds the T_Time_00 text).
+    /* 0x36e0 */ ScreenChild* _36e0;
+    /* 0x36e8 */ s32 _36e8;  // cached hour (-1: none)
+    /* 0x36ec */ s32 _36ec;  // cached minute (-1: none)
+    u8 _pad_36f0[0x3704 - 0x36f0];
     /* 0x3704 */ s32 _3704;
     u8 _pad_3708[0x3720 - 0x3708];
     /* 0x3720 */ f32 _3720;  // -99.0f initially
@@ -1479,6 +1484,9 @@ public:
     void sub_7100A1AB94();
     // 0x7100a1adc4 (placeholder name): closes the child screens on leaving the main screen.
     void sub_7100A1ADC4();
+    // 0x7100a1b764 (placeholder name): opens / closes the clock child and refreshes its T_Time_00 text when the
+    // cached hour / minute changed (called by m94).
+    void sub_7100A1B764();
 };
 
 // The MessageTips screen (members from 0x300 recovered from the constructor).
