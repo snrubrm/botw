@@ -185,8 +185,8 @@ bool ForestRenderer::stopped() {
 }
 
 // 0x7100f06cb0: counts a tree instance in the u16 table at 0x78; true if the entry handles that model.
-// NON_MATCHING: the original selects the index byte by address (a reference conditional) and saves its base
-// in x23; ours selects the value (csel) and is 8 bytes shorter.
+// NON_MATCHING: same instructions and size; the two index computations and the conditional cell index
+// are scheduled differently and the stride / cell pointer take x22 / x23 the other way round.
 bool ForestRenderer::Entry::sub_7100F06CB0(const sead::SafeString& name, const sead::Vector3f& pos,
                                            const sead::Vector3f& rotate, f32 scale) {
     const u32 flags = _8 & 1;
@@ -197,17 +197,12 @@ bool ForestRenderer::Entry::sub_7100F06CB0(const sead::SafeString& name, const s
     GridCell cell;
     cell.mFlags = _8 & 1;
     cell.sub_7100F076D8(pos);
-    const s32 index =
-        stride * model +
-        ((cell.mFlags & 1) ? cell.mZ * 10 : cell.mZ * 0xa0 + cell.mX * 0x10) +
-        ((cell.mFlags & 1) ? cell.mX : cell.mMask);
-    _78.getBufferPtr()[index] += 1;
+    _78.getBufferPtr()[stride * model + cell.index()] += 1;
     mNumRecords += 1;
-    Unk_28& range = _28[((cell.mFlags & 1) ? cell.mZ * 10 : cell.mZ * 0xa0 + cell.mX * 0x10) +
-                        ((cell.mFlags & 1) ? cell.mX : cell.mMask)];
+    Unk_28& range = _28[cell.index()];
     range._2 += 1;
     range._8 |= 1ull << model;
-    range._4 |= 1 << (sUnk_710260A200.models[model].flags & 0x1f);
+    range._4 |= 1 << sUnk_710260A200.models[model].flags;
     return true;
 }
 
