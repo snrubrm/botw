@@ -3,12 +3,15 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
+// Shared rate defaults of the rider state (0x7101ec1934-0x7101ec193c; the movement action TUs use
+// them as well, through these global-scope names).
+extern const f32 sUnk_7101EC1934 = 0.0f;
+extern const f32 sUnk_7101EC1938 = 0.0f;
+extern const f32 sUnk_7101EC193C = 1.0f;
+
 namespace uking::act {
 
 const f32 sUnk_7101EC1904 = 1.0f;
-extern const f32 sUnk_7101EC1934 = 0.0f;
-extern const f32 sUnk_7101EC1938 = 0.0f;
-extern const f32 sUnk_7101EC193c = 1.0f;
 
 // The S2 rate defaults (the block at 0x7101ec1920; the ctor takes their addresses).
 static const f32 sUnk_7101EC1920 = 6.0f;
@@ -29,7 +32,7 @@ RideableBase::S2::S2() {
     _10 = &sUnk_7101EC1928;
     _18 = &sUnk_7101EC1934;
     _20 = &sUnk_7101EC1938;
-    _28 = &sUnk_7101EC193c;
+    _28 = &sUnk_7101EC193C;
     _30 = 0;
     _38 = 0;
     _40 = &sUnk_7101EC192c;

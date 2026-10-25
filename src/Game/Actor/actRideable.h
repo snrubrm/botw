@@ -377,10 +377,6 @@ static_assert(offsetof(RideableBase::S2, _88) == 0x88);
 extern RideableBase::SpeedEntry::Gear sUnk_7102603058;
 // Shared readonly rate used by S2 initialization and HorseRiddenByNPC entry.
 extern const f32 sUnk_7101EC1904;
-// S2's rate defaults (see S2::S2).
-extern const f32 sUnk_7101EC1934;
-extern const f32 sUnk_7101EC1938;
-extern const f32 sUnk_7101EC193c;
 // Start value of a gear request (6.0f, 0x7101ec1960).
 extern const f32 sUnk_7101EC1960;
 
