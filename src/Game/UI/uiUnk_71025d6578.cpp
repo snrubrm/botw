@@ -49,6 +49,24 @@ inline u32 Unk_71025d6578::getExtraHeartValue() const {
     return player->m321();
 }
 
+// 0x7100949d68: refreshes the cached heart values and the gauge state from the player's hearts.
+// NON_MATCHING: same stores; clang 4 schedules the _3c / _40 / _44 stores after the ceil comparison instead of
+// inside the float sequence, and keeps the max value in a register instead of reloading _30.
+void Unk_71025d6578::sub_7100949D68() {
+    _2c = getCurrentHeartValue();
+    _30 = getMaxHeartValue();
+    const u32 extra = getExtraHeartValue();
+    _28 = u32(sead::Mathf::ceil(_30 * 0.25f)) >> 4;
+    _3c = 13;
+    _40 = 7;
+    _44 = 0;
+    _34 = extra;
+    _38 = 0;
+    _48 = 0;
+    _49 = 0;
+    _63 = (_63 & 0xf0) | 0xa;
+}
+
 SEAD_SINGLETON_DISPOSER_IMPL(Unk_71025d6578)
 
 // D1 0x7100949ce0, D0 0x7100949ce4
