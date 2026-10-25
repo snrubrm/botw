@@ -17,6 +17,6 @@ Functions marked matching in `data/uking_functions.csv` (byte-identical to the o
 | | Matching functions | Code size |
 |---|---|---|
 | zeldaret/botw at the fork point | 32,071 / 113,490 (28.26%) | 15.51% |
-| This fork | 78,522 / 113,491 (69.19%) | 36.13% |
+| This fork | 78,540 / 113,491 (69.20%) | 36.14% |
 
 For more information about the original project, see https://botw.link
