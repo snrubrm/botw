@@ -1,6 +1,7 @@
 #include <basis/seadNew.h>
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actRideable.h"
+#include <stdarg.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -186,6 +187,14 @@ RideableBase::S1::UnkGear RideableBase::m11(S1::UnkGear mode) {
     }
     const S1::UnkGear gear = _18._b == 0 ? _18._9 : _18._b;
     return S1::UnkGear(sead::Mathi::max(int(limit), int(gear) - 1));
+}
+
+// 0x7100e534a0: forwards the variadic AS-name list to the AS controller's own list handler.
+void RideableBase::sub_7100E534A0(const char* name, ...) {
+    va_list args;
+    va_start(args, name);
+    _18.sub_7100E78A04(name, args);
+    va_end(args);
 }
 
 void RideableBase::m9() {

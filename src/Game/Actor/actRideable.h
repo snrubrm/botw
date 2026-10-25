@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <stdarg.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadEnum.h>
@@ -158,6 +159,9 @@ public:
         };
         KSYS_CHECK_SIZE_NX150(Unk68, 0x68);
 
+        // 0x7100e78a04 (declared only; 684 B): plays the AS names collected by the variadic
+        // RideableBase::sub_7100E534A0 through the AS list.
+        void sub_7100E78A04(const char* name, va_list args);
         void sub_7100E747E8(ksys::as::ASList* list);
         // 0x7100e761a4: resets animation requests and restores the AS rates.
         void sub_7100E761A4(bool a1, bool a2);
