@@ -612,6 +612,8 @@ public:
     // 0x7100f201cc (declaration only): fills the 16 noise colours, sets up the debug texture page,
     // the uniform block, the vertex/index buffers and the vertex attribute.
     void initMaybe(sead::Heap* heap);
+    // 0x7100f203d0 (placeholder name): allocates and fills the vertex and index GPU blocks.
+    void sub_7100F203D0(sead::Heap* heap);
     // 0x7100f208e4 (placeholder name): if no scratch texture is allocated yet, allocates it through
     // DynamicTextureAllocator, draws the gauge into it and applies it to mSampler.
     void drawMaybe(f32 scale, agl::DrawContext* context);
@@ -627,8 +629,9 @@ private:
     u32 _c = 0;
     u32 _10 = 0;
     u32 _14 = 0;
-    // 0x18: the 16 noise colours, allocated by initMaybe.
-    sead::Buffer<sead::Color4f> mPoints;
+    // 0x18: 16 four-component noise points, allocated by initMaybe. The element type is trivial
+    // (the allocation in the original emits no element constructor), so use a plain vector.
+    sead::Buffer<sead::Vector4f> mPoints;
     /* 0x28 */ agl::TextureData* mDynamicTexture = nullptr;
     /* 0x30 */ agl::TextureSampler mSampler;
     /* 0x1a0 */ agl::RenderBuffer mRenderBuffer;

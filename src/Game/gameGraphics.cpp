@@ -13,6 +13,7 @@
 #include <nn/g3d/ResMaterial.h>
 #include <layer/aglLayer.h>
 #include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
 #include <postfx/aglDepthOfField.h>
 #include "KingSystem/World/worldDofMgr.h"
 #include "KingSystem/World/worldManager.h"
@@ -607,6 +608,10 @@ void gameSceneCalcGraphicsStuff() {
 
 namespace gfx {
 
+// 0x71024f4394 (defined in gameUnk_710129175c.cpp): hidden-visibility constant, so the load is a
+// direct adrp + ldr rather than a folded literal.
+KSYS_VISIBILITY_HIDDEN extern f32 cNoiseGaugeAmplitude;
+
 // 0x7100f20000: constructs the sampler, the scratch render buffer / target colour, the viewport, the
 // uniform block, the two GPU memory blocks, the vertex / index streams and the debug texture page.
 NoiseGauge::NoiseGauge() {}
@@ -614,6 +619,39 @@ NoiseGauge::NoiseGauge() {}
 // 0x7100f200b8: destroys the uniform block's GPU buffer first, then the members in reverse order.
 NoiseGauge::~NoiseGauge() {
     mUniformBlock.destroy();
+}
+
+// 0x7100f201cc: fills the 16 noise colours, sets up the debug texture page, the uniform block,
+// the vertex/index buffers and the vertex attribute.
+// NON_MATCHING: the target compares the byte-offset induction variable at the loop bottom and
+// keeps the amplitude in s10 across the random call; ours compares the element index and sinks
+// the load. Same instruction set, different IV/load scheduling.
+void NoiseGauge::initMaybe(sead::Heap* heap) {
+    mPoints.tryAllocBuffer(16, heap, 8);
+    for (s32 i = 0; i < 16; ++i) {
+        sead::Vector4f& point = mPoints[i];
+        point.x = sead::Mathf::pow(0.9f, f32(i));
+        point.y = sead::GlobalRandom::instance()->getF32();
+        point.z = (sead::GlobalRandom::instance()->getF32() * 2.0f - 1.0f) * cNoiseGaugeAmplitude;
+        point.w = sead::GlobalRandom::instance()->getF32();
+    }
+
+    mRenderBuffer.setRenderTargetColorNullAll();
+    mRenderBuffer.setRenderTargetColor(&mRenderTargetColor, 0);
+    mRenderBuffer.setRenderTargetDepth(nullptr);
+
+    mDebugPage.setUp(1, "NoiseGauge", heap);
+
+    mUniformBlock.startDeclare(2, heap);
+    mUniformBlock.declare_(agl::UniformBlock::cType_6, 1, 0, 1);
+    mUniformBlock.declare_(agl::UniformBlock::cType_6, 0x10, 0, 1);
+    mUniformBlock.create(heap, 2, 1);
+
+    sub_7100F203D0(heap);
+
+    mVertexAttribute.create(1, heap);
+    mVertexAttribute.setVertexStream(0, &mVertexBuffer, 0);
+    mVertexAttribute.setUp();
 }
 
 // 0x7100f20c88: frees the noise gauge's scratch texture and puts the Black2D sampler (mSamplers[2],

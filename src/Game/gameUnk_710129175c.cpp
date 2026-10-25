@@ -4,6 +4,11 @@
 #include <gsys/gsysModelUnit.h>
 #include <common/aglShaderProgramArchive.h>
 
+namespace gfx {
+// 0x71024f4394: the noise gauge's amplitude constant, loaded directly by its initializer.
+KSYS_VISIBILITY_HIDDEN extern const f32 cNoiseGaugeAmplitude = 0.1f;
+}  // namespace gfx
+
 // Graphics' render-record TUs (0x71012915bc .. 0x71012955xx). Unk_710129175c and Unk_710129421c
 // are constructed by gameGraphics.cpp's initializer but their methods live here.
 
