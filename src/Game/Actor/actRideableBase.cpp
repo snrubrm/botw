@@ -111,16 +111,16 @@ void RideableBase::m5() {
     }
 }
 
-// NON_MATCHING: the original ends its gear-limit local's lifetime before the tail call (the clamp sits in an
-// inner scope), so it keeps the current gear in x21 and ends in a branch into sub_7100E76AA4; this natural
-// form emits a call and its epilogue instead.
 // 0x7100e63224: requests the gear pair (`type`, `gear`) with the gear clamped to the limit m11 reports for
 // `type`; ignored while flag 4 of _8 is set.
 void RideableBase::sub_7100E63224(S1::UnkGear type, S1::UnkGear gear) {
     if (_8 & 4)
         return;
-    const S1::UnkGear limit = m11(type);
-    gear = sead::Mathi::clampMax(gear, limit);
+    {
+        const s32 g = int(gear);
+        const S1::UnkGear limit = m11(type);
+        gear = sead::Mathi::clampMax(g, limit);
+    }
     _18.sub_7100E76AA4(type, gear, sUnk_7101EC1960);
 }
 
@@ -168,18 +168,21 @@ bool RideableBase::sub_7100E63560(S1::UnkGear gear_type, S1::UnkGear gear,
                               sead::Mathi::clampMax(min_gear_at_auto_down, limit), mode);
 }
 
+// NON_MATCHING: the limit block matches; the original materialises the current gear as a 4-byte class
+// temporary in each arm (`str w9, [sp, #8]` / `str w9, [sp, #4]` around the `int()` conversions) and lays
+// the two arms out the other way round, while this form keeps it in a register.
 int RideableBase::m11(S1::UnkGear mode) {
-    s32 limit = _168;
+    S1::UnkGear limit = _168;
     if (mode == S1::UnkGear::_0) {
         if (_138 > 0.0f)
-            limit = sead::Mathi::min(limit, 1);
+            limit = sead::Mathi::min(int(limit), 1);
         else if (_13c > 0.0f)
-            limit = sead::Mathi::min(limit, 2);
+            limit = sead::Mathi::min(int(limit), 2);
     }
     s32 gear = _18._b == 0 ? _18._9 : _18._b;
     if ((_18._9 == _18._b && _18._8 == _18._a) || !(_18._c > 0.0f))
         --gear;
-    return sead::Mathi::max(limit, gear);
+    return sead::Mathi::max(int(limit), gear);
 }
 
 void RideableBase::m9() {
