@@ -650,17 +650,36 @@ public:
 
     // Placeholder (type unknown): the object at +0x668. WorldMgr::calcEntryJob writes the
     // byte at +0x19 and the float at +0x10 + 0x6c.
+    // The 0x78-byte per-view record the object at +0x668 allocates (0x710128caec initializes it).
     struct Unk_668_10 {
-        u8 _0[0x6c];
+        sead::Matrix34f mMatrix;
+        sead::Matrix34f mPrevMatrix;
+        sead::Vector3f _60;
         f32 mValue;
+        // 0x710128cbcc chases the second float towards the first.
+        f32 _70;
+        f32 _74;
     };
-    struct Unk_668 {
-        u8 _0[0x10];
-        Unk_668_10* _10;
-        u8 _18;
-        u8 _19;
+    static_assert(sizeof(Unk_668_10) == 0x78);
+    struct Unk_668 : public sead::hostio::Node {
+        // 0x710128ca44: constructs the 0x20-byte object (vtable 0x71025190d0); its virtual dtor
+        // pair is 0x710128ca70 / 0x710128cab0.
+        Unk_668();
+        virtual ~Unk_668();
+        // 0x710128caec (placeholder name): allocates `count` 0x78-byte records and initializes them.
+        void initMaybe(s32 count, sead::Heap* heap);
+        // 0x710128cbcc (placeholder name): stores `value` at _10+0x70 and chases the value at
+        // _10+0x74 towards it with the rate at +0x1c.
+        void chaseValueMaybe(f32 value, f32 delta, bool snap);
         // 0x710128cf08 (declaration only; placeholder name): draws the object's debug geometry.
         void sub_710128CF08(agl::DrawContext* context, u8 view_index);
+
+        u32 _8 = 0;
+        Unk_668_10* _10 = nullptr;
+        u8 _18 = 0;
+        u8 _19 = 0;
+        u8 _1a[2];
+        f32 _1c = 0.1f;
     };
 
     // Original instance pointer 0x710260b060 (GOT 0x7102579d58).
