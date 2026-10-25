@@ -88,6 +88,9 @@ void sub_7100F5B8C0(sead::BufferedSafeString* out, const UMii& umii);
 // the backpack model name (part type 7) by race when common.backpack is 0; empty otherwise.
 void sub_7100F5B4F0(sead::BufferedSafeString* out, const UMii& umii);
 
+// 0x7100f5bb00: the body model name of a Zora Mii (part type 0).
+void getUMiiBodyPartNameRace5(sead::BufferedSafeString* out, const UMii& umii);
+
 // 0x7100f5b5b8 / 0x7100f5b774 (placeholder names): the model names of part types 0 (body) and 8 (hat).
 void sub_7100F5B5B8(sead::BufferedSafeString* out, const UMii& umii);
 void sub_7100F5B774(sead::BufferedSafeString* out, const UMii& umii);
@@ -95,5 +98,10 @@ void sub_7100F5B774(sead::BufferedSafeString* out, const UMii& umii);
 // 0x7100f5a708 (placeholder name): writes the model name of part `arg.type` of `umii` to `out` (empty
 // when the Mii does not have that part).
 void sub_7100F5A708(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
+
+// 0x7100f5b320 / 0x7100f5b408 (placeholder names): the Zora (0x710260d610) and Rito (0x710260d630)
+// copies of the single part-name formatter.
+void sub_7100F5B320(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
+void sub_7100F5B408(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii);
 
 }  // namespace ksys::mii

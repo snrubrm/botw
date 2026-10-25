@@ -198,6 +198,45 @@ void sub_7100F5AF44(sead::BufferedSafeString* out, const ModelCreator::Arg& arg,
     formatSinglePartName(out, arg, umii, sUnk_710260D510);
 }
 
+void sub_7100F5B320(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii) {
+    formatSinglePartName(out, arg, umii, sUnk_710260D610);
+}
+
+void sub_7100F5B408(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii) {
+    formatSinglePartName(out, arg, umii, sUnk_710260D630);
+}
+
+// 0x7100f5a360 (placeholder name): the number of models a Mii race uses (Hylian 14, Korok 6,
+// Goron 3, Sheikah 1, Gerudo 6, Zora 1, Rito 1). Actor::loadModelAndAnimationMaybe passes the Mii's
+// body.race here.
+s32 getModelCountMaybe(const s32& race) {
+    switch (race) {
+    case 0:
+        return 14;
+    case 1:
+        return 6;
+    case 2:
+        return 3;
+    case 3:
+        return 1;
+    case 4:
+        return 6;
+    case 5:
+        return 1;
+    case 6:
+        return 1;
+    default:
+        return 0;
+    }
+}
+
+// 0x7100f5bb00: the body model name of a Zora Mii (part type 0).
+void getUMiiBodyPartNameRace5(sead::BufferedSafeString* out, const UMii& umii) {
+    // The original indexes the body-type table with a constant 0.
+    out->format("%s%s_%s_%03d", sUnk_710260D610[0].cstr(), sUnk_710260DB50[0].cstr(),
+                sUnk_710260D7A0[umii.getSexAge()].cstr(), *umii.getBody().number);
+}
+
 void sub_7100F5A39C(sead::BufferedSafeString* out, const ModelCreator::Arg& arg, const UMii& umii) {
     sead::FixedSafeString<64> name{sead::SafeString::cEmptyString};
     sub_7100F5A550(&name, arg, umii);
