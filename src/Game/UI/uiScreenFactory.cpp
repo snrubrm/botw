@@ -25,3 +25,8 @@ eui::DrawTarget ScreenFactory::getDrawTarget(u8 index) const {
 }  // namespace uking::ui
 
 Unk_710249ce90::~Unk_710249ce90() = default;
+
+// 0x7100a828e8
+const char* Unk_710249ce90::getLayoutName_() const {
+    return "Thanks_00";
+}

@@ -2921,6 +2921,8 @@ class Unk_710249ce90 : public uking::ui::Screen {
     SEAD_RTTI_OVERRIDE(Unk_710249ce90, uking::ui::Screen)
 public:
     ~Unk_710249ce90() override;
+    // 0x7100a828e8: the "Thanks_00" layout
+    const char* getLayoutName_() const override;
 };
 
 // vtable 0x71024de2f0 (148 slots); placeholder generated from the vtable (genskel.py).
