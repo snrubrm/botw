@@ -19,6 +19,20 @@ void applyScreenFade(float progress) {
 
 }  // namespace ksys::ui
 
+// 0x71007b0c60: opens the fade screen at option `option` (global in the CSV; the only callers are GameScene's
+// loading-screen steps).
+void openFadeScreen(s32 option) {
+    auto* mgr = eui::ScreenMgr::instance();
+    if (!mgr)
+        return;
+    auto* fade = sead::DynamicCast<uking::ui::Fade>(mgr->getScreen(uking::ui::ScreenId::Fade));
+    if (!fade)
+        return;
+    fade->stopColorAnimatorAt(option);
+    fade->setStartedMaybe(false);
+    fade->open(1);
+}
+
 namespace uking::ui {
 
 // 0x71008ae818

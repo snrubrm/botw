@@ -48973,7 +48973,7 @@ Address,Quality,Size,Name
 0x00000071007af6c0,O,000004,_ZN5uking9GameScene15PatchErrorLeaveEv
 0x00000071007af6c4,O,000008,_ZN5uking9GameScene17PatchErrorReenterEv
 0x00000071007af6cc,U,005524,GameScene::startLoadingScreen
-0x00000071007b0c60,U,000220,openFadeScreen
+0x00000071007b0c60,O,000220,_Z14openFadeScreeni
 0x00000071007b0d3c,O,000076,_ZNK5uking9GameScene14sub_71007B0D3CEv
 0x00000071007b0d88,U,000904,_ZN5uking9GameScene9commonRunEbb
 0x00000071007b1110,m,000048,_ZN5uking42gameSceneStartedBgProcessingAndNotFinishedEv
