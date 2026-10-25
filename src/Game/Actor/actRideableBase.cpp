@@ -168,9 +168,9 @@ bool RideableBase::sub_7100E63560(S1::UnkGear gear_type, S1::UnkGear gear,
                               sead::Mathi::clampMax(min_gear_at_auto_down, limit), mode);
 }
 
-// NON_MATCHING: the target builds a 4-byte temporary from the current-gear expression in each arm (its
-// `int()` conversion then shows as `str w / ldr w`) and lays the arms out the other way round; this build
-// keeps one temporary and the gear in registers.
+// NON_MATCHING: the target's equal-pair test falls through into the decrement arm and each arm
+// converts its own 4-byte gear temporary; this build inverts the second equality test and shares
+// one decrement block.
 RideableBase::S1::UnkGear RideableBase::m11(S1::UnkGear mode) {
     S1::UnkGear limit = _168;
     if (mode == S1::UnkGear::_0) {
@@ -179,12 +179,13 @@ RideableBase::S1::UnkGear RideableBase::m11(S1::UnkGear mode) {
         else if (_13c > 0.0f)
             limit = sead::Mathi::min(int(limit), 2);
     }
-    if ((_18._9 == _18._b && _18._8 == _18._a) || !(_18._c > 0.0f)) {
+    if (_18._9 != _18._b || _18._8 != _18._a) {
         const S1::UnkGear gear = _18._b == 0 ? _18._9 : _18._b;
-        return S1::UnkGear(sead::Mathi::max(int(limit), int(gear) - 1));
+        if (_18._c > 0.0f)
+            return S1::UnkGear(sead::Mathi::max(int(limit), int(gear)));
     }
     const S1::UnkGear gear = _18._b == 0 ? _18._9 : _18._b;
-    return S1::UnkGear(sead::Mathi::max(int(limit), gear));
+    return S1::UnkGear(sead::Mathi::max(int(limit), int(gear) - 1));
 }
 
 void RideableBase::m9() {
