@@ -1051,12 +1051,23 @@ public:
     void bindModelScene(gsys::ModelScene* scene) override;
     void unbindModelScene(gsys::ModelScene* scene) override;
     void clearModelSceneQueue() override;
+    // The remaining model-scene pass overrides, in the original's primary-vtable order (slots m16-m21;
+    // declaration only, so the primary table and the +8 table keep the original's slot layout).
+    void calcModelSceneFrame(s32 view, gsys::ModelRenderContext* context) override;
+    void calcModelSceneCalcRenderView(s32 view, gsys::ModelScene* scene,
+                                      gsys::ModelRenderContext* context) override;
+    void drawModelSceneBG(agl::DrawContext* draw_context, s32 pass, gsys::ModelScene* scene,
+                          gsys::ModelRenderContext* context) override;
+    void drawModelSceneOpa(agl::DrawContext* draw_context, s32 pass, gsys::ModelScene* scene,
+                           gsys::ModelRenderContext* context) override;
+    void drawModelSceneXlu(agl::DrawContext* draw_context, s32 pass, gsys::ModelScene* scene,
+                           gsys::ModelRenderContext* context) override;
+    void drawModelScenePfx(agl::DrawContext* draw_context, s32 pass, gsys::ModelScene* scene,
+                           gsys::ModelRenderContext* context) override;
     // 0x7100f34de4 (slot m22): the final-image pass draws the debug geometry of the occlusion query
     // drawer and the four renderer blocks, for pass 0 only.
     void drawModelSceneFinalImage(agl::DrawContext* draw_context, s32 pass, gsys::ModelScene* scene,
                                   gsys::ModelRenderContext* context) override;
-    // 0x7100f35f48 (slot m25): empty in the original.
-    void resetModelSceneHostIO(gsys::ModelRenderContext* context) override;
     // 0x7100f34e8c (slot m23; +8 copy 0x7100f34ed4): refreshes the view's records in the grid and
     // model renderer blocks.
     void calcModelSceneViewGPU(gsys::ModelRenderContext* context) override;
@@ -1064,6 +1075,8 @@ public:
     // passes 2..7 stores `_19` in the procedural draw's render cache, for passes 0 / 1 invalidates
     // the first scene's GBuffer write cache, and for pass 8 stores the particle editor's value.
     virtual void drawProceduralPassMaybe(s32 pass, gsys::ModelRenderCache* cache) const;
+    // 0x7100f35f48 (slot m25): empty in the original.
+    void resetModelSceneHostIO(gsys::ModelRenderContext* context) override;
 
     // inline-only in the original; name is a guess: the map states 3 / 6 / 7 select the
     // pass-view-projection index for the procedural draw.
