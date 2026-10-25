@@ -41,8 +41,8 @@ void Graphics::Unk_668::chaseValueMaybe(f32 value, f32 delta, bool snap) {
 
 // 0x710128caec (placeholder name): allocates `count` 0x78-byte records and initializes their two
 // identity matrices, the zero vector and the three 1.0 floats.
-// NON_MATCHING: clang pairs the identity stores (the original keeps six 16-byte stores off a
-// +0x74-based pointer) and tests the record count with an index instead of a countdown.
+// NON_MATCHING: the countdown stores its counter with a 32-bit sub/cbnz; the original uses the
+// 64-bit form (sub x8 / cbnz x8). Every store and the loop shape otherwise match.
 void Graphics::Unk_668::initMaybe(s32 count, sead::Heap* heap) {
     if (count >= 1) {
         auto* data = new (heap, 8, std::nothrow) Unk_668_10[count];
@@ -53,13 +53,13 @@ void Graphics::Unk_668::initMaybe(s32 count, sead::Heap* heap) {
     }
 
     Unk_668_10* data = _10;
-    for (s32 i = 0; i < _8; ++i) {
-        data->mMatrix.makeIdentity();
+    for (s32 i = _8; i != 0; --i) {
         data->mPrevMatrix.makeIdentity();
+        data->mMatrix.makeIdentity();
         data->_60 = sead::Vector3f::zero;
+        data->_74 = 1.0f;
         data->mValue = 1.0f;
         data->_70 = 1.0f;
-        data->_74 = 1.0f;
         ++data;
     }
 }
