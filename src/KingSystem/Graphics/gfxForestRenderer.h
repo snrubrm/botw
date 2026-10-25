@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <heap/seadHeap.h>
 #include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
 #include <hostio/seadHostIONode.h>
@@ -257,6 +258,9 @@ public:
     // the record counts in _220; state 3.
     void x_4();
     void x_5();
+    // 0x7100f0367c: releases the tree models, the entry buffers and the tree resources; `release_resources`
+    // also unloads every entry's resources.
+    void releaseResource(bool release_resources);
     // 0x7100f07150 (CSV x_6): passes a placed tree to every entry (PlacementMapMgr::initForestRendererFiles).
     bool x_6(const sead::SafeString& name, const sead::Vector3f& pos, const sead::Vector3f& rotate,
              f32 scale);
@@ -344,7 +348,7 @@ public:
     static_assert(sizeof(Unk_68) == 0x68);
 
     sead::CriticalSection mCS;
-    u64 _48 = 0;
+    /* 0x48 */ sead::Heap* _48 = nullptr;
     u32 _50 = 0;
     s32 _54 = 0;
     u32 _58 = 0;

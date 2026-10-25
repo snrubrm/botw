@@ -387,6 +387,42 @@ ForestRenderer::Entry::~Entry() {
     sub_7100F02C40();
 }
 
+// 0x7100f02958: releases the resources, the model set's slots, the entry and unit-entry buffers, the
+// locked draw objects and the tree resources, then destroys the heap at 0x48. The member destructors
+// (model set, unit-entry holder, the locked object and the critical section) run afterwards.
+ForestRenderer::~ForestRenderer() {
+    releaseResource(false);
+    mModelSet.mSlots[0].finalize();
+    mModelSet.mSlots[1].finalize();
+    mUnitEntries.mEntries.freeBuffer();
+
+    Entry* entry = mEntries.getBufferPtr();
+    const u64 num_entries = u32(mEntries.size());
+    for (u64 i = 0; i < num_entries; ++i, ++entry)
+        entry->sub_7100F02C40();
+    mEntries.freeBuffer();
+
+    _68.mCS.lock();
+    if (_68.mFlags & 1) {
+        _68._58.freeBuffer();
+        if (_68._50) {
+            gsys::ModelDrawObj::freeBuffer(_68._50, 0x900);
+            if (_68._50)
+                ::operator delete(_68._50);
+            _68._50 = nullptr;
+        }
+        _68.mFlags &= ~1u;
+    }
+    _68.mCS.unlock();
+
+    mTreeRes.freeBuffer();
+
+    if (_48) {
+        _48->destroy();
+        _48 = nullptr;
+    }
+}
+
 ForestRenderer::Unk_68::~Unk_68() {
     mCS.lock();
     if (mFlags & 1) {
