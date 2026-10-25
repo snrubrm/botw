@@ -1,5 +1,9 @@
 #include <container/seadBuffer.h>
+#include <cstddef>
 #include <limits>
+#include <basis/seadNew.h>
+#include <heap/seadDisposer.h>
+#include <heap/seadHeap.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadScopedLock.h>
 #include "Game/UI/uiUnkSingletons.h"
@@ -13,6 +17,43 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 
 namespace uking::ui {
+
+// The singleton's storage (0x71025d6aa8) and the disposer's static pointer (0x71025d6aa0).
+UiSubsys1* UiSubsys1::sInstance = nullptr;
+UiSubsys1::SingletonDisposer_* UiSubsys1::SingletonDisposer_::sStaticDisposer = nullptr;
+
+// 0x710095a4bc: allocates the 0x3920-byte instance, constructs its disposer at +8 and then the
+// object itself. Unlike SEAD_CREATE_SINGLETON_INSTANCE the original has no double-create assert.
+UiSubsys1* UiSubsys1::createInstance(sead::Heap* heap) {
+    if (!sInstance) {
+        u8* buffer = new (heap, alignof(UiSubsys1)) u8[sizeof(UiSubsys1)];
+        auto* disposer_buffer = buffer + offsetof(UiSubsys1, mSingletonDisposerBuf_);
+        SingletonDisposer_::sStaticDisposer = new (disposer_buffer) SingletonDisposer_(heap);
+        sInstance = new (buffer) UiSubsys1;
+    }
+    return sInstance;
+}
+
+// 0x710095a544: tears the disposer and the instance down. The disposer dtor does not clear the
+// static pointer itself here because it is cleared before the call.
+void UiSubsys1::destroyInstance() {
+    SingletonDisposer_* disposer = SingletonDisposer_::sStaticDisposer;
+    if (!disposer)
+        return;
+    SingletonDisposer_::sStaticDisposer = nullptr;
+    disposer->~SingletonDisposer_();
+    delete sInstance;
+    sInstance = nullptr;
+}
+
+// 0x710095a3ec / 0x710095a450 (D1 / D0)
+UiSubsys1::SingletonDisposer_::~SingletonDisposer_() {
+    if (this == sStaticDisposer) {
+        sStaticDisposer = nullptr;
+        sInstance->~UiSubsys1();
+        sInstance = nullptr;
+    }
+}
 
 // 0x71025d6ab0: bypass for the sensor availability check.
 KSYS_VISIBILITY_HIDDEN bool sUnk_71025d6ab0 = false;

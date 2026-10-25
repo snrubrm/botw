@@ -1270,7 +1270,11 @@ class UiSubsys1 {
     friend class Unk_71024753a8;
     friend class Unk_7102478be0;
 public:
-    static UiSubsys1* instance() { return sInstance; }
+    SEAD_SINGLETON_DISPOSER(UiSubsys1)
+public:
+    UiSubsys1();
+    virtual ~UiSubsys1();
+    static void destroyInstance();
 
     // Marker factory hooks at 0x7100964bac / 0x71009675d0; bodies remain undecompiled.
     void sub_7100964BAC(sead::Heap* heap);
@@ -1554,9 +1558,6 @@ public:
     s32 get7c4(s32 index) const;
 
 private:
-    static UiSubsys1* sInstance;
-
-    u8 _0[0x28];
     /* 0x28 */ u8 _28;
     /* 0x29 */ u8 _29;
     u8 _2a[0x30 - 0x2a];
