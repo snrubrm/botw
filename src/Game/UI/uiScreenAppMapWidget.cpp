@@ -3,6 +3,7 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/Scene/gameStageInfo.h"
 #include "Game/AOC/aocHardModeManager.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtSaveMgr.h"
 #include <filedevice/seadFileDeviceMgr.h>
 #include "Game/UI/uiUtils.h"
@@ -119,6 +120,21 @@ void ScreenAppMapWidget::sub_71009AF1AC() {
         refreshHomePage();
         _b4a4 = 16;
     }
+}
+
+// 0x71009a98a4: stores the map scale for `level`, saves it as the App_Map_Scale game data flag,
+// updates the map view position and marks the end of the zoom-out animation.
+void ScreenAppMapWidget::sub_71009A98A4(s32 level) {
+    const f32 scale = sub_7100965960(level);
+    mSubsys->_850.set38(scale);
+    ksys::gdt::Manager::instance()->setF32(scale, sUnk_71025D9610.mAppMapScale);
+    mSubsys->set898(level);
+    sead::Vector2f position;
+    UiSubsys1::instance()->sub_7100965EEC(scale, &position);
+    mSubsys->_850.set40(position);
+    mSubsys->set3884(false);
+    if (mSubsys->is898Zero())
+        _b528 = true;
 }
 
 // 0x71009a995c
@@ -419,7 +435,9 @@ void ScreenAppMapWidget::sub_71009AEF88() {
     }
 }
 
-KSYS_VISIBILITY_HIDDEN bool sUnk_71025D9610 = false;
+// The TU's static block: the map display mode flag and the "App_Map_Scale" game data flag. The original
+// TU also merges its remaining statics into this block; they are not modelled yet.
+KSYS_VISIBILITY_HIDDEN Unk_71025D9610 sUnk_71025D9610 = {false, {}, "App_Map_Scale"};
 
 // NON_MATCHING: same work; the original passes a copy of the target vector to sub_7100966350 (ours passes the local
 // itself) and adds _b388 + _b499 in the other operand order.
@@ -468,7 +486,7 @@ void ScreenAppMapWidget::setMode(s32 mode) {
         _b4ff &= 0xf;
         _b4a8 = 0;
         _b4fd = 0;
-        sUnk_71025D9610 = true;
+        sUnk_71025D9610.mUnkFlag = true;
         break;
     case 1:
         UiSubsys1::instance()->clear38c8();

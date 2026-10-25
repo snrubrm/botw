@@ -1,4 +1,5 @@
 #include "Game/UI/uiUnkSingletons.h"
+#include "Game/gameSceneMgr.h"
 #include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/euiAnimator.h"
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -1358,6 +1359,27 @@ void Unk_7102476450::m12() {
 
 Unk_7102476450::~Unk_7102476450() = default;
 
+
+
+// 0x71009573f8: moves the district marker to the position for the manager state: the fixed map parameter
+// position in state 5, the Master Sword map position in state 6, and the selected marker in state 7 / 0 - 4.
+void Unk_7102476548::m14() {
+    const u32 mode = Manager::instance()->_64c38;
+    if (mode == 5) {
+        updateDistrictFromPos(&sUnk_71025d6c70._9c);
+    } else if (mode == 6) {
+        const sead::SafeString pos_name = "MasterSword";
+        const sead::SafeString map_name = "MainField";
+        sead::Vector3f dest[2];
+        SceneMgr::instance()->getMapPosition(pos_name, dest, map_name, nullptr);
+        updateDistrictFromPos(&dest[0]);
+    } else if (mode == 7) {
+        updateDistrictFromPos(UiSubsys1::instance()->getMapMarkerPosition());
+    } else if (mode <= 4) {
+        updateDistrictFromPos(UiSubsys1::instance()->getMapMarkerPosition());
+    }
+    m20();
+}
 
 // 0x710095731c
 void Unk_7102476548::updateDistrictFromPos(const sead::Vector3f* pos) {

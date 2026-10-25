@@ -2657,6 +2657,18 @@ public:
 };
 static_assert(sizeof(Unk_710249d330) == 0x148);
 
+// 0x71025d9610: the AppMap widget TU's static data block, filled by the TU's static initializer
+// (0x71009a4aa8). Only the members the decompiled functions use are modelled; the rest is still pad.
+struct Unk_71025D9610 {
+    // 0x71009ae04c (setMode) sets this when the map display mode changes to 0.
+    /* 0x000 */ bool mUnkFlag;
+    u8 _1[0x198 - 1];
+    // The "App_Map_Scale" game data flag (sub_71009A98A4 stores the map scale through it).
+    /* 0x198 */ sead::SafeString mAppMapScale;
+};
+// 0x71025d9610 (defined in uiScreenAppMapWidget.cpp)
+KSYS_VISIBILITY_HIDDEN extern Unk_71025D9610 sUnk_71025D9610;
+
 // Placeholder for the map widget the AppMap screen owns (byte 0xb33a is set by ScreenAppMap::mainEnter).
 struct ScreenAppMapWidget : public ScreenChildEx {
     // 0x71009ae3c8: toggles map selection mode and refreshes the AppHome screen
@@ -2808,7 +2820,9 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     /* 0xb51c */ f32 _b51c;
     /* 0xb520 */ f32 _b520;
     /* 0xb524 */ f32 _b524;
-    u8 _b528[0xb530 - 0xb528];
+    // set by sub_71009A98A4 when the zoom level reaches zero; read by 0x71009a8d20
+    /* 0xb528 */ bool _b528;
+    u8 _b529[0xb530 - 0xb529];
     // N_Field_00, looked up by 0x71009a89c0; its alpha is cleared by sub_71009A9388 / sub_71009A93E0
     /* 0xb530 */ nn::ui2d::Pane* mFieldPane;
 };

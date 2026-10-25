@@ -18,12 +18,11 @@ static sead::SafeString sUnk_71025F1BC8[] = {"0000", "0001"};
 static sead::Buffer<sead::SafeString> sMessages(sUnk_71025F1BC8);
 
 // 0x7100a40b58
-// NON_MATCHING: the clamp compares and the element address are scheduled differently (3 lines)
 void ScreenReadyGo::sub_7100A40B58(s32 a1) {
     const s32 last = sMessages.size() - 1;
-    const s32 index = a1 < 0 ? 0 : (a1 > last ? last : a1);
+    const s32 index = sead::Mathi::clamp(a1, 0, last);
     eui::MessageString message;
-    getMessage(sMessageSet, sMessages(index), &message);
+    getMessage(sMessageSet, sMessages[index], &message);
     setWidgetString(mLayout, "T_Go_00", message);
 }
 
