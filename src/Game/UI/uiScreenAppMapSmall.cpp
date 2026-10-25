@@ -1679,6 +1679,35 @@ void ScreenAppMapDungeon::sub_71009E7420() {
         pane->SetVisible(false);
 }
 
+// 0x71009e5080: the draw override. While the screen is open it points the map materials' first texture slot at
+// the map renderer's dynamic texture, then draws the screen and frees the texture again.
+void ScreenAppMapDungeon::doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) {
+    auto* renderer = Graphics::instance()->getMapRendererMaybe();
+    if (!renderer) {
+        Screen::doDraw_(info);
+        return;
+    }
+    if (!isClosed()) {
+        info->mDrawContext->invalidateShaderMode();
+        renderer->sub_7100F1B020(info->mDrawContext);
+        info->mFrameBuffer->bind(info->mDrawContext);
+        info->mViewport->apply(info->mDrawContext, *info->mFrameBuffer);
+        info->mDrawContext->changeShaderMode(agl::cShaderMode_UniformRegister,
+                                             static_cast<agl::ShaderOptimizeType>(0));
+        info->mGraphicsContext->apply(info->mDrawContext);
+        if (_3640 && _3648) {
+            eui::SetupTextureInfoByAglTextureData(&_3618, renderer->getMapTextureDataMaybe(), nullptr);
+            _3640->GetTexMapArray()[0].ReplaceTextureInfo(&_3618);
+            _3648->GetTexMapArray()[0].ReplaceTextureInfo(&_3618);
+            if (_3650)
+                _3650->GetTexMapArray()[0].ReplaceTextureInfo(&_3618);
+        }
+    }
+    Screen::doDraw_(info);
+    if (!isClosed())
+        renderer->freeDynamicTextureMaybe();
+}
+
 // 0x71009e34d0
 // NON_MATCHING: the sensor child load for the null test lands in x8 where the original uses x0 (regalloc).
 void ScreenAppMapDungeon::sub_71009E34D0() {

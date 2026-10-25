@@ -5921,6 +5921,9 @@ public:
     // 0x71009e4f88: closes the screen when the camera rune is used, the screen is closing while sub_7100AA8F50 holds,
     // the UI manager flags 0xa000 are both set or the remote bomb state bit is set
     void m130() override;
+    // 0x71009e5080: the draw override: points the map materials at the map renderer's dynamic texture around
+    // the base draw.
+    void doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) override;
     bool isEnableControl() const override;
     const char* getLayoutName_() const override;
     ~ScreenAppMapDungeon() override;
@@ -5989,10 +5992,16 @@ public:
     void sub_71009E65D4();
 
     // Full ctor 9e00b0 and setup helper 9e2584; factory a81f34 allocates 0x11938 bytes.
-    u8 _3610[0x3630 - 0x3610];
+    u8 _3610[8];
+    // The map texture reference m33 refreshes every frame from the map renderer's dynamic texture.
+    /* 0x3618 */ nn::ui2d::ExternalTextureInfo _3618;
     // The P_3D_00 pane m93 finds in the screen layout; sub_71009E41EC reads its matrix translation.
     /* 0x3630 */ nn::ui2d::Pane* _3630;
-    u8 _3638[0x3658 - 0x3638];
+    u8 _3638[8];
+    // The three materials whose first texture slot m33 points at _3618.
+    /* 0x3640 */ nn::ui2d::Material* _3640;
+    /* 0x3648 */ nn::ui2d::Material* _3648;
+    /* 0x3650 */ nn::ui2d::Material* _3650;
     /* 0x3658 */ f32 _3658;  // camera pitch
     /* 0x365c */ f32 _365c;  // camera yaw
     /* 0x3660 */ f32 _3660;  // camera follow distance
