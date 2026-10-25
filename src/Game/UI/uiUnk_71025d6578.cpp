@@ -107,6 +107,30 @@ void Unk_71025d6578::sub_710094B9A0() {
     _4a = 1;
 }
 
+// 0x7100949edc
+// NON_MATCHING: clang merges the two state tests into one dispatch block before the arms; the original tests
+// 15, runs that arm, then reloads _3c for the 13 test. Same instructions, different block order.
+void Unk_71025d6578::sub_7100949EDC() {
+    if (getMaxHeartValue() == 0)
+        return;
+    if (_4a) {
+        sub_7100949FBC();
+        return;
+    }
+    // The arms are written 13 first: clang 4 tests the last written arm first, which is the 15 test the
+    // original makes first.
+    if (_3c == 13) {
+        sub_710094AC00();
+    } else if (_3c == 15) {
+        sub_7100949D68();
+        _38 |= 0x2000;
+    } else {
+        sub_710094A210();
+    }
+    sub_710094AE7C();
+    sub_710094B478();
+}
+
 // 0x7100949fbc
 // NON_MATCHING: the final flag updates use different load/store scheduling and merge the zero store.
 void Unk_71025d6578::sub_7100949FBC() {

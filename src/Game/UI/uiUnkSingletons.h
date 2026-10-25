@@ -183,6 +183,14 @@ public:
     void sub_710094BD54();
     // A2D8C4 passes its gauge singleton; native receiver fields are 28..70.
     void sub_7100949EDC();
+    // 0x7100949d68 / 0x710094ac00 / 0x710094a210 (declaration only): the gauge update for the state _3c
+    // 15 / 13 / any other
+    void sub_7100949D68();
+    void sub_710094AC00();
+    void sub_710094A210();
+    // 0x710094ae7c / 0x710094b478 (declaration only): the gauge's screen and animator sync
+    void sub_710094AE7C();
+    void sub_710094B478();
     void sub_7100949FBC();
     u32 sub_710094C094(u32 value) const;
     u32 sub_710094C0D4(u32 value) const;
