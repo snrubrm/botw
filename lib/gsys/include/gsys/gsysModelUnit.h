@@ -315,10 +315,13 @@ protected:
     u16 mCalcWeight;
     sead::TypedBitFlag<Attribute, u16> mAttributeFlags;
     u16 _14;
-    u16 _16;
+    // The valid render-unit list built by setUpModelUnit (0x7100c3d728): it appends every render
+    // unit whose isVisible() is true, so +0x16 is the count and +0x20 the ModelRenderUnit* array.
+    // 0x7100f1a3b0 searches the array by ModelRenderUnit::mMaterialIndex.
+    u16 mRenderUnitNum;
     u32 _18;
     u32 _1c;
-    void* _20;
+    ModelRenderUnit** mRenderUnits;
     ModelUnitDrawArray* mDrawArray;
     void* _30;
     void* _38;
