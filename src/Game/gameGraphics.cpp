@@ -607,6 +607,15 @@ void gameSceneCalcGraphicsStuff() {
 
 namespace gfx {
 
+// 0x7100f20000: constructs the sampler, the scratch render buffer / target colour, the viewport, the
+// uniform block, the two GPU memory blocks, the vertex / index streams and the debug texture page.
+NoiseGauge::NoiseGauge() {}
+
+// 0x7100f200b8: destroys the uniform block's GPU buffer first, then the members in reverse order.
+NoiseGauge::~NoiseGauge() {
+    mUniformBlock.destroy();
+}
+
 // 0x7100f20c88: frees the noise gauge's scratch texture and puts the Black2D sampler (mSamplers[2],
 // +0x38) back on the gauge's sampler.
 void NoiseGauge::releaseMaybe() {

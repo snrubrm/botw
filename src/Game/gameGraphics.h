@@ -30,6 +30,9 @@
 #include <cull/aglOcclusionQueryDrawer.h>
 #include <common/aglRenderBuffer.h>
 #include <common/aglRenderTarget.h>
+#include <common/aglVertexBuffer.h>
+#include <common/aglIndexStream.h>
+#include <common/aglVertexAttribute.h>
 #include <common/aglTextureData.h>
 #include <utility/aglDebugTexturePage.h>
 #include <utility/aglParameter.h>
@@ -598,28 +601,48 @@ public:
 
 namespace gfx {
 
-// The noise gauge renderer at Graphics + 0x390 (the initializer F2C140 allocates 0xa38 bytes). Only
-// the head is modelled: the scratch dynamic texture, the sampler the main screen reads, and the two
-// methods its draw override calls.
-class NoiseGauge {
+// The noise gauge renderer at Graphics + 0x390 (the initializer F2C140 allocates 0xa38 bytes). Its
+// ctor 0x7100f20000 gives the layout; vtable 0x71024f4368 (hostio::Node's type getter, then the dtor
+// pair 0x7100f200b8 / 0x7100f201a8).
+class NoiseGauge : public sead::hostio::Node {
 public:
+    NoiseGauge();
+    virtual ~NoiseGauge();
+
+    // 0x7100f201cc (declaration only): fills the 16 noise colours, sets up the debug texture page,
+    // the uniform block, the vertex/index buffers and the vertex attribute.
+    void initMaybe(sead::Heap* heap);
     // 0x7100f208e4 (placeholder name): if no scratch texture is allocated yet, allocates it through
     // DynamicTextureAllocator, draws the gauge into it and applies it to mSampler.
     void drawMaybe(f32 scale, agl::DrawContext* context);
-    // 0x7100f20c88 (placeholder name): frees the scratch texture and puts the Black2D sampler back
-    // on mSampler, like Unk_7100f185a4::freeDynamicTextureMaybe.
+    // 0x7100f20c88: frees the scratch texture and puts the Black2D sampler back on mSampler, like
+    // Unk_7100f185a4::freeDynamicTextureMaybe.
     void releaseMaybe();
     // The main screen's draw override passes this to SetupTextureInfoByAglTextureData (the
     // sampler's texture data is what the original reads at NoiseGauge + 0x40).
     agl::TextureData& getTextureDataMaybe() const { return mSampler.getTextureData(); }
 
 private:
-    u8 _0[0x28];
+    /* 0x08 */ u32 mFlags = 0xc00;
+    u32 _c = 0;
+    u32 _10 = 0;
+    u32 _14 = 0;
+    // 0x18: the 16 noise colours, allocated by initMaybe.
+    sead::Buffer<sead::Color4f> mPoints;
     /* 0x28 */ agl::TextureData* mDynamicTexture = nullptr;
     /* 0x30 */ agl::TextureSampler mSampler;
-    // The rest (render target at 0x1a0, viewport at 0x380, uniform block at 0x3b0, ...) is not
-    // modelled yet.
-    u8 _1a0[0xa38 - 0x1a0];
+    /* 0x1a0 */ agl::RenderBuffer mRenderBuffer;
+    /* 0x208 */ agl::RenderTargetColor mRenderTargetColor;
+    /* 0x380 */ sead::Viewport mViewport;
+    /* 0x3a8 */ s32 _3a8 = 0;
+    /* 0x3b0 */ agl::UniformBlock mUniformBlock;
+    // 0x428 / 0x460: the 0x80-byte vertex bytes and the 0x80 u16 indices (allocated by 0x7100f203d0).
+    agl::GPUMemBlock<u8> mVertexData;
+    agl::GPUMemBlock<u16> mIndexData;
+    /* 0x498 */ agl::VertexBuffer mVertexBuffer;
+    /* 0x5b8 */ agl::IndexStream mIndexStream;
+    /* 0x618 */ agl::VertexAttribute mVertexAttribute;
+    /* 0x7f8 */ agl::utl::DebugTexturePage mDebugPage;
 };
 KSYS_CHECK_SIZE_NX150(NoiseGauge, 0xa38);
 
