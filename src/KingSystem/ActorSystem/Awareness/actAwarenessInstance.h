@@ -11,6 +11,7 @@
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Utils/Types.h"
@@ -507,8 +508,12 @@ public:
     // 0x7100d7c900 (placeholder name): nothing while Awareness is paused or in an event; otherwise the
     // sensor update (0x7100d7c978) and the cached transforms (sub_7100D7CF20).
     void sub_7100D7C900();
-    // 0x7100d7c978 (placeholder name, 1448 B): the sensor update sub_7100D7C900 runs.
+    // 0x7100d7c978 (placeholder name, 1448 B): the sensor update sub_7100D7C900 runs. Updates the
+    // base matrix (bone or actor matrix), the base position and the player-relative ground ray.
     void sub_7100D7C978();
+    // 0x7100d7d3a0 (placeholder name, 680 B): refreshes _230 from the base bone matrix (or the actor
+    // matrix when the base node is invalid).
+    void sub_7100D7D3A0();
     // 0x7100d7c494: _2f8 = max(the largest `sensor->m14() * sensor->_4c` (at least 0), _2f4).
     void sub_7100D7C494();
     void sub_7100D7EBE0(f32 value);
@@ -566,7 +571,9 @@ public:
     /* 0x230 */ sead::Matrix34f _230;  // base matrix of the awareness (the forward axis is read by BokoblinRestraint)
     sead::SafeArray<Unk_71024dce08*, 4> _260;
     /* 0x280 */ sead::Buffer<SortedEntry> _280;  // the entries ordered by distance (placeholder name)
-    /* 0x290 */ u8 _290[0x2c8 - 0x290];
+    // The awareness target name (SetupArg's awareness_target), the "空の王者" special case of the
+    // sensor update. Buffered: the setup function copies into it (capacity 0x20, buffer at +0x14).
+    /* 0x290 */ sead::FixedSafeString<0x20> _290;
     /* 0x2c8 */ sead::Vector3f _2c8;  // base position of the awareness
     /* 0x2d4 */ sead::Vector3f _2d4;
     /* 0x2e0 */ Actor* _2e0;  // the owner
@@ -574,7 +581,7 @@ public:
     /* 0x2f0 */ u8 _2f0[4];
     /* 0x2f4 */ f32 _2f4;  // lower limit of _2f8
     /* 0x2f8 */ f32 _2f8;  // the largest interest level of the active sensors (sub_7100D7C494)
-    /* 0x2fc */ u8 _2fc[4];
+    /* 0x2fc */ f32 _2fc;  // base rotation (the sensor update rotates _230 by it around Y)
     /* 0x300 */ s32 _300;  // checked before EnemyNormal::m47 (no search when 0)
     /* 0x304 */ s32 _304;  // set to -1 by calcForEvent
     /* 0x308 */ s32 _308;  // number of valid `_280` entries
@@ -587,7 +594,8 @@ public:
     /* 0x32c */ u32 _32c;
     /* 0x330 */ u8 _330[4];
     s8 _334;
-    u8 _335[0x337 - 0x335];
+    /* 0x335 */ bool _335;  // is_bind_rot (SetupArg)
+    /* 0x336 */ bool _336;  // is_bind_pos (SetupArg)
     /* 0x337 */ bool _337;  // registered with Awareness::Instances
     u32 _338;
 };

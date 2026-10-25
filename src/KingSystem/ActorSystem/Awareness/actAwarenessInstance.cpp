@@ -3,7 +3,10 @@
 #include <gsys/gsysModel.h>
 #include <cmath>
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessRequest.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 namespace ksys::act {
 
@@ -48,8 +51,96 @@ void AwarenessInstance::sub_7100D7C900() {
     sub_7100D7CF20();
 }
 
-bool AwarenessInstance::enable() {
-    if (!((_260[0] && _260[0]->_50) || (_260[1] && _260[1]->_50) || (_260[2] && _260[2]->_50) ||
+// NON_MATCHING: same structure and instructions; the saved translation is spilled to the frame instead of
+// being kept in the callee-saved registers (target frame 0x1c0, ours 0x190) and the makeR tail keeps sin in
+// a register instead of the target's stack slot. Register allocation only.
+// 0x7100d7c978 (placeholder name): the sensor update. Refreshes the awareness base matrix and its
+// position from the bound base bone (or the actor matrix), then the base ground position from a short
+// downward ray; at the end it applies the base rotation _2fc around the Y axis.
+void AwarenessInstance::sub_7100D7C978() {
+    sead::Vector3f position;
+    if (_334 & 0x10)
+        position = _230.getTranslation();
+
+    if (_290.isEqual("空の王者")) {
+        sead::Matrix34f bone_matrix;
+        _2e0->getModel()->getBoneWorldMatrix(_1f8.getKey(), &bone_matrix);
+        if (_335)
+            sub_7100D7D3A0();
+        else
+            _230 = _2e0->getMtx();
+
+        if (!(_334 & 0x10)) {
+            if (_336)
+                position = bone_matrix.getTranslation();
+            else
+                position = _2e0->getMtx().getTranslation();
+
+            if (auto* system = ActorSystem::instance()) {
+                if (auto* link = system->getPlayerLink())
+                    position.y = link->getPlayerPosForPostCalc().y;
+            }
+
+            const sead::Vector3f end = position;
+            sead::Vector3f start = position;
+            start.y += 35.0f;
+            start.y -= 35.0f;
+
+            phys::RayCastBodyQuery query(nullptr, phys::GroundHit::HitAll);
+            query.setStartAndEnd(start, end);
+            query.enableLayer(phys::ContactLayer::EntityGround);
+            query.enableLayer(phys::ContactLayer::EntityGroundRough);
+            query.enableLayer(phys::ContactLayer::EntityGroundObject);
+            if (query.worldRayCast(phys::ContactLayerType::Entity))
+                query.getHitPosition(&position);
+            _230.setTranslation(position);
+        }
+    } else {
+        const auto& key = _1f8.getKey();
+        if (!key.isValid() || (!_336 && !_335)) {
+            if (_335)
+                sub_7100D7D3A0();
+            else
+                _230 = _2e0->getMtx();
+
+            if (!(_334 & 0x10)) {
+                sead::Vector3f offset;
+                offset.setRotated(_230, _2d4);
+                offset += _230.getTranslation();
+                _230.setTranslation(offset);
+                _2c8 = offset;
+            }
+        } else {
+            sead::Matrix34f bone_matrix;
+            _2e0->getModel()->getBoneWorldMatrix(key, &bone_matrix);
+            const sead::Matrix34f* matrix = &bone_matrix;
+            if ((_334 & 2) || !_335) {
+                _230 = _2e0->getMtx();
+                matrix = &_2e0->getMtx();
+            } else {
+                sub_7100D7D3A0();
+            }
+
+            if (!(_334 & 0x10)) {
+                const sead::Vector3f bone_position = bone_matrix.getTranslation();
+                sead::Vector3f offset;
+                offset.setRotated(*matrix, _2d4);
+                _2c8 = offset + bone_position;
+                position = offset + (_336 ? bone_position : _2e0->getMtx().getTranslation());
+            }
+        }
+    }
+
+    _230.setTranslation(position);
+
+    if (!(_2fc <= sead::Mathf::epsilon() && _2fc >= -sead::Mathf::epsilon())) {
+        sead::Matrix34f rotation;
+        rotation.makeR(sead::Vector3f(0.0f, _2fc, 0.0f));
+        _230.setMul(_230, rotation);
+    }
+}
+
+bool AwarenessInstance::enable() {    if (!((_260[0] && _260[0]->_50) || (_260[1] && _260[1]->_50) || (_260[2] && _260[2]->_50) ||
           (_260[3] && _260[3]->_50) || _337)) {
         auto* awareness = Awareness::instance();
         if (!awareness)
