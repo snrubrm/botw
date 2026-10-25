@@ -1667,7 +1667,7 @@ public:
     /* 0x748 */ sead::Delegate2R<ScreenMessageDialog, const sead::MessageSet<char16>::TagInfo*,
                                   sead::WBufferedSafeString*, u32>
         _748{this, &ScreenMessageDialog::sub_71010B2A40};
-    /* 0x768 */ u16 _768 = 0xffff;
+    /* 0x768 */ s16 _768 = -1;
     /* 0x76a */ bool _76a;
     u8 _76b[0x76d - 0x76b] = {};
     /* 0x76d */ u8 _76d = 0;

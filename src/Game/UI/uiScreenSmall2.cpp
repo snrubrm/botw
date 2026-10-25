@@ -1770,7 +1770,7 @@ void ScreenMessageDialog::sub_71010B3294() {
     if (_720 == nullptr || !_728.hasProc()) {
         result = 0;
     } else {
-        _768 = 0xffff;
+        _768 = -1;
         _76d = 0;
         if (_778->_5d) {
             result = 2;

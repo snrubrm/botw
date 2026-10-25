@@ -3,6 +3,7 @@
 #include "Game/UI/euiMessageMgr.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace uking::ui {
 
@@ -620,6 +621,48 @@ void ScreenMessage3D::Entry::sub_71010AECB8(const sead::MessageSet<char16>::TagI
             if (actor)
                 sub_71010B3188(tag, actor, true, nullptr, true);
         }
+    }
+}
+
+// The dialog's tag callback belongs to the same TU as the 3D screen's one: both tail-call the shared
+// dispatcher 0x71010b3188 and the original leaves both calls out of line (only these two call sites exist).
+// 0x71010b2788 (CSV unnamed): the cook dialog's tag callback; plays the actor's effect, or stops it (type 2) and
+// forwards voice tags to the shared dispatcher.
+// 0x71010b2788 (CSV unnamed): the cook dialog's tag callback. Group 4 tags start (type 0 / 2) or stop (type 1)
+// the actor's cook effect; group 3 type 1 voice tags go to the shared dispatcher.
+// NON_MATCHING: clang folds the two "type" tests of the group 4 arm into one chain tested in the order 2 / 1 / 0;
+// the original tests 0 (cbz) first, reloads the halfword for the 2 test and only then tests 1. Same blocks.
+// 0x71010b2788 (CSV unnamed): the cook dialog's tag callback. Group 4 tags start (type 0 / 2) or stop (type 1)
+// the actor's cook effect; group 3 type 1 voice tags go to the shared dispatcher.
+// NON_MATCHING: clang lowers the group 4 "type" chain as 2 / 1 / then 0 (cbnz); the original tests 0 with cbz
+// first, reloads the halfword for the 2 test and then tests 1. The arms and both tail calls are identical.
+void ScreenMessageDialog::sub_71010B2788(const sead::MessageSet<char16>::TagInfo* tag) {
+    switch (tag->group) {
+    case 3:
+        if (tag->type != 1)
+            return;
+        if (!_720)
+            return;
+        if (!_728.hasProc())
+            return;
+        sub_71010B3188(tag, _720, true, _774 == 1 ? &_768 : nullptr, false);
+        break;
+    case 4:
+        if (tag->type == 0 || tag->type == 2) {
+            if (!_720)
+                return;
+            if (!_728.hasProc())
+                return;
+            ksys::eft::sub_710105DF88(_720, reinterpret_cast<const char*>(tag->getParam()), true,
+                                      false);
+        } else if (tag->type == 1) {
+            if (!_720)
+                return;
+            if (!_728.hasProc())
+                return;
+            ksys::eft::sub_710105DFA4(_720, tag->getParam()[0], true, false);
+        }
+        break;
     }
 }
 
