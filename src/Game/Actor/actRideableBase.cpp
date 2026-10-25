@@ -71,6 +71,46 @@ bool RideableBase::m4(ksys::act::Actor* actor, sead::Heap* heap) {
     return true;
 }
 
+// NON_MATCHING: the original keeps the S2 address in x21 and the AS list in x20 (ours the other way round) and
+// schedules the parameter pointer stores pair by pair; the instructions are otherwise the same.
+void RideableBase::m5() {
+    _18.sub_7100E761A4(true, true);
+
+    auto& s2 = _a0;
+    auto* const as_list = mActor->getASList();
+    auto* const nav = mActor->m45();
+    as_list->sub_710115EC98(1, nullptr, 0);
+    s2.sub_7100E6FAB4(this, as_list, nav);
+
+    _8 = 0;
+    _134 = 0;
+    _138 = 0;
+    _13c = 0;
+    _140 = 0;
+    _144 = 0;
+    _148.set(0.0f, 0.0f, 0.0f);
+    _158.set(0.0f, 0.0f, 0.0f);
+    _154 = 1.0f;
+    _164 = 1.0f;
+
+    const auto* animal = mActor->getParam()->getRes().mGParamList->getAnimalUnit();
+    if (animal) {
+        s2._0 = &animal->mSteeringOutputKp.ref();
+        s2._8 = &animal->mSteeringOutputKi.ref();
+        s2._10 = &animal->mSteeringOutputKd.ref();
+        s2._18 = &animal->mSteeringOutputIClamp.ref();
+        s2._20 = &animal->mSteeringOutputIReduceRatio.ref();
+        s2._28 = &animal->mSteeringOutputDLerpRatio.ref();
+        s2._40 = &animal->mSteeringOutputAvoidanceLerpRatio.ref();
+        s2._48 = &sUnk_7101EC1904;
+        s2._58 = &animal->mSteeringOutputIIRLerpRatio.ref();
+        _164 = animal->mBasePlayRate.ref();
+        _168 = animal->mGearMaxNum.ref();
+        const bool wait_as = animal->mIsSetWaitASAtGear0.ref();
+        _18._52 = wait_as ? (_18._52 | 2) : (_18._52 & ~2);
+    }
+}
+
 // NON_MATCHING: native enum stack temporaries and separate state branches are folded into register selection.
 int RideableBase::m11(int mode) {
     s32 limit = _168;

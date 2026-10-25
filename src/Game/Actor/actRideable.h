@@ -204,11 +204,20 @@ public:
         // 0x7100e6fab4 (declared only; 800 B): updates from the rider's AS list and navmesh character.
         void sub_7100E6FAB4(RideableBase* owner, ksys::as::ASList* as_list, ksys::phys::NavMeshCharacter* nav);
 
-        u8 _0[0x40];
+        // Pointers to the AnimalUnit parameter values (m5 takes them from the actor's GParamList).
+        /* 0x00 */ const f32* _0;
+        /* 0x08 */ const f32* _8;
+        /* 0x10 */ const f32* _10;
+        /* 0x18 */ const f32* _18;
+        /* 0x20 */ const f32* _20;
+        /* 0x28 */ const f32* _28;
+        u8 _30[0x40 - 0x30];
         // E6FA10 initializes these rates; E728F0 selects and dereferences them.
         const f32* _40;
         const f32* _48;
-        u8 _50[0x7c - 0x50];
+        u8 _50[0x58 - 0x50];
+        /* 0x58 */ const f32* _58;
+        u8 _60[0x7c - 0x60];
         // Movement update and AnimalMoveBase independently read both states as signed.
         /* 0x7c */ s16 _7c;
         /* 0x7e */ s16 _7e;
