@@ -1682,6 +1682,36 @@ void ScreenAppMapDungeon::sub_71009E407C() {
     }
 }
 
+// 0x71009e42f4 (placeholder name): the screen position of a world position through the map camera: the map
+// camera's field of view against the screen's, then half the layer's physical viewport size.
+// NON_MATCHING: the y product is one commutative fmul operand order away (target encodes the scaled position
+// as the first source, our build as the second); the build canonicalises either source order to the same form.
+void ScreenAppMapDungeon::sub_71009E42F4(const sead::Vector3f& pos, nn::util::Float2* out) {
+    sead::Projection& projection = Graphics::instance()->getMapRendererMaybe()->getProjectionMaybe();
+    if (!sead::IsDerivedFrom<sead::PerspectiveProjection>(&projection))
+        return;
+
+    const agl::lyr::Layer* layer = agl::lyr::Renderer::instance()->getLayer(10);
+    if (!layer)
+        return;
+
+    sead::Vector3f camera_pos = {0.0f, 0.0f, 0.0f};
+    _3680.worldPosToCameraPosByMatrix(&camera_pos, pos);
+
+    sead::Vector3f screen_pos = {0.0f, 0.0f, 0.0f};
+    projection.cameraPosToScreenPos(&screen_pos, camera_pos);
+
+    const f32 fovy_rad = _3664 / 180.0f * sead::Mathf::pi();
+    const f32 scale = projection.getFovy() / fovy_rad;
+    screen_pos.x *= scale;
+    screen_pos.y *= scale;
+
+    const sead::Viewport& viewport = layer->getViewport();
+    const nn::util::Float2 half_size{viewport.getSizeX() * 0.5f, viewport.getSizeY() * 0.5f};
+    out->x = screen_pos.x * half_size.x;
+    out->y = screen_pos.y * half_size.y;
+}
+
 // 0x71009e72a8 (placeholder name): refreshes the dungeon selection: computes the current mode's dungeon table
 // entry, resets the selected / previous animator and, unless the mode is 4, stops the entry's position animator at
 // frame 2 when the map cursor has not moved.
