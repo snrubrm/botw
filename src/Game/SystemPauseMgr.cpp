@@ -3,6 +3,10 @@
 #include <time/seadTickSpan.h>
 #include "Game/UI/uiOnUiActorMgr.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/UI/uiScreens.h"
+#include "Game/UI/euiScreen.h"
+#include "Game/gameStruct30.h"
+#include "Game/gameRoot38.h"
 #include "Game/gameSaveSystem.h"
 #include "Game/Scene/gameScene.h"
 #include "KingSystem/Event/evtManager.h"
@@ -16,6 +20,18 @@ SystemPauseMgr::~SystemPauseMgr() = default;
 
 void SystemPauseMgr::m2() {
     uking::ui::sub_7100A6D3EC();
+}
+
+// 0x710090b5b0
+void SystemPauseMgr::openFadeScreen() {
+    uking::ui::sub_7100A6D3EC();
+    if (auto* mgr = eui::ScreenMgr::instance()) {
+        auto* fade = sead::DynamicCast<uking::ui::Fade>(mgr->getScreen(uking::ui::ScreenId::Fade));
+        if (fade)
+            fade->open(3);
+    }
+    if (Struct30::instance()->isPanicBloodMoon())
+        Root38::instance()->setField2F(true);
 }
 
 void SystemPauseMgr::waitForOnUiActorMgrAndBlockSaveMaybe() {
