@@ -1057,8 +1057,9 @@ public:
                                   gsys::ModelRenderContext* context) override;
     // 0x7100f35f48 (slot m25): empty in the original.
     void resetModelSceneHostIO(gsys::ModelRenderContext* context) override;
-    // 0x7100f34e8c (slot m23): refreshes the view's records in the grid and model renderer blocks.
-    virtual void m23(gsys::ModelSceneContext* context);
+    // 0x7100f34e8c (slot m23; +8 copy 0x7100f34ed4): refreshes the view's records in the grid and
+    // model renderer blocks.
+    void calcModelSceneViewGPU(gsys::ModelRenderContext* context) override;
     // 0x7100f34f1c (IModelProcedural's +0x298 virtual; its _ZThn16_ thunk is 0x7100f35028): for
     // passes 2..7 stores `_19` in the procedural draw's render cache, for passes 0 / 1 invalidates
     // the first scene's GBuffer write cache, and for pass 8 stores the particle editor's value.

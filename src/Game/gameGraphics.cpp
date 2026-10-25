@@ -141,7 +141,7 @@ void Graphics::drawModelSceneFinalImage(agl::DrawContext* draw_context, s32 pass
 
 void Graphics::resetModelSceneHostIO(gsys::ModelRenderContext* context) {}
 
-void Graphics::m23(gsys::ModelSceneContext* context) {
+void Graphics::calcModelSceneViewGPU(gsys::ModelRenderContext* context) {
     if (_378)
         _378->sub_71012890FC(context->getViewIndex());
     if (_b38)
