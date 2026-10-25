@@ -80341,7 +80341,7 @@ Address,Quality,Size,Name
 0x0000007100ec045c,O,000116,_ZN4ksys3act8Reaction7__auto3Ev
 0x0000007100ec04d0,U,000740,Reaction::__auto4
 0x0000007100ec07b4,O,001384,_ZN4ksys3act8Reaction18initBeforeStageGenEPN4sead4HeapES4_PNS0_12ActorCreatorEPv
-0x0000007100ec0d1c,U,000004,_ZN4ksys3act8Reaction19initBeforeStageGenBEv
+0x0000007100ec0d1c,O,000004,_ZN4ksys3act8Reaction19initBeforeStageGenBEv
 0x0000007100ec0d20,U,000348,Reaction::__auto2
 0x0000007100ec0e7c,O,000088,_ZN4ksys3act8Reaction14sub_7100EC0E7CEv
 0x0000007100ec0ed4,U,000484,_ZN4ksys3act8Reaction1xEv

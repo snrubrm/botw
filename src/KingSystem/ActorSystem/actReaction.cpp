@@ -114,6 +114,9 @@ const sead::SafeString& Unk_7100ebf9e4::getName() const {
 
 void Reaction::initStubbed() {}
 
+// 0x7100ec0d1c: the second-stage-gen hook the global init routine calls; empty in the original.
+void Reaction::initBeforeStageGenB() {}
+
 // 0x7100ec07b4: requests the five reaction actors, then creates the two contact point managers
 // (ground pairs and water pairs) and the two reaction receivers.
 void Reaction::initBeforeStageGen(sead::Heap* heap, sead::Heap* debug_heap, ActorCreator* creator,
