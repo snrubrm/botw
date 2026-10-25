@@ -394,12 +394,17 @@ public:
     /* 0x200 */ sead::Matrix34f _200 = sead::Matrix34f::ident;
     /* 0x230 */ sead::Vector3f _230 = sead::Vector3f::zero;
     /* 0x23c */ sead::Vector3f _23c = sead::Vector3f::zero;
-    /* 0x248 */ u64 _248 = 0;
+    // 0x248 / 0x24c are the two timers of m8 / m9 (ksys::Timer::update takes their address).
+    /* 0x248 */ f32 _248 = 0;
+    /* 0x24c */ f32 _24c = 0;
     /* 0x250 */ f32 _250 = 2.0;
     /* 0x254 */ f32 _254 = -1.0;
     /* 0x258 */ sead::Vector2f _258 = sead::Vector2f::zero;
-    /* 0x260 */ u64 _260 = 0;
-    /* 0x268 */ u64 _268 = 0;
+    /* 0x260 */ u32 _260 = 0;
+    // The five 4-byte tail values: the setters in the presence of 0x7100e81d6c.. store floats / words.
+    /* 0x264 */ f32 _264 = 0;
+    /* 0x268 */ f32 _268 = 0;
+    /* 0x26c */ f32 _26c = 0;
     /* 0x270 */ sead::Vector2f _270 = sead::Vector2f::zero;
     /* 0x278 */ u8 _278 = 0;
     /* 0x279 */ s8 _279 = 0;  // LynelRodeo::calc_ reads it with ldrsb (finished when negative)

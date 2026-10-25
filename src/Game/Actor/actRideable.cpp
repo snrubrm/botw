@@ -6,9 +6,11 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyAccessor.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseUnit.h"
+#include "KingSystem/System/Timer.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
@@ -43,19 +45,99 @@ void Rideable::m6() {
     _1bc = 0;
     _1c0 = 0;
     _248 = 0;
+    _24c = 0;
     _278 = 0;
     _279 = 0;
     _270.set(0.0f, 0.0f);
     _254 = -1.0f;
     _268 = 0;
+    _26c = 0;
     _260 = 0;
+    _264 = 0;
     _258.set(0.0f, 0.0f);
+}
+
+// NON_MATCHING: only the register of the shared `1` constant and the position of the `_10` address differ
+void Rideable::m7() {
+    RideableBase::m7();
+
+    f32 speed = -1.0f;
+    if (RideableBase::_8 & 0x8000) {
+        _254 = speed;
+    } else if (auto* cc = RideableBase::mActor->getCharacterController()) {
+        if (!cc->sub_7100F5F234(nullptr)) {
+            const f32 y = RideableBase::mActor->getMtx().m[1][3];
+            speed = y > _254 ? y : _254;
+        }
+        _254 = speed;
+    }
+
+    const u32 mask4 = 1u << Flag10(Flag10::_4);
+    const bool is_set = Unk_7100e8b2b8::_10 & mask4;
+    const u32 mask = 1u << Flag10(Flag10::_5);
+    if (is_set)
+        Unk_7100e8b2b8::_10 |= mask;
+    else
+        Unk_7100e8b2b8::_10 &= ~mask;
+
+    _264 = 0;
+    _268 = 0;
+    _26c = 0;
+    _270.set(0.0f, 0.0f);
+    _278 = 0;
+    _279 = 0;
+
+    RideableBase::_8 &= ~0x19000;
+    Unk_7100e8b2b8::_10 &= 0xffffffe1;
+
+    switch (int(Unk8(Unk_7100e8b2b8::_8 & 0xff))) {
+    case Unk8::_1:
+        xlinkEventOn(RideableBase::mActor, 0x1d, 1, false);
+        break;
+    case Unk8::_2:
+        xlinkEventOn(RideableBase::mActor, 0x1d, 2, false);
+        break;
+    case Unk8::_3:
+        xlinkEventOn(RideableBase::mActor, 0x1d, 3, false);
+        break;
+    default:
+        xlinkEventOn(RideableBase::mActor, 0x1d, 0, false);
+        break;
+    }
+}
+
+void Rideable::m9() {
+    if (RideableBase::_8 & 0x4)
+        ksys::Timer::update(&_24c, 1.0f);
+    else
+        _24c = 0;
+
+    if (auto* cc = RideableBase::mActor->getCharacterController()) {
+        const bool is_set = cc->sub_7100F5F234(nullptr);
+        if (cc->mFlags.isOnBit(0)) {
+            RideableBase::_8 |= 0xc;
+        } else {
+            RideableBase::_8 &= ~0x8;
+            if (!(_24c <= _250) && (RideableBase::_8 & 0x4)) {
+                if (is_set) {
+                    cc->sub_7100F5EEB8(1.0f);
+                    RideableBase::_8 &= ~0x14;
+                } else {
+                    sead::Vector3f velocity;
+                    cc->sub_7100F635C4()->getLinearVelocity(&velocity);
+                    if (velocity.y < 0.0f)
+                        RideableBase::_8 |= 0x10;
+                }
+            }
+        }
+    }
+
+    RideableBase::m9();
 }
 
 void Rideable::m24() {
     RideableBase::_8 &= ~0x400u;
 }
-
 bool Rideable::m44() {
     const Gear gear(_18._b == 0 ? _18._9 : _18._b);
     return int(gear) > 1;
