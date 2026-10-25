@@ -205,6 +205,25 @@ void NavMeshCharacter::sub_710038AE34(sead::ObjList<sead::Vector3f>::iterator be
         _290 = sUnk_710260ddd8.fetchAdd(1);
 }
 
+// NON_MATCHING: the body is the same as the ObjList setters above; only the register
+// allocation of `this` / the lock and the order of the two loop increments differ.
+void NavMeshCharacter::sub_71003F76A0(sead::SafeArray<sead::Vector3f, 8>::iterator begin,
+                                      sead::SafeArray<sead::Vector3f, 8>::iterator end) {
+    auto lock = sead::makeScopedLock(_1e0);
+    s32 count = 0;
+    for (auto it = begin; count < 16 && it.getIndex() != end.getIndex(); ++it) {
+        if (it->isNan())
+            return;
+        _d4[count].x = it->x;
+        _d4[count].y = it->y;
+        _d4[count].z = it->z;
+        ++count;
+    }
+    _1da = count;
+    if (!(_220.fetchOr(0x1000) & 0x1000))
+        _290 = sUnk_710260ddd8.fetchAdd(1);
+}
+
 void NavMeshCharacter::sub_7100F75AF0() {
     if (_2e0)
         HavokAI::instance()->sub_7100F83A9C(_2e0);
