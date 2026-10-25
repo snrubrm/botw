@@ -2842,8 +2842,10 @@ public:
     // 0x71009f273c (placeholder name; called by Unk_710247c010::sub_71009BE260): Unk_71025d69f0::sub_710094E064, then
     // closes the screen
     void sub_71009F273C();
-    // 0x71009ec6cc (placeholder name; declared only, a tail call): ends the pause state of the map screen.
+    // 0x71009ec6cc / 0x71009ec6d0 (placeholder names): ends the pause state of the map screen: unloads the
+    // normal-map texture slots and clears the map view state.
     void sub_71009EC6CC();
+    void sub_71009EC6D0();
     // 0x71009eb960 (placeholder name): handles the app system window's result state for the map's sub-state
     void sub_71009EB960();
     // 0x71009eba68 (placeholder name): applies the selected marker entry to the map's sub-state

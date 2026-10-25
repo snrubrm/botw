@@ -745,6 +745,24 @@ void ScreenAppMap::sub_71009EF5D0() {
     }
 }
 
+// 0x71009ec6cc (placeholder name): forwards to the map's texture-slot cleanup.
+void ScreenAppMap::sub_71009EC6CC() {
+    sub_71009EC6D0();
+}
+
+// 0x71009ec6d0 (placeholder name): unloads the six normal-map texture slots when the map is loading them, clears
+// the map view state and the normal-map loaded flag.
+void ScreenAppMap::sub_71009EC6D0() {
+    if (UiSubsys1::instance()->sub_7100968900(1)) {
+        for (s32 i = 0; i < 6; ++i)
+            _3b18._10.unload(i);
+    }
+    UiSubsys1::instance()->sub_7100968844();
+    _3ad2 = 0;
+    if (_3cb1)
+        _3cb1 = 0;
+}
+
 // 0x71009ef7ec (placeholder name): advances the map's normal-map mode after a step finished; 3 -> 4 when the
 // normal map is ready, 1 -> 2 when a map area is loading, 0 -> 1 (and cancels when it is not ready).
 // NON_MATCHING: the 3 and 1 arms have identical increment / compare tails that the original keeps as one shared
