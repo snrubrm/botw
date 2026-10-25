@@ -1544,6 +1544,12 @@ public:
     void sub_7100960AD8();
     // 0x710095b530 (CSV uiSubsys1::x_0; not decompiled; called by ScreenAppMapWidget::m31)
     void sub_710095B530();
+    // 0x7100962cc8 (placeholder name): refreshes the four special markers' districts while the manager
+    // state is below 5.
+    void sub_7100962CC8();
+    // 0x7100968a44 (placeholder name): whether the lowest set map-mode bit of _3860 is 2 or 3
+    // (`type` 0) or 4 (`type` 1); other types and an empty mask are false.
+    bool sub_7100968A44(s32 type) const;
     // 0x71009641d4 / 0x71009641e4 / 0x71009645a0 / 0x7100964a40 / 0x7100964ba4 (placeholder names)
     bool is38e0Equal(s32 value) const;
     s32 sub_71009641E4() const;
@@ -1580,10 +1586,10 @@ private:
     /* 0x300 */ sead::PtrArray<UiSubsys1PinEntry> _300;
     /* 0x310 */ sead::PtrArray<UiSubsys1Marker> _310;
     // The current Divine Beast / Final Trial marker (kinds 8, 9, 7, 10), stored by the same factory.
-    /* 0x320 */ UiSubsys1Entry* _320;
-    /* 0x328 */ UiSubsys1Entry* _328;
-    /* 0x330 */ UiSubsys1Entry* _330;
-    /* 0x338 */ UiSubsys1Entry* _338;
+    /* 0x320 */ Unk_71024754c0* _320;
+    /* 0x328 */ Unk_71024754c0* _328;
+    /* 0x330 */ Unk_71024754c0* _330;
+    /* 0x338 */ Unk_71024754c0* _338;
     u8 _340[0x378 - 0x340];
     /* 0x378 */ UiSubsys1Unk378* _378;
     u8 _380[0x3a0 - 0x380];

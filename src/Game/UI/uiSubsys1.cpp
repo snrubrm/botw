@@ -478,6 +478,49 @@ bool UiSubsys1::sub_7100960DAC(s32 index) const {
     return lowest == index;
 }
 
+// 0x7100962cc8
+void UiSubsys1::sub_7100962CC8() {
+    if (Manager::instance()->_64c38 >= 5)
+        return;
+    if (_320 && _320->_58)
+        _320->updateDistrictFromPos(&_320->_58->_38);
+    if (_328 && _328->_58)
+        _328->updateDistrictFromPos(&_328->_58->_38);
+    if (_330 && _330->_58)
+        _330->updateDistrictFromPos(&_330->_58->_38);
+    if (_338 && _338->_58)
+        _338->updateDistrictFromPos(&_338->_58->_38);
+}
+
+// 0x7100968a44
+bool UiSubsys1::sub_7100968A44(s32 type) const {
+    switch (type) {
+    case 0:
+        if (!_3860)
+            return false;
+        {
+            const u16 lowest = sead::BitFlagUtil::countContinuousOffBitFromRight(_3860);
+            if (lowest == 2)
+                return true;
+        }
+        if (!_3860)
+            return false;
+        {
+            const u16 lowest = sead::BitFlagUtil::countContinuousOffBitFromRight(_3860);
+            return lowest == 3;
+        }
+    case 1:
+        if (!_3860)
+            return false;
+        {
+            const u16 lowest = sead::BitFlagUtil::countContinuousOffBitFromRight(_3860);
+            return lowest == 4;
+        }
+    default:
+        return false;
+    }
+}
+
 // Placeholder name; no known callers.
 void UiSubsys1::sub_7100961008() {
     sUnk_71025d6a98 = false;
