@@ -57,18 +57,24 @@ private:
     // FIXME: rename
     struct Unk1 {
         // Placeholder: an intrusive singly linked list (`_8` is the next pointer of a node).
+        // The real nodes are the 0x128-byte awareness event records (the record has a vtable at +0, a
+        // count/weight at +0x10 and a state word at +0x14: 1 while in the list, 2 after calc).
         struct Node {
             void* _0;
             Node* _8;
+            s32 _10;
+            s32 _14;
         };
 
         virtual ~Unk1() { finalize(); }
         // 0x7100d7efe0 (lane4 s49): unlinks every node of the list.
         void finalize();
         void calc();
+        // 0x7100d7f004 (placeholder name): appends `node` and marks it in use (`_14 = 1`).
+        void sub_7100D7F004(Node* node);
 
         Node* _8{};
-        void* _10{};
+        Node* _10{};
     };
 
     struct TerrorFilter {
