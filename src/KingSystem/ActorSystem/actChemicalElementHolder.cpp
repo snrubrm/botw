@@ -110,6 +110,12 @@ void Unk_71024dd490::sub_7100D9AA84() {
         chemical.sub_7100D8F0FC();
 }
 
+void Unk_71024dd490::sub_7100D9AA30() {
+    const auto lock = sead::makeScopedLock(_48);
+    for (auto& chemical : mChemicals)
+        chemical.sub_7100D9757C();
+}
+
 
 f32 Unk_71024dd490::sub_7100D99FD0() const {
     return sWorldParams.heatTransferSpeedRate;

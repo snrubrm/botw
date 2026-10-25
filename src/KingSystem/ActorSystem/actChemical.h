@@ -228,6 +228,9 @@ public:
     void sub_7100D9427C(Unk_71024dd1c8* holder);
     // Original D8F0FC resets the chemical state after D8EEE0; called by its holder.
     void sub_7100D8F0FC();
+    // 0x7100d9757c (unnamed in the CSV; placeholder name): the per-chemical step of the element
+    // holder's clear (Unk_71024dd490::sub_7100D9AA30). Body stays U.
+    void sub_7100D9757C();
     // 0x7100d9153c (declared only): forwards to the owner (_18) with the matrix to fill.
     void sub_7100D9153C(sead::Matrix34f* out);
 

@@ -96,6 +96,8 @@ public:
     static void sub_7100D9A8F8(Unk_71024dd490* holder);
     virtual ~Unk_71024dd490();
     void sub_7100D9A384(const CreateArg& arg, sead::Heap* heap);
+    // 0x7100d9aa30 (unnamed in the CSV): clears every chemical of mChemicals under _48.
+    void sub_7100D9AA30();
     void sub_7100D9AA84();
     void sub_7100D9AAE4();
     s32 sub_7100D9A1C4() const;
