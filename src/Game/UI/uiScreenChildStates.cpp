@@ -1541,6 +1541,18 @@ void AppMapIconPart::m16() {
         entry->m22();
 }
 
+// 0x710099e384: closes every entry of the four marker lists.
+void AppMapIconPart::sub_710099E384() {
+    for (auto& entry : UiSubsys1::instance()->_280)
+        static_cast<UiSubsys1Entry*>(entry)->m22();
+    for (auto* entry : UiSubsys1::instance()->_5d8)
+        entry->m22();
+    for (auto* entry : UiSubsys1::instance()->_620)
+        entry->m22();
+    for (auto* entry : UiSubsys1::instance()->_668)
+        entry->m22();
+}
+
 // 0x7100994e98: stops both marker animations, closes their layouts and clears the current marker.
 void AppMapIconPart::sub_7100994E98() {
     if (_410) {
