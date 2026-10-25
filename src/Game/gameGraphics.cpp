@@ -19,6 +19,7 @@
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/System/VFR.h"
+#include "KingSystem/Sound/sndSound.h"
 #include <utility/aglDynamicTextureAllocator.h>
 #include <utility/aglPrimitiveTexture.h>
 
@@ -682,6 +683,54 @@ void NoiseGauge::updateUniformBlockMaybe() {
     }
 
     mUniformBlock.flushCPUCache();
+}
+
+// 0x7100f20580 (name is a guess): advances the gauge angle and the 16 noise points by the frame
+// delta, chases the gauge parameter and uploads the new values.
+void NoiseGauge::updateMaybe() {
+    mFlags = (mFlags & 1) ? (mFlags | 2) : (mFlags & ~2);
+    if (mFlags & 2)
+        return;
+
+    const s32 soundCount = ksys::snd::ExpressionSoundCtrl::instance()->mHandles.size();
+    f32 speed = 0.0f;
+    if (mFlags & 0x400)
+        speed += mScale * cNoiseGaugeUpdateParams.speedScale;
+    if (mFlags & 0x800) {
+        s32 count = soundCount - cNoiseGaugeUpdateParams.soundCountBias;
+        count = sead::Mathi::max(count, 0);
+        speed += cNoiseGaugeUpdateParams.speedPerSound * f32(count);
+    }
+
+    _10 += (speed - _10) * cNoiseGaugeUpdateParams.chaseRate;
+    _10 = sead::Mathf::clamp(_10, 0.0f, 1.0f);
+
+    const f32 tau = sead::Mathf::pi2();
+    const f32 delta = ksys::VFR::instance()->getDeltaFrame();
+    _14 += delta * cNoiseGaugeAngleSpeedMaybe * tau;
+    while (_14 > tau)
+        _14 -= tau;
+
+    for (s32 i = 0; i != 16; ++i) {
+        sead::Vector4f& point = mPoints[i];
+        point.y += delta * point.z * tau;
+        while (point.y > tau)
+            point.y -= tau;
+        while (point.y < 0.0f)
+            point.y += tau;
+    }
+
+    updateUniformBlockMaybe();
+}
+
+// 0x7100f20874 (name is a guess): toggles the uniform block's buffer index each frame unless the
+// gauge's flag bit 1 is set, and rebinds the CPU address to the other block.
+void NoiseGauge::toggleUniformBufferMaybe() {
+    if (!(mFlags & 2)) {
+        const s32 index = 1 - _3a8;
+        _3a8 = index;
+        mUniformBlock.setBufferIndexMaybe(index);
+    }
 }
 
 // 0x7100f20c88: frees the noise gauge's scratch texture and puts the Black2D sampler (mSamplers[2],

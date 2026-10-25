@@ -601,6 +601,19 @@ public:
 
 namespace gfx {
 
+// 0x71024f43e0: the noise gauge's per-frame update constants.
+struct NoiseGaugeUpdateParams {
+    f32 speedScale;
+    f32 speedPerSound;
+    s32 soundCountBias;
+    f32 chaseRate;
+};
+// 0x71024f43e0 (defined in gameUnk_710129175c.cpp): hidden-visibility constant, so the load is a
+// direct adrp + ldr rather than a folded literal.
+KSYS_VISIBILITY_HIDDEN extern const NoiseGaugeUpdateParams cNoiseGaugeUpdateParams;
+// 0x710260af30 is a bss word that the original never writes; defined in the same file.
+KSYS_VISIBILITY_HIDDEN extern f32 cNoiseGaugeAngleSpeedMaybe;
+
 // The noise gauge renderer at Graphics + 0x390 (the initializer F2C140 allocates 0xa38 bytes). Its
 // ctor 0x7100f20000 gives the layout; vtable 0x71024f4368 (hostio::Node's type getter, then the dtor
 // pair 0x7100f200b8 / 0x7100f201a8).
@@ -612,11 +625,16 @@ public:
     // 0x7100f201cc (declaration only): fills the 16 noise colours, sets up the debug texture page,
     // the uniform block, the vertex/index buffers and the vertex attribute.
     void initMaybe(sead::Heap* heap);
+    // 0x7100f20580 (name is a guess): advances the gauge angle and the 16 noise points by the
+    // frame delta and uploads the new parameters.
+    void updateMaybe();
     // 0x7100f203d0 (placeholder name): allocates and fills the vertex and index GPU blocks.
     void sub_7100F203D0(sead::Heap* heap);
     // 0x7100f20774 (placeholder name): uploads the gauge parameters and the 16 noise points to
     // the uniform block, then flushes the block's GPU cache.
     void updateUniformBlockMaybe();
+    // 0x7100f20874 (name is a guess): toggles the uniform block's buffer index each frame.
+    void toggleUniformBufferMaybe();
     // 0x7100f208e4 (placeholder name): if no scratch texture is allocated yet, allocates it through
     // DynamicTextureAllocator, draws the gauge into it and applies it to mSampler.
     void drawMaybe(f32 scale, agl::DrawContext* context);
@@ -626,10 +644,13 @@ public:
     // The main screen's draw override passes this to SetupTextureInfoByAglTextureData (the
     // sampler's texture data is what the original reads at NoiseGauge + 0x40).
     agl::TextureData& getTextureDataMaybe() const { return mSampler.getTextureData(); }
+    // +0xc: the gauge scale set by the main screen; the gauge setup reads it as a float.
+    f32 getScaleMaybe() const { return mScale; }
+    void setScaleMaybe(f32 scale) { mScale = scale; }
 
 private:
     /* 0x08 */ u32 mFlags = 0xc00;
-    u32 _c = 0;
+    /* 0x0c */ f32 mScale = 0;
     // 0x7100f20774 stores both words into the uniform data as floats, so they are f32.
     f32 _10 = 0;
     f32 _14 = 0;

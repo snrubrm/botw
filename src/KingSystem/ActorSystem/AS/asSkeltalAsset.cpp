@@ -44,6 +44,8 @@ void SkeltalAsset::Unk18::sub_710125B118() {
 
 // The animation-source tree of SkeltalAsset::m5 / m8 and ASList +0x168 / +0x178. The removal is the
 // sead left-leaning red-black tree erase; nodes are heap-allocated and deleted by clear().
+// NON_MATCHING: the target keeps the erased key's 4-byte copy in the low half of the sole free
+// stack slot ([sp+8]); ours places it at [sp+0xc]. The body is otherwise identical.
 void Unk_710125af7c::clear() {
     if (!mRoot)
         return;
