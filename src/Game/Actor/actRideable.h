@@ -250,8 +250,8 @@ public:
         /* 0x18 */ const f32* _18;
         /* 0x20 */ const f32* _20;
         /* 0x28 */ const f32* _28;
-        /* 0x30 */ u64 _30;
-        /* 0x38 */ u32 _38;
+        // Zeroed by the ctor's two stores (xy, then z); the movers write it as a vector.
+        /* 0x30 */ sead::Vector3f _30;
         // E6FA10 initializes these rates; E728F0 selects and dereferences them.
         const f32* _40;
         const f32* _48;
