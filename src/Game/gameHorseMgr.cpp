@@ -170,6 +170,27 @@ void HorseMgr::sub_7100E8533C(HorseData* data, s32 index) {
     Manager::instance()->setBool(data->familiarityChecked, "Horse_IsFamiliarityChecked", index);
 }
 
+// NON_MATCHING: only the isOnBit `and` operand order differs (the original has the flags first; see
+// isFlagOn above).
+// 0x7100e85bc0 (NPC receive horse): deletes the owned horse (and any pending create handle), clears the
+// selected index and resets Horse_ActiveIndex.
+void HorseMgr::sub_7100E85BC0() {
+    ksys::act::ActorLinkConstDataAccess accessor;
+    auto lock = sead::makeScopedLock(_230);
+    if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        mOwnedHorse.reset();
+        _80.deleteProc();
+    } else if (_80.isAllocatedOrFailed()) {
+        _80.deleteProc();
+    } else if (_d0 == -1) {
+        return;
+    }
+    _d0 = -1;
+    if (isFlagOn(Flag::_0))
+        ksys::gdt::Manager::instance()->setS32(-1, _1a0);
+}
+
 void HorseMgr::sub_7100E8998C(s32 mode) {
     if (mode != 2)
         return;
