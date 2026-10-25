@@ -578,8 +578,10 @@ public:
     virtual s32 m116();
 
     // The members used so far (the state machine at 0x80 is ScreenChild's).
-    // 0x71009b8b6c (not decompiled; m110 tail-calls it)
+    // 0x71009b8b6c (m110 tail-calls it): closes the system window's picture book state
     void sub_71009B8B6C();
+    // 0x71009b88ac (declared only; unnamed in the CSV): stores the selected record of the picture book state
+    void sub_71009B88AC(s32 value);
     // 0x71009b38ec / 0x71009b4188 (declared only; 2032 / 540 bytes): Unk_710247ae48::m15 / m19 tail-call them with
     // the state object; both return at once when it is null.
     void sub_71009B38EC(Unk_7102474e38* state);
@@ -612,6 +614,9 @@ public:
     /* 0x31c */ sead::Vector2f _31c{0, 0};
     /* 0x324 */ sead::Vector2f _324{0, 0};
     /* 0x32c */ s32 _32c;
+    u8 _330[0x340 - 0x330];
+    // The picture book state record (0x71009b8b6c releases it through sub_71009B88AC).
+    /* 0x340 */ Unk_7102474e38* _340 = nullptr;
 };
 
 class Unk_710247b428 : public ScreenChildEx {

@@ -733,6 +733,38 @@ void Unk_710247af10::m105() {
 // 0x71009b8d98
 void Unk_710247af10::m106() {}
 
+// 0x71009b8b6c: when the system window screen is closed or closing, leaves the picture book state and releases the
+// state record.
+// NON_MATCHING: clang 4 tests the switch's 1 / 3 arms with two compares instead of the original's `orr #2; cmp #3`,
+// and materialises `this + 0x340` in a register for the merged tail store.
+void Unk_710247af10::sub_71009B8B6C() {
+    auto* window = sead::DynamicCast<ScreenSystemWindow00>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindow00));
+    if (!window)
+        return;
+    if (!window->isClosedOrClosing())
+        return;
+    switch (sub_7100A64304()) {
+    case 0:
+        if (!_340)
+            return;
+        if (window->_36b0 == 6) {
+            sub_71009B88AC(_340->sub_7100939C78());
+            getStateMachine().changeState(&sUnk_71025d9960);
+        } else {
+            getStateMachine().changeState(&sUnk_71025d98a0);
+        }
+        break;
+    case 1:
+    case 3:
+        getStateMachine().changeState(&sUnk_71025d98a0);
+        break;
+    default:
+        return;
+    }
+    _340 = nullptr;
+}
+
 // 0x71009b8d9c
 void Unk_710247af10::m107() {
     if (_300)
