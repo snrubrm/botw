@@ -653,8 +653,9 @@ void ScreenMessageDialog::sub_71010B2788(const sead::MessageSet<char16>::TagInfo
                 return;
             if (!_728.hasProc())
                 return;
-            ksys::eft::sub_710105DF88(_720, reinterpret_cast<const char*>(tag->getParam()), true,
-                                      false);
+            // The message set stores tag parameters as bytes; the dispatcher takes their text view.
+            const char* name = static_cast<const char*>(static_cast<const void*>(tag->getParam()));
+            ksys::eft::sub_710105DF88(_720, name, true, false);
         } else if (tag->type == 1) {
             if (!_720)
                 return;
