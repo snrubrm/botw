@@ -6041,6 +6041,7 @@ public:
     struct Entry11798 {
         u8 _0[0x18];
         /* 0x18 */ eui::Animator* animator;
+        /* 0x20 */ eui::Animator* animator2;
     };
     // indexed by _117b0[getDungeonTableIndex()] + entry
     /* 0x11798 */ Entry11798** _11798;

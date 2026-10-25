@@ -1682,6 +1682,37 @@ void ScreenAppMapDungeon::sub_71009E407C() {
     }
 }
 
+// 0x71009e72a8 (placeholder name): refreshes the dungeon selection: computes the current mode's dungeon table
+// entry, resets the selected / previous animator and, unless the mode is 4, stops the entry's position animator at
+// frame 2 when the map cursor has not moved.
+// NON_MATCHING: the last block's offset constant and array pointer land in w8 / w9 the other way round.
+void ScreenAppMapDungeon::sub_71009E72A8() {
+    const s32 base = _117b0[getDungeonTableIndex()];
+    if (base == -1)
+        return;
+    if (sub_71009E5530()) {
+        if (_118d0 == -1) {
+            sub_71009E5CA8(0);
+            return;
+        }
+        sub_71009E5CA8(_118d0);
+    } else {
+        sub_71009E5CA8(-1);
+    }
+    if (Manager::instance()->_64c38 == 4)
+        return;
+    const s32 index = Unk_71025d6550::instance()->sub_7100948F58();
+    if (index == -1)
+        return;
+    const f32 prev = Unk_71025d6550::instance()->getD80(index);
+    const f32 current = Unk_71025d6550::instance()->getDA8();
+    const f32 diff = current - prev;
+    if (diff <= sead::Mathf::epsilon() && diff >= -sead::Mathf::epsilon()) {
+        if (auto* animator = _11798[base + index]->animator2)
+            animator->Stop(2.0f);
+    }
+}
+
 // 0x71009e7420 (placeholder name): moves _11508 to its end frame and hides the two sub-device panes in mode 4.
 void ScreenAppMapDungeon::sub_71009E7420() {
     if (!Unk_71025d6550::instance())
