@@ -550,13 +550,36 @@ bool Unk_71024eb548::m5(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a, 
 
 // 0x7102603530 (placeholder name, .bss): the game-data flag that makes the horse's material 12
 // unusable while it is set (the FlagHandle unwrapHandle check is inlined in m3).
-ksys::gdt::FlagHandle sUnk_7102603530;
+sead::Atomic<u32> sUnk_7102603530;
+
+// 0x71026034c0 (placeholder name): the reinit slot the first Unk_71024eb548 registers.
+namespace {
+ksys::gdt::Manager::ReinitSignal::Slot sUnk_71026034C0;
+}
+
+// NON_MATCHING: the Slot assignment builds the slot in a stack temporary and copies it; the original
+// constructs the delegate in place at the static (all other instructions and the layout match).
+// 0x7100e72034: the constructor registers the game-data reinit callback once.
+Unk_71024eb548::Unk_71024eb548() {
+    _8 = 4;
+    if (!sUnk_7102603530.compareExchange(0, -1))
+        return;
+    sUnk_7102603530 = u32(ksys::gdt::Manager::instance()->getBoolHandle("MiniGame_HorseRace_CreateObstacle"));
+    sUnk_71026034C0 = ksys::gdt::Manager::ReinitSignal::Slot(this, &Unk_71024eb548::sub_7100E72110);
+    ksys::gdt::Manager::instance()->addReinitCallback(sUnk_71026034C0);
+}
+
+// 0x7100e72110 (placeholder name): the game-data reinit callback; refreshes the cached
+// MiniGame_HorseRace_CreateObstacle flag handle.
+void Unk_71024eb548::sub_7100E72110(ksys::gdt::Manager::ReinitEvent* event) {
+    sUnk_7102603530 = u32(ksys::gdt::Manager::instance()->getBoolHandle("MiniGame_HorseRace_CreateObstacle"));
+}
 
 f32 Unk_71024eb548::m3(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a,
                        ksys::phys::NavMeshCharacterType type, f32 cost) {
     if (material == 12) {
         bool value = false;
-        if (ksys::gdt::Manager::instance()->getBool(sUnk_7102603530, &value) && value)
+        if (ksys::gdt::Manager::instance()->getBool(ksys::gdt::FlagHandle(sUnk_7102603530.load()), &value) && value)
             return std::numeric_limits<f32>::infinity();
     }
     return ksys::phys::NavMeshCharacter::sub_7100F74FD8(

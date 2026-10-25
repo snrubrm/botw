@@ -11,6 +11,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Utils/Thread/MessageBroker.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverId.h"
 #include "KingSystem/Utils/Types.h"
@@ -24,6 +25,10 @@ class Random;
 
 namespace gsys {
 class ModelUnitGroup;
+}
+
+namespace ksys::gdt {
+class Manager;
 }
 
 namespace ksys::act {
@@ -77,6 +82,10 @@ public:
            ksys::phys::NavMeshCharacterType type, f32 cost) override;
     bool m5(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a, s32 other_material, s32 other_a,
             ksys::phys::NavMeshCharacterType type) override;
+
+    // 0x7100e72110 (placeholder name): the game-data reinit callback; refreshes the cached
+    // MiniGame_HorseRace_CreateObstacle flag handle.
+    void sub_7100E72110(ksys::gdt::Manager::ReinitEvent* event);
 
     /* 0x8 */ sead::BitFlag8 _8;  // = 4 (bit _2)
 };
