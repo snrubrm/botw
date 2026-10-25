@@ -257,6 +257,9 @@ public:
     // 0x7100f1b020 (declaration only): draws the map units and the map's scene model through `context`.
     // Needed by the map screen's draw override (lane2's m33).
     void sub_7100F1B020(agl::DrawContext* context);
+    // 0x7100f1ac50 (declaration only): the projection at +0x128. The map screen's screen-position
+    // helper casts it to sead::PerspectiveProjection, so it is returned as sead::Projection.
+    sead::Projection& getProjectionMaybe();
     // 0x7100f1b6e0: frees the dynamic map texture and puts the Black2D sampler back on mSampler0.
     void freeDynamicTextureMaybe();
     // The map draw override 0x71009e5080 passes the sampler's texture (this + 0x8d8) to
@@ -592,6 +595,35 @@ public:
     u8 _508;
 };
 }  // namespace gsys
+
+namespace gfx {
+
+// The noise gauge renderer at Graphics + 0x390 (the initializer F2C140 allocates 0xa38 bytes). Only
+// the head is modelled: the scratch dynamic texture, the sampler the main screen reads, and the two
+// methods its draw override calls.
+class NoiseGauge {
+public:
+    // 0x7100f208e4 (placeholder name): if no scratch texture is allocated yet, allocates it through
+    // DynamicTextureAllocator, draws the gauge into it and applies it to mSampler.
+    void drawMaybe(f32 scale, agl::DrawContext* context);
+    // 0x7100f20c88 (placeholder name): frees the scratch texture and puts the Black2D sampler back
+    // on mSampler, like Unk_7100f185a4::freeDynamicTextureMaybe.
+    void releaseMaybe();
+    // The main screen's draw override passes this to SetupTextureInfoByAglTextureData (the
+    // sampler's texture data is what the original reads at NoiseGauge + 0x40).
+    agl::TextureData& getTextureDataMaybe() const { return mSampler.getTextureData(); }
+
+private:
+    u8 _0[0x28];
+    /* 0x28 */ agl::TextureData* mDynamicTexture = nullptr;
+    /* 0x30 */ agl::TextureSampler mSampler;
+    // The rest (render target at 0x1a0, viewport at 0x380, uniform block at 0x3b0, ...) is not
+    // modelled yet.
+    u8 _1a0[0xa38 - 0x1a0];
+};
+KSYS_CHECK_SIZE_NX150(NoiseGauge, 0xa38);
+
+}  // namespace gfx
 
 // Partial declaration: name from the CSV Graphics::createInstance (0x7100f2a1d0).
 // Source namespace remains unknown; global spelling follows the existing scene placeholders.
@@ -979,6 +1011,8 @@ public:
     GrudgeRenderer* getGrudgeRendererMaybe() const { return _3a0; }
     Unk_a98* getUnk_a98() const { return _a98; }
     Unk_7100f185a4* getMapRendererMaybe() const { return _388; }
+    // The noise gauge the main screen bakes and draws through (0x7100f208e4 / 0x7100f20c88).
+    gfx::NoiseGauge* getNoiseGaugeMaybe() const { return _390; }
     Unk_ab0* getUnk_ab0() const { return _ab0; }
 
     // Read by ScreenAppMapDungeon::m95: nonzero skips the scale-factor conversion of the map screen
@@ -1050,7 +1084,7 @@ public:
 private:
     u8 _380[0x388 - 0x380];
     Unk_7100f185a4* _388;
-    u8 _390[0x398 - 0x390];
+    gfx::NoiseGauge* _390;
     Unk_7101293bac* _398;
     GrudgeRenderer* _3a0;
     Unk_7100efd9b8* _3a8;
