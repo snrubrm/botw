@@ -16,32 +16,25 @@ Unk_710129175c::Record::~Record() {
 
 Unk_710129175c::Unk_710129175c() : _8(0), mRecords(), mPage(), _260() {}
 
-// NON_MATCHING: the record count is loaded one instruction later and the loop increments the
-// count before the record pointer; the teardown sequence matches.
 Unk_710129175c::~Unk_710129175c() {
     auto delete_block = [](const agl::GPUMemAddrBase& block) {
         agl::GPUMemVoidAddr copy(block);
         copy.deleteGPUMemBlock();
     };
-    Record* record = mRecords.getBufferPtr();
-    for (u64 i = u64(mRecords.size()); i != 0; ++record, --i) {
-        delete_block(record->_12c8);
-        delete_block(record->_13f0);
-        delete_block(record->_1518);
-        delete_block(record->_1b60);
-        delete_block(record->_1c88);
-        delete_block(record->_1db0);
+    for (auto& record : mRecords) {
+        delete_block(record._12c8);
+        delete_block(record._13f0);
+        delete_block(record._1518);
+        delete_block(record._1b60);
+        delete_block(record._1c88);
+        delete_block(record._1db0);
     }
     mRecords.freeBuffer();
-    mPage.~DebugTexturePage();
 }
 
 Unk_7101293bac::Unk_7101293bac() : _8(0), mFlags(2), mPage(), _250(0), _254(0) {}
-// NON_MATCHING: the inlined DebugTexturePage teardown stores only the IDisposer vtable, not the
-// hostio::Node vtable at +0x30; the cleanUp / base-destructor calls match.
-Unk_7101293bac::~Unk_7101293bac() {
-    mPage.~DebugTexturePage();
-}
+
+Unk_7101293bac::~Unk_7101293bac() {}
 
 void Unk_7101293bac::sub_7101293C9C(s32, sead::Heap* heap) {
     mPage.setUp(1, "ItemFilter", heap);
@@ -123,17 +116,9 @@ void Unk_710129175c::sub_710129276C(s32 index, Result* result) {
     result->_2c = record._1fcc;
 }
 
-// NON_MATCHING: the entry-count loop keeps a 32-bit decrement where the original's Buffer iterator
-// counter is 64-bit, and the entry-count load / vtable load are scheduled one slot apart.
 Unk_710129421c::~Unk_710129421c() {
-    u32 count = u32(mEntries.size());
-    if (count != 0) {
-        Entry* entry = mEntries.getBufferPtr();
-        do {
-            entry->mTextureData.getImagePtr().deleteGPUMemBlock();
-            ++entry;
-        } while (--count != 0);
-    }
+    for (auto& entry : mEntries)
+        entry.mTextureData.getImagePtr().deleteGPUMemBlock();
     mEntries.freeBuffer();
 }
 
