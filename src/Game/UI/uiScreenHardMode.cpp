@@ -1,6 +1,10 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/uiTUStatics.h"
+#include "Game/UI/uiUtils.h"
+#include "Game/AOC/aocHardModeManager.h"
+#include "Game/gameSaveSystem.h"
+#include "KingSystem/System/PlayReportMgr.h"
 
 namespace uking::ui {
 
@@ -85,6 +89,28 @@ ksys::StateTemplate<ScreenHardMode> sUnk_71025ee990(
 ksys::StateTemplate<ScreenHardMode> sUnk_71025ee9f0(
     ++ksys::sUnk_71025cb4c8, "::StateID_DoNothing", &ScreenHardMode::m242, &ScreenHardMode::m243,
     &ScreenHardMode::m244, &ScreenHardMode::m245, &ksys::sUnk_710250bcd8);
+
+// 0x7100a0bb34 (CSV ScreenHardMode::x): restores the last-play hard mode flag, clears the player track report,
+// saves and shows the load/save icon, then waits in the "do nothing" state.
+// NON_MATCHING: the two SEAD_ENUM temporaries of checkFlag / setFlag land in [sp,#8] then [sp,#0xc]; ours uses
+// the same two slots in the opposite order. Everything else matches.
+void ScreenHardMode::x() {
+    if (_3704 == 3) {
+        const bool on = !aoc::HardModeManager::instance() ||
+                        !aoc::HardModeManager::instance()->checkFlag(
+                            aoc::HardModeManager::Flag::EnableHardMode);
+        if (ksys::PlayReportMgr::instance() &&
+            ksys::PlayReportMgr::instance()->getPlayerTrackReporter())
+            ksys::PlayReportMgr::instance()->getPlayerTrackReporter()->mBlocks.clear();
+        if (aoc::HardModeManager::instance()) {
+            aoc::HardModeManager::instance()->setFlag(aoc::HardModeManager::Flag::EnableHardMode, on);
+            aoc::HardModeManager::instance()->storeIsLastPlayHardModeFlag();
+        }
+        SaveSystem::instance()->sub_71009145F8();
+        showLoadSaveIcon(true);
+    }
+    getStateMachine().changeState(&sUnk_71025ee9f0);
+}
 
 // 0x7100a0bc24
 void ScreenHardMode::m93(sead::Heap*) {

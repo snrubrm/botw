@@ -745,6 +745,38 @@ void ScreenAppMap::sub_71009EF5D0() {
     }
 }
 
+// 0x71009ef7ec (placeholder name): advances the map's normal-map mode after a step finished; 3 -> 4 when the
+// normal map is ready, 1 -> 2 when a map area is loading, 0 -> 1 (and cancels when it is not ready).
+// NON_MATCHING: the 3 and 1 arms have identical increment / compare tails that the original keeps as one shared
+// block (tst + constant + cinc); ours if-converts the 1 arm to and + add, so the tail is not merged.
+void ScreenAppMap::sub_71009EF7EC() {
+    const s32 mode = UiSubsys1::instance()->get3820();
+    s32 next;
+    if (mode == 0) {
+        next = _3610->mNormalMap.sub_71009A82A8() & 1;
+    } else if (mode == 1) {
+        next = 1;
+        if (_3610->sub_71009AF37C() & 1)
+            ++next;
+    } else if (mode == 3) {
+        next = 3;
+        if (_3610->mNormalMap.sub_71009A82A8() & 1)
+            ++next;
+    } else {
+        return;
+    }
+    if (next == mode)
+        return;
+    if (next == 1) {
+        _3610->sub_71009AF364();
+    } else if (next == 3) {
+        if (UiSubsys1::instance()->get3820() == 0)
+            _3610->sub_71009AF364();
+        _3610->sub_71009AF344();
+    }
+    UiSubsys1::instance()->set3820(next);
+}
+
 // 0x71009f038c
 void ScreenAppMap::sub_71009F038C() {
     if (!_3610)

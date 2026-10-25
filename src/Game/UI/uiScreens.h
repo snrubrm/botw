@@ -4347,6 +4347,9 @@ extern ksys::StateTemplate<ScreenHardMode> sUnk_71025ee7b0;
 extern ksys::StateTemplate<ScreenHardMode> sUnk_71025ee6f0;
 extern ksys::StateTemplate<ScreenHardMode> sUnk_71025ee870;
 extern ksys::StateTemplate<ScreenHardMode> sUnk_71025ee8d0;
+extern ksys::StateTemplate<ScreenHardMode> sUnk_71025ee930;
+extern ksys::StateTemplate<ScreenHardMode> sUnk_71025ee990;
+extern ksys::StateTemplate<ScreenHardMode> sUnk_71025ee9f0;
 
 class ScreenHardMode : public ScreenEx {
 public:
