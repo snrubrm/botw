@@ -4991,3 +4991,23 @@ void Screen::invokeSoundLink2Event(const char* name) {
 }
 
 }  // namespace eui
+// 0x71009dc6bc: toggles the download-demo layout state.
+void isDownloadDemoStuff(uking::ui::ScreenAppHome* home, bool is_download_demo) {
+    home->_3811 = is_download_demo;
+    if (is_download_demo) {
+        if (home->_3610._20)
+            home->_3610._20->sub_7100BDDE7C(false, 1, true);
+        if (home->_3610._30)
+            home->_3610._30->PlayAuto(1.0f);
+        ksys::gdt::setFlag_IsDownloadDemo(false, false);
+    } else {
+        if (home->_3610._20) {
+            home->_3610._20->sub_7100BDDE7C(false, 1, true);
+            uking::ui::Manager::instance()->sub_7100A7F900(home->_3610._20->_70);
+        }
+        if (home->_3610._28)
+            home->_3610._28->PlayAuto(1.0f);
+    }
+    home->open(1);
+}
+

@@ -6199,7 +6199,8 @@ public:
         u8 _0[0x20];
         // closed by m100
         eui::LayoutEx* _20;
-        u8 _28[0x30 - 0x28];
+        // The animator played by the download-demo toggle (0x3640 is the other one).
+        eui::Animator* _28;
         eui::Animator* _30;
         u8 _38[0x50 - 0x38];
     };
@@ -6240,10 +6241,6 @@ public:
     // 0x71009dd838 (placeholder name): forwards the float to the _3818 Unk_7102474df8 check
     bool sub_71009DD838(f32 a1) const;
 };
-
-// 0x71009dc6bc (placeholder name; declared only): stores the download demo flag in the AppHome screen's byte at
-// 0x3811 and updates its panes.
-void isDownloadDemoStuff(ScreenAppHome* home, bool is_download_demo);
 
 extern const ksys::StateBase sUnk_71025dc3c0;
 // A ScreenAppAlbum state (StateTemplate; placeholder name); m171 changes to it.
@@ -6997,3 +6994,7 @@ PictureBookNameIterator newWeaponPictureBookNamesEnd();
 const sead::SafeString* getInitialWeaponPictureBookNames();
 
 }  // namespace uking::ui
+
+// 0x71009dc6bc (placeholder name): stores the download demo flag in the AppHome screen's byte at
+// 0x3811 and updates its panes. Global namespace (the CSV symbol is _Z18...).
+void isDownloadDemoStuff(uking::ui::ScreenAppHome* home, bool is_download_demo);
