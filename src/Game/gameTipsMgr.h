@@ -1,7 +1,9 @@
 #pragma once
 
+#include <container/seadPtrArray.h>
 #include <container/seadSafeArray.h>
 #include <heap/seadDisposer.h>
+#include <time/seadDateTime.h>
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -23,12 +25,30 @@ public:
     void loadTipFiles();
     void sub_7100920200();
     void initBeforeStageGen();
+    // 0x71009200b4 (placeholder name): stamps every queued tip with the running index, the hour
+    // and the current time.
+    void sub_71009200B4();
 
 private:
+    // A queued tip; only the fields 0x71009200b4 writes are known.
+    struct Tip {
+        u8 _0[0x40];
+        /* 0x40 */ s32 _40;
+        /* 0x44 */ s32 _44;
+        /* 0x48 */ s32 _48;
+        u8 _4c[4];
+        /* 0x50 */ u64 _50;
+    };
+    static_assert(sizeof(Tip) == 0x58);
+
     // 91E0E0 creates the Tips ExpHeap here; the complete destructor only destroys
     // the resource handles, leaving this heap's lifetime to the parent heap.
     sead::Heap* _20;
-    u8 _28[0x20a8 - 0x28];
+    u8 _28[0x150 - 0x28];
+    /* 0x150 */ sead::PtrArray<Tip> mTips;
+    u8 _160[0x20a0 - 0x160];
+    /* 0x20a0 */ s32 _20a0;
+    u8 _20a4[4];
     ksys::res::Handle _20a8;
     sead::SafeArray<ksys::res::Handle, 9> _20f8;
     ksys::act::BaseProc* _23c8;

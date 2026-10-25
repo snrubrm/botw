@@ -10,6 +10,7 @@
 #include "KingSystem/Resource/resResourceMgrTask.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/euiScreen.h"
+#include "KingSystem/World/worldManager.h"
 
 // 920CFC is the native sead enum text parser; text_(s32) returns const char*.
 const char* getTipString(s32 index);
@@ -22,6 +23,27 @@ KSYS_VISIBILITY_HIDDEN bool sIsFirstTips = false;
 // 0x710091e14c
 void setIsFirstTipsToFalse() {
     sIsFirstTips = false;
+}
+
+// 0x71009200b4 (placeholder name)
+void TipsMgr::sub_71009200B4() {
+    auto* fade = sead::DynamicCast<uking::ui::Fade>(
+        eui::ScreenMgr::instance()->getScreen(uking::ui::ScreenId::Fade));
+    if (!fade)
+        return;
+    const u32 count = fade->_a10;
+    sead::DateTime now;
+    now.setNow();
+    const s32 hour = ksys::world::Manager::instance()->getTimeMgr()->getHour();
+    const u64 ticks = now.getUnixTime();
+    for (u32 i = 0; i != count; ++i) {
+        Tip* tip = mTips[s32(i)];
+        tip->_40 = _20a0;
+        tip->_44 = hour;
+        tip->_50 = ticks;
+        ++tip->_48;
+        ++_20a0;
+    }
 }
 
 // 0x710091f434: when the fade screen (id 0x4e) is open and its tip flag is set, queries whether it
