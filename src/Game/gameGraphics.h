@@ -253,6 +253,9 @@ public:
     };
 
     void sub_7100F1AC58();
+    // 0x7100f1b020 (declaration only): draws the map units and the map's scene model through `context`.
+    // Needed by the map screen's draw override (lane2's m33).
+    void sub_7100F1B020(agl::DrawContext* context);
     // 0x7100f1b6e0: frees the dynamic map texture and puts the Black2D sampler back on mSampler0.
     void freeDynamicTextureMaybe();
     // The map draw override 0x71009e5080 passes the sampler's texture (this + 0x8d8) to
