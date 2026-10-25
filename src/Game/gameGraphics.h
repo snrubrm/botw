@@ -597,11 +597,14 @@ public:
     // Placeholder name: the block at Graphics + 0xa98 (shadow settings; lane3 s35, only the fields
     // EventChangeShadowNearAndFar::calc_ writes are modeled).
     struct Unk_a98 {
-        u8 _0[0x12];
+        u8 _0[0x11];
+        /* 0x11 */ u8 mQuality;  // shadow quality index (1..4), set from Graphics' shadow mode switch
         /* 0x12 */ u16 mFlags;  // bit 8: near distance set manually, bit 9: far distance set manually
         u8 _14[0x540 - 0x14];
         /* 0x540 */ f32 mShadowNear;
         /* 0x544 */ f32 mShadowFar;
+
+        void setQuality(u32 quality);
     };
 
     // Placeholder names (lane4 s64): the object at Graphics + 0x378 points (+0x18) to a block that holds two floats
