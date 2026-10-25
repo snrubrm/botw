@@ -1373,6 +1373,8 @@ public:
     void m84() override;
     // 0x7100a19d78
     void m98() override;
+    // 0x7100a1a0ac
+    void doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) override;
 
     u8 _pad_3610[0x3620 - 0x3610];
     /* 0x3620 */ void* _3620;
@@ -1401,7 +1403,12 @@ public:
     /* 0x3720 */ f32 _3720;  // -99.0f initially
     u8 _pad_3724[0x3728 - 0x3724];
     /* 0x3728 */ sead::CriticalSection _3728;  // destroyed by the destructor 0x7100a17ff4
-    u8 _pad_3768[0x3968 - 0x3768];
+    u8 _pad_3768[0x3930 - 0x3768];
+    /* 0x3930 */ eui::LayoutEx* _3930;
+    /* 0x3938 */ eui::Animator* _3938;
+    /* 0x3940 */ nn::ui2d::ExternalTextureInfo _3940;
+    /* 0x3958 */ nn::ui2d::Material* _3958;
+    /* 0x3960 */ nn::ui2d::Material* _3960;
     /* 0x3968 */ eui::LayoutEx* mLocationNameLayout;
     /* 0x3970 */ eui::LayoutEx* mLocationNameSLayout;
     u8 _pad_3978[0x3aa8 - 0x3978];

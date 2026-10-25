@@ -1422,6 +1422,35 @@ void ScreenMainScreen::m98() {
         _3ca8->sub_7100BDDE7C(false, 1, true);
 }
 
+// 0x7100a1a0ac: the draw override. While the noise gauge exists it draws the gauge into its scratch texture,
+// points the two materials' first texture slot at it and releases it again after the base draw.
+void ScreenMainScreen::doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) {
+    auto* graphics = Graphics::instance();
+    gfx::NoiseGauge* gauge = graphics ? graphics->getNoiseGaugeMaybe() : nullptr;
+    if (!gauge) {
+        Screen::doDraw_(info);
+        return;
+    }
+
+    info->mDrawContext->invalidateShaderMode();
+    f32 scale = 1.0f;
+    if (!graphics->get_b5e())
+        scale = f32(Graphics::getScreenSize().x) / 1280.0f;
+    gauge->drawMaybe(scale, info->mDrawContext);
+    info->mFrameBuffer->bind(info->mDrawContext);
+    info->mViewport->apply(info->mDrawContext, *info->mFrameBuffer);
+    info->mDrawContext->changeShaderMode(agl::cShaderMode_UniformRegister,
+                                         static_cast<agl::ShaderOptimizeType>(0));
+    info->mGraphicsContext->apply(info->mDrawContext);
+    eui::SetupTextureInfoByAglTextureData(&_3940, gauge->getTextureDataMaybe(), nullptr);
+    if (_3958)
+        _3958->GetTexMapArray()[0].ReplaceTextureInfo(&_3940);
+    if (_3960)
+        _3960->GetTexMapArray()[0].ReplaceTextureInfo(&_3940);
+    Screen::doDraw_(info);
+    gauge->releaseMaybe();
+}
+
 // 0x7100a1ab14
 void ScreenMainScreen::sub_7100A1AB14(BossGaugeInfo* info, f32 value) {
     sub_7100A1A518(info, true);
