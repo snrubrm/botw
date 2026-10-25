@@ -1532,6 +1532,10 @@ public:
     // 0x71009679ac / 0x71009677cc / 0x7100968774 / 0x7100968b1c / 0x7100968c2c (CSV unnamed; declared only):
     // the demo state's map camera steps
     void sub_71009679AC();
+    // 0x7100967a74 / 0x7100967be8 (declared only; unnamed in the CSV): write the current map camera's names into
+    // `out` (the 0x80 / 0x40 byte buffers sub_71009679AC owns).
+    void sub_7100967A74(sead::BufferedSafeString* out);
+    void sub_7100967BE8(sead::BufferedSafeString* out);
     void sub_71009677CC();
     void sub_7100968774();
     s32 sub_7100968B1C();

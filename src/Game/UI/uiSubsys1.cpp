@@ -214,6 +214,14 @@ void UiSubsys1::sub_7100961CD4(sead::Vector3f* out) {
 }
 
 // 0x710096310c: the marker nearest to `pos` (in the XZ plane, within `radius`); writes its index to `out_index`
+// 0x71009679ac: fills and applies the demo state's two map camera names.
+void UiSubsys1::sub_71009679AC() {
+    sead::FixedSafeString<0x80> name;
+    sub_7100967A74(&name);
+    sead::FixedSafeString<0x40> name2;
+    sub_7100967BE8(&name2);
+}
+
 // 0x71009672f4: leaves the Sheik sensor search mode and, when `open_system_window` is set, opens the system window
 // screen without buttons.
 void UiSubsys1::sub_71009672F4(bool open_system_window) {
