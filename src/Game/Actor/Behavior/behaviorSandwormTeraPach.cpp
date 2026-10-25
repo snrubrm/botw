@@ -25,7 +25,7 @@ void SandwormTeraPach::calc() {
 
     if (sandworm->_1640 == 1)
         ksys::VFR::lerp(&_70, 1.0f, 0.1f);
-    else if (sandworm->_1640 == 2 || sandworm->_163c == 4)
+    else if (sandworm->_1640 == 2 || sandworm->_163c == act::Sandworm::TeraShape::_4)
         ksys::VFR::lerp(&_70, 0.0f, 0.1f);
     else
         ksys::VFR::lerp(&_70, 1.0f, 0.1f);

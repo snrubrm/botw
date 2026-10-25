@@ -1,6 +1,8 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <container/seadSafeArray.h>
+#include <prim/seadEnum.h>
 #include <gsys/gsysModelAccessKey.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
@@ -71,9 +73,57 @@ struct Unk_71007237d0 {
 };
 KSYS_CHECK_SIZE_NX150(Unk_71007237d0, 0x80);
 
+// Placeholder name (vtable 0x71023cfcf0, size 0x318, D1 0x7100682350): the terrain-shape holder
+// Sandworm::prepareInit_ (0x71002ccc40) allocates at Sandworm + 0x1588. Its D1 unlinks the object
+// from a global list and releases the shared tera shape at + 8 through the tera system; the runtime
+// writes a position and a shape into the 15 0x2c-byte slots at + 0x28.
+class Unk_71023cfcf0 {
+public:
+    struct Slot {
+        /* 0x00 */ f32 _0;
+        /* 0x04 */ f32 _4;
+        /* 0x08 */ f32 _8;
+        /* 0x0c */ u32 _c;
+        /* 0x10 */ f32 _10;
+        /* 0x14 */ f32 _14;
+        /* 0x18 */ f32 _18;
+        /* 0x1c */ f32 _1c;
+        /* 0x20 */ u32 _20;
+        /* 0x24 */ u32 _24;
+        /* 0x28 */ u32 _28;
+    };
+    KSYS_CHECK_SIZE_NX150(Slot, 0x2c);
+
+    virtual ~Unk_71023cfcf0();
+
+    // 0x71006825f0 (placeholder name): the game checks this before deleting the holder.
+    bool sub_71006825F0();
+    // 0x71002cbde4 (placeholder name): updates the shape at `mode` for a position.
+    void sub_71002CBDE4(f32 x, f32 z, s32 mode);
+
+    /* 0x08 */ void* _8 = nullptr;
+    /* 0x10 */ u16 _10 = 0;
+    /* 0x12 */ u8 _12 = 0;
+    /* 0x13 */ u8 _13[0x18 - 0x13];
+    /* 0x18 */ u64 _18 = 0;
+    /* 0x20 */ u64 _20 = 0;
+    /* 0x28 */ sead::SafeArray<Slot, 15> mSlots;
+    /* 0x2bc */ u32 _2bc = 0;
+    /* 0x2c0 */ u8 _2c0[0x2d4 - 0x2c0];
+    /* 0x2d4 */ u32 _2d4 = 0;
+    /* 0x2d8 */ u8 _2d8[0x2f8 - 0x2d8];
+    /* 0x2f8 */ f32 _2f8 = 0;
+    /* 0x2fc */ u8 _2fc[0x318 - 0x2fc];
+};
+KSYS_CHECK_SIZE_NX150(Unk_71023cfcf0, 0x318);
+
 class Sandworm : public Enemy {
     SEAD_RTTI_OVERRIDE(Sandworm, Enemy)
 public:
+    // Placeholder (the terrain-shape index stored in _163c; SandwormTeraShapeChanger sets it and
+    // sub_71002CD990 maps it to the shape passed to the holder).
+    SEAD_ENUM(TeraShape, _0, _1, _2, _3, _4)
+
     explicit Sandworm(const CreateArg& arg);
     ~Sandworm() override;
 
@@ -120,7 +170,7 @@ public:
     /* 0x1550 */ sead::Matrix34f _1550 = sead::Matrix34f::ident;
     /* 0x1580 */ f32 _1580 = 3.0;
     /* 0x1584 */ u8 _1584 = 0;
-    /* 0x1588 */ void* _1588 = nullptr;
+    /* 0x1588 */ Unk_71023cfcf0* _1588 = nullptr;
     /* 0x1590 */ ksys::VFRValue _1590{0.0f};
     /* 0x159c */ f32 _159c = 0;
     /* 0x15a0 */ u32 _15a0 = 0;
@@ -133,7 +183,7 @@ public:
     /* 0x15f0 */ gsys::BoneAccessKeyEx _15f0;
     /* 0x1628 */ sead::Random _1628;
     /* 0x1638 */ u8 _1638 = 0;
-    /* 0x163c */ u32 _163c = 0;
+    /* 0x163c */ TeraShape _163c;
     /* 0x1640 */ u32 _1640 = 0;
     /* 0x1644 */ sead::Vector3f _1644 = sead::Vector3f::zero;
     /* 0x1650 */ ksys::phys::RigidBody* _1650 = nullptr;  // m56

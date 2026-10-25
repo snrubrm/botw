@@ -50,6 +50,82 @@ ksys::act::BaseProc* Sandworm::construct(const CreateArg& arg, sead::Heap* heap)
     return new (heap, std::nothrow) Sandworm(arg);
 }
 
+void Sandworm::preDelete2_(const PreDeleteArg& arg) {
+    Enemy::preDelete2_(arg);
+    if (_1588) {
+        delete _1588;
+        _1588 = nullptr;
+    }
+    _14d0.sub_710072479C();
+    _14d0.sub_71002CCFD4();
+}
+
+bool Sandworm::startPreparingForPreDelete_() {
+    if (_1588 && !_1588->sub_71006825F0())
+        return false;
+    _14d0.sub_710072479C();
+    return Enemy::startPreparingForPreDelete_();
+}
+
+// Writes a position and the default shape into every slot of the trail holder.
+void Sandworm::sub_71002CD930(const sead::Vector3f& pos) {
+    auto* holder = _1588;
+    if (!holder)
+        return;
+
+    const f32 x = pos.x;
+    const f32 z = pos.z;
+    for (auto& slot : holder->mSlots) {
+        slot._0 = x;
+        slot._4 = z;
+        slot._8 = 1.0f;
+        slot._c = 0;
+        slot._10 = 0;
+        slot._14 = 0;
+        slot._18 = 0;
+        slot._1c = 0;
+        slot._20 = 0;
+        slot._24 = 0;
+        slot._28 = 0;
+    }
+    holder->_2bc = 15;
+    holder->_2f8 = 1.0f;
+    holder->_2d4 = 0;
+}
+
+// Moves the trail holder to `pos` with the shape selected from _163c.
+void Sandworm::sub_71002CD990(const sead::Vector3f& pos) {
+    auto* holder = _1588;
+    if (!holder)
+        return;
+
+    s32 mode;
+    {
+        const TeraShape shape = _163c;
+        switch (int(shape)) {
+        case 0:
+            mode = 2;
+            break;
+        case 1:
+            mode = 3;
+            break;
+        case 2:
+            mode = 0;
+            break;
+        case 3:
+            mode = 1;
+            break;
+        case 4:
+            mode = 4;
+            break;
+        default:
+            mode = 4;
+            break;
+        }
+    }
+    holder->sub_71002CBDE4(pos.x, pos.z, mode);
+}
+
 // NON_MATCHING: the original loads the vtable pointer separately in each branch (ours hoists the common load)
 void Sandworm::sub_71002CDAE4(bool on) {
     if (auto* x = _1250) {
