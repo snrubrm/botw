@@ -15,6 +15,10 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/XLink/xlinkManager.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "Game/Scene/gameStageInfo.h"
+#include "Game/UI/uiScreens.h"
+#include "Game/UI/euiScreen.h"
+#include "KingSystem/System/DebugBoard.h"
 
 namespace uking::ui {
 
@@ -210,6 +214,23 @@ void UiSubsys1::sub_7100961CD4(sead::Vector3f* out) {
 }
 
 // 0x710096310c: the marker nearest to `pos` (in the XZ plane, within `radius`); writes its index to `out_index`
+// 0x7100961e48: hands the map cursor position to the map widget's footprint buffer when the map screen is up in
+// the main field and the loading screen has not started.
+// NON_MATCHING: clang 4 loads the first argument (pos->x) before the second (pos->z); the original loads the second
+// one first.
+void UiSubsys1::sub_7100961E48(const sead::Vector3f* pos) {
+    auto* map = sead::DynamicCast<ScreenAppMap>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap));
+    if (!map)
+        return;
+    if (DebugBoardMgr::instance()->hasLoadingScreenStarted())
+        return;
+    if (uking::StageInfo::getCurrentMapType() == "MainField") {
+        if (auto* widget = map->_3610)
+            widget->mFootPrint.sub_7100A86468(pos->x, pos->z, true);
+        _4ca = 0;
+    }
+}
+
 bool UiSubsys1::sub_710096310C(s32* out_index, const sead::Vector3f* pos, f32 radius) {
     bool found = false;
     f32 nearest = std::numeric_limits<f32>::max();

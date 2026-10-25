@@ -1629,7 +1629,8 @@ private:
     u8 _4b9[0x4bc - 0x4b9];
     /* 0x4bc */ sead::Vector3f _4bc;
     /* 0x4c8 */ bool _4c8;
-    u8 _4c9[0x4cc - 0x4c9];
+    u8 _4c9[1];
+    /* 0x4ca */ u16 _4ca;
     /* 0x4cc */ bool _4cc = false;  // set by S7EventFlow::m9
     u8 _4cd[0x598 - 0x4cd];
     /* 0x598 */ sead::PtrArray<Unk_7102476640> _598;
