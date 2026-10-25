@@ -214,6 +214,26 @@ void UiSubsys1::sub_7100961CD4(sead::Vector3f* out) {
 }
 
 // 0x710096310c: the marker nearest to `pos` (in the XZ plane, within `radius`); writes its index to `out_index`
+// 0x71009672f4: leaves the Sheik sensor search mode and, when `open_system_window` is set, opens the system window
+// screen without buttons.
+void UiSubsys1::sub_71009672F4(bool open_system_window) {
+    if (!_38ac)
+        return;
+    _38d8 = false;
+    ksys::gdt::setFlag_App_SeakSensor_SearchMode(2, false);
+    auto* main_screen = sead::DynamicCast<ScreenMainScreen>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::MainScreen));
+    if (main_screen)
+        main_screen->sub_7100A1E968();
+    if (open_system_window) {
+        createAndLoadScreenIfNeededImpl(ScreenId::AppSystemWindowNoBtn, nullptr);
+        auto* window = sead::DynamicCast<ScreenAppSystemWindowNoBtn>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindowNoBtn));
+        if (window)
+            window->sub_71009FB958();
+    }
+}
+
 // 0x7100961e48: hands the map cursor position to the map widget's footprint buffer when the map screen is up in
 // the main field and the loading screen has not started.
 // NON_MATCHING: clang 4 loads the first argument (pos->x) before the second (pos->z); the original loads the second
