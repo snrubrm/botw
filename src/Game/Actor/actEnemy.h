@@ -244,6 +244,9 @@ public:
     // 0x7100016494 (declaration only; unnamed in the CSV, lane5 s3): raises the arrow shoot counter at +0x11a0
     // (clamped by getArrowEnemyShootNumForDelete of the current weapon); called by ShootArrow::m33.
     void sub_7100016494();
+    // 0x710001692c (placeholder name): rebuilds _f54 from the EnemyRace parameter's EquipableWeapon list
+    // (0x7100735da0); the Stal check in 0x71007270bc calls it and clears bits 3 / 4 when it fails.
+    void sub_710001692C();
     bool sub_71000198E4(ksys::act::Actor* actor);
     // 0x7100016284 / 0x71000161a4 (declaration only, lane1 s39; placeholder names): queries on the weapon slot
     // `idx` (the second calls the first and checks the held weapon).

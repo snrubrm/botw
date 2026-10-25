@@ -31,6 +31,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseRider.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "Game/Actor/actUnk_71025ae680.h"
@@ -170,6 +171,14 @@ void Enemy::sub_7100016494() {
             ksys::act::InfoData::instance(), name.cstr());
         _11a0 = sead::Mathf::clampMax(_11a0, limit);
     }
+}
+
+// 0x7100735da0 (placeholder name; declared only): works out which weapon types `flags` allows from
+// the comma-separated list `name`.
+void sub_7100735DA0(sead::BitFlag16* flags, const sead::SafeString& name);
+
+void Enemy::sub_710001692C() {
+    sub_7100735DA0(&_f54, getParam()->getRes().mGParamList->getEnemyRace()->mEquipableWeapon.ref());
 }
 
 
