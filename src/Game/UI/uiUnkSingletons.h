@@ -48,6 +48,10 @@ namespace nn::ui2d {
 class Pane;
 }
 
+namespace uking::ai {
+struct ElectricCableUiInfo;
+}
+
 namespace uking::ui {
 
 // UI singletons whose classes are not identified yet. Placeholder names after the address of the
@@ -327,11 +331,17 @@ public:
     };
     static_assert(sizeof(Pin) == 0x38);
     /* 0xb78 */ Pin _b78[3];
-    // Targets matching the pins (placeholder layout; sub_71009487C0 reads the position at 0x20 and the flag at 0x40)
+    // Targets matching the pins (sub_71009487C0 reads the position at 0x20 and the flag at 0x40).
+    // sub_7100947B84 fills start / end / center (the pins' position is the center), the cable's
+    // energized flag and its actor link.
     struct Target {
-        u8 _0[0x20];
+        u8 _0[8];
+        /* 0x08 */ sead::Vector3f mStart;
+        /* 0x14 */ sead::Vector3f mEnd;
         /* 0x20 */ sead::Vector3f pos;
-        u8 _2c[0x40 - 0x2c];
+        /* 0x2c */ bool energized;
+        u8 _2d[3];
+        /* 0x30 */ ksys::act::BaseProcLink mLink;
         /* 0x40 */ bool valid;
         u8 _41[0x48 - 0x41];
     };
@@ -381,7 +391,7 @@ private:
 };
 
 // 0x7100947b84 (placeholder name): copies a pin / cable argument into `target` (declared only).
-void sub_7100947B84(Unk_71025d6550::Target* target, const void* info);
+void sub_7100947B84(Unk_71025d6550::Target* target, const uking::ai::ElectricCableUiInfo* info);
 
 // Singleton at 0x71025d69f0 (createInstance 0x710094d7b4, size 0x48, vtable 0x7102475348 with D1 / D0 0x710094d8c4 /
 // 0x710094d8c8, disposer vtable 0x7102475328; `_2c` is a state set by the facade functions).

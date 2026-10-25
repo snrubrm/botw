@@ -45,6 +45,7 @@
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "Game/Actor/AI/aiElectricCable.h"
 
 namespace uking::ui {
 
@@ -1920,3 +1921,23 @@ bool Unk_71024750c8::sub_7100947520() {
 }
 Unk_7102475050::~Unk_7102475050() = default;
 Unk_71024750c8::~Unk_71024750c8() = default;
+
+namespace uking::ui {
+// 0x7100947b84
+void sub_7100947B84(Unk_71025d6550::Target* target, const ai::ElectricCableUiInfo* info) {
+    target->pos = info->center;
+    target->energized = info->energized;
+    auto* actor = info->actor;
+    const bool had_proc = target->mLink.hasProc();
+    if (actor) {
+        if (had_proc)
+            target->mLink.reset();
+        target->mLink.acquire(actor, false);
+    } else if (had_proc) {
+        target->mLink.reset();
+    }
+    target->mStart = info->start;
+    target->mEnd = info->end;
+    target->valid = true;
+}
+}  // namespace uking::ui

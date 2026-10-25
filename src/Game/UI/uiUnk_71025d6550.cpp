@@ -65,7 +65,7 @@ void Unk_71025d6550::sub_7100948E44(const void* a1) {
     const s32 group = info->actor->getFieldBodyGroupId();
     if (u32(group) <= 2) {
         _c20.mCS.lock();
-        sub_7100947B84(&_c20.mTargets[group], a1);
+        sub_7100947B84(&_c20.mTargets[group], info);
         _c20.mCS.unlock();
     }
 }
