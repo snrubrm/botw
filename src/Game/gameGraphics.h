@@ -625,13 +625,17 @@ public:
         u8 _0[0x12a8];
         // 10D103C indexes 0x20-byte cells with Buffer's bounds fallback and reads f32 +0x18.
         /* 0x12a8 */ sead::Buffer<Cell> _12a8;
-        u8 _12b8[0x1500 - 0x12b8];
+        u8 _12b8[0x14f0 - 0x12b8];
+        /* 0x14f0 */ f32 _14f0;
+        u8 _14f4[0x1500 - 0x14f4];
         // Bit 2 is the result of Graphics::sub_7100F35E5C.
         /* 0x1500 */ u8 _1500;
         u8 _1501[0x1520 - 0x1501];
         /* 0x1520 */ f32 _1520;
         /* 0x1524 */ f32 _1524;
+        u8 _1528[8];
     };
+    static_assert(sizeof(Unk_378_18) == 0x1530);
     struct Unk_378 {
         // 0x7101289934 (declaration only; placeholder name and parameter types): updates record
         // `index` of the 0x1530-byte blocks with the two vectors and the frame delta.
@@ -641,9 +645,11 @@ public:
         void sub_71012890FC(s32 view);
         // 0x710128a988 (declaration only; placeholder name): draws the block's debug geometry.
         void sub_710128A988(agl::DrawContext* context, u8 view_index);
+        // 0x710128aa30 (placeholder name): stores `value` at +0x14f0 of block `view`.
+        void setValueMaybe(f32 value, s32 view);
 
-        u8 _0[0x18];
-        /* 0x18 */ Unk_378_18* _18;
+        u8 _0[0x10];
+        /* 0x10 */ sead::Buffer<Unk_378_18> mBlocks;
         u8 _20[0x268 - 0x20];
         /* 0x268 */ s32 _268;  // grid row width used by 10D103C
     };

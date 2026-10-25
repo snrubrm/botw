@@ -63,3 +63,9 @@ void Graphics::Unk_668::initMaybe(s32 count, sead::Heap* heap) {
         ++data;
     }
 }
+
+// 0x710128aa30 (placeholder name): stores `value` at +0x14f0 of block `view` (the block array is at
+// +0x18 with 0x1530-byte elements and falls back to block 0 out of range).
+void Graphics::Unk_378::setValueMaybe(f32 value, s32 view) {
+    mBlocks[view]._14f0 = value;
+}

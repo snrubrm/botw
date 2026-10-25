@@ -86,7 +86,7 @@ bool sub_71010D103C() {
     const auto* grid = Graphics::instance()->_378;
     f32 sum = 0.0f;
     for (const auto& coord : coords)
-        sum += grid->_18->_12a8[coord.x + grid->_268 * coord.y]._18;
+        sum += grid->mBlocks.getBufferPtr()->_12a8[coord.x + grid->_268 * coord.y]._18;
     return sum / 3.0f < -20000.0f;
 }
 

@@ -285,7 +285,7 @@ bool Graphics::sub_7100F35E5C(f32 value, const sead::Vector3f* a, const sead::Ve
     if (!_378)
         return false;
     _378->sub_7101289934(0, a, b, value, ksys::VFR::instance()->getDeltaFrame());
-    return (_378->_18->_1500 >> 2) & 1;
+    return (_378->mBlocks.getBufferPtr()->_1500 >> 2) & 1;
 }
 
 void Graphics::sub_7100F3590C(f32 value) {
@@ -301,11 +301,11 @@ void Graphics::sub_7100F3592C(const sead::Vector3f& value) {
 }
 
 f32 Graphics::sub_7100F35F28() const {
-    return _378->_18->_1520;
+    return _378->mBlocks.getBufferPtr()->_1520;
 }
 
 f32 Graphics::sub_7100F35F38() const {
-    return _378->_18->_1524;
+    return _378->mBlocks.getBufferPtr()->_1524;
 }
 
 void Graphics::sub_7100F32AC8(sead::Camera* camera, void* unk) {
