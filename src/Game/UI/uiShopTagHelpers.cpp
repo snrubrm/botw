@@ -9,6 +9,7 @@
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/System/PlayReportMgr.h"
 #include "Game/UI/euiGrammar.h"
 #include <cstring>
 #include "Game/Actor/Damage/dmgInfoManager.h"
@@ -84,6 +85,40 @@ bool sub_7100A90A34(const RecipeItems& items) {
             return false;
     }
     return true;
+}
+
+// 0x7100a9127c: reports the shop action `state` (1-5, 7) `count` times as a debug report with the item name.
+// NON_MATCHING: clang 4 hoists the `count > 0` test above the `message.isEmpty()` test (both branch to the same
+// epilogue); the original emits the empty test first. Same instructions otherwise.
+void sub_7100A9127C(s32 state, const sead::SafeString& item_name, s32 count) {
+    if (!ksys::PlayReportMgr::instance())
+        return;
+    sead::FixedSafeString<0x40> message;
+    switch (state) {
+    case 1:
+    case 5:
+    case 7:
+        message.format("ShopBuy_Rupee");
+        break;
+    case 2:
+        message.format("ShopSell_Rupee");
+        break;
+    case 3:
+        message.format("ShopBuy_Mamo");
+        break;
+    case 4:
+        message.format("ShopSell_Mamo");
+        break;
+    default:
+        break;
+    }
+    if (message.isEmpty())
+        return;
+    if (count > 0) {
+        do {
+            ksys::PlayReportMgr::instance()->reportDebug(message, item_name);
+        } while (--count);
+    }
 }
 
 KSYS_VISIBILITY_HIDDEN ShopCookInfo sUnk_71025F6960{
