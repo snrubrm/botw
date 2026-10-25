@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <environment/aglEnvObjBuffer.h>
 
 namespace agl {
 class DrawContext;
@@ -18,8 +19,10 @@ class ModelRenderContext;
 // read from those functions).
 class IModelScenePassCallback {
 public:
-    // 0x7100f2e0ac forwards the object at Graphics +0xa98 with no other arguments.
-    virtual void initializeModelSceneEnvObj();
+    // 0x7100f2e0ac loads the environment object buffer at Graphics +0xa98 and forwards both
+    // arguments to its allocate helper 0x7100f0b5b8, which stores the scene at env_obj +0x58.
+    virtual void initializeModelSceneEnvObj(ModelScene* scene,
+                                            agl::env::EnvObjBuffer::AllocateArg* arg);
     // 0x7100f2e0bc / 0x7100f2e0cc forward their first argument to the model-scene managers.
     virtual void bindModelScene(ModelScene* scene);
     virtual void unbindModelScene(ModelScene* scene);
@@ -46,11 +49,12 @@ public:
     virtual void drawModelSceneFinalImage(agl::DrawContext* draw_context, s32 pass,
                                           ModelScene* scene, ModelRenderContext* context);
     // 0x7100f36358 (not overridden by Graphics): empty.
-    virtual void calcModelSceneViewGPU();
-    // 0x7100f34ed4 reads the render context's view index at +8 for two debug draws.
-    virtual void resetModelSceneHostIO(ModelRenderContext* context);
-    // 0x7100f35f4c (Graphics' override): empty.
     virtual void calcModelSceneGPU();
+    // 0x7100f34ed4 (the +8 subobject's copy of 0x7100f34e8c) reads the view index at +8 of the
+    // render context and refreshes the grid / model renderer records.
+    virtual void calcModelSceneViewGPU(ModelRenderContext* context);
+    // 0x7100f35f4c (Graphics' override): empty.
+    virtual void resetModelSceneHostIO(ModelRenderContext* context);
 };
 
 }  // namespace gsys

@@ -4,7 +4,8 @@
 // the original (vtable 0x71024f4a80), so the out-of-line bodies are empty.
 namespace gsys {
 
-void IModelScenePassCallback::initializeModelSceneEnvObj() {}
+void IModelScenePassCallback::initializeModelSceneEnvObj(
+    ModelScene*, agl::env::EnvObjBuffer::AllocateArg*) {}
 
 void IModelScenePassCallback::bindModelScene(ModelScene*) {}
 
@@ -32,10 +33,10 @@ void IModelScenePassCallback::drawModelScenePfx(agl::DrawContext*, s32, ModelSce
 void IModelScenePassCallback::drawModelSceneFinalImage(agl::DrawContext*, s32, ModelScene*,
                                                        ModelRenderContext*) {}
 
-void IModelScenePassCallback::calcModelSceneViewGPU() {}
+void IModelScenePassCallback::calcModelSceneGPU() {}
+
+void IModelScenePassCallback::calcModelSceneViewGPU(ModelRenderContext*) {}
 
 void IModelScenePassCallback::resetModelSceneHostIO(ModelRenderContext*) {}
-
-void IModelScenePassCallback::calcModelSceneGPU() {}
 
 }  // namespace gsys
