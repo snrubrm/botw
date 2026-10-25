@@ -77,6 +77,11 @@ void Unk_7102479bf0::sub_71009A524C() {
 // 0x71009a5bc8
 Unk_7102479c10::~Unk_7102479c10() = default;
 
+// 0x71009a829c
+bool Unk_7102479c10::sub_71009A829C() const {
+    return _a8e9;
+}
+
 // 0x71009a82a8
 bool Unk_7102479c10::sub_71009A82A8() const {
     return _a8ea;

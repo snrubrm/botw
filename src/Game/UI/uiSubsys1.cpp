@@ -94,6 +94,9 @@ void UiSubsys1::sub_710096023C() {
     _6ec = false;
 }
 
+// 0x7100966e38: empty in the release build (called at the end of the map's per-frame update).
+void UiSubsys1::sub_7100966E38() {}
+
 // NON_MATCHING: raw marker-kind copying omits the native spill; empty-list loops merge.
 void UiSubsys1::sub_71009637D4() {
     auto* entry = _6a0.front();
