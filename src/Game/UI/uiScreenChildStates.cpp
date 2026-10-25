@@ -8,6 +8,7 @@
 #include "Game/UI/euiTraceGaugeControl.h"
 #include "Game/UI/euiCapturePane.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
+#include "KingSystem/Sound/sndSound.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiLetterAnimControl.h"
 #include "Game/UI/euiMessageString.h"
@@ -1443,6 +1444,52 @@ void Unk_710247c368::sub_71009C07FC(s32 state) {
         mAnimators[2]->StopAtMax();
         break;
     }
+}
+
+// inline-only in the original; name is a guess: the same SoundMgr UI-flag test is inlined three times in m25.
+static bool isUiSoundFlagSet() {
+    return ksys::snd::SoundMgr::instance() &&
+           (ksys::snd::SoundMgr::instance()->mUiSoundMgr->_80 & 0xa) != 0;
+}
+
+// 0x71009c04fc
+void Unk_710247c368::m25() {
+    if (Unk_71025d6ac0::instance()->sub_71009685AC(0)) {
+        if (Unk_71025d6ac0::instance()->sub_71009686D8()) {
+            if (mCurrentAnimator) {
+                const f32 frame = mCurrentAnimator->mFrame;
+                if (frame == f32(mCurrentAnimator->GetFrameSize()))
+                    Unk_71025d6ac0::instance()->sub_71009686AC();
+            }
+            Unk_71025d6ac0::instance()->sub_71009686E8();
+            return;
+        }
+        if (isUiSoundFlagSet()) {
+            Unk_71025d6ac0::instance()->sub_71009686C8();
+            if (!Unk_71025d6ac0::instance()->sub_71009685AC(0) || !mCurrentAnimator) {
+                const bool swapped = Unk_71025d6ac0::instance()->sub_71009684C4();
+                mCurrentAnimator = mAnimators[swapped ? 6 : 7];
+            }
+        }
+        if (isUiSoundFlagSet()) {
+            if (Unk_71025d6ac0::instance()->sub_71009684C4()) {
+                Unk_71025d6ac0::instance()->sub_71009684CC(false);
+                mAnimators[7]->PlayAuto(1.0f);
+            } else {
+                Unk_71025d6ac0::instance()->sub_71009684CC(true);
+                mAnimators[6]->PlayAuto(1.0f);
+            }
+        }
+    } else if (isUiSoundFlagSet()) {
+        if (Unk_71025d6ac0::instance()->sub_71009684C4()) {
+            Unk_71025d6ac0::instance()->sub_71009684CC(false);
+            mAnimators[7]->PlayAuto(1.0f);
+        } else {
+            Unk_71025d6ac0::instance()->sub_71009684CC(true);
+            mAnimators[6]->PlayAuto(1.0f);
+        }
+    }
+    Unk_71025d6ac0::instance()->sub_71009686E8();
 }
 
 // NON_MATCHING: virtual target register allocation after the frame-size query.
