@@ -62,6 +62,51 @@ bool Unk_71025d69f0::sub_710094E488() {
     return !flag;
 }
 
+// 0x710094db68 (placeholder name): tells the AppHome screen the download demo state and updates the seek pad menu
+// background.
+void Unk_71025d69f0::sub_710094DB68(bool is_download_demo) {
+    if (auto* home = sead::DynamicCast<ScreenAppHome>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome)))
+        isDownloadDemoStuff(home, is_download_demo);
+    if (auto* bg = sead::DynamicCast<ScreenSeekPadMenuBG>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::SeekPadMenuBG))) {
+        if (is_download_demo)
+            bg->x_2();
+        bg->sub_7100A4A8A8();
+    }
+}
+
+// 0x710094d9f4: switches the app state and closes the map screen unless the new state is the map itself.
+// NON_MATCHING: clang schedules the ScreenMgr singleton load after the 0x71009e6b5c call's csel; the original
+// loads it in the call's shadow, before the csel (same instructions otherwise).
+void Unk_71025d69f0::sub_710094D9F4(s32 a1, s32 a2, s32 a3, s32 a4) {
+    const bool b3 = a3 & 1;
+    const bool b4 = a4 & 1;
+    if (a2 & 1)
+        _30 = a1;
+    _36 = b4;
+    _35 = b3;
+    sub_710094DB68(ksys::gdt::getFlag_IsDownloadDemo(false));
+    _37 = 1;
+    if (a1 != 4) {
+        _28 = a1;
+    } else if (_2c != 4) {
+        _28 = _2c;
+        _2c = 4;
+    }
+    if (_28 != 1) {
+        const s32 id = sub_71009E6B5C() ? ScreenId::AppMapDungeon : ScreenId::AppMap;
+        if (auto* screen = eui::ScreenMgr::instance()->getScreen(id))
+            screen->close(-4);
+    }
+    sub_710094DCC4(_28, 0);
+    _34 = a2 & 1;
+    if (Manager::instance()->isPausedMaybe())
+        return;
+    if (ksys::snd::ExpressionSoundCtrl::instance())
+        ksys::snd::ExpressionSoundCtrl::instance()->sub_710104F98C();
+}
+
 // 0x710094e0a0: ends the pause state: resets the map screen and re-enables the expression sounds unless the UI
 // manager is paused.
 void Unk_71025d69f0::sub_710094E0A0() {

@@ -6222,6 +6222,10 @@ public:
     bool sub_71009DD838(f32 a1) const;
 };
 
+// 0x71009dc6bc (placeholder name; declared only): stores the download demo flag in the AppHome screen's byte at
+// 0x3811 and updates its panes.
+void isDownloadDemoStuff(ScreenAppHome* home, bool is_download_demo);
+
 extern const ksys::StateBase sUnk_71025dc3c0;
 // A ScreenAppAlbum state (StateTemplate; placeholder name); m171 changes to it.
 extern const ksys::StateBase sUnk_71025dc360;

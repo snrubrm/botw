@@ -402,6 +402,9 @@ public:
     // to 1 and the app mode; true when it did
     bool sub_710094D8EC();
     void sub_710094E0A0();
+    // 0x710094db68 (placeholder name): tells the AppHome screen and the seek pad menu background the download
+    // demo state
+    void sub_710094DB68(bool is_download_demo);
     bool sub_710094E920();
     void sub_710094E1C0(bool value);
     void sub_710094E480();
