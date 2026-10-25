@@ -129,6 +129,11 @@ public:
 // the string table is built by the RideableBase S1 TU initializer 0x7100e7449c).
 SEAD_ENUM(AnimalMoveType, Ridden, Normal, Escape, Attack, EscapeEx, AttackEx)
 
+// Placeholder: the "AutoStopAndTurnMode" action parameter (aidef_action_params.yml) that the animal
+// movement requests forward. A 4-byte by-value SEAD_ENUM in the original (the argument is zero-extended
+// with `and xN, xN, #0xffffffff` before it is forwarded); the callers pass 0, 1, 2 and an action param value.
+SEAD_ENUM(AutoStopAndTurnMode, _0, _1, _2, _3)
+
 // Name from the CSV (RideableBase::*). vtable 0x71024eae60 (17 slots), size 0x180,
 // factory RideableBase::make. Returned by Actor vtable slot 132 (Enemy::_1168, HorseBase::_b10).
 // TODO: incomplete. Members are public: AI code reads them directly.
@@ -223,10 +228,16 @@ public:
         ~S2();
         // 0x7100e6fab4 (declared only; 800 B): updates from the rider's AS list and navmesh character.
         void sub_7100E6FAB4(RideableBase* owner, ksys::as::ASList* as_list, ksys::phys::NavMeshCharacter* nav);
-        // 0x7100e6fdd4 (declared only; 356 B): the movement request sub_7100E63470 / sub_7100E63560 forward.
+        // 0x7100e6fdd4 (declared only; 356 B): the movement request sub_7100E63470 forwards.
         bool sub_7100E6FDD4(RideableBase* owner, ksys::as::ASList* as_list, ksys::phys::NavMeshCharacter* nav,
-                            ksys::phys::CharacterController* cc, u32 gear_type, s32 gear,
-                            s32 min_gear_at_auto_down, u32 mode);
+                            ksys::phys::CharacterController* cc, S1::UnkGear gear_type, S1::UnkGear gear,
+                            S1::UnkGear min_gear_at_auto_down, AutoStopAndTurnMode mode);
+        // 0x7100e6ff38 (declared only; 3020 B, CSV unnamed): the direction-taking movement request
+        // sub_7100E63560 forwards. It takes the normalised direction twice.
+        bool sub_7100E6FF38(RideableBase* owner, ksys::as::ASList* as_list, ksys::phys::NavMeshCharacter* nav,
+                            const sead::Vector3f& direction, const sead::Vector3f& normalized,
+                            ksys::phys::CharacterController* cc, S1::UnkGear gear_type, S1::UnkGear gear,
+                            S1::UnkGear min_gear_at_auto_down, AutoStopAndTurnMode mode);
 
         // Pointers to the AnimalUnit parameter values (m5 takes them from the actor's GParamList).
         /* 0x00 */ const f32* _0;
@@ -268,20 +279,20 @@ public:
     void sub_7100E62B84();
     void sub_7100E633AC();
 
-    // 0x7100e63224 (ForkAnimalASPlay::calc_): selects the next gear (`type` 1-5, else 0) unless
-    // flag 4 of _8 is set. Both parameters are probably small by-value enum structs in the original.
-    void sub_7100E63224(u64 type, u64 gear);
+    // 0x7100e63224 (ForkAnimalASPlay::calc_): requests the next gear pair (`type` 1-5, else 0), with the
+    // gear clamped to the limit m11 reports for `type`, unless flag 4 of _8 is set.
+    void sub_7100E63224(S1::UnkGear type, S1::UnkGear gear);
     // 0x7100e63424 (lane2 s20; declared only; PreyRoot::m43): sets or clears bit 1 of _18._52 depending on
     // a flag byte (+0xb8) of the first body of the actor's ragdoll / rider data (mActor+0x570 ...).
     void sub_7100E63424();
 
-    // Five native callers establish these movement requests. Signed scalar and
-    // read-only direction forms are inferred; original enum identity is unknown.
-    // 0x7100e63470 is decompiled; 0x7100e63560 is still undecompiled.
-    bool sub_7100E63470(u32 gear_type, s32 gear, s32 min_gear_at_auto_down,
-                        u32 auto_stop_and_turn_mode);
-    bool sub_7100E63560(s32 gear_type, s32 gear, s32 min_gear_at_auto_down,
-                       const sead::Vector3f& direction, s32 auto_stop_and_turn_mode);
+    // The movement requests: both gear values are clamped to the limit m11 reports for `gear_type`
+    // (the gear type is the same by-value enum as S1::UnkGear). 63560 normalises its direction first
+    // (zero vector when shorter than Mathf::epsilon()) and forwards it together with the rider state.
+    bool sub_7100E63470(S1::UnkGear gear_type, S1::UnkGear gear, S1::UnkGear min_gear_at_auto_down,
+                        AutoStopAndTurnMode auto_stop_and_turn_mode);
+    bool sub_7100E63560(S1::UnkGear gear_type, S1::UnkGear gear, S1::UnkGear min_gear_at_auto_down,
+                        const sead::Vector3f& direction, AutoStopAndTurnMode auto_stop_and_turn_mode);
     // 0x7100e636d4: updates the rider position, with an optional local offset and height adjustment.
     // Declared only; full callee and HorseWaitAndLookAtNPC caller establish the pointer/bool inputs.
     void sub_7100E636D4(const sead::Vector3f* position, const sead::Vector3f* offset, bool adjust_height);
@@ -307,7 +318,8 @@ public:
     /*  8 */ virtual void m8() {}
     /*  9 */ virtual void m9();
     /* 10 */ virtual bool m10(const ksys::Message& message);
-    /* 11 */ virtual int m11(int a1);
+    // 0x7100e632a4: the gear limit for the gear type (the caller's by-value enum argument).
+    /* 11 */ virtual int m11(S1::UnkGear a1);
     /* 12 */ virtual f32 m12() { return 0.0f; }
     /* 13 */ virtual void* m13() { return nullptr; }
     /* 14 */ virtual f32 m14() { return 1.0f; }
@@ -353,6 +365,8 @@ static_assert(offsetof(RideableBase::S2, _88) == 0x88);
 extern RideableBase::SpeedEntry::Gear sUnk_7102603058;
 // Shared readonly rate used by S2 initialization and HorseRiddenByNPC entry.
 extern const f32 sUnk_7101EC1904;
+// Start value of a gear request (6.0f, 0x7101ec1960).
+extern const f32 sUnk_7101EC1960;
 
 // Name from the CSV (Rideable::*). vtable 0x71024ec2e8 (45 slots), size 0x280, RTTI static
 // 0x71025ae9f0. Returned by Actor vtable slot 131 (Enemy: DynamicCast<Rideable>(_1168)).

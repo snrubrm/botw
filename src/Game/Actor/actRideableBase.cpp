@@ -111,28 +111,66 @@ void RideableBase::m5() {
     }
 }
 
-// NON_MATCHING: the original's first and fourth parameters are 4-byte by-value classes (forwarded with
-// `and x24, x24, #0xffffffff` / `str x8, [sp]`), which also make it spill both gear values where ours keeps them
-// in callee-saved registers; the clamps select with the comparison operands swapped.
-// 0x7100e63470: a movement request (gear and the two auto-down limits) forwarded to S2 with both gear values
-// clamped to the gear limit for `gear_type`; false when the actor has no navmesh character / character
-// controller / AS list.
-bool RideableBase::sub_7100E63470(u32 gear_type, s32 gear, s32 min_gear_at_auto_down, u32 mode) {
+// NON_MATCHING: the original ends its gear-limit local's lifetime before the tail call (the clamp sits in an
+// inner scope), so it keeps the current gear in x21 and ends in a branch into sub_7100E76AA4; this natural
+// form emits a call and its epilogue instead.
+// 0x7100e63224: requests the gear pair (`type`, `gear`) with the gear clamped to the limit m11 reports for
+// `type`; ignored while flag 4 of _8 is set.
+void RideableBase::sub_7100E63224(S1::UnkGear type, S1::UnkGear gear) {
+    if (_8 & 4)
+        return;
+    const S1::UnkGear limit = m11(type);
+    gear = sead::Mathi::clampMax(gear, limit);
+    _18.sub_7100E76AA4(type, gear, sUnk_7101EC1960);
+}
+
+// 0x7100e63470: a movement request (gear and the two auto-down limits) forwarded to S2 with both gear
+// values clamped to the gear limit for `gear_type`; false when the actor has no navmesh character /
+// character controller / AS list.
+bool RideableBase::sub_7100E63470(S1::UnkGear gear_type, S1::UnkGear gear,
+                                  S1::UnkGear min_gear_at_auto_down, AutoStopAndTurnMode mode) {
     auto* const nav = mActor->m45();
     auto* const cc = mActor->getCharacterController();
     auto* const as_list = mActor->getASList();
     if (!nav || !cc || !as_list)
         return false;
 
-    const s32 limit = m11(gear_type);
-    return _a0.sub_7100E6FDD4(this, as_list, nav, cc, gear_type, sead::Mathi::min(gear, limit),
-                              sead::Mathi::min(min_gear_at_auto_down, limit), mode);
+    const S1::UnkGear limit = m11(gear_type);
+    return _a0.sub_7100E6FDD4(this, as_list, nav, cc, gear_type, sead::Mathi::clampMax(gear, limit),
+                              sead::Mathi::clampMax(min_gear_at_auto_down, limit), mode);
 }
 
-// NON_MATCHING: native enum stack temporaries and separate state branches are folded into register selection.
-int RideableBase::m11(int mode) {
+// 0x7100e63560: the direction-taking movement request. The direction is normalised first (the zero vector
+// when it is shorter than Mathf::epsilon()); false without a character controller or an AS list.
+bool RideableBase::sub_7100E63560(S1::UnkGear gear_type, S1::UnkGear gear,
+                                  S1::UnkGear min_gear_at_auto_down, const sead::Vector3f& direction,
+                                  AutoStopAndTurnMode mode) {
+    auto* const nav = mActor->m45();
+    auto* const cc = mActor->getCharacterController();
+    auto* const as_list = mActor->getASList();
+    if (!cc || !as_list)
+        return false;
+
+    sead::Vector3f dir;
+    const f32 len = direction.length();
+    if (len > 0.0f) {
+        const f32 inv_len = 1.0f / len;
+        dir.x = direction.x * inv_len;
+        dir.y = direction.y * inv_len;
+        dir.z = direction.z * inv_len;
+    }
+    if (len < sead::Mathf::epsilon())
+        dir.set(0.0f, 0.0f, 0.0f);
+
+    const S1::UnkGear limit = m11(gear_type);
+    return _a0.sub_7100E6FF38(this, as_list, nav, dir, dir, cc, gear_type,
+                              sead::Mathi::clampMax(gear, limit),
+                              sead::Mathi::clampMax(min_gear_at_auto_down, limit), mode);
+}
+
+int RideableBase::m11(S1::UnkGear mode) {
     s32 limit = _168;
-    if (mode == 0) {
+    if (mode == S1::UnkGear::_0) {
         if (_138 > 0.0f)
             limit = sead::Mathi::min(limit, 1);
         else if (_13c > 0.0f)
