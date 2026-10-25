@@ -111,6 +111,24 @@ void RideableBase::m5() {
     }
 }
 
+// NON_MATCHING: the original's first and fourth parameters are 4-byte by-value classes (forwarded with
+// `and x24, x24, #0xffffffff` / `str x8, [sp]`), which also make it spill both gear values where ours keeps them
+// in callee-saved registers; the clamps select with the comparison operands swapped.
+// 0x7100e63470: a movement request (gear and the two auto-down limits) forwarded to S2 with both gear values
+// clamped to the gear limit for `gear_type`; false when the actor has no navmesh character / character
+// controller / AS list.
+bool RideableBase::sub_7100E63470(u32 gear_type, s32 gear, s32 min_gear_at_auto_down, u32 mode) {
+    auto* const nav = mActor->m45();
+    auto* const cc = mActor->getCharacterController();
+    auto* const as_list = mActor->getASList();
+    if (!nav || !cc || !as_list)
+        return false;
+
+    const s32 limit = m11(gear_type);
+    return _a0.sub_7100E6FDD4(this, as_list, nav, cc, gear_type, sead::Mathi::min(gear, limit),
+                              sead::Mathi::min(min_gear_at_auto_down, limit), mode);
+}
+
 // NON_MATCHING: native enum stack temporaries and separate state branches are folded into register selection.
 int RideableBase::m11(int mode) {
     s32 limit = _168;

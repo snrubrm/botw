@@ -203,6 +203,10 @@ public:
         ~S2();
         // 0x7100e6fab4 (declared only; 800 B): updates from the rider's AS list and navmesh character.
         void sub_7100E6FAB4(RideableBase* owner, ksys::as::ASList* as_list, ksys::phys::NavMeshCharacter* nav);
+        // 0x7100e6fdd4 (declared only; 356 B): the movement request sub_7100E63470 / sub_7100E63560 forward.
+        bool sub_7100E6FDD4(RideableBase* owner, ksys::as::ASList* as_list, ksys::phys::NavMeshCharacter* nav,
+                            ksys::phys::CharacterController* cc, u32 gear_type, s32 gear,
+                            s32 min_gear_at_auto_down, u32 mode);
 
         // Pointers to the AnimalUnit parameter values (m5 takes them from the actor's GParamList).
         /* 0x00 */ const f32* _0;
@@ -253,9 +257,9 @@ public:
 
     // Five native callers establish these movement requests. Signed scalar and
     // read-only direction forms are inferred; original enum identity is unknown.
-    // Both bodies remain undecompiled.
-    bool sub_7100E63470(s32 gear_type, s32 gear, s32 min_gear_at_auto_down,
-                       s32 auto_stop_and_turn_mode);
+    // 0x7100e63470 is decompiled; 0x7100e63560 is still undecompiled.
+    bool sub_7100E63470(u32 gear_type, s32 gear, s32 min_gear_at_auto_down,
+                        u32 auto_stop_and_turn_mode);
     bool sub_7100E63560(s32 gear_type, s32 gear, s32 min_gear_at_auto_down,
                        const sead::Vector3f& direction, s32 auto_stop_and_turn_mode);
     // 0x7100e636d4: updates the rider position, with an optional local offset and height adjustment.
