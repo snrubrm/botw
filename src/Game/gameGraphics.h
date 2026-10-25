@@ -289,6 +289,9 @@ public:
     void sub_7100F1F170(ksys::gfx::ModelRenderDataMaybe* data);
     // 0x7100f1ab60: stores the two screen coordinates the map screen computes (each truncated to 16 bits).
     void setPosXY(s32 x, s32 y);
+    // 0x7100f1ab70: sets camera A's direct matrix from `camera`, refreshes its view matrix, stores the
+    // projection's field of view and, when `camera` is a look-at camera, copies its at vector.
+    void setCameraMaybe(const sead::Camera& camera, f32 fov);
     // Inline-only in the original; name is a guess. ScreenAppMapDungeon 0x71009e78d8
     // changes bit 3 of the constructor's flags word at +8.
     void setMapModeMaybe(bool enabled) { mFlags.changeBit(3, enabled); }
@@ -315,8 +318,8 @@ private:
     f32 _1f0 = 1500.0f;
     u8 _1f4 = 0;
     u8 _1f5[3];
-    void* _1f8 = nullptr;
-    u32 _200 = 0;
+    // 0x7100f1ab70 stores a look-at camera's at vector here.
+    sead::Vector3f _1f8 = {0.0f, 0.0f, 0.0f};
     u8 _204[4];
     agl::utl::DebugTexturePage mDebugPage;
     gsys::ModelRenderContext mRenderContext;
