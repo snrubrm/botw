@@ -55,6 +55,30 @@ UiSubsys1::SingletonDisposer_::~SingletonDisposer_() {
     }
 }
 
+// The UI facade singleton (CSV: SheikSensorGaugeState). Storage 0x71025d6ac0 / disposer 0x71025d6ab8.
+Unk_71025d6ac0* Unk_71025d6ac0::sInstance = nullptr;
+Unk_71025d6ac0::SingletonDisposer_* Unk_71025d6ac0::SingletonDisposer_::sStaticDisposer = nullptr;
+
+// 0x7100967fc8
+void Unk_71025d6ac0::deleteInstance() {
+    SingletonDisposer_* disposer = SingletonDisposer_::sStaticDisposer;
+    if (!disposer)
+        return;
+    SingletonDisposer_::sStaticDisposer = nullptr;
+    disposer->~SingletonDisposer_();
+    delete sInstance;
+    sInstance = nullptr;
+}
+
+// 0x7100967da8 / 0x7100967e0c (D1 / D0)
+Unk_71025d6ac0::SingletonDisposer_::~SingletonDisposer_() {
+    if (this == sStaticDisposer) {
+        sStaticDisposer = nullptr;
+        sInstance->~Unk_71025d6ac0();
+        sInstance = nullptr;
+    }
+}
+
 // 0x71025d6ab0: bypass for the sensor availability check.
 KSYS_VISIBILITY_HIDDEN bool sUnk_71025d6ab0 = false;
 // 0x71025d6a98 / 0x71025d6a9c: written by 0x7100960ad8; 6a98 hides the Unk_7102476738 / Unk_7102476830 markers

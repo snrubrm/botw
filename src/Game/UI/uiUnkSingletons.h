@@ -87,10 +87,13 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(UiLowPrioThreadMgr, 0x358);
 
-// Instance pointer 0x71025d6ac0 (placeholder name; used by the UI facade).
-class Unk_71025d6ac0 {
+// Instance pointer 0x71025d6ac0 (placeholder name; used by the UI facade). The original class is
+// SheikSensorGaugeState (CSV rows at 0x7100967da8 / 0x7100967fc8); its polymorphic base is the
+// two-slot vtable 0x7102476b00 and its disposer sits at +8.
+class Unk_71025d6ac0 : public Unk_7102476b00 {
 public:
-    static Unk_71025d6ac0* instance() { return sInstance; }
+    SEAD_SINGLETON_DISPOSER(Unk_71025d6ac0)
+public:
 
     // Child m29 9C0770 passes this singleton; the native body leaves its receiver unused.
     void sub_7100968040();
@@ -134,7 +137,6 @@ public:
     void clear88();
 
     // Full createInstance 967E78 and child consumers identify flags, scale and timer.
-    u8 _0[0x28];
     /* 0x28 */ bool _28;
     /* 0x29 */ bool _29;
     /* 0x2a */ bool _2a;
@@ -154,10 +156,9 @@ public:
     /* 0x80 */ s32 _80;
     /* 0x84 */ s32 _84;
     /* 0x88 */ bool _88;
-
-private:
-    static Unk_71025d6ac0* sInstance;
+    u8 _89[0xf8 - 0x89];
 };
+KSYS_CHECK_SIZE_NX150(Unk_71025d6ac0, 0xf8);
 
 // Instance pointer 0x71025d6578 (createInstance 0x7100949bbc, size 0x78; lane2 s47: the class of the vtable 0x7102475278,
 // whose destructors are trivial, with a singleton disposer at 0x8; the old placeholder `Unk_7102475278` was this class).
