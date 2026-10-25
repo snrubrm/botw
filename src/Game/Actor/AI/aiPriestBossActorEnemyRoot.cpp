@@ -6,6 +6,7 @@
 #include "KingSystem/ActorSystem/actLodState.h"
 #include "Game/Actor/aiUnk_710071edf8.h"
 #include "Game/Actor/aiUnk_7102450fa8.h"
+#include "Game/Actor/aiPriestBossPhaseMembers.h"
 
 namespace uking::ai {
 
@@ -14,7 +15,14 @@ PriestBossActorEnemyRoot::PriestBossActorEnemyRoot(const InitArg& arg) : EnemyRo
 PriestBossActorEnemyRoot::~PriestBossActorEnemyRoot() = default;
 
 bool PriestBossActorEnemyRoot::init_(sead::Heap* heap) {
-    return EnemyRoot::init_(heap);
+    if (!EnemyRoot::init_(heap))
+        return false;
+    if (!mActor->m45())
+        return false;
+    auto* nav = mActor->m45();
+    auto lock = sead::makeScopedLock(nav->_68);
+    nav->_58 = &sUnk_71025c8d10;
+    return true;
 }
 
 void PriestBossActorEnemyRoot::enter_(ksys::act::ai::InlineParamPack* params) {

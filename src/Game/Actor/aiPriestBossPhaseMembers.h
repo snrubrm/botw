@@ -9,6 +9,7 @@
 #include "Game/Actor/aiUnk_7102357210.h"
 #include "Game/Actor/aiUnk_7102450fa8.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace ksys { class Message; }
@@ -216,3 +217,28 @@ public:
     /* 0x1f8 */ u32 _1f8 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102450ed8, 0x200);
+
+// Placeholder name (vtable 0x7102450e90, ctor 0x7100717258). The material filter that the Priest Boss
+// enemies share: Unk_7102450fa8::_8 points at the meta AI unit, whose flags decide whether the 5/5a
+// material pair is usable. PriestBossActorEnemyRoot::init_ installs the static instance in the enemy's
+// NavMeshCharacter (_58).
+class Unk_7102450e90 : public ksys::phys::NavMeshCharacterUnk58 {
+public:
+    Unk_7102450e90();
+    ~Unk_7102450e90() override = default;
+
+    // 0x710071726c
+    f32 m3(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a,
+           ksys::phys::NavMeshCharacterType type, f32 cost) override;
+    // 0x7100717298
+    bool m5(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a, s32 other_material, s32 other_a,
+            ksys::phys::NavMeshCharacterType type) override;
+    // 0x7100717320
+    bool m6() override;
+
+    /* 0x08 */ Unk_7102450fa8* _8 = nullptr;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102450e90, 0x10);
+
+// The shared filter instance (0x71025c8d10); the initializer of its TU constructs it.
+extern Unk_7102450e90 sUnk_71025c8d10;

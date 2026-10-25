@@ -5,10 +5,14 @@
 #include "Game/gameUnkRttiPlaceholders.h"
 
 sead::Vector3f sUnk_71025c8cf8(0, 0, 900);
+sead::Vector3f sUnk_71025c8d04(0, -4, 900);
 f32 sUnk_7102450fa0 = 50.0f;
 const sead::SafeArray<const char*, 3> sUnk_7102450f80 = {
     {"Priest_Boss_FireArrow", "Priest_Boss_IceArrow", "Priest_Boss_ElectricArrow"}};
 const char* const sUnk_7102450f98 = "Grave";
+// The Priest Boss enemies' shared navmesh material filter (vtable 0x7102450e90, installed in their
+// NavMeshCharacter by PriestBossActorEnemyRoot::init_).
+Unk_7102450e90 sUnk_71025c8d10;
 
 s32 Unk_7102450fa8::sub_7100719FCC() const {
     return _88 ? _88->_ac : -1;
@@ -81,6 +85,16 @@ int Unk_7102450fa8::sub_71007195B0(const ksys::act::BaseProcLink& link) {
 bool Unk_7102450fa8::sub_710071962C(sead::Vector3f* out) {
     out->set(sUnk_71025c8cf8);
     return true;
+}
+
+// 0x710071964c: takes the arena settings of the linked actor (its position, the radius of its
+// GeneralSensor body and its transceiver id).
+void Unk_7102450fa8::sub_710071964C(const Unk3& arg) {
+    _1a0 = arg._10;
+    sUnk_71025c8cf8.set(arg._0);
+    sUnk_71025c8d04 = arg._0 + sead::Vector3f(0.0f, -4.0f, 0.0f);
+    sUnk_7102450fa0 = arg._c;
+    setFlag(Flag::_5);
 }
 
 // NON_MATCHING: ours merges the member range test into one compare (the original tests 0 and > 8 separately).
@@ -223,4 +237,8 @@ void Unk_7102450fa8::sub_7100719ED0() {
 
 Unk_7102450fa8::~Unk_7102450fa8() {
     _8.freeBuffer();
+}
+
+Unk_7102450fa8* Unk_7102450fa8::sub_7100718360(sead::Heap* heap) {
+    return new (heap, std::nothrow) Unk_7102450fa8;
 }

@@ -35,6 +35,29 @@ void Unk_7102450e00::m12(sead::Vector3f* out, f32 angle) {
     out->y = _160.y;
 }
 
+Unk_7102450e90::Unk_7102450e90() = default;
+
+f32 Unk_7102450e90::m3(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a,
+                       ksys::phys::NavMeshCharacterType type, f32 cost) {
+    return ksys::phys::NavMeshCharacter::sub_7100F74FD8(
+        ksys::phys::NavMeshCharacter::sub_7100F74F94(nav), material);
+}
+
+bool Unk_7102450e90::m5(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a, s32 other_material,
+                        s32 other_a, ksys::phys::NavMeshCharacterType type) {
+    if (material == 5 || other_material == 5) {
+        if (_8->isFlagOn(Unk_7102450fa8::Flag::_8))
+            return true;
+        if (_8 && _8->isFlagOn(Unk_7102450fa8::Flag::_0))
+            return true;
+    }
+    return m4(nav, other_material, other_a, type);
+}
+
+bool Unk_7102450e90::m6() {
+    return true;
+}
+
 // NON_MATCHING: the original loads _1d8 before the member index but multiplies index * _1d8 (operand order only).
 void Unk_7102450ed8::m7(sead::Vector3f* out, s32 idx) {
     const f32 t = _1d8 * *_b0(idx - 2) + _1dc;
@@ -52,6 +75,3 @@ void Unk_7102450ed8::m10() {
     _1f8 = 0;
     sub_7100717440();
 }
-
-// TODO
-void Unk_7102450ed8::sub_7100717440() {}

@@ -79,6 +79,8 @@ public:
     KSYS_CHECK_SIZE_NX150(Unk3, 0x28);
 
     ~Unk_7102450fa8() override;
+    // 0x7100717eec (804 B, still U): initialises the member buffers.
+    Unk_7102450fa8();
     // vtable slot 4: handles the messages for the embedded listeners (0x710071a410).
     virtual bool m4(const ksys::Message& message);
 
