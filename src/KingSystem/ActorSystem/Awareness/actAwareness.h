@@ -72,6 +72,8 @@ private:
         void calc();
         // 0x7100d7f004 (placeholder name): appends `node` and marks it in use (`_14 = 1`).
         void sub_7100D7F004(Node* node);
+        // 0x7100d7f02c (placeholder name): unlinks `node` (fixing up the tail) and clears its state.
+        void sub_7100D7F02C(Node* node);
 
         Node* _8{};
         Node* _10{};
