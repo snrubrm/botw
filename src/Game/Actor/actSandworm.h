@@ -13,6 +13,7 @@
 
 namespace ksys::phys {
 class RigidBody;
+class SystemGroupHandler;
 }  // namespace ksys::phys
 
 namespace uking::act {
@@ -78,6 +79,18 @@ struct Unk_71007237d0 {
 };
 KSYS_CHECK_SIZE_NX150(Unk_71007237d0, 0x80);
 
+// Placeholder name: the shared terrain-shape object behind Unk_71023cfcf0::_8 (reference count at
+// + 8, height field at + 0x10, system group handler at + 0x18, members and flags at + 0x30..).
+struct Unk_71023cfcf0Shared {
+    /* 0x00 */ u8 _0[0x8];
+    /* 0x08 */ s32 mRefCount;
+    /* 0x0c */ u32 _c;
+    /* 0x10 */ void* mHeightField;
+    /* 0x18 */ ksys::phys::SystemGroupHandler* mHandler = nullptr;
+    /* 0x20 */ u8 _20[0x328 - 0x20];
+    /* 0x328 */ u32 mFlags;
+};
+
 // Placeholder name (vtable 0x71023cfcf0, size 0x318, D1 0x7100682350): the terrain-shape holder
 // Sandworm::prepareInit_ (0x71002ccc40) allocates at Sandworm + 0x1588. Its D1 unlinks the object
 // from a global list and releases the shared tera shape at + 8 through the tera system; the runtime
@@ -103,10 +116,12 @@ public:
 
     // 0x71006825f0 (placeholder name): the game checks this before deleting the holder.
     bool sub_71006825F0();
+    // 0x7100682548 (placeholder name): binds the holder's shape to the actor (Sandworm::initMaybe).
+    void sub_7100682548();
     // 0x71002cbde4 (placeholder name): updates the shape at `mode` for a position.
     void sub_71002CBDE4(f32 x, f32 z, s32 mode);
 
-    /* 0x08 */ void* _8 = nullptr;
+    /* 0x08 */ Unk_71023cfcf0Shared* _8 = nullptr;
     /* 0x10 */ u16 _10 = 0;
     /* 0x12 */ u8 _12 = 0;
     /* 0x13 */ u8 _13[0x18 - 0x13];

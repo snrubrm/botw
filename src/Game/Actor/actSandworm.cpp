@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 
 namespace uking::act {
@@ -217,6 +218,29 @@ void Sandworm::m63() {
     _15a4 = 0;
     _15a8 = 0;
     getHomePos(&_1644);
+}
+
+// Binds the snake's shape, physics layers and trail holder.
+void Sandworm::initMaybe() {
+    Enemy::initMaybe();
+    if (auto* x = _1250) {
+        if (auto* y = x->_18)
+            y->m1();
+    }
+    sub_7100720140(this);
+    if (auto* controller = getCharacterController()) {
+        controller->enableContactLayer(ksys::phys::ContactLayer::EntityGroundObject);
+        controller->enableContactLayer(ksys::phys::ContactLayer::EntityTree);
+        controller->sub_7100F636B0(false);
+        controller->sub_7100F63554(false);
+    }
+    _14c8 = 2;
+    _14cc = 2;
+    if (!_1588)
+        return;
+    _1588->sub_7100682548();
+    if (auto* physics = mPhysics)
+        physics->sub_7100FBDFA4(_1588->_8->mHandler);
 }
 
 void Sandworm::setNecklaceFlag(s32 index) {    if (index >= 1 && ksys::act::hasTag(this, 0x12ad8456))
