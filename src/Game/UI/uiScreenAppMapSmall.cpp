@@ -1524,6 +1524,28 @@ void ScreenAppMapDungeon::m94() {
     sub_71009E3258();
 }
 
+// 0x71009e3ca0: points the map renderer at the map screen. The mini-map pane's scale places the 3D pane's size on
+// the screen (scaled from the UI reference size unless the screen is docked), then the renderer's camera follows
+// _3680 at the screen's field of view.
+void ScreenAppMapDungeon::m95() {
+    auto* renderer = Graphics::instance()->getMapRendererMaybe();
+    if (renderer && _3630 && _3638) {
+        f32 x = _3630->GetSize().width * _3638->GetScale().x;
+        f32 y = _3630->GetSize().height * _3638->GetScale().y;
+        if (!Graphics::instance()->get_b5e()) {
+            const sead::Vector2i& screen_size = Graphics::getScreenSize();
+            const f32 scale_x = f32(screen_size.x) / 1280.0f;
+            const f32 scale_y = f32(screen_size.y) / 720.0f;
+            x *= scale_x;
+            y *= scale_y;
+        }
+        renderer->setPosXY(s32(x), s32(y));
+        renderer->setCameraMaybe(_3680, _3664);
+    }
+    sub_71009E3D60();
+    sub_71009E407C();
+}
+
 // 0x71009e2ea8 (placeholder name): moves the dungeon table's icons to the screen positions of their records.
 void ScreenAppMapDungeon::sub_71009E2EA8() {
     if (!_118d8)

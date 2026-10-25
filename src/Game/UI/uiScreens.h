@@ -5916,6 +5916,9 @@ public:
     void m89() override;
     // 0x71009e2be8: the map update: state machine, the parts entries' animators and the dungeon display
     void m94() override;
+    // 0x71009e3ca0: points the map renderer at the map screen: the mini-map pane's scale places the 3D pane's size
+    // on screen, and the map camera follows _3680.
+    void m95() override;
     void m100() override;
     void m101() override;
     // 0x71009e4f88: closes the screen when the camera rune is used, the screen is closing while sub_7100AA8F50 holds,
@@ -5948,6 +5951,9 @@ public:
     void sub_71009E2FEC();
     void sub_71009E30D4();
     void sub_71009E3258();
+    // 0x71009e3d60 (declared only; unnamed member between m95 and sub_71009E407C): forwards the map units to the
+    // map renderer
+    void sub_71009E3D60();
     // 0x71009e42f4 (placeholder name): the screen position of a world position through the map camera
     void sub_71009E42F4(const sead::Vector3f& pos, nn::util::Float2* out);
     // 0x71009e41ec (placeholder name): moves the _11910 child to the screen position of dungeon entry `index`
@@ -5997,7 +6003,8 @@ public:
     /* 0x3618 */ nn::ui2d::ExternalTextureInfo _3618;
     // The P_3D_00 pane m93 finds in the screen layout; sub_71009E41EC reads its matrix translation.
     /* 0x3630 */ nn::ui2d::Pane* _3630;
-    u8 _3638[8];
+    // The N_MiniMap_00 pane; m95 scales the 3D pane's size by its scale.
+    /* 0x3638 */ nn::ui2d::Pane* _3638;
     // The three materials whose first texture slot m33 points at _3618.
     /* 0x3640 */ nn::ui2d::Material* _3640;
     /* 0x3648 */ nn::ui2d::Material* _3648;
@@ -6005,7 +6012,7 @@ public:
     /* 0x3658 */ f32 _3658;  // camera pitch
     /* 0x365c */ f32 _365c;  // camera yaw
     /* 0x3660 */ f32 _3660;  // camera follow distance
-    u8 _3664[0x3668 - 0x3664];
+    /* 0x3664 */ f32 _3664;  // field of view handed to the map renderer's camera (300 in the constructor)
     /* 0x3668 */ sead::Vector3f _3668;
     u8 _3674[0x3680 - 0x3674];
     /* 0x3680 */ sead::LookAtCamera _3680;
