@@ -319,7 +319,7 @@ public:
     /*  9 */ virtual void m9();
     /* 10 */ virtual bool m10(const ksys::Message& message);
     // 0x7100e632a4: the gear limit for the gear type (the caller's by-value enum argument).
-    /* 11 */ virtual int m11(S1::UnkGear a1);
+    /* 11 */ virtual S1::UnkGear m11(S1::UnkGear a1);
     /* 12 */ virtual f32 m12() { return 0.0f; }
     /* 13 */ virtual void* m13() { return nullptr; }
     /* 14 */ virtual f32 m14() { return 1.0f; }

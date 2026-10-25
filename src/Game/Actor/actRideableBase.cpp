@@ -168,10 +168,10 @@ bool RideableBase::sub_7100E63560(S1::UnkGear gear_type, S1::UnkGear gear,
                               sead::Mathi::clampMax(min_gear_at_auto_down, limit), mode);
 }
 
-// NON_MATCHING: the limit block matches; the original materialises the current gear as a 4-byte class
-// temporary in each arm (`str w9, [sp, #8]` / `str w9, [sp, #4]` around the `int()` conversions) and lays
-// the two arms out the other way round, while this form keeps it in a register.
-int RideableBase::m11(S1::UnkGear mode) {
+// NON_MATCHING: the target builds a 4-byte temporary from the current-gear expression in each arm (its
+// `int()` conversion then shows as `str w / ldr w`) and lays the arms out the other way round; this build
+// keeps one temporary and the gear in registers.
+RideableBase::S1::UnkGear RideableBase::m11(S1::UnkGear mode) {
     S1::UnkGear limit = _168;
     if (mode == S1::UnkGear::_0) {
         if (_138 > 0.0f)
@@ -179,10 +179,12 @@ int RideableBase::m11(S1::UnkGear mode) {
         else if (_13c > 0.0f)
             limit = sead::Mathi::min(int(limit), 2);
     }
-    s32 gear = _18._b == 0 ? _18._9 : _18._b;
-    if ((_18._9 == _18._b && _18._8 == _18._a) || !(_18._c > 0.0f))
-        --gear;
-    return sead::Mathi::max(int(limit), gear);
+    if ((_18._9 == _18._b && _18._8 == _18._a) || !(_18._c > 0.0f)) {
+        const S1::UnkGear gear = _18._b == 0 ? _18._9 : _18._b;
+        return S1::UnkGear(sead::Mathi::max(int(limit), int(gear) - 1));
+    }
+    const S1::UnkGear gear = _18._b == 0 ? _18._9 : _18._b;
+    return S1::UnkGear(sead::Mathi::max(int(limit), gear));
 }
 
 void RideableBase::m9() {
