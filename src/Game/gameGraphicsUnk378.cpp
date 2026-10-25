@@ -35,16 +35,10 @@ Graphics::Unk_378::Unk_378()
 
 // 0x7101288710: releases the sample history, then every block's cell buffer, then the block array.
 // The debug texture page and its disposer are destroyed as members.
-// NON_MATCHING: the block loop's latch orders the pointer increment after the counter decrement
-// (the original adds the stride first); every instruction and register is otherwise identical.
 Graphics::Unk_378::~Unk_378() {
     mSamples.freeBuffer();
-    Unk_378_18* block = mBlocks.getBufferPtr();
-    const u64 count = u32(mBlocks.size());
-    for (u64 i = 0; i < count; ++i) {
-        block->_12a8.freeBuffer();
-        ++block;
-    }
+    for (auto& block : mBlocks)
+        block._12a8.freeBuffer();
     mBlocks.freeBuffer();
 }
 
