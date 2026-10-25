@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
 
 namespace uking::act {
@@ -24,9 +25,12 @@ protected:
     virtual sead::Vector3f* m32();
     virtual bool m33(float x);
     virtual bool m34(const sead::Vector3f& pos, float x);
-    // Movement request at slot35; signed modes follow the checked RideableBase interface.
-    virtual bool m35(act::RideableBase* rideable, s32 gear_type, s32 gear,
-                     s32 min_gear_at_auto_down, const sead::Vector3f& direction);
+    // Movement request at slot35. The three gear values are the rideable's by-value gear enum
+    // (the request forwards them unchanged, which is where the argument zero-extension comes from).
+    virtual bool m35(act::RideableBase* rideable, act::RideableBase::S1::UnkGear gear_type,
+                     act::RideableBase::S1::UnkGear gear,
+                     act::RideableBase::S1::UnkGear min_gear_at_auto_down,
+                     const sead::Vector3f& direction);
 
     // static_param at offset 0x20
     const int* mMinUseGear_s{};

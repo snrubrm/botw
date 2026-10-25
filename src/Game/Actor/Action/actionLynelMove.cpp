@@ -49,9 +49,11 @@ bool LynelMove::m34(const sead::Vector3f& pos, float x) {
     return true;
 }
 
-// NON_MATCHING: gear/row source enum identities and movement-argument scheduling differ.
-bool LynelMove::m35(act::RideableBase* rideable, s32 gear_type, s32 gear,
-                   s32 min_gear_at_auto_down, const sead::Vector3f& direction) {
+// NON_MATCHING: the gear table row / speed entry lookup and its clamp differ (the gear arguments are the
+// same by-value enum as the base class).
+bool LynelMove::m35(act::RideableBase* rideable, act::RideableBase::S1::UnkGear gear_type,
+                   act::RideableBase::S1::UnkGear gear, act::RideableBase::S1::UnkGear min_gear_at_auto_down,
+                   const sead::Vector3f& direction) {
     auto* nav = mActor->m45();
     if (!nav)
         return AnimalMoveBase::m35(rideable, gear_type, gear, min_gear_at_auto_down, direction);
