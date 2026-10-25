@@ -53,6 +53,51 @@ void RideableBase::S1::sub_7100E761A4(bool clear_gear, bool force) {
 }
 
 
+// 0x7100e76aa4: requests the (`type`, `gear`) pair with the value the request starts from. Ignored while a
+// request for a different pair is still running, and when the pair is already the current one.
+void RideableBase::S1::sub_7100E76AA4(UnkGear type, UnkGear gear, f32 value) {
+    if (!(_9 == _b && _8 == _a)) {
+        if (_c > 0.0f)
+            return;
+    }
+    if (_8 == int(type) && _b == int(gear))
+        return;
+    _a = int(type);
+    _b = int(gear);
+    if (_8 != _a || _9 != _b) {
+        _10 = value;
+        _c = 0.0f;
+        return;
+    }
+    const s8 other_bank = 3 - _2e;
+    sub_7100E7600C(0, other_bank);
+}
+
+// NON_MATCHING: the guard is the same fused `fcmp / ccmp / b.eq` but the original branches to its false block
+// and falls through to the state test where ours falls through to the false block (ccmp #4 + b.ne).
+// 0x7100e76b40: takes an AS state entry as the current animation state when its rate beats `rate`; returns
+// false while another entry is still running, and reports through `out` whether the request is over half way.
+bool RideableBase::S1::sub_7100E76B40(const Unk68* entry, f32 value, f32 rate, f32 speed, bool* out) {
+    const f32 entry_rate = entry->mRate;
+    if (_2c == 0 || !(entry_rate > rate))
+        return false;
+    if (_2c == 2) {
+        if (_18 != entry)
+            return false;
+    } else if (_2c > 2) {
+        return false;
+    }
+    _18 = entry;
+    _20 = rate;
+    _24 = value;
+    _28 = speed;
+    if (_2c == 2)
+        *out = rate / entry_rate > 0.5f;
+    else
+        *out = true;
+    return true;
+}
+
 // NON_MATCHING: bank-count checks are reordered and SafeString assignment is devirtualized.
 // 0x7100e74604 (in actRideable.cpp): the AS name of one animal move.
 void formatAnimalMoveString(sead::BufferedSafeString* out, int move_type, u32 gear);

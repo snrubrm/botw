@@ -140,10 +140,30 @@ public:
     struct S1 {
         S1();
 
+        // Placeholder: the animation gear type (a SEAD_ENUM: its volatile int conversion spills the by-value
+        // parameter to the stack; the values are 0..5).
+        SEAD_ENUM(UnkGear, _0, _1, _2, _3, _4, _5)
+
+        // Placeholder: the animation state entry the AS list exposes to S1 (0x68 bytes; only the rate at
+        // +0x50 is known).
+        struct Unk68 {
+            u8 _0[0x50];
+            f32 mRate;
+            u8 _54[0x14];
+        };
+        KSYS_CHECK_SIZE_NX150(Unk68, 0x68);
+
         void sub_7100E747E8(ksys::as::ASList* list);
         // 0x7100e761a4: resets animation requests and restores the AS rates.
         void sub_7100E761A4(bool a1, bool a2);
         void sub_7100E76900(s32 slot, s32 bank, bool force);
+        // 0x7100e7600c: clears / releases animation slot `slot` in `bank` (declared only; 408 B).
+        void sub_7100E7600C(s32 slot, s32 bank);
+        // 0x7100e76aa4: requests the gear pair (`type`, `gear`) with the value the request starts from.
+        void sub_7100E76AA4(UnkGear type, UnkGear gear, f32 value);
+        // 0x7100e76b40: takes an AS state entry as the current animation state when its rate beats `rate`;
+        // false while another entry is still running, and `out` reports whether the request is over half way.
+        bool sub_7100E76B40(const Unk68* entry, f32 value, f32 rate, f32 speed, bool* out);
 
         void sub_7100E74890(bool a1, bool a2, f32 a3, f32 a4);
 
@@ -178,11 +198,11 @@ public:
         /* 0x0a */ u8 _a = 0;
         /* 0x0b */ u8 _b = 0;
         /* 0x0c */ f32 _c = 0;
-        /* 0x10 */ u32 _10 = 0;
-        /* 0x18 */ u64 _18 = 0;
+        /* 0x10 */ f32 _10 = 0;
+        /* 0x18 */ const Unk68* _18 = nullptr;
         /* 0x20 */ f32 _20 = -1.0f;
         /* 0x24 */ f32 _24 = 1.0f;
-        /* 0x28 */ u32 _28 = 0;
+        /* 0x28 */ f32 _28 = 0;
         /* 0x2c */ u8 _2c = 0;
         /* 0x2d */ u8 _2d = 0;
         /* 0x2e */ s8 _2e = 1;
