@@ -548,14 +548,12 @@ bool Unk_71024eb548::m5(ksys::phys::NavMeshCharacter* nav, s32 material, s32 a, 
     return true;
 }
 
+// 0x71026034c0 (placeholder name): the reinit slot the first Unk_71024eb548 registers.
+ksys::gdt::Manager::ReinitSignal::Slot sUnk_71026034C0;
+
 // 0x7102603530 (placeholder name, .bss): the game-data flag that makes the horse's material 12
 // unusable while it is set (the FlagHandle unwrapHandle check is inlined in m3).
 sead::Atomic<u32> sUnk_7102603530;
-
-// 0x71026034c0 (placeholder name): the reinit slot the first Unk_71024eb548 registers.
-namespace {
-ksys::gdt::Manager::ReinitSignal::Slot sUnk_71026034C0;
-}
 
 // NON_MATCHING: the Slot assignment builds the slot in a stack temporary and copies it; the original
 // constructs the delegate in place at the static (all other instructions and the layout match).
