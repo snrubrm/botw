@@ -1211,6 +1211,28 @@ void Manager::updateDungeonCompleteTreasureFlag() {
     _65218 = false;
 }
 
+// 0x7100a7e590 (placeholder name): runs the open main screen (shortcut or pause menu) and then the held-item
+// actor spawn, the 3D main screen step and its follow-up.
+// NON_MATCHING: the two sead::DynamicCast calls reach their cached type info (and guard) differently in our shared
+// object build; the instruction sequence and size are identical.
+void Manager::sub_7100A7E590() {
+    if (_64c24 == 3) {
+        auto* screen = sead::DynamicCast<ScreenMainShortCut>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::MainShortCut));
+        if (screen)
+            screen->sub_7100A1F4D8();
+    } else {
+        auto* screen =
+            sead::DynamicCast<ScreenPauseMenu>(eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenu));
+        if (screen)
+            screen->sub_7100A34CB0();
+    }
+    if (auto* mgr = PauseMenuDataMgr::instance())
+        mgr->spawnActorsForHeldItems();
+    mainScreen3DStuff();
+    sub_7100A980F8();
+}
+
 }  // namespace uking::ui
 
 // 0x71025d64e8 / 0x71025d64ec / 0x71025d6540 (placeholder names): flags of the gauge TU (direct adrp loads:

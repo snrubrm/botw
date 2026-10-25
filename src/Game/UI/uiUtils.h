@@ -339,6 +339,8 @@ void playSound(const sead::SafeString& label, xlink2::HandleSLink* handle);
 void showRuntimeTip(s32 type);
 // 0x7100a96568 (defined in uiScreenFacade.cpp): marks the main screen 3D view as needing a refresh.
 void mainScreen3DStuff();
+// 0x7100a980f8 (CSV unnamed): the per-frame follow-up after the main screen 3D pass
+void sub_7100A980F8();
 // 0x7100a9f53c: finds the dungeon (shrine) whose entrance is within `radius` of `pos` and stores its name in
 // `out_name` (forwards to Manager::sub_7100A7F2EC). Used by DungeonEntranceRoot::enter_.
 bool findDungeonNameForPositionImpl(f32 radius, sead::SafeString* out_name, const sead::Vector3f* pos);

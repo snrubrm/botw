@@ -289,6 +289,8 @@ public:
     bool cannotGetItem(const sead::SafeString& name, int n) const;
     // 0x710097d79c: declaration only.
     void dyeGoodsStuff();
+    // 0x710097ab34 (CSV placeholder name; declared only): spawns the actors for the items held in the pouch
+    void spawnActorsForHeldItems();
     // 0x710097c1d4 / 0x710097c7b0 (CSV x_37 / x_38).
     // x_37 counts consecutive tabs for the category; x_38 returns the first item index of the tab.
     s32 x_37(s32 a);

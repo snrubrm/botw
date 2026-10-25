@@ -2362,6 +2362,8 @@ public:
     void m93(sead::Heap* heap) override;
     void m90() override;
     void sub_7100A1F684(s32 index);
+    // 0x7100a1f4d8 (CSV unnamed, declared only): run by the UI manager when the shortcut screen is up
+    void sub_7100A1F4D8();
     // 0x7100a1f928 (placeholder name): whether the hold shortcut of `type` (0: left, 1: rune, 2: right) can open
     bool sub_7100A1F928(s32 type);
     // 0x7100a1f5b0 (placeholder name): unequips the selected ring entry and switches the player to the default equipment
@@ -3260,6 +3262,8 @@ public:
     void sub_7100A3840C(eui::AnimButton* button);
     // 0x7100a392d8 (CSV unnamed, 396 bytes; declared only)
     void sub_7100A392D8();
+    // 0x7100a34cb0 (CSV unnamed, declared only): run by the UI manager when the pause menu is up
+    void sub_7100A34CB0();
     // 0x7100a391cc (CSV unnamed): opens the info screen, selects the stored category and releases the UI actor
     void sub_7100A391CC(bool a1);
     // 0x7100a35098: plays the decide sound
