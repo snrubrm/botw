@@ -240,3 +240,7 @@ void PreshadingFilterMaybe::initialize(u32 count, agl::ShaderProgramArchive* arc
 }
 
 }  // namespace ksys::gfx
+
+// 0x7100eff5e8: the final-image pass calls this debug draw of the renderer; the original body is empty.
+void Unk_7100efd9b8::sub_7100EFF5E8(agl::DrawContext* context,
+                                    gsys::ModelRenderContext* render_context) {}

@@ -25,3 +25,7 @@ void GrudgeRenderer::sub_710128F4BC(const sead::Camera* camera) {
     _264 = cGrudgeResetDistance;
     _268->requestDraw();
 }
+
+// 0x710128f888: the final-image pass calls this debug draw of the renderer; the original body is empty.
+void GrudgeRenderer::sub_710128F888(agl::DrawContext* context,
+                                    gsys::ModelRenderContext* render_context) {}

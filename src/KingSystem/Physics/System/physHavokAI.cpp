@@ -793,29 +793,25 @@ Unk_7100f7e9f0 HavokAI::sub_7100F88FD0(NavMeshCharacter* nav, sead::Vector3f* ou
     return Unk_7100f7e9f0();
 }
 
-// NON_MATCHING: clang folds the shared 10.0f / flag branch into an fcsel and rematerialises the argument set-up
-// at the call; the original branches to one shared block that re-tests _2c.
+// NON_MATCHING: the call is written in all three arms (the original's per-arm argument setup and shared call
+// block); clang hoists the common argument setup above the `_30 > 0` test and reuses `_2c` in the shared block
+// where the original reloads it.
 void Unk_7102372790::process(HavokAI* ai) {
-    f32 y = _28;
-    f32 z;
-    bool flag;
+    const f32 y = _28;
     if (y > 0.0f) {
         if (_2c >= 0 && _30 > 0.0f) {
-            z = _30;
-            flag = _2c != 0;
-        } else {
-            z = 10.0f;
-            if (_2c < 0)
-                flag = true;
-            else
-                flag = _2c != 0;
+            ai->sub_7100F85974(static_cast<NavMeshFaceCallback*>(this), &_18, _2c != 0, _24, y,
+                               _30);
+            return;
         }
-    } else {
-        y = 0.0f;
-        z = 10.0f;
-        flag = true;
+        if (_2c < 0)
+            ai->sub_7100F85974(static_cast<NavMeshFaceCallback*>(this), &_18, true, _24, y, 10.0f);
+        else
+            ai->sub_7100F85974(static_cast<NavMeshFaceCallback*>(this), &_18, _2c != 0, _24, y,
+                               10.0f);
+        return;
     }
-    ai->sub_7100F85974(static_cast<NavMeshFaceCallback*>(this), &_18, flag, _24, y, z);
+    ai->sub_7100F85974(static_cast<NavMeshFaceCallback*>(this), &_18, true, _24, 0.0f, 10.0f);
 }
 
 // NON_MATCHING: two argument copies in the prologue are scheduled the other way round
