@@ -1,5 +1,7 @@
 #pragma once
 
+#include <limits>
+
 #include "KingSystem/Physics/Constraint/physUnk_7102519e58.h"
 
 #include "KingSystem/Terrain/teraEditor.h"
@@ -1547,16 +1549,37 @@ public:
 private:
     u32 _5c = 0;
     agl::UniformBlock mUniformBlock;
-    // Constructor 0x71012993c0 (not matched): position 0, _e4 = sead::Vector3f::ex, colour
-    // (5, 0, 0, 1), 0x110..0x140 NaN.
-    sead::Vector3f mPos;
-    sead::Vector3f _e4;
-    sead::Color4f mColor;
-    f32 _100;
-    f32 _104;
+    // Constructor 0x71012993c0: position 0, _e4 = sead::Vector3f::ex, colour (5, 0, 0, 1), the
+    // luminance at _100, three 2.0fs, the NaN matrix at +0x110, then (1, 4, 4, 4) and two zeros.
+    sead::Vector3f mPos{0, 0, 0};
+    sead::Vector3f _e4 = sead::Vector3f::ex;
+    sead::Color4f mColor{5.0f, 0, 0, 1.0f};
+    f32 _100 = 0;
+    f32 _104 = 2.0f;
+    f32 _108 = 2.0f;
+    f32 _10c = 2.0f;
+    // The original stores six 64-bit 0x7fc000007fc00000 pairs here: a matrix of quiet NaNs.
+    sead::Matrix34f _110{std::numeric_limits<f32>::quiet_NaN(),
+                         std::numeric_limits<f32>::quiet_NaN(),
+                         std::numeric_limits<f32>::quiet_NaN(),
+                         std::numeric_limits<f32>::quiet_NaN(),
+                         std::numeric_limits<f32>::quiet_NaN(),
+                         std::numeric_limits<f32>::quiet_NaN(),
+                         std::numeric_limits<f32>::quiet_NaN(),
+                         std::numeric_limits<f32>::quiet_NaN(),
+                         std::numeric_limits<f32>::quiet_NaN(),
+                         std::numeric_limits<f32>::quiet_NaN(),
+                         std::numeric_limits<f32>::quiet_NaN(),
+                         std::numeric_limits<f32>::quiet_NaN()};
+    f32 _140 = 1.0f;
+    f32 _144 = 4.0f;
+    f32 _148 = 4.0f;
+    f32 _14c = 4.0f;
+    f32 _150 = 0;
+    f32 _154 = 0;
     // The pool's array new uses sizeof(this) = 0x188 (0x7100f0c4e4), so the last 0x30 bytes are
     // modelled as an unknown gap.
-    u8 _108[0x188 - 0x108];
+    u8 _158[0x188 - 0x158];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025195b0, 0x188);
 
