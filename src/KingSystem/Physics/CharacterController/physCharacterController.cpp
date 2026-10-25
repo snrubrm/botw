@@ -1,4 +1,5 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/CharacterController/physCharacterControllerUnk38.h"
 #include <cmath>
 #include "KingSystem/Physics/CharacterController/physCharacterRigidBody.h"
 #include "KingSystem/Physics/CharacterController/physCharacterControllerRigidBody.h"
@@ -47,23 +48,7 @@ void CharacterController::sub_7100F60648(Fixed fixed,
 
 class Shape;
 
-// Placeholder: objects at CharacterController::_38 / _40 / _48 / _50 (only the fields read / written by the accessors).
-struct CharacterControllerUnk38 {
-    /* 0x00 */ u8 _0[0x18];
-    // Constructor f63cd0 and controller initialization f5dc88 prove the slope angle.
-    /* 0x18 */ f32 _18;
-    /* 0x1c */ sead::Vector3f _1c;
-    /* 0x28 */ sead::Vector3f _28;
-    /* 0x34 */ bool _34;
-    /* 0x38 */ sead::Vector3f _38;
-    /* 0x44 */ sead::Vector3f _44;
-    /* 0x50 */ sead::Vector3f _50;
-    void sub_7100F652F8(const sead::Vector3f& velocity);
-    // 0x7100f653b0 (declaration only): the ground / edge check that reads the controller at _10.
-    void sub_7100F653B0(const sead::Vector3f& a, const sead::Vector3f& b);
-    // 0x7100f659fc (unnamed in the CSV): the check at _38 / _44, run only when _34 is set.
-    void sub_7100F659FC();
-};
+// Placeholder: the object at CharacterController::_38 (its methods live in physCharacterControllerUnk38.cpp).
 
 
 struct CharacterControllerUnk50 : public hkpCharacterStateInAir {
@@ -1445,16 +1430,6 @@ const hkpShape* CharacterControllerRigidBody::getNewHavokShape_() {
     return shapes->mShapes[index]._0;
 }
 
-void CharacterControllerUnk38::sub_7100F652F8(const sead::Vector3f& velocity) {
-    if (velocity.squaredLength() > 400.0f) {
-        sead::Vector3f clamped = velocity;
-        clamped.normalize();
-        _50 = clamped * 20.0f;
-    } else {
-        _50 = velocity;
-    }
-}
-
 // 0x7100f659fc (unnamed in the CSV): the _38 / _44 check, only while _34 is set.
 void CharacterControllerUnk38::sub_7100F659FC() {
     if (!_34)
@@ -1469,7 +1444,7 @@ void CharacterController::sub_7100F632AC(const sead::Vector3f& velocity) {
         _114 |= 0x20;
 }
 
-// NON_MATCHING: the compiler inlines the listener's clamp; the original calls it.
+// NON_MATCHING: clang hoists the shared `_38` receiver load above the if/else; the original loads it in each arm.
 void CharacterController::sub_7100F6321C(bool on) {
     f32 angle;
     if (on) {

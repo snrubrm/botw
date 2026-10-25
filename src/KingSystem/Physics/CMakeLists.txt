@@ -199,6 +199,8 @@ target_sources(uking PRIVATE
     physMaterialMask.h
 
     CharacterController/physCharacterController.cpp
+    CharacterController/physCharacterControllerUnk38.cpp
+    CharacterController/physCharacterControllerUnk38.h
     CharacterController/physCharacterControllerUnk40.cpp
     CharacterController/physCharacterControllerUnk40.h
     CharacterController/physCharacterFormSet.cpp
