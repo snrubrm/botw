@@ -11,6 +11,7 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseUnit.h"
 #include "KingSystem/System/Timer.h"
+#include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
@@ -133,6 +134,42 @@ void Rideable::m9() {
     }
 
     RideableBase::m9();
+}
+
+// NON_MATCHING: the original's switch is a jump table over 0x3800015..0x380001f (the fifth case falls through to
+// the base handlers) where ours is a compare chain, and its Matrix34f copies extract the translation lanes from the
+// rows already loaded (our sead::Matrix34f::getTranslation loads the three words again).
+bool Rideable::m10(const ksys::Message& message) {
+    switch (message.getType()) {
+    case 0x3800015:
+    case 0x380001d: {
+        const auto* mtx = static_cast<const sead::Matrix34f*>(message.getUserData());
+        if (mtx) {
+            _1c4 = *mtx;
+            _200 = *mtx;
+            _1f4 = mtx->getTranslation();
+            _230 = mtx->getTranslation();
+            _23c.set(0.0f, -sead::Mathf::epsilon(), 0.0f);
+        }
+        break;
+    }
+    case 0x3800016: {
+        const sead::Matrix34f& mtx = RideableBase::mActor->getMtx();
+        _1c4 = mtx;
+        _200 = mtx;
+        _1f4 = mtx.getTranslation();
+        _230 = mtx.getTranslation();
+        _23c.set(0.0f, -sead::Mathf::epsilon(), 0.0f);
+        return true;
+    }
+    case 0x380001f:
+    default:
+        break;
+    }
+
+    const bool base = RideableBase::m10(message);
+    const bool second_base = Unk_7100e8b2b8::m10(message);
+    return base || second_base;
 }
 
 void Rideable::m24() {
