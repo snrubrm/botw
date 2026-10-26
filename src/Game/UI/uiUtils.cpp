@@ -209,12 +209,20 @@ int sub_7100AA33BC(const ksys::qst::Quest* quest, eui::MessageString* out) {
 }
 
 // 0x7100aa30ac
-// NON_MATCHING: SafeString argument evaluation is scheduled differently.
 s32 getMapAreaLocationString(const sead::SafeString& area, eui::MessageString* out) {
-    const sead::SafeString prefix("MapArea_");
     const sead::SafeString group("StaticMsg/LocationMarker");
+    const sead::SafeString prefix("MapArea_");
     sead::FixedSafeString<256> label;
     label.format("%s%s", prefix.cstr(), area.cstr());
+    return getMessage(group, label, out);
+}
+
+// 0x7100aa31a0
+s32 getMapRegionLocationString(const sead::SafeString& region, eui::MessageString* out) {
+    const sead::SafeString group("StaticMsg/LocationMarker");
+    const sead::SafeString prefix("MapRegion_");
+    sead::FixedSafeString<256> label;
+    label.format("%s%s", prefix.cstr(), region.cstr());
     return getMessage(group, label, out);
 }
 

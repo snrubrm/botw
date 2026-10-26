@@ -230,6 +230,8 @@ bool return0();
 
 // 0x7100aa30ac: lookup of the MapArea_ label in the location marker message set.
 s32 getMapAreaLocationString(const sead::SafeString& area, eui::MessageString* out);
+// 0x7100aa31a0: lookup of the MapRegion_ label in the location marker message set.
+s32 getMapRegionLocationString(const sead::SafeString& region, eui::MessageString* out);
 // 0x7100aa69b4: modifier message lookup; the caller ignores its status.
 s32 sub_7100AA69B4(s32 message_id, eui::MessageString* out);
 // 0x7100aa73e8: format a weapon modifier message into a layout widget.
