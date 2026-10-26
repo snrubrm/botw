@@ -280,6 +280,7 @@ target_sources(uking PRIVATE
   actUnk_71002dccbc.h
   actUnk_71023cee88.cpp
   actUnk_710244dd20.cpp
+  actUnk_710244edc0.cpp
   actUnk_71008502cc.cpp
   actUnk_71025ae680.cpp
   actUnk_710244eaa0.cpp
