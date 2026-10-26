@@ -4393,6 +4393,7 @@ extern ksys::StateTemplate<ScreenHardMode> sUnk_71025ee9f0;
 class ScreenHardMode : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
+    ScreenHardMode();
     ~ScreenHardMode() override;
     SEAD_RTTI_OVERRIDE(ScreenHardMode, ScreenEx)
 
@@ -4504,26 +4505,35 @@ public:
     // 0x7100a0bb34 (CSV ScreenHardMode::x; declaration only)
     void x();
 
-    /* 0x3610 */ eui::Animator* _3610;
-    /* 0x3618 */ eui::Animator* _3618;
-    /* 0x3620 */ eui::Animator* _3620;
-    u8 _3628[0x3638 - 0x3628];
-    /* 0x3638 */ eui::AnimButton* _3638;
-    /* 0x3640 */ eui::AnimButton* _3640;
-    /* 0x3648 */ eui::LayoutEx* _3648;
-    /* 0x3650 */ eui::LayoutEx* _3650;
-    /* 0x3658 */ eui::LayoutEx* _3658;
-    /* 0x3660 */ eui::LayoutEx* _3660;
+    // 0x3610: the eleven control pointers. The constructor zero-initialises the whole 0x58-byte block with
+    // one memset (only the value-initialised aggregate form produces it) and then clears 0x3630 - 0x3660
+    // again from the constructor body, in the original's descending order.
+    struct ControlPtrs {
+        /* 0x3610 */ eui::Animator* _3610;
+        /* 0x3618 */ eui::Animator* _3618;
+        /* 0x3620 */ eui::Animator* _3620;
+        /* 0x3628 */ void* _3628;
+        /* 0x3630 */ void* _3630;
+        /* 0x3638 */ eui::AnimButton* _3638;
+        /* 0x3640 */ eui::AnimButton* _3640;
+        /* 0x3648 */ eui::LayoutEx* _3648;
+        /* 0x3650 */ eui::LayoutEx* _3650;
+        /* 0x3658 */ eui::LayoutEx* _3658;
+        /* 0x3660 */ eui::LayoutEx* _3660;
+    };
+    static_assert(sizeof(ControlPtrs) == 0x58);
+    /* 0x3610 */ ControlPtrs mControlPtrs = {};
     /* 0x3668 */ sead::FixedSafeString<128> _3668;
-    /* 0x3700 */ s32 _3700;
-    /* 0x3704 */ s32 _3704;
-    /* 0x3708 */ s32 _3708;
+    /* 0x3700 */ s32 _3700 = -1;
+    /* 0x3704 */ s32 _3704 = 0;
+    /* 0x3708 */ s32 _3708 = 0;
     u8 _370c[0x3710 - 0x370c];
-    /* 0x3710 */ const ksys::StateBase* _3710;
-    /* 0x3718 */ s32 _3718;
-    /* 0x371c */ s32 _371c;
-    u8 _3720;
-    /* 0x3721 */ u8 _3721;
+    // The state the constructor starts with (the same state as ScreenSaveTransferWindow's _3670).
+    /* 0x3710 */ const ksys::StateBase* _3710 = &sUnk_710261ee98;
+    /* 0x3718 */ s32 _3718 = -1;
+    /* 0x371c */ s32 _371c = 0;
+    /* 0x3720 */ u8 _3720 = 0;
+    /* 0x3721 */ u8 _3721 = 0;
 
     // 0x7100a0bfc8 (CSV unnamed; placeholder name): selects the state's animation `index` (-1: none)
     void sub_7100A0BFC8(s32 index);
@@ -6417,7 +6427,7 @@ public:
         /* 0x3660 */ eui::LayoutEx* _3660;
     };
     static_assert(sizeof(ControlPtrs) == 0x58);
-    /* 0x3610 */ ControlPtrs mControlPtrs;
+    /* 0x3610 */ ControlPtrs mControlPtrs = {};
     // The constructor's stores for these five land between the control-pointer memset and the job
     // records, so the original had them as member initialisers (declaration order).
     /* 0x3668 */ s32 _3668 = -1;

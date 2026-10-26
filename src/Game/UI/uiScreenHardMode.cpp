@@ -124,7 +124,7 @@ void ScreenHardMode::m94() {
         case 1:
         case 2:
             sub_71010AA894();
-            _3638->DownOff(false);
+            mControlPtrs._3638->DownOff(false);
             break;
         case 3:
         case 0:
@@ -132,28 +132,28 @@ void ScreenHardMode::m94() {
             break;
         }
     }
-    if (_3620->mFlags & 2) {
-        _3620->StopAtMax();
+    if (mControlPtrs._3620->mFlags & 2) {
+        mControlPtrs._3620->StopAtMax();
         if (_3700 != -1) {
-            _3610->Stop(f32(_3700));
-            _3618->PlayAuto(1.0f);
+            mControlPtrs._3610->Stop(f32(_3700));
+            mControlPtrs._3618->PlayAuto(1.0f);
         }
-        _3638->setFlag10(false);
-        _3640->setFlag10(false);
+        mControlPtrs._3638->setFlag10(false);
+        mControlPtrs._3640->setFlag10(false);
     }
-    if (_3618->mFlags & 2) {
+    if (mControlPtrs._3618->mFlags & 2) {
         switch (_3700) {
         case 0:
         case 3:
         case 4:
         case 5:
-            _3638->setFlag10(false);
-            _3640->setFlag10(false);
+            mControlPtrs._3638->setFlag10(false);
+            mControlPtrs._3640->setFlag10(false);
             break;
         case 1:
         case 2:
-            _3638->setFlag10(true);
-            _3640->setFlag10(true);
+            mControlPtrs._3638->setFlag10(true);
+            mControlPtrs._3640->setFlag10(true);
             break;
         }
     }
@@ -161,14 +161,14 @@ void ScreenHardMode::m94() {
 
 // 0x7100a0bc24
 void ScreenHardMode::m93(sead::Heap*) {
-    _3610 = mLayout->createAnimatorAuto("Type", true);
-    _3620 = mLayout->createAnimatorAuto("ContentOut", true);
-    _3618 = mLayout->createAnimatorAuto("ContentIn", true);
-    _3638 = static_cast<eui::AnimButton*>(mButtonGroup->FindControlByName("Pa_BtnL_00"));
-    _3640 = static_cast<eui::AnimButton*>(mButtonGroup->FindControlByName("Pa_BtnR_00"));
-    _3648 = mLayout;
-    _3658 = sub_7100BEAFB0("Pa_BtnL_00");
-    _3660 = sub_7100BEAFB0("Pa_BtnR_00");
+    mControlPtrs._3610 = mLayout->createAnimatorAuto("Type", true);
+    mControlPtrs._3620 = mLayout->createAnimatorAuto("ContentOut", true);
+    mControlPtrs._3618 = mLayout->createAnimatorAuto("ContentIn", true);
+    mControlPtrs._3638 = static_cast<eui::AnimButton*>(mButtonGroup->FindControlByName("Pa_BtnL_00"));
+    mControlPtrs._3640 = static_cast<eui::AnimButton*>(mButtonGroup->FindControlByName("Pa_BtnR_00"));
+    mControlPtrs._3648 = mLayout;
+    mControlPtrs._3658 = sub_7100BEAFB0("Pa_BtnL_00");
+    mControlPtrs._3660 = sub_7100BEAFB0("Pa_BtnR_00");
     _3718 = -1;
     _3700 = -1;
     _3704 = 0;
@@ -184,7 +184,7 @@ void ScreenHardMode::close(s32) {
 
 // 0x7100a0bd2c
 void ScreenHardMode::m98() {
-    setReservedBoxCursorNodeByButton(_3638);
+    setReservedBoxCursorNodeByButton(mControlPtrs._3638);
     mActiveCursorNode = nullptr;
 }
 
@@ -466,9 +466,9 @@ void ScreenHardMode::sub_7100A0C084(const sead::SafeString& text, const sead::Sa
     getMessage(message_set, text, &text_msg);
     getMessage(message_set, left, &left_msg);
     getMessage(message_set, right, &right_msg);
-    setWidgetString(_3648, "T_Text_00", text_msg);
-    setWidgetString(_3660, "T_Btn_00", left_msg);
-    setWidgetString(_3658, "T_Btn_00", right_msg);
+    setWidgetString(mControlPtrs._3648, "T_Text_00", text_msg);
+    setWidgetString(mControlPtrs._3660, "T_Btn_00", left_msg);
+    setWidgetString(mControlPtrs._3658, "T_Btn_00", right_msg);
 }
 
 // NON_MATCHING: as sub_7100A0C084
@@ -483,8 +483,8 @@ void ScreenHardMode::sub_7100A0C368(const sead::SafeString& text, const sead::Sa
     eui::MessageString button_msg;
     getMessage(message_set, text, &text_msg);
     getMessage(message_set, button, &button_msg);
-    setWidgetString(_3648, "T_Text_00", text_msg);
-    setWidgetString(_3650, "T_Btn_00", button_msg);
+    setWidgetString(mControlPtrs._3648, "T_Text_00", text_msg);
+    setWidgetString(mControlPtrs._3650, "T_Btn_00", button_msg);
 }
 
 // 0x7100a0c614
@@ -518,7 +518,7 @@ void ScreenHardMode::m166() {
 // 0x7100a0c8b8
 void ScreenHardMode::m171() {
     // 0x57 bit 1 of the ContentOut animator
-    if (_3620->mFlags & 2)
+    if (mControlPtrs._3620->mFlags & 2)
         sub_7100A0C084("0007", sOne, sTwo);
     switch (_3718) {
     case 0x90:
@@ -542,7 +542,7 @@ void ScreenHardMode::m174() {
 // 0x7100a0ca2c
 void ScreenHardMode::m179() {
     // 0x57 bit 1 of the ContentOut animator
-    if (_3620->mFlags & 2)
+    if (mControlPtrs._3620->mFlags & 2)
         sub_7100A0C084("0007", sOne, sTwo);
     switch (_3718) {
     case 0x90:
@@ -587,7 +587,7 @@ void ScreenHardMode::m194() {
 // 0x7100a0cd74
 void ScreenHardMode::m199() {
     // 0x57 bit 1 of the ContentOut animator
-    if (_3620->mFlags & 2)
+    if (mControlPtrs._3620->mFlags & 2)
         sub_7100A0C084("0007", sOne, sTwo);
     switch (_3718) {
     case 0x90:
@@ -611,7 +611,7 @@ void ScreenHardMode::m202() {
 // 0x7100a0cee0
 void ScreenHardMode::m207() {
     // 0x57 bit 1 of the ContentOut animator
-    if (_3620->mFlags & 2)
+    if (mControlPtrs._3620->mFlags & 2)
         sub_7100A0C084("0007", sOne, sTwo);
     switch (_3718) {
     case 0x90:
@@ -635,7 +635,7 @@ void ScreenHardMode::m218() {
 // 0x7100a0d124
 void ScreenHardMode::m223() {
     // 0x57 bit 1 of the ContentOut animator
-    if (_3620->mFlags & 2)
+    if (mControlPtrs._3620->mFlags & 2)
         sub_7100A0C084("0012", sOne, sTwo);
     switch (_3718) {
     case 0x90:
@@ -650,7 +650,7 @@ void ScreenHardMode::m223() {
 // 0x7100a0d1f0
 void ScreenHardMode::m227() {
     // 0x57 bit 1 of the ContentOut animator
-    if (_3620->mFlags & 2)
+    if (mControlPtrs._3620->mFlags & 2)
         sub_7100A0C084("0007", sOne, sTwo);
     switch (_3718) {
     case 0x90:
@@ -666,7 +666,7 @@ void ScreenHardMode::m227() {
 // 0x7100a0d2c4
 void ScreenHardMode::m231() {
     // 0x57 bit 1 of the ContentOut animator
-    if (_3620->mFlags & 2)
+    if (mControlPtrs._3620->mFlags & 2)
         sub_7100A0C084("0011", sFourteen, sThirteen);
     switch (_3718) {
     case 0x90:
@@ -681,7 +681,7 @@ void ScreenHardMode::m231() {
 
 // 0x7100a0d3d0
 void ScreenHardMode::m239() {
-    if (_3620->mFlags & 2) {
+    if (mControlPtrs._3620->mFlags & 2) {
         _3668 = sSystemWindow;
         sub_7100A0C368("0066", "0067");
     }

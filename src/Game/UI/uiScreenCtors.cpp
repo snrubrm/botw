@@ -140,6 +140,17 @@ ScreenMessageTipsPauseMenu::ScreenMessageTipsPauseMenu() : ScreenEx() {}
 // 0x7100a0b044
 ScreenGamePadBG::ScreenGamePadBG() : ScreenEx() {}
 
+// 0x7100a0b798
+ScreenHardMode::ScreenHardMode() : ScreenEx() {
+    mControlPtrs._3660 = nullptr;
+    mControlPtrs._3658 = nullptr;
+    mControlPtrs._3650 = nullptr;
+    mControlPtrs._3648 = nullptr;
+    mControlPtrs._3640 = nullptr;
+    mControlPtrs._3638 = nullptr;
+    mControlPtrs._3630 = nullptr;
+}
+
 // 0x7100a0a420
 ScreenGameOver::ScreenGameOver() : ScreenEx() {}
 
