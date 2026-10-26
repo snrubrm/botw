@@ -106,7 +106,7 @@ void RideableBase::m5() {
         s2._48 = &sUnk_7101EC1904;
         s2._58 = &animal->mSteeringOutputIIRLerpRatio.ref();
         _164 = animal->mBasePlayRate.ref();
-        _168 = animal->mGearMaxNum.ref();
+        mGearMaxNum = animal->mGearMaxNum.ref();
         const bool wait_as = animal->mIsSetWaitASAtGear0.ref();
         _18._52 = wait_as ? (_18._52 | 2) : (_18._52 & ~2);
     }
@@ -173,7 +173,7 @@ bool RideableBase::sub_7100E63560(S1::UnkGear gear_type, S1::UnkGear gear,
 // converts its own 4-byte gear temporary; this build inverts the second equality test and shares
 // one decrement block.
 RideableBase::S1::UnkGear RideableBase::m11(S1::UnkGear mode) {
-    S1::UnkGear limit = _168;
+    S1::UnkGear limit = mGearMaxNum;
     if (mode == S1::UnkGear::_0) {
         if (_138 > 0.0f)
             limit = sead::Mathi::min(int(limit), 1);

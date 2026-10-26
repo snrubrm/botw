@@ -332,7 +332,7 @@ public:
     /* 10 */ virtual bool m10(const ksys::Message& message);
     // 0x7100e632a4: the gear limit for the gear type (the caller's by-value enum argument).
     /* 11 */ virtual S1::UnkGear m11(S1::UnkGear a1);
-    /* 12 */ virtual f32 m12() { return 0.0f; }
+    /* 12 */ virtual f32 getRunnableFramesAtGearTop() { return 0.0f; }
     /* 13 */ virtual void* m13() { return nullptr; }
     /* 14 */ virtual f32 m14() { return 1.0f; }
     /* 15 */ virtual void m15(f32 a, f32 b) {}
@@ -352,7 +352,7 @@ public:
     /* 0x154 */ f32 _154 = 1.0;
     /* 0x158 */ sead::Vector3f _158 = sead::Vector3f::zero;
     /* 0x164 */ f32 _164 = 1.0;
-    /* 0x168 */ int _168 = 4;
+    /* 0x168 */ s32 mGearMaxNum = 4;  // AnimalUnit GParam "GearMaxNum"
     // The entry of this actor's SpeedActorName (CRC32 hash) in the animal speed table resource (handle at
     // 0x710259d120 in getSomethingFromAnimalUnitSpeed): the hash followed by `_178` rows of 4 gears.
     // AnimalLineOfSightSelector::enter_ reads `mGears[_130][gear - 1].mSpeed * _164`.

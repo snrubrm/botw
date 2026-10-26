@@ -27,7 +27,7 @@ bool HorseWaitAction::isFinished() const {
 // wrapper object) and the courbette gear in another; branch order.
 void HorseWaitAction::enter_(ksys::act::ai::InlineParamPack* params) {
     mFlags.set(Flag::Changeable);
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!rideable) {
         setFailed();
         return;

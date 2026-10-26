@@ -99,8 +99,8 @@ void PreyRoot::sub_7100503864() {
     auto* controller = actor->getCharacterController();
     if (controller)
         _190 = controller->get64();
-    if (actor->m132()) {
-        auto* rideable = actor->m132();
+    if (actor->getRideableMaybe()) {
+        auto* rideable = actor->getRideableMaybe();
         const act::Rideable::Gear gear(rideable->_18._b ? rideable->_18._b : rideable->_18._9);
         list->x_6(10, 0, static_cast<f32>(int(gear)));
         if (actor->getHorseOptionsMaybe()) {

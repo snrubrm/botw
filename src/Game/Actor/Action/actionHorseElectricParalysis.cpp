@@ -18,7 +18,7 @@ bool HorseElectricParalysis::init_(sead::Heap* heap) {
 
 void HorseElectricParalysis::enter_(ksys::act::ai::InlineParamPack* params) {
     StopBase::enter_(params);
-    if (auto* rideable_base = mActor->m132()) {
+    if (auto* rideable_base = mActor->getRideableMaybe()) {
         if (rideable_base->_8.load() & 4) {
             rideable_base->_18.sub_7100E76BBC();
             rideable_base->_8 &= ~4u;
@@ -42,7 +42,7 @@ void HorseElectricParalysis::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void HorseElectricParalysis::leave_() {
     StopBase::leave_();
-    if (auto* rideable_base = mActor->m132()) {
+    if (auto* rideable_base = mActor->getRideableMaybe()) {
         rideable_base->_18._52 &= ~8;
         if (auto* rideable = sead::DynamicCast<act::Rideable>(rideable_base)) {
             if (*mCanRiddenWhenLeave_s) {
@@ -74,7 +74,7 @@ void HorseElectricParalysis::loadParams_() {
 void HorseElectricParalysis::calc_() {
     StopBase::calc_();
     if (_68 >= *mPauseDelayFrames_s) {
-        if (auto* rideable = mActor->m132())
+        if (auto* rideable = mActor->getRideableMaybe())
             rideable->_18._52 |= 8;
         for (int i = 0; i < mActor->getASList()->getSlot0BankCount(); ++i)
             mActor->getASList()->x_3(0, i, &ksys::as::ASList::Unk2::sub_71011631BC, 0.0f);

@@ -68,7 +68,7 @@ void HorseManeCollarSyncAction::enter_(ksys::act::ai::InlineParamPack* params) {
 bool HorseManeCollarSyncAction::sub_7100E51F94() {
     if (auto* mane = sead::DynamicCast<act::HorseObject>(mActor)) {
         if (auto* horse = sead::DynamicCast<ksys::act::Actor>(mane->_840.getProc(nullptr, nullptr))) {
-            if (auto* rideable = horse->m132())
+            if (auto* rideable = horse->getRideableMaybe())
                 return !(rideable->_18._52 & 8);
         }
     }

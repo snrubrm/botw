@@ -15,7 +15,7 @@ bool HorseKickBackAction::init_(sead::Heap* heap) {
 }
 
 void HorseKickBackAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!rideable) {
         setFailed();
         return;
@@ -43,7 +43,7 @@ void HorseKickBackAction::loadParams_() {
 
 void HorseKickBackAction::calc_() {
     auto* as_list = mActor->getASList();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if ((_38 & 3) != 3) {
         if (as_list->x_4(0, 0)) {
             if (rideable && *mSucceedGear_s >= 0) {

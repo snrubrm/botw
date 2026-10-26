@@ -1178,7 +1178,7 @@ Rideable* HorseBase::getHorseOptionsMaybe() {
     return _b10;
 }
 
-RideableBase* HorseBase::m132() {
+RideableBase* HorseBase::getRideableMaybe() {
     return _b10;
 }
 

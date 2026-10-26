@@ -33,7 +33,7 @@ void AnimalASPlayCheckMoveDir::calc_() {
     ForkAnimalASPlay::calc_();
     auto* as_list = mActor->getASList();
     auto* controller = mActor->getCharacterController();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!as_list || !controller || !rideable) {
         setFailed();
         return;

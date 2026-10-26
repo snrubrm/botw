@@ -21,7 +21,7 @@ bool AnimalTurn::init_(sead::Heap* heap) {
 void AnimalTurn::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* as_list = mActor->getASList();
     auto* controller = mActor->getCharacterController();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!as_list || !controller || !rideable) {
         setFailed();
         return;
@@ -74,7 +74,7 @@ void AnimalTurn::loadParams_() {
 void AnimalTurn::calc_() {
     auto* as_list = mActor->getASList();
     auto* controller = mActor->getCharacterController();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!as_list || !controller || !rideable) {
         setFailed();
         return;

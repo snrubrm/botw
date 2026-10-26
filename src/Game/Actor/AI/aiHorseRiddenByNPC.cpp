@@ -43,7 +43,7 @@ void HorseRiddenByNPC::enter_(ksys::act::ai::InlineParamPack* params) {
     if (auto* horse = sead::DynamicCast<act::HorseBase>(mActor)) {
         _78.changeBit(Flag(Flag::_5), horse->sub_7100E6BF00());
     }
-    if (auto* rideable = mActor->m132()) {
+    if (auto* rideable = mActor->getRideableMaybe()) {
         if (const auto* param = mActor->getParam()) {
             if (const auto* gparam = param->getRes().mGParamList) {
                 if (const auto* animal = gparam->getAnimalUnit()) {
@@ -63,7 +63,7 @@ void HorseRiddenByNPC::calc_() {
     HorseRiddenByNPCBase::calc_();
     if (auto* damage = sead::DynamicCast<uking::act::DamageManager>(mActor->getDamageMgr())) {
         if (damage->_216.isOn(2)) {
-            if (auto* rideable = mActor->m132()) {
+            if (auto* rideable = mActor->getRideableMaybe()) {
                 if (*(rideable->_18._b == 0 ? &rideable->_18._9 : &rideable->_18._b)) {
                     mActor->getASList()->startAnimationMaybe(-1.0f, -1.0f,
                                                            uking::act::sUnk_7102603200, 1, 0, true);

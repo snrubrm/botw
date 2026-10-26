@@ -36,7 +36,7 @@ void GiantDoubleGroundPunch::enter_(ksys::act::ai::InlineParamPack* params) {
     mCoBody[1]._10 = false;
     mCoBody[2]._10 = false;
     mCoBody[3]._10 = false;
-    if (auto* rideable = mActor->m132()) {
+    if (auto* rideable = mActor->getRideableMaybe()) {
         rideable->_18.sub_7100E770C4(false);
         rideable->_18.sub_7100E786F0(mASName_s);
     } else {

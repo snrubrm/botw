@@ -64,7 +64,7 @@ public:
     Gear m23() override;
 
     bool m10(const ksys::Message& message) override;
-    f32 m12() override;
+    f32 getRunnableFramesAtGearTop() override;
     void* m13() override;
     f32 m14() override;
     void m15(f32 a, f32 b) override;

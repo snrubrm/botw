@@ -14,7 +14,7 @@ bool AnimalMoveGuidedBase::init_(sead::Heap* heap) {
 
 void AnimalMoveGuidedBase::enter_(ksys::act::ai::InlineParamPack* params) {
     mFlags.set(Flag::Changeable);
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!rideable) {
         setFailed();
         return;

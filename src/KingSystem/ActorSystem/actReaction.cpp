@@ -849,7 +849,7 @@ void Reaction::Unk1::sub_7100EC56D8(xlink::XLink* xlink, DamageReactionRequest* 
     case 0xc:
     case 0xd:
         if (request->_b8) {
-            if (auto* rideable = request->_b8->m132()) {
+            if (auto* rideable = request->_b8->getRideableMaybe()) {
                 s32 type = 1;
                 switch (rideable->_18._a) {
                 case 0: type = 0; break;
@@ -881,7 +881,7 @@ void Reaction::Unk1::sub_7100EC56D8(xlink::XLink* xlink, DamageReactionRequest* 
     }
     case 0x11:
         if (request->_b8) {
-            if (auto* rideable = request->_b8->m132()) {
+            if (auto* rideable = request->_b8->getRideableMaybe()) {
                 const u8 gear = rideable->_18._b ? rideable->_18._b : rideable->_18._9;
                 s32 value = 1;
                 switch (gear) {

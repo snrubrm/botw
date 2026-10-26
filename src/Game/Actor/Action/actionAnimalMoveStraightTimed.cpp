@@ -19,7 +19,7 @@ bool AnimalMoveStraightTimed::init_(sead::Heap* heap) {
 
 void AnimalMoveStraightTimed::enter_(ksys::act::ai::InlineParamPack* params) {
     _68.reset(*mFramesUntilFinish_s);
-    if (auto* rideable = mActor->m132()) {
+    if (auto* rideable = mActor->getRideableMaybe()) {
         const s32 min_gear = *mMinUseGear_s;
         const s32 max_gear = *mMaxUseGear_s;
         const s32 gear = sead::GlobalRandom::instance()->getS32Range(min_gear, max_gear);
@@ -51,7 +51,7 @@ void AnimalMoveStraightTimed::calc_() {
     _68.update();
     if (_68.value <= std::numeric_limits<f32>::epsilon())
         setFinished();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     auto* as_list = mActor->getASList();
     auto* controller = mActor->getCharacterController();
     auto* navmesh = mActor->m45();

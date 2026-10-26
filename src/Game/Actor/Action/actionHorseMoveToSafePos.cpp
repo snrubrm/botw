@@ -148,7 +148,7 @@ void HorseMoveToSafePos::calc_() {
     mActor->getASList()->x_6(1, 0, 0.0f);
     mActor->getASList()->x_6(2, 0, 0.0f);
     mActor->getASList()->x_6(9, 0, 0.0f);
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     auto* as_list = mActor->getASList();
     act::sub_7100E7F698(rideable, as_list, mActor->getCharacterController());
 }

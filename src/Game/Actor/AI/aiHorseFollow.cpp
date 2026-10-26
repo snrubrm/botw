@@ -70,7 +70,7 @@ void HorseFollow::calc_() {
         const f32 cry_dist_sq = cry_dist * cry_dist;
         if (!(dist < cry_dist_sq) || !(cry_dist_sq <= _d0)) {
             if (as_list->x_1(1, 0) == act::sUnk_71026031a0 && as_list->x_4(1, 0)) {
-                if (auto* rideable = mActor->m132())
+                if (auto* rideable = mActor->getRideableMaybe())
                     rideable->_18.sub_7100E78E00();
                 else
                     as_list->sub_710115B01C(1, 0, true);
@@ -88,7 +88,7 @@ void HorseFollow::calc_() {
 void HorseFollow::leave_() {
     if (*mDistanceThresholdCry_s > sead::Mathf::epsilon()) {
         if (mActor->getASList()->x_1(1, 0) == act::sUnk_71026031a0) {
-            if (auto* rideable = mActor->m132())
+            if (auto* rideable = mActor->getRideableMaybe())
                 rideable->_18.sub_7100E78E00();
             else
                 mActor->getASList()->sub_710115B01C(1, 0, true);
@@ -103,7 +103,7 @@ void HorseFollow::leave_() {
     }
 
     if (_da.isOnBit(Flag(Flag::_0))) {
-        if (auto* rideable = mActor->m132())
+        if (auto* rideable = mActor->getRideableMaybe())
             rideable->sub_7100E63224(0, 0);
     }
 

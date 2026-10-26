@@ -25,7 +25,7 @@ void SyncBodyASAndAnimalUnitAS::Callback::sub_71006459BC(ksys::act::Actor* actor
     auto* list = actor->getASList();
     if (!list)
         return;
-    auto* rideable = actor->m132();
+    auto* rideable = actor->getRideableMaybe();
     if (!rideable)
         return;
 

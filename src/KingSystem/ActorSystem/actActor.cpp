@@ -1721,7 +1721,7 @@ uking::act::Rideable* Actor::getHorseOptionsMaybe() {
     return nullptr;
 }
 
-uking::act::RideableBase* Actor::m132() {
+uking::act::RideableBase* Actor::getRideableMaybe() {
     return nullptr;
 }
 

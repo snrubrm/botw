@@ -20,12 +20,12 @@ void AnimalUnitIgnoreStickXLimit::loadParams() {
 }
 
 void AnimalUnitIgnoreStickXLimit::enter() {
-    if (auto* rideable = mActor->m132())
+    if (auto* rideable = mActor->getRideableMaybe())
         rideable->_8 |= 0x100;
 }
 
 void AnimalUnitIgnoreStickXLimit::leave() {
-    if (auto* rideable = mActor->m132())
+    if (auto* rideable = mActor->getRideableMaybe())
         rideable->_8 &= ~0x100;
 }
 

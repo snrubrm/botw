@@ -181,7 +181,7 @@ bool Rideable::m44() {
 }
 
 Rideable::Gear Rideable::m23() {
-    const Gear target(_168);
+    const Gear target(mGearMaxNum);
     const Gear gear(_18._b == 0 ? _18._9 : _18._b);
     if (int(target) <= 2 && int(gear) == int(target))
         return Gear(3);

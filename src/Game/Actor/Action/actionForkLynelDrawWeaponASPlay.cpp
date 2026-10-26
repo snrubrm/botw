@@ -16,7 +16,7 @@ bool ForkLynelDrawWeaponASPlay::init_(sead::Heap* heap) {
 // NON_MATCHING: the two argument registers are set up in the other order (scheduling)
 void ForkLynelDrawWeaponASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     ForkLynelDrawWeapon::enter_(params);
-    if (auto* rideable = mActor->m132())
+    if (auto* rideable = mActor->getRideableMaybe())
         rideable->_18.sub_7100E786F0(mASName_s);
 }
 

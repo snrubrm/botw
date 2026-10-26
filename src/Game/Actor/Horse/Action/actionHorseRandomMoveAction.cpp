@@ -11,7 +11,7 @@ HorseRandomMoveAction::HorseRandomMoveAction(const InitArg& arg) : AnimalMoveGui
 void HorseRandomMoveAction::enter_(ksys::act::ai::InlineParamPack* params) {
     AnimalMoveGuidedBase::enter_(params);
 
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     const sead::Vector3f* pos = &sead::Vector3f::zero;
     if (rideable)
         pos = &rideable->_148;

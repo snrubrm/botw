@@ -18,11 +18,11 @@ bool LynelSpinAttack::init_(sead::Heap* heap) {
     return ForkWeaponAttack::init_(heap);
 }
 
-// NON_MATCHING: the original computes &mStartASName_s before the m132() call (scheduling)
+// NON_MATCHING: the original computes &mStartASName_s before the getRideableMaybe() call (scheduling)
 void LynelSpinAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     ForkWeaponAttackBase::enter_(params);
     mFlags.reset(Flag::Changeable);
-    if (auto* rideable = mActor->m132())
+    if (auto* rideable = mActor->getRideableMaybe())
         rideable->_18.sub_7100E786F0(mStartASName_s);
     playAS(mStartASName_s.cstr(), false, *mTargetBone_s, *mSeqBank_s, -1.0f);
     _cc = 0;
@@ -47,14 +47,14 @@ void LynelSpinAttack::loadParams_() {
 void LynelSpinAttack::calc_() {
     auto* as_list = mActor->getASList();
     auto* controller = mActor->getCharacterController();
-    if (auto* rideable = mActor->m132(); as_list && controller && rideable)
+    if (auto* rideable = mActor->getRideableMaybe(); as_list && controller && rideable)
         act::sub_7100E7F698(rideable, as_list, controller);
 
     switch (_cc) {
     case 0:
         if (isFinishedAS(0, 0)) {
             _cc = 1;
-            if (auto* rideable = mActor->m132())
+            if (auto* rideable = mActor->getRideableMaybe())
                 rideable->_18.sub_7100E786F0(mLoopASName_s);
             playAS(mLoopASName_s.cstr(), false, *mTargetBone_s, *mSeqBank_s, -1.0f);
             _c0.reset(*mMinLoopTime_s);
@@ -75,7 +75,7 @@ void LynelSpinAttack::calc_() {
                 side = 3;
             if ((side == 2 && _d0 == 1) || (side == 1 && _d0 == 2)) {
                 _cc = 2;
-                if (auto* rideable = mActor->m132())
+                if (auto* rideable = mActor->getRideableMaybe())
                     rideable->_18.sub_7100E786F0(mEndASName_s);
                 playAS(mEndASName_s.cstr(), false, *mTargetBone_s, *mSeqBank_s, -1.0f);
             }

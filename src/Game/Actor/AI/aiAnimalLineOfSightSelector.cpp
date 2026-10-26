@@ -21,7 +21,7 @@ bool AnimalLineOfSightSelector::init_(sead::Heap* heap) {
 // NON_MATCHING: gear and row enum temporaries and child-selection branches differ.
 void AnimalLineOfSightSelector::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* nav = mActor->m45();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     auto* controller = mActor->getCharacterController();
     if (!nav || !rideable || !controller) {
         setFailed();
@@ -56,7 +56,7 @@ void AnimalLineOfSightSelector::enter_(ksys::act::ai::InlineParamPack* params) {
 // NON_MATCHING: gear/row enum temporaries and line-of-sight branch layout differ.
 void AnimalLineOfSightSelector::calc_() {
     auto* nav = mActor->m45();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     auto* controller = mActor->getCharacterController();
     if (!nav || !rideable || !controller) {
         setFailed();

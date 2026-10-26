@@ -28,7 +28,7 @@ void LynelDrawWeapon::calc_() {
     ForkLynelDrawWeaponASPlay::calc_();
     auto* as_list = mActor->getASList();
     auto* controller = mActor->getCharacterController();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (as_list && controller && rideable)
         uking::act::sub_7100E7F698(rideable, as_list, controller);
 }

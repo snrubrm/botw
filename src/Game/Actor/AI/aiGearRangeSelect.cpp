@@ -13,7 +13,7 @@ bool GearRangeSelect::init_(sead::Heap* heap) {
 }
 
 void GearRangeSelect::enter_(ksys::act::ai::InlineParamPack* params) {
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (rideable &&
         Gear(rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b) >=
             Gear(*mGearThreashold_s)) {
@@ -30,7 +30,7 @@ void GearRangeSelect::calc_() {
     if (*mCheckOnce_s)
         return;
 
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     bool high = false;
     if (rideable) {
         const Gear gear(rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b);

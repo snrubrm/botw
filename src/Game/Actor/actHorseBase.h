@@ -173,7 +173,7 @@ public:
     void m117(ksys::act::Unk117* arg) override;
     void m118(bool on) override;
     Rideable* getHorseOptionsMaybe() override;
-    RideableBase* m132() override;
+    RideableBase* getRideableMaybe() override;
     Unk_7100e8b2b8* getMotorcyclePriorityStuffMaybe() override;
     void m143() override;
     void m144() override { Actor::m144(); }

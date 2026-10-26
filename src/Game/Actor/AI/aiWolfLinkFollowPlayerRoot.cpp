@@ -32,7 +32,7 @@ void WolfLinkFollowPlayerRoot::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void WolfLinkFollowPlayerRoot::leave_() {
-    if (auto* rideable = _100->m132()) {
+    if (auto* rideable = _100->getRideableMaybe()) {
         rideable->_154 = 1.0f;
         HorseFollow::leave_();
     } else {

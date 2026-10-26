@@ -82,7 +82,7 @@ void AnimalRoam::loadParams_() {
 // NON_MATCHING: operand order of the multiplications in the second rotation; scheduling of the
 // stores of the initial direction copy
 bool AnimalRoam::m34(const sead::Vector3f* pos) {
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     sead::Vector3f dir;
     mActor->getMtx().getBase(dir, 2);
     const sead::Vector3f my_pos = mActor->getMtx().getTranslation();

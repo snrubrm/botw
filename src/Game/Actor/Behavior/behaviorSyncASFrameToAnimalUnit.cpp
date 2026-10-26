@@ -18,7 +18,7 @@ void SyncASFrameToAnimalUnit::calc() {
     auto* list = mActor->getASList();
     if (!list)
         return;
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!rideable)
         return;
     const int bank = rideable->_18._9 ? rideable->_18._2e : rideable->_18.sub_7100E76CEC();

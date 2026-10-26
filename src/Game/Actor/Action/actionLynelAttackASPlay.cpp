@@ -45,7 +45,7 @@ void LynelAttackASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     mActor->getMtx().getTranslation(pos);
     sub_71001DEC28(pos);
     auto* as_list = mActor->getASList();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!mASName_s.isEmpty()) {
         if (rideable) {
             if (!*mIsIgnoreSame_s || as_list->x_1(0, 0) != mASName_s)
@@ -285,7 +285,7 @@ void LynelAttackASPlay::calc_() {
         } else if (_1c0 & 2) {
             uking::act::sub_7100E7F4FC(as_list, controller, 1.0f);
             sub_71001DF8DC(controller, pos);
-        } else if (auto* rideable = mActor->m132()) {
+        } else if (auto* rideable = mActor->getRideableMaybe()) {
             uking::act::sub_7100E7F698(rideable, as_list, controller);
         } else {
             uking::act::sub_7100E7F318(as_list, controller, 1.0f);

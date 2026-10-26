@@ -35,7 +35,7 @@ void WolfLinkChainAttack::enter_(ksys::act::ai::InlineParamPack* params) {
     }
     controller->enableContactLayer(ksys::phys::ContactLayer::EntityNPC);
     controller->enableContactLayer(ksys::phys::ContactLayer::EntityRagdoll);
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     rideable->_154 = *mAnimalUnitRate_s;
     ksys::act::ai::InlineParamPack pack;
     pack.addVec3(sub_71005D9330(mActor), "TargetPos", -1);
@@ -51,7 +51,7 @@ void WolfLinkChainAttack::leave_() {
         controller->sub_7100F60604();
         controller->sub_7100F62DD0(1.0f);
     }
-    mActor->m132()->_154 = 1.0f;
+    mActor->getRideableMaybe()->_154 = 1.0f;
     _c8->_1688 = sead::Mathf::clamp(_c8->_1688 + (-100.0f / *mNumAttacks_s) * _c4, 0.0f, 100.0f);
 }
 

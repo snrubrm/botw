@@ -111,8 +111,8 @@ void WolfLinkRoot::calc_() {
             as_list->x_6(9, 0, -_44.value);
             _38 = dir;
 
-            if (actor->m132()) {
-                auto* rideable = actor->m132();
+            if (actor->getRideableMaybe()) {
+                auto* rideable = actor->getRideableMaybe();
                 const act::Rideable::Gear gear(rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b);
                 as_list->x_6(10, 0, static_cast<f32>(int(gear)));
             }

@@ -15,7 +15,7 @@ bool HorseEatAction::init_(sead::Heap* heap) {
 }
 
 void HorseEatAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!rideable) {
         setFailed();
         return;

@@ -16,7 +16,7 @@ bool AnimalEatAction::init_(sead::Heap* heap) {
 }
 
 void AnimalEatAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     auto* as_list = mActor->getASList();
     if (!rideable || !as_list) {
         setFailed();
@@ -47,7 +47,7 @@ void AnimalEatAction::calc_() {
     if (isFinished() || isFailed())
         return;
     auto* as_list = mActor->getASList();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!as_list || !rideable) {
         setFailed();
         return;

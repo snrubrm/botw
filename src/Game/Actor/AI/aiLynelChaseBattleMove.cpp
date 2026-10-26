@@ -79,7 +79,7 @@ void LynelChaseBattleMove::calc_() {
         return;
 
     const s32 decision = sub_710048F5A0();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!rideable)
         return;
 

@@ -16,7 +16,7 @@ bool HorseFallAction::init_(sead::Heap* heap) {
 }
 
 void HorseFallAction::enter_(ksys::act::ai::InlineParamPack* params) {
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!rideable) {
         setFailed();
         return;

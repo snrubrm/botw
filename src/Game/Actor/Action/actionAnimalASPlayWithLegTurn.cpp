@@ -62,7 +62,7 @@ void AnimalASPlayWithLegTurn::calc_() {
     } else {
         auto* as_list = mActor->getASList();
         auto* controller = mActor->getCharacterController();
-        auto* rideable = mActor->m132();
+        auto* rideable = mActor->getRideableMaybe();
         if (as_list && controller && rideable) {
             if (_198 & 2) {
                 uking::act::sub_7100E7F4FC(as_list, controller, 1.0f);

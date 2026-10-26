@@ -155,7 +155,7 @@ Rideable::Gear RideableHorse::m23() {
     return Rideable::m23();
 }
 
-f32 RideableHorse::m12() {
+f32 RideableHorse::getRunnableFramesAtGearTop() {
     return RideableBase::mActor->getParam()->getRes().mGParamList->getHorse()->mRunnableFramesAtGearTop.ref();
 }
 

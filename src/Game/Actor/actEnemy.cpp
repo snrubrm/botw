@@ -450,7 +450,7 @@ Rideable* Enemy::getHorseOptionsMaybe() {
     return sead::DynamicCast<Rideable>(_1168);
 }
 
-RideableBase* Enemy::m132() {
+RideableBase* Enemy::getRideableMaybe() {
     return _1168;
 }
 

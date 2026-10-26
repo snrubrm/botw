@@ -21,7 +21,7 @@ void HorseWaitForEventAction::enter_(ksys::act::ai::InlineParamPack* params) {
         return;
 
     sub_7100E5AD10();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (*mHasToCue_d && *mIsNoMorph_d) {
         mActor->getASList()->sub_710115B01C(0, 0, true);
         mActor->getASList()->startAnimationMaybe(0.0f, -1.0f, act::sUnk_7102603110, 0, 0, true);
@@ -66,7 +66,7 @@ void HorseWaitForEventAction::sub_7100E5AD10() {
 
 void HorseWaitForEventAction::calc_() {
     sub_7100E5AD10();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     auto* as_list = mActor->getASList();
     if (auto* controller = mActor->getCharacterController())
         act::sub_7100E7F698(rideable, as_list, controller);

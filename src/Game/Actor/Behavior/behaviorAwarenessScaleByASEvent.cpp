@@ -17,7 +17,7 @@ bool AwarenessScaleByASEvent::init_(sead::Heap* heap) {
 }
 
 void AwarenessScaleByASEvent::calc() {
-    if (auto* rideable = mActor->m132())
+    if (auto* rideable = mActor->getRideableMaybe())
         rideable->m9();
     if (auto* awareness = mActor->getAwareness()) {
         ksys::as::ASList::Unk4 query;

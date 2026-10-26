@@ -392,7 +392,7 @@ void AnimalEscapeAI::sub_7100306664(const sead::Vector3f& direction) {
 
 // NON_MATCHING: the final store of the rideable direction (the original stores x / y per branch and z once).
 bool AnimalEscapeAI::m34(const sead::Vector3f* pos) {
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     sead::Vector3f dir = mActor->getMtx().getTranslation() - *mTargetPos_d;
 
     if (!(_114.isNan() || _114 == sead::Vector3f(0.0f, 0.0f, 0.0f))) {

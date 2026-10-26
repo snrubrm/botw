@@ -78,7 +78,7 @@ void GiantSleep::calc_() {
 void GiantSleep::m32() {
     if (mASName_s.isEmpty())
         return;
-    if (auto* rideable = mActor->m132())
+    if (auto* rideable = mActor->getRideableMaybe())
         rideable->_18.sub_7100E786F0(mASName_s.cstr());
     else
         playAS(mASName_s.cstr(), false, 0, 0, -1.0f);

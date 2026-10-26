@@ -7,7 +7,7 @@
 
 bool sub_71006F1DF0(ksys::act::Actor* actor, const sead::Vector3f& pos) {
     auto* mgr = uking::AutoPlacementMgr::instance();
-    if (mgr && actor->m132() && !ksys::act::hasTag(actor, ksys::act::tags::AnimalTypeDomestic) &&
+    if (mgr && actor->getRideableMaybe() && !ksys::act::hasTag(actor, ksys::act::tags::AnimalTypeDomestic) &&
         mgr->isNonAutoPlacement(pos, false)) {
         return true;
     }

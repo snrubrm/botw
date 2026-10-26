@@ -311,7 +311,7 @@ public:
     void* m119() override;
     HorseRideInfo* getPlayerRideInfo() override;
     Rideable* getHorseOptionsMaybe() override;
-    RideableBase* m132() override;
+    RideableBase* getRideableMaybe() override;
     Unk_7100e8b2b8* getMotorcyclePriorityStuffMaybe() override;
     ksys::act::LifeRecoverInfo* getLifeRecoverInfo() override;
     Actor* m141(const s32* index) override;

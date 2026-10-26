@@ -26,7 +26,7 @@ void DeleteInGround::enter_(ksys::act::ai::InlineParamPack* params) {
     if (mASName_s.isEmpty()) {
         mActor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
         setFinished();
-    } else if (auto* rideable = mActor->m132()) {
+    } else if (auto* rideable = mActor->getRideableMaybe()) {
         rideable->_18.sub_7100E786F0(mASName_s);
     } else {
         playAS(mASName_s.cstr(), false, 0, 0, -1.0f);

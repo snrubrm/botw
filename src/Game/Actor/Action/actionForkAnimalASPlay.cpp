@@ -16,7 +16,7 @@ bool ForkAnimalASPlay::init_(sead::Heap* heap) {
 void ForkAnimalASPlay::enter_(ksys::act::ai::InlineParamPack* params) {
     auto* as_list = mActor->getASList();
     auto* controller = mActor->getCharacterController();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!as_list || !controller || !rideable) {
         setFailed();
         return;
@@ -76,7 +76,7 @@ void ForkAnimalASPlay::sub_710013D91C() {
     if (auto* list = mActor->getASList()) {
         const s32 gear = *mSelectNextGear_s;
         if (gear >= 0) {
-            if (auto* rideable = mActor->m132()) {
+            if (auto* rideable = mActor->getRideableMaybe()) {
                 const s32 type = *mSelectNextGearType_s;
                 rideable->sub_7100E63224(type >= 1 && type <= 5 ? u32(type) : 0, u32(gear));
                 list->x_6(1, 0, 0.0f);

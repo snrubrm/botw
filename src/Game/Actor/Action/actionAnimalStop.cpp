@@ -17,7 +17,7 @@ bool AnimalStop::init_(sead::Heap* heap) {
 void AnimalStop::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseWaitAction::enter_(params);
     auto* asl = mActor->getASList();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!asl || !rideable) {
         setFailed();
         return;
@@ -28,7 +28,7 @@ void AnimalStop::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void AnimalStop::leave_() {
     HorseWaitAction::leave_();
-    if (auto* rideable = mActor->m132())
+    if (auto* rideable = mActor->getRideableMaybe())
         rideable->sub_7100E63424();
 }
 

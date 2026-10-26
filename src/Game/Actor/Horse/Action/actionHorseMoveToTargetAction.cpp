@@ -12,7 +12,7 @@ bool HorseMoveToTargetAction::init_(sead::Heap* heap) {
 
 void HorseMoveToTargetAction::enter_(ksys::act::ai::InlineParamPack* params) {
     AnimalMoveGuidedBase::enter_(params);
-    mActor->m132();                      // discarded call
+    mActor->getRideableMaybe();                      // discarded call
     mActor->getCharacterController();  // discarded call
     if (auto* nav = mActor->m45()) {
         if (*mIsCancelRequestedPathFirst_s)

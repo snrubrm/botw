@@ -42,7 +42,7 @@ void HorseWaitThrowOffAction::loadParams_() {
 
 void HorseWaitThrowOffAction::calc_() {
     auto* as_list = mActor->getASList();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     as_list->x_6(1, 0, 0.0f);
     as_list->x_6(2, 0, 0.0f);
     as_list->x_6(9, 0, 0.0f);

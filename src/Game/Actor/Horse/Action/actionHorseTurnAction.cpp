@@ -21,7 +21,7 @@ bool HorseTurnAction::init_(sead::Heap* heap) {
 void HorseTurnAction::enter_(ksys::act::ai::InlineParamPack* params) {
     mFlags.set(Flag::Changeable);
     auto* controller = mActor->getCharacterController();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!controller || !rideable) {
         setFailed();
         return;
@@ -50,7 +50,7 @@ void HorseTurnAction::enter_(ksys::act::ai::InlineParamPack* params) {
 }
 
 void HorseTurnAction::leave_() {
-    if (auto* rideable = mActor->m132())
+    if (auto* rideable = mActor->getRideableMaybe())
         rideable->_18.sub_7100E770C4(false);
 }
 
@@ -63,7 +63,7 @@ void HorseTurnAction::loadParams_() {
 // NON_MATCHING: the dot-product clamp (as in enter_) and this / controller register swap.
 void HorseTurnAction::calc_() {
     auto* controller = mActor->getCharacterController();
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!controller || !rideable) {
         setFailed();
         return;

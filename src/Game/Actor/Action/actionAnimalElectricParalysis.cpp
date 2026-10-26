@@ -19,8 +19,8 @@ void AnimalElectricParalysis::enter_(ksys::act::ai::InlineParamPack* params) {
     HorseElectricParalysis::enter_(params);
     if (mASName_s.isEmpty())
         return;
-    if (mActor->m132())
-        mActor->m132()->_18.sub_7100E786F0(mASName_s);
+    if (mActor->getRideableMaybe())
+        mActor->getRideableMaybe()->_18.sub_7100E786F0(mASName_s);
     else
         playAS(mASName_s.cstr(), true, 0, 0, -1.0f);
 }

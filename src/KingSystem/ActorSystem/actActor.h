@@ -689,7 +689,7 @@ public:
     virtual PlayerLink* m129();
     virtual uking::act::HorseRideInfo* getPlayerRideInfo();
     virtual uking::act::Rideable* getHorseOptionsMaybe();
-    virtual uking::act::RideableBase* m132();
+    virtual uking::act::RideableBase* getRideableMaybe();
     virtual uking::act::Unk_7100e8b2b8* getMotorcyclePriorityStuffMaybe();
     virtual Unk_71025ae620* getDropData();
     DropData* makeDropData(sead::Heap* heap);

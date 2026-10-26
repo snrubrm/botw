@@ -90,7 +90,7 @@ void LynelNavMoveTarget::calc_() {
 void LynelNavMoveTarget::m34() {
     // Whether the rider's gear is at most StopGear.
     const auto isAtStopGear = [this] {
-        auto* rideable = mActor->m132();
+        auto* rideable = mActor->getRideableMaybe();
         if (!rideable)
             return false;
         const act::Rideable::Gear gear(

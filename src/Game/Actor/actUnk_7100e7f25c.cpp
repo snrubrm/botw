@@ -8,7 +8,7 @@
 void sub_7100E7F25C(ksys::as::ASList* list, ksys::act::Actor* actor, s32 slot, s32 bank,
                    s32 other_bank) {
     if (other_bank < 0) {
-        if (auto* rideable = actor->m132())
+        if (auto* rideable = actor->getRideableMaybe())
             other_bank = rideable->_18._9 ? rideable->_18._2e : rideable->_18.sub_7100E76CEC();
         else
             other_bank = 0;

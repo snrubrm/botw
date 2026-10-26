@@ -25,7 +25,7 @@ bool AnimalMoveBase::init_(sead::Heap* heap) {
 
 void AnimalMoveBase::enter_(ksys::act::ai::InlineParamPack* params) {
     mFlags.set(Flag::Changeable);
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!rideable) {
         setFailed();
         return;
@@ -64,7 +64,7 @@ void AnimalMoveBase::loadParams_() {
 
 // NON_MATCHING: gear source enums and repeated table lookup / clamp scheduling differ.
 void AnimalMoveBase::calc_() {
-    auto* rideable = mActor->m132();
+    auto* rideable = mActor->getRideableMaybe();
     if (!rideable) {
         setFailed();
         return;
@@ -112,7 +112,7 @@ void AnimalMoveBase::calc_() {
         if (input_gear > 0)
             requested_gear = input_gear;
     }
-    requested_gear = sead::Mathi::min(requested_gear, rideable->_168);
+    requested_gear = sead::Mathi::min(requested_gear, rideable->mGearMaxNum);
     if (*mHasToDecelerateNearGoal_s) {
         s32 row = gear_type;
         const auto* speed_entry = &act::sUnk_7102603058;

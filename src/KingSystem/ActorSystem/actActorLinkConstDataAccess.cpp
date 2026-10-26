@@ -664,7 +664,7 @@ u64 ActorLinkConstDataAccess::sub_7100D1443C() const {
     auto* actor = getActor();
     if (!actor)
         return 0;
-    auto* rideable = actor->m132();
+    auto* rideable = actor->getRideableMaybe();
     if (!rideable)
         return 0;
     return rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b;
@@ -1528,7 +1528,7 @@ u64 ActorLinkConstDataAccess::sub_7100D142E0() const {
     auto* rider_actor = rider.getActor();
     if (!rider_actor)
         return 0;
-    auto* rideable = rider_actor->m132();
+    auto* rideable = rider_actor->getRideableMaybe();
     if (!rideable)
         return 0;
     return rideable->_18._b == 0 ? rideable->_18._9 : rideable->_18._b;

@@ -108,7 +108,7 @@ void HorseDie::calc_() {
         } else if (index >= 0) {
             mActor->getPhysics()->sub_7100FBDB90(index, -1.0f);
         } else if (controller && controller->sub_7100F5E954()) {
-            act::sub_7100E7F698(mActor->m132(), mActor->getASList(), controller);
+            act::sub_7100E7F698(mActor->getRideableMaybe(), mActor->getASList(), controller);
         }
     } else if (controller && controller->sub_7100F5E954()) {
         controller->sub_7100F5EC44();
