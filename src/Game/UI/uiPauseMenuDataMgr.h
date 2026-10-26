@@ -450,6 +450,9 @@ public:
     // FIXME: types
     bool useItemFromRecipeAndSave(void* unk, int multiplier, PouchItem* item);
 
+    /// Uses the ingredients of the recipe with the specified item name and saves the inventory.
+    bool useItemFromRecipeAndSave(const sead::SafeString& name, int multiplier, PouchItem* item);
+
     void grabbedItemStuff(PouchItem* item);
 
 private:

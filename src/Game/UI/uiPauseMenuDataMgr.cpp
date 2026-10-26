@@ -9,6 +9,7 @@
 #include "Game/Actor/actWeapon.h"
 #include "Game/Cooking/cookManager.h"
 #include "KingSystem/AOC/aocManager.h"
+#include "Game/UI/uiRecipe.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameItemUtils.h"
 #include "Game/Scene/gameScene.h"
@@ -3086,6 +3087,17 @@ void PauseMenuDataMgr::unequip(PouchItem* item) {
 bool PauseMenuDataMgr::useItemFromRecipeAndSave(void* unk, int multiplier, PouchItem* item) {
     auto lock = sead::makeScopedLock(mCritSection);
     useItemFromRecipe(&mItemLists, unk, multiplier, item);
+    saveToGameData(getItems());
+    return true;
+}
+
+// 0x7100979804: same as above, but takes the recipe's item name and resolves its ingredients first.
+bool PauseMenuDataMgr::useItemFromRecipeAndSave(const sead::SafeString& name, int multiplier,
+                                                PouchItem* item) {
+    RecipeItems items;
+    sub_7100A91784(&items, name);
+    auto lock = sead::makeScopedLock(mCritSection);
+    useItemFromRecipe(&mItemLists, &items, multiplier, item);
     saveToGameData(getItems());
     return true;
 }
