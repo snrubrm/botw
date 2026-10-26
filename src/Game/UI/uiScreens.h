@@ -4595,6 +4595,10 @@ public:
     // 0x7100a10cd4: disables every animator of the screen
     void m101() override;
 
+    // 0x7100a10200 (CSV ScreenMainHorse::x; declared only): opens the screen when the ridden horse has a full
+    // gear set and the ride link is active
+    void x();
+
     // 0x3610: the animator table. The constructor zeroes the whole 0x1f8-byte block from its body (one memset
     // at 0x7100a100e0, after the scalar member initialisers).
     struct Animators {

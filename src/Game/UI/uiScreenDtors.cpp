@@ -1,5 +1,9 @@
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/actHorseRideInfo.h"
+#include "Game/Actor/actRideable.h"
 
 // The trivial destructors of the Screen<Name> classes (defaulted: they tail-call ScreenEx's). Defining them here
 // emits the vtables / RTTI of these classes in this TU.
@@ -33,6 +37,31 @@ void ScreenMainHorse::m101() {
     _3810->disableKeepLinked();
     _3818->disableKeepLinked();
     _3820->disableKeepLinked();
+}
+
+// 0x7100a10200 (CSV ScreenMainHorse::x): opens the screen when the ridden horse has more than three gears and
+// some runnable frames at the top gear, and the ride link is fully set up.
+// NON_MATCHING: the gear-limit compare is `cmp #4; b.lt` here, the original tests `cmp #3; b.le` (the same
+// predicate; clang canonicalises `<= 3` on an immediate). Everything else (frame, enum stack round trip,
+// branch layout, tail call) matches.
+void ScreenMainHorse::x() {
+    if (u32(mState - 1) > 1) {
+        auto* horse = uking::act::PlayerInfo::instance()->getRiddenHorse();
+        if (!horse)
+            return;
+        if (auto* rideable = horse->getRideableMaybe()) {
+            const uking::act::RideableBase::S1::UnkGear limit = rideable->mGearMaxNum;
+            if (!(int(limit) > 3 && rideable->getRunnableFramesAtGearTop() > 0.0f))
+                return;
+        }
+        if (auto* player = uking::act::PlayerInfo::instance()->getPlayer_()) {
+            if (auto* ride_info = player->getPlayerRideInfo()) {
+                if ((ride_info->_30 & 3) != 3)
+                    return;
+            }
+        }
+        open(1);
+    }
 }
 
 // 0x7100a102cc
