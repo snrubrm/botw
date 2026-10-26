@@ -37,6 +37,10 @@ class ActorLinkConstDataAccess;
 class BaseProc;
 }  // namespace ksys::act
 
+namespace ksys::phys {
+class NavMeshCharacter;
+}
+
 class Unk_7102450fa8;
 
 class Unk_7102450fe0;
@@ -282,6 +286,8 @@ public:
     bool isFlagOn(Flag flag) const { return _1d0.isOnBit(flag); }
     // inline-only in the original; name is a guess (m5: the flag index temporary shares the accessor's stack slot)
     void setFlag(Flag flag) { _1d0.setBit(flag); }
+    // inline-only in the original; name is a guess (sub_7100717440 clears flag 0 through a by-value enum)
+    void resetFlag(Flag flag) { _1d0.resetBit(flag); }
 
     // 0x710071b5ec / 0x710071b6a4: m11 table callbacks (per member update).
     static void sub_710071B5EC(Unk_7102450fe0* self, s32 idx);
@@ -297,6 +303,10 @@ public:
     bool sub_710071B8C4();
     // 0x710071ba04: whether any member is in `state`
     bool sub_710071BA04(Step state) const;
+    // 0x710071bab0: probes the navmesh from the player towards `in` and writes the hit point to `out`;
+    // false when the probe fails. (Placeholder name; the body is still undecompiled.)
+    bool sub_710071BAB0(sead::Vector3f* out, ksys::phys::NavMeshCharacter* nav,
+                        const sead::Vector3f& in);
 
     // inline-only in the original; name is a guess (m5, sub_710071AECC (twice): the same nine unrolled resets, with the
     // step loaded once)

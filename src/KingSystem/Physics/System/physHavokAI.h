@@ -418,6 +418,20 @@ public:
     };
     static_assert(sizeof(Unk2) == 0x38);
 
+    // Element of the twelve-way path query (sub_7100F842A8): the same leading fields as Unk2 without
+    // the trailing word the point query passes on. 0x34 bytes, so a SafeArray of them has stride 0x34.
+    struct Unk3 {
+        sead::Vector3f from{std::numeric_limits<f32>::quiet_NaN(), std::numeric_limits<f32>::quiet_NaN(),
+                            std::numeric_limits<f32>::quiet_NaN()};
+        f32 tolerance = -1.0f;
+        sead::Vector3f _10 = sead::Vector3f::zero;
+        sead::Vector3f dir = sead::Vector3f::ex;
+        f32 distance = -1.0f;
+        f32 radius = sUnk_7101ec27f8;
+        u8 _30 = 0xff;
+    };
+    static_assert(sizeof(Unk3) == 0x34);
+
     // 0x7100f86324: runs sub_7100F86334 on `query` for the character `nav`, with `&query._34` added;
     // `result` may be null. True if it hit.
     bool sub_7100F86324(NavMeshCharacter* nav, const Unk2& query, Unk1* result);
@@ -465,14 +479,14 @@ public:
                                   NavMeshCharacter* nav, const sead::Vector3f& to, f32 a3);
 
     // 0x7100f842a8 (unnamed): the _90 / _c8 dispatcher for the path queries 0xf84484 / 0xf84910.
-    // The argument list is inferred from the call site 0x71007428ec: nav, an output vector, an
-    // unused pointer (0), a second vector, a flag, a stack result block and an unused pointer.
-    bool sub_7100F842A8(NavMeshCharacter* nav, sead::Vector3f* out, const void* a,
-                        const void* b, u64 flag, void* result, const void* user);
-    bool sub_7100F84484(NavMeshCharacter* nav, sead::Vector3f* out, const void* a,
-                        const void* b, u64 flag, void* result, const void* user);
-    bool sub_7100F84910(NavMeshCharacter* nav, sead::Vector3f* out, const void* a,
-                        const void* b, u64 flag, void* result, const void* user);
+    // Runs the queries from `a` up to `count` over the 0x34-byte records at `queries` and writes one
+    // Unk1 per query to `results`; `a` and `queries2` are unused by both bodies.
+    bool sub_7100F842A8(NavMeshCharacter* nav, const Unk3* queries, const void* a, const Unk3* queries2,
+                        u64 count, Unk1* results, const void* user);
+    bool sub_7100F84484(NavMeshCharacter* nav, const Unk3* queries, const void* a, const Unk3* queries2,
+                        u64 count, Unk1* results, const void* user);
+    bool sub_7100F84910(NavMeshCharacter* nav, const Unk3* queries, const void* a, const Unk3* queries2,
+                        u64 count, Unk1* results, const void* user);
 
     // 0x7100f84d64 / 0x7100f851bc: graph and direct-path queries. The input
     // points retain all four Havok components; the result stores four Vector3f

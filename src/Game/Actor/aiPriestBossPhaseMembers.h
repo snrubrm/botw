@@ -214,7 +214,7 @@ public:
     /* 0x1dc */ f32 _1dc = 0;
     /* 0x1e0 */ sead::Vector3f _1e0 = sead::Vector3f::zero;  // line origin
     /* 0x1ec */ sead::Vector3f _1ec = sead::Vector3f::zero;  // line direction
-    /* 0x1f8 */ u32 _1f8 = 0;
+    /* 0x1f8 */ f32 _1f8 = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7102450ed8, 0x200);
 
