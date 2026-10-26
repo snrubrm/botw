@@ -33,6 +33,13 @@ void GrudgeRenderer::sub_710128F888(agl::DrawContext* context,
 // NON_MATCHING: the original keeps the unit count in a register across the loop; ours rematerialises
 // the load for the latch (register pressure from the loop-invariant compare string). One extra
 // load and a `b.lt` instead of `b.ne`.
+// 0x710128fd48: destroys the unit's uniform block and, when it owns one, its GPU buffer.
+Unk_71025191c8::~Unk_71025191c8() {
+    mUniformBlock.destroy();
+    if (_121 & 1)
+        sub_710128FD94();
+}
+
 // 0x7101290010: scales the unit's stored sizes by the reciprocal of `n`.
 void Unk_71025191c8::sub_7101290010(s32 n) {
     const f32 scale = 1.0f / f32(n);

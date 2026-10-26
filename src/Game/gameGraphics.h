@@ -443,16 +443,21 @@ KSYS_VISIBILITY_HIDDEN extern const f32 cGrudgeResetDistance;
 // sub_7101290010 stores the reciprocal of `n` and that reciprocal scaled by _11c.
 class Unk_71025191c8 : public sead::hostio::Node {
 public:
+    Unk_71025191c8();
     virtual ~Unk_71025191c8();
     void sub_7101290010(s32 n);
+    void sub_710128FD94();
 
 private:
-    u8 _8[0x100 - 0x8];
-    f32 _100;
-    f32 _104;
+    /* 0x08 */ agl::UniformBlock mUniformBlock;
+    u8 _80[0x100 - 0x80];
+    /* 0x100 */ f32 _100;
+    /* 0x104 */ f32 _104;
     u8 _108[0x11c - 0x108];
-    s32 _11c;
-    u8 _120[0x130 - 0x120];
+    /* 0x11c */ s32 _11c;
+    u8 _120[0x121 - 0x120];
+    /* 0x121 */ u8 _121;
+    u8 _122[0x130 - 0x122];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025191c8, 0x130);
 
