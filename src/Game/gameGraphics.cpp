@@ -22,6 +22,10 @@
 #include "KingSystem/Sound/sndSound.h"
 #include <utility/aglDynamicTextureAllocator.h>
 #include <utility/aglPrimitiveTexture.h>
+#include <common/aglShaderProgram.h>
+#include <driver/aglGraphicsDriverMgr.h>
+#include <gfx/seadGraphicsContext.h>
+#include <nvn/nvn_FuncPtrInline.h>
 
 namespace gsys {
 
@@ -695,14 +699,14 @@ void NoiseGauge::updateMaybe() {
     const s32 soundCount = ksys::snd::ExpressionSoundCtrl::instance()->mHandles.size();
     f32 speed = 0.0f;
     if (mFlags & 0x400)
-        speed += mScale * cNoiseGaugeUpdateParams.speedScale;
+        speed += mScale * sNoiseGaugeParams.speedScale;
     if (mFlags & 0x800) {
-        s32 count = soundCount - cNoiseGaugeUpdateParams.soundCountBias;
+        s32 count = soundCount - sNoiseGaugeParams.soundCountBias;
         count = sead::Mathi::max(count, 0);
-        speed += cNoiseGaugeUpdateParams.speedPerSound * f32(count);
+        speed += sNoiseGaugeParams.speedPerSound * f32(count);
     }
 
-    _10 += (speed - _10) * cNoiseGaugeUpdateParams.chaseRate;
+    _10 += (speed - _10) * sNoiseGaugeParams.chaseRate;
     _10 = sead::Mathf::clamp(_10, 0.0f, 1.0f);
 
     const f32 tau = sead::Mathf::pi2();
@@ -731,6 +735,77 @@ void NoiseGauge::toggleUniformBufferMaybe() {
         _3a8 = index;
         mUniformBlock.setBufferIndexMaybe(index);
     }
+}
+
+// 0x7100f208e4 (placeholder name): if the scratch texture has not been allocated yet, allocates it,
+// draws the gauge into it at two line widths and applies it to mSampler.
+// NON_MATCHING: same instructions, but the physical-area normalization selects in the float
+// registers (fcsel s) where the target selects the float bits in the integer registers (csel w),
+// the rest of the frame is 0x10 larger (stack colouring), and the index-stream call arguments are
+// evaluated in a different order. Register/slot allocation only.
+void NoiseGauge::drawMaybe(f32 scale, agl::DrawContext* context) {
+    if (mDynamicTexture)
+        return;
+
+    const f32 gauge_scale =
+        sead::Mathf::clamp(scale * sNoiseGaugeParams.drawScale, 0.1f, 10.0f);
+    const s32 size = s32(gauge_scale * f32(sNoiseGaugeParams.maxTextureSize));
+
+    mDynamicTexture = agl::utl::DynamicTextureAllocator::instance()->alloc(
+        context, "gfx::NoiseGauge", agl::TextureFormat::cTextureFormat_R8_uNorm, size, size, 1,
+        nullptr, agl::utl::DynamicTextureAllocator::AllocateType(0), true, false);
+    mDynamicTexture->setCompSel(agl::TextureCompSel::cTextureCompSel_One,
+                                agl::TextureCompSel::cTextureCompSel_One,
+                                agl::TextureCompSel::cTextureCompSel_One,
+                                agl::TextureCompSel::cTextureCompSel_Red);
+    mDynamicTexture->updateNVNtexture();
+    mSampler.applyTextureData(*mDynamicTexture);
+    mRenderTargetColor.applyTextureData(*mDynamicTexture, mRenderTargetColor.getMipLevel(),
+                                       mRenderTargetColor.getLayer());
+
+    const f32 extent = f32(size);
+    const f32 width1 = gauge_scale * sNoiseGaugeParams.lineWidth1;
+    const f32 width2 = gauge_scale * sNoiseGaugeParams.lineWidth2;
+    mRenderBuffer.setVirtualSize(sead::Vector2f(extent, extent));
+    mRenderBuffer.setPhysicalArea(0.0f, 0.0f, extent, extent);
+    mViewport.setByFrameBuffer(mRenderBuffer);
+
+    mRenderBuffer.bind(context);
+    sead::Viewport viewport(mRenderBuffer);
+    mRenderBuffer.fastClear(context, 0, 1, sead::Color4f(0.0f, 0.0f, 0.0f, 0.0f), 1.0f, 0,
+                            viewport, true);
+
+    sead::GraphicsContext graphics_context;
+    graphics_context.setDepthTestEnable(false);
+    graphics_context.setDepthWriteEnable(0);
+    graphics_context.setBlendEnable(true, 0);
+    graphics_context.setBlendControl(0, 2, 2, 2, 2, 1, 1);
+    graphics_context.apply(context);
+
+    agl::ShaderProgram* program = sNoiseGaugeParams.program;
+    program->activate(context, true);
+    const agl::UniformBlockLocation& location = program->getUniformBlockLocation(0);
+    mUniformBlock.setUniform(context, mUniformBlock.getGPUAddressMaybe(), location, 0,
+                             mUniformBlock.getBlockSizeMaybe());
+    mVertexAttribute.activate(context);
+
+    agl::driver::GraphicsDriverMgr::instance()->setLineWidth(context, width1);
+    if (mIndexStream.getIndexCount()) {
+        nvnCommandBufferDrawElements(context->getCommandBuffer()->ToData()->pNvnCommandBuffer,
+                                     mIndexStream.getPrimitiveType(),
+                                     NVNindexType(mIndexStream.getFormat()),
+                                     mIndexStream.getIndexCount(), mIndexStream.getBufferAddress());
+    }
+
+    agl::driver::GraphicsDriverMgr::instance()->setLineWidth(context, width2);
+    if (mIndexStream.getIndexCount()) {
+        nvnCommandBufferDrawElements(context->getCommandBuffer()->ToData()->pNvnCommandBuffer,
+                                     mIndexStream.getPrimitiveType(),
+                                     NVNindexType(mIndexStream.getFormat()),
+                                     mIndexStream.getIndexCount(), mIndexStream.getBufferAddress());
+    }
+
+    mRenderTargetColor.invalidateGPUCache(context);
 }
 
 // 0x7100f20c88: frees the noise gauge's scratch texture and puts the Black2D sampler (mSamplers[2],

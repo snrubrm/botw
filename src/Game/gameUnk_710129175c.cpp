@@ -9,9 +9,9 @@ namespace gfx {
 KSYS_VISIBILITY_HIDDEN extern const f32 cNoiseGaugeAmplitude = 0.1f;
 // 0x71024f4390: the parameter word uploaded by 0x7100f20774, in the same data block.
 KSYS_VISIBILITY_HIDDEN extern const f32 cNoiseGaugeUnk0Maybe = 0.15f;
-// 0x71024f43e0: the noise gauge's per-frame update constants.
-KSYS_VISIBILITY_HIDDEN extern const NoiseGaugeUpdateParams cNoiseGaugeUpdateParams = {0.8f, 0.02f, 1,
-                                                                                    0.3f};
+// 0x71024f43e0: the noise gauge's update and draw constants and its shader program.
+KSYS_VISIBILITY_HIDDEN extern NoiseGaugeParams sNoiseGaugeParams = {
+    0.8f, 0.02f, 1, 0.3f, 1.0f, 64, 1.0f, 2.0f, 0, {}, nullptr};
 // 0x710260af30: a bss word that the original only reads (the gauge angle speed).
 KSYS_VISIBILITY_HIDDEN extern f32 cNoiseGaugeAngleSpeedMaybe = 0.0f;
 }  // namespace gfx

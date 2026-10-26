@@ -599,18 +599,30 @@ public:
 };
 }  // namespace gsys
 
+namespace agl {
+class ShaderProgram;
+}  // namespace agl
+
 namespace gfx {
 
-// 0x71024f43e0: the noise gauge's per-frame update constants.
-struct NoiseGaugeUpdateParams {
-    f32 speedScale;
-    f32 speedPerSound;
-    s32 soundCountBias;
-    f32 chaseRate;
+// 0x71024f43e0: the noise gauge's per-frame update constants, the draw constants and the gauge's
+// shader program (stored at +0x28 by the setup at 0x7100f1fe6c).
+struct NoiseGaugeParams {
+    f32 speedScale;                 // +0x00
+    f32 speedPerSound;              // +0x04
+    s32 soundCountBias;             // +0x08
+    f32 chaseRate;                  // +0x0c
+    f32 drawScale;                  // +0x10
+    s32 maxTextureSize;             // +0x14
+    f32 lineWidth2;                 // +0x18
+    f32 lineWidth1;                 // +0x1c
+    s32 uniformCreated;             // +0x20
+    u8 _24[4];                      // +0x24
+    agl::ShaderProgram* program;    // +0x28
 };
-// 0x71024f43e0 (defined in gameUnk_710129175c.cpp): hidden-visibility constant, so the load is a
-// direct adrp + ldr rather than a folded literal.
-KSYS_VISIBILITY_HIDDEN extern const NoiseGaugeUpdateParams cNoiseGaugeUpdateParams;
+// 0x71024f43e0 (defined in gameUnk_710129175c.cpp): hidden visibility, so the loads are a direct
+// adrp + ldr rather than a folded literal.
+KSYS_VISIBILITY_HIDDEN extern NoiseGaugeParams sNoiseGaugeParams;
 // 0x710260af30 is a bss word that the original never writes; defined in the same file.
 KSYS_VISIBILITY_HIDDEN extern f32 cNoiseGaugeAngleSpeedMaybe;
 
