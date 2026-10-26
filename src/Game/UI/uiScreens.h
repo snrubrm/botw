@@ -1487,6 +1487,9 @@ public:
     // 0x7100a1b764 (placeholder name): opens / closes the clock child and refreshes its T_Time_00 text when the
     // cached hour / minute changed (called by m94).
     void sub_7100A1B764();
+    // 0x7100a1b8d4 (placeholder name): closes the main layout or sends its close animation, then stops the animator
+    // at the UI play speed and passes that speed to the noise gauge (called by m94).
+    void x_1();
 };
 
 // The MessageTips screen (members from 0x300 recovered from the constructor).
@@ -6971,6 +6974,8 @@ void sub_7100AA930C(eui::LayoutEx* layout, const sead::SafeString& pane_name, s3
 
 // 0x7100aa948c (declared only)
 bool sub_7100AA948C();
+// 0x7100a9b79c (defined in uiManagerFacade.cpp): the UI play-speed factor (0 when the manager is gone)
+f32 sub_7100A9B79C();
 // 0x7100a9a9f4 (uiScreenFacade.cpp): whether the UI is in the state that allows the pause menu
 bool sub_7100A9A9F4();
 // 0x7100a1b9d0 (placeholder name; ScreenMainScreen TU): opens the DLC energy meter while the Master Cycle is out

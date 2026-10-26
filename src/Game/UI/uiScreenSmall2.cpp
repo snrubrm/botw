@@ -1603,6 +1603,28 @@ void ScreenMainScreen::sub_7100A1B764() {
     setWidgetString(_36e0->mLayout, sead::SafeString("T_Time_00"), text);
 }
 
+// 0x7100a1b8d4 (placeholder name): while the main layout and its animator exist, sends the layout's close
+// animation while the portable-unit flag is set (or its close request otherwise), then stops the animator at half
+// the UI play speed and passes that speed to the noise gauge.
+void ScreenMainScreen::x_1() {
+    if (!_3930 || !_3938)
+        return;
+
+    if (!getMainScreenOnOff() && sub_7100AA948C() && ksys::gdt::getFlag_IsGet_PortableUnit(false)) {
+        const u8 state = _3930->_91;
+        if (state == 3 || state == 0)
+            _3930->sub_7100BDDE7C(false, 0, true);
+    } else {
+        if (_3930->_91 - 1u < 2u)
+            _3930->startAnimCloseImpl_(false, true);
+    }
+
+    const f32 frame_size = f32(_3938->GetFrameSize());
+    const f32 frame = frame_size * (sub_7100A9B79C() * 0.5f);
+    _3938->Stop(sead::Mathf::clamp(frame, 0.0f, frame_size));
+    Graphics::instance()->getNoiseGaugeMaybe()->setScaleMaybe(sub_7100A9B79C());
+}
+
 // 0x7100a17ff4
 ScreenMainScreen::~ScreenMainScreen() = default;
 
