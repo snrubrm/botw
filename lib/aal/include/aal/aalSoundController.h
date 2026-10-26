@@ -80,8 +80,9 @@ public:
     void initialize(sead::Heap* heap);
     void finalize();
     void reset();
-    // 0x7100ba1fb4: checks the asset type and retains the description.
-    StartResult setAssetInfo(const AssetInfo& asset);
+    // 0x7100ba1fb4: checks the asset type and retains the description. The native
+    // returns a 64-bit code (success writes x0, the error codes write w0).
+    s64 setAssetInfo(const AssetInfo& asset);
     void calc();
     bool start(f32 fade_time, bool prepare);
     /// Fades the sound out; the controller counts as released (state 3) once the fade has been started.

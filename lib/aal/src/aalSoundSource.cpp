@@ -60,7 +60,8 @@ StartResult SoundSource::setup(const AssetInfo& asset, const SetupInfo* setup) {
         mSoundGroup = SystemAccessor::getGroupMgr()->getDefaultSoundGroup();
     if (mSoundGroup->getEmitFlags() != 0xff)
         return StartResult(3);
-    const StartResult result = mPlayingStateController->mSoundController->setAssetInfo(asset);
+    const StartResult result =
+        static_cast<StartResult>(mPlayingStateController->mSoundController->setAssetInfo(asset));
     if (result > StartResult::Success)
         return result;
     if (setup) {
