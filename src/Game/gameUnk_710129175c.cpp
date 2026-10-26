@@ -2,6 +2,7 @@
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelScene.h>
 #include <gsys/gsysRenderBufferContext.h>
+#include <gsys/gsysGBuffer.h>
 #include <gsys/gsysModelUnit.h>
 #include <common/aglShaderProgramArchive.h>
 
@@ -51,6 +52,33 @@ Unk_7101293bac::~Unk_7101293bac() {}
 
 void Unk_7101293bac::sub_7101293C9C(s32, sead::Heap* heap) {
     mPage.setUp(1, "ItemFilter", heap);
+}
+
+// 0x7101293ce8: stores the filter value and, for a non-zero index, selects the named units and
+// sets the GBuffer material-id mask.
+// NON_MATCHING: clang lowers the three-case switch to a jump table; the original extracts the
+// per-case byte from one packed word with a variable shift and csinv.
+void Unk_7101293bac::sub_7101293CE8(u32 index, u8 value, gsys::ModelScene* scene) {
+    _250 = value;
+    if (index != 0) {
+        u8 mask = 0xff;
+        switch (index) {
+        case 1:
+            mask = 0x0b;
+            break;
+        case 2:
+            mask = 0x0c;
+            break;
+        case 3:
+            mask = 0x98;
+            break;
+        }
+        sub_7101293D68(index, scene);
+        scene->mBuffer.getRenderBufferContext()
+            ->getContext(0)
+            ->mGBuffer->setMaterialIdMask(gsys::GBuffer::MaterialIdMask(3), mask);
+    }
+    _8 = index;
 }
 
 // 0x7101293fc0: fades the item-filter alpha towards 1 or 0 with the scene's rain ratio, then

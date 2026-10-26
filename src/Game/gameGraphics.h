@@ -677,6 +677,8 @@ public:
     void sub_7101293D68(u32 index, gsys::ModelScene* scene);
     // 0x7101293fc0: fades the item-filter alpha with the scene's rain ratio and applies it.
     void sub_7101293FC0();
+    // 0x7101293ce8: selects filter index `index` and its GBuffer material-id mask.
+    void sub_7101293CE8(u32 index, u8 value, gsys::ModelScene* scene);
     s32 _8;
     sead::BitFlag32 mFlags;
     agl::utl::DebugTexturePage mPage;
