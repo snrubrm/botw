@@ -8,6 +8,7 @@
 #include <nn/g3d/ResMaterial.h>
 #include <nn/g3d/ResModel.h>
 #include <math/seadMathCalcCommon.h>
+#include <prim/seadDelegate.h>
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 // GrudgeRenderer's TU (0x710128d348 .. 0x71012915b8). Only this helper is decompiled so far.
@@ -33,6 +34,8 @@ void GrudgeRenderer::sub_710128F4BC(const sead::Camera* camera) {
     _264 = cGrudgeResetDistance;
     _268->requestDraw();
 }
+
+template class sead::Delegate1<GrudgeRenderer, ksys::res::TextureHandleList::Entry*>;
 
 // 0x710128f9a4: sorts the grudge unit arrays by address (the compare callback of their sort).
 s32 sub_710128F9A4(const void* a, const void* b) {
