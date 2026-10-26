@@ -212,8 +212,6 @@ void DamageManagerBase::preDelete1() {
     }
 }
 
-// NON_MATCHING: the z delta's subtraction is scheduled one slot before the out->x store here and
-// after it in the original; the operations are the same.
 bool DamageManagerBase::m29(sead::Vector3f* out) {
     auto* attacker = getAttacker();
     f32 length = 0.0f;
@@ -225,11 +223,11 @@ bool DamageManagerBase::m29(sead::Vector3f* out) {
             accessor.getActorMtx().getTranslation() - accessor.getVelocity();
         const sead::Vector3f actor_delta = mActor->getMtx().getTranslation() - mActor->getVelocity();
 
-        sead::Vector3f dir = actor_delta - attacker_delta;
-        dir.y = 0.0f;
-        *out = dir;
+        out->x = actor_delta.x - attacker_delta.x;
+        out->y = 0.0f;
+        out->z = actor_delta.z - attacker_delta.z;
 
-        length = dir.length();
+        length = out->length();
         if (length > 0.0f) {
             const f32 scale = 1.0f / length;
             out->x *= scale;
