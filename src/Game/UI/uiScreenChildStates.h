@@ -134,6 +134,7 @@ static_assert(sizeof(Unk_7102476db8) == 0x160);
 // Embedded event links and control lifetimes remain undecompiled.
 class Unk_7102477110 : public ScreenChildEx {
 public:
+    NN_RUNTIME_TYPEINFO(ScreenChildEx)
     explicit Unk_7102477110(eui::LayoutEx* layout);
     ~Unk_7102477110() override;
     // 0x7100987e84: empty override
@@ -149,7 +150,7 @@ public:
     struct Unk160 {
         u8 _0[0x78];
         EffectEntry effects[5];
-        u8 _118[0x8];
+        /* 0x278 */ UiSubsys1Entry* mTargetPinEntry;
         /* 0x280 */ eui::LayoutEx* mPartsLayout;
         /* 0x288 */ eui::Animator* _288;
         /* 0x290 */ eui::Animator* _290;

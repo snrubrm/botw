@@ -7,6 +7,7 @@
 #include "Game/UI/uiManager.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/uiScreenChildStates.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include <prim/seadSafeString.h>
 #include "Game/UI/uiUtils.h"
@@ -606,6 +607,17 @@ bool sub_7100A9A4E8(s32 a0) {
     if (auto* s = UiSubsys1::instance())
         return s->sub_7100964A0C(a0);
     return false;
+}
+
+// 0x7100a9a5a0 (placeholder name): the map pin entry the MainScreen guide arrow points at
+// NON_MATCHING: the original inlines Unk_7102477110::GetRuntimeTypeInfoStatic into the nn::font::DynamicCast
+// (guard block at the call site); our clang 4 emits an out-of-line call to the getter and keeps the result in a
+// callee-saved register (the same m family as the other screen widgets).
+UiSubsys1Entry* sub_7100A9A5A0() {
+    auto* child = nn::font::DynamicCast<Unk_7102477110>(getScreenWidgetMaybe(ScreenId::MainScreen, 1));
+    if (!child)
+        return nullptr;
+    return child->_160.mTargetPinEntry;
 }
 
 // 0x7100a9a644
