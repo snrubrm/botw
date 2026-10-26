@@ -837,7 +837,13 @@ public:
         u8 _0[0x11];
         /* 0x11 */ u8 mQuality;  // shadow quality index (1..4), set from Graphics' shadow mode switch
         /* 0x12 */ u16 mFlags;  // bit 8: near distance set manually, bit 9: far distance set manually
-        u8 _14[0x7c - 0x14];
+        // Split distances sub_710128BA24 compares a model's max box extent against.
+        /* 0x14 */ f32 _14;
+        u8 _18[0xc];
+        /* 0x24 */ f32 _24;
+        u8 _28[0xc];
+        /* 0x34 */ f32 _34;
+        u8 _38[0x7c - 0x38];
         /* 0x7c */ sead::Atomic<s32> mChangeCount;  // bumped by incrementChangeCountMaybe
         u8 _80[0x540 - 0x80];
         /* 0x540 */ f32 mShadowNear;
@@ -845,6 +851,9 @@ public:
 
         void setQuality(u32 quality);
         void incrementChangeCountMaybe();
+        // 0x710128ba24: picks the depth-shadow cascade of `unit` from its box extent and the
+        // three split distances.
+        void sub_710128BA24(gsys::ModelUnit* unit, const sead::BoundBox3f& box);
     };
 
     // The debug render texture bank at Unk_378_18 + 0x6b0: two banks of four {TextureData,

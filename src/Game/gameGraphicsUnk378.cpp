@@ -104,6 +104,30 @@ void Graphics::Unk_668::initMaybe(s32 count, sead::Heap* heap) {
     }
 }
 
+// 0x710128ba24: picks the depth-shadow cascade of `unit` from its box extent and the three split
+// distances, disabling the action when the unit falls in the nearest one.
+// NON_MATCHING: the original branches on the split-distance compare and then tests the flag
+// bits (fcmp / b.pl / and / cbnz); ours tests both with one ccmp.
+void Graphics::Unk_a98::sub_710128BA24(gsys::ModelUnit* unit, const sead::BoundBox3f& box) {
+    const sead::Vector3f size = box.getMax() - box.getMin();
+    const f32 xy = size.x > size.y ? size.x : size.y;
+    const f32 extent = xy > size.z ? xy : size.z;
+
+    u32 flags = 7;
+    if (extent < _14)
+        flags &= 6;
+    if (extent < _24)
+        flags &= 5;
+    if (extent < _34) {
+        if ((flags & 3) == 0) {
+            unit->enableRenderViewOption(static_cast<gsys::ModelEnum::RenderViewOption>(flags),
+                                         false, -1);
+            flags = 0;
+        }
+    }
+    unit->sub_7100C3EE8C(u8(flags));
+}
+
 // 0x710128a988 (placeholder name): draws the block's debug grid in the XZ plane when the enable
 // flag is set.
 void Graphics::Unk_378::sub_710128A988(agl::DrawContext* context, u8) {
