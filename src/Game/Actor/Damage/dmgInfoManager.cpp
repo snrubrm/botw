@@ -28,8 +28,68 @@ void DamageInfoMgr::UnkCe0::init(sead::Heap* heap) {
     mLinks.tryAllocBuffer(s32(mCount), heap);
 }
 
+// Clears the tags of the entries whose tag is set (resetting their link), counts the living entries
+// without a tag and stores whether a tag was cleared with no living entry left.
+// NON_MATCHING: the two commutative operations (the tag OR and the final AND) keep their operands in
+// the opposite order; our source order does not change the encoding.
+void DamageInfoMgr::UnkCe0::sub_7100672E48() {
+    s32 count = 0;
+    u32 cleared = 0;
+    if (mCount != 0) {
+        for (s32 i = 0; i < mCount; ++i) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&mLinks[i].mLink, &accessor);
+            Entry& entry = mLinks[i];
+            if (entry.mTag != -1) {
+                cleared |= entry.mTag == 0;
+                entry.mLink.reset();
+                entry.mTag = -1;
+            } else {
+                count += accessor.sub_7100D10E6C(25);
+            }
+        }
+    }
+    _14 = cleared & (count < 1);
+}
+
 void DamageInfoMgr::UnkCe0::sub_710067343C(f32 value) {
-    sub_71006732CC(25, value);
+    sub_71006732CC(value, 25);
+}
+
+// NON_MATCHING: the loop's accumulated flag add keeps its operands in the opposite order (the original
+// adds the count first); the source order of the sum does not change the encoding.
+s32 DamageInfoMgr::UnkCe0::sub_71006732CC(f32 radius, u32 type) {
+    const sead::Vector3f& player_pos = getPlayerPosition();
+    const f32 player_x = player_pos.x;
+    const f32 player_z = player_pos.z;
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (mCount == 0)
+        return 0;
+
+    s32 count = 0;
+    if (radius < 0.0f) {
+        for (s32 i = 0; i < mCount; ++i) {
+            ksys::act::acquireActor(&mLinks[i].mLink, &accessor);
+            if (!accessor.hasProc())
+                continue;
+            count += accessor.sub_7100D10E6C(type);
+        }
+    } else {
+        for (s32 i = 0; i < mCount; ++i) {
+            ksys::act::acquireActor(&mLinks[i].mLink, &accessor);
+            if (!accessor.hasProc())
+                continue;
+            if (!accessor.sub_7100D10E6C(type))
+                continue;
+            const sead::Matrix34f& mtx = accessor.getActorMtx();
+            const f32 dx = mtx(0, 3) - player_x;
+            const f32 dz = mtx(2, 3) - player_z;
+            if (std::sqrt(dx * dx + dz * dz) < radius)
+                ++count;
+        }
+    }
+    return count;
 }
 
 // Whether fewer than GlobalParameter's ForceNoticeEnemyCount listed actors are near `position`. The list is

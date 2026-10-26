@@ -340,15 +340,17 @@ private:
         void init(sead::Heap* heap);
         // 0x7100672e48 (postCalc): declaration only.
         void sub_7100672E48();
-        // 0x71006732cc (declared only): the radius query worker; the wrapper below passes 25.
-        void sub_71006732CC(u32 count, f32 value);
-        // 0x710067343c (placeholder name): tail-calls sub_71006732CC(25, value).
+        // 0x71006732cc: counts the listed actors that pass the flag test (and are nearer than `radius`
+        // when it is not negative) to the player; the wrapper below passes the flag bit 25.
+        s32 sub_71006732CC(f32 radius, u32 type);
+        // 0x710067343c (placeholder name): tail-calls sub_71006732CC(value, 25).
         void sub_710067343C(f32 value);
         bool sub_7100673444(const sead::Vector3f& position) const;
 
         /* 0x00 */ sead::Buffer<Entry> mLinks;
         /* 0x10 */ u32 mCount = 0;
-        u8 _14[4];
+        /* 0x14 */ bool _14 = false;
+        u8 _15[3];
         /* 0x18 */ std::atomic<u32> mLock;
     };
     KSYS_CHECK_SIZE_NX150(UnkCe0, 0x20);
