@@ -19,6 +19,7 @@
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiShopCookInfo.h"
 #include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/Resource/resGameResourceSystem.h"
 #include "KingSystem/Camera/CameraMgr.h"
@@ -305,6 +306,23 @@ void sub_7100A941CC() {
 // 0x7100a941dc
 void sub_7100A941DC() {
     Manager::instance()->sub_7100A79ED4();
+}
+
+// 0x7100a941ec (placeholder name): sets or clears bit 0 of the `_292` word of the Message3D, MainScreen3D,
+// PauseMenuInfo and EnergyMeterDLC screens when they are loaded
+void sub_7100A941EC(bool enable) {
+    if (auto* screen = sead::DynamicCast<Screen>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::Message3D)))
+        screen->_292 = enable ? (screen->_292 | 1) : (screen->_292 & ~1);
+    if (auto* screen = sead::DynamicCast<Screen>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::MainScreen3D)))
+        screen->_292 = enable ? (screen->_292 | 1) : (screen->_292 & ~1);
+    if (auto* screen = sead::DynamicCast<Screen>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::PauseMenuInfo)))
+        screen->_292 = enable ? (screen->_292 | 1) : (screen->_292 & ~1);
+    if (auto* screen = sead::DynamicCast<Screen>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::EnergyMeterDLC)))
+        screen->_292 = enable ? (screen->_292 | 1) : (screen->_292 & ~1);
 }
 
 // 0x7100a94460
@@ -603,6 +621,32 @@ void sub_7100A9D244(f32 value) {
         obj->sub_7100948F48(-value);
     else
         obj->sub_7100948F48(value);
+}
+
+// 0x7100a9d578 (placeholder name): the remaining ratio of the player's champion ability for the hero-soul `name`
+f32 sub_7100A9D578(const sead::SafeString& name) {
+    f32 ratio = 0.0f;
+    auto* info = uking::act::PlayerInfo::instance();
+    if (!info)
+        return ratio;
+    auto* player = info->getPlayer();
+    if (!player)
+        return ratio;
+    switch (sub_7100AA46F0(name)) {
+    case 0:
+    case 10:
+        return player->getRevaliGaleTime() / player->m339();
+    case 1:
+    case 11:
+        return player->m336() / player->m340();
+    case 2:
+    case 12:
+        return player->m337() / player->m341();
+    case 3:
+    case 13:
+        return player->m338() / player->m342();
+    }
+    return ratio;
 }
 
 // 0x7100a9b94c
