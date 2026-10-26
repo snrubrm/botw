@@ -56,6 +56,8 @@ void ActorSystem::insertActiveActor(Actor* actor) {
         mActiveActors.pushBack(actor);
 }
 
+void ActorSystem::sub_7100D5D808() {}
+
 void ActorSystem::eraseFromActiveActorList(Actor* actor) {
     if (!tera::checkTeraSystemStatus()) {
         auto* thread = sead::ThreadMgr::instance()->getCurrentThread();

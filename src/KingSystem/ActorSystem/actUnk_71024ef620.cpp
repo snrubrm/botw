@@ -64,6 +64,8 @@ void Unk_71024ef620::sub_7100EBB60C() {
     _10->triggerScheduledMotionTypeChange();
 }
 
+void Unk_71024ef620::sub_7100EBB670() {}
+
 void Unk_71024ef620::sub_7100EBB624() {
     sead::Vector3f velocity = _10->getLinearVelocity();
     velocity.x = 0.0f;
