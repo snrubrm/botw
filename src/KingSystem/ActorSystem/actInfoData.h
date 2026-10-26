@@ -33,7 +33,8 @@ public:
     struct RecipeInfo {
         struct Item {
             sead::FixedSafeString<64> name;
-            s32 num;
+            // A default-constructed ingredient needs 1 (0x7100a91d4c stores 1 into each of the three items).
+            s32 num = 1;
         };
 
         s32 num_items;

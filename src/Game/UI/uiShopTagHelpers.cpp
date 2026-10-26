@@ -154,6 +154,13 @@ s32 sub_7100A9139C(const ksys::act::ActorLinkConstDataAccess* accessor) {
     return shopBuyRupeeStuff(accessor, &proc_accessor, &value);
 }
 
+// 0x7100a91d4c (placeholder name): whether the player has the recipe's ingredients.
+bool sub_7100A91D4C(const sead::SafeString& actor) {
+    RecipeItems items;
+    sub_7100A91784(&items, actor);
+    return sub_7100A90A34(items);
+}
+
 // 0x7100a91c88 (placeholder name): the info overlay / cannot-buy message for the player's item state.
 // NON_MATCHING: the original tests the cases in the order 7 / 6 / 2; clang 4 merges the compares into a switch
 // and tests them in ascending order. Same instructions otherwise.
