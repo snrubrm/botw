@@ -397,6 +397,17 @@ bool sub_7100A9B1BC() {
     return !mgr || mgr->_64c4d == 0;
 }
 
+// 0x7100a9b2f0 (placeholder name): copies `name` into the MessageGet screen's cached item name (its _3780
+// FixedSafeString<64>); nothing happens while the UI manager or the screen is missing.
+void sub_7100A9B2F0(const sead::SafeString& name) {
+    if (!Manager::instance())
+        return;
+    auto* screen = sead::DynamicCast<ScreenMessageGet>(eui::ScreenMgr::instance()->getScreen(ScreenId::MessageGet));
+    if (!screen)
+        return;
+    screen->_3780.copy(name);
+}
+
 // 0x7100aa9808
 void sub_7100AA9808(nn::ui2d::Pane* pane) {
     if (pane && pane->IsVisible()) {
