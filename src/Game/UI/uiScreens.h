@@ -4893,6 +4893,8 @@ public:
     void m94() override;
     // 0x7100a60650 (placeholder name): starts the first animator if it is not running
     void sub_7100A60650();
+    // 0x7100a604c8 (placeholder name; declared only): fills the window's message from `index` (0..6) and shows it
+    void sub_7100A604C8(s32 index, bool a1);
     /* 0x3610 */ eui::Animator* _3610{};
     /* 0x3618 */ eui::Animator* _3618{};
     SEAD_RTTI_OVERRIDE(ScreenSystemWindowNoBtn, ScreenEx)

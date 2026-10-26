@@ -446,8 +446,9 @@ s32 sub_7100A82DD0(s32 a);
 // 0x7100a82d3c / 0x7100a82d20 (placeholder names): the first item index of a category tab / the tab count.
 s32 sub_7100A82D3C(PouchCategory category);
 s32 sub_7100A82D20();
-// 0x7100aa9570 (placeholder name, declared only): loads the app map screen and selects `category`'s tab.
-void sub_7100AA9570(s32 category, bool a);
+// 0x7100aa9570 (placeholder name, declared only): shows the "no button" system window with message `index` (0..6);
+// false for a bad index or when the screen cannot be loaded
+bool sub_7100AA9570(s32 index, bool a1);
 // 0x7100a82e38 (placeholder name, defined in uiPouchFacade.cpp): whether the player may pick up material items.
 bool sub_7100A82E38();
 // 0x7100a9b9f8 (defined in uiManagerFacade.cpp): sets a bit of the UI manager's global flag set.

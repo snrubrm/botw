@@ -440,6 +440,24 @@ bool sub_7100AA950C(Screen* screen, bool visible) {
     return false;
 }
 
+// 0x7100aa9570 (placeholder name): shows the "no button" system window with message `index` (0..6); false for a bad
+// index or when the screen cannot be loaded
+bool sub_7100AA9570(s32 index, bool a1) {
+    if (u32(index) <= 6) {
+        Manager::instance()->createAndLoadScreenIfNeeded(ScreenId::SystemWindowNoBtn);
+        auto* screen = sead::DynamicCast<ScreenSystemWindowNoBtn>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindowNoBtn));
+        if (screen) {
+            if (a1)
+                screen->sub_7100A604C8(index, true);
+            else
+                screen->sub_7100A604C8(index, false);
+            return true;
+        }
+    }
+    return false;
+}
+
 // NON_MATCHING: identical instructions; the original keeps the magnitude in w10 and the constant 1 in w9 (ours the
 // other way round: abs / fitSign / std::abs / ternary forms give other shapes)
 // 0x7100aa92ac (placeholder name): the signed step (1, 20, 50, 500 or 1000 by the size of the distance) from `from`
