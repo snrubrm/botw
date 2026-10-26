@@ -13,6 +13,9 @@
 #include "KingSystem/World/worldChemicalMgr.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/aiUnk_710072BA90.h"
 
 namespace uking::act {
 
@@ -39,6 +42,83 @@ void Unk_71025ae680::m6() {
     if (!(_a & 3))
         m10();
     _a &= ~0x24;
+}
+
+void Unk_71025ae680::m7() {
+    auto* actor = _10;
+    if (!actor->m50())
+        _a &= ~8;
+    else
+        _a |= 8;
+    _a &= ~0x10;
+
+    sub_71006DF8AC();
+
+    if (auto* chemical = actor->getChemicalStuff()) {
+        if (chemical->_c & 1)
+            _a |= 0x20;
+        else
+            _a &= ~0x20;
+    }
+
+    if (_18 < 0)
+        return;
+    if (sub_71007A26AC(_10) <= _18)
+        return;
+    auto* attack = sub_71007A255C(_10, _18);
+    if (!attack)
+        return;
+    if (sub_71006D7038(actor, attack))
+        return;
+    if (attack->_18 & 9)
+        _a |= 0x10;
+    if (!attack->sub_71007A1F68(0x800) || (attack->_18 & 2))
+        return;
+    if (attack->_18 & 9)
+        sub_7100732664(actor, &attack->_e8, attack->_c0, 1, attack->_f8);
+    else
+        sub_710073278C(actor, &attack->_e8, attack->_c0, 0, attack->_f8);
+}
+
+// NON_MATCHING: the flags array sits at sp+0x2c here, at sp+0x28 in the original (4-byte stack slot
+// difference); every instruction and store is otherwise identical.
+void Unk_71025ae680::sub_71006DF8AC() {
+    auto* actor = _10;
+    _18 = -1;
+    auto* damage_mgr = sub_710072BA90(actor);
+    Unk_7100739634Result result{};
+    result._14 = -1;
+    bool flags[3] = {};
+    auto* chemical = actor->getChemicalStuff();
+    if (!chemical)
+        return;
+
+    s32 previous = -1;
+    if (damage_mgr && damage_mgr->_6c >= 0) {
+        previous = damage_mgr->_6c;
+        if (sub_71007A26AC(actor) > previous) {
+            auto* attack = sub_71007A255C(actor, damage_mgr->_6c);
+            if (!sub_71006D7038(actor, attack) &&
+                sub_7100739634(&result, chemical, attack, flags)) {
+                _18 = previous;
+                return;
+            }
+        }
+    }
+
+    const s32 count = sub_71007A26AC(actor);
+    if (count < 1)
+        return;
+    for (s32 i = 0; i < count; ++i) {
+        if (i == previous)
+            continue;
+        auto* attack = sub_71007A255C(actor, i);
+        if (attack->sub_71007A1F68(0x800) && !sub_71006D7038(actor, attack) &&
+            sub_7100739634(&result, chemical, attack, flags)) {
+            _18 = i;
+            return;
+        }
+    }
 }
 
 bool Unk_710244edc0::m4(sead::Heap*) {

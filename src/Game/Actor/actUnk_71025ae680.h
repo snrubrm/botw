@@ -64,6 +64,10 @@ public:
     // 0x71006df6ec (placeholder name): `m13(7)`, `m13(8)`, `m13(9)`, `m13(10)`.
     void sub_71006DF6EC();
 
+    // 0x71006df8ac (placeholder name): finds the actor's attack entry that classifies as a reaction for
+    // its chemical (the damage manager's last entry first) and stores its index in `_18`.
+    void sub_71006DF8AC();
+
     // 0x71006dfa04 (not decompiled): if `enable` changes bit 0 of `_a`, calls m13(0..11) first when enabling,
     // then m11(enable), then updates the bit (behavior Invincible).
     void sub_71006DFA04(bool enable);
