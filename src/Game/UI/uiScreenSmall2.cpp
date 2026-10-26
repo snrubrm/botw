@@ -1625,6 +1625,44 @@ void ScreenMainScreen::x_1() {
     Graphics::instance()->getNoiseGaugeMaybe()->setScaleMaybe(sub_7100A9B79C());
 }
 
+// 0x7100a99150, defined in uiPouchFacade.cpp: refreshes the pouch icon / quest widgets the main screen shows.
+void sub_7100A99150();
+
+// 0x7100a1ce5c: once the quest-complete timer ends, opens the screen and starts / restarts the two quest
+// animations; while at least one of them is at its end frame, tell the sound-link2 system when it reaches (or
+// already reached) its end.
+// NON_MATCHING: the original re-loads and null-tests mLocationNameLayout once more before the close call (one
+// extra `ldr; cbz` pair); the natural single-test form leaves the pointer in x0.
+void ScreenMainScreen::x_4() {
+    if (_3aa9)
+        return;
+    if (_3ccc.updateAndCheckEnded()) {
+        if (!isOpened())
+            open(1);
+        _3ca8->sub_7100BDDE7C(false, 0, true);
+        if (mLocationNameLayout && !mLocationNameLayout->isAnimOpenEnd(false))
+            mLocationNameLayout->sub_7100BDDE7C(false, 1, true);
+    }
+    if (!_3ca8 || _3ca8->isAnimOpenEnd(false))
+        return;
+
+    const f32 type_frame = _3cb0->mFrame;
+    const f32 type_end_frame = _3cb0->GetFrameSize();
+    const f32 gauge_frame = _3cc0->mFrame;
+    const f32 gauge_end_frame = _3cc0->GetFrameSize();
+    if (type_frame == type_end_frame || gauge_frame == gauge_end_frame) {
+        const f32 open_frame = _3ca8->mOpenAnimator->mFrame;
+        if (sub_7100AA2418(mPreviousQuestFrame, open_frame, 35.0f, true)) {
+            if (type_frame == type_end_frame)
+                invokeSoundLink2Event_("mc_QuestComplete_open");
+            if (gauge_frame == gauge_end_frame)
+                invokeSoundLink2Event_("mc_SetPoint");
+        }
+        mPreviousQuestFrame = open_frame;
+    }
+    sub_7100A99150();
+}
+
 // 0x7100a17ff4
 ScreenMainScreen::~ScreenMainScreen() = default;
 

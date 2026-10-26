@@ -1490,6 +1490,9 @@ public:
     // 0x7100a1b8d4 (placeholder name): closes the main layout or sends its close animation, then stops the animator
     // at the UI play speed and passes that speed to the noise gauge (called by m94).
     void x_1();
+    // 0x7100a1ce5c (placeholder name; called by m94): once the quest-complete timer ends, opens the screen and
+    // refreshes the two quest animations, then plays a sound-link2 event when either reaches its end frame.
+    void x_4();
 };
 
 // The MessageTips screen (members from 0x300 recovered from the constructor).
