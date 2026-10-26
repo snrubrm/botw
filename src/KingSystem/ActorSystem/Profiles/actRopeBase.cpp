@@ -9,6 +9,8 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
 #include "KingSystem/Physics/physMaterialMask.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
@@ -761,6 +763,24 @@ phys::RigidBody* RopeBase::sub_7100ED6878(s32 index) const {
     if (index < 0 || _930 < index)
         return nullptr;
     return _860[index];
+}
+
+// NON_MATCHING: every instruction matches except the contact-info bounds check, which our sead model
+// emits as an unsigned `cbz` (PtrArrayImpl::at uses u32) where the original has a signed `cmp #1; b.lt`,
+// and the block layout of the shared `return false` block (ours is placed earlier).
+bool RopeBase::m150(phys::RigidBody** body, sead::Vector3f* a, sead::Vector3f* b) {
+    if (auto* info = mPhysics->getContactPointInfo(0)) {
+        if (info->getNumContactPoints() != 0 && !info->begin().isEnd()) {
+            for (auto it = info->begin(); it != info->end(); ++it) {
+                *body = (*it)->body_a;
+                *a = it.getPointPosition(phys::ContactPointInfo::Iterator::Point::BodyA);
+                *b = (*it)->body_b->getLinearVelocity();
+                b->normalize();
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 }  // namespace ksys::act
