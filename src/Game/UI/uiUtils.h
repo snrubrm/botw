@@ -770,6 +770,8 @@ void formatTimeString(sead::BufferedSafeString* out);
 int getHour();
 int getMinute();
 f32 getWorldTemperatureForUI();
+// 0x7100a9d7cc (uiWorldFacade.cpp): the second temperature, without the region conversion
+f32 sub_7100A9D7CC();
 }  // namespace wm
 
 // 0x7100a95214 (uiPouchFacade.cpp; global namespace in the CSV)

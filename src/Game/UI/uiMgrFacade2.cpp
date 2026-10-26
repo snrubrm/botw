@@ -473,6 +473,35 @@ f32 getResistColdVal(s32 level) {
     return info.val._f32;
 }
 
+// 0x7100aa9184 (placeholder name): the player's chemical temperature for the item named `name`; the item actor's
+// tags pick the heat attribute (3 / 2), otherwise the plain value is used.
+// NON_MATCHING: the empty-name arm is a tail call in ours; the original merges all three calls into one block
+// (bl + shared epilogue) and sets the arguments per arm.
+f32 sub_7100AA9184(const sead::SafeString& name) {
+    auto* player_info = act::PlayerInfo::instance();
+    if (!player_info)
+        return wm::sub_7100A9D7CC();
+    auto* player = player_info->getPlayer();
+    if (!player)
+        return wm::sub_7100A9D7CC();
+    auto* chemical = player->getChemicalStuff();
+    if (!chemical)
+        return wm::sub_7100A9D7CC();
+    if (name.isEmpty())
+        return chemical->sub_7100D91BE4(0, 0);
+    auto* info = ksys::act::InfoData::instance();
+    al::ByamlIter iter;
+    if (!info)
+        return wm::sub_7100A9D7CC();
+    if (!info->getActorIter(&iter, name.cstr(), true))
+        return wm::sub_7100A9D7CC();
+    if (info->hasTag(iter, 0x8f5d0d55))
+        return chemical->sub_7100D91BE4(3, 1);
+    if (info->hasTag(iter, 0x2813d81b))
+        return chemical->sub_7100D91BE4(2, 1);
+    return chemical->sub_7100D91BE4(0, 0);
+}
+
 // 0x7100aa946c
 u32 sub_7100AA946C() {
     auto* vfr = ksys::VFR::instance();
