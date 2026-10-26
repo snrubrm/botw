@@ -70,7 +70,8 @@ bool Unk_7102450fa8::sub_71007194D4(int idx, ksys::act::ActorLinkConstDataAccess
     return accessor->hasProc();
 }
 
-// NON_MATCHING: the loop exit compare is canonicalised (original: cmp #32 / b.le; ours: cmp #33 / b.lt)
+// NON_MATCHING: the loop exit compare is canonicalised (original: cmp #32 / b.le; ours: cmp #33 / b.lt).
+// An s64 index gives the original latch but narrows the inlined Buffer::operator[] compare to 32 bits.
 int Unk_7102450fa8::sub_7100719534(ksys::act::BaseProc* proc) {
     for (int i = 0; i <= 32; ++i) {
         if (_8[i]._e0.hasProcById(proc))
@@ -80,6 +81,7 @@ int Unk_7102450fa8::sub_7100719534(ksys::act::BaseProc* proc) {
 }
 
 // NON_MATCHING: loop exit compare (original: cmp #32 / b.le; ours: cmp #33 / b.lt)
+// An s64 index gives the original latch but narrows the inlined Buffer::operator[] compare to 32 bits.
 int Unk_7102450fa8::sub_71007195B0(const ksys::act::BaseProcLink& link) {
     for (int i = 0; i <= 32; ++i) {
         if (_8[i]._e0 == link)
@@ -234,6 +236,30 @@ bool Unk_7102450fa8::sub_710071A2D0() {
 void Unk_7102450fa8::sub_71007190CC(const ksys::MesTransceiverId& dest) {
     if (auto* actor = sead::DynamicCast<ksys::act::Actor>(_18.getProc(nullptr)))
         actor->sendMessage(dest, ksys::MessageType(0x80000d9), this, true);
+}
+
+// 0x7100719d5c (placeholder name): removes the formation member (3 .. 10) that belongs to `actor`
+// from the linked actor pool.
+// NON_MATCHING: only the 33-entry search loop's exit compare differs (original: cmp #32 / b.le; ours:
+// cmp #33 / b.lt). An s64 index gives the original latch but narrows the inlined Buffer::operator[]
+// compare to 32 bits, so no natural source form produces both.
+void Unk_7102450fa8::sub_7100719D5C(ksys::act::Actor* actor) {
+    for (int i = 0; i <= 32; ++i) {
+        if (!_8[i]._e0.hasProcById(actor))
+            continue;
+
+        if (i == 2 || u32(i - 2) > 8)
+            return;
+
+        sead::ScopedLock<sead::JobQueueLock> lock(&_9c);
+        for (s32 j = 0; j < _a0.size(); ++j) {
+            if (_a0[j]->hasProcById(actor)) {
+                _a0.erase(j);
+                break;
+            }
+        }
+        return;
+    }
 }
 
 void Unk_7102450fa8::sub_7100719ED0() {
