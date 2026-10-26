@@ -338,9 +338,8 @@ protected:
     // 0x7100f1d514 reads the material name dictionary here.
     nn::util::ResDic* mMaterialDic;
     MaterialInfo* mMaterialInfo;
-    void* _70;
-    void* _78;
-    void* _80;
+    // Indexed by the uniform-block slot in setUserUniformBlock and ModelNW's override.
+    void* _70[3];
     void* _88;
     void* _90;
     ModelUnitCallbackStorage mCallback;
