@@ -7,6 +7,7 @@
 #include <nn/g3d/ResFile.h>
 #include <nn/g3d/ResMaterial.h>
 #include <nn/g3d/ResModel.h>
+#include <math/seadMathCalcCommon.h>
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 // GrudgeRenderer's TU (0x710128d348 .. 0x71012915b8). Only this helper is decompiled so far.
@@ -31,6 +32,26 @@ void GrudgeRenderer::sub_710128F4BC(const sead::Camera* camera) {
     camera->getWorldPosByMatrix(&_240);
     _264 = cGrudgeResetDistance;
     _268->requestDraw();
+}
+
+// 0x710128f41c: copies the view frustum of the render context and derives the grudge draw
+// distances from its near plane and field of view.
+// NON_MATCHING: constant-pool scheduling only: the original keeps the 1.01 multiply after the
+// factor computation; ours hoists it (the four literals sit in different rodata pages).
+void GrudgeRenderer::sub_710128F41C(const gsys::ModelRenderContext* context, f32 fov) {
+    mFrustum = context->getViewData()->frustum;
+
+    const f32 cos_atan =
+        sead::Mathf::cos(sead::Mathf::atan(mFrustum.get_f4() * mFrustum.getAspect()));
+    const f32 scale = mFrustum.getNear() / sead::Mathf::max(cos_atan, 0.0001f);
+
+    const f32 factor = fov + 1.0f;
+    _258 = factor * 200.0f;
+    const f32 value = scale * 1.01f;
+    _24c = value;
+    _250 = value;
+    _254 = value;
+    _25c = factor * 60.0f;
 }
 
 // 0x710128d550: marks the renderer entry or the render record of a finished texture bind.

@@ -28,6 +28,7 @@
 #include <common/aglTextureSampler.h>
 #include <common/aglUniformBlock.h>
 #include <cull/aglOcclusionQueryDrawer.h>
+#include <cull/aglViewFrustumCulling.h>
 #include <common/aglRenderBuffer.h>
 #include <common/aglRenderTarget.h>
 #include <common/aglVertexBuffer.h>
@@ -525,6 +526,9 @@ public:
 
     // 0x710128d550: marks the renderer entry or the render record of a finished texture bind.
     void sub_710128D550(ksys::res::TextureHandleList::Entry* entry);
+    // 0x710128f41c: copies the view frustum of the render context and derives the grudge draw
+    // distances from its near plane and field of view.
+    void sub_710128F41C(const gsys::ModelRenderContext* context, f32 fov);
     // 0x710128f2a4: rebinds the textures of the entries whose flag bit 0 is set.
     void sub_710128F2A4();
     // 0x710128f698: binds the textures of the three texture entries of `set` on `model`.
@@ -541,9 +545,14 @@ public:
     void sub_710128F888(agl::DrawContext* context, gsys::ModelRenderContext* render_context);
 
 private:
-    u8 _0[0x240];
+    u8 _0[0x8];
+    agl::cull::ViewFrustumCulling mFrustum;  // 0x008
     sead::Vector3f _240;
-    u8 _24c[0x260 - 0x24c];
+    f32 _24c;
+    f32 _250;
+    f32 _254;
+    f32 _258;
+    f32 _25c;
     s32 _260;
     f32 _264;
     gsys::Model* _268;
