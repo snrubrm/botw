@@ -11,6 +11,18 @@ XluZPrePass::~XluZPrePass() {
     mSortNodes.freeBuffer();
 }
 
+// 0x7100c67b58
+void XluZPrePass::initialize(sead::Heap* heap) {
+    mQueues[0].initialize(0x800, heap);
+    mQueues[1].initialize(0x800, heap);
+
+    mQueues[0].mSortMode = 0;
+    mQueues[1].mSortMode = 1;
+
+    mNodes.allocBuffer(0x800, heap, sizeof(void*));
+    mSortNodes.tryAllocBuffer(0x800, heap, sizeof(void*));
+}
+
 // 0x7100c67be8
 void XluZPrePass::clear() {
     mQueues[0].clear();
