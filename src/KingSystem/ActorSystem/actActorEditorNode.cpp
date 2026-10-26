@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actActorEditorNode.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/System/KingEditor.h"
 
@@ -61,6 +62,22 @@ void ActorEditorNode::log(const sead::SafeString& system, const sead::SafeString
 
 bool ActorEditorNode::isConnected() const {
     return mState == State::Connected;
+}
+
+// 0x7101241f6c: starts a heap free-size measurement for the model animation creation.
+void ModelCreationProfiler::begin(sead::Heap* heap, s32 slot) {
+    mStartFreeSize = heap->getFreeSize();
+    mHeap = heap;
+    mSlot = slot;
+}
+
+// 0x7101241fb4: ends the measurement and stores the difference in the selected slot.
+void ModelCreationProfiler::end() {
+    const s32 start = mStartFreeSize;
+    const s32 delta = start - mHeap->getFreeSize();
+    const s32 slot = mSlot;
+    mDeltas[slot < 2u ? slot : 0] = delta;
+    mHeap = nullptr;
 }
 
 }  // namespace ksys::act

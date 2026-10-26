@@ -4,7 +4,7 @@
 
 namespace uking::ui {
 // 0x7100a9a664 (uiMiscFacade.cpp)
-bool sub_7100A9A664(const void* a0, s32* out);
+bool sub_7100A9A664(const sead::SafeString& a0, s32* out);
 }  // namespace uking::ui
 
 namespace uking::action {
@@ -19,7 +19,7 @@ bool AreaLocation::init_(sead::Heap* heap) {
     data.mMessageId = mMessageID_m;
     data.mPriority = *mLocationPriority_m;
     s32 area_id;
-    data.mAreaId = ui::sub_7100A9A664(&mMessageID_m, &area_id) ? area_id : -1;
+    data.mAreaId = ui::sub_7100A9A664(mMessageID_m, &area_id) ? area_id : -1;
     {
         sead::ScopedLock<sead::JobQueueLock> lock(&_40._18.mLock);
         _40._18._0 = true;

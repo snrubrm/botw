@@ -2895,22 +2895,6 @@ bool Actor::sub_71011D573C(sead::Heap* heap) {
 
 namespace ksys::act {
 
-// 0x7101241f6c: starts a heap free-size measurement for the model animation creation.
-void ModelCreationProfiler::begin(sead::Heap* heap, s32 slot) {
-    mStartFreeSize = heap->getFreeSize();
-    mHeap = heap;
-    mSlot = slot;
-}
-
-// 0x7101241fb4: ends the measurement and stores the difference in the selected slot.
-void ModelCreationProfiler::end() {
-    const s32 start = mStartFreeSize;
-    const s32 delta = start - mHeap->getFreeSize();
-    const s32 slot = mSlot;
-    mDeltas[slot < 2u ? slot : 0] = delta;
-    mHeap = nullptr;
-}
-
 bool Actor::initChemicals(sead::Heap* heap) {
     if (!mActorParam->isDummyParam(res::ActorLink::User::Chemical)) {
         auto* resource = mActorParam->getRes().mChemical;
