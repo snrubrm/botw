@@ -70,7 +70,7 @@ public:
     struct Unk1668 {
         u8 _0[0x68];
         gsys::BoneAccessKeyEx _68;
-        u8 _a0[0x10];
+        /* 0x0a0 */ sead::Vector3f _a0 = sead::Vector3f::zero;  // bone translation / offset direction
     };
     KSYS_CHECK_SIZE_NX150(Unk1668, 0xb0);
 

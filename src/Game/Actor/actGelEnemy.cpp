@@ -18,6 +18,32 @@ ksys::act::BaseProc* GelEnemy::construct(const CreateArg& arg, sead::Heap* heap)
 
 GelEnemy::~GelEnemy() = default;
 
+// NON_MATCHING: the translation stores in the first loop are scheduled before the index check, and
+// clang merges two of them into an stp (the original stores all three separately).
+// Centres the part bone translations on their average and turns each one into a direction.
+void GelEnemy::afterModelMatrixUpdate() {
+    if (_1668.size() < 1)
+        return;
+
+    for (s32 i = 0; i < _1668.size(); ++i) {
+        const auto& key = _1668[i]._68.getKey();
+        sead::Matrix34f mtx;
+        mModel->getUnits()(key.model_unit_index)->mModelUnit->getBoneWorldMatrix(&mtx, key.bone_index);
+        _1668[i]._a0 = mtx.getTranslation();
+    }
+
+    sead::Vector3f center = sead::Vector3f::zero;
+    for (s32 i = 0; i < _1668.size(); ++i)
+        center += _1668[i]._a0;
+    center *= 1.0f / f32(_1668.size());
+
+    for (s32 i = 0; i < _1668.size(); ++i) {
+        auto& part = _1668[i];
+        part._a0 -= center;
+        part._a0.normalize();
+    }
+}
+
 void GelEnemy::preDelete2_(const PreDeleteArg& arg) {
     _1668.freeBuffer();
     Enemy::preDelete2_(arg);
