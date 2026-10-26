@@ -28,6 +28,12 @@ Unk_710129175c::Record::~Record() {
     sub_71012938A0(this);
 }
 
+// 0x7101291724 / 0x7101291738 / 0x710129173c: the vptr-only constructor, the empty destructor and
+// its deleting counterpart of the pass-callback object at vtable 0x71025191f0.
+Unk_71025191f0::Unk_71025191f0() {}
+
+Unk_71025191f0::~Unk_71025191f0() {}
+
 Unk_710129175c::Unk_710129175c() : _8(0), mRecords(), mPage(), _260() {}
 
 Unk_710129175c::~Unk_710129175c() {

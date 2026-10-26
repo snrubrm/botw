@@ -662,6 +662,22 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Unk_710129421c, 0x6c0);
 
+// Vtable 0x71025191f0 (directly after Unk_668's table): an 8-byte gsys::IModelScenePassCallback
+// subclass whose only override is drawModelSceneOpa (slot 7). Because the base has no virtual
+// destructor, this class's destructor pair sits after the 14 inherited slots (14 / 15).
+class Unk_71025191f0 : public gsys::IModelScenePassCallback {
+public:
+    // 0x7101291724: the vptr store only (the setup 0x7100f2d4b0 allocates 8 bytes and stores it
+    // at its object's +0xf68).
+    Unk_71025191f0();
+    virtual ~Unk_71025191f0();
+    // 0x7101291740 (declaration only): for pass 0, stores agl's primitive sampler 22 as pass
+    // texture 27 of the render context. The array is private in lib/gsys.
+    void drawModelSceneOpa(agl::DrawContext* draw_context, s32 pass, gsys::ModelScene* scene,
+                           gsys::ModelRenderContext* context) override;
+};
+static_assert(sizeof(Unk_71025191f0) == 8);
+
 // Partial declaration only: F2C140 constructs this 0x258-byte item filter at
 // 1293BAC and stores it at 398. Table 25192A8 inherits Node's class-type method;
 // 1293BAC initializes the word at C to 2, and 1293D68 / 1293FC0 consume its flags.
