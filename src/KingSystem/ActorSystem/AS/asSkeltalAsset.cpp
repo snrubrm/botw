@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/Resource/Actor/resResourceAS.h"
 #include "KingSystem/Resource/Actor/resResourceASResource.h"
 #include "KingSystem/System/Patrol.h"
 #include <nn/g3d/ResSkeletalAnim.h>
@@ -186,6 +187,39 @@ bool Unk_710125af7c::sub_710125AF7C(SkeltalAsset::Unk18** out, const Key* key, g
     mRoot->setColor(1);
     *out = node;
     return true;
+}
+
+void SkeltalAsset::m5(act::Actor* actor, gsys::Model* model, const sead::SafeString& name,
+                      sead::Heap* heap, const res::AS* as) {
+    auto* animation = model->getAnimation();
+    if (!animation) {
+        mKey = {};
+        return;
+    }
+
+    const res::ASResource* resource = nullptr;
+    const sead::SafeString* animation_name = &name;
+    if (as) {
+        resource = as->getElementResources()[m6()];
+        if (const auto* asset = sead::DynamicCast<const res::ASSkeltalAssetResource>(resource))
+            animation_name = &asset->getFileName();
+    }
+
+    mKey = animation->searchSkeletalKey(*animation_name);
+    const gsys::AnimationAccessKey<gsys::SkeletalAnmType> key = mKey;
+    if (!key.isValid() || animation->mSkeletalAnms.size() < 1)
+        return;
+
+    _c = static_cast<f32>(static_cast<const nn::g3d::ResSkeletalAnim*>(
+                              animation->mSkeletalResources[key.index].resource->resource)
+                              ->GetFrameCount());
+    sub_710131586C(static_cast<const nn::g3d::ResSkeletalAnim*>(
+                       animation->mSkeletalResources[key.index].resource->resource)
+                       ->IsLooped(),
+                   resource);
+
+    if (auto* list = actor->sub_71011C9A88())
+        list->mSourceTree.sub_710125AF7C(&_18, &mKey, model, actor, heap);
 }
 
 // NON_MATCHING: the second key halfword uses the element pointer rather than the key pointer.
