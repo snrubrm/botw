@@ -136,6 +136,8 @@ add_library(gsys OBJECT
   src/gsys/gsysModelSceneBuffer.cpp
   include/gsys/gsysGPUStressAnalyzer.h
   src/gsys/gsysGPUStressAnalyzer.cpp
+  include/gsys/gsysSnapshotTextureMgr.h
+  src/gsys/gsysSnapshotTextureMgr.cpp
   src/gsys/gsysDelegateInstantiations.cpp
 )
 
