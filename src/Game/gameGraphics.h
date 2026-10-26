@@ -14,6 +14,7 @@
 #include <hostio/seadHostIONode.h>
 #include <heap/seadDisposer.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 #include <thread/seadCriticalSection.h>
 #include <gsys/gsysModelScene.h>
 #include <gsys/gsysModelScenePassCallback.h>
@@ -446,21 +447,49 @@ KSYS_VISIBILITY_HIDDEN extern const f32 cGrudgeResetDistance;
 // sub_7101290010 stores the reciprocal of `n` and that reciprocal scaled by _11c.
 class Unk_71025191c8 : public sead::hostio::Node {
 public:
+    // 0x710128fedc: the parameters the renderer passes when it creates a unit (fields from
+    // offset 0x10 on; only the ones the unit reads are named by offset).
+    struct CreateArg {
+        sead::Heap* mHeap;  // 0
+        u8 _8[0x10 - 0x8];
+        s32 _10;    // 0x10
+        s32 _14;    // 0x14: formatted into the unit name
+        s32 _18;    // 0x18
+        u8 _1c;     // 0x1c: selects the extra flag bits
+        u8 _1d[3];
+        s32 _20;    // 0x20
+        s32 _24;    // 0x24
+    };
+
     Unk_71025191c8();
     virtual ~Unk_71025191c8();
     void sub_7101290010(s32 n);
     void sub_710128FD94();
+    // 0x710128fedc: declares and creates the uniform block, names the unit and stores its
+    // parameters.
+    void sub_710128FEDC(const CreateArg& arg);
 
 private:
     /* 0x08 */ agl::UniformBlock mUniformBlock;
-    u8 _80[0x100 - 0x80];
-    /* 0x100 */ f32 _100;
-    /* 0x104 */ f32 _104;
-    u8 _108[0x11c - 0x108];
-    /* 0x11c */ s32 _11c;
-    u8 _120[0x121 - 0x120];
-    /* 0x121 */ u8 _121;
-    u8 _122[0x130 - 0x122];
+    /* 0x80 */ sead::FormatFixedSafeString<32> mName;
+    u8 _b8[0x30];
+    /* 0xe8 */ f32 _e8 = sead::Mathf::maxNumber();
+    /* 0xec */ f32 _ec = sead::Mathf::maxNumber();
+    /* 0xf0 */ f32 _f0 = sead::Mathf::maxNumber();
+    /* 0xf4 */ f32 _f4 = -sead::Mathf::maxNumber();
+    /* 0xf8 */ f32 _f8 = -sead::Mathf::maxNumber();
+    /* 0xfc */ f32 _fc = -sead::Mathf::maxNumber();
+    /* 0x100 */ f32 _100 = -1.0f;
+    /* 0x104 */ f32 _104 = sead::Mathf::maxNumber();
+    /* 0x108 */ u32 _108;
+    /* 0x10c */ s32 _10c = -1;
+    /* 0x110 */ s32 _110 = -1;
+    /* 0x114 */ s32 _114 = -1;
+    /* 0x118 */ s32 _118 = -1;
+    /* 0x11c */ s32 _11c = -1;
+    /* 0x120 */ u16 _120 = 0;
+    u8 _122[0x128 - 0x122];
+    /* 0x128 */ void* _128 = nullptr;
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025191c8, 0x130);
 
@@ -517,10 +546,11 @@ public:
 
     // The user data of a texture bind request (0x710128d550 reads it through the handle entry):
     // the record slot in _ed0, the entry index and what the request refers to.
+    SEAD_ENUM(BindKind, Entry, TextureSet)
     struct TextureBindResult {
         s32 mTableIndex;  // 0: index in _ed0
         s32 mEntryIndex;  // 4: entry / material slot
-        s32 mKind;        // 8: 0 = renderer entry, 1 = render record
+        BindKind mKind;   // 8: Entry = renderer entry, TextureSet = render record
     };
     static_assert(sizeof(TextureBindResult) == 0xc);
 

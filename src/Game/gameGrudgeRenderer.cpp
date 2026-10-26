@@ -88,20 +88,22 @@ void GrudgeRenderer::sub_710128F41C(const gsys::ModelRenderContext* context, f32
 }
 
 // 0x710128d550: marks the renderer entry or the render record of a finished texture bind.
-// NON_MATCHING: the original reads the two indices as one sign-extended load and spills the kind
-// through the stack; ours reloads the table index in the second arm.
 void GrudgeRenderer::sub_710128D550(ksys::res::TextureHandleList::Entry* entry) {
     const auto* result = static_cast<const TextureBindResult*>(entry->sub_71012BD4D8());
-    const s32 kind = result->mKind;
     const s32 table_index = result->mTableIndex;
     const s32 entry_index = result->mEntryIndex;
-    if (kind == 1) {
+    const BindKind kind = result->mKind;
+    switch (kind) {
+    case BindKind::TextureSet: {
         TextureSet* set = _ed0[table_index];
         if (!set || (set->mFlags & 1) == 0)
             return;
         set->mFlags |= (1 << (entry_index + 3)) | 2;
-    } else if (kind == 0) {
+        break;
+    }
+    case BindKind::Entry:
         mEntries[entry_index].mFlag |= 1;
+        break;
     }
 }
 
@@ -142,8 +144,6 @@ void GrudgeRenderer::sub_710128F2A4() {
 }
 
 // 0x710128f698: binds the textures of the three texture records of `set` on `model`.
-// NON_MATCHING: the original keeps one redundant `and w8, w8, #0xff` after the dynamic flag-mask
-// test; no natural source form reproduces it (see the session log).
 void GrudgeRenderer::sub_710128F698(gsys::ModelNW* model, TextureSet* set) {
     if (set->mMaterialIndex == -1)
         return;
@@ -151,7 +151,7 @@ void GrudgeRenderer::sub_710128F698(gsys::ModelNW* model, TextureSet* set) {
     nn::g3d::MaterialObj* material = model->getModelObj()->GetMaterial(set->mMaterialIndex);
     for (s32 i = 0; i < 3; ++i) {
         const u32 mask = 1u << (i + 3);
-        if ((set->mFlags & mask) == 0)
+        if (!sead::BitFlag8(set->mFlags).isOnBit(i + 3))
             continue;
 
         TextureSet::TextureEntry& entry = set->mEntries[i];
@@ -178,10 +178,42 @@ void GrudgeRenderer::sub_710128F888(agl::DrawContext* context,
 // NON_MATCHING: the original keeps the unit count in a register across the loop; ours rematerialises
 // the load for the latch (register pressure from the loop-invariant compare string). One extra
 // load and a `b.lt` instead of `b.ne`.
+// 0x710128fcb8
+// NON_MATCHING: only the position of the _108 store and the constant used for the
+// -1.0 / max float pair differ (scheduling and constant materialisation).
+Unk_71025191c8::Unk_71025191c8() {
+    _108 = 0;
+}
+
+// 0x710128fedc: declares and creates the unit's uniform block, names the unit and copies
+// its parameters.
+void Unk_71025191c8::sub_710128FEDC(const CreateArg& arg) {
+    sead::Heap* const heap = arg.mHeap;
+    mUniformBlock.startDeclare(3, heap);
+    mUniformBlock.declare_(agl::UniformBlock::cType_6, 4, 0, 1);
+    mUniformBlock.declare_(agl::UniformBlock::cType_6, 3, 0, 1);
+    mUniformBlock.declare_(agl::UniformBlock::cType_6, 1, 0, 1);
+    mUniformBlock.create(heap, 2, 1);
+    mUniformBlock.setBufferIndexMaybe(0);
+
+    _120 = 8;
+    _120 = arg._1c ? 0x28 : _120;
+    mName.appendWithFormat("%u", arg._14);
+
+    _10c = arg._10;
+    _110 = arg._14;
+    _114 = arg._18;
+    _118 = arg._20;
+    _11c = arg._24;
+
+    if (arg._1c)
+        _120 |= 5;
+}
+
 // 0x710128fd48: destroys the unit's uniform block and, when it owns one, its GPU buffer.
 Unk_71025191c8::~Unk_71025191c8() {
     mUniformBlock.destroy();
-    if (_121 & 1)
+    if (_120 & 0x100)
         sub_710128FD94();
 }
 
