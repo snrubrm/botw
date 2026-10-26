@@ -171,7 +171,7 @@ public:
     /* 0x070 */ s32 _70;
     /* 0x074 */ s32 _74;  // number of members placed (sub_71007196EC)
     /* 0x078 */ sead::BitFlag32 _78;
-    /* 0x07c */ u8 _7c[0x80 - 0x7c];
+    /* 0x07c */ u32 _7c;  // zeroed by the constructor, otherwise unread
     /* 0x080 */ u32 _80;  // bit mask indexed by Phase-like ints 3..10 (sub_7100719978)
     /* 0x084 */ u8 _84[0x88 - 0x84];
     /* 0x088 */ Unk_7102450fe0* _88;

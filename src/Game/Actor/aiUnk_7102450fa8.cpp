@@ -237,6 +237,14 @@ void Unk_7102450fa8::sub_7100719ED0() {
     _a0.clear();
 }
 
+Unk_7102450fa8::Unk_7102450fa8()
+    : _38(Phase::_4), _3c(Phase::_0), _40(0.0f), _44(0.0f), _48(0.0f), _4c(0.0f), _74(0), _7c(0), _80(0),
+      _88(nullptr), _90(nullptr), _98(0), _198(0), _248{}, _2b0(sUnk_7102450f80[0]), _348(0), _34c(0),
+      _3c8(0.0f), _3cc(false), _438(0.0f), _43c(0.0f), _440(0.0f), _444(false) {
+    // The shared navmesh material filter keeps the meta AI unit it decides for.
+    sUnk_71025c8d10._8 = this;
+}
+
 Unk_7102450fa8::~Unk_7102450fa8() {
     _8.freeBuffer();
 }
