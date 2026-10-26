@@ -34,6 +34,15 @@ void GrudgeRenderer::sub_710128F4BC(const sead::Camera* camera) {
     _268->requestDraw();
 }
 
+// 0x710128f9a4: sorts the grudge unit arrays by address (the compare callback of their sort).
+s32 sub_710128F9A4(const void* a, const void* b) {
+    if (a < b)
+        return -1;
+    if (a > b)
+        return 1;
+    return 0;
+}
+
 // 0x710128f41c: copies the view frustum of the render context and derives the grudge draw
 // distances from its near plane and field of view.
 // NON_MATCHING: constant-pool scheduling only: the original keeps the 1.01 multiply after the
