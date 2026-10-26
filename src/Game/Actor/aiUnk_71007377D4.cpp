@@ -1826,6 +1826,56 @@ bool sub_710073200C(ksys::act::Actor* actor, s32 index) {
     return (bits & (1u << index) & 0xff) != 0;
 }
 
+void uking::act::Enemy::setNecklaceFlag(s32 index) {
+    if (!this)
+        return;
+    auto* manager = ksys::gdt::Manager::instance();
+    if (!manager)
+        return;
+    auto* object = mMapObject;
+    if (!object)
+        return;
+    const auto& map = manager->getMapName();
+    if (map.findIndex("AocField") != -1)
+        return;
+    const u32 hash = object->getHashId();
+    sead::FormatFixedSafeString<128> name("%s_Necklace_%d_%s_%u", map.cstr(), index,
+                                          getName().cstr(), hash);
+    if (uking::aoc::HardModeManager::instance() &&
+        uking::aoc::HardModeManager::instance()->checkFlag(
+            uking::aoc::HardModeManager::Flag::EnableHardMode)) {
+        name.format("%s_Necklace_%d_%s_%u", map.cstr(), index, object->getUnitConfigName(), hash);
+    }
+    manager->setBool(true, name);
+}
+
+// NON_MATCHING: the original keeps the false result in w0 from the entry block and branches
+// straight out of the `this` / manager guards; ours merges all three `return false` blocks (the
+// same residue as sub_710073200C).
+bool uking::act::Enemy::checkNecklaceFlag(s32 index) {
+    if (!this)
+        return false;
+    auto* manager = ksys::gdt::Manager::instance();
+    if (!manager)
+        return false;
+    auto* object = mMapObject;
+    if (!object)
+        return false;
+    const auto& map = manager->getMapName();
+    const u32 hash = object->getHashId();
+    sead::FormatFixedSafeString<128> name("%s_Necklace_%d_%s_%u", map.cstr(), index,
+                                          getName().cstr(), hash);
+    if (uking::aoc::HardModeManager::instance() &&
+        uking::aoc::HardModeManager::instance()->checkFlag(
+            uking::aoc::HardModeManager::Flag::EnableHardMode)) {
+        name.format("%s_Necklace_%d_%s_%u", map.cstr(), index, object->getUnitConfigName(), hash);
+    }
+    bool on = false;
+    auto& param = manager->getParam();
+    param.get().getBuffer()->getBool(&on, name, param.shouldCheckPermissions(), false);
+    return on;
+}
+
 void uking::act::Enemy::setDroppedWeaponFlag() {
     if (!this)
         return;

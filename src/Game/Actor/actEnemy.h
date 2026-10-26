@@ -341,6 +341,8 @@ public:
     // Creates the object returned by DynamicActor slot 159 (_e78).
     virtual Unk_71025ae680* m178(sead::Heap* heap);
     void setNecklaceFlag(s32 index);
+    // 0x71007318c8: reads the necklace save flag of this enemy.
+    bool checkNecklaceFlag(s32 index);
 
     // 0x7100013ae8: creates a material filter (the Horse variant for prey / swarm actors).
     virtual ksys::phys::NavMeshCharacterUnk58* m179(sead::Heap* heap);
