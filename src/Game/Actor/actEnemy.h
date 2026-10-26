@@ -15,6 +15,7 @@
 #include <prim/seadSafeString.h>
 #include <thread/seadCriticalSection.h>
 #include "Game/Actor/aiUnk_7102357210.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/actExtendedEntity.h"
 #include "Game/Actor/actUnk_71002dccbc.h"
 #include "Game/Actor/actUnk_7100d3cd74.h"
@@ -462,25 +463,7 @@ public:
     /* 0x1290 */ Unk_7102357a38 _1290;
     /* 0x12d0 */ Unk_12d0* _12d0 = nullptr;
     /* 0x12d8 */ void* _12d8 = nullptr;
-    /* 0x12e0 */ sead::Matrix34f _12e0 = sead::Matrix34f::ident;
-    /* 0x1310 */ f32 _1310 = 0.0;
-    /* 0x1314 */ f32 _1314 = 1.0;
-    /* 0x1318 */ f32 _1318 = 0.0;
-    /* 0x131c */ f32 _131c = 1.0;
-    /* 0x1320 */ f32 _1320 = 1.0;
-    /* 0x1324 */ f32 _1324 = 1.0;
-    /* 0x1328 */ void* _1328 = nullptr;
-    /* 0x1330 */ void* _1330 = nullptr;
-    /* 0x1338 */ u32 _1338 = 0;
-    /* 0x1340 */ ksys::phys::MaterialMask _1340{0u};
-    /* 0x1358 */ ksys::phys::MaterialMask _1358{0u};
-    /* 0x1370 */ void* _1370 = nullptr;
-    /* 0x1378 */ void* _1378[5]{};  // zeroed by the constructor
-    /* 0x13a0 */ u32 _13a0 = 2;
-    /* 0x13a4 */ u8 _13a4 = 6;
-    /* 0x13a8 */ ksys::act::BaseProcLink _13a8;
-    /* 0x13b8 */ u8 _13b8 = 0;
-    /* 0x13b9 */ u8 _13b9 = 0;
+    /* 0x12e0 */ DamageReactionRequestResult _12e0;
     /* 0x13c0 */ ksys::act::LifeRecoverInfo* _13c0 = nullptr;
     /* 0x13c8 */ Unk_71023579d8 _13c8;
     /* 0x1408 */ Unk_71023579a8 _1408;

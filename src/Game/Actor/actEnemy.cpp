@@ -35,6 +35,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseRider.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "Game/Actor/actUnk_71025ae680.h"
+#include "Game/Actor/Damage/dmgInfoManager.h"
 #include "KingSystem/ActorSystem/actActorBind.h"
 
 #include "KingSystem/World/worldManager.h"
@@ -436,6 +437,25 @@ ksys::act::Actor* Enemy::m48() {
 void Enemy::m70() {
     if (auto* rideable = sead::DynamicCast<Rideable>(_1168))
         rideable->Unk_7100e8b2b8::_10 &= ~0x38u;
+}
+
+// 0x7100018128: keeps the watch flag in sync with the "IsWatchKeeping" map unit parameter and the damage
+// manager's attack-permission list around the enemy's position, then dispatches the pending reaction request.
+// NON_MATCHING: identical instruction set; the set arm's flag load is hoisted above the branch (the target
+// loads it inside the arm after the branch).
+void Enemy::m73() {
+    const bool* keep_watching = nullptr;
+    if (getRootAi()->getMapUnitParam(&keep_watching, "IsWatchKeeping") && *keep_watching &&
+        DamageInfoMgr::instance()) {
+        if (DamageInfoMgr::instance()->getUnkCe0().sub_7100673444(mMtx.getTranslation()))
+            _e84.setBit(15);
+        else
+            _e84.resetBit(15);
+    } else {
+        _e84.resetBit(15);
+    }
+    sub_71006E3340(&_12e0, this);
+    PlayerOrEnemy::m73();
 }
 
 // Dispatches the registered effect callbacks (lane5's Unk_71023b30d8 family: single Actor*

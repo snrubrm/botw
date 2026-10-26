@@ -407,6 +407,8 @@ private:
 
 public:
     /* 0x11eb */ sead::SafeArray<s8, 4> _11eb;  // per-core counters (ForceConfront behavior; Player::sub_710086C928 reads [3] signed)
+    // Enemy::m73 (0x7100018128) asks the +0xce0 attack-permission list whether the enemy may attack.
+    const UnkCe0& getUnkCe0() const { return mUnkCe0; }
 
 private:
     /* 0x11f0 */ Unk11f0 _11f0;

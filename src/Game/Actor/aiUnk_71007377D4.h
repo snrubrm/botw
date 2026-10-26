@@ -520,40 +520,42 @@ bool sub_7100733418(ksys::act::Actor* actor, const DamageReactionInfo* info, voi
 /// (name is a guess; the 0xe0-byte result copy adds a BaseProcLink at 0xc8 and two bools). Fields from the
 /// initialisation in sub_7100733418, sub_7100735044 and Reaction::__auto6.
 struct DamageReactionRequest {
-    /* 0x00 */ sead::Matrix34f mtx;
-    /* 0x30 */ f32 _30;
-    /* 0x34 */ f32 _34;
-    /* 0x38 */ f32 _38;
-    /* 0x3c */ f32 _3c;
-    /* 0x40 */ f32 _40;
-    /* 0x44 */ f32 _44;
-    /* 0x48 */ f32 _48;
-    /* 0x4c */ f32 _4c;
+    // The defaults below are the ones the Enemy constructor (0x7100012dec) stores for its request
+    // block at +0x12e0, which is default-constructed there.
+    /* 0x00 */ sead::Matrix34f mtx = sead::Matrix34f::ident;
+    /* 0x30 */ f32 _30 = 0;
+    /* 0x34 */ f32 _34 = 1.0f;
+    /* 0x38 */ f32 _38 = 0;
+    /* 0x3c */ f32 _3c = 1.0f;
+    /* 0x40 */ f32 _40 = 1.0f;
+    /* 0x44 */ f32 _44 = 1.0f;
+    /* 0x48 */ f32 _48 = 0;
+    /* 0x4c */ f32 _4c = 0;
     // Footstep velocity producer copies Actor velocity.z here.
-    /* 0x50 */ f32 _50;
+    /* 0x50 */ f32 _50 = 0;
     // Actor::reactionStuff stores powf(stasis blow power, Graphics exponent).
-    /* 0x54 */ f32 _54;
+    /* 0x54 */ f32 _54 = 0;
     // Footstep setup stores the float returned by ASList::sub_710115EC98.
-    /* 0x58 */ f32 _58;
-    /* 0x60 */ ksys::phys::MaterialMask _60;
-    /* 0x78 */ ksys::phys::MaterialMask _78;
+    /* 0x58 */ f32 _58 = 0;
+    /* 0x60 */ ksys::phys::MaterialMask _60{0u};
+    /* 0x78 */ ksys::phys::MaterialMask _78{0u};
     // Damage kind (sub_7100735044; Reaction::__auto6 tests 1).
-    /* 0x90 */ s32 _90;
+    /* 0x90 */ s32 _90 = 0;
     // Reaction kind (sub_7100735044).
-    /* 0x94 */ s32 _94;
+    /* 0x94 */ s32 _94 = 0;
     // Target kind from the actor's xlink settings and profile (sub_7100735044; Reaction::__auto6 tests 5).
-    /* 0x98 */ s32 _98;
+    /* 0x98 */ s32 _98 = 0;
     // Footstep setup stores weather wetness and the main chemical wetness.
-    /* 0x9c */ f32 _9c;
-    /* 0xa0 */ f32 _a0;
-    /* 0xa4 */ s32 _a4;
+    /* 0x9c */ f32 _9c = 0;
+    /* 0xa0 */ f32 _a0 = 0;
+    /* 0xa4 */ s32 _a4 = 0;
     // Actor or proc-link source read by the reaction sound/property helpers.
-    /* 0xa8 */ ksys::act::Unk_7100ebf9e4 mSource;
+    /* 0xa8 */ ksys::act::Unk_7100ebf9e4 mSource{};
     // Actor::reactionStuff (0x71011cb994) stores its own Actor pointer here.
-    /* 0xb8 */ ksys::act::Actor* _b8;
-    /* 0xc0 */ s32 _c0;
+    /* 0xb8 */ ksys::act::Actor* _b8 = nullptr;
+    /* 0xc0 */ s32 _c0 = 2;
     // Bit 1 / 2: Reaction::__auto6 passes the request on (0x7100ec313c / 0x7101284954).
-    /* 0xc4 */ u8 _c4;
+    /* 0xc4 */ u8 _c4 = 6;
 };
 KSYS_CHECK_SIZE_NX150(DamageReactionRequest, 0xc8);
 static_assert(offsetof(DamageReactionRequest, _50) == 0x50);
