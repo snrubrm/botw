@@ -1,6 +1,7 @@
 #include <nn/ui2d/Material.h>
 #include "KingSystem/Quest/qstQuest.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/Scene/gameStageInfo.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/gameGraphics.h"
@@ -1161,3 +1162,9 @@ void sub_7100AA9A40(const sead::BoundBox2f& box, eui::Screen* screen, const sead
 }
 
 }  // namespace uking::ui
+
+// 0x7100aab7f8: whether the current map type is the main field or the game-test field.
+bool isCurrentMapTypeMainFieldOrGameTestField() {
+    return uking::StageInfo::getCurrentMapType() == "MainField" ||
+           uking::StageInfo::getCurrentMapType() == "GameTestField";
+}

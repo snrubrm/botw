@@ -425,6 +425,9 @@ public:
     // 0x710094e570 (declared only; 944 bytes): checks mode `mode` (0 .. 3) against the screens; `out` is cleared first
     bool sub_710094E570(s32 mode, bool* out);
     void sub_710094D9F4(s32 a1, s32 a2, s32 a3, s32 a4);
+    // 0x710094dcc0 (placeholder name): the app-map dungeon availability (a 4-byte forwarder to
+    // sub_71009E6B5C). Placeholder name: the only call site (sub_7100AA8A24) passes the singleton as `this`.
+    bool sub_710094DCC0();
     void sub_710094DCC4(s32 a1, s32 a2);
     // 0x710094e064 (placeholder name): sets _28 to 3, then forwards to sub_710094DCC4 with the change
     void sub_710094E064();
@@ -1620,9 +1623,14 @@ private:
 public:
     // the quest picked for the map (passed to sub_7100A9AC84 by sub_71009F2204)
     /* 0x3a0 */ ksys::qst::Quest* _3a0;
+    // Challenge icon state copied into ScreenChallengeWin::_3860 / ScreenMainScreen::_3cc8
+    // by sub_7100A9A6C4.
+    /* 0x3a8 */ u8 _3a8;
+    u8 _3a9[0x3b0 - 0x3a9];
+    /* 0x3b0 */ s32 _3b0;
 
 private:
-    u8 _3a8[0x458 - 0x3a8];
+    u8 _3b4[0x458 - 0x3b4];
     // The location markers 0x7100962534 enables / disables each frame.
     /* 0x458 */ sead::PtrArray<Unk_7102476350> _458;
     u8 _468[0x478 - 0x468];

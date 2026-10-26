@@ -76,6 +76,12 @@ void Unk_71025d69f0::sub_710094DB68(bool is_download_demo) {
     }
 }
 
+// 0x710094dcc0 (placeholder name): a 4-byte forwarder; the only caller (sub_7100AA8A24) passes the singleton
+// as `this`, so it is a member even though the name is unknown.
+bool Unk_71025d69f0::sub_710094DCC0() {
+    return sub_71009E6B5C();
+}
+
 // 0x710094d9f4: switches the app state and closes the map screen unless the new state is the map itself.
 // NON_MATCHING: clang schedules the ScreenMgr singleton load after the 0x71009e6b5c call's csel; the original
 // loads it in the call's shadow, before the csel (same instructions otherwise).

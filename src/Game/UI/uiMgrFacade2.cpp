@@ -634,6 +634,44 @@ bool sub_7100AA8948() {
     return false;
 }
 
+// 0x7100aa8a24 (placeholder name): whether the tool or one of the four apps has a button held down.
+bool sub_7100AA8A24() {
+    if (auto* screen = sead::DynamicCast<Screen>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppTool))) {
+        if (eui::ScreenMgr::instance()->getScreenTarget(screen->mId) >= 0 &&
+            screen->mButtonGroup->FindDownButton())
+            return true;
+    }
+    if (Unk_71025d69f0::instance()->sub_710094DCC0()) {
+        if (auto* screen = sead::DynamicCast<Screen>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::AppMapDungeon))) {
+            if (eui::ScreenMgr::instance()->getScreenTarget(screen->mId) >= 0 &&
+                screen->mButtonGroup->FindDownButton())
+                return true;
+        }
+    } else {
+        if (auto* screen = sead::DynamicCast<Screen>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap))) {
+            if (eui::ScreenMgr::instance()->getScreenTarget(screen->mId) >= 0 &&
+                screen->mButtonGroup->FindDownButton())
+                return true;
+        }
+    }
+    if (auto* screen = sead::DynamicCast<Screen>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppAlbum))) {
+        if (eui::ScreenMgr::instance()->getScreenTarget(screen->mId) >= 0 &&
+            screen->mButtonGroup->FindDownButton())
+            return true;
+    }
+    if (auto* screen = sead::DynamicCast<Screen>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppPictureBook))) {
+        if (eui::ScreenMgr::instance()->getScreenTarget(screen->mId) >= 0 &&
+            screen->mButtonGroup->FindDownButton())
+            return true;
+    }
+    return false;
+}
+
 // 0x7100aa8784: refreshes the balloon-text / text-ruby flags and, when the amiibo item flag is clear and the
 // current rune is the amiibo one, selects the first rune the player owns.
 void checkFlagsAndSetCurrentRuneStuff() {
