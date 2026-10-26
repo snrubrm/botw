@@ -661,6 +661,27 @@ void NoiseGauge::initMaybe(sead::Heap* heap) {
     mVertexAttribute.setUp();
 }
 
+// 0x7100f203d0 (placeholder name): allocates and fills the vertex and index GPU blocks.
+// NON_MATCHING: the original constructs one extra discarded GPUMemAddrBase(block, 0) at the start
+// of each half (four address objects in all, of which two are never read); the two setUp call
+// forms and every other instruction match. Frame size differs by those two stack objects.
+void NoiseGauge::sub_7100F203D0(sead::Heap* heap) {
+    mVertexData.allocBuffer_(0x80, heap, 4, agl::MemoryAttribute::Default);
+    for (s32 i = 0; i < 0x80; ++i)
+        static_cast<u8*>(mVertexData.getAddress())[i] = u8(255.0f * f32(i) / 127.0f);
+
+    mVertexBuffer.setUpBuffer(agl::ConstGPUMemVoidAddr(mVertexData, 0), 1, 0x80);
+    mVertexBuffer.setUpStream(0, agl::VertexStreamFormat(1), 0, false);
+
+    mIndexData.allocBuffer_(0x100, heap, 4, agl::MemoryAttribute::Default);
+    for (s32 i = 0; i < 0x80; ++i)
+        static_cast<u16*>(mIndexData.getAddress())[i] = u16(i);
+
+    agl::GPUMemAddrBase indexAddress(mIndexData, 0);
+    mIndexStream.setUpStream_(indexAddress, agl::IndexStreamFormat(1), 0x80);
+    mIndexStream.setPrimitiveType(NVN_DRAW_PRIMITIVE_LINE_STRIP);
+}
+
 // 0x7100f20774 (placeholder name): uploads the gauge parameters and the 16 noise points to the
 // uniform block, then flushes the block's GPU cache.
 // NON_MATCHING: target's 16-byte parameter blocks are built as two 8-byte stores per block
