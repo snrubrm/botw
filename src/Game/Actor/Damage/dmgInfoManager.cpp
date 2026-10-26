@@ -106,6 +106,41 @@ bool DamageInfoMgr::UnkCe0::sub_7100673064(ksys::act::BaseProc* proc, u32 tag) {
     return found;
 }
 
+s32 DamageInfoMgr::UnkCe0::sub_710067313C(f32 radius) {
+    const sead::Vector3f& player_pos = getPlayerPosition();
+    const f32 player_x = player_pos.x;
+    const f32 player_z = player_pos.z;
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (mCount == 0)
+        return 0;
+
+    s32 count = 0;
+    if (radius < 0.0f) {
+        for (s32 i = 0; i < mCount; ++i) {
+            ksys::act::acquireActor(&mLinks[i].mLink, &accessor);
+            if (!accessor.hasProc())
+                continue;
+            if (accessor.sub_7100D10E6C(0x18) || accessor.sub_7100D10E6C(25))
+                ++count;
+        }
+    } else {
+        for (s32 i = 0; i < mCount; ++i) {
+            ksys::act::acquireActor(&mLinks[i].mLink, &accessor);
+            if (!accessor.hasProc())
+                continue;
+            if (!accessor.sub_7100D10E6C(0x18) && !accessor.sub_7100D10E6C(25))
+                continue;
+            const sead::Matrix34f& mtx = accessor.getActorMtx();
+            const f32 dx = mtx(0, 3) - player_x;
+            const f32 dz = mtx(2, 3) - player_z;
+            if (std::sqrt(dx * dx + dz * dz) < radius)
+                ++count;
+        }
+    }
+    return count;
+}
+
 void DamageInfoMgr::UnkCe0::sub_710067343C(f32 value) {
     sub_71006732CC(value, 25);
 }
