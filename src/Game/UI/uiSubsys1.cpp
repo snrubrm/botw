@@ -129,6 +129,51 @@ void UiSubsys1::sub_7100968844() {
     _d80[4].mSelected._a0 = 4;
 }
 
+// 0x7100968900: whether the current map mode's lowest set bit is the mode `type` (or one of the two
+// follow-up modes for type 2).
+bool UiSubsys1::sub_7100968900(s32 type) {
+    if (type == 0) {
+        if (!_3860)
+            return false;
+        const u16 lowest = sead::BitFlagUtil::countContinuousOffBitFromRight(_3860);
+        return lowest == 0;
+    }
+    if (type == 1) {
+        if (!_3860)
+            return false;
+        {
+            const u16 lowest = sead::BitFlagUtil::countContinuousOffBitFromRight(_3860);
+            if (lowest == 1)
+                return true;
+        }
+        if (!_3860)
+            return false;
+        const u16 lowest = sead::BitFlagUtil::countContinuousOffBitFromRight(_3860);
+        return lowest == 2;
+    }
+    if (type == 2) {
+        if (!_3860)
+            return false;
+        {
+            const u16 lowest = sead::BitFlagUtil::countContinuousOffBitFromRight(_3860);
+            if (lowest == 2)
+                return true;
+        }
+        if (!_3860)
+            return false;
+        {
+            const u16 lowest = sead::BitFlagUtil::countContinuousOffBitFromRight(_3860);
+            if (lowest == 3)
+                return true;
+        }
+        if (!_3860)
+            return false;
+        const u16 lowest = sead::BitFlagUtil::countContinuousOffBitFromRight(_3860);
+        return lowest == 4;
+    }
+    return false;
+}
+
 // 0x7100964518: turns the marker position `pos` into the widget position and hands pin `index` to
 // sub_710096421C; `flag` selects the assignment path.
 void UiSubsys1::sub_7100964518(s32 index, const sead::Vector2f& pos, bool flag) {
