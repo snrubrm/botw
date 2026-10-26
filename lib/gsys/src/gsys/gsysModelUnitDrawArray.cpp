@@ -24,4 +24,15 @@ void ModelUnitDrawArray::setSize(s32 size) {
     unit->mCalcWeight = unit->getModelRenderUnitNum() + size;
 }
 
+// 0x7100c49694
+void ModelUnitDrawArray::reset_() {
+    _68 &= ~8;
+    for (int i = 0; i < mModelUnit->getMaterialNum(); i++) {
+        if (((u32(mModelUnit->getMaterialInfo()[i]._a) & 7) - 2) <= 2) {
+            _68 |= 8;
+            return;
+        }
+    }
+}
+
 }  // namespace gsys
