@@ -1,4 +1,5 @@
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -42,6 +43,25 @@
 bool fadeSlowEffect();
 
 namespace ksys::act {
+
+void Player::updateResistHotVal() {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_ResistHot, _200c + _2028, &info);
+    _2084 = info.val._f32;
+}
+
+void Player::updateResistColdVal() {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_ResistCold, _2010 + _202c, &info);
+    _2088 = info.val._f32;
+}
+
+void Player::updateStatusEffectAttackUp() {
+    eco::StatusEffectInfo info;
+    eco::Ecosystem::instance()->getStatusEffectInfo(eco::StatusEffect_AttackUp, _2004 + _2040, &info);
+    _208c = info.val._f32;
+}
+
 
 // In this file so that sub_71008883B8 calls it out of line, as in the original.
 bool Player::sub_710086DBA8() {

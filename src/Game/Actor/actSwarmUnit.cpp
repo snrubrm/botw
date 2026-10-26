@@ -2,10 +2,36 @@
 #include <gsys/gsysModel.h>
 #include <math/seadMatrixCalcCommon.h>
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
 #include "KingSystem/Resource/resResDerived.h"
 #include "KingSystem/Resource/resUnk_71024F9938.h"
 
 namespace uking::act {
+
+void Swarm::UnitBody::BodyState::sub_71002D7870(bool paused) {
+    if (paused) {
+        if (_18) {
+            _18->setLinearVelocity(sead::Vector3f::zero);
+            _18->setAngularVelocity(sead::Vector3f::zero);
+        }
+    } else if (_18 && _10) {
+        _18->changePositionAndRotation(_10->_8);
+    }
+}
+
+void Swarm::BodyInfo::sub_71002D71C8(bool paused) {
+    if (paused) {
+        if (_18) {
+            _18->setLinearVelocity(sead::Vector3f::zero);
+            _18->setAngularVelocity(sead::Vector3f::zero);
+        }
+    } else if (_18) {
+        sead::Vector3f world_position;
+        world_position.setMul(_20->getMtx(), _c);
+        _18->changePosition(world_position, ksys::phys::KeepAngularVelocity{false});
+    }
+}
 
 Swarm::Unit::Unit()
     : _8(sead::Matrix34f::ident), _38(sead::Vector3f::zero), _5c(0.1f),

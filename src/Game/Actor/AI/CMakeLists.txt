@@ -1210,6 +1210,7 @@ target_sources(uking PRIVATE
   aiLumberjackFallenTree.h
   aiLumberjackTree.cpp
   aiLumberjackTree.h
+  aiUnk_71024e1b58.cpp
   aiLynelArrowAttackSelect.cpp
   aiLynelArrowAttackSelect.h
   aiLynelArrowAttackSelectBase.cpp

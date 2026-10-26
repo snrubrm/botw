@@ -192,6 +192,7 @@ target_sources(uking PRIVATE
   actRoot6.cpp
   actDragon.cpp
   actDragon.h
+  actDragonTransform.cpp
   actEnemy.cpp
   actUnk_Enemy1250.cpp
   actEnemyUnk12d0.cpp

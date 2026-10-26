@@ -70,17 +70,6 @@ void Swarm::UnitBody::BodyState::sub_71002D782C() {
         _18->changePositionAndRotation(_10 ? _10->_8 : _8 ? _8->getMtx() : sead::Matrix34f::ident);
 }
 
-void Swarm::UnitBody::BodyState::sub_71002D7870(bool paused) {
-    if (paused) {
-        if (_18) {
-            _18->setLinearVelocity(sead::Vector3f::zero);
-            _18->setAngularVelocity(sead::Vector3f::zero);
-        }
-    } else if (_18 && _10) {
-        _18->changePositionAndRotation(_10->_8);
-    }
-}
-
 void Swarm::UnitBody::sub_71002D79BC(ksys::phys::InstanceSet* instance) {
     auto* body = _8._18;
     _8._10 = nullptr;
@@ -175,19 +164,6 @@ void Swarm::BodyInfo::sub_71002D5F44(const sead::Vector3f& position) {
     sead::Vector3f world_position;
     world_position.setMul(_20->getMtx(), position);
     _18->setPosition(world_position, ksys::phys::PropagateToLinkedMotions{true});
-}
-
-void Swarm::BodyInfo::sub_71002D71C8(bool paused) {
-    if (paused) {
-        if (_18) {
-            _18->setLinearVelocity(sead::Vector3f::zero);
-            _18->setAngularVelocity(sead::Vector3f::zero);
-        }
-    } else if (_18) {
-        sead::Vector3f world_position;
-        world_position.setMul(_20->getMtx(), _c);
-        _18->changePosition(world_position, ksys::phys::KeepAngularVelocity{false});
-    }
 }
 
 // NON_MATCHING: the per-unit opacity helper is inlined into this loop.
