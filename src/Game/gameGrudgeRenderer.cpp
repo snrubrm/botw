@@ -10,6 +10,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadDelegate.h>
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/Graphics/gfxUkingModelRenderOptionsMgr.h"
 
 // GrudgeRenderer's TU (0x710128d348 .. 0x71012915b8).
 
@@ -22,6 +23,37 @@ struct GrudgeNames {
 };
 GrudgeNames sUnk_710265f830 = {{}, "MergedGanonGrudgeSolid", "MasterMaterial"};
 }  // namespace
+
+// 0x7101290e20 (in this TU; not decompiled): whether `unit` passes the renderer's frustum test
+// for `model`. The third argument is the frustum block at the renderer's +8.
+bool sub_7101290E20(Unk_71025191c8* unit, gsys::ModelNW* model,
+                    const agl::cull::ViewFrustumCulling* frustum, bool flag);
+
+// 0x710128d348: constructs the renderer's shapes, queues, texture entries and draw-argument
+// buffers. The texture entries and the 0x400-entry texture-set table are value-initialised, so the
+// original zeroes them before running the member constructors.
+// NON_MATCHING: one instruction (the shape array base hoisted before the memset) and the order of
+// independent zero stores differ; the instruction set is otherwise identical.
+GrudgeRenderer::GrudgeRenderer()
+    : mSetupMaybe(), mEntries(), _ed0(), mBindDelegate(this, &GrudgeRenderer::sub_710128D550) {}
+
+// 0x710128d5e4 / 0x710128d72c: frees the unit arrays, the loaded model and its resource, and the
+// model pointer buffer; the remaining members are destroyed in declaration order.
+GrudgeRenderer::~GrudgeRenderer() {
+    mUnitArrays[0].freeBuffer();
+    mUnitArrays[1].freeBuffer();
+    mUnitArrays[2].freeBuffer();
+    mUnitArrays.freeBuffer();
+    if (mSetupMaybe._10) {
+        gsys::Model::sub_7100BF69F8(mSetupMaybe._10);
+        mSetupMaybe._10 = nullptr;
+    }
+    if (mSetupMaybe._28) {
+        gsys::ModelResource::sub_7100C0B764(mSetupMaybe._28);
+        mSetupMaybe._28 = nullptr;
+    }
+    mModelsMaybe.freeBuffer();
+}
 
 // 0x710128f88c: whether `unit` is a grudge model whose material `material` is Mt_Grudge.
 bool GrudgeRenderer::sub_710128F88C(gsys::ModelUnit* unit, s32 material) {
@@ -52,8 +84,8 @@ void GrudgeRenderer::sub_710128F4BC(const sead::Camera* camera) {
     if ((_2ef8 & 1) == 0)
         return;
     camera->getWorldPosByMatrix(&_240);
-    _264 = cGrudgeResetDistance;
-    _268->requestDraw();
+    mSetupMaybe._c = cGrudgeResetDistance;
+    mSetupMaybe._10->requestDraw();
 }
 
 template class sead::Delegate1<GrudgeRenderer, ksys::res::TextureHandleList::Entry*>;
@@ -79,12 +111,12 @@ void GrudgeRenderer::sub_710128F41C(const gsys::ModelRenderContext* context, f32
     const f32 scale = mFrustum.getNear() / sead::Mathf::max(cos_atan, 0.0001f);
 
     const f32 factor = fov + 1.0f;
-    _258 = factor * 200.0f;
+    mSetupMaybe._0 = factor * 200.0f;
     const f32 value = scale * 1.01f;
     _24c = value;
     _250 = value;
     _254 = value;
-    _25c = factor * 60.0f;
+    mSetupMaybe._4 = factor * 60.0f;
 }
 
 // 0x710128d550: marks the renderer entry or the render record of a finished texture bind.
@@ -116,7 +148,7 @@ void GrudgeRenderer::sub_710128F2A4() {
         Entry& entry = mEntries[i];
         if ((entry.mFlag & 1) != 0) {
             nn::g3d::ResMaterial* material =
-                &_280->getResFile()->mModels->mMaterials[entry.mMaterialIndex];
+                &mSetupMaybe._28->getResFile()->mModels->mMaterials[entry.mMaterialIndex];
             nn::gfx::ResTexture* texture =
                 agl::g3d::ResMaterial::GetTexture(material, entry.mTextureIndex);
             agl::g3d::TextureDataInitializerG3D::initialize(&entry.mTextureData, *texture);
@@ -130,17 +162,17 @@ void GrudgeRenderer::sub_710128F2A4() {
 
         mUnitArrays[i].clear();
 
-        _288->enableRenderViewOption(i, static_cast<gsys::ModelEnum::RenderViewOption>(4), false,
+        mSetupMaybe._30->enableRenderViewOption(i, static_cast<gsys::ModelEnum::RenderViewOption>(4), false,
                                      -1);
         // Hide the entry's material and mark it as changed (the render-option bit 15 and the
         // material change flag).
-        gsys::ModelUnit* unit = _288;
+        gsys::ModelUnit* unit = mSetupMaybe._30;
         unit->getMaterialInfo()[i].renderOptions &= ~0x8000;
         unit->getFlags().set(gsys::ModelUnit::Flag::Changed);
         unit->getMaterialInfo()[i].flags.setBit(1);
     }
 
-    _260 = 1 - _260;
+    mSetupMaybe._8 = 1 - mSetupMaybe._8;
 }
 
 // 0x710128f698: binds the textures of the three texture records of `set` on `model`.
@@ -168,6 +200,56 @@ void GrudgeRenderer::sub_710128F698(gsys::ModelNW* model, TextureSet* set) {
         }
 
         _2ef8 &= ~mask;
+    }
+}
+
+// 0x710128f148: frees the texture set the renderer stored in a unit's render data and clears the
+// renderer's table slot.
+// NON_MATCHING: the original keeps the three entry addresses in x21/x22/x23 across the unregister
+// loop and the entry destructors; ours recomputes them after freeBuffer (regalloc only).
+void GrudgeRenderer::sub_710128F148(ksys::gfx::ModelRenderDataMaybe* data) {
+    TextureSet* set = static_cast<TextureSet*>(data->_88->_8);
+    if (!set)
+        return;
+
+    const s32 last = set->mUnits.size() - 1;
+    for (s32 i = 0; i <= last; ++i) {
+        auto* unit = set->mUnits[i];
+        if (unit)
+            delete unit;
+    }
+    for (auto& entry : set->mEntries) {
+        if (entry.mHandle.sub_71012BD330())
+            entry.mHandle.sub_71012BD338();
+    }
+    set->mUnits.freeBuffer();
+    const s32 index = set->mTableIndex;
+    delete set;
+    _ed0[index] = nullptr;
+}
+
+// 0x710128f510: binds the set's textures when all three entries need it, then adds the units that
+// pass the frustum test to the renderer's per-group unit arrays.
+void GrudgeRenderer::sub_710128F510(gsys::ModelUnit* unit) {
+    if ((_2ef8 & 1) == 0)
+        return;
+
+    gsys::ModelNW* model = sead::DynamicCast<gsys::ModelNW>(unit);
+    TextureSet* set = static_cast<TextureSet*>(unit->getRenderDataMaybe()->_8);
+    if (!set)
+        return;
+
+    if ((set->mFlags & 3) == 3) {
+        sub_710128F698(model, set);
+        set->mFlags &= ~2;
+    }
+
+    const u32 flags = set->mFlags & 4;
+    const s32 count = set->mUnits.size();
+    for (s32 i = 0; i < count; ++i) {
+        Unk_71025191c8* grudge_unit = set->mUnits[i];
+        if (sub_7101290E20(grudge_unit, model, &mFrustum, flags))
+            mUnitArrays[grudge_unit->getUnitArrayIndexMaybe()].pushBack(grudge_unit);
     }
 }
 

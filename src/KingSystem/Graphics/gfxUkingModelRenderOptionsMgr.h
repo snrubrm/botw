@@ -11,7 +11,9 @@ struct ModelRenderDataMaybe {
     struct Block {
         // The map renderer's unit group this render data registered.
         Unk_7100f185a4::UnitGroup* mGroup;
-        u8 _8[0x28];
+        // The grudge renderer's texture set (gsys::ModelUnit::RenderDataMaybe::_8).
+        void* _8;
+        u8 _10[0x20];
         // Freed with delete[] before the block itself is deleted.
         u8* _30;
     };

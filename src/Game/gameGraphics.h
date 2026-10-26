@@ -16,11 +16,13 @@
 #include <prim/seadBitFlag.h>
 #include <prim/seadEnum.h>
 #include <thread/seadCriticalSection.h>
+#include <thread/seadAtomic.h>
 #include <gsys/gsysModelScene.h>
 #include <gsys/gsysModelScenePassCallback.h>
 #include <gsys/gsysModelRenderQueue.h>
 #include <gsys/gsysModelRenderContext.h>
 #include <gsys/gsysModelRenderUnitNodeArray.h>
+#include <gsys/gsysModelProceduralShape.h>
 #include <gsys/gsysModelUnit.h>
 #include <gsys/gsysModelSceneContext.h>
 #include <gsys/gsysModelRenderCache.h>
@@ -43,6 +45,9 @@
 #include <common/aglGPUMemAddr.h>
 #include <common/aglGPUMemBlock.h>
 #include <utility/aglAtomicPtrArray.h>
+#include <nn/gfx/detail/gfx_Buffer-api.nvn.8.h>
+#include <nn/gfx/gfx_Common.h>
+#include <prim/seadDelegate.h>
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resTextureHandleList.h"
 #include <prim/seadSafeString.h>
@@ -471,6 +476,8 @@ public:
     // 0x710128fedc: declares and creates the uniform block, names the unit and stores its
     // parameters.
     void sub_710128FEDC(const CreateArg& arg);
+    // 0x710128f510 indexes the renderer's per-group unit array with this value.
+    s32 getUnitArrayIndexMaybe() const { return _118; }
 
 private:
     /* 0x08 */ agl::UniformBlock mUniformBlock;
@@ -496,29 +503,34 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(Unk_71025191c8, 0x130);
 
-class GrudgeRenderer {
+class GrudgeRenderer : public sead::hostio::Node {
 public:
+    // 0x710128d348
+    GrudgeRenderer();
+    // 0x710128d5e4 / 0x710128d72c (the base Node has no virtual destructor in release).
+    virtual ~GrudgeRenderer();
+
     // One per grudge material slot: the texture the renderer binds for it. 0x710128f2a4 refreshes
     // every entry whose flag bit 0 is set.
     struct Entry {
         agl::TextureData mTextureData;                 // 0x000
         agl::TextureSampler mSampler;                  // 0x128
-        s32 mTextureIndex;                             // 0x298
+        s32 mTextureIndex = -1;                        // 0x298
         u8 _29c[4];
         ksys::res::TextureHandleList::Entry mHandle;   // 0x2a0
-        u32 _350;
-        u32 _354;
-        u32 _358;
+        u32 _350 = 0;
+        u32 _354 = 0;
+        u32 _358 = 0;
         u8 _35c[4];
         s32 mMaterialIndex;  // 0x360
-        u8 mFlag;            // 0x364
+        u8 mFlag = 0;        // 0x364
         u8 _365[3];
-        s32 _368;  // -1
+        s32 _368 = -1;
         u8 _36c[4];
-        sead::SafeString mName;  // 0x370: "Undefined"
-        s32 _380;                // -1
+        sead::SafeString mName = "Undefined";  // 0x370
+        s32 _380 = -1;
         u8 _384[4];
-        sead::SafeString mName2;  // 0x388: "Undefined"
+        sead::SafeString mName2 = "Undefined";  // 0x388
     };
     static_assert(sizeof(Entry) == 0x398);
 
@@ -568,8 +580,11 @@ public:
     void sub_710128F2A4();
     // 0x710128f698: binds the textures of the three texture entries of `set` on `model`.
     void sub_710128F698(gsys::ModelNW* model, TextureSet* set);
-    // 0x710128f148: destroys the model render data the renderer built.
-    void sub_710128F148(void* data);
+    // 0x710128f148: frees the texture set the renderer stored in a unit's render data.
+    void sub_710128F148(ksys::gfx::ModelRenderDataMaybe* data);
+    // 0x710128f510: adds the units of the set that pass the frustum test to the renderer's
+    // per-group unit arrays.
+    void sub_710128F510(gsys::ModelUnit* unit);
     // 0x710128f4bc: once flag bit 0 of _2ef8 is set, records the camera's world position, resets the
     // distance at 0x264 to 20 and asks the model at 0x268 to draw.
     void sub_710128F4BC(const sead::Camera* camera);
@@ -579,29 +594,56 @@ public:
     // 0x710128f888 (declaration only; placeholder name): draws the renderer's debug geometry.
     void sub_710128F888(agl::DrawContext* context, gsys::ModelRenderContext* render_context);
 
+    // The scalar block, the model pointers and the three procedural shapes the renderer builds,
+    // value-initialised as one aggregate (the original zeroes all 0x110 bytes, then constructs
+    // the shapes).
+    struct ShapeSetupMaybe {
+        f32 _0;   // 0x00
+        f32 _4;   // 0x04
+        s32 _8;   // 0x08
+        f32 _c;   // 0x0c
+        gsys::Model* _10;               // 0x10
+        u8 _18[0x28 - 0x18];            // 0x18
+        gsys::ModelResource* _28;       // 0x28
+        gsys::ModelNW* _30;             // 0x30
+        gsys::ModelProceduralShape mShapes[3];  // 0x38
+    };
+    static_assert(sizeof(ShapeSetupMaybe) == 0x110);
+
 private:
-    u8 _0[0x8];
     agl::cull::ViewFrustumCulling mFrustum;  // 0x008
     sead::Vector3f _240;
     f32 _24c;
     f32 _250;
     f32 _254;
-    f32 _258;
-    f32 _25c;
-    s32 _260;
-    f32 _264;
-    gsys::Model* _268;
-    u8 _270[0x280 - 0x270];
-    gsys::ModelResource* _280;
-    gsys::ModelNW* _288;
-    u8 _290[0x3c0 - 0x290];
-    sead::SafeArray<Entry, 3> mEntries;
-    u8 _e88[0xed0 - 0xe88];
-    sead::SafeArray<TextureSet*, 0x400> _ed0;
-    u8 _2ed0[0x2ee8 - 0x2ed0];
-    sead::Buffer<agl::utl::AtomicPtrArray<Unk_71025191c8>> mUnitArrays;
-    u8 _2ef8;
-    u8 _2ef9[0x2fb0 - 0x2ef9];
+    ShapeSetupMaybe mSetupMaybe;  // 0x258
+    gsys::ModelRenderQueue mRenderQueue;    // 0x368
+    gsys::ModelRenderUnitNodeArray mNodeArray;  // 0x3a8
+    sead::SafeArray<Entry, 3> mEntries;         // 0x3c0
+    // 0x71013210c8: the nn::gfx buffer the renderer fills with its draw arguments.
+    nn::gfx::detail::BufferImpl<nn::gfx::ApiVariationNvn8> _e88;
+    sead::SafeArray<TextureSet*, 0x400> _ed0;  // 0xed0
+    sead::Atomic<s32> _2ed0 = 0;
+    // 0x2ed8: the models the renderer loaded (size at +0, pointers at +8).
+    sead::Buffer<void*> mModelsMaybe;
+    sead::Buffer<agl::utl::AtomicPtrArray<Unk_71025191c8>> mUnitArrays;  // 0x2ee8
+    u8 _2ef8 = 0;
+    u8 _2ef9[3];
+    u32 _2efc = 0;
+    // 0x2f00: the callback the texture handle list calls when a grudge texture finishes loading.
+    sead::Delegate1<GrudgeRenderer, ksys::res::TextureHandleList::Entry*> mBindDelegate;
+    void* _2f20 = nullptr;
+    void* _2f28 = nullptr;
+    void* _2f30 = nullptr;
+    void* _2f38 = nullptr;
+    // The seven draw-argument buffers at 0x2f40 (contents not recovered yet).
+    sead::Buffer<void*> _2f40;
+    sead::Buffer<void*> _2f50;
+    sead::Buffer<void*> _2f60;
+    sead::Buffer<void*> _2f70;
+    sead::Buffer<void*> _2f80;
+    sead::Buffer<void*> _2f90;
+    sead::Buffer<void*> _2fa0;
 };
 KSYS_CHECK_SIZE_NX150(GrudgeRenderer, 0x2fb0);
 
