@@ -469,6 +469,11 @@ void Unk_7100f185a4::setCameraMaybe(const sead::Camera& camera, f32 fov) {
         _1f8 = static_cast<const sead::LookAtCamera*>(&camera)->getAt();
 }
 
+// 0x7100f1ac50: the projection the map screen's screen-position helper uses.
+sead::Projection& Unk_7100f185a4::getProjectionMaybe() {
+    return mProjection;
+}
+
 // 0x7100f1ac58: clears the render queue and the frame flag, flips the id buffer and clears the new
 // buffer's ids.
 void Unk_7100f185a4::sub_7100F1AC58() {

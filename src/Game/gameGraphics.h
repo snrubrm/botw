@@ -260,7 +260,7 @@ public:
     // 0x7100f1b020 (declaration only): draws the map units and the map's scene model through `context`.
     // Needed by the map screen's draw override (lane2's m33).
     void sub_7100F1B020(agl::DrawContext* context);
-    // 0x7100f1ac50 (declaration only): the projection at +0x128. The map screen's screen-position
+    // 0x7100f1ac50: the projection at +0x128. The map screen's screen-position
     // helper casts it to sead::PerspectiveProjection, so it is returned as sead::Projection.
     sead::Projection& getProjectionMaybe();
     // 0x7100f1b6e0: frees the dynamic map texture and puts the Black2D sampler back on mSampler0.
