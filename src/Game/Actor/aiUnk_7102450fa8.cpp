@@ -238,6 +238,40 @@ void Unk_7102450fa8::sub_71007190CC(const ksys::MesTransceiverId& dest) {
         actor->sendMessage(dest, ksys::MessageType(0x80000d9), this, true);
 }
 
+// 0x7100719b88 (placeholder name; PriestBossActorNormalMode::m40): adds the formation member that
+// belongs to `actor` to the linked actor pool.
+// NON_MATCHING: the 33-entry search loop's exit compare is canonicalised (original: cmp #32 / b.le;
+// ours: cmp #33 / b.lt; see sub_7100719534 for the s64-index finding) and clang merges the two
+// unlocked `return true` paths into one OR'd bool, where the original materialises w0 in each.
+bool Unk_7102450fa8::sub_7100719B88(ksys::act::Actor* actor) {
+    for (int i = 0; i <= 32; ++i) {
+        if (_8[i]._e0.hasProcById(actor)) {
+            if (i == 2 || u32(i - 2) > 8)
+                return true;
+
+            sead::ScopedLock<sead::JobQueueLock> lock(&_9c);
+            for (s32 j = 0; j < _a0.size(); ++j) {
+                if (_a0[j]->hasProcById(actor))
+                    return true;
+            }
+
+            if (_a0.size() >= s32(_198))
+                return false;
+
+            ksys::act::BaseProcLink* link = _a0.emplaceBack();
+            if (!link)
+                return false;
+
+            if (!link->acquire(actor, false)) {
+                _a0.erase(_a0.size() - 1);
+                return false;
+            }
+            return true;
+        }
+    }
+    return true;
+}
+
 // 0x7100719d5c (placeholder name): removes the formation member (3 .. 10) that belongs to `actor`
 // from the linked actor pool.
 // NON_MATCHING: only the 33-entry search loop's exit compare differs (original: cmp #32 / b.le; ours:
