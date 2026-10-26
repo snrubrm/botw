@@ -16,11 +16,6 @@ const char* const sUnk_7102450f98 = "Grave";
 // NavMeshCharacter by PriestBossActorEnemyRoot::init_).
 Unk_7102450e90 sUnk_71025c8d10;
 
-// 0x7100718360: allocates and constructs the object (ctor 0x7100717eec).
-Unk_7102450fa8* Unk_7102450fa8::sub_7100718360(sead::Heap* heap) {
-    return new (heap, std::nothrow) Unk_7102450fa8;
-}
-
 s32 Unk_7102450fa8::sub_7100719FCC() const {
     return _88 ? _88->_ac : -1;
 }
