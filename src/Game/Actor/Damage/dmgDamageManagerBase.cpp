@@ -11,6 +11,7 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGeneral.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
+#include <cmath>
 
 namespace uking::act {
 
@@ -209,6 +210,37 @@ void DamageManagerBase::preDelete1() {
         delete mStruct20_b;
         mStruct20_b = nullptr;
     }
+}
+
+// NON_MATCHING: the z delta's subtraction is scheduled one slot before the out->x store here and
+// after it in the original; the operations are the same.
+bool DamageManagerBase::m29(sead::Vector3f* out) {
+    auto* attacker = getAttacker();
+    f32 length = 0.0f;
+    if (attacker->hasProc()) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(attacker, &accessor);
+
+        const sead::Vector3f attacker_delta =
+            accessor.getActorMtx().getTranslation() - accessor.getVelocity();
+        const sead::Vector3f actor_delta = mActor->getMtx().getTranslation() - mActor->getVelocity();
+
+        sead::Vector3f dir = actor_delta - attacker_delta;
+        dir.y = 0.0f;
+        *out = dir;
+
+        length = dir.length();
+        if (length > 0.0f) {
+            const f32 scale = 1.0f / length;
+            out->x *= scale;
+            out->y *= scale;
+            out->z *= scale;
+        }
+    }
+
+    if (length == 0.0f)
+        return getDamageDir(out);
+    return true;
 }
 
 bool DamageManagerBase::canTakeDamage() {
