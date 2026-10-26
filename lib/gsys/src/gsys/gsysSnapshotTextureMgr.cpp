@@ -2,6 +2,9 @@
 
 namespace gsys {
 
+// 0x7100c60824
+SnapshotTextureMgr::SnapshotTextureMgr() {}
+
 // The original keeps the vptr store that a defaulted body drops.
 SnapshotTextureMgr::ExpansionColor::~ExpansionColor() { ; }
 
