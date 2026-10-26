@@ -24,6 +24,8 @@
 #include "KingSystem/Resource/resGameResourceSystem.h"
 #include "KingSystem/Camera/CameraMgr.h"
 #include <gfx/seadCamera.h>
+#include <devenv/seadEnvUtil.h>
+#include <time/seadCalendarTime.h>
 
 // UI wrapper functions around uking::ui::Manager (the 0x7100a94000 TU).
 namespace uking::ui {
@@ -741,6 +743,53 @@ bool sub_7100A9C15C() {
     if (!isSelectedRuneEqualToItemType(3))
         return false;
     return screen->_4080 != 0;
+}
+
+// 0x7100a9e034
+// NON_MATCHING: the region switch has the same jump table and arms but one arm's format block is laid out
+// differently: the USen arm shares the D/M/Y format load, and the original places that load right after the D/M/Y
+// arm (the USen arm branches back to it) while ours puts the D/M.Y arm between them, adding one `b`. The four
+// format strings and all argument orders match.
+void formatDate(const sead::CalendarTime& time, sead::BufferedSafeString* out) {
+    sead::FixedSafeString<128> text;
+    const sead::CalendarTime::Date& date = time.getDate();
+    const sead::CalendarTime::Time& clock = time.getTime();
+    const sead::RegionLanguageID language = sead::EnvUtil::getRegionLanguage();
+    switch (int(language)) {
+    case sead::RegionLanguageID::USfr:
+    case sead::RegionLanguageID::EUes:
+    case sead::RegionLanguageID::EUnl:
+        text.format("%02u/%02u/%04u", date.mDay.getValue(), date.mMonth.getValueOneOrigin(),
+                    date.mYear.getValue());
+        break;
+    case sead::RegionLanguageID::JPja:
+    case sead::RegionLanguageID::KRko:
+    case sead::RegionLanguageID::CNzh:
+    case sead::RegionLanguageID::TWzh:
+        text.format("%04u/%02u/%02u", date.mYear.getValue(), date.mMonth.getValueOneOrigin(),
+                    date.mDay.getValue());
+        break;
+    case sead::RegionLanguageID::USes:
+    case sead::RegionLanguageID::USpt:
+    case sead::RegionLanguageID::EUen:
+    case sead::RegionLanguageID::EUfr:
+    case sead::RegionLanguageID::EUit:
+    case sead::RegionLanguageID::EUpt:
+        text.format("%02u.%02u.%04u", date.mDay.getValue(), date.mMonth.getValueOneOrigin(),
+                    date.mYear.getValue());
+        break;
+    case sead::RegionLanguageID::EUde:
+    case sead::RegionLanguageID::EUru:
+        text.format("%02u-%02u-%04u", date.mDay.getValue(), date.mMonth.getValueOneOrigin(),
+                    date.mYear.getValue());
+        break;
+    case sead::RegionLanguageID::USen:
+        text.format("%02u/%02u/%04u", date.mMonth.getValueOneOrigin(), date.mDay.getValue(),
+                    date.mYear.getValue());
+        break;
+    }
+    text.appendWithFormat(" %02u:%02u", clock.mHour.getValue(), clock.mMinute.getValue());
+    out->copy(text);
 }
 
 // 0x7100a9e200
