@@ -75,6 +75,18 @@ public:
     // 0x7100c09d60: the material object of mModelObj's 0x80-byte material array at mMaterialIndex.
     nn::g3d::MaterialObj* getMaterial() const;
 
+    /// One two-bit shader-variation field per ModelEnum::ShaderAssignType (index 0..14). 0xc09c24
+    /// clears all of them; ModelNW::createRenderUnit_ copies them when it reuses a unit.
+    u32 getShaderVariation(s32 assign_type) const {
+        return (m_218[assign_type >> 3] >> ((assign_type & 7) * 2)) & 3;
+    }
+
+    void setShaderVariation(s32 assign_type, u32 variation) {
+        u32& word = m_218[assign_type >> 3];
+        const s32 shift = (assign_type & 7) * 2;
+        word = (word & ~(3 << shift)) | (variation << shift);
+    }
+
 protected:
     // initialize 0x7100c09c24 loads the user pointer (+0x50) of the shape's ResShape; the destructor
     // passes it to G3dResShapeEx::destroyShapeDL.

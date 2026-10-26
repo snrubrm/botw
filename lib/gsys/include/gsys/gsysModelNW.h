@@ -45,6 +45,15 @@ public:
     bool initialize(nn::g3d::ResModel* model, s32 buffer_num, sead::Heap* heap);
     bool initialize(const CreateArg& arg, sead::Heap* heap);
 
+    /// State carried over when a render unit is recreated at the same index. createRenderUnit_
+    /// fills the flag and the fields from the unit it recycles; initRenderUnit_ restores them.
+    struct RenderUnitInitData {
+        bool reuse = false;
+        u32 flags;
+        /// One two-bit shader-variation field per ModelEnum::ShaderAssignType.
+        u8 variations[15];
+    };
+
     // initialize c0334c allocates 0x10-byte records, stores this at +0 and
     // the material index at +8, then installs each record as MaterialObj user data.
     struct MaterialUserData {
@@ -113,9 +122,15 @@ public:
     void safeGetBoneWorldMatrix(sead::Matrix34f* matrix, int bone_idx) const override;
 
 protected:
-    // 0x7100c07b94 (declared only): creates and initializes the render unit `index`;
+    // 0x7100c042e0 (declared here because ModelProceduralShape also calls it): recycles the render
+    // unit at `index` into `init` and allocates an unconstructed unit of `size` bytes.
+    void* createRenderUnit_(int index, RenderUnitInitData* init, size_t size, sead::Heap* heap);
+    // 0x7100c043a4: initializes `unit` and restores the recycled state. Returns false on failure.
+    bool initRenderUnit_(ModelRenderUnitNW* unit, int index, const RenderUnitInitData& init,
+                         sead::Heap* heap);
+    // 0x7100c07b94 (declared only): creates and initializes the plain render unit `index`;
     // createRenderUnitNW forwards to it.
-    void allocAndInitRenderUnitNW(int index, sead::Heap* heap);
+    ModelRenderUnitNW* allocAndInitRenderUnitNW(int index, sead::Heap* heap);
     virtual void drawDetail(agl::DrawContext* context) const;
     virtual void createRenderUnitNW(int, sead::Heap* heap);
 
@@ -128,6 +143,7 @@ protected:
 private:
     friend class Model;
     friend class ModelRenderUnitNW;
+    friend class ModelProceduralShape;
 
     u8 _168;
     nn::g3d::ModelObj mModelObj;

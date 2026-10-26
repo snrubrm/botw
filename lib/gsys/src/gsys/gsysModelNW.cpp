@@ -2,6 +2,8 @@
 #include "gsys/gsysModelRenderUnitNW.h"
 #include "gsys/gsysModelDynamicEnvInfo.h"
 #include <g3d/aglNW4FToNN.h>
+#include <heap/seadHeapMgr.h>
+#include <new>
 #include <nn/g3d/SkeletonObj.h>
 #include <nn/g3d/ResModel.h>
 #include <nn/g3d/ResMaterial.h>
@@ -41,6 +43,50 @@ bool ModelNW::check(BoolType type) const {
         return (_200 & 0x20) != 0;
     }
     return false;
+}
+
+// 0x7100c07b94
+ModelRenderUnitNW* ModelNW::allocAndInitRenderUnitNW(int index, sead::Heap* heap) {
+    RenderUnitInitData init;
+    auto* unit = static_cast<ModelRenderUnitNW*>(
+        createRenderUnit_(index, &init, sizeof(ModelRenderUnitNW), heap));
+    if (!unit)
+        return nullptr;
+    new (unit) ModelRenderUnitNW;
+    if (!initRenderUnit_(unit, index, init, heap))
+        return nullptr;
+    return unit;
+}
+
+// 0x7100c042e0
+void* ModelNW::createRenderUnit_(int index, RenderUnitInitData* init, size_t size,
+                                 sead::Heap* heap) {
+    ModelRenderUnitNW* unit = mRenderUnits[index];
+    if (unit) {
+        init->reuse = true;
+        init->flags = unit->getFlags10();
+        for (s32 i = 0; i < 15; ++i)
+            init->variations[i] = u8(unit->getShaderVariation(i));
+        delete unit;
+        mRenderUnits[index] = nullptr;
+    }
+    if (!heap)
+        heap = sead::HeapMgr::sInstancePtr->getCurrentHeap();
+    return heap->tryAlloc(size, 0x20);
+}
+
+// 0x7100c043a4
+bool ModelNW::initRenderUnit_(ModelRenderUnitNW* unit, int index, const RenderUnitInitData& init,
+                              sead::Heap* heap) {
+    if (!unit->initialize(this, index, heap))
+        return false;
+    if (init.reuse) {
+        unit->getFlags10() = init.flags;
+        for (s32 i = 0; i < 15; ++i)
+            unit->setShaderVariation(i, init.variations[i]);
+    }
+    mRenderUnits[index] = unit;
+    return true;
 }
 
 // 0x7100c07b80

@@ -111,6 +111,10 @@ u8** ModelWorkBuffer::getBufferPtr(s32 core) {
     return &mCoreBuffers[core].mCurrent;
 }
 
+u32 ModelWorkBuffer::getDisplayListBufferSize() {
+    return 0x800;
+}
+
 agl::GPUMemVoidAddr ModelWorkBuffer::lockAndBeginUseDisplayListBuffer() {
     mCriticalSection.lock();
     return mCoreBuffers[sead::CoreInfo::getCurrentCoreId()].mDisplayListAddr;

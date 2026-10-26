@@ -462,4 +462,13 @@ int ModelUnit::getShapeSubMeshNum(int shape_idx) const {
     return getModelRenderUnit(shape_idx)->getSubMeshNum(0);
 }
 
+// 0x7100c3e484
+void ModelUnit::gatherVisibleModelRenderUnit() {
+    mRenderUnitNum = 0;
+    for (s32 i = 0; i < getModelRenderUnitNum(); ++i) {
+        if (getModelRenderUnit(i)->isVisible())
+            mRenderUnits[mRenderUnitNum++] = getModelRenderUnit(i);
+    }
+}
+
 }  // namespace gsys

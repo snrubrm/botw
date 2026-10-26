@@ -7,6 +7,8 @@
 
 namespace gsys {
 
+// NON_MATCHING: store scheduling of three member initialisers (0x218 / 0x232 / 0x33); the
+// declaration order and every value agree.
 ModelRenderUnitNW::ModelRenderUnitNW() = default;
 
 ModelRenderUnitNW::~ModelRenderUnitNW() {

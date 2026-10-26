@@ -18,6 +18,15 @@ namespace gsys {
 
 class ModelShader;
 
+// The shader-variation attribute names ModelShaderVariationKey uses are static lookups on this
+// class. Only those are declared here; the instance layout is not modelled yet.
+class ModelShader {
+public:
+    static const char* getAssignID();
+    static const char* getAssignVariationID();
+    static const char* getVtxSkinWeightName();
+};
+
 // Only the members ModelShaderHolder uses are declared (constructor 0x7100c3cc14 builds 0x58 bytes).
 class ModelShaderArchive {
 public:

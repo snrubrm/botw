@@ -44,6 +44,8 @@ public:
     void clear(sead::WorkerMgr* worker_mgr);
     void roundUpBuffer(s32 core, u32 size);
     u8** getBufferPtr(s32 core);
+    // 0x7100c6b8cc: the size of one display-list buffer handed to DisplayList::begin.
+    u32 getDisplayListBufferSize();
     agl::GPUMemVoidAddr lockAndBeginUseDisplayListBuffer();
     void unlockAndEndUseDisplayListBuffer();
     u32 getFreeSize(s32 core) const;

@@ -43,4 +43,16 @@ const ModelShader* ModelShaderHolder::searchModelShader(const sead::SafeString& 
     return nullptr;
 }
 
+const char* ModelShader::getAssignID() {
+    return "gsys_assign_type";
+}
+
+const char* ModelShader::getAssignVariationID() {
+    return "gsys_assign_variation";
+}
+
+const char* ModelShader::getVtxSkinWeightName() {
+    return "gsys_weight";
+}
+
 }  // namespace gsys
