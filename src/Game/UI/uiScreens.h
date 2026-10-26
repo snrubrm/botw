@@ -4585,27 +4585,36 @@ public:
 class ScreenMainHorse : public ScreenEx {
 public:
     const char* getLayoutName_() const override;
+    ScreenMainHorse();
     ~ScreenMainHorse() override;
     SEAD_RTTI_OVERRIDE(ScreenMainHorse, ScreenEx)
 
     // 0x7100a10cd4: disables every animator of the screen
     void m101() override;
 
-    u8 _pad_3610[0x3678 - 0x3610];
-    /* 0x3678 */ eui::Animator* _3678[10];
-    /* 0x36c8 */ eui::Animator* _36c8[10];
-    /* 0x3718 */ sead::SafeArray<eui::Animator*, 10> _3718;
-    u8 _pad_3768[0x3808 - 0x3768];
-    /* 0x3808 */ eui::Animator* _3808;
+    // 0x3610: the animator table. The constructor zeroes the whole 0x1f8-byte block from its body (one memset
+    // at 0x7100a100e0, after the scalar member initialisers).
+    struct Animators {
+        u8 _0[0x68];
+        /* 0x3678 */ eui::Animator* _3678[10];
+        /* 0x36c8 */ eui::Animator* _36c8[10];
+        /* 0x3718 */ sead::SafeArray<eui::Animator*, 10> _3718;
+        u8 _3768[0xa0];
+    };
+    static_assert(sizeof(Animators) == 0x1f8);
+    /* 0x3610 */ Animators mAnimators;
+    /* 0x3808 */ eui::Animator* _3808 = nullptr;
     /* 0x3810 */ eui::Animator* _3810;
     /* 0x3818 */ eui::Animator* _3818;
     /* 0x3820 */ eui::Animator* _3820;
-    u8 _pad_3828[0x3840 - 0x3828];
-    /* 0x3840 */ eui::Animator* _3840;
-    /* 0x3848 */ eui::Animator* _3848;
+    /* 0x3828 */ eui::Animator* _3828;
+    /* 0x3830 */ eui::Animator* _3830;
+    /* 0x3838 */ eui::Animator* _3838;
+    /* 0x3840 */ eui::Animator* _3840 = nullptr;
+    /* 0x3848 */ eui::Animator* _3848 = nullptr;
     /* 0x3850 */ UiTimer _3850;
-    /* 0x3868 */ s32 _3868;  // number of charge animators in _3718
-    /* 0x386c */ s32 _386c;
+    /* 0x3868 */ s32 _3868 = 0;  // number of charge animators in _3718
+    /* 0x386c */ s32 _386c = 0;
 
     // 0x7100a102cc (placeholder name; called by Manager 0x7100a790cc): stops the charge animators while the horse has
     // the charge penalty and closes the screen once the charge count is stable for one second

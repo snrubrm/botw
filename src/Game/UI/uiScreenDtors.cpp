@@ -9,15 +9,26 @@ ScreenGamePadBG::~ScreenGamePadBG() = default;
 ScreenWolfLinkHeartGauge::~ScreenWolfLinkHeartGauge() = default;
 ScreenMainHorse::~ScreenMainHorse() = default;
 
+// 0x7100a100e0
+ScreenMainHorse::ScreenMainHorse() : ScreenEx() {
+    memset(&mAnimators, 0, sizeof(mAnimators));
+    _3838 = nullptr;
+    _3830 = nullptr;
+    _3828 = nullptr;
+    _3820 = nullptr;
+    _3818 = nullptr;
+    _3810 = nullptr;
+}
+
 // 0x7100a10cd4
 void ScreenMainHorse::m101() {
     _3808->disableKeepLinked();
     _3840->disableKeepLinked();
     _3848->disableKeepLinked();
     for (s32 i = 0; i < 10; ++i) {
-        _3678[i]->disableKeepLinked();
-        _3718[i]->disableKeepLinked();
-        _36c8[i]->disableKeepLinked();
+        mAnimators._3678[i]->disableKeepLinked();
+        mAnimators._3718[i]->disableKeepLinked();
+        mAnimators._36c8[i]->disableKeepLinked();
     }
     _3810->disableKeepLinked();
     _3818->disableKeepLinked();
@@ -30,7 +41,7 @@ void ScreenMainHorse::sub_7100A102CC() {
         return;
     if (ksys::gdt::getFlag_Horse_IsOnChargePenalty()) {
         for (s32 i = 0; i < _3868; ++i)
-            _3718[i]->Stop(1.0f);
+            mAnimators._3718[i]->Stop(1.0f);
         _386c = 0;
         _3850.init(1.0f);
     } else if (_3868 != ksys::gdt::getFlag_Horse_CurrentChargeNum()) {
