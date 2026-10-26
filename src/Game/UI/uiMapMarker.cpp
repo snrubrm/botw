@@ -1381,6 +1381,32 @@ void Unk_7102476548::m14() {
     m20();
 }
 
+// 0x7100957664: the same district move as m14, with the fixed map parameter position in state 5 and
+// no update while the manager's bit 6 of 0x64c32 is set.
+void Unk_7102476548::m16() {
+    const u32 mode = Manager::instance()->_64c38;
+    if (mode == 5) {
+        if (!(Manager::instance()->_64c30_bytes[2] & 0x40)) {
+            sead::Vector3f pos(0, 0, 0);
+            sub_7100A9B800(&pos);
+            updateDistrictFromPos(&pos);
+        }
+    } else if (mode == 6) {
+        if (!(Manager::instance()->_64c30_bytes[2] & 0x40)) {
+            const sead::SafeString pos_name = "MasterSword";
+            const sead::SafeString map_name = "MainField";
+            sead::Vector3f dest[2];
+            SceneMgr::instance()->getMapPosition(pos_name, dest, map_name, nullptr);
+            updateDistrictFromPos(&dest[0]);
+        }
+    } else if (mode == 7) {
+        updateDistrictFromPos(UiSubsys1::instance()->getMapMarkerPosition());
+    } else if (mode <= 4) {
+        updateDistrictFromPos(UiSubsys1::instance()->getMapMarkerPosition());
+    }
+    m20();
+}
+
 // 0x710095731c
 void Unk_7102476548::updateDistrictFromPos(const sead::Vector3f* pos) {
     UiSubsys1Entry::updateDistrictFromPos(pos);

@@ -37,6 +37,23 @@ namespace uking::ui {
 // 0x71009a4330
 Unk_7102479838::Unk_7102479838(eui::LayoutEx* layout) : Unk_71024746d0(layout) {}
 
+// 0x71009a44a4: hides the pin on the base map, else moves the N_Pos_00 pane to the pin position and
+// stops the angle animator; the button's hit pane gets its matrix scale reset.
+void Unk_7102479838::m25() {
+    if (UiSubsys1::instance()->sub_7100960DAC(0)) {
+        m80();
+        return;
+    }
+    if (UiSubsys1::instance()->sub_710096357C() && mMapWidget) {
+        sub_71009A4588();
+        if (auto* pane = mLayout->GetPane()->FindPaneByName("N_Pos_00", true))
+            pane->SetPosition({mPosition.x, mPosition.y, 0.0f});
+        mAngleAnimator->Stop(mAngle);
+    }
+    if (auto* pane = mButton->mHitPane)
+        pane->ResetMtxScaleMaybe();
+}
+
 // 0x71009a4928
 void Unk_7102479838::m39(void* button) {
     if (mButton == button && mMapWidget)
