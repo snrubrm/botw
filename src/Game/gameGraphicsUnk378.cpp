@@ -56,12 +56,13 @@ Graphics::Unk_668::~Unk_668() {
 
 // 0x710128cbcc (placeholder name): stores `value` at _10+0x70 and chases _10+0x74 towards it with
 // the rate at +0x1c. The third argument is unused.
-// NON_MATCHING: the first multiply's register order is swapped (fmul s0, s0, s3).
+// NON_MATCHING: the target's first multiply encodes rate * (value - prev) (fmul s0, s3, s0);
+// ours encodes the commutative product with the operands the other way round (fmul s0, s0, s3).
 void Graphics::Unk_668::chaseValueMaybe(f32 value, f32 delta, bool snap) {
     auto* data = _10;
     const f32 prev = data->_74;
     data->_70 = value;
-    data->_74 = prev + _1c * (value - prev) * delta;
+    data->_74 = prev + (value - prev) * _1c * delta;
 }
 
 // 0x710128caec (placeholder name): allocates `count` 0x78-byte records and initializes their two
