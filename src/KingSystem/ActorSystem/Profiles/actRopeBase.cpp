@@ -765,12 +765,10 @@ phys::RigidBody* RopeBase::sub_7100ED6878(s32 index) const {
     return _860[index];
 }
 
-// NON_MATCHING: every instruction matches except the contact-info bounds check, which our sead model
-// emits as an unsigned `cbz` (PtrArrayImpl::at uses u32) where the original has a signed `cmp #1; b.lt`,
-// and the block layout of the shared `return false` block (ours is placed earlier).
 bool RopeBase::m150(phys::RigidBody** body, sead::Vector3f* a, sead::Vector3f* b) {
-    if (auto* info = mPhysics->getContactPointInfo(0)) {
-        if (info->getNumContactPoints() != 0 && !info->begin().isEnd()) {
+    if (mPhysics->getNumContactPointInfos() > 0) {
+        auto* info = mPhysics->getContactPointInfo(0);
+        if (info && info->getNumContactPoints() != 0 && !info->begin().isEnd()) {
             for (auto it = info->begin(); it != info->end(); ++it) {
                 *body = (*it)->body_a;
                 *a = it.getPointPosition(phys::ContactPointInfo::Iterator::Point::BodyA);
