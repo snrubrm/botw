@@ -121,6 +121,9 @@ public:
     // 0x7100719fcc (CSV name was a bogus nn::nex symbol): `_88 ? _88->_ac : -1`.
     s32 sub_7100719FCC() const;
     void sub_710071918C();
+    // 0x710071a06c (placeholder name): whether the member registered in the ring buffer for `actor` is in
+    // the Calc state.
+    bool sub_710071A06C(ksys::act::Actor* actor);
     // 0x7100718f78 (placeholder name): searches the AI tree below `ai` for the Priest Boss node.
     uking::ai::PriestBoss* sub_7100718F78(ksys::act::ai::Ai* ai);
     // Original 0x7100719ed0: clears the linked actor pool under its lock (declared only).

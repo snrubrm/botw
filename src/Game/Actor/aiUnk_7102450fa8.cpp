@@ -271,3 +271,37 @@ uking::ai::PriestBoss* Unk_7102450fa8::sub_7100718F78(ksys::act::ai::Ai* ai) {
     }
     return nullptr;
 }
+
+// 0x710071a06c (placeholder name): whether the member registered in the ring buffer for `actor` is in the
+// Calc state.
+// NON_MATCHING: the member search loop compares `i < 33` where the original has `i <= 32`, and clang merges the
+// two range tests of the ring-buffer entry into one unsigned compare (the original keeps them separate and
+// carries a three-valued result into the return).
+bool Unk_7102450fa8::sub_710071A06C(ksys::act::Actor* actor) {
+    s32 idx = -1;
+    for (s32 i = 0; i < 33; ++i) {
+        if (_8[i]._e0.hasProcById(actor)) {
+            idx = i;
+            break;
+        }
+    }
+
+    bool found = false;
+    bool result = false;
+    for (s32 i = 0; i < _3f0.size(); ++i) {
+        const Unk4& entry = _3f0[i];
+        if (entry._0 != idx)
+            continue;
+
+        found = true;
+        if (entry._4 < 0 || entry._4 >= _8.size())
+            break;
+
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&_8[entry._4]._e0, &accessor);
+        if (accessor.hasProc())
+            result = accessor.isStateCalc();
+        break;
+    }
+    return found && result;
+}
