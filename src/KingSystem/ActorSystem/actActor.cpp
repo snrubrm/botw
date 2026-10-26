@@ -1354,6 +1354,24 @@ Chemical* Actor::getChemicalStuff() {
     return nullptr;
 }
 
+void Actor::m118(bool on) {
+    if (mXLink && mActorFlags.isOnBit(ActorFlag::_18) != on)
+        mXLink->sub_71012311D8(on);
+    mActorFlags.changeBit(ActorFlag::_18, on);
+    if (mReaction)
+        mReaction->sub_7101287410();
+    if (mPhysics)
+        mPhysics->sub_7100FB9F30(on);
+    if (auto* nav = m45()) {
+        if (on)
+            nav->_220.setBitOn(24);
+        else
+            nav->_220.setBitOff(24);
+    }
+    if (on && mChemical)
+        mChemical->sub_7100E398DC();
+}
+
 bool Actor::m50() {
     auto* chemical = getChemicalStuff();
     if (!chemical)

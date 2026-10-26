@@ -278,6 +278,8 @@ public:
     void sub_7100E38588(u32 value);
     // 0x7100e37788: same as getStuff (a separate copy in the binary; Actor::sub_71011D8A44).
     Chemical* sub_7100E37788(int idx);
+    // 0x7100e398dc: called by Actor::m118 after a chemical change (lock, walk the elements).
+    void sub_7100E398DC();
     void sub_7100E37CE4();
     // 0x7100e380fc / 0x7100e3816c (placeholder names; two identical copies): the Chemical of entry `idx` of _70
     // (null when out of range).

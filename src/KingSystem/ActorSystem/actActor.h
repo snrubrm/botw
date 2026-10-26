@@ -124,6 +124,7 @@ namespace acc {
 class WeaponBase;
 }
 class ActorChemicals;
+class ActorReactions;
 class Unk_71006e45c4;
 class Unk_7100e4e084;
 struct ActorUnk6b8;
@@ -1112,7 +1113,7 @@ protected:
     /* 0x698 */ sead::Atomic<s32> mFadeOutSleepFlags;
     /* 0x6a0 */ class ActorX6A0* _6a0 = nullptr;
     /* 0x6a8 */ ActorChemicals* mChemical = nullptr;
-    /* 0x6b0 */ phys::Reaction* mReaction = nullptr;
+    /* 0x6b0 */ ActorReactions* mReaction = nullptr;
     /* 0x6b8 */ ActorUnk6b8* _6b8 = nullptr;
     /* 0x6c0 */ UMiiModelLink mUMiiModelLink{this};
     /* 0x6d0 */ float _6d0 = 0.0;
