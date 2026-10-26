@@ -583,6 +583,22 @@ void uking::act::Unk_71025c632c::createInstanceMaybe() {
     sUnk_71025c6f38.unlock();
 }
 
+// Binds the holder's height field and slot to the actor.
+void uking::act::Unk_71023cfcf0::sub_7100682548() {
+    if (_8->mHeightField && !_10) {
+        if (_8->_38.increment() == 0)
+            _8->mHeightField->sub_7101223F80();
+        _10 = 1;
+    }
+    if (_11) {
+        Unk_71025c632c::Slot* slot = _8;
+        _11 = _12 = 0;
+        auto lock = sead::makeScopedLock(slot->mLock);
+        if (slot->mRefCount++ == 0)
+            slot->mShape->mFlags |= 2;
+    }
+}
+
 // Binds the holder to the shape record for the argument's heap and position.
 void uking::act::Unk_71023cfcf0::m3(const UnkArg& arg) {
     auto* shared = sub_7100681DB0(sUnk_71025c6f30, arg.mHeap, this, &arg.mPos).mSlot;

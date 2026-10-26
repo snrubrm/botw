@@ -11,6 +11,7 @@
 #include <math/seadVector.h>
 #include <random/seadRandom.h>
 #include "Game/Actor/actEnemy.h"
+#include "KingSystem/Physics/RigidBody/TerrainHeightField/physTerrainHeightFieldRigidBody.h"
 #include "KingSystem/ActorSystem/actBoneHandle.h"
 #include "KingSystem/System/VFRValue.h"
 
@@ -105,7 +106,7 @@ public:
         /* 0x00 */ Unk_71023cfcf0Shape* mShape;  // the 0x330-byte tera shape record
         /* 0x08 */ s32 mRefCount;
         /* 0x0c */ s32 _c;
-        /* 0x10 */ void* mHeightField;
+        /* 0x10 */ ksys::phys::Unk_71025158e8* mHeightField;
         /* 0x18 */ ksys::phys::SystemGroupHandler* mHandler;
         /* 0x20 */ sead::OffsetList<Unk_71023cfcf0> mHolders;  // offset 0x18 (the holder's node)
         /* 0x38 */ sead::Atomic<u32> _38 = 0;
