@@ -1,8 +1,10 @@
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiAnimator.h"
+#include "Game/UI/euiBoundingEx.h"
 #include "Game/UI/euiLayoutEx.h"
 #include "Game/UI/euiScreen.h"
 #include <nn/ui2d/Pane.h>
+#include <nn/font/font_Util.h>
 #include <nn/ui2d/ResExtUserData.h>
 
 namespace eui {
@@ -22,8 +24,8 @@ void HoverButton::Initialize(sead::Heap* heap, nn::ui2d::Pane* pane, Animator* a
     mFlags |= 0x100;
 }
 
-// Declaration-only: the complete native guard and both hover/tap factory callers
-// establish bool(Pane*). Its RTTI target 25D2960 owner remains unmodeled.
+// 0x7100bf00bc: the library's font type test. The original's out-of-line copy sits between this TU's
+// HoverButton helpers and TapButton::getClassName, and the callers below only declare it.
 bool sub_7100BF00BC(nn::ui2d::Pane* pane);
 
 // 0x7100befe9c
@@ -49,3 +51,5 @@ void HoverButton::Down() {
 }
 
 }  // namespace eui
+
+template bool nn::font::IsDerivedFrom<eui::BoundingEx, nn::ui2d::Pane>(const nn::ui2d::Pane*);
