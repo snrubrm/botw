@@ -2744,6 +2744,9 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     // 0x71009a9b8c (364 bytes) / 0x71009aa024 (344 bytes): declared only
     void sub_71009A9B8C();
     void sub_71009AA024();
+    // 0x71009aa17c / 0x71009aa344 (declared only): the two map states sub_71009AA024 runs
+    void sub_71009AA17C();
+    void sub_71009AA344();
     // 0x71009aa004 (placeholder name): runs sub_71009AA024 for DLC version 0x200 and later
     void sub_71009AA004();
     // 0x71009af034 (placeholder name): the table entry `_b4fc` (0 for an index of 32 or more)

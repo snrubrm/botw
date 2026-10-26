@@ -386,6 +386,51 @@ void ScreenAppMapWidget::sub_71009AA004() {
         sub_71009AA024();
 }
 
+// 0x71009aa024
+// NON_MATCHING: same instructions, but clang tail-duplicates the manager/null/_b4ac epilogue into every arm
+// (and hoists the manager's address into a callee-saved register); the original keeps one epilogue.
+void ScreenAppMapWidget::sub_71009AA024() {
+    if (ksys::aoc::Manager::instance()->getVersion() < 0x200)
+        return;
+    if (_b4fe > 0)
+        --_b4fe;
+    if (UiSubsys1::instance()->is848EqualTo1()) {
+        if (_b4a0 == 0) {
+            if (_b4ac == 3) {
+                _b4ac = 4;
+                _b4a0 = 1;
+            } else if (_b4ff) {
+                _b4ff = 0;
+            }
+        } else if (_b4a0 == 1) {
+            sub_71009AA17C();
+        } else if (_b4a0 == 2) {
+            sub_71009AA344();
+        } else if (_b4a0 == 3) {
+            sub_71009ADEF0();
+        }
+    } else {
+        if (_b4a0 == 0) {
+            if (_b4ac == 3) {
+                _b4ac = 4;
+                _b4a0 = 1;
+            } else if (_b4ff) {
+                _b4ff = 0;
+            }
+        } else if (_b4a0 == 1) {
+            sub_71009AA17C();
+        } else {
+            _b4a0 = 0;
+        }
+    }
+    auto* mgr = ksys::aoc::Manager::instance();
+    if (!mgr)
+        return;
+    if (_b4ac != 3)
+        return;
+    mgr->sub_7100F37864();
+}
+
 // 0x71009af034
 f32 ScreenAppMapWidget::sub_71009AF034() const {
     static const sead::SafeArray<f32, 32> sTable{{0.0625f, 0.25f, 0.5625f, 1.0f, 1.5625f, 2.25f, 3.0625f, 4.0f, 5.0625f,
