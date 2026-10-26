@@ -183,6 +183,13 @@ void sub_7100A9F4F8() {
     Manager::instance()->loadStaticInfo(getHeap());
 }
 
+// 0x7100a9f5a4 (placeholder name): the UI subsystem's nearest-marker query; falls off the end (no return value) when
+// the subsystem is missing, as the original does.
+bool sub_7100A9F5A4(f32 dist, const sead::Vector3f& pos, sead::Vector3f* out_pos, bool* out_found) {
+    if (auto* subsys = UiSubsys1::instance())
+        return subsys->sub_710096318C(dist, pos, out_pos, out_found);
+}
+
 // NON_MATCHING: the original tests the hole 4..9 with a 64-bit range compare (`sxtw; sub x9, x8, #4; cmp x9, #6`) and
 // then loads the item from a 14-entry table; ours tests the hole with a bit mask (`lsr w8, 0x3c0f, w8`)
 // 0x7100a9bcd4 (placeholder name): whether UI rune `rune` is the rune that is selected in the RuneMgr (false for the

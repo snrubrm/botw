@@ -1297,6 +1297,9 @@ public:
     void sub_7100965EEC(f32 scale, sead::Vector2f* out);
     // 0x7100960758 (placeholder name): copies the Sheikah Sensor+ target name (ActorName_SeakSensor_Slot0) to `out`
     void sub_7100960758(sead::BufferedSafeString* out);
+    // 0x710096318c (placeholder name): nearest-point search over the map marker list at _2f0 / _2f8 for two marker
+    // types (2, then 43); `out_pos` receives the point, `out_found` whether one was found; returns the found flag
+    bool sub_710096318C(f32 dist, const sead::Vector3f& pos, sead::Vector3f* out_pos, bool* out_found);
     bool sub_7100956C10(u32 index) const;
     Unk_7102476640** sub_71009580A4(Unk_7102476640* key);
     bool sub_71009580E4(Unk_7102476640** entry);
