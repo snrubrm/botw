@@ -338,8 +338,10 @@ private:
 
         // 0x7100672d4c: frees the list and allocates mCount entries on `heap`.
         void init(sead::Heap* heap);
-        // 0x7100672e48 (postCalc): declaration only.
+        // 0x7100672e48 (postCalc): clears the tagged entries and counts the living ones.
         void sub_7100672E48();
+        // 0x7100672f54: links `proc` into the first untagged entry (false when it is already listed).
+        bool sub_7100672F54(ksys::act::BaseProc* proc);
         // 0x71006732cc: counts the listed actors that pass the flag test (and are nearer than `radius`
         // when it is not negative) to the player; the wrapper below passes the flag bit 25.
         s32 sub_71006732CC(f32 radius, u32 type);
@@ -351,7 +353,7 @@ private:
         /* 0x10 */ u32 mCount = 0;
         /* 0x14 */ bool _14 = false;
         u8 _15[3];
-        /* 0x18 */ std::atomic<u32> mLock;
+        /* 0x18 */ sead::Atomic<u32> mLock;  // a spin lock (0 / 1)
     };
     KSYS_CHECK_SIZE_NX150(UnkCe0, 0x20);
 

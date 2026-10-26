@@ -52,6 +52,37 @@ void DamageInfoMgr::UnkCe0::sub_7100672E48() {
     _14 = cleared & (count < 1);
 }
 
+bool DamageInfoMgr::UnkCe0::sub_7100672F54(ksys::act::BaseProc* proc) {
+    while (mLock.load() == 1) {
+    }
+    while (!mLock.compareExchange(0, 1)) {
+    }
+
+    s32 free_index = -1;
+    bool found = false;
+    for (s32 i = 0; i < mCount; ++i) {
+        if (free_index < 0 && !mLinks[i].mLink.hasProc())
+            free_index = i;
+        if (mLinks[i].mLink.hasProcById(proc)) {
+            found = true;
+            break;
+        }
+    }
+
+    bool acquired;
+    if (found) {
+        acquired = false;
+    } else {
+        mLinks[free_index].mLink.acquire(proc, false);
+        acquired = true;
+    }
+
+    std::atomic_thread_fence(std::memory_order_seq_cst);
+    while (!mLock.compareExchange(1, 0)) {
+    }
+    return acquired;
+}
+
 void DamageInfoMgr::UnkCe0::sub_710067343C(f32 value) {
     sub_71006732CC(value, 25);
 }
