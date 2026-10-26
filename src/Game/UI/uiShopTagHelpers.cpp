@@ -8,7 +8,10 @@
 #include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actInfoCommon.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/Resource/Actor/resResourceShop.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectMonsterShop.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/System/PlayReportMgr.h"
 #include "Game/UI/euiGrammar.h"
 #include <cstring>
@@ -17,6 +20,7 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectSystem.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/aiUnk_710073BB28.h"
 
 // Shop tag-argument helpers (the 0x7100aa4b4c/0x7100aa4e70 tag resolvers live in this TU in the
 // original: the 16-byte forwarders sit right next to them).
@@ -24,15 +28,20 @@ namespace uking::ui {
 
 // Defined further down the TU; not decompiled yet.
 s32 sub_7100A90B24(const ksys::act::ActorLinkConstDataAccess* actor,
-                   ksys::act::BaseProcAccessor* accessor, s32* value);
-// 0x7100a9017c (not decompiled yet)
-void sub_7100A9017C(const ksys::act::ActorLinkConstDataAccess* accessor,
-                    ksys::act::BaseProcAccessor* extra_accessor, s32* value);
+                   ksys::act::ActorLinkConstDataAccess* accessor, s32* value);
+// 0x7100a9017c: applies the purchase the shop helper resolved.
+bool sub_7100A9017C(const ksys::act::ActorLinkConstDataAccess* accessor,
+                    ksys::act::ActorLinkConstDataAccess* extra_accessor, s32* value);
+// 0x7100a90860 (defined below): the buying price of the actor.
+s32 sub_7100A90860(const ksys::act::ActorLinkConstDataAccess* accessor);
+// 0x7100a90314: fills the buy-check record from the shop accessors.
+bool sub_7100A90314(ShopBuyInfo* info, const ksys::act::ActorLinkConstDataAccess* accessor,
+                    ksys::act::ActorLinkConstDataAccess* extra_accessor, const s32* value);
 // 0x710073a6d0 (not decompiled yet)
 void sub_710073A6D0(const ksys::act::ActorLinkConstDataAccess* accessor, const sead::SafeString& name);
 // Defined below sub_7100A9127C.
 s32 shopBuyRupeeStuff(const ksys::act::ActorLinkConstDataAccess* accessor,
-                      ksys::act::BaseProcAccessor* extra_accessor, s32* value);
+                      ksys::act::ActorLinkConstDataAccess* extra_accessor, s32* value);
 
 // NON_MATCHING: FixedSafeString construction hoists the null-character load and changes register allocation.
 // 0x7100a91784
@@ -48,6 +57,136 @@ void sub_7100A91784(RecipeItems* items, const sead::SafeString& actor) {
         if (ksys::act::getSameGroupActorName(&group_name, (*items)[i].name))
             (*items)[i].name = group_name;
     }
+}
+
+// 0x7100a90e40 (placeholder name): whether the shop can sell `num` of the item at `price` for the
+// purchase `type` (0 = rupees, 1 = recipe, 2 = mamo). Returns 0 when it can, 1 when the count is
+// zero (for a non-recipe purchase), 2 / 3 when the player lacks rupees / mamo, 6 when the recipe
+// ingredients are missing and 7 when the item cannot go into the pouch.
+u32 sub_7100A90E40(const sead::SafeString& name, s32 price, s32 type, s32 num) {
+    if (type != 1 && num == 0)
+        return 1;
+
+    ShopBuyInfo info;
+    info.type = type;
+    if (type == 1)
+        sub_7100A91784(&info.items, name);
+    info.price = price;
+    if (info.type == 2) {
+        if (ksys::gdt::getFlag_CurrentMamo(false) < price)
+            return 3;
+    } else {
+        if (ksys::gdt::getFlag_CurrentRupee(false) < price)
+            return 2;
+    }
+    if (info.type == 1 && !sub_7100A90A34(info.items))
+        return 6;
+    return actorHasTagCanGetPouch(name) ? 0 : 7;
+}
+
+// 0x7100a90fd8 (placeholder name): as sub_7100A90E40, but checks the pouch entry with the pause
+// menu manager (adding / removing `count` items) instead of the actor's can-get-pouch tag.
+s32 sub_7100A90FD8(const sead::SafeString& name, s32 price, s32 type, s32 count) {
+    ShopBuyInfo info;
+    info.type = type;
+    if (type == 1)
+        sub_7100A91784(&info.items, name);
+    info.price = price;
+    if (info.type == 2) {
+        if (ksys::gdt::getFlag_CurrentMamo(false) < price)
+            return 3;
+    } else {
+        if (ksys::gdt::getFlag_CurrentRupee(false) < price)
+            return 2;
+    }
+    if (info.type == 1 && !sub_7100A90A34(info.items))
+        return 6;
+    if (auto* mgr = PauseMenuDataMgr::instance()) {
+        if (!mgr->checkAddOrRemoveItem(name, count, false))
+            return 7;
+    }
+    return 0;
+}
+
+// 0x7100a9017c (placeholder name): applies the purchase the shop helper resolved: refunds the
+// price into the player's current rupees / mamo and, for a recipe purchase, also uses the recipe
+// ingredients.
+bool sub_7100A9017C(const ksys::act::ActorLinkConstDataAccess* accessor,
+                    ksys::act::ActorLinkConstDataAccess* extra_accessor, s32* value) {
+    ShopBuyInfo info;
+    sub_7100A90314(&info, accessor, extra_accessor, value);
+
+    switch (info.type) {
+    case 0:
+        ksys::gdt::increaseFlag_CurrentRupee(-info.price);
+        return true;
+    case 2:
+        ksys::gdt::increaseFlag_CurrentMamo(-info.price);
+        return true;
+    case 1:
+        ksys::gdt::increaseFlag_CurrentRupee(-info.price);
+        if (auto* mgr = PauseMenuDataMgr::instance()) {
+            mgr->useItemFromRecipeAndSave(&info.items, 1, nullptr);
+            return true;
+        }
+        return false;
+    }
+    return true;
+}
+
+// 0x7100a90314 (placeholder name): fills the buy-check record: the price and the purchase type
+// (0 = rupees, 1 = recipe, 2 = mamo) plus the recipe ingredients for a recipe purchase. For a shop
+// whose "Market" table holds the item, adds the table entry's price adjustment.
+bool sub_7100A90314(ShopBuyInfo* info, const ksys::act::ActorLinkConstDataAccess* accessor,
+                    ksys::act::ActorLinkConstDataAccess* extra_accessor, const s32* value) {
+    if (!accessor->hasProc())
+        return false;
+
+    const s32 type = *value;
+    switch (type) {
+    case -2: {
+        const sead::SafeString& name = extra_accessor->getName();
+        if (name != "Npc_oasis001" && name != "Npc_LaboRobo")
+            break;
+        [[fallthrough]];
+    }
+    case 1: {
+        auto* info_data = ksys::act::InfoData::instance();
+        if (!info_data)
+            return false;
+        sead::FixedSafeString<64> group_name;
+        ksys::act::getSameGroupActorName(&group_name, accessor->getName().cstr());
+        info->price = ksys::act::getItemCreatingPrice(info_data, group_name.cstr());
+        sub_7100A91784(&info->items, group_name);
+        info->type = 1;
+        return true;
+    }
+    case 2:
+        info->price = accessor->getGParamList()->getMonsterShop()->mBuyMamo.ref();
+        info->type = 2;
+        return true;
+    }
+
+    info->price = sub_7100A90860(accessor);
+    info->type = 0;
+    if (extra_accessor->hasProc()) {
+        if (auto* shop = extra_accessor->getShopData()) {
+            const s32 index = shop->findTableIndexOrNormal("Market");
+            if (index >= 0) {
+                const auto& table = shop->getTables()[index];
+                const s32 count = table.items.size();
+                const auto* items = table.items.getBufferPtr();
+                for (s32 i = 0; i != count; ++i) {
+                    const auto& item = items[i];
+                    if (item.name.ref() == accessor->getName()) {
+                        info->price += item.price_adjustment.ref();
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return true;
 }
 
 // 0x7100a90700: acquires `src` into `dst`, stores the source's value, and when the source has the
@@ -188,7 +327,7 @@ void sub_7100A91C88(const ksys::act::ActorLinkConstDataAccess* accessor, const s
 
 // 0x7100a9117c (placeholder name): reports the shop buy price of the actor.
 s32 shopBuyRupeeStuff(const ksys::act::ActorLinkConstDataAccess* accessor,
-                      ksys::act::BaseProcAccessor* extra_accessor, s32* value) {
+                      ksys::act::ActorLinkConstDataAccess* extra_accessor, s32* value) {
     const s32 result = sub_7100A90B24(accessor, extra_accessor, value);
     if (result)
         return result;
@@ -679,7 +818,7 @@ s32 sub_7100A91E40(const sead::SafeString& name, bool count_equipped) {
 s32 sub_7100AA69B4(s32 message_id, eui::MessageString* out) {
     s32 index = -1;
     const s32 count = sUnk_71025F6960.modifiers.size();
-    for (s32 i = 0; i < count; ++i) {
+    for (s32 i = 0; i != count; ++i) {
         if (sUnk_71025F6960.modifiers[i].id == message_id) {
             index = i;
             break;
