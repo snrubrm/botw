@@ -41,6 +41,14 @@ namespace ksys::phys {
 class NavMeshCharacter;
 }
 
+namespace ksys::act::ai {
+class Ai;
+}  // namespace ksys::act::ai
+
+namespace uking::ai {
+class PriestBoss;
+}  // namespace uking::ai
+
 class Unk_7102450fa8;
 
 class Unk_7102450fe0;
@@ -113,6 +121,8 @@ public:
     // 0x7100719fcc (CSV name was a bogus nn::nex symbol): `_88 ? _88->_ac : -1`.
     s32 sub_7100719FCC() const;
     void sub_710071918C();
+    // 0x7100718f78 (placeholder name): searches the AI tree below `ai` for the Priest Boss node.
+    uking::ai::PriestBoss* sub_7100718F78(ksys::act::ai::Ai* ai);
     // Original 0x7100719ed0: clears the linked actor pool under its lock (declared only).
     void sub_7100719ED0();
     void sub_7100719D5C(ksys::act::Actor* actor);

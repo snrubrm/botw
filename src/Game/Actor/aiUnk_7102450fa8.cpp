@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "Game/Actor/AI/aiPriestBoss.h"
 
 sead::Vector3f sUnk_71025c8cf8(0, 0, 900);
 sead::Vector3f sUnk_71025c8d04(0, -4, 900);
@@ -251,4 +252,22 @@ Unk_7102450fa8::~Unk_7102450fa8() {
 
 Unk_7102450fa8* Unk_7102450fa8::sub_7100718360(sead::Heap* heap) {
     return new (heap, std::nothrow) Unk_7102450fa8;
+}
+
+// 0x7100718f78 (placeholder name): searches the AI tree below `ai` for the Priest Boss node.
+// NON_MATCHING: the instructions are the same but clang lays the "this node is the boss" return out
+// after the loop and shares one return slot; the original falls through to it and returns ai directly.
+uking::ai::PriestBoss* Unk_7102450fa8::sub_7100718F78(ksys::act::ai::Ai* ai) {
+    if (sead::DynamicCast<uking::ai::PriestBoss>(ai))
+        return static_cast<uking::ai::PriestBoss*>(ai);
+
+    const s32 num_children = ai->getNumChildren();
+    for (s32 i = 0; i < num_children; ++i) {
+        auto* child = ai->getChild(i);
+        if (sead::IsDerivedFrom<ksys::act::ai::Ai>(child)) {
+            if (auto* found = sub_7100718F78(static_cast<ksys::act::ai::Ai*>(child)))
+                return found;
+        }
+    }
+    return nullptr;
 }
