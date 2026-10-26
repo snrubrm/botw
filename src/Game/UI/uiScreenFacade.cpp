@@ -11,6 +11,7 @@
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "Game/gameSaveSystem.h"
+#include "Game/gamePlayReport.h"
 
 namespace uking::ui {
 
@@ -374,6 +375,58 @@ void sub_7100A9A308(s32 index, bool a1) {
         return;
     screen->sub_71009EF51C(index);
     Unk_71025d69f0::instance()->sub_710094D9F4(1, 1, 0, a1);
+}
+
+// 0x7100a9ab18 (placeholder name): reports the quest's previous step, then updates the MainScreen's and the pause
+// menu's quest displays with the quest
+// NON_MATCHING: the original inlines Unk_710247af10::GetRuntimeTypeInfoStatic (guard block, then the cached
+// typeinfo reloaded from its GOT slot at the compare); ours emits an out-of-line call to it and keeps the pointer in
+// x22, which adds one callee-saved register to the frame. Everything else matches.
+bool sub_7100A9AB18(ksys::qst::Quest* quest) {
+    reportQuestStep(quest, quest->_140 - 1);
+    auto* mgr = eui::ScreenMgr::instance();
+    if (!mgr)
+        return false;
+    auto* screen = sead::DynamicCast<ScreenMainScreen>(mgr->getScreen(ScreenId::MainScreen));
+    if (!screen)
+        return false;
+    sub_7100A9A6C4(quest);
+    if (auto* child = nn::font::DynamicCast<Unk_710247af10>(getScreenWidgetMaybe(ScreenId::PauseMenu, 1)))
+        child->sub_71009B62CC(quest);
+    return screen->sub_7100A1E214(quest);
+}
+
+// 0x7100a9ad30 (placeholder name): the same update for the challenge-win screen
+// NON_MATCHING: the original inlines Unk_710247af10::GetRuntimeTypeInfoStatic (guard block, then the cached
+// typeinfo reloaded from its GOT slot at the compare); ours emits an out-of-line call to it and keeps the pointer in
+// x22, which adds one callee-saved register to the frame. Everything else matches.
+bool sub_7100A9AD30(ksys::qst::Quest* quest) {
+    reportQuestStep(quest, quest->_140 - 1);
+    auto* screen = sead::DynamicCast<ScreenChallengeWin>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::ChallengeWin));
+    if (!screen)
+        return false;
+    sub_7100A9A6C4(quest);
+    if (auto* child = nn::font::DynamicCast<Unk_710247af10>(getScreenWidgetMaybe(ScreenId::PauseMenu, 1)))
+        child->sub_71009B62CC(quest);
+    return screen->sub_7100A007F4(quest);
+}
+
+// 0x7100a9ae98 (placeholder name): the MainScreen variant that only reports the step and the pause-menu widget
+// NON_MATCHING: the original inlines Unk_710247af10::GetRuntimeTypeInfoStatic (guard block, then the cached
+// typeinfo reloaded from its GOT slot at the compare); ours emits an out-of-line call to it and keeps the pointer in
+// x22, which adds one callee-saved register to the frame. Everything else matches.
+bool sub_7100A9AE98(ksys::qst::Quest* quest) {
+    reportQuestStep(quest, quest->_140 - 1);
+    auto* mgr = eui::ScreenMgr::instance();
+    if (!mgr)
+        return false;
+    auto* screen = sead::DynamicCast<ScreenMainScreen>(mgr->getScreen(ScreenId::MainScreen));
+    if (!screen)
+        return false;
+    if (auto* child = nn::font::DynamicCast<Unk_710247af10>(getScreenWidgetMaybe(ScreenId::PauseMenu, 1)))
+        child->sub_71009B62CC(quest);
+    return screen->sub_7100A1E3EC(quest);
 }
 
 // 0x7100a9f27c
@@ -1362,3 +1415,4 @@ void sub_7100AA9678() {
 }
 
 }  // namespace uking::ui
+
