@@ -20,7 +20,8 @@ class ModelRenderUnitSortNode;
 class ModelSceneContext;
 
 /// The extra translucent pre-pass. Layout from the constructor 0x7100c67a58 and the destructor
-/// 0x7100c67aa0: two render queues, a pointer array of nodes and their sort buffer.
+/// 0x7100c67aa0: two render queues (an array; the destructor walks it), a pointer array of nodes
+/// and their sort buffer.
 class XluZPrePass {
 public:
     XluZPrePass();
@@ -36,8 +37,7 @@ public:
               const sead::BitFlag32& mask, bool a) const;
 
 private:
-    /* 0x08 */ ModelRenderQueue mQueue;
-    /* 0x48 */ ModelRenderQueue mSecondQueue;
+    /* 0x08 */ ModelRenderQueue mQueues[2];
     /* 0x88 */ sead::PtrArray<ModelRenderUnitSortNode> mNodes;
     /* 0x98 */ sead::Buffer<ModelRenderUnitSortNode*> mSortNodes;
 };
