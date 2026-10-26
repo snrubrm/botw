@@ -559,9 +559,33 @@ f32 StasisMgr::sub_7100681BA0() {
 // The terrain shape-record manager the StasisMgr TU's shape holder binds to (0x71025c632c).
 uking::act::Unk_71025c632c* sUnk_71025c6f30 = nullptr;
 
+// The lock 0x7100681bbc takes while it constructs the manager (0x71025c6f38) and the manager's
+// storage (0x71025c632c).
+sead::CriticalSection sUnk_71025c6f38;
+alignas(16) u8 sUnk_71025c632c[sizeof(uking::act::Unk_71025c632c)];
+
+uking::act::Unk_71025c632c::Unk_71025c632c() : mSlots() {
+    for (auto& slot : mSlots) {
+        slot.mShape = nullptr;
+        slot.mHeightField = nullptr;
+        slot.mHandler = nullptr;
+        slot.mHolders.initOffset(0x18);
+    }
+}
+
+void uking::act::Unk_71025c632c::createInstanceMaybe() {
+    if (sUnk_71025c6f30)
+        return;
+
+    sUnk_71025c6f38.lock();
+    if (!sUnk_71025c6f30)
+        sUnk_71025c6f30 = new (sUnk_71025c632c) Unk_71025c632c;
+    sUnk_71025c6f38.unlock();
+}
+
 // Binds the holder to the shape record for the argument's heap and position.
 void uking::act::Unk_71023cfcf0::m3(const UnkArg& arg) {
-    auto* shared = sub_7100681DB0(sUnk_71025c6f30, arg.mHeap, this, &arg.mPos);
+    auto* shared = sub_7100681DB0(sUnk_71025c6f30, arg.mHeap, this, &arg.mPos).mSlot;
     _8 = shared;
     {
         auto lock = sead::makeScopedLock(shared->mLock);

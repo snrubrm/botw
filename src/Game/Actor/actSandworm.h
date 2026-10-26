@@ -1,9 +1,11 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <container/seadOffsetList.h>
 #include <container/seadSafeArray.h>
 #include <thread/seadCriticalSection.h>
 #include <prim/seadEnum.h>
+#include <thread/seadAtomic.h>
 #include <gsys/gsysModelAccessKey.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
@@ -82,33 +84,55 @@ KSYS_CHECK_SIZE_NX150(Unk_71007237d0, 0x80);
 
 class Unk_71023cfcf0;
 
-// Placeholder name: the terrain-shape record at the front of Unk_71023cfcf0Shared (only the flag
-// word the shared-object refcount functions touch is modelled).
+// Placeholder name: the 0x330-byte tera shape record stored in a Unk_71025c632c slot (only the flag
+// word and the four 2D bounds the manager's queries test are modelled).
 struct Unk_71023cfcf0Shape {
-    /* 0x000 */ u8 _0[0x328];
+    /* 0x000 */ u8 _0[0x2b8];
+    /* 0x2b8 */ f32 mMinX;
+    /* 0x2bc */ f32 mMinZ;
+    /* 0x2c0 */ f32 mMaxX;
+    /* 0x2c4 */ f32 mMaxZ;
+    /* 0x2c8 */ u8 _2c8[0x328 - 0x2c8];
     /* 0x328 */ u32 mFlags;
 };
 
-// Placeholder name: the shared terrain-shape object behind Unk_71023cfcf0::_8 (shape record at + 0,
-// reference count at + 8, height field at + 0x10, system group handler at + 0x18, lock at + 0x40).
-struct Unk_71023cfcf0Shared {
-    /* 0x00 */ Unk_71023cfcf0Shape* mShape = nullptr;
-    /* 0x08 */ s32 mRefCount = 0;
-    /* 0x0c */ u32 _c;
-    /* 0x10 */ void* mHeightField;
-    /* 0x18 */ ksys::phys::SystemGroupHandler* mHandler = nullptr;
-    /* 0x20 */ u8 _20[0x40 - 0x20];
-    /* 0x40 */ sead::CriticalSection mLock;
-    /* 0x60 */ u8 _60[0x328 - 0x60];
-};
+// Placeholder name (the static object at 0x71025c632c, constructed on first use by 0x7100681bbc under
+// the static lock at 0x71025c6f38): the global terrain-shape manager the holder's bind queries. Eight
+// 0x80-byte slots, each holding one tera shape record, the list of holders bound to it and a lock.
+class Unk_71025c632c {
+public:
+    struct Slot {
+        /* 0x00 */ Unk_71023cfcf0Shape* mShape;  // the 0x330-byte tera shape record
+        /* 0x08 */ s32 mRefCount;
+        /* 0x0c */ s32 _c;
+        /* 0x10 */ void* mHeightField;
+        /* 0x18 */ ksys::phys::SystemGroupHandler* mHandler;
+        /* 0x20 */ sead::OffsetList<Unk_71023cfcf0> mHolders;  // offset 0x18 (the holder's node)
+        /* 0x38 */ sead::Atomic<u32> _38 = 0;
+        /* 0x40 */ sead::CriticalSection mLock;
+    };
+    KSYS_CHECK_SIZE_NX150(Slot, 0x80);
 
-// Placeholder name (0x71025c632c, initialised by 0x7100681bbc under the lock at + 8): the global
-// shape-record manager the holder's bind queries.
-struct Unk_71025c632c;
+    // The result of the shape lookup below: the slot and whether this call created its record.
+    struct AcquireResult {
+        Slot* mSlot;
+        bool mCreated;
+    };
+
+    Unk_71025c632c();
+    // 0x7100681bbc (placeholder name): constructs the global manager on first use (callers then read
+    // sUnk_71025c6f30).
+    static void createInstanceMaybe();
+
+    /* 0x000 */ Slot mSlots[8];
+    /* 0x400 */ sead::CriticalSection mLock;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71025c632c, 0x440);
+
 // 0x7100681db0 (placeholder name): finds or creates the shape record for `heap` and `pos` around
 // `holder` in `mgr`.
-Unk_71023cfcf0Shared* sub_7100681DB0(Unk_71025c632c* mgr, sead::Heap* heap,
-                                      Unk_71023cfcf0* holder, const sead::Vector2f* pos);
+Unk_71025c632c::AcquireResult sub_7100681DB0(Unk_71025c632c* mgr, sead::Heap* heap,
+                                             Unk_71023cfcf0* holder, const sead::Vector2f* pos);
 
 // Placeholder name (vtable 0x71023cfcf0, size 0x318, D1 0x7100682350): the terrain-shape holder
 // Sandworm::prepareInit_ (0x71002ccc40) allocates at Sandworm + 0x1588. Its D1 unlinks the object
@@ -152,7 +176,7 @@ public:
     // 0x71002cbde4 (placeholder name): updates the shape at `mode` for a position.
     void sub_71002CBDE4(f32 x, f32 z, s32 mode);
 
-    /* 0x08 */ Unk_71023cfcf0Shared* _8 = nullptr;
+    /* 0x08 */ Unk_71025c632c::Slot* _8 = nullptr;
     /* 0x10 */ u8 _10 = 0;
     /* 0x11 */ u8 _11 = 0;
     /* 0x12 */ u8 _12 = 0;
