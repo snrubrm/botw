@@ -2,6 +2,9 @@
 
 namespace gsys {
 
+// The original keeps the vptr store that a defaulted body drops.
+SnapshotTextureMgr::ExpansionColor::~ExpansionColor() { ; }
+
 // 0x7100c60dac
 void SnapshotTextureMgr::setRenderQueue(ModelRenderQueue* queue0, ModelRenderQueue* queue1) {
     mRenderQueues[0] = queue0;
