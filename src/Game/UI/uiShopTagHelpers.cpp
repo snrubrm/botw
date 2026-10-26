@@ -14,10 +14,20 @@
 #include <cstring>
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectSystem.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
 
 // Shop tag-argument helpers (the 0x7100aa4b4c/0x7100aa4e70 tag resolvers live in this TU in the
 // original: the 16-byte forwarders sit right next to them).
 namespace uking::ui {
+
+// Defined further down the TU; not decompiled yet.
+s32 sub_7100A90B24(ksys::act::ActorLinkConstDataAccess* actor, ksys::act::BaseProcAccessor* accessor,
+                   s32* value);
+// 0x7100a9117c (not decompiled yet)
+s32 shopBuyRupeeStuff(const ksys::act::ActorLinkConstDataAccess* accessor,
+                      ksys::act::BaseProcAccessor* extra_accessor, s32* value);
 
 // NON_MATCHING: FixedSafeString construction hoists the null-character load and changes register allocation.
 // 0x7100a91784
@@ -54,6 +64,34 @@ bool sub_7100A90700(ksys::act::ActorLinkConstDataAccess* dst, ksys::act::BasePro
     return true;
 }
 
+// 0x7100a90860 (placeholder name): the buying price of the actor, looked up by its same-group actor name unless
+// it is a "get item self" actor.
+s32 sub_7100A90860(const ksys::act::ActorLinkConstDataAccess* accessor) {
+    sead::FixedSafeString<64> name;
+    const auto* gparam = accessor->getGParamList();
+    if (!gparam->getSystem()->mIsGetItemSelf.ref() && accessor->getSameGroupActorName(&name)) {
+        if (auto* info = ksys::act::InfoData::instance())
+            return ksys::act::getItemBuyingPrice(info, name.cstr());
+    }
+    return sub_7100730FD0(accessor);
+}
+
+// 0x7100a907b4: as sub_7100A90700, with the connected calc parent instead of the child.
+bool sub_7100A907B4(ksys::act::ActorLinkConstDataAccess* dst, ksys::act::BaseProcAccessor* out,
+                    s32* value, const ksys::act::ActorLinkConstDataAccess* src) {
+    dst->acquireActor(*src);
+    ksys::act::ActorLinkConstDataAccess parent;
+    src->acquireConnectedCalcParent(&parent);
+    if (parent.hasProc() && parent.hasTag(0x4abb738e)) {
+        *value = parent.sub_7100D15E50();
+        sub_7100EE27B4(out, parent);
+    } else {
+        *value = src->sub_7100D15E50();
+        sub_7100EE27B4(out, *src);
+    }
+    return true;
+}
+
 // 0x7100a90938: writes the item name, or the same-group actor name when the actor is not a
 // "get item self" actor.
 bool sub_7100A90938(sead::SafeString& out, const sead::SafeString& name) {
@@ -85,6 +123,30 @@ bool sub_7100A90A34(const RecipeItems& items) {
             return false;
     }
     return true;
+}
+
+// 0x7100a90dac (placeholder name): the value of the actor's connected-calc parent (0x10 when sub_7100A90700
+// fails).
+s32 sub_7100A90DAC(const ksys::act::ActorLinkConstDataAccess* accessor) {
+    if (!accessor->hasProc())
+        return -1;
+    ksys::act::ActorLinkConstDataAccess actor;
+    ksys::act::ActorLinkConstDataAccess proc_accessor;
+    s32 value;
+    if (!sub_7100A90700(&actor, &proc_accessor, &value, accessor))
+        return 0x10;
+    return sub_7100A90B24(&actor, &proc_accessor, &value);
+}
+
+// 0x7100a9139c (placeholder name): the rupee value of the actor for the shop.
+s32 sub_7100A9139C(const ksys::act::ActorLinkConstDataAccess* accessor) {
+    if (!accessor->hasProc())
+        return -1;
+    ksys::act::ActorLinkConstDataAccess actor;
+    ksys::act::ActorLinkConstDataAccess proc_accessor;
+    s32 value;
+    sub_7100A907B4(&actor, &proc_accessor, &value, accessor);
+    return shopBuyRupeeStuff(accessor, &proc_accessor, &value);
 }
 
 // 0x7100a9127c: reports the shop action `state` (1-5, 7) `count` times as a debug report with the item name.

@@ -32,6 +32,7 @@
 #include "Game/gameRoot38.h"
 #include "Game/Scene/gameScene.h"
 #include "KingSystem/System/DebugBoard.h"
+#include "KingSystem/System/UI/LayoutResourceMgr.h"
 #include "KingSystem/Event/evtManager.h"
 #include <nn/font/font_Util.h>
 #include "Game/UI/uiUtils.h"
@@ -888,6 +889,29 @@ void Manager::sub_7100A7CA68() {
 // 0x7100a7fba4
 void Manager::sub_7100A7FBA4() {
     _65218 = _64c38 == 7;
+}
+
+// 0x7100a7fbc8 (placeholder name): unloads the boot-up screens' layouts once both are closed. True while both
+// screens exist.
+bool sub_7100A7FBC8() {
+    auto* boot_up =
+        sead::DynamicCast<Screen>(eui::ScreenMgr::instance()->getScreen(ScreenId::BootUp));
+    auto* boot_up2 =
+        sead::DynamicCast<Screen>(eui::ScreenMgr::instance()->getScreen(ScreenId::BootUp2));
+    if (!boot_up || !boot_up2)
+        return true;
+    bool changed;
+    if (boot_up->getViewerType() == 0)
+        changed = !boot_up->isClosed();
+    else
+        changed = true;
+    const bool closed = boot_up2->isClosed();
+    if (changed || !closed)
+        return false;
+    sub_7100AA09D8(ScreenId::BootUp);
+    sub_7100AA09D8(ScreenId::BootUp2);
+    ksys::ui::LayoutResourceMgr::instance()->unloadA8();
+    return false;
 }
 
 // 0x7100a7fdac
