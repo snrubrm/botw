@@ -14,13 +14,15 @@ f32 Meter::toMeter(f32 length) {
     return length / System::sInstance->mSettings->mLengthPerMeter;
 }
 
+// NON_MATCHING: the middle multiply's commutative operand order differs (target
+// fmul s1, s3, s1; ours fmul s1, s1, s3), as in other commutative rows.
 // 0x7100b7c8e4
 sead::Vector3f Meter::toLength(const sead::Vector3f& meter) {
-    const f32 x = meter.x;
-    const f32 y = meter.y;
-    const f32 z = meter.z;
-    const f32 scale = System::sInstance->mSettings->mLengthPerMeter;
-    return {x * scale, y * scale, z * scale};
+    sead::Vector3f length = meter;
+    length.x = toLength(length.x);
+    length.y = toLength(length.y);
+    length.z = toLength(length.z);
+    return length;
 }
 
 }  // namespace aal
