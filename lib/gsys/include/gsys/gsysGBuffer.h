@@ -1,6 +1,8 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <common/aglRenderBuffer.h>
+#include <common/aglRenderTarget.h>
 #include <common/aglTextureEnum.h>
 #include <gfx/seadColor.h>
 #include <prim/seadSafeString.h>
@@ -52,6 +54,17 @@ public:
     // 0x7100c720c0 (declared only)
     void expandMaterialID_(agl::DrawContext*, Resolution, MaterialIdMask, agl::TextureCompSel);
 
+    // 0x7100c7367c / 0x7100c73734: the deferred-shading pass around the material-ID expansion.
+    void beginDeferredShading(agl::DrawContext*, MaterialIdMask, agl::TextureCompSel);
+    void endDeferredShading();
+
+    // begin 0x7100c715c4 accumulates 4-bit material IDs per pre-shading buffer into +0x1f84; the
+    // grudge renderer 0x710128f798 copies that word and its sibling +0x1f88 into its draw arg
+    // (DrawArg + 0x30 / +0x34). The sibling's name is a guess: only clearRenderingFlags
+    // 0x7100c71284 writes it (to zero).
+    u32 getMaterialIdMask() const { return _1f84; }
+    u32 getBlendMaskMaybe() const { return _1f88; }
+
 private:
     struct BufferRecord {
         agl::TextureFormat mFormat;
@@ -63,10 +76,26 @@ private:
     };
     static_assert(sizeof(BufferRecord) == 0x198);
 
-    u8 _8[0x1290 - 8];
-    // Eight 0x198-byte records; the next array starts at +0x1f80.
-    BufferRecord mBufferRecords[8];
-    u8 _1f50[0x1f80 - 0x1f50];
+    u8 _8[0x768 - 8];
+    // Bit 2 selects the material-ID expansion path of beginDeferredShading 0x7100c7367c.
+    u8 mFlags768;
+    u8 _769[0x770 - 0x769];
+    // 0x7100c7367c stores RenderTargetColor 0x1b00 into this render buffer's first colour slot.
+    /* 0x0770 */ agl::RenderBuffer mRenderBuffer;
+    u8 _7d8[0x1290 - 0x7d8];
+    // The per-buffer-type records setFormat 0x7100c73af4 and its siblings index with the
+    // `type * 0x198 + 0x1290` arithmetic. Only indices 0..4 are records; the original's record 5
+    // is the 0x78 UniformBlock that follows, so the array stops here.
+    BufferRecord mBufferRecords[5];
+    u8 _1a88[0x1b00 - 0x1a88];
+    // The three targets the constructor 0x7100c70958 creates before the second record array.
+    // The deferred-shading pass binds 0x1b00 as colour 0 and clears the depth target's storage.
+    /* 0x1b00 */ agl::RenderTargetColor mDeferredColorTarget;
+    /* 0x1c78 */ agl::RenderTargetColor mDeferredColorTarget2;
+    /* 0x1df0 */ agl::RenderTargetDepth mDeferredDepthTarget;
+    // The expansion texture expandMaterialID_ 0x7100c720c0 allocates and endDeferredShading frees.
+    /* 0x1f68 */ agl::TextureData* mExpandMaterialIdTexture;
+    u8 _1f70[0x1f80 - 0x1f70];
     // The byte array setMaterialIdMask 0x7100c7158c writes; the next member starts at +0x1f84.
     u8 mMaterialIdMasks[4];
     /* 0x1f84 */ u32 _1f84;

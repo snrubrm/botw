@@ -22,6 +22,7 @@ add_library(gsys OBJECT
   include/gsys/gsysModelResourceMgr.h
   include/gsys/gsysModelDebugInfo.h
   include/gsys/gsysCameraAnimation.h
+  include/gsys/gsysModelProceduralShape.h
   include/gsys/gsysModelAutoAnimation.h
   include/gsys/gsysModelAccessKey.h
   include/gsys/gsysModelAnimation.h

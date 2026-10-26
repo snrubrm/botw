@@ -4,6 +4,7 @@
 #include <gsys/gsysModelRenderContext.h>
 #include <gsys/gsysModelSceneEnv.h>
 #include <gsys/gsysModelUnit.h>
+#include <gsys/gsysModelProceduralShape.h>
 #include <gsys/gsysShaderContext.h>
 #include <lighting/aglLightPrePass.h>
 
@@ -14,13 +15,6 @@ class ModelSceneGI
 {
 public:
     struct CalcLightPrePassCallbackArg;
-};
-
-class ModelProceduralShape
-{
-public:
-    struct Arg;
-    struct ResetArg;
 };
 
 class ModelScenePfx

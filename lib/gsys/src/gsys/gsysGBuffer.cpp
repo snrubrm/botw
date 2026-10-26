@@ -1,6 +1,39 @@
 #include <gsys/gsysGBuffer.h>
 
+#include <common/aglDrawContext.h>
+#include <gfx/seadViewport.h>
+#include <utility/aglDynamicTextureAllocator.h>
+
 namespace gsys {
+
+// 0x7100c7367c
+void GBuffer::beginDeferredShading(agl::DrawContext* draw_context, MaterialIdMask mask,
+                                   agl::TextureCompSel comp_sel) {
+    mRenderBuffer.setRenderTargetColorNullAll();
+    mRenderBuffer.setRenderTargetColor(&mDeferredColorTarget, 0);
+    mRenderBuffer.setRenderTargetDepth(nullptr);
+
+    if ((mFlags768 & 4) != 0) {
+        expandMaterialID_(draw_context, Resolution(0), mask, comp_sel);
+        return;
+    }
+
+    mRenderBuffer.bind(draw_context);
+    sead::Viewport viewport(mRenderBuffer);
+    viewport.apply(draw_context, mRenderBuffer);
+}
+
+// 0x7100c73734
+// NON_MATCHING: the zero GPUMemVoidAddr's middle field is stored 8 bytes wide
+// (`str xzr` at +0x1f30) where the original has the 4-byte `str wzr`.
+void GBuffer::endDeferredShading() {
+    if (!mExpandMaterialIdTexture)
+        return;
+
+    agl::utl::DynamicTextureAllocator::instance()->free(mExpandMaterialIdTexture);
+    mExpandMaterialIdTexture = nullptr;
+    mDeferredDepthTarget.setStorage(agl::GPUMemVoidAddr());
+}
 
 // 0x7100c7158c
 void GBuffer::setMaterialIdMask(MaterialIdMask mask, u8 value) {

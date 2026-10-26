@@ -289,7 +289,11 @@ public:
     // a zeroed per-shape array; the setters write the pair of floats at +0x38 / +0x3c and set bit 0
     // of the word at +0x40 before the record is applied.
     struct RenderDataMaybe {
-        u8 _0[0x20];
+        // +0x00: the map renderer's unit group; +0x08: the grudge renderer's texture set
+        // (GrudgeRenderer::TextureSet, which gsys cannot name). Both are written game-side.
+        void* _0;
+        void* _8;
+        u8 _10[0x10];
         s32 _20;  // -1 when the record is created
         u32 _24;
         s32 mShapeNum;

@@ -96,6 +96,16 @@ bool ModelSceneContext::isQueueMaskValid(QueueType type, const sead::BitFlag32& 
     return mask & queue.mRenderMask;
 }
 
+// 0x7100c214a0
+void ModelSceneContext::drawQueue(agl::DrawContext* draw_context, const sead::SafeString& name,
+                                  QueueType type, const sead::BitFlag32& mask, u32 value,
+                                  ModelEnum::ShaderAssignType shader_assign_type,
+                                  ViewProjType view_proj_type, u32 options, u32 material) const {
+    ModelRenderContext::DrawArg arg(name, mRenderQueues[int(type)], mask, value,
+                                    shader_assign_type, view_proj_type, options, material);
+    draw(draw_context, arg);
+}
+
 // 0x7100c0fe14
 void ModelScene::bindEnv_() {
     ModelMgr::instance()->rebindModelScene(this);

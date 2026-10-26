@@ -42,6 +42,8 @@ class ModelSceneContext : public ModelRenderContext, public sead::hostio::Node {
 public:
     // QueueType's enumerators are unrecovered; the accessor only indexes the 0x40-byte array.
     enum QueueType : int;
+    // ViewProjType's enumerators are unrecovered; drawQueue passes it on as DrawArg's view index.
+    enum ViewProjType : int;
 
     ModelSceneContext();
     ~ModelSceneContext();
@@ -49,6 +51,11 @@ public:
     void calc(bool arg, bool unused, int value);
     // 0x7100c21490
     ModelRenderQueue* getRenderQueue(QueueType type) const;
+    // 0x7100c214a0
+    void drawQueue(agl::DrawContext* draw_context, const sead::SafeString& name, QueueType type,
+                   const sead::BitFlag32& mask, u32 value,
+                   ModelEnum::ShaderAssignType shader_assign_type, ViewProjType view_proj_type,
+                   u32 options, u32 material) const;
     // 0x7100c21450
     bool isQueueMaskValid(QueueType type, const sead::BitFlag32& mask) const;
     // 0x7100c21514
