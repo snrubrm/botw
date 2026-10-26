@@ -13,6 +13,7 @@
 #include "Game/gameRadarMgr.h"
 #include "Game/gameSceneMgr.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/XLink/xlinkManager.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "Game/Scene/gameStageInfo.h"
@@ -1486,6 +1487,38 @@ bool UiSubsys1::sub_7100968BD8() {
     if (ksys::gdt::getFlag_IsGet_Obj_SheikSensor())
         return false;
     return sead::BitFlagUtil::countOnBit(u16(_120)) == 2;
+}
+
+// 0x710095b530 (CSV uiSubsys1::x_0): rebuilds the map tower entries from the MapTower_%02d flags
+// and adds / removes their bits in the available-tower mask.
+// NON_MATCHING: the loop latch increments the entry index before the 1-based counter in the original;
+// ours emits the two independent adds in the other order (same instruction set otherwise).
+void UiSubsys1::sub_710095B530() {
+    s32 num = 1;
+    for (auto& group : _30) {
+        group._8 = num;
+        group._c = 0;
+
+        sead::FormatFixedSafeString<64> name("%s%02d", sUnk_71025d6c70._298.cstr(), num);
+        const bool flag = ksys::gdt::getBoolByKey(name, false);
+
+        sead::BitFlag32 flags(group._c);
+        flags.changeBit(1, flag != flags.isOnBit(0));
+        flags.changeBit(0, flag);
+        group._c = flags.getDirect();
+
+        const s32 bit = group._8 - 1;
+        if (bit >= 0) {
+            auto* ui = UiSubsys1::instance();
+            const u32 mask = 1u << bit;
+            if (group._c & 1)
+                ui->_120 |= mask;
+            else
+                ui->_120 &= ~mask;
+        }
+        ++num;
+    }
+    _124 = _120;
 }
 
 // 0x710095f944: clears the map mode objects' state, runs the full UI state reset, then clears the

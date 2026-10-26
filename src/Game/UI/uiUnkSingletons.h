@@ -1562,7 +1562,8 @@ public:
     void sub_71009638F8();
     // 0x7100960ad8 (CSV unnamed; not decompiled; called by AppMapIconPart::m31)
     void sub_7100960AD8();
-    // 0x710095b530 (CSV uiSubsys1::x_0; not decompiled; called by ScreenAppMapWidget::m31)
+    // 0x710095b530 (CSV uiSubsys1::x_0; called by ScreenAppMapWidget::m31): rebuilds the map tower
+    // entries from the MapTower_%02d flags and updates the available-tower mask
     void sub_710095B530();
     // 0x7100962534 (placeholder name): enables the location markers whose map modes are available and
     // resets the marker controls.
