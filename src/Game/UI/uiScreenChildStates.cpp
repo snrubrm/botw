@@ -37,6 +37,27 @@ namespace uking::ui {
 // 0x71009a4330
 Unk_7102479838::Unk_7102479838(eui::LayoutEx* layout) : Unk_71024746d0(layout) {}
 
+// 0x7102479b90: the initial marker bounds (x max / min, y max / min), updated by m24.
+KSYS_VISIBILITY_HIDDEN f32 sUnk_7102479b90[4] = {631.6f, -490.0f, 250.0f, -310.0f};
+
+// 0x71009a436c
+// NON_MATCHING: same instruction set; the scheduler places the position load before the two half-size adds
+// and orders the adds height-first (registers s0/s1 swapped).
+void Unk_7102479838::m24(sead::Heap* heap) {
+    mAngleAnimator = mLayout->createAnimatorAuto("Rotate", false);
+    mMapWidget = nn::font::DynamicCast<ScreenAppMapWidget>(sub_71009B064C(0, 0));
+    if (auto* pane = mLayout->GetPane()->FindPaneByName("N_PosSize_00", true)) {
+        const sead::Vector2f size(pane->GetSize().width, pane->GetSize().height);
+        const f32 half_w = size.x * 0.5f - 35.0f;
+        const f32 half_h = size.y * 0.5f - 35.0f;
+        sUnk_7102479b90[0] = pane->GetPosition().x + half_w;
+        sUnk_7102479b90[1] = pane->GetPosition().x - half_w;
+        sUnk_7102479b90[2] = pane->GetPosition().y + half_h;
+        sUnk_7102479b90[3] = pane->GetPosition().y - half_h;
+    }
+    _109 = true;
+}
+
 // 0x71009a44a4: hides the pin on the base map, else moves the N_Pos_00 pane to the pin position and
 // stops the angle animator; the button's hit pane gets its matrix scale reset.
 void Unk_7102479838::m25() {

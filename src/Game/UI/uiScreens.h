@@ -2677,6 +2677,7 @@ KSYS_VISIBILITY_HIDDEN extern Unk_71025D9610 sUnk_71025D9610;
 
 // Placeholder for the map widget the AppMap screen owns (byte 0xb33a is set by ScreenAppMap::mainEnter).
 struct ScreenAppMapWidget : public ScreenChildEx {
+    NN_RUNTIME_TYPEINFO(ScreenChildEx)
     // 0x71009ae3c8: toggles map selection mode and refreshes the AppHome screen
     void sub_71009AE3C8();
     // Full native ctor 9a863c calls ScreenChildEx; factory 9e7f60 allocates 0xb538 bytes.
