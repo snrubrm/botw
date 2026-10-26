@@ -1,5 +1,7 @@
 #include "Game/Actor/Damage/dmgDamageManager.h"
+#include <algorithm>
 #include "Game/gameStasisMgr.h"
+#include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/System/VFR.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
@@ -22,6 +24,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 
@@ -1012,6 +1015,86 @@ bool DamageManager::m56() {
     if (actor && !actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40) && actor->m151(3))
         return actor->m154();
     return false;
+}
+
+// NON_MATCHING: the accept-impulse arm does not reproduce the original's two-path max (the compiler folds the
+// shared velocity check and the bit-2 return into a csinc/select instead of the original's separate cmp/b.ge arms).
+s32 DamageManager::getImpulse2Damage() {
+    auto* actor = mActor;
+    const s32 base = m52();
+
+    f32 ratio = 0.004f;
+    if (auto* global = ksys::act::GlobalParameter::instance()) {
+        if (const auto* params = global->getGlobalParam())
+            ratio = params->mImpulse2DamageRatio.ref();
+    }
+
+    const auto* param = getActorDamageParam();
+    if (!param || (!param->mIsAcceptAtkImpulse.ref() && param->mIsCommonCalcImpuleDamage.ref())) {
+        const auto* impulse = actor->getImpulseBaseProcLink();
+        if (!impulse)
+            return 0;
+        const f32 value = impulse->_10._8;
+        if (value <= 0.0f)
+            return 0;
+        s32 damage = s32(ratio * value);
+        if (damage < 1)
+            return 1;
+        if (damage > base)
+            damage = base;
+        return damage;
+    }
+
+    const auto* impulse = actor->getImpulseBaseProcLink();
+    if (!impulse)
+        return 0;
+
+    s32 damage = 0;
+    if (param->mIsAcceptAtkImpulse.ref()) {
+        damage = s32(impulse->_10._58);
+        if (damage < 1) {
+            if (impulse->_10._c <= 0.0f)
+                return 0;
+            damage = 0;
+        }
+        if (impulse->_10._5c & 4)
+            return std::max(damage, 1);
+    } else if (impulse->_10._c <= 0.0f) {
+        return 0;
+    }
+
+    if (param->mIsCommonCalcImpuleDamage.ref()) {
+        s32 ratio_damage = s32(ratio * impulse->_10._8);
+        if (damage > ratio_damage)
+            ratio_damage = damage;
+        if (ratio_damage < 1)
+            return 1;
+        if (ratio_damage > base)
+            ratio_damage = base;
+        return ratio_damage;
+    }
+
+    const f32 impulse_value = impulse->_10._c;
+    s32 table_damage = 0;
+    if (param->mImpulseThresholdLv4.ref() > 0.0f &&
+        impulse_value > param->mImpulseThresholdLv4.ref() * _80) {
+        table_damage = 999999;
+    } else if (param->mImpulseThresholdLv3.ref() > 0.0f &&
+               impulse_value > param->mImpulseThresholdLv3.ref() * _80) {
+        table_damage = s32(param->mImpulseDamageLv3.ref());
+    } else if (param->mImpulseThresholdLv2.ref() > 0.0f &&
+               impulse_value > param->mImpulseThresholdLv2.ref() * _80) {
+        table_damage = s32(param->mImpulseDamageLv2.ref());
+    } else if (param->mImpulseThresholdLv1.ref() > 0.0f &&
+               impulse_value > param->mImpulseThresholdLv1.ref() * _80) {
+        table_damage = s32(param->mImpulseDamageLv1.ref());
+    } else if (param->mImpulseThresholdLv0.ref() > 0.0f &&
+               impulse_value > param->mImpulseThresholdLv0.ref() * _80) {
+        table_damage = s32(param->mImpulseDamageLv0.ref());
+    }
+    if (table_damage < damage)
+        table_damage = damage;
+    return table_damage;
 }
 
 bool DamageManager::sub_71006D33FC(s32* damage, s32* df48, u32* minDmg, u32* f50, s32* f54, s32* f40) {

@@ -27,7 +27,8 @@ public:
         /* 0x1c */ sead::Matrix34f _1c = sead::Matrix34f::ident;
         /* 0x4c */ sead::Vector3f _4c = sead::Vector3f::zero;
         /* 0x58 */ u32 _58 = 0;
-        /* 0x5c */ u16 _5c = 0;
+        /* 0x5c */ u8 _5c = 0;
+        /* 0x5d */ u8 _5d = 0;
     };
 
     // 0x71011d8260 (declared only; placeholder name; ~1.1 KB): called by Actor::m35, which passes its arguments on.

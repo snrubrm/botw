@@ -45142,7 +45142,7 @@ Address,Quality,Size,Name
 0x00000071006d357c,O,000476,_ZN5uking3act13DamageManager14sub_71006D357CEiibiijjii
 0x00000071006d3758,U,003784,DamageMgr::setFlagsStuff
 0x00000071006d4620,U,001600,DamageMgr::impulseStuff
-0x00000071006d4c60,U,000528,DamageMgr::getImpulse2Damage
+0x00000071006d4c60,M,000528,_ZN5uking3act13DamageManager17getImpulse2DamageEv
 0x00000071006d4e70,U,000580,
 0x00000071006d50b4,U,001272,DamageMgr::m48
 0x00000071006d55ac,O,000188,_ZN5uking3act13DamageManager32applyAttackInfoStateChangeDamageEv

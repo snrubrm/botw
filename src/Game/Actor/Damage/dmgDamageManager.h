@@ -208,6 +208,10 @@ public:
     void sub_71006D27BC();
     void sub_71006D32F8();
     void sub_71006D81D8(f32 value);
+    // 0x71006d4c60 (placeholder name): the damage of an impulse hit. Base damage is m52(); the ratio comes from
+    // GlobalParam.Impulse2DamageRatio. Without an accepted attack impulse (or with the common calculation on) the
+    // damage is the ratio times the impulse value; otherwise the impulse's own damage or the ImpulseDamage table.
+    s32 getImpulse2Damage();
     // 0x71006d357c (CSV DamageMgr::m22_x_0; placeholder name): applies one damage of kind `type` (callbacks of event
     // `eventId` first, then addDamage); records the kind, the flag `flag` (bit 1 of _216) and the ride flag (_8c).
     // 0x71006d33fc (CSV DamageMgr::m22_x; placeholder name): the damage values (the arguments of addDamage) of a
