@@ -1,4 +1,5 @@
 #include <gsys/gsysModelUnitDrawArray.h>
+#include <gsys/gsysModelDrawObj.h>
 #include <gsys/gsysModelUnit.h>
 
 namespace gsys {
@@ -22,6 +23,19 @@ void ModelUnitDrawArray::setSize(s32 size) {
     ModelUnit* unit = mModelUnit;
     mSize = size;
     unit->mCalcWeight = unit->getModelRenderUnitNum() + size;
+}
+
+// 0x7100c49954
+void ModelUnitDrawArray::flushUBO(s32 index) {
+    sead::Matrix34f matrix;
+    sead::Vector3f scale;
+    mModelUnit->getBoneLocalMatrix(&matrix, &scale, 0);
+    matrix.scaleBases(scale.x, scale.y, scale.z);
+
+    ModelDrawObj* obj = static_cast<ModelDrawObj*>(mUnits[index]);
+    for (int i = 0; i < obj->_c; i++) {
+        obj->updateMtx(mModelUnit->_50->getCenter(), mModelUnit->_50->getRadius(), matrix);
+    }
 }
 
 // 0x7100c49694
