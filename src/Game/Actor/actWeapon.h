@@ -425,6 +425,9 @@ public:
     bool m223(s32* out) override;
     void updateMtxFromPhysics() override;
     bool m218() override;
+    // 0x71002ed020 (CSV Weapon::m224): the weapon's per-axis attack range scale: the raw _d5c.._d64
+    // scaled by WeaponCommon's EnemyEqScale and the parent actor's race factor.
+    void m224(sead::Vector3f* out) override;
     bool m225() override;
     bool m226() override;
     void m206(bool play_sound) override;
@@ -539,7 +542,12 @@ public:
     /* 0xd4c */ s32 mLife;
     /* 0xd50 */ u8 _d50[0xd54 - 0xd50];  // TODO
     /* 0xd54 */ s32 _d54 = 0;
-    /* 0xd58 */ u8 _d58[0xd64 - 0xd58];  // TODO
+    // Read by the bow damage manager.
+    /* 0xd58 */ u8 _d58;
+    u8 _d59[3];
+    // Per-axis scale of the attack range (m224 applies the enemy equipment scale and the race factor).
+    /* 0xd5c */ f32 _d5c;
+    /* 0xd60 */ f32 _d60;
     /* 0xd64 */ f32 _d64;  // scale of the attack range (sub_71002ED434)
     /* 0xd68 */ ksys::phys::RigidBody* _d68 = nullptr;  // two pointers compared by WeaponThrowerSelector::enter_
     /* 0xd70 */ void* _d70 = nullptr;
@@ -659,3 +667,7 @@ bool sub_71002F1104(const ksys::act::ActorLinkConstDataAccess& accessor);
 // 0x71002e38b4: the item life at which a weapon counts as nearly broken (the global
 // "WeaponRickeyLife" percent, scaled to the item life units).
 s32 getWeaponLifeLimit();
+
+// 0x710072d86c (placeholder name; declared only): the per-race attack-range factor of `actor` for a
+// weapon of type `type` (1 for an unknown type).
+f32 sub_710072D86C(ksys::act::Actor* actor, const s32& type);

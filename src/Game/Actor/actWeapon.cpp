@@ -596,6 +596,24 @@ bool Weapon::m218() {
     return _f58;
 }
 
+// 0x71002ed020: the weapon's per-axis attack range scale: the raw _d5c.._d64 scaled by WeaponCommon's
+// EnemyEqScale and the parent actor's race factor.
+// NON_MATCHING: the original passes the address of a stack copy of _cf0 to sub_710072D86C (ldr/str) where we
+// bind the reference directly to the member.
+void Weapon::m224(sead::Vector3f* out) {
+    out->x = _d5c;
+    out->y = _d60;
+    out->z = _d64;
+    const f32 eq_scale = getParam()->getRes().mGParamList->getWeaponCommon()->mEnemyEqScale.ref();
+    out->x *= eq_scale;
+    out->y *= eq_scale;
+    out->z *= eq_scale;
+    const f32 race_scale = sub_710072D86C(getParentActor(), _cf0);
+    out->x *= race_scale;
+    out->y *= race_scale;
+    out->z *= race_scale;
+}
+
 bool Weapon::m225() {
     return _fd8;
 }
