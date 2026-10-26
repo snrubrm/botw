@@ -13,6 +13,8 @@ namespace uking::act {
 
 DamageMgrPlayer::DamageMgrPlayer(ksys::act::Actor* actor) : DamageManager(actor) {}
 
+DamageMgrPlayer::~DamageMgrPlayer() = default;
+
 void DamageMgrPlayer::resetDamage() {
     _22c = 0;
     DamageManager::resetDamage();

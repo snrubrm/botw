@@ -7,7 +7,7 @@ namespace uking::act {
 
 // Name from the CSV (DamageMgrPlayer::*; vtable 0x710246aa50, ctor 0x71008515dc, TU 0x7100851550 - 0x7100852400; RTTI
 // static 0x71025c94e0). The damage manager of the Player (DamageManager at 0x0 + the members below). Size 0x238.
-// Only the layout, the ctor and the RTTI are declared: the overrides (slots 0-3 [RTTI, D1 / D0 inline the whole
+// Only the layout, the ctor, the destructor and the RTTI are declared: the other overrides (slots 0-3 [RTTI, D1 / D0 inline the whole
 // DamageManager destructor chain], 15, 20, 22, 47, 50-56) are not decompiled.
 class DamageMgrPlayer : public DamageManager {
     SEAD_RTTI_OVERRIDE(DamageMgrPlayer, DamageManager)
@@ -21,6 +21,7 @@ public:
     bool m56() override;
 
     explicit DamageMgrPlayer(ksys::act::Actor* actor);
+    ~DamageMgrPlayer() override;
 
     s32 m52() override;
     void m54(const ConditionDamageInfo& info) override;
