@@ -1,4 +1,5 @@
 #include "Game/Actor/actDragon.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include <math/seadQuat.h>
 #include <gsys/gsysModelUnit.h>
 #include <gsys/gsysModel.h>
@@ -281,6 +282,21 @@ void Dragon::sub_710000EA88(const sead::SafeString& name) {
 // Placeholder name: plays the "Appear" animation in AS slot 5, bank 2.
 void Dragon::sub_710000EC50() {
     mASList->startAnimationMaybe(-1.0f, -1.0f, "Appear", 5, 2, true);
+}
+
+void Dragon::initMaybe() {
+    Enemy::initMaybe();
+    _598->mFlags14.reset(0x2000000);
+    _14c8.sub_71006FBAD4();
+    for (s32 i = 0; i < 4; ++i)
+        (&_1fd0[i])->m0();  // called through a pointer in the original (not devirtualised)
+    _2270.m0();
+    sub_710000D474();
+    for (s32 i = 0; i < 4; ++i) {
+        sub_710000F36C(i);
+        sub_710000F52C(i);
+    }
+    _1f70.set(0x100000);
 }
 
 ksys::act::BaseProc* Dragon::construct(const CreateArg& arg, sead::Heap* heap) {
