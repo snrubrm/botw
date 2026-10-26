@@ -44,6 +44,8 @@ public:
     // 0x7100ee89cc (CSV NPC::isZora_; lane4 s49): whether the actor's UMii has the Zora race (false for null / no UMii).
     static bool isZora_(ksys::act::Actor* actor);
     ~NPC() override;
+    // 0x7100021578 (CSV name): pauses the calc jobs of every equipped weapon.
+    void setEquippedWeaponsJobsPaused(bool on);
 
 protected:
     InitResult init_() override;

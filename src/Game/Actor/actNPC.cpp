@@ -44,6 +44,21 @@ void loadAnimationDrivenSpeedNPC() {
 // NON_MATCHING: member types are incomplete
 NPC::~NPC() = default;
 
+void NPC::setEquippedWeaponsJobsPaused(bool on) {
+    if (auto* weapon = getWeapons()->getEquippedWeapon(0))
+        weapon->sub_7100EF91B0(on, true);
+    if (auto* weapon = getWeapons()->getEquippedWeapon(1))
+        weapon->sub_7100EF91B0(on, true);
+    if (auto* weapon = getWeapons()->getEquippedWeapon(2))
+        weapon->sub_7100EF91B0(on, true);
+    if (auto* weapon = getWeapons()->getEquippedWeapon(3))
+        weapon->sub_7100EF91B0(on, true);
+    if (auto* weapon = getWeapons()->getEquippedWeapon(4))
+        weapon->sub_7100EF91B0(on, true);
+    if (auto* weapon = getWeapons()->getEquippedWeapon(5))
+        weapon->sub_7100EF91B0(on, true);
+}
+
 void NPC::m79() {
     if (sub_7100020F44())
         sub_7100021AB4();
