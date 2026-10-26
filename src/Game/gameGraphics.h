@@ -441,6 +441,9 @@ KSYS_CHECK_SIZE_NX150(Unk_7100efd9b8, 0x178);
 // 0x7102519120 (placeholder name): the distance GrudgeRenderer::sub_710128F4BC resets _264 to.
 // The original reaches it with a direct adrp + ldr, so it is a hidden-visibility object.
 KSYS_VISIBILITY_HIDDEN extern const f32 cGrudgeResetDistance;
+// 0x71025192d0 (placeholder name): the per-frame item-filter alpha step scale. Direct adrp + ldr
+// in 0x7101293fc0, so a hidden-visibility object defined in another TU.
+KSYS_VISIBILITY_HIDDEN extern const f32 cItemFilterFadeStep;
 
 // Placeholder name (vtable 0x71025191c8): a hostio node the grudge renderer allocates 0x130-byte
 // instances of (constructor 0x710128fcb8, dtor 0x710128fd48 / 0x710128fe88, cleanup 0x710128fd94).
@@ -672,6 +675,8 @@ public:
     virtual ~Unk_7101293bac();
     // 0x7101293d68: selects one of the four named item-filter render units.
     void sub_7101293D68(u32 index, gsys::ModelScene* scene);
+    // 0x7101293fc0: fades the item-filter alpha with the scene's rain ratio and applies it.
+    void sub_7101293FC0();
     s32 _8;
     sead::BitFlag32 mFlags;
     agl::utl::DebugTexturePage mPage;

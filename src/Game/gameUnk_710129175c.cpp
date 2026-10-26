@@ -1,6 +1,7 @@
 #include "Game/gameGraphics.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelScene.h>
+#include <gsys/gsysRenderBufferContext.h>
 #include <gsys/gsysModelUnit.h>
 #include <common/aglShaderProgramArchive.h>
 
@@ -50,6 +51,40 @@ Unk_7101293bac::~Unk_7101293bac() {}
 
 void Unk_7101293bac::sub_7101293C9C(s32, sead::Heap* heap) {
     mPage.setUp(1, "ItemFilter", heap);
+}
+
+// 0x7101293fc0: fades the item-filter alpha towards 1 or 0 with the scene's rain ratio, then
+// stores it as the material parameter and selects the render-buffer mode.
+// NON_MATCHING: this and the scene swap callee-saved registers, and clang if-converts the final
+// mode choice (csinc) where the original branches twice.
+void Unk_7101293bac::sub_7101293FC0() {
+    gsys::ModelScene* scene = Graphics::instance()->mModelScenes(0);
+    const f32 prev = _254;
+    const f32 step = cItemFilterFadeStep * scene->mRainRatio;
+    if (_8 != 0) {
+        _254 = prev + step;
+        if (_254 > 1.0f)
+            _254 = 1.0f;
+    } else {
+        _254 = prev - step;
+        if (_254 < 0.0f)
+            _254 = 0.0f;
+    }
+
+    if (prev == _254)
+        return;
+
+    Graphics::instance()->setEnvMaterialParamF32(
+        sead::SafeString("uking_dynamic_item_filter_alpha"), _254);
+
+    if (_254 <= 0.0f)
+        sub_7101293D68(0, scene);
+
+    auto* render_buffer_context = scene->mBuffer.getRenderBufferContext();
+    s32 mode = 10;
+    if (_254 <= 0.0f && mFlags.isOnBit(2))
+        mode = 1;
+    render_buffer_context->setItemFilterMode(mode);
 }
 
 void Unk_7101293bac::sub_7101293D68(u32 index, gsys::ModelScene* scene) {

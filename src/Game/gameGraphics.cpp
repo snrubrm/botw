@@ -546,6 +546,7 @@ void Graphics::sub_7100F2B3DC(sead::PtrArrayImpl* array) {
 }
 
 KSYS_VISIBILITY_HIDDEN const f32 cGrudgeResetDistance = 20.0f;
+KSYS_VISIBILITY_HIDDEN const f32 cItemFilterFadeStep = 0.4f;
 
 namespace ksys::tera {
 extern u8 sUnk_710260B184 KSYS_VISIBILITY_HIDDEN;
