@@ -193,6 +193,66 @@ s32 sub_7100AA6E4C(const PouchItem& item) {
     return value != general_life + stats.modifier.getAddLife();
 }
 
+// NON_MATCHING: same instructions and size; the shared `w0 = 1; *out = f; ret` block is laid out right after the
+// scvtf arm here, while the original puts it after the 0xf arm at the end (so the original's scvtf arm branches to
+// it and ours' 0xf arm does). Only the block order differs.
+// 0x7100aa7290 (placeholder name): the display value of `info`'s modifier icon from the ShopCookInfo modifier
+// table (0x71025f6960.modifiers); false when the modifier has no icon entry
+bool sub_7100AA7290(const act::WeaponModifierInfo& info, bool a1, f32* out) {
+    const u32 flags = info.flags.getDirect();
+    s32 id;
+    if (!flags)
+        id = -1;
+    else if (flags & u32(act::WeaponModifier::AddAtk))
+        id = 0x18 + ((flags >> 29) & 4);
+    else if (flags & u32(act::WeaponModifier::AddLife))
+        id = 0x19 + ((flags >> 29) & 4);
+    else if (flags & u32(act::WeaponModifier::AddGuard))
+        id = 0x1b + ((s32(flags) >> 31) & 3);
+    else if (flags & u32(act::WeaponModifier::AddCrit))
+        id = 0x1a;
+    else if (flags & u32(act::WeaponModifier::AddThrow))
+        id = 0x1f;
+    else if (flags & u32(act::WeaponModifier::AddSpreadFire))
+        id = 0x20;
+    else if (flags & u32(act::WeaponModifier::AddZoomRapid))
+        id = 0x21;
+    else if (flags & u32(act::WeaponModifier::AddRapidFire))
+        id = 0x22;
+    else if (flags & u32(act::WeaponModifier::AddSurfMaster))
+        id = 0x23;
+    else
+        id = -1;
+
+    const u32 count = sUnk_71025F6960.modifiers.size();
+    s32 index = -1;
+    for (s32 i = 0; i < s32(count); ++i) {
+        if (sUnk_71025F6960.modifiers[i].id == id) {
+            index = i;
+            break;
+        }
+    }
+    if (index < 0)
+        return false;
+
+    const s32 value = sUnk_71025F6960.modifiers[index]._18;
+    if (a1) {
+        if (value == -1)
+            return false;
+        if (value == 0x17)
+            *out = 24.0f;
+        else if (value == 0xf)
+            *out = 22.0f;
+        else
+            *out = f32(value);
+    } else {
+        if (value == -1)
+            return false;
+        *out = f32(value);
+    }
+    return true;
+}
+
 // 0x7100aa0a74
 void sub_7100AA0A74(s32 a1) {
     Manager::instance()->sub_7100A7B8CC(a1);
