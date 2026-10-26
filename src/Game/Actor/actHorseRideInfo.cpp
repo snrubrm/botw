@@ -3,6 +3,10 @@
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actRideable.h"
+#include "Game/Actor/actHorseBase.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorse.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -161,6 +165,19 @@ void HorseRideInfo::sub_7100E7C350() {
 void HorseRideInfo::sub_7100E7C4F8(ksys::act::Unk117* arg) {
     if (auto* actor = sead::DynamicCast<ksys::act::Actor>(_18.getProc(nullptr, nullptr)))
         actor->x_17(arg);
+}
+
+// 0x7100e806a4: whether the horse may eat the actor linked by `link`: the horse's eat rate plus its
+// satiation must not exceed 1, and the linked actor must pass its EatActorNames group test.
+bool sub_7100E806A4(HorseBase* horse, const ksys::act::BaseProcLink& link) {
+    if (!horse)
+        return false;
+    if (sUnk_7101EC1900 + horse->_b84 <= 1.0f) {
+        const auto* param = horse->getParam()->getRes().mGParamList->getHorse();
+        if (param)
+            return sub_7100E8072C(horse->m45(), param->mEatActorNames.ref(), link);
+    }
+    return false;
 }
 
 // Separate TU from Rideable::sub_7100E7EF1C, which this tail-calls: the original keeps it out of line.

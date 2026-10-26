@@ -11,6 +11,7 @@ extern const f32 sUnk_7101EC193C = 1.0f;
 
 namespace uking::act {
 
+const f32 sUnk_7101EC1900 = 0.1f;
 const f32 sUnk_7101EC1904 = 1.0f;
 
 // The S2 rate defaults (the block at 0x7101ec1920; the ctor takes their addresses).

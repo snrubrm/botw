@@ -38,6 +38,7 @@ class RigidBody;
 
 namespace uking::act {
 
+class HorseBase;
 class HorseReins;
 
 // Placeholder name (ctor 0x7100e8b2b8, D1 0x7100e8b304, vtable 0x71024ec660, 17 slots, size 0x40;
@@ -377,6 +378,8 @@ static_assert(offsetof(RideableBase::S2, _88) == 0x88);
 extern RideableBase::SpeedEntry::Gear sUnk_7102603058;
 // Shared readonly rate used by S2 initialization and HorseRiddenByNPC entry.
 extern const f32 sUnk_7101EC1904;
+// 0.1f (0x7101ec1900): added to the horse's _b84 by sub_7100E806A4.
+extern const f32 sUnk_7101EC1900;
 // Start value of a gear request (6.0f, 0x7101ec1960).
 extern const f32 sUnk_7101EC1960;
 
@@ -474,9 +477,13 @@ inline SEAD_ENUM_EX_VALUES(Rideable::Unk278, 0, 1, 3, -1, -4, -2)
 
 // 0x7100e80d18 (placeholder name): Rideable::sub_7100E7EF1C for the rideable of `actor` while its state (_c) is 1.
 void sub_7100E80D18(ksys::act::Actor* actor);
-// 0x7100e806a4 (placeholder name; declared only): false for a null actor or when a global factor plus the
-// actor's float at 0xb84 exceeds 1; otherwise checks `link` against the actor's GParam object (0x7100e8072c).
-bool sub_7100E806A4(ksys::act::Actor* actor, const ksys::act::BaseProcLink& link);
+// 0x7100e806a4 (placeholder name): false for a null horse or when 0.1 plus the horse's float at 0xb84 exceeds 1;
+// otherwise passes the horse's NavMeshCharacter and its EatActorNames parameter to sub_7100E8072C.
+bool sub_7100E806A4(HorseBase* horse, const ksys::act::BaseProcLink& link);
+// 0x7100e8072c (placeholder name; declared only): 0x7100e806a4's tail call: whether the actor linked by `link` is
+// in the same group as `name` and reachable from `nav` (the group-name test is sub_71010C2EE4).
+bool sub_7100E8072C(ksys::phys::NavMeshCharacter* nav, const sead::SafeString& name,
+                    const ksys::act::BaseProcLink& link);
 // 0x7100e808a4 (placeholder name; declared only): whether `actor` may eat the item `item` carried by `carrier`
 // (HorseNotRidden passes its CarriedItemCosThresholdForEat / CarriedItemPosRTYOffset / CarriedItemPosRTYWidth).
 bool sub_7100E808A4(ksys::act::Actor* actor, const ksys::act::BaseProcLink& item,
