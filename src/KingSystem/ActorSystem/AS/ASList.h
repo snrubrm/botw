@@ -30,6 +30,8 @@ const nn::g3d::ResBoneAnim* sub_710115D55C(const nn::g3d::ResSkeletalAnim* resou
 
 class ASList : public nn::g3d::ICalculateBlendWeightCallback {
 public:
+    // 0x710115b3bc (placeholder name): copies the slot state of another list.
+    void sub_710115B3BC(ASList* other);
     // The release build has no caller of these four; their meaning is unknown.
     void unk0() override;
     void unk1() override;

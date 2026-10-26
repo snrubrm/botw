@@ -197,6 +197,8 @@ public:
     // 0x710000dbe0 (placeholder name): warps the dragon to _1f40 and moves the body matrix there.
     void sub_710000DBE0();
     void sub_710000C160(const Dragon* other);  // copies state from another dragon (DragonRoot::reenter_)
+    // 0x710000c2f4 (placeholder name): called by the state copy after the position push.
+    void sub_710000C2F4();
     // 0x710001014c: *_14c8.sub_71006FC514() (DragonMoveTo::enter_).
     const sead::Matrix34f& sub_710001014C() const;
 
@@ -230,6 +232,8 @@ public:
         void sub_71006FB51C();
         void sub_71006FBB64();
 
+        // 0x71006fa1d0 (placeholder name): copies the transform history and bone part state.
+        void sub_71006FA1D0(const Unk_710000b710& other);
         ~Unk_710000b710() { sub_71006FB7F8(); }
 
         /* 0x000 */ ksys::act::Actor* mActor = nullptr;

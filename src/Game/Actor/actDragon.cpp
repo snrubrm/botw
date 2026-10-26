@@ -35,6 +35,40 @@ f32 Dragon::x_0() const {
     return _1e1c.length();
 }
 
+// NON_MATCHING: the D474 / ECA4 blocks are laid out in the other order and the second test uses b.le
+// instead of the original's b.gt (same NaN behaviour).
+// Copies the state of another dragon (DragonRoot::reenter_): flags, the two matrices and the
+// position, then the transform history, the character controller matrix and the animation list.
+void Dragon::sub_710000C160(const Dragon* other) {
+    const bool own_bit = _1f70.isOn(1 << 28);
+    const u32 other_flags = other->_1f70.getDirect();
+    _1f70.setDirect(own_bit ? (other_flags | (1 << 28)) : (other_flags & ~(1 << 28)));
+    _1f70.reset(0x40800000);
+
+    _1e10 = other->_1e10;
+    _1e28 = other->_1e28;
+    _1e58 = other->_1e58;
+    _1e1c = other->_1e1c;
+
+    const sead::Vector3f pos = getMtx().getTranslation();
+    const sead::Vector3f center = _1f54;
+    const f32 dx = pos.x - center.x;
+    const f32 dz = pos.z - center.z;
+    if (m139() < 1.0f || dx * dx + dz * dz > 350.0f * 350.0f) {
+        sub_710000D474();
+    } else {
+        sub_710000ECA4();
+    }
+
+    sub_710000C2F4();
+    (&*this)->setMtx(other->mMtx, true, true);  // called through a pointer in the original (not devirtualised)
+    Actor::nullsub_4648();
+    _14c8.sub_71006FA1D0(other->_14c8);
+    if (auto* controller = getCharacterController())
+        controller->sub_7100F60500(other->mMtx);
+    mASList->sub_710115B3BC(other->mASList);
+}
+
 void Dragon::m63() {
     Enemy::m63();
     sub_710000D474();
