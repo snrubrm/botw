@@ -71,7 +71,10 @@ static_assert(offsetof(ManagerTaskEntry, mDismissed) == 0x1c);
 // at +0x58). mObj is a polymorphic object tested with a sead RTTI cast to Unk_710249c558, whose
 // FixedSafeString<64> at +8 is the name the lookup copies out.
 struct ManagerObjListEntry {
-    u8 _0[0x38];
+    u8 _0[8];
+    // The name UiSubsys1::sub_71009661DC looks up (null entries are skipped).
+    /* 0x08 */ const char* _8;
+    u8 _10[0x28];
     /* 0x38 */ sead::Vector3f mPosition;
     u8 _44[4];
     /* 0x48 */ s32 mKind;

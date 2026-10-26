@@ -1507,6 +1507,25 @@ s32 sub_71009661BC(s32 value) {
     }
 }
 
+// 0x71009661dc (placeholder name): the kind of the first named object of the manager's list whose
+// name matches `id` (-1 when none).
+// NON_MATCHING: the original's inlined sead string compare calls assureTerminationImpl_ once. Our
+// sead::SafeStringBase::isEqual materialises the const char* as a temporary SafeString and calls it
+// on both operands and the temporary (three virtual calls, frame 0x70 vs 0x50).
+bool UiSubsys1::sub_71009661DC(const sead::SafeString& id, s32* out) {
+    bool found = false;
+    s32 kind = -1;
+    for (auto& entry : Manager::instance()->mObjList) {
+        if (entry._8 && id.isEqual(entry._8)) {
+            kind = entry.mKind;
+            found = true;
+            break;
+        }
+    }
+    *out = kind;
+    return found;
+}
+
 // 0x7100966e2c
 void UiSubsys1::sub_7100966E2C() {
     _388c.reset();

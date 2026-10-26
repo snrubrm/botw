@@ -1370,7 +1370,7 @@ public:
     // 0x7100964b24 (placeholder name): the number of entries of the table at 0x610 whose flag (bit 4 of the byte at 0x3c) is clear
     s32 sub_7100964B24();
     void sub_7100963CE8(ksys::act::Actor* actor);
-    bool sub_71009661DC(const void* a1, s32* out);
+    bool sub_71009661DC(const sead::SafeString& a1, s32* out);
     void sub_7100963C8C(const UiSubsys1PinArg* arg);
     // 0x7100961e48 (CSV uiSubsys1::__auto0; declared only): called by GameSceneSubsys13::setGameOverPosition.
     void sub_7100961E48(const sead::Vector3f* pos);

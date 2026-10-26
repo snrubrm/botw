@@ -627,7 +627,7 @@ void sub_7100A9A644(ksys::act::Actor* actor) {
 }
 
 // 0x7100a9a664
-bool sub_7100A9A664(const void* a0, s32* out) {
+bool sub_7100A9A664(const sead::SafeString& a0, s32* out) {
     if (auto* s = UiSubsys1::instance())
         return s->sub_71009661DC(a0, out);
     *out = -1;
