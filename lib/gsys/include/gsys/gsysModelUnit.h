@@ -305,6 +305,7 @@ public:
 
 protected:
     friend class Model;
+    friend class ModelUnitDrawArray;
 
     sead::TypedBitFlag<Flag, u8> mFlags;
     s8 mUnkIndex;

@@ -1,4 +1,5 @@
 #include <gsys/gsysModelUnitDrawArray.h>
+#include <gsys/gsysModelUnit.h>
 
 namespace gsys {
 
@@ -14,6 +15,13 @@ bool ModelUnitDrawArray::isZSortEnabled() const {
 
 s32 ModelUnitDrawArray::getSize() const {
     return mSize;
+}
+
+// 0x7100c495e8
+void ModelUnitDrawArray::setSize(s32 size) {
+    ModelUnit* unit = mModelUnit;
+    mSize = size;
+    unit->mCalcWeight = unit->getModelRenderUnitNum() + size;
 }
 
 }  // namespace gsys
