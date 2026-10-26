@@ -45,6 +45,21 @@ namespace uking::act {
 
 // NON_MATCHING: the body is the same; clang sinks the constant/scale loads into the body here while
 // the original hoists them above the rigid-body query, so the frame and register allocation differ.
+// NON_MATCHING: our sead::ObjArray::pushBack null-checks the free-list head (and then materialises the
+// index with sxtw); the original's pushBack uses the head unconditionally.
+s32 Guardian::Unk1::sub_710004B1D4(sead::ObjArray<sead::Vector3f>* out) {
+    const u8 rank = _8->_1908._3c;
+    if (rank == 0) {
+        sub_710004B268(out);
+    } else if (rank == 1) {
+        sub_710004B7C8(out);
+        return 0x78;
+    } else {
+        out->pushBack(_8->getMtx().getTranslation());
+    }
+    return 0x3c;
+}
+
 void Guardian::Unk1::sub_7100044B68(sead::Vector3f* out, s32 index) {
     const sead::Vector2f& scale = _8->_15b8[index];
     const f32 radius = sUnk_710235b9f0[5];
