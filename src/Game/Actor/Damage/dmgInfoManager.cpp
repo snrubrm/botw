@@ -83,6 +83,29 @@ bool DamageInfoMgr::UnkCe0::sub_7100672F54(ksys::act::BaseProc* proc) {
     return acquired;
 }
 
+// NON_MATCHING: the tag store is scheduled one slot before the found constant; the statement order
+// of the two does not change it.
+bool DamageInfoMgr::UnkCe0::sub_7100673064(ksys::act::BaseProc* proc, u32 tag) {
+    while (mLock.load() == 1) {
+    }
+    while (!mLock.compareExchange(0, 1)) {
+    }
+
+    bool found = false;
+    for (s32 i = 0; i < mCount; ++i) {
+        if (mLinks[i].mLink.hasProcById(proc)) {
+            mLinks[i].mTag = tag;
+            found = true;
+            break;
+        }
+    }
+
+    std::atomic_thread_fence(std::memory_order_seq_cst);
+    while (!mLock.compareExchange(1, 0)) {
+    }
+    return found;
+}
+
 void DamageInfoMgr::UnkCe0::sub_710067343C(f32 value) {
     sub_71006732CC(value, 25);
 }

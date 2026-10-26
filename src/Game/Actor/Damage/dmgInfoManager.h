@@ -342,6 +342,8 @@ private:
         void sub_7100672E48();
         // 0x7100672f54: links `proc` into the first untagged entry (false when it is already listed).
         bool sub_7100672F54(ksys::act::BaseProc* proc);
+        // 0x7100673064: stores `tag` in the entry linked to `proc` (false when it is not listed).
+        bool sub_7100673064(ksys::act::BaseProc* proc, u32 tag);
         // 0x71006732cc: counts the listed actors that pass the flag test (and are nearer than `radius`
         // when it is not negative) to the player; the wrapper below passes the flag bit 25.
         s32 sub_71006732CC(f32 radius, u32 type);
