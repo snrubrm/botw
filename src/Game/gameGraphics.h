@@ -438,6 +438,24 @@ KSYS_CHECK_SIZE_NX150(Unk_7100efd9b8, 0x178);
 // The original reaches it with a direct adrp + ldr, so it is a hidden-visibility object.
 KSYS_VISIBILITY_HIDDEN extern const f32 cGrudgeResetDistance;
 
+// Placeholder name (vtable 0x71025191c8): a hostio node the grudge renderer allocates 0x130-byte
+// instances of (constructor 0x710128fcb8, dtor 0x710128fd48 / 0x710128fe88, cleanup 0x710128fd94).
+// sub_7101290010 stores the reciprocal of `n` and that reciprocal scaled by _11c.
+class Unk_71025191c8 : public sead::hostio::Node {
+public:
+    virtual ~Unk_71025191c8();
+    void sub_7101290010(s32 n);
+
+private:
+    u8 _8[0x100 - 0x8];
+    f32 _100;
+    f32 _104;
+    u8 _108[0x11c - 0x108];
+    s32 _11c;
+    u8 _120[0x130 - 0x120];
+};
+KSYS_CHECK_SIZE_NX150(Unk_71025191c8, 0x130);
+
 class GrudgeRenderer {
 public:
     void sub_710128F2A4();

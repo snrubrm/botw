@@ -29,3 +29,29 @@ void GrudgeRenderer::sub_710128F4BC(const sead::Camera* camera) {
 // 0x710128f888: the final-image pass calls this debug draw of the renderer; the original body is empty.
 void GrudgeRenderer::sub_710128F888(agl::DrawContext* context,
                                     gsys::ModelRenderContext* render_context) {}
+
+// NON_MATCHING: the original keeps the unit count in a register across the loop; ours rematerialises
+// the load for the latch (register pressure from the loop-invariant compare string). One extra
+// load and a `b.lt` instead of `b.ne`.
+// 0x7101290010: scales the unit's stored sizes by the reciprocal of `n`.
+void Unk_71025191c8::sub_7101290010(s32 n) {
+    const f32 scale = 1.0f / f32(n);
+    _100 = scale;
+    _104 = scale * f32(_11c);
+}
+
+// 0x710128f9e0: marks the renderer when the model has the GrudgeSlimeMold unit.
+void GrudgeRenderer::sub_710128F9E0(gsys::Model* model) {
+    if (!model)
+        return;
+    const auto& units = model->getUnits();
+    for (s32 i = 0; i < units.size(); ++i) {
+        gsys::ModelInfo* info = units[i];
+        gsys::ModelUnit* unit = info->mModelUnit;
+        if (!sead::IsDerivedFrom<gsys::ModelUnit>(unit))
+            continue;
+        const sead::SafeString name = unit->getName();
+        if (name == "GrudgeSlimeMold")
+            _2ef8 |= 4;
+    }
+}

@@ -1,5 +1,6 @@
 #include "KingSystem/System/ModelPicker.h"
 #include "Game/Scene/gameScene.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 
 namespace ksys {
 
@@ -43,10 +44,15 @@ void ModelPicker::x_1(const Target& target) {
     mModel = nullptr;
     mTarget.name = target.name;
     mTarget._10 = target._10;
-    mTarget._18 = target._18;
-    mTarget._1c = target._1c;
-    mTarget._20 = target._20;
+    mTarget.mPosition = target.mPosition;
     mState = 1;
+}
+
+bool ModelPicker::Target::matches(const map::Unk_71012497f8Entry* entry) const {
+    if (entry->_10 == _10 && entry->mPosition.x == mPosition.x &&
+        entry->mPosition.y == mPosition.y && entry->mPosition.z == mPosition.z)
+        return true;
+    return false;
 }
 
 }  // namespace ksys

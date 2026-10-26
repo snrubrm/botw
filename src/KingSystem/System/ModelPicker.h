@@ -17,6 +17,7 @@ class Actor;
 
 namespace map {
 class Object;
+struct Unk_71012497f8Entry;
 }
 
 // Name from the CSV (createInstance 0x71010b7f9c, init, postCalc, x, x_0, x_1). Singleton (0xc0 bytes) that
@@ -28,13 +29,13 @@ class ModelPicker {
     ~ModelPicker() = default;
 
 public:
-    // Placeholder: the named target copied field by field by x_1.
+    // The named target copied field by field by x_1. `matches` is the predicate the pick update
+    // passes to the clustered renderer (0x71010b96a4): the entry's actor and position must match.
     struct Target {
         sead::SafeString name;
-        u64 _10;
-        u32 _18;
-        u32 _1c;
-        u32 _20;
+        void* _10;
+        sead::Vector3f mPosition;
+        bool matches(const map::Unk_71012497f8Entry* entry) const;
     };
 
     // 0x71010b8048
