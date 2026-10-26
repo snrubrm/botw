@@ -32,6 +32,8 @@ protected:
 public:
     bool m50() override;
     bool m55() override { return true; }
+    // 0x710008097c: resets the damage-callback registration and the ragdoll state, sets the _1168 type field
+    // and links the instance-set body named "Tgt" into the world.
     void initMaybe() override;
     void calcMaybe() override;
     void m73() override;
@@ -58,7 +60,7 @@ public:
     /* 0x1168 */ Unk3 _1168;  // m135
     /* 0x1170 */ Unk_7102451a50 _1170{};
     /* 0x1198 */ f32 _1198 = 0;  // damage flash timer (m149)
-    /* 0x11a0 */ void* _11a0 = nullptr;
+    /* 0x11a0 */ ksys::phys::RigidBodySet* _11a0 = nullptr;  // the instance set body named "Tgt"
     // Placeholder (bits of _11a8; callers convert through the stack like a SEAD_ENUM).
     SEAD_ENUM(Flag, _0, _1, _2, _3)
     /* 0x11a8 */ sead::BitFlag8 _11a8;  // bit 0: _1170 is registered as a damage callback

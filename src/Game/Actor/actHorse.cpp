@@ -5,6 +5,11 @@
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorse.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 
 // Declaration only; the original helper's source owner and namespace are unknown.
 void sub_7100D2D424(uking::act::DamageManagerBase* manager);
@@ -22,6 +27,41 @@ Horse::~Horse() = default;
 
 void Horse::onPreDeleteStart_(PrepareArg& arg) {
     HorseBase::onPreDeleteStart_(arg);
+}
+
+// 0x710008097c: resets the damage-callback registration and the ragdoll state, sets the _1168 type field
+// and links the instance-set body named "Tgt" into the world.
+// NON_MATCHING: the target re-materialises the Flag temporary for the second conversion (one extra
+// `str wzr, [sp]`) and swaps the `and` operands (the same commutativity note as Horse::onEnterSleep_).
+void Horse::initMaybe() {
+    HorseBase::initMaybe();
+    if (!sub_7100E68270()) {
+        _f50.sub_71006ECF0C();
+        const Flag flag(Flag::_0);
+        if (_11a8.isOnBit(flag)) {
+            _d20.removeDamageCallback(&_1170);
+            _11a8.resetBit(flag);
+        }
+        _d20.clearCallbacks();
+        _1028.m5();
+    }
+    _11a8.makeAllZero();
+    _1168._0 = 0;
+    if (getParam()->getRes().mGParamList->getHorse()) {
+        if (x() == 5) {
+            _1168._0 = 0;
+            _1168._4 = 1;
+        } else {
+            _1168._0 = 1;
+        }
+    }
+    _1198 = 0;
+    if (mPhysics) {
+        _11a0 = mPhysics->findBodyByName("Tgt");
+        _11a0->addToWorld();
+    } else {
+        _11a0 = nullptr;
+    }
 }
 
 void Horse::preDelete2_(const PreDeleteArg& arg) {

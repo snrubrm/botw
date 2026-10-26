@@ -77,6 +77,8 @@ public:
     bool sub_71006ECC78(sead::Heap* heap);
     // 0x71006ecd08: removes the ragdoll and releases its controller.
     void sub_71006ECD08();
+    // 0x71006ecf0c (placeholder name; declared only; called by Horse::initMaybe).
+    void sub_71006ECF0C();
     // 0x71006ecd6c: sets the contact layer of the actor's rigid bodies.
     void sub_71006ECD6C(bool a1);
 
