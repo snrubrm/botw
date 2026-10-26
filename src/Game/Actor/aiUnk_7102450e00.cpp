@@ -64,9 +64,10 @@ bool Unk_7102450e90::m6() {
     return true;
 }
 
-// NON_MATCHING: the original loads _1d8 before the member index but multiplies index * _1d8 (operand order only).
+// NON_MATCHING: the original loads _1d8 into s0 and the member index into s1 (ours swaps the pair); the
+// rest of the function is instruction-identical.
 void Unk_7102450ed8::m7(sead::Vector3f* out, s32 idx) {
-    const f32 t = _1d8 * *_b0(idx - 2) + _1dc;
+    const f32 t = *_b0(idx - 2) * _1d8 + _1dc;
     out->setScaleAdd(t, _1ec, _1e0);
 }
 

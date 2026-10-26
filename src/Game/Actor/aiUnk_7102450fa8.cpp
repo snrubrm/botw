@@ -66,7 +66,7 @@ bool Unk_7102450fa8::sub_71007194D4(int idx, ksys::act::ActorLinkConstDataAccess
     return accessor->hasProc();
 }
 
-// NON_MATCHING: loop exit compare (original: cmp #32 / b.le; ours: cmp #33 / b.lt)
+// NON_MATCHING: the loop exit compare is canonicalised (original: cmp #32 / b.le; ours: cmp #33 / b.lt)
 int Unk_7102450fa8::sub_7100719534(ksys::act::BaseProc* proc) {
     for (int i = 0; i <= 32; ++i) {
         if (_8[i]._e0.hasProcById(proc))
