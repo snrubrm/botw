@@ -332,6 +332,11 @@ public:
     void m12(int index) override;
     void m13(int index) override { _8.resetBit(index); }
 
+    // 0x71006ee838 / 0x71006eed1c (placeholder names): the two per-frame steps m10 runs after the
+    // listener; only declared.
+    void sub_71006EE838();
+    void sub_71006EED1C();
+
     // 2026-10-07: factories of sibling controllers reuse the common prefix's tail padding
     // for different types; the swarm's three condition indices start here.
     /* 0x1c */ s32 _1c;
