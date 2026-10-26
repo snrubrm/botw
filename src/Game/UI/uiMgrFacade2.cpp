@@ -27,6 +27,8 @@
 #include "Game/gameRuneMgr.h"
 #include "Game/UI/euiMessageMgr.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "Game/Actor/Damage/dmgInfoManager.h"
+#include "Game/Actor/actWeapon.h"
 #include "Game/gameSaveSystem.h"
 #include "KingSystem/System/UI/LayoutResourceMgr.h"
 #include "KingSystem/System/VFR.h"
@@ -166,6 +168,29 @@ void sub_7100AA0C04(sead::Vector3f* pos) {
         query.getHitPosition(&hit);
         pos->y = hit.y;
     }
+}
+
+// 0x7100aa6e4c (placeholder name): the pouch item's wear state: 2 when its durability is at or below the weapon's
+// life limit, 1 for a true-form Master Sword with no durability, 0 when the durability is not the maximum, and -1
+// for a type that is not a sword, bow or shield
+s32 sub_7100AA6E4C(const PouchItem& item) {
+    const PouchItemType type = item.getType();
+    if (type != PouchItemType::Shield && type != PouchItemType::Bow) {
+        if (type != PouchItemType::Sword)
+            return -1;
+        if (item.getName() == "Weapon_Sword_070") {
+            if (item.getValue() < 1)
+                return 1;
+            act::DamageInfoMgr::instance()->isTrueFormMasterSword();
+        }
+    }
+    const s32 value = item.getValue();
+    if (value <= getWeaponLifeLimit())
+        return 2;
+    const s32 general_life = getItemGeneralLife(item.getName().cstr());
+    WeaponStats stats{};
+    getWeaponStats(item, &stats);
+    return value != general_life + stats.modifier.getAddLife();
 }
 
 // 0x7100aa0a74
