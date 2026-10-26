@@ -973,6 +973,11 @@ void Unk_71024774a8::sub_7100988AF4(bool open) {
         mLayout->startAnimCloseImpl_(false, true);
 }
 
+// 0x7100988b80
+void Unk_71024774a8::setString(const sead::SafeString& str) {
+    _60.copy(str);
+}
+
 f32 Unk_71024774a8::sub_7100988D00(s32 index) const { return mAnimators[index]->mFrame; }
 
 bool Unk_71024774a8::sub_7100988D1C(s32 index) const {

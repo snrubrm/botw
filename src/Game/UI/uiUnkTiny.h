@@ -739,6 +739,8 @@ public:
     // A2D8C4 passes the existing embedded control at ScreenPauseMenuInfo +3b70.
     void sub_7100988620();
     void sub_7100988AF4(bool open);
+    // 0x7100988b80 (CSV name was the placeholder MotorcycleGaugeParts::setString): _60.copy(str)
+    void setString(const sead::SafeString& str);
     f32 sub_7100988D00(s32 index) const;
     bool sub_7100988D1C(s32 index) const;
     bool sub_7100988D60(s32 index) const;
