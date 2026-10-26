@@ -108,6 +108,30 @@ void ScreenAppMapWidget::sub_71009AE29C(bool up) {
     refreshHomePage();
 }
 
+// 0x71009ae3c8
+// NON_MATCHING: same instruction set and size; clang lays the _b4a4 = 4 arm first (tbnz to the _b4a4 = 5
+// arm), the original lays the _b4a4 = 5 arm first (tbz to the _b4a4 = 4 arm).
+void ScreenAppMapWidget::sub_71009AE3C8() {
+    const u8 old = _b4ff;
+    _b4ff ^= 1;
+    UiSubsys1::instance()->clear38c8();
+    if (old & 1) {
+        _b4a4 = 5;
+        _b4fe = 0;
+    } else {
+        _b4a4 = 4;
+        _b4ff = (_b4ff & 0xf) | 0x40;
+        _b4a8 = 0;
+        _b4fd = 0;
+        sUnk_71025D9610.mUnkFlag = true;
+    }
+    if (auto* home = sead::DynamicCast<ScreenAppHome>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome))) {
+        home->sub_71009DC99C(false);
+        home->x_2();
+    }
+}
+
 // 0x71009af1ac
 void ScreenAppMapWidget::sub_71009AF1AC() {
     _b4ff ^= 8;
