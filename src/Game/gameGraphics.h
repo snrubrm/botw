@@ -514,6 +514,17 @@ public:
     };
     static_assert(sizeof(TextureSet) == 0xa40);
 
+    // The user data of a texture bind request (0x710128d550 reads it through the handle entry):
+    // the record slot in _ed0, the entry index and what the request refers to.
+    struct TextureBindResult {
+        s32 mTableIndex;  // 0: index in _ed0
+        s32 mEntryIndex;  // 4: entry / material slot
+        s32 mKind;        // 8: 0 = renderer entry, 1 = render record
+    };
+    static_assert(sizeof(TextureBindResult) == 0xc);
+
+    // 0x710128d550: marks the renderer entry or the render record of a finished texture bind.
+    void sub_710128D550(ksys::res::TextureHandleList::Entry* entry);
     // 0x710128f2a4: rebinds the textures of the entries whose flag bit 0 is set.
     void sub_710128F2A4();
     // 0x710128f698: binds the textures of the three texture entries of `set` on `model`.
@@ -540,8 +551,10 @@ private:
     gsys::ModelResource* _280;
     gsys::ModelNW* _288;
     u8 _290[0x3c0 - 0x290];
-    Entry mEntries[3];
-    u8 _e88[0x2ee8 - 0xe88];
+    sead::SafeArray<Entry, 3> mEntries;
+    u8 _e88[0xed0 - 0xe88];
+    sead::SafeArray<TextureSet*, 0x400> _ed0;
+    u8 _2ed0[0x2ee8 - 0x2ed0];
     sead::Buffer<agl::utl::AtomicPtrArray<Unk_71025191c8>> mUnitArrays;
     u8 _2ef8;
     u8 _2ef9[0x2fb0 - 0x2ef9];

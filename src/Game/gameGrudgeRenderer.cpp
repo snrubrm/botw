@@ -33,6 +33,24 @@ void GrudgeRenderer::sub_710128F4BC(const sead::Camera* camera) {
     _268->requestDraw();
 }
 
+// 0x710128d550: marks the renderer entry or the render record of a finished texture bind.
+// NON_MATCHING: the original reads the two indices as one sign-extended load and spills the kind
+// through the stack; ours reloads the table index in the second arm.
+void GrudgeRenderer::sub_710128D550(ksys::res::TextureHandleList::Entry* entry) {
+    const auto* result = static_cast<const TextureBindResult*>(entry->sub_71012BD4D8());
+    const s32 kind = result->mKind;
+    const s32 table_index = result->mTableIndex;
+    const s32 entry_index = result->mEntryIndex;
+    if (kind == 1) {
+        TextureSet* set = _ed0[table_index];
+        if (!set || (set->mFlags & 1) == 0)
+            return;
+        set->mFlags |= (1 << (entry_index + 3)) | 2;
+    } else if (kind == 0) {
+        mEntries[entry_index].mFlag |= 1;
+    }
+}
+
 // 0x710128f2a4: refreshes the material entries that were marked for a texture rebind.
 void GrudgeRenderer::sub_710128F2A4() {
     if ((_2ef8 & 1) == 0)
