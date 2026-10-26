@@ -23,9 +23,14 @@
 namespace uking::ui {
 
 // Defined further down the TU; not decompiled yet.
-s32 sub_7100A90B24(ksys::act::ActorLinkConstDataAccess* actor, ksys::act::BaseProcAccessor* accessor,
-                   s32* value);
-// 0x7100a9117c (not decompiled yet)
+s32 sub_7100A90B24(const ksys::act::ActorLinkConstDataAccess* actor,
+                   ksys::act::BaseProcAccessor* accessor, s32* value);
+// 0x7100a9017c (not decompiled yet)
+void sub_7100A9017C(const ksys::act::ActorLinkConstDataAccess* accessor,
+                    ksys::act::BaseProcAccessor* extra_accessor, s32* value);
+// 0x710073a6d0 (not decompiled yet)
+void sub_710073A6D0(const ksys::act::ActorLinkConstDataAccess* accessor, const sead::SafeString& name);
+// Defined below sub_7100A9127C.
 s32 shopBuyRupeeStuff(const ksys::act::ActorLinkConstDataAccess* accessor,
                       ksys::act::BaseProcAccessor* extra_accessor, s32* value);
 
@@ -147,6 +152,50 @@ s32 sub_7100A9139C(const ksys::act::ActorLinkConstDataAccess* accessor) {
     s32 value;
     sub_7100A907B4(&actor, &proc_accessor, &value, accessor);
     return shopBuyRupeeStuff(accessor, &proc_accessor, &value);
+}
+
+// 0x7100a91c88 (placeholder name): the info overlay / cannot-buy message for the player's item state.
+// NON_MATCHING: the original tests the cases in the order 7 / 6 / 2; clang 4 merges the compares into a switch
+// and tests them in ascending order. Same instructions otherwise.
+void sub_7100A91C88(const ksys::act::ActorLinkConstDataAccess* accessor, const s32* state) {
+    switch (*state) {
+    case 7: {
+        if (!accessor->hasTag(0x4abb738e)) {
+            showCannotPickupBuyAnyMoreMessageMaybe(accessor->getName(), true);
+            return;
+        }
+        ksys::act::ActorLinkConstDataAccess child;
+        accessor->acquireConnectedCalcChild(&child);
+        if (child.hasProc())
+            showCannotPickupBuyAnyMoreMessageMaybe(child.getName(), true);
+        break;
+    }
+    case 6:
+        showInfoOverlay(0x20);
+        break;
+    case 2:
+        showInfoOverlay(0x1f);
+        break;
+    }
+}
+
+// 0x7100a9117c (placeholder name): reports the shop buy price of the actor.
+s32 shopBuyRupeeStuff(const ksys::act::ActorLinkConstDataAccess* accessor,
+                      ksys::act::BaseProcAccessor* extra_accessor, s32* value) {
+    const s32 result = sub_7100A90B24(accessor, extra_accessor, value);
+    if (result)
+        return result;
+    sub_7100A9017C(accessor, extra_accessor, value);
+    sub_710073A6D0(accessor, accessor->getName());
+    const sead::SafeString& name = accessor->getName();
+    if (ksys::PlayReportMgr::instance()) {
+        sead::FixedSafeString<64> label;
+        label.format("ShopBuy_Rupee");
+        if (label.isEmpty())
+            return 0;
+        ksys::PlayReportMgr::instance()->reportDebug(label, name);
+    }
+    return 0;
 }
 
 // 0x7100a9127c: reports the shop action `state` (1-5, 7) `count` times as a debug report with the item name.
