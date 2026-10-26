@@ -53,6 +53,15 @@ namespace uking::ui {
 // 0x71025f59f0: the empty main-field area mask returned for a missing list entry.
 static u16 sUnk_71025F59F0;
 
+// The entries of the static 0x71025f5f90 task-id map (0x30 bytes; only the two s32 fields are used).
+struct ManagerTaskIdMap {
+    /* 0x00 */ s32 _0;
+    u8 _4[0x14];
+    /* 0x18 */ s32 _18;
+    u8 _1c[0x14];
+};
+KSYS_CHECK_SIZE_NX150(ManagerTaskIdMap, 0x30);
+
 // The manager's static screen load / unload lists (native 0x71025f5f90; each list is a sead::Buffer of 12-byte
 // entries whose first word is the ScreenId). The manager destructor unloads these lists.
 namespace {
@@ -69,6 +78,9 @@ struct ScreenLoadLists {
     sead::Buffer<s32> mListH;  // 0x1e0
     sead::Buffer<s32> mListI;  // 0x1f0
     sead::Buffer<s32> mListJ;  // 0x200
+    u8 _210[0x250 - 0x210];
+    // The message-id to task-id map sub_7100A7F930 / sub_7100A7FA78 read (id at +0x18, task id at +0).
+    sead::Buffer<ManagerTaskIdMap> mTaskIdMap;  // 0x250
 };
 ScreenLoadLists sUnk_71025F5F90;
 }  // namespace
@@ -884,6 +896,42 @@ void Manager::sub_7100A7CA68() {
         Root38::instance()->setFlag(2, true);
     _64c28 = 4;
     _64c2c = 1;
+}
+
+// inline-only in the original; name is a guess (the map loop repeats inside both task loops).
+static s32 mapManagerTaskId(s32 id) {
+    s32 result = id;
+    const s32 count = sUnk_71025F5F90.mTaskIdMap.size();
+    for (s32 i = 0; i < count; ++i) {
+        const auto& entry = sUnk_71025F5F90.mTaskIdMap[i];
+        if (entry._18 == id)
+            result = entry._0;
+    }
+    return result;
+}
+
+// 0x7100a7f930 (placeholder name): whether a task entry with the mapped id exists.
+// NON_MATCHING: the original's inlined map loop is unrolled with a 64-bit index (sxtw of the count) and keeps the
+// task id load after it; ours unrolls with a 32-bit index and hoists the task id.
+bool Manager::sub_7100A7F930(s32 id) {
+    bool found = false;
+    for (auto& task : mTaskList) {
+        found |= mapManagerTaskId(id) == task.mId;
+        if (found)
+            break;
+    }
+    return found;
+}
+
+// 0x7100a7fa78 (placeholder name): dismisses the task entry with the mapped id.
+// NON_MATCHING: same inlined map loop as sub_7100A7F930 (64-bit unrolled index, task id loaded after it).
+void Manager::sub_7100A7FA78(s32 id) {
+    for (auto& task : mTaskList) {
+        if (mapManagerTaskId(id) == task.mId) {
+            task.mDismissed = true;
+            return;
+        }
+    }
 }
 
 // 0x7100a7fba4
