@@ -65,6 +65,21 @@ void Graphics::Unk_668::chaseValueMaybe(f32 value, f32 delta, bool snap) {
     data->_74 = prev + (value - prev) * _1c * delta;
 }
 
+// 0x710128cf08 (placeholder name): draws the object's debug geometry with depth testing on, depth
+// writes off, the first four colour channels enabled and depth comparison 5.
+void Graphics::Unk_668::sub_710128CF08(agl::DrawContext* context, u8 view_index) {
+    if (!(_18 & 1))
+        return;
+
+    sead::GraphicsContext ctx;
+    ctx.setDepthTestEnable(true);
+    ctx.setDepthWriteEnable(0);
+    ctx.setBlendEnableMask(0xf);
+    ctx.apply(context);
+    ctx.setDepthFunc(5);
+    ctx.apply(context);
+}
+
 // 0x710128caec (placeholder name): allocates `count` 0x78-byte records and initializes their two
 // identity matrices, the zero vector and the three 1.0 floats.
 void Graphics::Unk_668::initMaybe(s32 count, sead::Heap* heap) {
