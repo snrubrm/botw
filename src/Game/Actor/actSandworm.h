@@ -2,6 +2,7 @@
 
 #include <container/seadBuffer.h>
 #include <container/seadSafeArray.h>
+#include <thread/seadCriticalSection.h>
 #include <prim/seadEnum.h>
 #include <gsys/gsysModelAccessKey.h>
 #include <math/seadMatrix.h>
@@ -79,17 +80,35 @@ struct Unk_71007237d0 {
 };
 KSYS_CHECK_SIZE_NX150(Unk_71007237d0, 0x80);
 
-// Placeholder name: the shared terrain-shape object behind Unk_71023cfcf0::_8 (reference count at
-// + 8, height field at + 0x10, system group handler at + 0x18, members and flags at + 0x30..).
+class Unk_71023cfcf0;
+
+// Placeholder name: the terrain-shape record at the front of Unk_71023cfcf0Shared (only the flag
+// word the shared-object refcount functions touch is modelled).
+struct Unk_71023cfcf0Shape {
+    /* 0x000 */ u8 _0[0x328];
+    /* 0x328 */ u32 mFlags;
+};
+
+// Placeholder name: the shared terrain-shape object behind Unk_71023cfcf0::_8 (shape record at + 0,
+// reference count at + 8, height field at + 0x10, system group handler at + 0x18, lock at + 0x40).
 struct Unk_71023cfcf0Shared {
-    /* 0x00 */ u8 _0[0x8];
-    /* 0x08 */ s32 mRefCount;
+    /* 0x00 */ Unk_71023cfcf0Shape* mShape = nullptr;
+    /* 0x08 */ s32 mRefCount = 0;
     /* 0x0c */ u32 _c;
     /* 0x10 */ void* mHeightField;
     /* 0x18 */ ksys::phys::SystemGroupHandler* mHandler = nullptr;
-    /* 0x20 */ u8 _20[0x328 - 0x20];
-    /* 0x328 */ u32 mFlags;
+    /* 0x20 */ u8 _20[0x40 - 0x20];
+    /* 0x40 */ sead::CriticalSection mLock;
+    /* 0x60 */ u8 _60[0x328 - 0x60];
 };
+
+// Placeholder name (0x71025c632c, initialised by 0x7100681bbc under the lock at + 8): the global
+// shape-record manager the holder's bind queries.
+struct Unk_71025c632c;
+// 0x7100681db0 (placeholder name): finds or creates the shape record for `heap` and `pos` around
+// `holder` in `mgr`.
+Unk_71023cfcf0Shared* sub_7100681DB0(Unk_71025c632c* mgr, sead::Heap* heap,
+                                      Unk_71023cfcf0* holder, const sead::Vector2f* pos);
 
 // Placeholder name (vtable 0x71023cfcf0, size 0x318, D1 0x7100682350): the terrain-shape holder
 // Sandworm::prepareInit_ (0x71002ccc40) allocates at Sandworm + 0x1588. Its D1 unlinks the object
@@ -112,11 +131,10 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Slot, 0x2c);
 
-    // Placeholder argument of the holder's virtuals (prepareInit_ passes {pointer, two words}).
+    // Placeholder argument of the holder's virtuals (prepareInit_ passes the heap and a 2D position).
     struct UnkArg {
-        /* 0x0 */ void* _0;
-        /* 0x8 */ u32 _8;
-        /* 0xc */ u32 _c;
+        /* 0x0 */ sead::Heap* mHeap;
+        /* 0x8 */ sead::Vector2f mPos;
     };
     KSYS_CHECK_SIZE_NX150(UnkArg, 0x10);
 
@@ -135,7 +153,8 @@ public:
     void sub_71002CBDE4(f32 x, f32 z, s32 mode);
 
     /* 0x08 */ Unk_71023cfcf0Shared* _8 = nullptr;
-    /* 0x10 */ u16 _10 = 0;
+    /* 0x10 */ u8 _10 = 0;
+    /* 0x11 */ u8 _11 = 0;
     /* 0x12 */ u8 _12 = 0;
     /* 0x13 */ u8 _13[0x18 - 0x13];
     /* 0x18 */ u64 _18 = 0;
@@ -230,3 +249,7 @@ public:
 KSYS_CHECK_SIZE_NX150(Sandworm, 0x1658);
 
 }  // namespace uking::act
+
+// Global at 0x71025c6f30: declared at global scope so the reference binds to the definition in
+// gameStasisMgr.cpp (the StasisMgr TU owns the shape-record code).
+extern uking::act::Unk_71025c632c* sUnk_71025c6f30;

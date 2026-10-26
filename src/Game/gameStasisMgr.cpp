@@ -1,4 +1,5 @@
 #include "Game/gameStasisMgr.h"
+#include "Game/Actor/actSandworm.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
@@ -554,3 +555,19 @@ f32 StasisMgr::sub_7100681BA0() {
 }
 
 }  // namespace uking
+
+// The terrain shape-record manager the StasisMgr TU's shape holder binds to (0x71025c632c).
+uking::act::Unk_71025c632c* sUnk_71025c6f30 = nullptr;
+
+// Binds the holder to the shape record for the argument's heap and position.
+void uking::act::Unk_71023cfcf0::m3(const UnkArg& arg) {
+    auto* shared = sub_7100681DB0(sUnk_71025c6f30, arg.mHeap, this, &arg.mPos);
+    _8 = shared;
+    {
+        auto lock = sead::makeScopedLock(shared->mLock);
+        if (shared->mRefCount++ == 0)
+            shared->mShape->mFlags |= 2;
+    }
+    _11 = 0;
+    _12 = 0;
+}
