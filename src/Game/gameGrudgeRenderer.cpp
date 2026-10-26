@@ -187,6 +187,8 @@ Unk_71025191c8::Unk_71025191c8() {
 
 // 0x710128fedc: declares and creates the unit's uniform block, names the unit and copies
 // its parameters.
+// NON_MATCHING: one csel operand order (ours `csel w8, w8, w9, eq`, the original
+// `csel w8, w9, w8, ne`); every other instruction matches.
 void Unk_71025191c8::sub_710128FEDC(const CreateArg& arg) {
     sead::Heap* const heap = arg.mHeap;
     mUniformBlock.startDeclare(3, heap);
@@ -197,7 +199,8 @@ void Unk_71025191c8::sub_710128FEDC(const CreateArg& arg) {
     mUniformBlock.setBufferIndexMaybe(0);
 
     _120 = 8;
-    _120 = arg._1c ? 0x28 : _120;
+    if (arg._1c)
+        _120 = 0x28;
     mName.appendWithFormat("%u", arg._14);
 
     _10c = arg._10;
