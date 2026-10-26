@@ -11,7 +11,28 @@
 #include <prim/seadDelegate.h>
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
-// GrudgeRenderer's TU (0x710128d348 .. 0x71012915b8). Only this helper is decompiled so far.
+// GrudgeRenderer's TU (0x710128d348 .. 0x71012915b8).
+
+namespace {
+// The TU's model-name table (0x710265f830). Only the two names 0x710128f88c tests are modelled.
+struct GrudgeNames {
+    u8 _0[0x58];
+    sead::SafeString mGrudgeModelName;     // "MergedGanonGrudgeSolid"
+    sead::SafeString mGrudgeMaterialName;  // "MasterMaterial"
+};
+GrudgeNames sUnk_710265f830 = {{}, "MergedGanonGrudgeSolid", "MasterMaterial"};
+}  // namespace
+
+// 0x710128f88c: whether `unit` is a grudge model whose material `material` is Mt_Grudge.
+bool GrudgeRenderer::sub_710128F88C(gsys::ModelUnit* unit, s32 material) {
+    if (!unit)
+        return false;
+    if (unit->getName().findIndex(sUnk_710265f830.mGrudgeModelName) == -1 &&
+        unit->getName().findIndex(sUnk_710265f830.mGrudgeMaterialName) == -1)
+        return false;
+    const sead::SafeString name = unit->getMaterialName(material);
+    return name == "Mt_Grudge";
+}
 
 bool sub_7101290034(const sead::Vector3f& start, const sead::Vector3f& displacement, sead::Vector3f* hit_pos) {
     ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);

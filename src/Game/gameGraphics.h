@@ -526,6 +526,8 @@ public:
 
     // 0x710128d550: marks the renderer entry or the render record of a finished texture bind.
     void sub_710128D550(ksys::res::TextureHandleList::Entry* entry);
+    // 0x710128f88c: whether `unit` is a grudge model whose material `material` is Mt_Grudge.
+    bool sub_710128F88C(gsys::ModelUnit* unit, s32 material);
     // 0x710128f41c: copies the view frustum of the render context and derives the grudge draw
     // distances from its near plane and field of view.
     void sub_710128F41C(const gsys::ModelRenderContext* context, f32 fov);
