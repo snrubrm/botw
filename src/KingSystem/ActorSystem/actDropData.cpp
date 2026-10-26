@@ -8,8 +8,50 @@
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "KingSystem/World/worldManager.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
 
 namespace ksys::act {
+
+// NON_MATCHING: in the getFlags2 block the original masks the flag word with 32-bit constants
+// (and #0xfffffffb) where clang uses the 16-bit form here, and it canonicalises the (flags2 | 1) test
+// as orr-then-and.
+void DropData::sub_71006DA914(uking::act::DamageManagerBase* damage_mgr, bool a2) {
+    if (!sead::IsDerivedFrom<uking::act::DamageManagerBase>(damage_mgr))
+        return;
+    if (s32(damage_mgr->getDamage()) < 1)
+        return;
+
+    auto* mgr = static_cast<uking::act::DamageManager*>(damage_mgr);
+
+    bool flag;
+    if (mgr->sub_71006D82D4())
+        flag = mgr->sub_71006D83B8(3);
+    else
+        flag = mgr->checkDamageFlags(3);
+    _c = flag ? _c | 2 : _c & ~2;
+
+    if (!a2)
+        _c = mgr->getField50() == 4 ? _c | 0x20 : _c & ~0x20;
+
+    const u64 flags2 = mgr->getFlags2();
+    const u16 v = u16(flags2);
+    if (v == 5)
+        _c = _c | 4;
+    else
+        _c = _c & ~4;
+    if (v == 3)
+        _c = _c | 8;
+    else
+        _c = _c & ~8;
+    if (u16(flags2 | 1) == 7)
+        _c = _c | 0x10;
+    else
+        _c = _c & ~0x10;
+    if (v == 1)
+        _c = _c | 0x40;
+    else
+        _c = _c & ~0x40;
+}
 
 // NON_MATCHING: The compiler devirtualizes SafeString assignment and arranges stack locals differently.
 void DropData::initFromActor(Actor* actor) {
