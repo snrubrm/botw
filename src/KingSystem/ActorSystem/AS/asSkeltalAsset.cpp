@@ -144,7 +144,7 @@ SkeltalAsset::Unk18* Unk_710125af7c::eraseMin(SkeltalAsset::Unk18* node) {
 
 SkeltalAsset::Unk18* Unk_710125af7c::find(SkeltalAsset::Unk18* root, const Key& key) const {
     while (root) {
-        const s32 cmp = compare(key, root->mKey);
+        const s32 cmp = key.index - root->mKey.index;
         if (cmp < 0)
             root = root->_8;
         else if (cmp > 0)
@@ -153,6 +153,39 @@ SkeltalAsset::Unk18* Unk_710125af7c::find(SkeltalAsset::Unk18* root, const Key& 
             return root;
     }
     return nullptr;
+}
+
+// NON_MATCHING: the key copy is one 32-bit load in the original (find takes the key by value) and
+// the original merges the two -1 halfword key stores into one 32-bit store; the filler call also
+// passes one extra argument register (the original's filler call has an unused 6th parameter).
+bool Unk_710125af7c::sub_710125AF7C(SkeltalAsset::Unk18** out, const Key* key, gsys::Model* model,
+                                    act::Actor* actor, sead::Heap* heap) {
+    if (auto* node = find(mRoot, *key)) {
+        *out = node;
+        return true;
+    }
+
+    *out = nullptr;
+    SkeltalAsset::Unk18 temp;
+    if (!mIsInitialized)
+        sub_7101160F78();
+    sub_710125AC84(&temp, key, model, actor);
+    if (!temp._28 && !temp._25)
+        return true;
+
+    auto* node = new (heap, 8) SkeltalAsset::Unk18;
+    if (!node)
+        return false;
+
+    node->mKey = temp.mKey;
+    node->_28 = temp._28;
+    node->_24 = temp._24;
+    node->_25 = temp._25;
+    temp._24 = false;
+    mRoot = insert(mRoot, node);
+    mRoot->setColor(1);
+    *out = node;
+    return true;
 }
 
 // NON_MATCHING: the second key halfword uses the element pointer rather than the key pointer.

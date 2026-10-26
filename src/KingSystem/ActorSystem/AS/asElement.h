@@ -1100,6 +1100,12 @@ private:
     SkeltalAsset::Unk18* find(SkeltalAsset::Unk18* root, const Key& key) const;
 };
 
+// 0x710125ac84 (declaration only): fills a node's key, animation scale and partial flag from the
+// model animation and the actor's animation info / ASList AddRes entries.
+bool sub_710125AC84(SkeltalAsset::Unk18* out,
+                    const gsys::AnimationAccessKey<gsys::SkeletalAnmType>* key, gsys::Model* model,
+                    act::Actor* actor);
+
 class ClearMatAnmAsset : public Asset {
     SEAD_RTTI_OVERRIDE(ClearMatAnmAsset, Asset)
 public:
