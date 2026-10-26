@@ -555,15 +555,14 @@ ksys::gdt::Manager::ReinitSignal::Slot sUnk_71026034C0;
 // unusable while it is set (the FlagHandle unwrapHandle check is inlined in m3).
 sead::Atomic<u32> sUnk_7102603530;
 
-// NON_MATCHING: the Slot assignment builds the slot in a stack temporary and copies it; the original
-// constructs the delegate in place at the static (all other instructions and the layout match).
-// 0x7100e72034: the constructor registers the game-data reinit callback once.
+// 0x7100e72034: the constructor registers the game-data reinit callback once. The static slot keeps its
+// node and connection state, so only the delegate sub-object is replaced.
 Unk_71024eb548::Unk_71024eb548() {
     _8 = 4;
     if (!sUnk_7102603530.compareExchange(0, -1))
         return;
     sUnk_7102603530 = u32(ksys::gdt::Manager::instance()->getBoolHandle("MiniGame_HorseRace_CreateObstacle"));
-    sUnk_71026034C0 = ksys::gdt::Manager::ReinitSignal::Slot(this, &Unk_71024eb548::sub_7100E72110);
+    sUnk_71026034C0.setDelegate(this, &Unk_71024eb548::sub_7100E72110);
     ksys::gdt::Manager::instance()->addReinitCallback(sUnk_71026034C0);
 }
 
