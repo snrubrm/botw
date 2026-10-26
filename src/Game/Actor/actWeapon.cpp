@@ -51,6 +51,7 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyAccessor.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLargeSword.h"
@@ -615,9 +616,6 @@ void Weapon::m224(sead::Vector3f* out) {
 }
 
 // 0x71002e9470: the linear velocity of a thrown weapon.
-// NON_MATCHING: the original's sub_71002E95DC is defined in this TU, so clang knows it does not write through
-// its direction argument and keeps the normalized components in d8-d10 across the call; ours is declared only
-// and reloads them (3 instructions).
 void Weapon::m209(const sead::Vector3f& pos) {
     if (_fd0) {
         if (isParentPlayer()) {
@@ -2003,6 +2001,55 @@ u32 Weapon::sub_71002ECB78() {
 }
 
 }  // namespace uking::act
+
+// 0x71002e95dc: the distance a spear is thrown from the weapon's body centre: cast a ray from the
+// body's AABB centre along the throw direction and return half the distance to the first ground hit.
+// The throw speed (scaled by Long Throw) is the fallback for non-spears and misses.
+// NON_MATCHING: the frame is 0x10 smaller and the box/raycast locals sit at different slots; the
+// calls, CFG and constants are the same.
+f32 sub_71002E95DC(uking::act::Weapon* weapon, const sead::Vector3f& dir) {
+    f32 result = 0.0f;
+    if (!weapon->getParam()->getRes().mGParamList ||
+        !weapon->getParam()->getRes().mGParamList->getWeaponThrow())
+        return result;
+
+    if (weapon->m233()) {
+        if (auto* body = weapon->getMainBody()) {
+            sead::BoundBox3f aabb;
+            body->getAabbInLocal(&aabb);
+            const sead::Vector3f center = aabb.getCenter();
+            const sead::Vector3f top(center.x, center.y, aabb.getMax().z);
+            const f32 half_height = (top - center).length();
+
+            body->getAabbInWorld(&aabb);
+            const sead::Vector3f origin = aabb.getCenter() + dir * half_height;
+            const sead::Vector3f end = origin + dir * 2.0f;
+
+            bool hit;
+            {
+                ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+                query.setStartAndEnd(origin, end);
+                query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+                query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+                query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+                query.enableLayer(ksys::phys::ContactLayer::EntityTree);
+                hit = query.worldRayCast(ksys::phys::ContactLayerType::Entity);
+                if (hit) {
+                    sead::Vector3f hit_pos;
+                    query.getHitPosition(&hit_pos);
+                    result = (hit_pos - origin).length() * 0.5f;
+                }
+            }
+            if (hit)
+                return result;
+        }
+    }
+
+    result = weapon->getParam()->getRes().mGParamList->getWeaponThrow()->mThrowSpeed.ref() *
+             (weapon->_f98.flags.isOn(uking::act::WeaponModifier::AddThrow) ? weapon->_f98.value / 1000.0f : 1.0f);
+    return result;
+}
+
 
 namespace ksys::act::acc {
 
