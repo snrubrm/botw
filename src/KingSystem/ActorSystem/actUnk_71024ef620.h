@@ -13,6 +13,8 @@ namespace ksys::phys {
 class InstanceSet;
 class CharacterController;
 class RigidBody;
+class ContactPointInfo;
+class CollisionInfo;
 }  // namespace ksys::phys
 
 namespace ksys::as {
@@ -31,6 +33,10 @@ class Actor;
 // TODO: incomplete (only the functions the actions use are decompiled).
 class Unk_71024ef620 {
 public:
+    // The defaults the factory 0x7100eba300 fills in after allocating the body.
+    Unk_71024ef620()
+        : _40(sead::Vector3f::ez), _4c(sead::Vector3f::zero), _58(0), _60(0), _64(0), _68(0) {}
+
     virtual ~Unk_71024ef620();
 
     SEAD_RTTI_BASE(Unk_71024ef620)
@@ -54,7 +60,8 @@ public:
     /* 0x08 */ Actor* _8 = nullptr;
     /* 0x10 */ phys::RigidBody* _10;
     /* 0x18 */ phys::CharacterController* _18;
-    u8 _20[0x30 - 0x20];
+    /* 0x20 */ phys::ContactPointInfo* _20;
+    /* 0x28 */ phys::CollisionInfo* _28;
     /* 0x30 */ phys::RigidBody* _30 = nullptr;
     u64 _38 = 0;
     /* 0x40 */ sead::Vector3f _40;
@@ -65,7 +72,13 @@ public:
     u8 _62[2];
     /* 0x64 */ f32 _64;
     /* 0x68 */ f32 _68;
-    u8 _6c[0x90 - 0x6c];
+    u8 _6c[4];
+    /* 0x70 */ u64 _70 = 0;
+    /* 0x78 */ u64 _78 = 0;
+    /* 0x80 */ u32 _80 = 0;
+    /* 0x84 */ u8 _84[4];
+    /* 0x88 */ u32 _88 = 0;
+    u8 _8c[4];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71024ef620, 0x90);
 
