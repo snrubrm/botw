@@ -388,6 +388,29 @@ bool sub_7100A9F134() {
     return sub_71009F8450();
 }
 
+// 0x7100a9f138: while the map mode accepts 1 (UiSubsys1::sub_7100968900), plays the map's open animation 0;
+// otherwise opens the map's content (ScreenAppMap::sub_71009EF4EC(3, ...)) and tells the map app singleton
+// (Unk_71025d69f0) about it, with / without the "map open" state depending on the singleton's own query.
+void sub_7100A9F138() {
+    auto* mgr = eui::ScreenMgr::instance();
+    if (!mgr)
+        return;
+    auto* screen = sead::DynamicCast<ScreenAppMap>(mgr->getScreen(ScreenId::AppMap));
+    if (!screen)
+        return;
+    if (UiSubsys1::instance()->sub_7100968900(1)) {
+        screen->sub_71009EF57C(1.0f, 0);
+        return;
+    }
+    if (Unk_71025d69f0::instance() && Unk_71025d69f0::instance()->sub_710094E920()) {
+        screen->sub_71009EF4EC(3, 0);
+        Unk_71025d69f0::instance()->sub_710094DCC4(1, 0);
+    } else {
+        screen->sub_71009EF4EC(3, 1);
+        Unk_71025d69f0::instance()->sub_710094D9F4(1, 1, 0, 1);
+    }
+}
+
 // 0x7100a9f4ac
 bool sub_7100A9F4AC() {
     return !sub_71009E2E94();
