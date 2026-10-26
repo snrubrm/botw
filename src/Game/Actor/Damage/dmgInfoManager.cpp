@@ -52,6 +52,54 @@ void DamageInfoMgr::UnkCe0::sub_7100672E48() {
     _14 = cleared & (count < 1);
 }
 
+// NON_MATCHING: the ring iterator's index increment and the loop countdown are emitted in the opposite
+// order (both near misses of the same loop); the loop form does not change it.
+bool DamageInfoMgr::UnkD00::sub_7100673630(const sead::Vector3f& pos, f32 radius) {
+    mLock.readLock();
+    bool too_close = true;
+    for (const RingEntry& entry : mRing) {
+        const f32 dx = entry.mPos.x - pos.x;
+        const f32 dy = entry.mPos.y - pos.y;
+        const f32 dz = entry.mPos.z - pos.z;
+        if (dx * dx + dy * dy + dz * dz <=
+            (entry.mRadius + radius) * (entry.mRadius + radius)) {
+            too_close = false;
+            break;
+        }
+    }
+    mLock.readUnlock();
+    return too_close;
+}
+
+// NON_MATCHING: as above, one loop-latch instruction pair is ordered the other way.
+bool DamageInfoMgr::UnkD00::sub_71006736E8(const sead::Vector3f& pos, f32 radius) {
+    mLock.writeLock();
+    bool pushed = false;
+    if (mRing.size() < mRing.capacity()) {
+        bool too_close = false;
+        for (const RingEntry& entry : mRing) {
+            const f32 dx = entry.mPos.x - pos.x;
+            const f32 dy = entry.mPos.y - pos.y;
+            const f32 dz = entry.mPos.z - pos.z;
+            if (dx * dx + dy * dy + dz * dz <=
+                (entry.mRadius + radius) * (entry.mRadius + radius)) {
+                too_close = true;
+                break;
+            }
+        }
+        if (!too_close) {
+            RingEntry entry;
+            entry.mPos = pos;
+            entry.mRadius = radius;
+            entry.mCountdown = 10.0f;
+            mRing.pushBack(entry);
+            pushed = true;
+        }
+    }
+    mLock.writeUnlock();
+    return pushed;
+}
+
 bool DamageInfoMgr::UnkCe0::sub_7100672F54(ksys::act::BaseProc* proc) {
     while (mLock.load() == 1) {
     }
@@ -254,12 +302,12 @@ void DamageInfoMgr::postCalc() {
     _630.sub_7100672110();
     _790.sub_7100672578();
 
-    const s32 count = mRing.size();
+    const s32 count = mUnkD00.mRing.size();
     for (s32 i = 0; i != count; ++i)
-        mRing(i).mCountdown -= 1.0f;
+        mUnkD00.mRing(i).mCountdown -= 1.0f;
 
-    while (mRing.size() != 0 && mRing(0).mCountdown <= 0.0f)
-        mRing.popFront();
+    while (mUnkD00.mRing.size() != 0 && mUnkD00.mRing(0).mCountdown <= 0.0f)
+        mUnkD00.mRing.popFront();
 
     mClothStiffnessMgr.sub_7100665B64();
     _11f0.sub_710067446C();
@@ -314,7 +362,7 @@ void DamageInfoMgr::onLoadStage() {
     _790.mParams.mIntervalMin = 15.0f;
     _790._20.sub_7100710890(15, 20);
 
-    mRing.clear();
+    mUnkD00.mRing.clear();
     mClothStiffnessMgr.sub_7100665B20();
 
     _11f0.mLock.writeLock();

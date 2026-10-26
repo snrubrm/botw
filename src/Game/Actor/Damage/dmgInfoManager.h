@@ -165,14 +165,30 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Unk_7100672110, 0x160);
 
-    // Entry of the ring buffer at +0xdb8: an expired actor link and its countdown.
-    // The leading 16 bytes are unknown (the ring's producers are not decompiled yet); the countdown
-    // at +0x10 is the only field postCalc touches.
-    struct RingEntry {
-        /* 0x00 */ u8 _0[0x10];
-        /* 0x10 */ f32 mCountdown;
+    // Placeholder name (the member at DamageInfoMgr +0xd00): a read/write lock and the ring of volume
+    // records the spawn-placement checks (ai::AppearFromTarget) add and query. postCalc ages the records
+    // and drops the expired ones.
+    class UnkD00 {
+    public:
+        // Entry of the ring buffer at +0xb8: the position and radius of a recent volume, and the
+        // countdown postCalc decrements (a new record starts at 10).
+        struct RingEntry {
+            /* 0x00 */ sead::Vector3f mPos;
+            /* 0x0c */ f32 mRadius;
+            /* 0x10 */ f32 mCountdown;
+        };
+        KSYS_CHECK_SIZE_NX150(RingEntry, 0x14);
+
+        // 0x7100673630: whether no record's volume (its radius plus `radius`) contains `pos`.
+        bool sub_7100673630(const sead::Vector3f& pos, f32 radius);
+        // 0x71006736e8: appends the record for `pos` / `radius` (countdown 10) unless the ring is full
+        // or a record's volume already contains `pos`; true when it was appended.
+        bool sub_71006736E8(const sead::Vector3f& pos, f32 radius);
+
+        /* 0x000 */ sead::ReadWriteLock mLock;
+        /* 0x0b8 */ sead::RingBuffer<RingEntry> mRing;
     };
-    KSYS_CHECK_SIZE_NX150(RingEntry, 0x14);
+    KSYS_CHECK_SIZE_NX150(UnkD00, 0xd0);
 
     // 2026-10-07: original constructor 0x71006737f4 initializes the prefix at +0x790;
     // its next independent member starts at +0x868. Remaining nested lifetime is unresolved.
@@ -364,8 +380,7 @@ private:
     /* 0x0cd8 */ s32 _cd8 = 0;
     u8 TEMP_cdc[4];
     /* 0x0ce0 */ UnkCe0 mUnkCe0;
-    /* 0x0d00 */ sead::ReadWriteLock mLock;
-    /* 0x0db8 */ sead::RingBuffer<RingEntry> mRing;
+    /* 0x0d00 */ UnkD00 mUnkD00;
     /* 0x0dd0 */ u8 TEMP_dcc[0xe98 - 0xdd0];
     /* 0x0e98 */ ClothStiffnessMgr mClothStiffnessMgr;
     /* 0x11e0 */ u8 _11e0;  // bit 0: no rain, bit 1: no snow (sub_7100674704 / 30)
