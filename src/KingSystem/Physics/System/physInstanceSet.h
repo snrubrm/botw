@@ -366,6 +366,9 @@ public:
     // in PhysBodyPartLod::sub_710021A344 and InstanceSet::sub_7100FBB668.
     s32 getNumRigidBodySets() const { return mRigidBodySets.size(); }
     ContactPointInfo* getContactPointInfo(int idx) const { return mContactPointInfo[idx]; }
+    // Inline-only in the original (RopeBase::m150 0x7100ed7574 loads the count at +0x60 and tests it signed:
+    // `cmp w9, #0x1; b.lt`); name is a guess.
+    s32 getNumContactPointInfos() const { return mContactPointInfo.size(); }
     // 0x7100fc012c / 0x7100fc01b0: register / unregister the listed navmesh objects.
     // Registration uses the supplied HavokAI or its singleton (GOT 0x7102579290) when null.
     // Removal uses the attached and tagged pending HavokAI pointers. Used by
