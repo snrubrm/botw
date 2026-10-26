@@ -13,6 +13,7 @@ class ModelRenderUnitSortNode;
 // sort reads the selected array at +0x30 and its count at +0x3c.
 class ModelRenderQueue : public sead::Job {
     friend class ModelSceneContext;
+    friend class XluZPrePass;
 public:
     ModelRenderQueue();
     ~ModelRenderQueue() override;

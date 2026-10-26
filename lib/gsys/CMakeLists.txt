@@ -122,6 +122,7 @@ add_library(gsys OBJECT
   src/gsys/gsysParticleConfig.cpp
   src/gsys/gsysORUtil.cpp
   src/gsys/gsysModelJobQueue.cpp
+  src/gsys/gsysXluZPrePass.cpp
   src/gsys/gsysModelShaderHolder.cpp
   src/gsys/gsysViewer.cpp
   src/gsys/gsysDebugCtrl.cpp
