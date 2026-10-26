@@ -1852,6 +1852,30 @@ void uking::act::Enemy::setNecklaceFlag(s32 index) {
 // NON_MATCHING: the original keeps the false result in w0 from the entry block and branches
 // straight out of the `this` / manager guards; ours merges all three `return false` blocks (the
 // same residue as sub_710073200C).
+bool uking::act::Enemy::isDefeated() {
+    if (!this)
+        return false;
+    auto* manager = ksys::gdt::Manager::instance();
+    if (!manager)
+        return false;
+    auto* object = mMapObject;
+    if (!object)
+        return false;
+    const auto& map = manager->getMapName();
+    const u32 hash = object->getHashId();
+    sead::FormatFixedSafeString<128> name("%s_IsDefeat_%s_%u", map.cstr(), getName().cstr(), hash);
+    auto* hard_mode = uking::aoc::HardModeManager::instance();
+    if (hard_mode && hard_mode->checkFlag(uking::aoc::HardModeManager::Flag::EnableHardMode))
+        name.format("%s_IsDefeat_%s_%u", map.cstr(), object->getUnitConfigName(), hash);
+    bool defeated = false;
+    auto& param = manager->getParam();
+    param.get().getBuffer()->getBool(&defeated, name, param.shouldCheckPermissions(), false);
+    return defeated;
+}
+
+// NON_MATCHING: the original keeps the false result in w0 from the entry block and branches
+// straight out of the `this` / manager guards; ours merges all three `return false` blocks (the
+// same residue as sub_710073200C).
 bool uking::act::Enemy::checkNecklaceFlag(s32 index) {
     if (!this)
         return false;
