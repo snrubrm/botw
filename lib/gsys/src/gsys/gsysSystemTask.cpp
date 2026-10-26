@@ -1,3 +1,5 @@
+#include <framework/seadFramework.h>
+#include <framework/seadSingleScreenMethodTreeMgr.h>
 #include <gsys/gsysApplicationPackage.h>
 #include <gsys/gsysSystemTask.h>
 
@@ -19,6 +21,23 @@ void SystemTask::setFrameUpdateScale(f32 scale) {
 
 // 0x7100c66850
 void SystemTask::attachCalcImpl() {}
+
+// 0x7100c66854
+void SystemTask::attachDrawImpl() {
+    sead::MethodTreeMgr* method_tree_mgr = getMethodTreeMgr();
+    method_tree_mgr->mCS.lock();
+    attachMethodWithCheck(3, &mMethodTreeNodes[2]);
+    if (auto* framework_mgr = sead::DynamicCast<sead::SingleScreenMethodTreeMgr>(
+            getFramework()->getMethodTreeMgr())) {
+        framework_mgr->getRootMethodTreeNode(2)->pushBackChild(&mMethodTreeNodes[4]);
+    }
+    method_tree_mgr->mCS.unlock();
+}
+
+// 0x7100c66c98
+const sead::RuntimeTypeInfo::Interface* SystemTask::getCorrespondingMethodTreeMgrTypeInfo() const {
+    return sead::MethodTreeMgr::getRuntimeTypeInfoStatic();
+}
 
 // 0x7100c66928
 void SystemTask::detachCalcImpl() {

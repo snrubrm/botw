@@ -65,6 +65,10 @@ public:
     void setFrameUpdateScale(f32 scale);
     // 0x7100c66850: the system task has no separate calc attachment.
     void attachCalcImpl() override;
+    // 0x7100c66854: attaches the four draw nodes to the framework's method tree.
+    void attachDrawImpl() override;
+    // 0x7100c66c98: the system task's method tree manager type.
+    const sead::RuntimeTypeInfo::Interface* getCorrespondingMethodTreeMgrTypeInfo() const override;
     // 0x7100c66928 / 0x7100c66950: detach the calc / draw part of the method tree.
     void detachCalcImpl() override;
     void detachDrawImpl() override;
