@@ -18,6 +18,31 @@ void SoundController::setPitch(f32 pitch) {
         mSoundHandle->m_pSound->SetPitch(pitch);
 }
 
+// 0x7100ba20b0
+void SoundController::setBusVolume(BusType bus, f32 volume) {
+    if (!mSoundHandle)
+        return;
+
+    switch (bus) {
+    case BusType::Main:
+        if (mSoundHandle->m_pSound)
+            mSoundHandle->m_pSound->SetMainSend(volume - 1.0f);
+        break;
+    case BusType::AuxA:
+        if (mSoundHandle->m_pSound)
+            mSoundHandle->m_pSound->SetFxSend(nn::atk::AuxBus_A, volume);
+        break;
+    case BusType::AuxB:
+        if (mSoundHandle->m_pSound)
+            mSoundHandle->m_pSound->SetFxSend(nn::atk::AuxBus_B, volume);
+        break;
+    case BusType::AuxC:
+        if (mSoundHandle->m_pSound)
+            mSoundHandle->m_pSound->SetFxSend(nn::atk::AuxBus_C, volume);
+        break;
+    }
+}
+
 // 0x7100ba21e8
 void SoundController::setLpf(f32 lpf) {
     if (mSoundHandle && mSoundHandle->m_pSound)

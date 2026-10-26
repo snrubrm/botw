@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadSafeArray.h>
+#include <nn/atk/AuxBus.h>
 #include <nn/atk/SoundHandle.h>
 #include <thread/seadCriticalSection.h>
 #include "aal/aalFadeCurveType.h"
@@ -27,6 +28,9 @@ class BasicSound {
 public:
     void SetPitch(f32 pitch);
     void SetLpfFreq(f32 lpf_freq);
+    // 0x710133fa88 / 0x710133fa90: the bus volume setters forward here.
+    void SetMainSend(f32 send);
+    void SetFxSend(nn::atk::AuxBus bus, f32 send);
     bool IsPause() const;
     void StartPrepared();
     void Pause(bool pause, int fade_frames);
