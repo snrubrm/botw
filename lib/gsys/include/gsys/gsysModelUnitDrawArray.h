@@ -32,6 +32,8 @@ public:
     s32 getSize() const;
     // 0x7100c49954. ksys::gfx::ForestRenderer 0x7100f06904 calls it for every index below `_18`.
     void flushUBO(s32 index);
+    // 0x7100c49624: creates the local light map of every draw object's environment info.
+    bool createLocalLightMapObj(sead::Heap* heap);
     // 0x7100c49694: clears the +0x68 bit 3 and sets it when a material record selects it.
     void reset_();
     // 0x7100c49a48: bit 1 of +0x68.

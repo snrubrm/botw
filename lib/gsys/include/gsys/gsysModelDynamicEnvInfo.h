@@ -2,6 +2,10 @@
 
 #include <basis/seadTypes.h>
 
+namespace sead {
+class Heap;
+}
+
 namespace agl::lght {
 class LocalLightMapObj;
 }
@@ -18,6 +22,8 @@ public:
     agl::lght::LocalLightMapObj* getReferenceLocalLightMapObj() const { return mReference; }
     // 0x7100c01590 (declared only; body U).
     void setReferenceLocalLightMapObj(const agl::lght::LocalLightMapObj* obj, bool flag);
+    // 0x7100c01520
+    bool createLocalLightMapObj(sead::Heap* heap);
 
 private:
     agl::lght::LocalLightMapObj* mOwned;
