@@ -10,6 +10,7 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "Game/gameSaveSystem.h"
 
 namespace uking::ui {
 
@@ -341,6 +342,25 @@ bool sub_7100A9E91C() {
     if (auto* manager = Manager::instance()) {
         manager->sub_7100A7C904();
         return true;
+    }
+    return false;
+}
+
+// 0x7100a9e9ec (placeholder name): whether `name` is one of the album / picture-book picture actors: the actor
+// must carry the AllRadarActor tag and its name must equal one of the 48 saved picture actor names.
+bool sub_7100A9E9EC(const sead::SafeString& name) {
+    if (!ksys::act::InfoData::instance()->hasTag(name.cstr(), ksys::act::tags::AllRadarActor))
+        return false;
+    for (u32 i = 0; i < 0x30; ++i) {
+        const s32 idx = SaveSystem::instance()->sub_7100915F58(i);
+        if (idx < 0)
+            continue;
+        const char* actor_name;
+        ksys::gdt::getFlag_AlbumPictureActorName(&actor_name, idx, false);
+        if (!actor_name)
+            continue;
+        if (name == actor_name)
+            return true;
     }
     return false;
 }
