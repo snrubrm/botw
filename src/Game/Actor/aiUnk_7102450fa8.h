@@ -43,6 +43,7 @@ class NavMeshCharacter;
 
 namespace ksys::act::ai {
 class Ai;
+class InlineParamPack;
 }  // namespace ksys::act::ai
 
 namespace uking::ai {
@@ -124,6 +125,8 @@ public:
     // 0x710071a06c (placeholder name): whether the member registered in the ring buffer for `actor` is in
     // the Calc state.
     bool sub_710071A06C(ksys::act::Actor* actor);
+    // 0x71007199bc (placeholder name): fills the AI's inline params for member `idx` (3 .. 10).
+    bool sub_71007199BC(ksys::act::ai::InlineParamPack* pack, s32 idx);
     // 0x7100718f78 (placeholder name): searches the AI tree below `ai` for the Priest Boss node.
     uking::ai::PriestBoss* sub_7100718F78(ksys::act::ai::Ai* ai);
     // Original 0x7100719ed0: clears the linked actor pool under its lock (declared only).

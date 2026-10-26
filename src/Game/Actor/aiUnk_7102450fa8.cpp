@@ -5,7 +5,10 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include <math/seadMathCalcCommon.h>
 #include "Game/Actor/AI/aiPriestBoss.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
+#include "KingSystem/System/VFR.h"
 
 sead::Vector3f sUnk_71025c8cf8(0, 0, 900);
 sead::Vector3f sUnk_71025c8d04(0, -4, 900);
@@ -304,4 +307,31 @@ bool Unk_7102450fa8::sub_710071A06C(ksys::act::Actor* actor) {
         break;
     }
     return found && result;
+}
+
+// 0x71007199bc (placeholder name): fills the AI's inline params for member `idx` (3 .. 10) with an empty AS
+// name, the side offset, the duration and deceleration frames and the delay frames.
+// NON_MATCHING: clang merges the member range test into one unsigned compare over idx - 3 (the original tests
+// idx - 2 against zero and 8) and keeps the frame rate in a float register across the param calls (the
+// original computes both delay factors into integer registers beforehand), so ours also saves d8.
+bool Unk_7102450fa8::sub_71007199BC(ksys::act::ai::InlineParamPack* pack, s32 idx) {
+    const u32 member = u32(idx - 2);
+    if (member == 0 || member > 8)
+        return false;
+    if (!(_80 & (1u << idx)))
+        return false;
+
+    const s32 side = sead::Mathi::abs(_50[s32(member)]);
+    const f32 fps = f32(ksys::VFR::instance()->getFrameRate());
+    const s32 frames = s32(_48 * fps);
+    const f32 duration = frames * side + frames * (side - 1) * -0.3f;
+    const sead::Vector3f offset(side * _44, 0.0f, 0.0f);
+    const s32 delay = (_74 / 2 - side) * s32(fps * _4c);
+
+    pack->addString("", "ASName", -1);
+    pack->addVec3(offset, "Offset", -1);
+    pack->addInt(s32(duration), "DurationFrame", -1);
+    pack->addInt(s32(duration) / 6, "DecelerationFrame", -1);
+    pack->addInt(delay, "DelayFrame", -1);
+    return true;
 }
