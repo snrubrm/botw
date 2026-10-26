@@ -438,6 +438,11 @@ const sead::Color4f& ModelUnit::getMaterialParamColor4f(int, int) const {
     return sead::Color4f::cBlack;
 }
 
+// 0x7100c146a8
+sead::Color4f ModelUnit::getMaterialParamColor3f(int, int) const {
+    return sead::Color4f(0, 0, 0, 1);
+}
+
 // 0x7100c146dc
 bool ModelUnit::setMaterialParamXluAlpha(int, int, float) {
     return false;

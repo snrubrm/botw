@@ -133,7 +133,7 @@ public:
     virtual void setMaterialParamColor4f(int material_idx, int param_idx,
                                          const sead::Color4f& value);
 
-    virtual const sead::Color4f& getMaterialParamColor3f(int material_idx, int param_idx) const;
+    virtual sead::Color4f getMaterialParamColor3f(int material_idx, int param_idx) const;
     virtual void setMaterialParamColor3f(int material_idx, int param_idx,
                                          const sead::Color4f& value);
 
