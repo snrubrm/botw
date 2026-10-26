@@ -19,13 +19,14 @@ namespace uking::act {
 // TODO: incomplete (only the functions used by the AI are declared; none is written yet except reset).
 class ClothStiffnessMgr {
 public:
+    ClothStiffnessMgr();
     struct Entry {
         /* 0x00 */ sead::FixedSafeString<128> mKey;
-        /* 0x98 */ f32 _98;
-        /* 0x9c */ f32 _9c;
-        /* 0xa0 */ s32 mRefCount;
+        /* 0x98 */ f32 _98 = 0;
+        /* 0x9c */ f32 _9c = 0;
+        /* 0xa0 */ s32 mRefCount = 0;
         /* 0xa4 */ u8 _a4[4];
-        /* 0xa8 */ void* _a8;
+        /* 0xa8 */ void* _a8 = nullptr;
         /* 0xb0 */ ksys::res::Handle mHandle;
     };
     static_assert(sizeof(Entry) == 0x100);
@@ -43,7 +44,8 @@ public:
     void sub_7100665B64();
 
     /* 0x000 */ Entry mEntries[3];
-    /* 0x300 */ u8 _300[8];
+    /* 0x300 */ f32 _300 = 1.0f;
+    /* 0x304 */ u8 _304[4];
     /* 0x308 */ sead::CriticalSection mCS;
 };
 KSYS_CHECK_SIZE_NX150(ClothStiffnessMgr, 0x348);

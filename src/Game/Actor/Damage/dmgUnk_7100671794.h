@@ -45,9 +45,9 @@ public:
     bool tryClaimSingleActorSlot(ksys::act::BaseProc* proc);
 
     /* 0x00 */ sead::SafeArray<Unk_7100671794_Entry, 8> mEntries;
-    /* 0xc0 */ f32 _c0;
-    /* 0xc4 */ s32 _c4;
-    /* 0xc8 */ u32 _c8;
+    /* 0xc0 */ f32 _c0 = 0;
+    /* 0xc4 */ s32 _c4 = -1;
+    /* 0xc8 */ u32 _c8 = 0;
     /* 0xcc */ sead::JobQueueLock _cc;
     /* 0xd0 */ sead::JobQueueLock _d0;
     /* 0xd4 */ u32 _d4;

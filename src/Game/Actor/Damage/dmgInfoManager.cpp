@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/Actor/aiUnk_71007130BC.h"
+#include "Game/Actor/aiUnk_7100D8C538.h"
 #include "Game/Scene/gameScene.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
@@ -22,6 +23,34 @@ SEAD_SINGLETON_DISPOSER_IMPL(DamageInfoMgr)
 
 // Shared stage flag (placeholder name; defined in this TU so other damage TUs reach it through the GOT).
 bool sUnk_71025C59D8 = false;
+
+// NON_MATCHING: the original zero-initialises the whole mUnkD00 ring (a memset of 0xdc bytes) before its
+// constructor body runs; our sead::FixedRingBuffer does not (see AirOctaState). Its two s32 fields at
+// 0xcd8 / 0xcdc also keep separate stores where clang merges them into one here.
+DamageInfoMgr::DamageInfoMgr() {
+    _11eb = {};
+}
+
+// The rain component is torn down by hand: the original inlines its reset/free helpers here
+// (sub_7100710DE4 / sub_7100710E94) instead of a destructor call.
+// NON_MATCHING: the last member dtor call goes to Unk28's D1 here; the original calls a 4-byte D2
+// thunk (b D1) that our split of the TU does not emit.
+DamageInfoMgr::~DamageInfoMgr() {
+    mReactionTable.sub_71006681A4();
+    mUnkCe0.mLinks.freeBuffer();
+    _790._20.sub_7100710DE4();
+    _790._20.mOwner = nullptr;
+    _790._20.sub_7100710E94();
+}
+
+DamageInfoMgr::Unk_7100672110::Unk_7100672110() = default;
+DamageInfoMgr::Unk_7100672110::~Unk_7100672110() = default;
+
+KSYS_VISIBILITY_HIDDEN bool sUnk_710243C398 = true;
+
+bool DamageInfoMgr::sub_710067477C() {
+    return sUnk_710243C398;
+}
 
 void DamageInfoMgr::UnkCe0::init(sead::Heap* heap) {
     mLinks.freeBuffer();
@@ -291,6 +320,66 @@ void DamageInfoMgr::init(sead::Heap* heap) {
         _790._20.mOwner = &_790;
     _11e2 = 0;
     mMasterSwordDisableTrueForm = false;
+}
+
+// NON_MATCHING: the four `return true` blocks are tail-merged into one shared block here; the original
+// keeps a return block inline after each branch. The operations are the same.
+bool DamageInfoMgr::sub_710067409C(const sead::Vector3f* a, const sead::Vector3f* b) {
+    if (!a && !b)
+        return true;
+    if (!sub_710072B8E4())
+        return false;
+
+    f32 dist = 0.0f;
+    if (auto* global = ksys::act::GlobalParameter::instance()) {
+        if (const auto* param = global->getGlobalParam())
+            dist = param->mEnemyNoSkitDist.ref();
+    }
+
+    const sead::Vector3f player_pos = getPlayerPosition();
+    if (a) {
+        const f32 dx = a->x - player_pos.x;
+        const f32 dy = a->y - player_pos.y;
+        const f32 dz = a->z - player_pos.z;
+        if (std::sqrt(dx * dx + dy * dy + dz * dz) > dist)
+            return true;
+    }
+    if (b) {
+        const f32 dx = b->x - player_pos.x;
+        const f32 dy = b->y - player_pos.y;
+        const f32 dz = b->z - player_pos.z;
+        if (std::sqrt(dx * dx + dy * dy + dz * dz) > dist)
+            return true;
+    }
+
+    if (a && !visibilityCheckMaybe(*a, 15.0f))
+        return true;
+    if (b && !visibilityCheckMaybe(*b, 15.0f))
+        return true;
+    return false;
+}
+
+bool DamageInfoMgr::sub_71006741E4(const ksys::act::BaseProcLink* link, const ksys::act::Actor* actor) {
+    if (!link && !actor)
+        return true;
+
+    sead::Vector3f link_pos;
+    const sead::Vector3f* link_pos_ptr = nullptr;
+    if (link) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(link, &accessor);
+        accessor.getActorMtx().getTranslation(link_pos);
+        link_pos_ptr = &link_pos;
+    }
+
+    sead::Vector3f actor_pos;
+    const sead::Vector3f* actor_pos_ptr = nullptr;
+    if (actor) {
+        actor->getMtx().getTranslation(actor_pos);
+        actor_pos_ptr = &actor_pos;
+    }
+
+    return sub_710067409C(link_pos_ptr, actor_pos_ptr);
 }
 
 void DamageInfoMgr::postCalc() {

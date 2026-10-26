@@ -9,6 +9,9 @@
 
 namespace uking::act {
 
+ClothStiffnessMgr::ClothStiffnessMgr() : mEntries() {}
+
+
 ClothStiffnessMgr::Entry* ClothStiffnessMgr::sub_7100665830(const sead::SafeString& name) {
     sead::ScopedLock<sead::CriticalSection> lock(&mCS);
     for (auto& entry : mEntries) {

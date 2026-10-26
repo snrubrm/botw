@@ -27,6 +27,9 @@ class Actor;
 // distance check at 0x710065c834.
 extern bool sUnk_71025C59D8;
 
+// True in the image; read by sub_710067477C.
+KSYS_VISIBILITY_HIDDEN extern bool sUnk_710243C398;
+
 namespace uking::act {
 
 // FIXME: incomplete
@@ -74,6 +77,11 @@ public:
     // The heap argument is unused here; the caller still loads it (GameScene : 0x71007a8e78).
     void sub_7100673D8C(sead::Heap* heap);
     void sub_7100674058();
+    // 0x710067409c: whether either position is beyond GlobalParameter's EnemyNoSkitDist from the
+    // player or cannot be seen (placeholder name).
+    static bool sub_710067409C(const sead::Vector3f* a, const sead::Vector3f* b);
+    // 0x71006741e4: sub_710067409C on a link's actor position and/or an actor's position.
+    static bool sub_71006741E4(const ksys::act::BaseProcLink* link, const ksys::act::Actor* actor);
 
     using DamageItem = act::DamageItem;
 
@@ -159,11 +167,16 @@ public:
     // Placeholder (only its method 0x7100672110 is known): the object at +0x630, whose first
     // member is a ring buffer of actor links.
     struct Unk_7100672110 {
+        struct Entry {
+            ksys::act::BaseProcLink mLink;
+            Entry() { mLink.reset(); }
+        };
+        Unk_7100672110();
+        ~Unk_7100672110();
         void sub_7100672110();
-        /* 0x00 */ sead::RingBuffer<ksys::act::BaseProcLink> mRing;
-        /* 0x18 */ u8 _18[0x148];
+        /* 0x00 */ sead::FixedRingBuffer<Entry, 20> mRing;
     };
-    KSYS_CHECK_SIZE_NX150(Unk_7100672110, 0x160);
+    KSYS_CHECK_SIZE_NX150(Unk_7100672110, 0x158);
 
     // Placeholder name (the member at DamageInfoMgr +0xd00): a read/write lock and the ring of volume
     // records the spawn-placement checks (ai::AppearFromTarget) add and query. postCalc ages the records
@@ -186,9 +199,9 @@ public:
         bool sub_71006736E8(const sead::Vector3f& pos, f32 radius);
 
         /* 0x000 */ sead::ReadWriteLock mLock;
-        /* 0x0b8 */ sead::RingBuffer<RingEntry> mRing;
+        /* 0x0b8 */ sead::FixedRingBuffer<RingEntry, 10> mRing;
     };
-    KSYS_CHECK_SIZE_NX150(UnkD00, 0xd0);
+    KSYS_CHECK_SIZE_NX150(UnkD00, 0x198);
 
     // 2026-10-07: original constructor 0x71006737f4 initializes the prefix at +0x790;
     // its next independent member starts at +0x868. Remaining nested lifetime is unresolved.
@@ -219,7 +232,7 @@ public:
         // 0x7100672d00: links a created actor with the owner's actor.
         void m3(ksys::act::Actor* actor) override;
 
-        /* 0x40 */ Unk790* mOwner;
+        /* 0x40 */ Unk790* mOwner = nullptr;
     };
     KSYS_CHECK_SIZE_NX150(Unk_710243c3a0, 0x48);
 
@@ -235,8 +248,8 @@ public:
         bool tryAcquireWizzrobeWeatherRequest(ksys::act::BaseProc* proc, s32 weather);
         // 0x710067298c: when `proc` is the linked actor, takes `params` and restarts the actor rain (status 2).
         bool sub_710067298C(ksys::act::BaseProc* proc, const Unk790Params& params);
-        s32 mStatus;
-        s32 _4;
+        s32 mStatus = 0;
+        s32 _4 = -1;
         ksys::act::BaseProcLink mLink;
         /* 0x18 */ sead::Atomic<u32> mLock;  // a spin lock (0 / 1)
         /* 0x20 */ Unk_710243c3a0 _20;
@@ -335,6 +348,7 @@ private:
     /* 0x04f8 */ Unk_7100671794 _4f8;
     /* 0x05d0 */ DamageReactionTable mReactionTable;
     /* 0x0630 */ Unk_7100672110 _630;
+    /* 0x0788 */ s32 _788 = 0;
     /* 0x0790 */ Unk790 _790;
     /* 0x0868 */ Unk868 _868;
     /* 0x0b90 */ Unk_710243c280 mGuardianRegistry;
@@ -370,7 +384,7 @@ private:
         bool sub_7100673444(const sead::Vector3f& position) const;
 
         /* 0x00 */ sead::Buffer<Entry> mLinks;
-        /* 0x10 */ u32 mCount = 0;
+        /* 0x10 */ u32 mCount = 64;
         /* 0x14 */ bool _14 = false;
         u8 _15[3];
         /* 0x18 */ sead::Atomic<u32> mLock;  // a spin lock (0 / 1)
@@ -378,19 +392,18 @@ private:
     KSYS_CHECK_SIZE_NX150(UnkCe0, 0x20);
 
     /* 0x0cd8 */ s32 _cd8 = 0;
-    u8 TEMP_cdc[4];
+    /* 0x0cdc */ s32 _cdc = 0;
     /* 0x0ce0 */ UnkCe0 mUnkCe0;
     /* 0x0d00 */ UnkD00 mUnkD00;
-    /* 0x0dd0 */ u8 TEMP_dcc[0xe98 - 0xdd0];
     /* 0x0e98 */ ClothStiffnessMgr mClothStiffnessMgr;
-    /* 0x11e0 */ u8 _11e0;  // bit 0: no rain, bit 1: no snow (sub_7100674704 / 30)
-    /* 0x11e1 */ u8 _11e1;
-    /* 0x11e2 */ u8 _11e2;  // zeroed by init
+    /* 0x11e0 */ u8 _11e0 = 0;  // bit 0: no rain, bit 1: no snow (sub_7100674704 / 30)
+    /* 0x11e1 */ u8 _11e1 = 0;
+    /* 0x11e2 */ u8 _11e2 = 0;  // zeroed by init
     u8 TEMP_11e3;
-    /* 0x11e4 */ f32 mMasterSwordSearchEvilDist;
-    /* 0x11e8 */ bool mMasterSwordDetectedEvil;
-    /* 0x11e9 */ bool mMasterSwordDisableTrueForm;
-    /* 0x11ea */ bool mOneHitObliteratorActive;
+    /* 0x11e4 */ f32 mMasterSwordSearchEvilDist = 70.0f;
+    /* 0x11e8 */ bool mMasterSwordDetectedEvil = false;
+    /* 0x11e9 */ bool mMasterSwordDisableTrueForm = false;
+    /* 0x11ea */ bool mOneHitObliteratorActive = false;
 
 public:
     /* 0x11eb */ sead::SafeArray<s8, 4> _11eb;  // per-core counters (ForceConfront behavior; Player::sub_710086C928 reads [3] signed)
