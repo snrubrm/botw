@@ -614,6 +614,31 @@ void Weapon::m224(sead::Vector3f* out) {
     out->z *= race_scale;
 }
 
+// 0x71002e9470: the linear velocity of a thrown weapon.
+// NON_MATCHING: the original's sub_71002E95DC is defined in this TU, so clang knows it does not write through
+// its direction argument and keeps the normalized components in d8-d10 across the call; ours is declared only
+// and reloads them (3 instructions).
+void Weapon::m209(const sead::Vector3f& pos) {
+    if (_fd0) {
+        if (isParentPlayer()) {
+            sead::Vector3f dir = pos;
+            dir.normalize();
+            if (getParam()->getRes().mGParamList &&
+                getParam()->getRes().mGParamList->getWeaponThrow()) {
+                const f32 factor = sub_71002E95DC(this, dir);
+                dir.x *= factor;
+                dir.y *= factor;
+                dir.z *= factor;
+            }
+            _fd0->setLinearVelocity(dir * 30.0f);
+            return;
+        }
+        _fd0->setLinearVelocity(pos * 30.0f);
+    } else if (auto* body = mMainBody.load()) {
+        body->setLinearVelocity(pos * 30.0f);
+    }
+}
+
 // 0x71002ecdc0: whether the weapon's parent actor is a PlayerBase whose _c48 bit 25 is set.
 bool Weapon::sub_71002ECDC0() const {
     auto* proc = _880.getProc(nullptr, nullptr);

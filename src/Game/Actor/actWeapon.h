@@ -430,6 +430,9 @@ public:
     void m224(sead::Vector3f* out) override;
     bool m225() override;
     bool m226() override;
+    // 0x71002e9470 (CSV Weapon::m209): the thrown weapon's linear velocity: its normalized direction
+    // (scaled by the WeaponThrow factor while a player holds it) times 30, on _fd0 or the main body.
+    void m209(const sead::Vector3f& pos) override;
     void m206(bool play_sound) override;
     bool m153() override;
     bool m155() override;
@@ -671,3 +674,6 @@ s32 getWeaponLifeLimit();
 // 0x710072d86c (placeholder name; declared only): the per-race attack-range factor of `actor` for a
 // weapon of type `type` (1 for an unknown type).
 f32 sub_710072D86C(ksys::act::Actor* actor, const s32& type);
+
+// 0x71002e95dc (placeholder name; declared only): the throw-speed factor of `weapon` in direction `dir`.
+f32 sub_71002E95DC(uking::act::Weapon* weapon, const sead::Vector3f& dir);
