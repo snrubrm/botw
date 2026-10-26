@@ -1,5 +1,12 @@
 #include "Game/gameGraphics.h"
+#include <g3d/aglNW4FToNN.h>
+#include <g3d/aglTextureDataInitializerG3D.h>
 #include <gsys/gsysModel.h>
+#include <gsys/gsysModelNW.h>
+#include <nn/g3d/ModelObj.h>
+#include <nn/g3d/ResFile.h>
+#include <nn/g3d/ResMaterial.h>
+#include <nn/g3d/ResModel.h>
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 
 // GrudgeRenderer's TU (0x710128d348 .. 0x71012915b8). Only this helper is decompiled so far.
@@ -24,6 +31,72 @@ void GrudgeRenderer::sub_710128F4BC(const sead::Camera* camera) {
     camera->getWorldPosByMatrix(&_240);
     _264 = cGrudgeResetDistance;
     _268->requestDraw();
+}
+
+// 0x710128f2a4: refreshes the material entries that were marked for a texture rebind.
+void GrudgeRenderer::sub_710128F2A4() {
+    if ((_2ef8 & 1) == 0)
+        return;
+
+    for (s32 i = 0; i < 3; ++i) {
+        Entry& entry = mEntries[i];
+        if ((entry.mFlag & 1) != 0) {
+            nn::g3d::ResMaterial* material =
+                &_280->getResFile()->mModels->mMaterials[entry.mMaterialIndex];
+            nn::gfx::ResTexture* texture =
+                agl::g3d::ResMaterial::GetTexture(material, entry.mTextureIndex);
+            agl::g3d::TextureDataInitializerG3D::initialize(&entry.mTextureData, *texture);
+            entry.mSampler.applyTextureData(entry.mTextureData);
+
+            const nn::g3d::ResMaterial::TextureRecord& record =
+                material->mTextureRecords[entry.mTextureIndex];
+            entry.mSampler.setLOD(record._8, record._c, record._10);
+            entry.mFlag &= ~1;
+        }
+
+        mUnitArrays[i].clear();
+
+        _288->enableRenderViewOption(i, static_cast<gsys::ModelEnum::RenderViewOption>(4), false,
+                                     -1);
+        // Hide the entry's material and mark it as changed (the render-option bit 15 and the
+        // material change flag).
+        gsys::ModelUnit* unit = _288;
+        unit->getMaterialInfo()[i].renderOptions &= ~0x8000;
+        unit->getFlags().set(gsys::ModelUnit::Flag::Changed);
+        unit->getMaterialInfo()[i].flags.setBit(1);
+    }
+
+    _260 = 1 - _260;
+}
+
+// 0x710128f698: binds the textures of the three texture records of `set` on `model`.
+// NON_MATCHING: the original keeps one redundant `and w8, w8, #0xff` after the dynamic flag-mask
+// test; no natural source form reproduces it (see the session log).
+void GrudgeRenderer::sub_710128F698(gsys::ModelNW* model, TextureSet* set) {
+    if (set->mMaterialIndex == -1)
+        return;
+
+    nn::g3d::MaterialObj* material = model->getModelObj()->GetMaterial(set->mMaterialIndex);
+    for (s32 i = 0; i < 3; ++i) {
+        const u32 mask = 1u << (i + 3);
+        if ((set->mFlags & mask) == 0)
+            continue;
+
+        TextureSet::TextureEntry& entry = set->mEntries[i];
+        const s32 texture_index = entry.mTextureIndex;
+        if (texture_index != -1) {
+            nn::gfx::ResTexture* texture =
+                agl::g3d::MaterialObj::GetResTexture(material, texture_index);
+            agl::g3d::TextureDataInitializerG3D::initialize(&entry.mTextureData, *texture);
+            entry.mSampler.applyTextureData(entry.mTextureData);
+
+            const nn::g3d::ResMaterial::TextureRecord& record =
+                material->GetResource()->mTextureRecords[texture_index];
+            entry.mSampler.setLOD(record._8, record._c, record._10);
+        }
+
+        _2ef8 &= ~mask;
+    }
 }
 
 // 0x710128f888: the final-image pass calls this debug draw of the renderer; the original body is empty.

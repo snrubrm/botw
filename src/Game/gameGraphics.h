@@ -40,7 +40,9 @@
 #include <utility/aglParameterObj.h>
 #include <common/aglGPUMemAddr.h>
 #include <common/aglGPUMemBlock.h>
+#include <utility/aglAtomicPtrArray.h>
 #include "KingSystem/Resource/resHandle.h"
+#include "KingSystem/Resource/resTextureHandleList.h"
 #include <prim/seadSafeString.h>
 #include <prim/seadScopedLock.h>
 #include "Game/gameAglEnvCubeMapMgr.h"
@@ -463,7 +465,59 @@ KSYS_CHECK_SIZE_NX150(Unk_71025191c8, 0x130);
 
 class GrudgeRenderer {
 public:
+    // One per grudge material slot: the texture the renderer binds for it. 0x710128f2a4 refreshes
+    // every entry whose flag bit 0 is set.
+    struct Entry {
+        agl::TextureData mTextureData;                 // 0x000
+        agl::TextureSampler mSampler;                  // 0x128
+        s32 mTextureIndex;                             // 0x298
+        u8 _29c[4];
+        ksys::res::TextureHandleList::Entry mHandle;   // 0x2a0
+        u32 _350;
+        u32 _354;
+        u32 _358;
+        u8 _35c[4];
+        s32 mMaterialIndex;  // 0x360
+        u8 mFlag;            // 0x364
+        u8 _365[3];
+        s32 _368;  // -1
+        u8 _36c[4];
+        sead::SafeString mName;  // 0x370: "Undefined"
+        s32 _380;                // -1
+        u8 _384[4];
+        sead::SafeString mName2;  // 0x388: "Undefined"
+    };
+    static_assert(sizeof(Entry) == 0x398);
+
+    // The 0xa40-byte render record at _ed0 (0x710128e804 builds it, 0x710128f148 destroys it):
+    // the grudge units it draws followed by the three texture entries they sample.
+    struct TextureSet {
+        struct TextureEntry {
+            agl::TextureData mTextureData;                 // 0x000
+            agl::TextureSampler mSampler;                  // 0x128
+            s32 mTextureIndex;                             // 0x298
+            u8 _29c[4];
+            ksys::res::TextureHandleList::Entry mHandle;   // 0x2a0
+            u64 _350;
+            u32 _358;
+            u8 _35c[4];
+        };
+        static_assert(sizeof(TextureEntry) == 0x360);
+
+        sead::PtrArray<Unk_71025191c8> mUnits;  // 0x000
+        TextureEntry mEntries[3];              // 0x010
+        u8 mFlags;                             // 0xa30: bits 3..5: entry needs its texture bound
+        u8 _a31[3];
+        s32 mTableIndex;     // 0xa34: index in _ed0
+        s32 mMaterialIndex;  // 0xa38
+        u8 _a3c[4];
+    };
+    static_assert(sizeof(TextureSet) == 0xa40);
+
+    // 0x710128f2a4: rebinds the textures of the entries whose flag bit 0 is set.
     void sub_710128F2A4();
+    // 0x710128f698: binds the textures of the three texture entries of `set` on `model`.
+    void sub_710128F698(gsys::ModelNW* model, TextureSet* set);
     // 0x710128f148: destroys the model render data the renderer built.
     void sub_710128F148(void* data);
     // 0x710128f4bc: once flag bit 0 of _2ef8 is set, records the camera's world position, resets the
@@ -478,10 +532,17 @@ public:
 private:
     u8 _0[0x240];
     sead::Vector3f _240;
-    u8 _24c[0x264 - 0x24c];
+    u8 _24c[0x260 - 0x24c];
+    s32 _260;
     f32 _264;
     gsys::Model* _268;
-    u8 _270[0x2ef8 - 0x270];
+    u8 _270[0x280 - 0x270];
+    gsys::ModelResource* _280;
+    gsys::ModelNW* _288;
+    u8 _290[0x3c0 - 0x290];
+    Entry mEntries[3];
+    u8 _e88[0x2ee8 - 0xe88];
+    sead::Buffer<agl::utl::AtomicPtrArray<Unk_71025191c8>> mUnitArrays;
     u8 _2ef8;
     u8 _2ef9[0x2fb0 - 0x2ef9];
 };
