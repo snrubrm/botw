@@ -1,7 +1,9 @@
 #pragma once
 
 #include <framework/seadTaskBase.h>
+#include <framework/seadMethodTree.h>
 #include <hostio/seadHostIONode.h>
+#include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 
@@ -43,7 +45,14 @@ private:
 
     // Set to 1 by setInstance.
     u8 _d8;
-    u8 _d9[0x578 - 0xd9];
+    u8 _d9[0xe0 - 0xd9];
+    // The method-tree nodes the calc and draw attach/detach entries walk (0x98 bytes each;
+    // detachCalcImpl touches 0 and 1, detachDrawImpl 2 to 5).
+    sead::MethodTreeNode mMethodTreeNodes[6];
+    u8 _470[0x4c0 - 0x470];
+    /* 0x4c0 */ sead::Vector2i mFrameBufferSize0;
+    /* 0x4c8 */ sead::Vector2i mFrameBufferSize1;
+    u8 _4d0[0x578 - 0x4d0];
 
 public:
     // +0x578. Bit 0 is a frame-calc pause: WorldMgr::calc1 / calc2 / calc3 / calcEntryJob and
@@ -56,6 +65,19 @@ public:
     void setFrameUpdateScale(f32 scale);
     // 0x7100c66850: the system task has no separate calc attachment.
     void attachCalcImpl() override;
+    // 0x7100c66928 / 0x7100c66950: detach the calc / draw part of the method tree.
+    void detachCalcImpl() override;
+    void detachDrawImpl() override;
+    // 0x7100c66988 / 0x7100c66a14: pause the two calc / four draw nodes.
+    void pauseCalc(bool pause) override;
+    void pauseDraw(bool pause) override;
+    // 0x7100c66b08 / 0x7100c66b9c: the recursive variants pause the children too.
+    void pauseCalcRec(bool pause) override;
+    void pauseDrawRec(bool pause) override;
+    // 0x7100c65894: writes the TV (0) or DRC (1) frame buffer size.
+    void setFrameBufferSize(int index, const sead::Vector2i& size);
+    // 0x7100c66cf4: the method-tree node of the calc/draw step `method_type`, or nullptr.
+    sead::MethodTreeNode* getMethodTreeNode(s32 method_type) override;
     // 0x7100c658f8: the draw-done callback; runs the GPU update when the flag is set.
     static void waitDrawDoneCallback(bool flag);
     // 0x7100c65d90 (declared only): submits the GPU work of the task.
