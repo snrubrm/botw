@@ -614,6 +614,19 @@ void Weapon::m224(sead::Vector3f* out) {
     out->z *= race_scale;
 }
 
+// 0x71002ecdc0: whether the weapon's parent actor is a PlayerBase whose _c48 bit 25 is set.
+bool Weapon::sub_71002ECDC0() const {
+    auto* proc = _880.getProc(nullptr, nullptr);
+    if (!sead::IsDerivedFrom<ksys::act::Actor>(proc))
+        return false;
+    auto* actor = static_cast<ksys::act::Actor*>(proc);
+    if (!ksys::act::isPlayerProfile(actor))
+        return false;
+    if (!sead::IsDerivedFrom<uking::act::PlayerBase>(actor))
+        return false;
+    return static_cast<PlayerBase*>(actor)->_c48.isOnBit(25);
+}
+
 bool Weapon::m225() {
     return _fd8;
 }
