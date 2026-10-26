@@ -581,6 +581,16 @@ bool sub_7100A9CDB4(s32 rune) {
     return owned ? true : false;
 }
 
+// 0x7100a9ce08 (placeholder name): fills `key` with the game-data key of the remote bomb rune:
+// "Obj_RemoteBomb" for mode 0, "Obj_RemoteBombLv2" for the upgraded bomb once it is owned (mode -1), and
+// "Obj_RemoteBombLv2" for every other mode.
+void sub_7100A9CE08(s32 mode, sead::BufferedSafeString& key) {
+    if (mode != 0 && (mode != -1 || ksys::gdt::getFlag_IsGet_Obj_RemoteBombLv2(false)))
+        key.copy("Obj_RemoteBombLv2");
+    else
+        key.copy("Obj_RemoteBomb");
+}
+
 // 0x7100a9d244 (placeholder name)
 void sub_7100A9D244(f32 value) {
     auto* obj = Unk_71025d6550::instance();
