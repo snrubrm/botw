@@ -54,6 +54,8 @@ public:
     // 0x7100c720c0 (declared only)
     void expandMaterialID_(agl::DrawContext*, Resolution, MaterialIdMask, agl::TextureCompSel);
 
+    // 0x7100c7159c: whether either resolution's pre-shading buffers are flagged.
+    bool isRendering() const;
     // 0x7100c7367c / 0x7100c73734: the deferred-shading pass around the material-ID expansion.
     void beginDeferredShading(agl::DrawContext*, MaterialIdMask, agl::TextureCompSel);
     void endDeferredShading();
@@ -77,12 +79,17 @@ private:
     static_assert(sizeof(BufferRecord) == 0x198);
 
     u8 _8[0x768 - 8];
-    // Bit 2 selects the material-ID expansion path of beginDeferredShading 0x7100c7367c.
+    // Bit 2 selects the material-ID expansion path of beginDeferredShading 0x7100c7367c. Bits 0..4
+    // are the pre-shading buffer flags isRendering tests.
     u8 mFlags768;
     u8 _769[0x770 - 0x769];
     // 0x7100c7367c stores RenderTargetColor 0x1b00 into this render buffer's first colour slot.
     /* 0x0770 */ agl::RenderBuffer mRenderBuffer;
-    u8 _7d8[0x1290 - 0x7d8];
+    u8 _7d8[0x10a8 - 0x7d8];
+    // The same pre-shading buffer flags one 0x940-byte resolution block later (bindRenderBuffer
+    // indexes the block at 0x940 steps).
+    u8 mFlags10a8;
+    u8 _10a9[0x1290 - 0x10a9];
     // The per-buffer-type records setFormat 0x7100c73af4 and its siblings index with the
     // `type * 0x198 + 0x1290` arithmetic. Only indices 0..4 are records; the original's record 5
     // is the 0x78 UniformBlock that follows, so the array stops here.

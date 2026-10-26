@@ -6,6 +6,13 @@
 
 namespace gsys {
 
+// 0x7100c7159c
+bool GBuffer::isRendering() const {
+    if ((mFlags768 & 0x1f) != 0)
+        return true;
+    return (mFlags10a8 & 0x1f) != 0;
+}
+
 // 0x7100c7367c
 void GBuffer::beginDeferredShading(agl::DrawContext* draw_context, MaterialIdMask mask,
                                    agl::TextureCompSel comp_sel) {
