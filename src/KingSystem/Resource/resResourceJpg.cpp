@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "KingSystem/Resource/resResourceJpg.h"
 #include <common/aglTextureData.h>
 #include <common/aglTextureFormatInfo.h>
@@ -179,6 +180,23 @@ Unk_710247edc8::Unk_710247edc8() = default;
 
 s32 Unk_710247edc8::getLoadDataAlignment() const {
     return cLoadDataAlignment;
+}
+
+// 0x71009ce600: casts `data` to a g3d ResFile and fills the external texture info from the creator's texture
+// for this core (same setup as eui::SetupTextureInfoByAglTextureData, but written out on the known type).
+// NON_MATCHING: our clang inlines Unk_710247ee68::sub_71009CEA5C (the per-core texture pick, 84 bytes) into this
+// TU, so the 3-entry buffer index and the frame differ; the original keeps the call (same as the sibling
+// Unk_710247ed28::doCreate_). Stores, offsets and the max lowerings otherwise match.
+void Unk_710247edc8::doCreate_(u8* data, u32, sead::Heap*) {
+    _50 = nn::g3d::ResFile::ResCast(data);
+    auto* texture = uking::ui::Manager::instance()->_64b20.sub_71009CEA5C();
+    agl::g3d::TextureDataInitializerG3D::initialize(texture, data, 0);
+    const u32 width = std::max(texture->getWidth(), 1u);
+    const u32 height = std::max(texture->getHeight(), texture->getMinHeight_());
+    _38.SetSize(u16(width), u16(height));
+    texture->getTexture().setReference_();
+    _38.GetDescriptorSlot().ToData()->value = u32(texture->getTexture().getTextureId());
+    _58 = true;
 }
 
 bool Unk_710247edc8::m2_() {
