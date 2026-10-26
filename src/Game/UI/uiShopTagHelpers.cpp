@@ -26,9 +26,6 @@
 // original: the 16-byte forwarders sit right next to them).
 namespace uking::ui {
 
-// Defined further down the TU; not decompiled yet.
-s32 sub_7100A90B24(const ksys::act::ActorLinkConstDataAccess* actor,
-                   ksys::act::ActorLinkConstDataAccess* accessor, s32* value);
 // 0x7100a9017c: applies the purchase the shop helper resolved.
 bool sub_7100A9017C(const ksys::act::ActorLinkConstDataAccess* accessor,
                     ksys::act::ActorLinkConstDataAccess* extra_accessor, s32* value);
@@ -57,6 +54,32 @@ void sub_7100A91784(RecipeItems* items, const sead::SafeString& actor) {
         if (ksys::act::getSameGroupActorName(&group_name, (*items)[i].name))
             (*items)[i].name = group_name;
     }
+}
+
+// 0x7100a90b24 (placeholder name): as sub_7100A90E40, but resolves the item's effective name from the
+// accessor first (the same-group actor name unless the actor is a "get item self" actor), and has no
+// zero-count early out.
+s32 sub_7100A90B24(const ksys::act::ActorLinkConstDataAccess* accessor,
+                   ksys::act::ActorLinkConstDataAccess* extra_accessor, s32* value) {
+    ShopBuyInfo info;
+    sub_7100A90314(&info, accessor, extra_accessor, value);
+
+    sead::FixedSafeString<64> name;
+    if (accessor->getGParamList()->getSystem()->mIsGetItemSelf.ref() ||
+        !accessor->getSameGroupActorName(&name)) {
+        name.copy(accessor->getName());
+    }
+
+    if (info.type == 2) {
+        if (info.price > ksys::gdt::getFlag_CurrentMamo(false))
+            return 3;
+    } else {
+        if (info.price > ksys::gdt::getFlag_CurrentRupee(false))
+            return 2;
+    }
+    if (info.type == 1 && !sub_7100A90A34(info.items))
+        return 6;
+    return actorHasTagCanGetPouch(name) ? 0 : 7;
 }
 
 // 0x7100a90e40 (placeholder name): whether the shop can sell `num` of the item at `price` for the
@@ -300,6 +323,20 @@ bool sub_7100A91D4C(const sead::SafeString& actor) {
     return sub_7100A90A34(items);
 }
 
+// 0x7100a91bf0 (placeholder name): fills the buy-check record from the connected-calculating
+// accessor of a shop actor; false when the accessor has no actor or the connected-calc lookup fails.
+bool sub_7100A91BF0(ShopBuyInfo* info, const ksys::act::ActorLinkConstDataAccess* accessor) {
+    if (!accessor->hasProc())
+        return false;
+
+    ksys::act::ActorLinkConstDataAccess actor;
+    ksys::act::ActorLinkConstDataAccess proc_accessor;
+    s32 value;
+    if (!sub_7100A90700(&actor, &proc_accessor, &value, accessor))
+        return false;
+    return sub_7100A90314(info, &actor, &proc_accessor, &value);
+}
+
 // 0x7100a91c88 (placeholder name): the info overlay / cannot-buy message for the player's item state.
 // NON_MATCHING: the original tests the cases in the order 7 / 6 / 2; clang 4 merges the compares into a switch
 // and tests them in ascending order. Same instructions otherwise.
@@ -376,6 +413,64 @@ void sub_7100A9127C(s32 state, const sead::SafeString& item_name, s32 count) {
             ksys::PlayReportMgr::instance()->reportDebug(message, item_name);
         } while (--count);
     }
+}
+
+// 0x7100a91424 (placeholder name): applies the purchase to the player's rupees / mamo, uses the
+// recipe ingredients and then takes the item from the shop.
+s32 sub_7100A91424(const sead::SafeString& name, s32 price, s32 type, s32 num) {
+    auto* mgr = PauseMenuDataMgr::instance();
+    if (!mgr)
+        return -1;
+
+    ShopBuyInfo info;
+    info.type = type;
+    if (type == 1)
+        sub_7100A91784(&info.items, name);
+    info.price = price;
+    switch (info.type) {
+    case 0:
+        ksys::gdt::increaseFlag_CurrentRupee(-info.price);
+        break;
+    case 1:
+        ksys::gdt::increaseFlag_CurrentRupee(-info.price);
+        if (auto* manager = PauseMenuDataMgr::instance())
+            manager->useItemFromRecipeAndSave(&info.items, 1, nullptr);
+        break;
+    case 2:
+        ksys::gdt::increaseFlag_CurrentMamo(-info.price);
+        break;
+    }
+    mgr->getFromShop(name, num, nullptr);
+    return 0;
+}
+
+// 0x7100a915d4 (placeholder name): as sub_7100A91424, but puts the item into the pouch directly
+// (itemGet) instead of going through the shop's stock check.
+s32 sub_7100A915D4(const sead::SafeString& name, s32 price, s32 type, s32 num) {
+    auto* mgr = PauseMenuDataMgr::instance();
+    if (!mgr)
+        return -1;
+
+    ShopBuyInfo info;
+    info.type = type;
+    if (type == 1)
+        sub_7100A91784(&info.items, name);
+    info.price = price;
+    switch (info.type) {
+    case 0:
+        ksys::gdt::increaseFlag_CurrentRupee(-info.price);
+        break;
+    case 1:
+        ksys::gdt::increaseFlag_CurrentRupee(-info.price);
+        if (auto* manager = PauseMenuDataMgr::instance())
+            manager->useItemFromRecipeAndSave(&info.items, 1, nullptr);
+        break;
+    case 2:
+        ksys::gdt::increaseFlag_CurrentMamo(-info.price);
+        break;
+    }
+    mgr->itemGet(name, num, nullptr);
+    return 0;
 }
 
 KSYS_VISIBILITY_HIDDEN ShopCookInfo sUnk_71025F6960{
@@ -790,6 +885,28 @@ u32 sub_7100A91E84(const sead::SafeString& name, s32 type, s32 a3, bool flag) {
         return 0xe;
     }
     return a3 == 0 ? 0xc : 0;
+}
+
+// 0x7100a91f64 (placeholder name): the shop state value for an armor upgrade: the armor's next
+// rank name gives the recipe, which must be craftable, and `a2` must stay below `a3`.
+// NON_MATCHING: every local's stack slot is swapped. The original's RecipeItems sits above the
+// FixedSafeString rank, which is the layout of `RecipeItems items;` declared first, but the original
+// constructs the rank first; declaring the items first makes clang construct them at the top.
+u32 sub_7100A91F64(const sead::SafeString& name, s32 a2, s32 a3) {
+    auto* info = ksys::act::InfoData::instance();
+    if (!info)
+        return -1;
+
+    sead::FixedSafeString<64> rank;
+    rank.copy(ksys::act::getArmorNextRankName(info, name.cstr()));
+    if (rank.isEmpty())
+        return 4;
+    if (a2 >= a3)
+        return 5;
+
+    RecipeItems items;
+    sub_7100A91784(&items, rank);
+    return sub_7100A90A34(items) ? 0 : 6;
 }
 
 // 0x7100a92180 (placeholder name): the stain colour state of the item, for the dye shop.
