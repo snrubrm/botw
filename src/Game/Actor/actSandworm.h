@@ -95,7 +95,7 @@ struct Unk_71023cfcf0Shared {
 // Sandworm::prepareInit_ (0x71002ccc40) allocates at Sandworm + 0x1588. Its D1 unlinks the object
 // from a global list and releases the shared tera shape at + 8 through the tera system; the runtime
 // writes a position and a shape into the 15 0x2c-byte slots at + 0x28.
-class Unk_71023cfcf0 {
+class Unk_71023cfcf0 final {
 public:
     struct Slot {
         /* 0x00 */ f32 _0;
@@ -112,7 +112,20 @@ public:
     };
     KSYS_CHECK_SIZE_NX150(Slot, 0x2c);
 
+    // Placeholder argument of the holder's virtuals (prepareInit_ passes {pointer, two words}).
+    struct UnkArg {
+        /* 0x0 */ void* _0;
+        /* 0x8 */ u32 _8;
+        /* 0xc */ u32 _c;
+    };
+    KSYS_CHECK_SIZE_NX150(UnkArg, 0x10);
+
     virtual ~Unk_71023cfcf0();
+
+    // 0x71002cbc40 (placeholder name): binds the shape and sets the five trail angles.
+    virtual void m2(const UnkArg& arg);
+    // 0x71006824c4 (placeholder name): binds the holder to the shape behind `arg`.
+    virtual void m3(const UnkArg& arg);
 
     // 0x71006825f0 (placeholder name): the game checks this before deleting the holder.
     bool sub_71006825F0();
@@ -131,7 +144,13 @@ public:
     /* 0x2bc */ u32 _2bc = 0;
     /* 0x2c0 */ u8 _2c0[0x2d4 - 0x2c0];
     /* 0x2d4 */ u32 _2d4 = 0;
-    /* 0x2d8 */ u8 _2d8[0x2f8 - 0x2d8];
+    /* 0x2d8 */ u8 _2d8[0x2e0 - 0x2d8];
+    /* 0x2e0 */ f32 _2e0 = 0;
+    /* 0x2e4 */ f32 _2e4 = 0;
+    /* 0x2e8 */ f32 _2e8 = 0;
+    /* 0x2ec */ f32 _2ec = 0;
+    /* 0x2f0 */ f32 _2f0 = 0;
+    /* 0x2f4 */ u8 _2f4[0x2f8 - 0x2f4];
     /* 0x2f8 */ f32 _2f8 = 0;
     /* 0x2fc */ u8 _2fc[0x318 - 0x2fc];
 };

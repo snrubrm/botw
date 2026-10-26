@@ -251,4 +251,14 @@ void Sandworm::m76(ksys::VFR::ScopedDeltaSetter* setter) {
     Enemy::m76(setter);
 }
 
+// Binds the shape and sets the trail angles (75, 150, 225 and 300 degrees in radians).
+void Unk_71023cfcf0::m2(const UnkArg& arg) {
+    m3(arg);
+    _2e0 = 0;
+    _2e4 = 75.0f * sead::Mathf::pi() / 180.0f;
+    _2e8 = 150.0f * sead::Mathf::pi() / 180.0f;
+    _2ec = 225.0f * sead::Mathf::pi() / 180.0f;
+    _2f0 = 300.0f * sead::Mathf::pi() / 180.0f;
+}
+
 }  // namespace uking::act
