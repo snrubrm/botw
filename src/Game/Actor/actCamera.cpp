@@ -851,6 +851,12 @@ void* Camera::m165() {
     return _1088;
 }
 
+// 0x7100799924: resets the caller's string to empty (the interface's camera-name getter).
+void Camera::m166(sead::SafeString* name) {
+    if (name)
+        *name = sead::SafeString::cEmptyString;
+}
+
 bool Camera::sub_7100794FD0() const {
     return _860._800.sub_710079C0CC(0x8000);
 }

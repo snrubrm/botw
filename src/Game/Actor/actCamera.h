@@ -362,7 +362,7 @@ public:
     virtual void m157(void* a1, const sead::Matrix34f& mtx) = 0;
     virtual void* m158() = 0;
     virtual void* m165() = 0;
-    virtual void m166(ksys::act::BaseProc* proc) = 0;
+    virtual void m166(sead::SafeString* name) = 0;
     virtual sead::Matrix34f* m159() = 0;
     virtual void m160() = 0;
     virtual void m161() = 0;
@@ -519,7 +519,7 @@ public:
     /* 163 */ virtual void m163();
     /* 164 */ virtual void m164();
     /* 165 */ virtual void* m165();
-    /* 166 */ virtual void m166(ksys::act::BaseProc* proc);
+    /* 166 */ virtual void m166(sead::SafeString* name);
 
     // 0x7100796174 (CSV m18) / 0x7100796200 (CSV m19) / 0x71007963f8 (CSV m7).
     bool prepareInit_(sead::Heap* heap, PrepareArg& arg) override;
