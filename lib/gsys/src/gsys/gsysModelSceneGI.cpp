@@ -5,6 +5,8 @@
 #include <lighting/aglLightMapMgr.h>
 #include <lighting/aglLightPrePass.h>
 #include <lighting/aglSSII.h>
+#include <lighting/aglSSSSS.h>
+#include "gsys/gsysLightProbeMgr.h"
 
 namespace gsys {
 
@@ -57,6 +59,17 @@ void ModelSceneGI::calcViewSSII(const ModelSceneContext& context) {
     if (!mSSII || !_8->isFeatureEnabled(ModelSceneConfig::Feature::SSII))
         return;
     mSSII->calcView(context.getViewIndex(), context.getViewData()->frustum);
+}
+
+// 0x7100c34844
+void ModelSceneGI::calcViewGPU(const ModelSceneContext& context) {
+    if (mSSSSS && _8->isFeatureEnabled(ModelSceneConfig::Feature::SSSSS))
+        mSSSSS->calcViewGPU(context.getViewIndex());
+    if (mSSII && _8->isFeatureEnabled(ModelSceneConfig::Feature::SSII))
+        mSSII->calcViewGPU(context.getViewIndex());
+    if (_8->isFeatureEnabled(ModelSceneConfig::Feature::LightProbe) && mLightProbeMgr &&
+        mLightProbeMgr->isEnabled())
+        mLightProbeMgr->calcGPU(context.getViewIndex());
 }
 
 // 0x7100c309d0

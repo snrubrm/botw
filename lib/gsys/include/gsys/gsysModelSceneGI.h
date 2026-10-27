@@ -11,9 +11,12 @@ class LocalLightMapObj;
 class LightMapMgr;
 class LightPrePass;
 class SSII;
+class SSSSS;
 }
 
 namespace gsys {
+
+class LightProbeMgr;
 
 // The GI component of a ModelScene (ModelScene +0x3a90). Partial: only the feature
 // flags read by the is*Enabled getters are modelled, as pointers to the component's
@@ -36,6 +39,8 @@ public:
     void calcGPUDrawBackGround() const;
     // 0x7100c33f60: passes the current view and frustum to SSII.
     void calcViewSSII(const ModelSceneContext& context);
+    // 0x7100c34844: the per-view GPU steps of SSSSS, SSII and the light probes.
+    void calcViewGPU(const ModelSceneContext& context);
 
 private:
     u8 _250[0x420 - 0x250];
@@ -45,7 +50,8 @@ private:
     void* mPlanarReflection;  // 428
     /// 0x7100c33f90 (SSII).
     agl::lght::SSII* mSSII;  // 430
-    void* _438;
+    /// 0x7100c34844 (light probes).
+    LightProbeMgr* mLightProbeMgr;  // 438
     /// 0x7100c340b8 (local reflection).
     void* mLocalReflection;  // 440
     void* _448;
@@ -54,7 +60,9 @@ private:
     u8 _458[0x458 - 0x458];
     /// 0x7100c32ccc (light map).
     agl::lght::LightMapMgr* mLightMapMgr;  // 458
-    u8 _460[0x660 - 0x460];
+    /// 0x7100c34844 (SSSSS).
+    agl::lght::SSSSS* mSSSSS;  // 460
+    u8 _468[0x660 - 0x468];
     /// 0x7100c324e8: the array index handed out by the atomic counter.
     sead::Atomic<s32> mCount;  // 660
     agl::lght::LocalLightMapObj** mObjects;  // 668
