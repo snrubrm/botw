@@ -757,6 +757,8 @@ void setColorChangeMaterialIndex(s32 index);
 // 0x7100aa813c / 0x7100aa8144: the trade item count and total price flags.
 void setTradeItemNum(s32 num);
 void setTradePrice(s32 price);
+// 0x7100aa8154: the IsManufactureEquipItem flag (a manufactured armor replaces the equipped one).
+void sub_7100AA8154(bool is_manufacture_equip_item);
 }  // namespace shop
 
 }  // namespace uking::ui

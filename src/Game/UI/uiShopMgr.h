@@ -69,7 +69,7 @@ public:
     /* 0xb0 */ s32 _b0 = -1;  // the last value passed to sub_710098425C
     bool _b4 = false;
     u8 _b5[3];
-    /* 0xb8 */ u64 _b8 = 0;
+    /* 0xb8 */ PouchItem* _b8 = nullptr;  // the item the shop state came from (armor upgrade)
     /* 0xc0 */ s32 _c0 = 3;
     u8 _c4 = 0;
     /* 0xc5 */ bool _c5 = false;

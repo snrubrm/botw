@@ -385,6 +385,44 @@ void UiShopMgr::sub_7100984BE8() {
     _c5 = true;
 }
 
+// 0x7100984ca0: the armor the shop state came from is manufactured: the next rank name becomes the item to
+// obtain, priced at the recorded price in shop state 5 and as a free recipe item otherwise.
+// NON_MATCHING: the guard's third null test (`!_b8`) is loaded after the first two compares (`ldr` + `cbz`);
+// the original loads the member before them and folds all three into one cmp/ccmp chain.
+void UiShopMgr::sub_7100984CA0(const sead::SafeString& name) {
+    if (_30 == 5) {
+        sub_7100A91424(_38.name, _38._60, 1, 1);
+        _c5 = true;
+        sub_7100A9127C(_30, _38.name, 1);
+        return;
+    }
+    auto* info = ksys::act::InfoData::instance();
+    auto* data_mgr = PauseMenuDataMgr::instance();
+    if (!info || !data_mgr || !_b8)
+        return;
+    sead::FixedSafeString<64> rank;
+    rank.copy(ksys::act::getArmorNextRankName(info, _b8->getName().cstr()));
+    if (rank.isEmpty()) {
+        _b8 = nullptr;
+        return;
+    }
+    const s32 value = _b8->getValue();
+    const bool equipped = _b8->isEquipped();
+    data_mgr->useItemFromRecipeAndSave(rank, 1, _b8);
+    _b8 = nullptr;
+    data_mgr->itemGet(rank, value, nullptr);
+    if (equipped) {
+        shop::sub_7100AA8154(true);
+        data_mgr->autoEquipLastAddedItem();
+        ksys::gdt::setFlag_Shop_ManufacturedEquipItemName(rank, false);
+        ksys::gdt::setFlag_Shop_ManufacturedEquipItemColor(value, false);
+    } else {
+        shop::sub_7100AA8154(false);
+        ksys::gdt::resetFlag_Shop_ManufacturedEquipItemName(false);
+        ksys::gdt::resetFlag_Shop_ManufacturedEquipItemColor(false);
+    }
+}
+
 // 0x710098425c
 // NON_MATCHING: the state compare is `hs` against 5 instead of `hi` against 4, and _30 is reloaded through a
 // pre-indexed register (regalloc)
