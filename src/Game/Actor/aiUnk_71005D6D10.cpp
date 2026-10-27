@@ -1759,6 +1759,54 @@ void sub_71005DF270(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Sa
     actor->getHomePos(out);
 }
 
+// 0x71005dc8ac: writes the launch velocity for a throw at the carried object's target to `out`.
+// NON_MATCHING: same 164 instructions, but the position copy's y / z registers are swapped and
+// the local stack slots differ (the original keeps the angle and the speed limit in the
+// saved-register holes).
+bool sub_71005DC8AC(ksys::act::Actor* actor, sead::Vector3f* out) {
+    auto* carried = actor->m100();
+    if (!carried)
+        return false;
+
+    sead::Vector3f gravity;
+    sead::Vector3f target;
+    f32 angle;
+    f32 max_speed;
+    if (!carried->sub_7100E5019C(&target, &angle, &max_speed))
+        return false;
+
+    const sead::Matrix34f& mtx = actor->getMtx();
+    sead::Vector3f delta;
+    sead::Vector3f pos = mtx.getTranslation();
+    if (auto* controller = actor->getCharacterController()) {
+        pos = pos + mtx.getBase(1);
+    } else if (auto* body = actor->getMainBody()) {
+        body->getCenterOfMassInWorld(&pos);
+    }
+
+    delta = target - pos;
+    sub_710072DC50(&gravity, actor);
+    const f32 dist = sead::Mathf::sqrt(delta.x * delta.x + delta.z * delta.z);
+    const f32 tan_angle = sead::Mathf::tan(angle);
+    const f32 v2 = gravity.y * dist * dist /
+                   (2.0f * ((delta.y - dist * tan_angle) / (tan_angle * tan_angle + 1.0f)));
+    if (v2 >= 0.0f) {
+        const f32 frame_speed = sead::Mathf::sqrt(v2) / 30.0f;
+        const f32 speed = frame_speed > max_speed ? max_speed : frame_speed;
+        sead::Vector3f dir(delta.x, 0.0f, delta.z);
+        dir.normalize();
+        *out = (dir * sead::Mathf::cos(angle) + sead::Vector3f::ey * sead::Mathf::sin(angle)) * speed;
+    } else {
+        const f32 neg_speed = 0.0f - max_speed;
+        if (!(neg_speed <= sead::Mathf::epsilon() && neg_speed >= -sead::Mathf::epsilon())) {
+            sead::Vector3f gravity2;
+            sub_710072DC54(&gravity2, actor);
+            sub_710072D344(out, sead::Vector3f::zero, delta, max_speed, gravity2.y);
+        }
+    }
+    return true;
+}
+
 // 0x71005dcb3c: forwards the actor's gravity/position vector to the launch-point search.
 bool sub_71005DCB3C(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Vector3f* pos, f32 a,
                     f32 b) {
