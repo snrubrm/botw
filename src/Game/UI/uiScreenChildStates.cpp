@@ -1696,6 +1696,16 @@ void AppMapIconPart::sub_7100994E98() {
     }
 }
 
+// 0x710099fd3c (placeholder name): resets the markers, then stops the first marker's animator.
+void AppMapIconPart::sub_710099FD3C() {
+    sub_7100994E98();
+    if (_2f0.size() != 0) {
+        Unk_7102478c68* marker = _2f0(0);
+        if (marker && marker->_58)
+            marker->_58->StopAtMin();
+    }
+}
+
 // 0x7100994e88
 bool AppMapIconPart::sub_7100994E88() const {
     return _410 != nullptr;
