@@ -1,4 +1,6 @@
 #include "gsys/gsysModelRenderUnit.h"
+#include "gsys/gsysModelUnit.h"
+#include <math/seadBoundSphere.h>
 
 namespace gsys {
 
@@ -34,6 +36,16 @@ bool ModelRenderUnit::getSubMeshBoundAABB(int, int, sead::BoundBox3f*) const {
 void ModelRenderUnit::getBoundSphereImpl(sead::Sphere3f* sphere) const {
     sphere->setCenter(sead::Vector3f::zero);
     sphere->setRadius(sead::Mathf::maxNumber());
+}
+
+void ModelRenderUnit::getBoundSphere(sead::Sphere3f* sphere) const {
+    const sead::BoundSphere3f* bound = mModelUnit->getBoundSphere();
+    if (bound == &mModelUnit->_40) {
+        getBoundSphereImpl(sphere);
+        return;
+    }
+    sphere->setCenter(bound->getCenter());
+    sphere->setRadius(bound->getRadius());
 }
 
 s32 ModelRenderUnit::getPassTextureBit() const {

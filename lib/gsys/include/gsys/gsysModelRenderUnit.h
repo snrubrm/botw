@@ -49,6 +49,9 @@ public:
     virtual bool getSubMeshBoundAABB(int, int, sead::BoundBox3f* aabb) const;
     // 0x7100c800a0: the default bound is centered at zero with the maximum finite radius.
     virtual void getBoundSphereImpl(sead::Sphere3f* sphere) const;
+    // 0x7100c82cdc: uses the model unit's override sphere when it has one, otherwise the unit's
+    // own getBoundSphereImpl.
+    void getBoundSphere(sead::Sphere3f* sphere) const;
     virtual s32 getPassTextureBit() const;
     virtual bool resetShader(sead::Heap* heap) = 0;
     // 0x7100c800d8: the base default accepts every view volume.

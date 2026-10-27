@@ -311,6 +311,7 @@ protected:
     friend class Model;
     friend class ModelRenderCache;
     friend class ModelUnitDrawArray;
+    friend class ModelRenderUnit;
 
     sead::TypedBitFlag<Flag, u8> mFlags;
     s8 mUnkIndex;

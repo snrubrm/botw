@@ -63,6 +63,14 @@ nn::g3d::ShapeObj* ModelRenderUnitNW::getShape() const {
     return model->getModelObj()->GetShape(mIndex);
 }
 
+// 0x7100c0a530
+void ModelRenderUnitNW::getBoundSphereImpl(sead::Sphere3f* sphere) const {
+    const nn::g3d::Sphere* bound = getShape()->mBoundSphere;
+    const f32 radius = bound->mRadius;
+    sphere->setCenter(bound->mCenter);
+    sphere->setRadius(radius);
+}
+
 // 0x7100c09d60
 nn::g3d::MaterialObj* ModelRenderUnitNW::getMaterial() const {
     auto* model = const_cast<ModelNW*>(static_cast<const ModelNW*>(mModelUnit));
