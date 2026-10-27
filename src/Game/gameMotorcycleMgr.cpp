@@ -275,6 +275,50 @@ bool MotorcycleMgr::prepareNewSpawn(ksys::act::PlayerLink* player) {
     return true;
 }
 
+// NON_MATCHING: the climate test is lowered with a 1 << climate mask and the m211 branch is
+// laid out the other way round; the operations and the marker effect calls match.
+void MotorcycleMgr::checkUsableForSoundEffectAndMarker() {
+    s32 state = calculateSomePositionStuff(_12c, _138);
+    if (state == 0) {
+        auto* player = ksys::act::ActorSystem::instance()->getPlayerLink();
+        if (player && player->m211()) {
+            state = 1;
+        } else {
+            state = 0;
+            if (auto* mgr = ksys::world::Manager::instance()) {
+                const auto climate = mgr->getClimate(_12c);
+                if (climate == ksys::world::Climate::GerudoDesertClimate ||
+                    climate == ksys::world::Climate::EldinClimateLv1 ||
+                    climate == ksys::world::Climate::EldinClimateLv2 ||
+                    climate == ksys::world::Climate::GerudoDesertClimateLv2)
+                    state = 1;
+            }
+        }
+    }
+
+    if (s8(_17f) != state) {
+        _148.fadeXLink();
+        switch (state) {
+        case -1:
+        case 1:
+            playEffectMaybe("BikeMarker_NG", &_148);
+            break;
+        case 0:
+            playEffectMaybe("DLC2_Bike_Marker", &_148);
+            break;
+        default:
+            break;
+        }
+        _17f = state;
+    }
+
+    if (_148.sub_7101241B6C()) {
+        sead::Matrix34f mtx = sead::Matrix34f::ident;
+        x_1(&mtx);
+        _148.sub_7101241A44(mtx);
+    }
+}
+
 }  // namespace uking
 
 namespace uking {

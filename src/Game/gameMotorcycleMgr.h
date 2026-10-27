@@ -77,8 +77,14 @@ public:
     // 0x710067b588 (CSV name): fills the spawn position / nav mesh result and returns false in the
     // desert and Eldin climates or while the player passes m211.
     bool prepareNewSpawn(ksys::act::PlayerLink* player);
-    // 0x710067b054 (CSV name, declaration only): fills the two position vectors used by the spawn.
-    void calculateSomePositionStuff(sead::Vector3f& a, sead::Vector3f& b);
+    // 0x710067b054 (CSV name, declaration only): fills the two position vectors used by the spawn
+    // and returns non-zero when the spawn state is already decided.
+    s32 calculateSomePositionStuff(sead::Vector3f& a, sead::Vector3f& b);
+    // 0x71006795c4 (CSV name): picks the BikeMarker effect (usable / NG) from the spawn position,
+    // the player link and the climate, and updates the marker matrix.
+    void checkUsableForSoundEffectAndMarker();
+    // 0x7100679708 (CSV name, declaration only): fills the marker matrix.
+    void x_1(sead::Matrix34f* mtx);
     bool checkAndStartQueryNavMesh(ksys::act::PlayerLink* player);
     // Declaration only: full callee reads position and PlayerLink slots 48 / 0; the independent
     // PlayerNormal caller supplies the player's interface at +0xc38.
@@ -133,7 +139,7 @@ public:
     /* 0x17c */ u8 _17c = 0;
     /* 0x17d */ u8 _17d = 0;
     /* 0x17e */ u8 _17e = 0;
-    /* 0x17f */ u8 _17f = 0xff;
+    /* 0x17f */ s8 _17f = -1;
     /* 0x180 */ u8 _180 = 0;
     /* 0x184 */ sead::Vector3f _184{-1, -1, -1};
 };
