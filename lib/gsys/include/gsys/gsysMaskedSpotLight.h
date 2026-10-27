@@ -14,6 +14,7 @@ public:
     s32 getTypeID() const override;
 
 protected:
+    void listenPropertyEventMaskedLight(const sead::hostio::PropertyEvent* event) override;
     void getLightInfo_(agl::lght::LightPrePass* light_pre_pass,
                        agl::lght::LightPrePass::LightInfo* info) const override;
     void setShadowMapImpl_(int index, agl::lght::LightPrePass* light_pre_pass,

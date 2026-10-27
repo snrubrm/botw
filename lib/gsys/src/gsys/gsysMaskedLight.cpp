@@ -131,4 +131,16 @@ void MaskedLight::genMessageMaskedLight(sead::hostio::Context*) {}
 
 void MaskedLight::listenPropertyEventMaskedLight(const sead::hostio::PropertyEvent*) {}
 
+// 0x7100c79f08
+void MaskedSpotLight::listenPropertyEventMaskedLight(const sead::hostio::PropertyEvent*) {}
+
+// 0x7100c7ae8c
+void MaskedProjLight::listenPropertyEventMaskedLight(const sead::hostio::PropertyEvent* event) {
+    const u64 id = event->getId();
+    if (id == 0x3e8)
+        loadTempTextureFromFile();
+    else if (id == 0x3e9)
+        mTempTextureDisabledMaybe = 0;
+}
+
 }  // namespace gsys

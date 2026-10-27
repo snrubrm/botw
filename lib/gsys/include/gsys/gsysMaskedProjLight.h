@@ -14,6 +14,8 @@ public:
     s32 getTypeID() const override;
 
 protected:
+    void listenPropertyEventMaskedLight(const sead::hostio::PropertyEvent* event) override;
+    void loadTempTextureFromFile();
     void getLightInfo_(agl::lght::LightPrePass* light_pre_pass,
                        agl::lght::LightPrePass::LightInfo* info) const override;
     void setShadowMapImpl_(int index, agl::lght::LightPrePass* light_pre_pass,
@@ -24,6 +26,8 @@ protected:
 
 private:
     /* 0x2c0 */ s32 mIndex = -1;
+    u8 _2c4[0x558 - 0x2c4];
+    /* 0x558 */ bool mTempTextureDisabledMaybe;
 };
 
 // TODO
