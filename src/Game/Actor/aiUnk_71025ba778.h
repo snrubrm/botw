@@ -61,7 +61,7 @@ public:
     const gsys::BoneAccessKey* m4() override;
 
     // 0x7100710124 (declared only; placeholder name): sets up the bone key `_20` for the bone `name` of `model`.
-    void sub_7100710124(sead::Heap* heap, gsys::Model* model, const sead::SafeString& name);
+    bool sub_7100710124(sead::Heap* heap, gsys::Model* model, const sead::SafeString& name);
 
     // The constructor is inline in the original (LynelRoot's constructor inlines it).
     /* 0x20 */ gsys::BoneAccessKeyEx _20;

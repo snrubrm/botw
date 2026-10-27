@@ -1,4 +1,6 @@
 #include "Game/Actor/aiUnk_71025ba778.h"
+#include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include <math/seadQuat.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
@@ -95,6 +97,33 @@ void Unk_71025ba778::sub_710070F400(ksys::act::Actor* actor) {
 
 Unk_7100710078::~Unk_7100710078() {
     delete _70;
+}
+
+// NON_MATCHING: same 85 instructions; the InitArg temporary and the scale out-parameter get different
+// stack slots (the original keeps both) and one key-half load uses the pre-indexed base.
+bool Unk_7100710078::sub_7100710124(sead::Heap* heap, gsys::Model* model,
+                                    const sead::SafeString& name) {
+    if (!_8) {
+        _58 = name;
+        _20.getKey().reset();
+    }
+    if (!_20.isValid())
+        _20.search(model, _58);
+    if (!_20.isValid())
+        return false;
+
+    _70 = Unk_7100F72BF8::create(heap, {model, name.cstr()});
+    if (!_70)
+        return false;
+    _70->sub_7100F72FF4();
+
+    sead::Vector3f scale;
+    model->getUnits().unsafeAt(_20.getKey().model_unit_index)->mModelUnit->getBoneLocalMatrix(
+        &_78, &scale, _20.getKey().bone_index);
+
+    const s32 count = _70->_8.size();
+    _a8 = count < 1 ? sead::Matrix34f::ident : _70->_8[count - 1]._80;
+    return true;
 }
 
 bool Unk_7100710078::m3(gsys::Model* model, bool) {
