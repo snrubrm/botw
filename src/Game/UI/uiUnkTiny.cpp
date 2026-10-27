@@ -1984,3 +1984,11 @@ const sead::Vector2f* Unk_710249c338::sub_7100A6C0B8() const {
         return &sead::ControllerBase::cInvalidPointer;
     return &_210(0);
 }
+
+// 0x7100a6c86c
+void Unk_710249c338::sub_7100A6C86C() {
+    const u32 touched = getHoldMask() & (1u << sead::Controller::cPadIdx_Touch);
+    if (touched && !(_1fc & 1))
+        _208 = _210(0);
+    _1fc = touched ? (_1fc | 1) : (_1fc & 0xfe);
+}

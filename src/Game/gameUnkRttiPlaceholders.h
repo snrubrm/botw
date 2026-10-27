@@ -760,8 +760,12 @@ public:
     // pointer is on) / the oldest recorded position; ControllerBase::cInvalidPointer when there is none
     const sead::Vector2f* sub_7100A6C070() const;
     const sead::Vector2f* sub_7100A6C0B8() const;
+    // 0x7100a6c86c: latches the oldest recorded position on the touch hold
+    void sub_7100A6C86C();
 
-    u8 _200[0x210 - 0x200];
+    /* 0x200 */ f32 _200;
+    /* 0x204 */ f32 _204;
+    /* 0x208 */ sead::Vector2f _208;
     /* 0x210 */ sead::RingBuffer<sead::Vector2f> _210;
     u8 _228[0x408 - 0x228];
     /* 0x408 */ uking::ui::Unk_710249c3b0 _408;

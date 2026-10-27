@@ -28,6 +28,9 @@ protected:
     Unk_71024739f8* _1f0;
     // sub_7100D9DF58 passes this value to Root4::checkFlag.
     Root4::FlagIdx _1f8;
+    // Bit 0 mirrors the touch hold; Unk_710249c338 latches its pointer position on the press.
+    u8 _1fc = 0;
+    u8 _1fd[3];
 };
 KSYS_CHECK_SIZE_NX150(Unk_710246d448, 0x200);
 
