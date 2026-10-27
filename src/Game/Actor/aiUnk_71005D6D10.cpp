@@ -394,6 +394,35 @@ bool sub_71005E1884(ksys::act::Actor* actor, Unk_7102357d20* sender, const char*
     return found;
 }
 
+// 0x71005e1630: sends `sender` every linked actor whose unit config name is `name` (all linked actors
+// when `name` is null).
+bool sub_71005E1630(ksys::act::Actor* actor, Unk_7102357d20* sender, const char* name) {
+    if (name && sead::SafeString(name).isEmpty())
+        return false;
+    auto* object = actor->getMapObject();
+    if (!object)
+        return false;
+    auto* links = object->getLinkData();
+    if (!links)
+        return false;
+    auto objects = links->mObjects;
+    u32 found = 0;
+    for (s32 i = 0; i < objects.size(); ++i) {
+        if (!objects[i])
+            continue;
+        const sead::SafeString unit_name(objects[i]->getUnitConfigName());
+        if (!name || unit_name == name) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            objects[i]->getActorWithAccessor(accessor);
+            if (accessor.getProc()) {
+                found = 1;
+                sender->sub_710070DD78(accessor, true);
+            }
+        }
+    }
+    return found & 1;
+}
+
 bool sub_71005E1974(ksys::act::Actor* actor, Unk_71023e7bc0* sender, const char* tag) {
     sender->_18.x(actor);
     return sub_71005E1884(actor, sender, tag);
