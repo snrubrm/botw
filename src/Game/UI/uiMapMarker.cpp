@@ -1001,6 +1001,35 @@ static inline bool isMarkerKindShownForMode(UiSubsys1Entry::Kind kind, s32 mode)
     return sUnk_7101e7d24e[mode][kind];
 }
 
+// inline-only in the original; name is a guess. The same by-value enum comparison repeats ten times in m13.
+static inline bool isKind(UiSubsys1Entry::Kind kind, s32 value) {
+    return int(kind) == value;
+}
+
+// NON_MATCHING: the original compares the by-value kind copy against a spilled constant in each test; our clang
+// folds the constant into the compare immediate, and the mode table reads the kind back from the member.
+// 0x7100950650: no marker position update for the kinds that the sensor modes hide; otherwise let the mode's
+// visibility table decide whether the marker is shown.
+void UiSubsys1Entry::m13() {
+    if (sUnk_71025d6a98) {
+        if (isKind(_20, 2) || isKind(_20, 3) || isKind(_20, 4) || isKind(_20, 10) || isKind(_20, 19) ||
+            isKind(_20, 16) || isKind(_20, 15) || isKind(_20, 17) || isKind(_20, 22) || isKind(_20, 21))
+            return;
+        m25(false);
+        return;
+    }
+    if (sUnk_71025d6a9c && isKind(_20, 17)) {
+        m25(false);
+        return;
+    }
+    if (!(_3c & 0x10))
+        return;
+    bool shown = true;
+    if (auto* part = sUnk_71025d6c70._58)
+        shown = isMarkerKindShownForMode(_20, part->_344[0]);
+    m25(shown);
+}
+
 // NON_MATCHING: the SEAD_ENUM kind copy is scheduled after the part load instead of before it.
 // 0x710095a48: shows the entry's marker if the mode's visibility table allows it
 void Unk_7102475c68::m13() {
