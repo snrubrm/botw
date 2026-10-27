@@ -288,6 +288,9 @@ void sub_71005DC02C(ksys::act::Actor* actor);
 // 0x71005dc8ac (declaration only): writes a throw velocity to `out`; Thrown::calc_.
 bool sub_71005DC8AC(ksys::act::Actor* actor, sead::Vector3f* out);
 void sub_71005DC640(ksys::act::Actor* actor, ksys::act::BaseProcHandle* handle, int grab_idx);
+/// 0x71005ddae4: builds the transform that rotates by `rot` around the actor's home position.
+void sub_71005DDAE4(sead::Matrix34f* out, const ksys::act::Actor* actor,
+                    const sead::Vector3f& rot);
 
 // --- helpers using the typed Actor slots 97 (Chemical), 130 (ride info) ---
 

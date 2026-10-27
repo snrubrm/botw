@@ -1228,6 +1228,42 @@ void sub_71005DC604(ksys::act::Actor* actor, ksys::act::BaseProc* proc) {
         obj->sub_7100E502EC(proc);
 }
 
+// NON_MATCHING: identical instruction sequence; only the actor / proc callee-saved pair is swapped.
+// 0x71005dc640: attaches the grabbed actor `handle` to its bone transform.
+void sub_71005DC640(ksys::act::Actor* actor, ksys::act::BaseProcHandle* handle, int grab_idx) {
+    auto* proc = sead::DynamicCast<ksys::act::Actor>(handle->getProc());
+    if (!proc) {
+        actor->getConnectedCalcChild();
+    } else {
+        actor->getConnectedCalcChild();
+        if (!actor->getConnectedCalcChild())
+            actor->setConnectedCalcChild(proc, false);
+        proc->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_40000000);
+        actor->sendMessage(*proc->getMesTransceiverId(), ksys::MessageType(0x8000001), actor, true);
+        if (auto* obj = proc->m100())
+            obj->sub_7100E4E304(sub_7100EDD258(actor, grab_idx), actor->getMtx());
+        if (auto* obj = proc->m100())
+            obj->sub_7100E50254();
+
+        const sead::SafeString& bone_name = sub_7100EDD258(actor, grab_idx);
+        const auto key = actor->getModel()->searchBone(bone_name);
+        if (key.isValid()) {
+            sead::Matrix34f mtx;
+            actor->getModel()
+                ->getUnits()
+                .unsafeAt(key.model_unit_index)
+                ->mModelUnit->getBoneWorldMatrix(&mtx, key.bone_index);
+            proc->m100();
+            const sead::Matrix34f* src = &sead::Matrix34f::ident;
+            if (auto* obj = proc->m100())
+                src = &obj->_80;
+            mtx.setMul(mtx, *src);
+            actor->setMatrix(mtx, nullptr);
+        }
+    }
+    handle->releaseAndWakeProc();
+}
+
 f32 sub_71005DA668(ksys::act::Actor* actor, int idx) {
     if (idx < 0)
         return 0.0f;
@@ -1285,6 +1321,27 @@ void sub_71005DDA94(ksys::act::Actor* actor) {
         if (auto* client = attention->getClientByName("LockOn"))
             client->sub_7100D7250C(1);
     }
+}
+
+// NON_MATCHING: the inlined Matrix34 multiply keeps the rotation rows in vector registers where the
+// original broadcasts their scalars (21 extra movs; same operations).
+// 0x71005ddae4: builds the transform that rotates by `rot` around the actor's home position.
+void sub_71005DDAE4(sead::Matrix34f* out, const ksys::act::Actor* actor,
+                    const sead::Vector3f& rot) {
+    sead::Matrix34f rotation;
+    rotation.makeR(rot);
+    if (!out)
+        return;
+
+    const sead::Vector3f home_position = actor->getHomeMtxRaw().getTranslation();
+    sead::Matrix34f inverse_home;
+    inverse_home.makeT(-home_position);
+    sead::Matrix34f transform;
+    transform.setMul(rotation, inverse_home);
+    sead::Matrix34f translation;
+    translation.makeT(home_position);
+    transform.setMul(translation, transform);
+    *out = transform;
 }
 
 void sub_71005DD2E8(ksys::act::Actor* actor) {
