@@ -12,6 +12,7 @@
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWolfLink.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 #include "KingSystem/ActorSystem/actLodState.h"
 #include <prim/seadScopedLock.h>
 #include <math/seadMathCalcCommon.h>
@@ -570,6 +571,54 @@ void WolfLink::sub_71002F4B3C() {
             controller->sub_7100D85774();
             _1698 &= ~8;
         }
+    }
+}
+
+// 0x71002f581c: starts the WolfLink's attack sensor while the attack event is not latched. The
+// attack type is 0x100 for an Enemy while the Stalfos-critical flag is set, 2 when the tagged
+// target's critical chance passes, and 1 otherwise.
+// NON_MATCHING: the critical-hit block is laid out out of line; the original falls into it and
+// shares one `type = 1` block between the two hasTag exits (5 instructions more).
+void WolfLink::sub_71002F581C() {
+    auto* body_set = getPhysics()->findBodyByName(*sub_71007A24BC());
+    if (!body_set)
+        return;
+    auto* body = body_set->findBodyByHavokName(sAtkBody);
+    if (!body)
+        return;
+
+    const auto* attack = getParam()->getRes().mGParamList->getAttack();
+    const s32 impulse = attack->mImpulse.ref();
+
+    u32 type = 1;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (ksys::act::acquireActor(&_c48._8, &accessor)) {
+        if ((_1698 >> 9 & 1) && accessor.getProfile() == "Enemy") {
+            type = 0x100;
+        } else if (accessor.hasTag(0xA4C7BA34u) && !accessor.hasTag(0x35B5AFC9u)) {
+            const s32 chance =
+                sead::Mathi::max(s32(_1680->mVSStalfosCritChance.ref()) - s32(_169a), 0);
+            if (sead::GlobalRandom::instance()->getU32(u32(chance)) == 0) {
+                _169a = 0;
+                type = 2;
+            } else {
+                ++_169a;
+            }
+        }
+    }
+
+    auto* sensor = getActorAttackSensor(this);
+    sensor->activateAttackSensor(0x2000, type, getBaseAtkPower(), impulse, 0.0f, 0,
+                                 attack->mGuardBreakPower.ref(), -1, false, 1, -1);
+
+    if (!body->isAddedToWorld()) {
+        body->setTransform(getMtx(), ksys::phys::PropagateToLinkedMotions{true});
+        sub_71007A2B64(body, nullptr);
+    }
+    if (auto* controller = getCharacterController()) {
+        controller->sub_7100F62DD0(0.2f);
+        sub_71007A2EB0(body, this, nullptr);
+        _1698 |= 1;
     }
 }
 

@@ -24,6 +24,33 @@ WolfLinkAmiibo::~WolfLinkAmiibo() {
         ksys::phys::HavokAI::instance()->destroyQuery(_60);
 }
 
+// 0x7100600a6c (placeholder name): allocates the navmesh position query from the request pool's
+// heap, starts it at the current amiibo position and submits it.
+// NON_MATCHING: the two parameter loads are scheduled after the destination member reload (same
+// instructions otherwise).
+void WolfLinkAmiibo::sub_7100600A6C() {
+    if (_60)
+        return;
+
+    void* memory = ksys::phys::HavokAI::instance()->_40->mHeap->tryAlloc(
+        sizeof(Unk_71024ed6a0), 8);
+    if (!memory) {
+        _60 = nullptr;
+        setFailed();
+        return;
+    }
+
+    _60 = new (memory) Unk_71024ed6a0;
+    _60->_18 = AmiiboMgr::instance()->_9c;
+    _60->_24 = *mAreaSearchRadius_s;
+    _60->_28 = *mAreaSearchCharacterRadius_s;
+    _60->_2c = 0;
+    _60->_30 = 2.0f;
+    _60->_3c = *mAreaThreshold_s;
+    _60->_34 = ksys::phys::NavMeshCharacterType::WolfLink;
+    ksys::phys::HavokAI::instance()->submitQuery(_60);
+}
+
 bool WolfLinkAmiibo::havokQueryFinished() {
     auto* query = _60;
     if (!query || query->_8 != 2)
