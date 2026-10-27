@@ -1,5 +1,6 @@
 #include "gsys/gsysModelSceneGI.h"
 #include "gsys/gsysModelSceneConfig.h"
+#include "gsys/gsysShaderContext.h"
 
 namespace gsys {
 
@@ -21,6 +22,25 @@ bool ModelSceneGI::isPlanarReflectionEnabled() const {
 // 0x7100c33f90
 bool ModelSceneGI::isSSIIEnabled() const {
     return mSSII && _8->isFeatureEnabled(ModelSceneConfig::Feature::SSII);
+}
+
+// 0x7100c348c8
+agl::env::CubeMapMgr* ModelSceneGI::getCubeMapMgr() {
+    return mEnvCubeMap ? &mEnvCubeMap->mCubeMapMgr : nullptr;
+}
+
+// 0x7100c348dc
+bool ModelSceneGI::isCubeMapReady() const {
+    return mEnvCubeMap && mEnvCubeMap->mCubeMap != nullptr;
+}
+
+// 0x7100c309d0
+void ModelSceneGI::setSceneMaterial(ModelNW* model) {
+    if (!mEnvCubeMap)
+        return;
+    if (!_8->isFeatureEnabled(ModelSceneConfig::Feature::EnvCubeMap))
+        return;
+    mEnvCubeMap->mShaderContext->setSceneMaterial(model);
 }
 
 }  // namespace gsys

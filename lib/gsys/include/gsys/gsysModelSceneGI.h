@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include "gsys/gsysModelCubeMapDrawer.h"
 #include "gsys/gsysModelSceneComponent.h"
 
 namespace gsys {
@@ -15,11 +16,16 @@ public:
     bool isLightPrePassEnabled() const;
     bool isPlanarReflectionEnabled() const;
     bool isSSIIEnabled() const;
+    // 0x7100c348c8 / 0x7100c348dc
+    agl::env::CubeMapMgr* getCubeMapMgr();
+    bool isCubeMapReady() const;
+    // 0x7100c309d0
+    void setSceneMaterial(class ModelNW* model);
 
 private:
     u8 _250[0x420 - 0x250];
-    /// 0x7100c348dc reads the ready flag at +0xec0 and 0x7100c348c8 returns +0x458.
-    void* mEnvCubeMap;  // 420
+    /// 0x7100c348dc reads the ready pointer at +0xec0 and 0x7100c348c8 returns +0x458.
+    ModelCubeMapDrawer* mEnvCubeMap;  // 420
     /// 0x7100c33f3c (planar reflection).
     void* mPlanarReflection;  // 428
     /// 0x7100c33f90 (SSII).
