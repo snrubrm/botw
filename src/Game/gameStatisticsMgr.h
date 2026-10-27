@@ -17,6 +17,9 @@ class StatisticsMgr {
     ~StatisticsMgr();
 
 public:
+    // 0x7100e32a18 (declaration only): stores the horizontal position and the derived map-cell
+    // coordinates of `pos`.
+    void updatePosition(const sead::Vector3f* pos);
     // 0x7100e33960 (declaration only): binary search of the stats table by name ("water_depth",
     // "water_distance", ...); null if there is none.
     void* getStatsPointer(const sead::SafeString& name);

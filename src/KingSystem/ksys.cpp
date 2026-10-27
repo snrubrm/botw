@@ -8,6 +8,7 @@
 #include "KingSystem/ActorSystem/actDebug.h"
 #include "KingSystem/System/UIGlue.h"
 #include "Game/gameGraphics.h"
+#include "Game/gameStatisticsMgr.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/Chemical/chmChemical.h"
@@ -18,6 +19,7 @@
 #include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/System/Vibration.h"
 #include "KingSystem/Effect/eftEffect.h"
+#include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/System/BasicProfiler.h"
 #include "KingSystem/System/HavokWorkerMgr.h"
@@ -132,6 +134,26 @@ void CalcParticleAndBaseProcMgr() {
     if (tera::sUnk_710260B220._10 != 2)
         act::BaseProcMgr::instance()->calc();
     evt::Manager::instance()->stubbed();
+}
+
+// 0x7100f3db0c: once per `_1` request, reports the play statistics, then runs the ecosystem and the
+// statistics manager's position update with the player's matrix translation.
+void CalcPlayReportAndStatsMgr() {
+    if (tera::sUnk_710260B220._1 != 1)
+        return;
+    if (auto* report = PlayReportMgr::instance())
+        report->calc();
+    if (auto* ecosystem = eco::Ecosystem::instance())
+        ecosystem->calc();
+    if (uking::StatisticsMgr::instance()) {
+        if (auto* actor_system = act::ActorSystem::instance()) {
+            if (auto* link = actor_system->getPlayerLink()) {
+                const sead::Vector3f pos = link->getPlayer()->getMtx().getTranslation();
+                uking::StatisticsMgr::instance()->updatePosition(&pos);
+            }
+        }
+    }
+    tera::sUnk_710260B220._1 = 0;
 }
 
 // 0x7100f3f018: runs the attention and vibration managers once per `_2` request.
