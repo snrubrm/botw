@@ -6,6 +6,8 @@
 #include <layer/aglRenderer.h>
 #include "Game/Actor/actWeapon.h"
 #include "Game/Actor/actPauseMenuPlayer.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerArmors.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -115,6 +117,35 @@ void OnUiActorMgr::sub_7100907B24(const f32* value) {
         auto* chemical = mActor->getChemicalStuff();
         chemical->_170 = *value;
     }
+}
+
+// 0x7100907190 (placeholder name): copies the player's heat state to the pause menu player and sets
+// the pause menu player's burn threshold.
+void OnUiActorMgr::sub_7100907190() {
+    if (!mActor)
+        return;
+
+    auto* info = act::PlayerInfo::instance();
+    if (!info)
+        return;
+    auto* player = info->getPlayer();
+    if (!player)
+        return;
+
+    auto* pause_player = static_cast<uking::act::PauseMenuPlayer*>(mActor);
+    pause_player->_c35 = !player->m306();
+
+    auto* chemical = player->getChemicalStuff();
+    if (!chemical)
+        return;
+
+    const f32 heat = chemical->_170;
+    if (mActor && mActor->getChemicalStuff())
+        mActor->getChemicalStuff()->_170 = heat;
+
+    const bool is_hot = !(chemical->_c & 0x1000000) && chemical->_190 > 0.0f;
+    auto* threshold_target = static_cast<uking::act::PauseMenuPlayer*>(mActor);
+    threshold_target->_c48 = is_hot ? 0 : chemical->sub_7100D914C0();
 }
 
 // 0x7100907b74 (placeholder name): sets the pause menu player's heat resist level

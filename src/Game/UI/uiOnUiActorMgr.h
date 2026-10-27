@@ -87,6 +87,9 @@ public:
     void sub_7100906E70();
     // 0x71009070d0 (CSV OnUiActorMgr::x_4): applies the heat/cold/burn resist levels to the player
     void x_4();
+    // 0x7100907190 (CSV OnUiActorMgr::x_1; placeholder name): copies the player's heat state to the pause menu
+    // player and sets its burn threshold (_c48).
+    void sub_7100907190();
 
 private:
     // PauseMenuInfo state animation reads bit 0, as its native m94 does.
