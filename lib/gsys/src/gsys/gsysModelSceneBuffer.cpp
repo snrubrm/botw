@@ -74,6 +74,21 @@ void ModelSceneBuffer::endReducedBuffer(agl::DrawContext* draw_context,
     mRenderBufferContext->endHalfBuffer(draw_context, context->getViewIndex());
 }
 
+// 0x7100c183d0
+void ModelSceneBuffer::drawGBufferOpa(agl::DrawContext* draw_context,
+                                      const ModelSceneContext& context) const {
+    GBuffer* gbuffer = mRenderBufferContext->getContext(context.getViewIndex())->mGBuffer;
+    ModelRenderContext::DrawArg arg("Model(GBuffer/Opa+AlphaMask)",
+                                    *context.getRenderQueue(ModelSceneContext::QueueType(0)),
+                                    sead::BitFlag32(0x10), ModelEnum::ShaderAssignType(2), 0,
+                                    0x21, 0xffff);
+    arg._40 = 4;
+    arg._30 = gbuffer->getMaterialIdMask();
+    arg._34 = gbuffer->getBlendMaskMaybe();
+    arg._44 = 3;
+    context.draw(draw_context, arg);
+}
+
 // 0x7100c190e8
 void ModelSceneBuffer::invalidateGBufferPreShading(ModelSceneContext* context,
                                                   const ModelSceneGI&) const {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <common/aglUniformBlock.h>
 #include <math/seadMatrix.h>
 
 namespace agl {
@@ -14,6 +15,19 @@ namespace gsys {
 // modelled.
 class LightProbeMgr {
 public:
+    // 0x7100c76c3c: allocates the two interpolation uniform blocks. Constructor 0x7100c76c68
+    // is not modelled; the class is 0x110 bytes with the blocks at +0x20 and +0x98.
+    class DebugProbeInterp {
+    public:
+        void initialize(sead::Heap* heap);
+
+    private:
+        u8 _0[0x20];
+        // Block names are guesses; initialize declares 1 and 7 entries of type 6.
+        agl::UniformBlock mBlock0;  // 20
+        agl::UniformBlock mBlock1;  // 98
+    };
+
     // 0x7100c76ba8: clears the byte at +0x248.
     void calc();
     // 0x7100c76bb0: empty in this build.

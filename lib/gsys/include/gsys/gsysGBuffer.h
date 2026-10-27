@@ -66,12 +66,16 @@ public:
     // 0x7100c7159c: whether either resolution's pre-shading buffers are flagged.
     bool isRendering() const;
     /// Inline-only accessor: the first resolution's render buffer at +0x770.
-    agl::RenderBuffer* getRenderBuffer() { return &mRenderBuffer; }
+    agl::RenderBuffer* getRenderBuffer() { return &mResolutionData[0].mRenderBuffer; }
     // 0x7100c737a8
     void invalidatePreShading(PreShadingBufferType type);
     // 0x7100c7367c / 0x7100c73734: the deferred-shading pass around the material-ID expansion.
     void beginDeferredShading(agl::DrawContext*, MaterialIdMask, agl::TextureCompSel);
     void endDeferredShading();
+    // 0x7100c71e7c: binds one resolution's render buffer and applies its viewport.
+    void bindRenderBuffer(agl::DrawContext*, Resolution) const;
+    // 0x7100c7256c: swaps the two colour targets the resolution's records select.
+    void swapRenderTarget();
 
     // begin 0x7100c715c4 accumulates 4-bit material IDs per pre-shading buffer into +0x1f84; the
     // grudge renderer 0x710128f798 copies that word and its sibling +0x1f88 into its draw arg
@@ -85,27 +89,32 @@ private:
         agl::TextureFormat mFormat;
         u32 mReduceFilter;
         sead::Color4f mClearColor;
-        u8 _18[0x192 - 0x18];
-        u8 mFlags;
+        u8 _18[0x190 - 0x18];
+        // Constructor 0x7100c70958 stores -1 here; swapRenderTarget 0x7100c7256c swaps the two
+        // targets selected by records 0 and 3.
+        s8 _190;
+        u8 _191;
+        u8 mFlags;  // 192
         u8 _193[0x198 - 0x193];
     };
     static_assert(sizeof(BufferRecord) == 0x198);
 
+    // Two 0x940-byte blocks at +0x10, each with its own render buffer at +0x760 and the
+    // pre-shading flags at +0x758 (constructor 0x7100c70958 and isRendering 0x7100c7159c).
+    struct ResolutionData {
+        u8 _0[0x758];
+        u8 mFlags;                        // 758
+        u8 _759[0x760 - 0x759];
+        agl::RenderBuffer mRenderBuffer;  // 760
+        u8 _7c8[0x940 - 0x7c8];
+    };
+    static_assert(sizeof(ResolutionData) == 0x940);
+
     u8 _8;
     // Pre-shading buffer flags: invalidatePreShading 0x7100c737a8 clears the bit of its type.
     u8 _9;
-    u8 _a[0x768 - 0xa];
-    // Bit 2 selects the material-ID expansion path of beginDeferredShading 0x7100c7367c. Bits 0..4
-    // are the pre-shading buffer flags isRendering tests.
-    u8 mFlags768;
-    u8 _769[0x770 - 0x769];
-    // 0x7100c7367c stores RenderTargetColor 0x1b00 into this render buffer's first colour slot.
-    /* 0x0770 */ agl::RenderBuffer mRenderBuffer;
-    u8 _7d8[0x10a8 - 0x7d8];
-    // The same pre-shading buffer flags one 0x940-byte resolution block later (bindRenderBuffer
-    // indexes the block at 0x940 steps).
-    u8 mFlags10a8;
-    u8 _10a9[0x1290 - 0x10a9];
+    u8 _a[0x10 - 0xa];
+    ResolutionData mResolutionData[2];  // 10
     // The per-buffer-type records setFormat 0x7100c73af4 and its siblings index with the
     // `type * 0x198 + 0x1290` arithmetic. Only indices 0..4 are records; the original's record 5
     // is the 0x78 UniformBlock that follows, so the array stops here.

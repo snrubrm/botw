@@ -9,9 +9,28 @@ namespace gsys {
 
 // 0x7100c7159c
 bool GBuffer::isRendering() const {
-    if ((mFlags768 & 0x1f) != 0)
+    if ((mResolutionData[0].mFlags & 0x1f) != 0)
         return true;
-    return (mFlags10a8 & 0x1f) != 0;
+    return (mResolutionData[1].mFlags & 0x1f) != 0;
+}
+
+// 0x7100c71e7c
+void GBuffer::bindRenderBuffer(agl::DrawContext* draw_context, Resolution resolution) const {
+    const agl::RenderBuffer& render_buffer = mResolutionData[int(resolution)].mRenderBuffer;
+    render_buffer.bind(draw_context);
+    sead::Viewport viewport(render_buffer);
+    viewport.apply(draw_context, render_buffer);
+}
+
+// NON_MATCHING: same 48 bytes, but clang keeps the two indices in different registers and
+// scales the second one with a separate lsl where the original folds it into the load.
+// 0x7100c7256c
+void GBuffer::swapRenderTarget() {
+    agl::RenderBuffer& buffer = mResolutionData[0].mRenderBuffer;
+    agl::RenderTargetColor* target = buffer.getRenderTargetColor(mBufferRecords[3]._190);
+    buffer.setRenderTargetColor(buffer.getRenderTargetColor(mBufferRecords[0]._190),
+                                mBufferRecords[3]._190);
+    buffer.setRenderTargetColor(target, mBufferRecords[0]._190);
 }
 
 // 0x7100c737a8
@@ -32,18 +51,18 @@ void GBuffer::invalidatePreShading(PreShadingBufferType type) {
 // 0x7100c7367c
 void GBuffer::beginDeferredShading(agl::DrawContext* draw_context, MaterialIdMask mask,
                                    agl::TextureCompSel comp_sel) {
-    mRenderBuffer.setRenderTargetColorNullAll();
-    mRenderBuffer.setRenderTargetColor(&mDeferredColorTarget, 0);
-    mRenderBuffer.setRenderTargetDepth(nullptr);
+    mResolutionData[0].mRenderBuffer.setRenderTargetColorNullAll();
+    mResolutionData[0].mRenderBuffer.setRenderTargetColor(&mDeferredColorTarget, 0);
+    mResolutionData[0].mRenderBuffer.setRenderTargetDepth(nullptr);
 
-    if ((mFlags768 & 4) != 0) {
+    if ((mResolutionData[0].mFlags & 4) != 0) {
         expandMaterialID_(draw_context, Resolution(0), mask, comp_sel);
         return;
     }
 
-    mRenderBuffer.bind(draw_context);
-    sead::Viewport viewport(mRenderBuffer);
-    viewport.apply(draw_context, mRenderBuffer);
+    mResolutionData[0].mRenderBuffer.bind(draw_context);
+    sead::Viewport viewport(mResolutionData[0].mRenderBuffer);
+    viewport.apply(draw_context, mResolutionData[0].mRenderBuffer);
 }
 
 // 0x7100c73734
