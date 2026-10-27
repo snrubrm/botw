@@ -2683,6 +2683,9 @@ void ScreenTitle::sub_7100A69B28() {
     mButtonGroup->_38 |= 2;
 }
 
+// 0x7100a69ae8
+void ScreenTitle::sub_7100A69AE8() {}
+
 // 0x7100a69aec
 void ScreenTitle::sub_7100A69AEC() {
     _3610->PlayAuto(1.0f);
