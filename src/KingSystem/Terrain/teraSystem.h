@@ -2354,6 +2354,14 @@ struct CellQuadMaybe {
 void sub_71012EB7DC(CellQuadMaybe* out, const sead::Vector2f* a, const sead::Vector2f* b);
 void sub_71012EB840(CellQuadMaybe* out, const sead::Vector2f* a, const sead::Vector2f* b);
 
+// Placeholder: an entry of a sorted {u64, u32} table, compared by sub_71012EB7A0.
+struct Unk_71012EB7A0 {
+    u64 _0;
+    u32 _8;
+};
+// 0x71012eb7a0 (placeholder name): three-way compare of the u64 key, then the u32.
+s32 sub_71012EB7A0(const Unk_71012EB7A0* a, const Unk_71012EB7A0* b);
+
 // Placeholder: the objects 0x7101154fc0 and six other unnamed callers pass to sub_7101152DC0.
 struct Unk_7101152DC0 {
     u8 _0[0x130];

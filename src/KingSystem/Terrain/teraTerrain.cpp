@@ -416,6 +416,17 @@ void sub_71012EB840(CellQuadMaybe* out, const sead::Vector2f* a, const sead::Vec
     out->_2c = sead::BitUtil::bitCast<u32>(a->y);
 }
 
+// 0x71012eb7a0 (placeholder name): three-way compare of the u64 key, then the u32.
+s32 sub_71012EB7A0(const Unk_71012EB7A0* a, const Unk_71012EB7A0* b) {
+    if (a->_0 < b->_0)
+        return -1;
+    if (a->_0 > b->_0)
+        return 1;
+    if (a->_8 == b->_8)
+        return 0;
+    return a->_8 < b->_8 ? -1 : 1;
+}
+
 Terrain::Unk_a50::~Unk_a50() {
     if (mPositions) {
         delete[] mPositions;
