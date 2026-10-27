@@ -7,12 +7,16 @@
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/gameSceneSubsys12.h"
 #include "Game/gameMotorcycleMgr.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Attention/actActorAttention.h"
+#include "KingSystem/ActorSystem/Attention/actAttClient.h"
 #include "Game/Actor/actMotorcycle.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking::ai {
@@ -160,6 +164,63 @@ bool MotorcycleRoot::handleMessage_(const ksys::Message* message) {
     default:
         return false;
     }
+}
+
+// NON_MATCHING: same 33 instructions; the shared tail block is laid out after the energy-empty arm
+// instead of after the last (throttle-closed) arm.
+void MotorcycleRoot::sub_71004AE954(act::Motorcycle* motorcycle, act::Unk_7100e8b2b8* rideable,
+                                    MotorcycleMgr* motorcycle_mgr) {
+    if (!motorcycle_mgr || motorcycle_mgr->mEnergy <= 0.0f) {
+        sub_71005D8D4C(mActor, *mNoiseEnergyEmpty_s, 1, false);
+        return;
+    }
+    if (int(act::Unk_7100e8b2b8::Unk8(rideable->_8 & 0xff)) ==
+        act::Unk_7100e8b2b8::Unk8::_0) {
+        sub_71005D8D4C(mActor, *mNoiseNotRidden_s, 1, false);
+        return;
+    }
+    if (motorcycle->sub_710007A478()) {
+        sub_71005D8D4C(mActor, *mNoiseThrottleOpen_s, 1, false);
+        return;
+    }
+    sub_71005D8D4C(mActor, *mNoiseThrottleClose_s, 1, false);
+}
+
+void MotorcycleRoot::sub_71004AEDAC(act::Motorcycle* motorcycle, act::Unk_7100e8b2b8* rideable) {
+    if (motorcycle->_dd0->_13d || motorcycle->_dd8->_13d || motorcycle->_f88.isOnBit(32)) {
+        if (_81.isOnBit(Flag::_3)) {
+            if (auto* attention = mActor->getAttention()) {
+                if (auto* client = attention->getClientByName("Cook"))
+                    client->enable();
+            }
+            rideable->sub_7100E8BD80();
+            _81.resetBit(Flag::_3);
+        }
+    } else {
+        if (!_81.isOnBit(Flag::_3)) {
+            ksys::act::disableAllAttClients(motorcycle);
+            _81.setBit(Flag::_3);
+        }
+    }
+}
+
+void MotorcycleRoot::sub_71004AE7E0(act::Unk_7100e8b2b8* rideable,
+                                    const sead::SafeString& effect_name) {
+    ksys::act::ai::InlineParamPack params;
+    params.addString(effect_name, "DisappearEffectName", -1);
+    changeChild("消失", &params);
+
+    ksys::act::disableAllAttClients(mActor);
+    rideable->_8 = 0x200;
+    _81.setBit(Flag::_3);
+    _70 = nullptr;
+    _80 = 0;
+
+    auto* motorcycle_mgr = MotorcycleMgr::instance();
+    if (motorcycle_mgr && motorcycle_mgr->x(mActor) && _80 != 1)
+        motorcycle_mgr->_17a = 0;
+
+    _81.setBit(Flag::_5);
 }
 
 }  // namespace uking::ai

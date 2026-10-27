@@ -15,6 +15,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_7100742478.h"
 
 namespace uking::act {
 
@@ -337,6 +338,26 @@ void WolfLink::calcMaybe() {
 
     sub_71002F5618();
     sub_71002F56D8();
+}
+
+void WolfLink::sub_71002F5618() {
+    if (!_c48._8.hasProc()) {
+        _1698 &= ~0x2000;
+        return;
+    }
+
+    const sead::Vector3f pos = sub_71002F4988();
+    if (pos.isNan()) {
+        _1698 &= ~0x2000;
+        return;
+    }
+
+    if (!sub_7100742588(nullptr, m45(), &pos, 10.0f)) {
+        _1698 &= ~0x2000;
+        return;
+    }
+
+    _1698 |= 0x2000;
 }
 
 void WolfLink::sub_71002F4B3C() {
