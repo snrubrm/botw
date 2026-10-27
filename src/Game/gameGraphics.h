@@ -409,6 +409,10 @@ public:
     void sub_7100EFE030();
     // 0x7100efdce8: destroys the model render data the renderer built.
     void sub_7100EFDCE8(void* data);
+    // 0x7100efdcf8: appends a far-model record (12 transform floats, then the id).
+    void sub_7100EFDCF8(const void* model);
+    // Number of far-model records already queued.
+    s32 getFarModelCountMaybe() const { return _130; }
     // 0x7100eff5e8 (declaration only; placeholder name): draws the renderer's debug geometry.
     void sub_7100EFF5E8(agl::DrawContext* context, gsys::ModelRenderContext* render_context);
 
@@ -439,7 +443,7 @@ private:
     u8 _11c[4];
     Unk_7100efd9b8Obj* _120 = nullptr;
     void* _128 = nullptr;
-    u32 _130 = 0;
+    s32 _130 = 0;
     u32 _134 = ~0u;
     u32 _138 = ~0u;
     u32 _13c = ~0u;

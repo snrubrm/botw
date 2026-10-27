@@ -6,6 +6,7 @@
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/GameData/gdtManager.h"
+#include "Game/gameGraphics.h"
 
 #include <math/seadMatrix.h>
 
@@ -505,10 +506,19 @@ bool PlacementAreaMgr::insideInnerHideLoad(const int& idx) {
     return true;
 }
 
+void PlacementAreaMgr::pushFarModels() {
+    auto* renderer = Graphics::instance()->getFarModelRendererMaybe();
+    if (!renderer)
+        return;
+    if (renderer->getFarModelCountMaybe() > 0)
+        return;
+    for (s32 i = 0; i < mFarModelsCount; ++i)
+        renderer->sub_7100EFDCF8(&mFarModels[i]);
+}
+
 // NON_MATCHING: the original keeps the choice of the starting corner (base[1] for the first four, base[0] otherwise) as a
 // branch with two copies; here it becomes a select, which also changes the register allocation of the rest.
-bool PlacementAreaMgr::x_0(const int& idx, const int& sub_idx) {
-    const auto& area = mInnerHide[idx];
+bool PlacementAreaMgr::x_0(const int& idx, const int& sub_idx) {    const auto& area = mInnerHide[idx];
     for (int i = 0; i < 8; i++) {
         sead::Vector3f pos;
         if (i < 4)

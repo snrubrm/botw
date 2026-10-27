@@ -105,6 +105,10 @@ public:
     const u32& getHashId() const;
     const char* getUniqueName() const;
 
+    // 0x7100d5ccf4 (inlined into the TU's static initialiser): sets sHashBase to zero and
+    // computes the four rail type name hashes.
+    static void initTypeHashes();
+
     enum class Flag : u32 {
         Closed = 1 << 0,
         Bezier = 1 << 1,

@@ -1,6 +1,7 @@
 #include "KingSystem/Map/mapRail.h"
 #include "KingSystem/Map/mapPlacement18.h"
 #include <heap/seadHeapMgr.h>
+#include <codec/seadHashCRC32.h>
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/Utils/SafeDelete.h"
 
@@ -11,6 +12,27 @@ SEAD_SINGLETON_DISPOSER_IMPL(Placement18a)
 void Placement18::sub_7100D48034() {}
 
 u32 Rail::sHashBase;
+
+// The Rail unit names the rail type hash is compared against (Rail::createRail 0x7100d5cee8).
+// The four globals are the TU's initialiser at 0x7100d5ccf4.
+u32 sRailTypeGuideHash;
+u32 sRailTypeRemainGuideHash;
+u32 sRailTypeRouteHash;
+u32 sRailTypeConnectableHash;
+
+void Rail::initTypeHashes() {
+    sHashBase = 0;
+    sRailTypeGuideHash = sead::HashCRC32::calcHash("Guide", 5);
+    sRailTypeRemainGuideHash = sead::HashCRC32::calcHash("RemainGuide", 11);
+    sRailTypeRouteHash = sead::HashCRC32::calcHash("Route", 5);
+    sRailTypeConnectableHash = sead::HashCRC32::calcHash("Connectable", 11);
+}
+
+namespace {
+struct RailTypeHashInit {
+    RailTypeHashInit() { Rail::initTypeHashes(); }
+} sRailTypeHashInit;
+}  // namespace
 
 static bool isNearZero(const sead::Vector3f& v) {
     return v.x <= 0.01f && v.x >= -0.01f && v.y <= 0.01f && v.y >= -0.01f && v.z <= 0.01f &&
