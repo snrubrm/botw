@@ -180,7 +180,10 @@ public:
     u8 _5da8[0x5db0 - 0x5da8];
     // isSnapshotMgrEnabled 0x7100c10148 null-tests this pointer.
     /* 0x5db0 */ void* mSnapshotMgr;
-    u8 _5db8[0x5f20 - 0x5db8];
+    u8 _5db8[0x5ec0 - 0x5db8];
+    // add_ 0x7100c0fe2c / remove_ 0x7100c0fedc lock it while they search mContexts.
+    /* 0x5ec0 */ sead::CriticalSection mContextCS;
+    u8 _5f00[0x5f20 - 0x5f00];
 };
 static_assert(offsetof(ModelScene, mEnv) == 0x130);
 static_assert(offsetof(ModelScene, mDepthOfField) == 0x3428);

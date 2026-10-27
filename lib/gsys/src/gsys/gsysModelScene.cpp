@@ -7,6 +7,8 @@
 #include <gsys/gsysParticleMgr.h>
 #include <gsys/gsysShaderContext.h>
 #include <gsys/gsysParticleDrawArg.h>
+#include <prim/seadScopedLock.h>
+#include <thread/seadCriticalSection.h>
 
 namespace gsys {
 
@@ -28,6 +30,37 @@ bool ModelScene::isForceZPrePassEnabled(int index) const {
     if (!mBuffer.isZPrePassEnabled(mContexts[index]))
         return false;
     return mConfig->isZPrePassSelectable();
+}
+
+// NON_MATCHING: the loop itself agrees, but clang rematerialises the -1 result at the exit
+// instead of keeping it in a second register like the original (four bytes shorter).
+// 0x7100c0fe2c
+s8 ModelScene::add_(Layer3D* layer) {
+    sead::ScopedLock<sead::CriticalSection> lock(&mContextCS);
+    for (auto it = mContexts.begin(); it != mContexts.end(); ++it) {
+        if (it->_398 == layer)
+            return it.getIndex();
+    }
+    s32 index = -1;
+    for (auto it = mContexts.begin(); it != mContexts.end(); ++it) {
+        if (!it->_398) {
+            it->_398 = layer;
+            index = it.getIndex();
+            break;
+        }
+    }
+    return index;
+}
+
+// 0x7100c0fedc
+void ModelScene::remove_(Layer3D* layer) {
+    sead::ScopedLock<sead::CriticalSection> lock(&mContextCS);
+    for (auto it = mContexts.begin(); it != mContexts.end(); ++it) {
+        if (it->_398 == layer) {
+            it->_398 = nullptr;
+            break;
+        }
+    }
 }
 
 // NON_MATCHING: the original stores the 1000.0f / -1000.0f / -1000.0f fields with three 32-bit stores;
