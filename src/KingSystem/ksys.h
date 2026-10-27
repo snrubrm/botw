@@ -1,4 +1,5 @@
 #pragma once
+#include <basis/seadTypes.h>
 
 namespace sead {
 class Heap;
@@ -51,6 +52,10 @@ void callCalcPlacementMgr();
 void sub_7100F419DC();
 void sub_7100F41A18();
 void sub_7100F41ACC();
+// 0x7100f4193c (placeholder name): physics worker job run plus a value publish.
+bool sub_7100F4193C(void* a1, u32 value, u32* out);
+// 0x7100f41b08 (placeholder name): the chemical manager's and the world manager's frame steps.
+void sub_7100F41B08();
 // 0x7100f41c7c (placeholder name): the world manager's LOD step, gated on an ActorDebug flag.
 void sub_7100F41C7C();
 

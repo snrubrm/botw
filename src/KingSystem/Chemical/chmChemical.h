@@ -39,6 +39,10 @@ public:
     void sub_7100D99738(act::Unk_71024dd490* holder);
     void sub_7100D99760(act::Unk_71024dd490* holder);
     s32 sub_7100D9979C();
+    // 0x7100d994a0 / 0x7100d99520 (placeholder names): the watch reset, then one call per held
+    // element holder (0x7100d9b8c8 / 0x7100d9bbc4). Called from the chemical frame steps.
+    void sub_7100D994A0();
+    void sub_7100D99520();
     // 0x7100d996f0: draws the elements of every holder (CSV Chemical::drawScene).
     void drawScene(sead::DrawContext* context);
 

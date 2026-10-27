@@ -10,6 +10,7 @@
 #include "Game/gameGraphics.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
+#include "KingSystem/Chemical/chmChemical.h"
 #include "KingSystem/Camera/CameraMgr.h"
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
@@ -168,6 +169,18 @@ void CalcPlacementMgr() {
     map::PlacementMgr::instance()->preCalc(camera_pos, target_pos, 2, 0x400000);
 }
 
+// 0x7100f4193c (placeholder name): runs the physics worker jobs from a non-main thread, then publishes
+// the caller's value through `out`.
+bool sub_7100F4193C(void* a1, u32 value, u32* out) {
+    if (!sead::ThreadMgr::instance()->isMainThread()) {
+        phys::System* system = phys::System::instance();
+        sead::INamable name("Worker");
+        system->runJobsMaybe(&name);
+    }
+    *out = value;
+    return true;
+}
+
 // 0x7100f41a54: the placement manager job's entry point.
 void callCalcPlacementMgr() {
     CalcPlacementMgr();
@@ -189,6 +202,15 @@ void sub_7100F41A18() {
 void sub_7100F41ACC() {
     if (auto* mgr = map::PlacementMgr::instance())
         mgr->sub_71011E6E8C();
+}
+
+// 0x7100f41b08 (placeholder name): the chemical manager's and the world manager's frame steps, in
+// the order the original interleaves them.
+void sub_7100F41B08() {
+    chm::Chemical::instance()->sub_7100D994A0();
+    world::Manager::instance()->sub_71010F78C4();
+    chm::Chemical::instance()->sub_7100D99520();
+    world::Manager::instance()->sub_71010F78E4();
 }
 
 // 0x7100f41c7c: the world manager's LOD step. A debug instance without flag 0x40000000 skips it.
