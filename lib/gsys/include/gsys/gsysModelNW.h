@@ -110,6 +110,7 @@ public:
     sead::SafeString getBoneName(int bone_idx) const override;
     // 0x7100c04b2c: counts the model resource's extension object in.
     void bindResource() override;
+    void unbindResource() override;
     // 0x7100c04e70
     int getBoneParentIndex(int bone_idx) const override;
     void clearBoneLocalMatrix() override;

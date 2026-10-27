@@ -3,6 +3,7 @@
 #include "gsys/gsysModelDynamicEnvInfo.h"
 #include "gsys/gsysG3dResModelEx.h"
 #include "gsys/gsysG3dResMaterialEx.h"
+#include "gsys/gsysModelResourceMgr.h"
 #include <g3d/aglNW4FToNN.h>
 #include <heap/seadHeapMgr.h>
 #include <cstring>
@@ -539,6 +540,13 @@ bool ModelNW::setMaterialParamXluAlpha(int material_idx, int param_idx, float xl
     const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);
     _201 = u8(buffer_mask | (_201 & 0xf));
     return true;
+}
+
+// 0x7100c04b7c
+void ModelNW::unbindResource() {
+    if (ModelResourceMgr::instance()->isExist(mModelObj.GetResource()))
+        static_cast<G3dResModelEx*>(mModelObj.GetResource()->pExtension)
+            ->countDownReferenceCounter();
 }
 
 // 0x7100c051e4
