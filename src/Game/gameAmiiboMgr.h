@@ -22,6 +22,16 @@ class QueryContactPointInfo;
 
 namespace uking {
 
+// The amiibo's 0x104-byte data block (AmiiboInfo::_8). Only the two fields the WolfLink amiibo AI
+// reads are named; the rest is unmodelled NFP data.
+struct AmiiboData {
+    /* 0x000 */ u8 _0[0x12];
+    /* 0x012 */ s8 _12;
+    /* 0x013 */ u8 _13[0x100 - 0x13];
+    /* 0x100 */ u32 _100;
+};
+KSYS_CHECK_SIZE_NX150(AmiiboData, 0x104);
+
 // The amiibo that was last read, as stored in AmiiboMgr (+0x160) and copied by the AI / action
 // classes that use it (ItemAmiiboRoot, ItemAmiiboSelectDropTable, WolfLinkAmiibo, ...). Placeholder
 // name: the original type is unknown. `_0` / `_4` hold values of two SEAD_ENUM-like amiibo id enums
@@ -30,7 +40,7 @@ namespace uking {
 struct AmiiboInfo {
     u32 _0 = 0;
     u32 _4 = 0;
-    u8 _8[0x104]{};
+    AmiiboData _8{};
     sead::FixedSafeString<48> mName;
 };
 KSYS_CHECK_SIZE_NX150(AmiiboInfo, 0x158);

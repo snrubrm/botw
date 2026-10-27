@@ -20,6 +20,16 @@ namespace act {
 class WolfLink;
 }
 
+// The WolfLink game-data flag names (defined in gameWolfLinkMgr.cpp; initialised by the static
+// initializer 0x7100683c6c).
+extern sead::SafeString sWolfLink_CurrentLife;
+extern sead::SafeString sWolfLink_CurrentPos;
+extern sead::SafeString sWolfLink_MaxLife;
+extern sead::SafeString sWolfLink_LastRecordedHearts;
+extern sead::SafeString sWolfLink_TodayFirstDetectedUID;
+extern sead::SafeString sWolfLink_DiedToday;
+extern sead::SafeString sWolfLink_HasBeenUsed;
+
 // Placeholder declaration (names from the CSV: WolfLinkMgr::createInstance 0x71006828a8, init_ 0x7100682b94,
 // postCalc 0x71006836d0; instance pointer at 0x71025c6ff8; namespace is a guess, like HorseMgr's). The manager of
 // the Wolf Link (amiibo) actor; only what the AI actions use is declared.
