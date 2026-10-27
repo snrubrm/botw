@@ -381,6 +381,16 @@ bool Manager::sub_7100A7FF1C() {
     return !(RuneMgr::instance()->_90 & 0x20);
 }
 
+// 0x7100a7feac (placeholder name): the second rune-window query: false with rune 5 selected or the second
+// flag set, otherwise whether the manager is in one of the later states.
+bool Manager::sub_7100A7FEAC() {
+    if ((RuneMgr::instance()->_90 & 0x10) && RuneMgr::instance()->isSelectedRune(5))
+        return false;
+    if (RuneMgr::instance()->_90 & 0x20)
+        return false;
+    return u32(Manager::instance()->_64c24 - 1) > 1;
+}
+
 // 0x7100a7ff6c (placeholder name): whether the DoCommand screen is closed (or absent) and the
 // corresponding UI flag is set.
 bool Manager::sub_7100A7FF6C() {
