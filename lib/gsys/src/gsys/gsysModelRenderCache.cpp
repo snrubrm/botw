@@ -239,7 +239,7 @@ bool ModelRenderCache::loadResource(const ModelRenderUnitNW* unit) {
     }
 
     const u16 flags = _36;
-    const s32 buffer_index = static_cast<const ModelNW*>(unit->mModelUnit)->_168 & 3;
+    const u32 buffer_index = static_cast<const ModelNW*>(unit->mModelUnit)->_168 & 3;
     if (!(flags & 0x20) || !info->mDisplayLists[buffer_index].isActiveMaybe()) {
         const G3dResShapeEx::ShaderRecord& record =
             shape_ex->mShaderRecords[assign_type + mShaderAssignType * 4];
@@ -270,7 +270,7 @@ bool ModelRenderCache::loadResource(const ModelRenderUnitNW* unit) {
     if (unit->mPolygonCtrl != _31) {
         const u8 polygon_flags = _22 | unit->mPolygonCtrl;
         const u8 face_flags = polygon_flags & 8;
-        const u8 mode = polygon_flags & 3;
+        const u32 mode = polygon_flags & 3;
 
         mGraphicsContext.setPolygonOffsetEnable((polygon_flags & 4) != 0);
 
@@ -298,20 +298,20 @@ bool ModelRenderCache::loadResource(const ModelRenderUnitNW* unit) {
         _31 = unit->mPolygonCtrl;
     }
 
-    if (unit->mFlags32 != 0) {
-        if (unit->mFlags32 & 1) {
+    if (unit->_232 != 0) {
+        if (unit->_232 & 1) {
             agl::UniformBlock* block = static_cast<const ModelNW*>(unit->mModelUnit)->_70[0];
             block->setUniform(mDrawContext, block->getGPUAddressMaybe(),
                               mShaderProgram->mUniformBlockLocations[11], 0,
                               block->getBlockSizeMaybe());
         }
-        if (unit->mFlags32 & 2) {
+        if (unit->_232 & 2) {
             agl::UniformBlock* block = static_cast<const ModelNW*>(unit->mModelUnit)->_70[1];
             block->setUniform(mDrawContext, block->getGPUAddressMaybe(),
                               mShaderProgram->mUniformBlockLocations[12], 0,
                               block->getBlockSizeMaybe());
         }
-        if (unit->mFlags32 & 4) {
+        if (unit->_232 & 4) {
             agl::UniformBlock* block = static_cast<const ModelNW*>(unit->mModelUnit)->_70[2];
             block->setUniform(mDrawContext, block->getGPUAddressMaybe(),
                               mShaderProgram->mUniformBlockLocations[13], 0,
