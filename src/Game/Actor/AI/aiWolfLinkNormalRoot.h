@@ -162,7 +162,7 @@ protected:
     u8 _1b9 = 0;
     // [0]: life-based factor (calc_), [2]: threshold; indexed with a SEAD_ENUM (3 values) in the original
     sead::SafeArray<f32, 3> _1bc{};
-    f32 _1c8 = 0;
+    s32 _1c8 = 0;
 };
 KSYS_CHECK_SIZE_NX150(WolfLinkNormalRoot, 0x1d0);
 

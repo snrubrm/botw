@@ -622,6 +622,72 @@ void WolfLinkNormalRoot::sub_7100608200() {
     }
 }
 
+// 0x71006082fc: per-state cleanup after the current child finished.
+// NON_MATCHING: the case 4 counter test canonicalises to `cmp #1 / b.gt` where the original keeps
+// `cmp #2 / b.lt`, and the case 4 inlineReset block is placed after case 11 instead of before it.
+// Instruction set and size otherwise agree.
+void WolfLinkNormalRoot::sub_71006082FC(bool changeable) {
+    using Idx = act::WolfLink::Idx14f8;
+
+    switch (int(_1a8)) {
+    case 4:
+        _70->_1698 &= ~0x4000;
+        if (changeable) {
+            _1b4 = 2;
+            _184 = _19c;
+        } else if (_1c8++ < 2) {
+            _70->m45()->inlineReset();
+            _1b4 = 4;
+        } else {
+            _1b4 = 3;
+        }
+        break;
+    case 5:
+        _1b4 = 5;
+        break;
+    case 6:
+    case 12:
+        break;
+    case 7: {
+        if (changeable)
+            break;
+        auto* radar = RadarMgr::instance();
+        auto* subsys = ui::UiSubsys1::instance();
+        if (radar && subsys && !radar->_52 && subsys->get38d8()) {
+            _70->sub_71002F2E78(Idx(Idx::_14));
+            _70->_1698 |= 0x20;
+        }
+        _184.set(sead::Vector3f::zero);
+        _70->m45()->inlineReset();
+        return;
+    }
+    case 8:
+        _70->_1698 &= ~0x800;
+        break;
+    case 9:
+        _184.set(sead::Vector3f::zero);
+        break;
+    case 10:
+    case 14:
+        ksys::act::enableAllAttClients(mActor);
+        _184.set(sead::Vector3f::zero);
+        break;
+    case 11:
+        if (changeable) {
+            _70->sub_71002F2E78(Idx(Idx::_1));
+            return;
+        }
+        _70->sub_71002F4008(&_70->_c48._8, act::WolfLink::State::_3);
+        _70->sub_71002F493C();
+        _184.set(sead::Vector3f::zero);
+        break;
+    case 13:
+        ksys::act::enableAllAttClients(mActor);
+        _184 = _19c;
+        break;
+    }
+}
+
 void WolfLinkNormalRoot::sub_7100609DFC() {
     using Idx = act::WolfLink::Idx14f8;
     _70->sub_71002F2E78(Idx(Idx::_2));
