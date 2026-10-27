@@ -5,6 +5,7 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
+#include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/ActorSystem/Attention/actActorAttention.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
@@ -1506,6 +1507,16 @@ bool sub_71005DF66C(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Ve
     if (out_time)
         *out_time = time;
     return true;
+}
+
+// 0x71005dd27c: switches the actor's model material to `material` and eases `a3` (the model
+// effects manager, then the material fade itself).
+void sub_71005DD27C(ksys::act::Actor* actor, u32 material, f32 a3) {
+    if (!actor || !actor->getModel())
+        return;
+
+    Unk_710260af28::instance()->sub_7100F1E794(actor->getModel(), f32(material), a3);
+    sub_71005DCC34(actor, material, a3);
 }
 
 // 0x71005dfae0
