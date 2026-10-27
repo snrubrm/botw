@@ -1510,6 +1510,13 @@ bool sub_71005DF66C(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Ve
     return true;
 }
 
+// 0x71005d70c8: the Enemy-only entry point of sub_71005D715C (the Enemy target link).
+bool sub_71005D70C8(ksys::act::Actor* actor) {
+    if (!sead::IsDerivedFrom<uking::act::Enemy>(actor))
+        return false;
+    return sub_71005D715C(actor);
+}
+
 // 0x71005dcb3c: forwards the actor's gravity/position vector to the launch-point search.
 bool sub_71005DCB3C(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Vector3f* pos, f32 a,
                     f32 b) {

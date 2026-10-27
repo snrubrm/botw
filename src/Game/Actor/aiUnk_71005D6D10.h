@@ -480,6 +480,8 @@ bool sub_71005DE53C(uking::act::Weapon* weapon, uking::act::Enemy* enemy, f32 di
                    f32 angle, bool check_awareness);
 
 // Complete wrapper and ballistic solver establish the velocity output and direction input.
+/// 0x71005d715c (declaration only): the Enemy target-link check behind sub_71005D70C8.
+bool sub_71005D715C(ksys::act::Actor* actor);
 bool sub_71005DF4E4(sead::Vector3f* out, const sead::Vector3f* pos, const sead::Vector3f* p, f32 a,
                     f32 b);
 bool sub_71005DCB3C(sead::Vector3f* out, ksys::act::Actor* actor,
