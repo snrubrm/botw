@@ -514,6 +514,52 @@ bool sub_71005D9F04(ksys::act::Actor* actor) {
     return false;
 }
 
+// 0x71005da164: collects the position of every linked map object that has the EnemyHide
+// (0x0ba4a61e) tag into `points`; without a list, just reports whether one exists.
+bool sub_71005DA164(ksys::act::Actor* actor, sead::ObjList<sead::Vector3f>* points) {
+    if (!actor)
+        return false;
+    auto* object = actor->getMapObject();
+    if (!object)
+        return false;
+    auto* links = object->getLinkData();
+    u32 found = 0;
+    if (links && links->mObjects.size() != 0) {
+        auto& objects = links->mObjects;
+        auto* const objs = objects.getBufferPtr();
+        if (points) {
+            for (s32 i = 0; i != objects.size(); ++i) {
+                if (!objs[i])
+                    continue;
+                ksys::act::ActorLinkConstDataAccess accessor;
+                objs[i]->getActorWithAccessor(accessor);
+                if (!accessor.hasTag(0x0ba4a61e))
+                    continue;
+                if (!points->isFull()) {
+                    sead::Vector3f pos;
+                    accessor.getActorMtx().getTranslation(pos);
+                    points->emplaceBack(pos);
+                    if (points->isFull()) {
+                        found = 1;
+                        break;
+                    }
+                }
+                found = 1;
+            }
+        } else {
+            for (s32 i = 0; i != objects.size(); ++i) {
+                if (!objs[i])
+                    continue;
+                ksys::act::ActorLinkConstDataAccess accessor;
+                objs[i]->getActorWithAccessor(accessor);
+                if (accessor.hasTag(0x0ba4a61e))
+                    found = 1;
+            }
+        }
+    }
+    return found & 1;
+}
+
 // NON_MATCHING: the original loads _d4 before the _8c store (scheduling)
 void sub_71005D73F8(ksys::act::Actor* actor, const sead::Vector3f& pos) {
     auto* bone_control = actor->getBoneControl();
