@@ -24,6 +24,9 @@
 KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_710235b9f0[70];
 KSYS_VISIBILITY_HIDDEN extern u32 sUnk_71025af300;
 KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_710235ada0[30];
+// 0x710235b968: the impulse scale applied by Unk1::sub_71000499F0 (5.0). Writable in the original,
+// so clang loads it instead of folding the literal.
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710235b968 = 5.0f;
 
 
 
@@ -74,6 +77,14 @@ void Guardian::Unk1::sub_7100044B68(sead::Vector3f* out, s32 index) {
 
 void Guardian::Unk1::sub_71000499E0() {
     _178 |= 1;
+}
+
+void Guardian::Unk1::sub_71000499F0(s32 index) {
+    const f32 mass = sub_71000418B8()->getMass();
+    const sead::Vector3f impulse = sead::Vector3f::ey * mass * sUnk_710235b968;
+    sead::Vector3f position;
+    sub_7100044B68(&position, index);
+    sub_71000418B8()->applyPointImpulse(impulse, position);
 }
 
 ksys::act::BaseProc* Guardian::construct(const CreateArg& arg, sead::Heap* heap) {

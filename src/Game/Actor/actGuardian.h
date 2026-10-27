@@ -230,6 +230,9 @@ public:
         void sub_7100044C5C(sead::Matrix34f* mtx, s32 index);
         // 0x71000499e0 (unnamed in the CSV): sets bit 0 of _178.
         void sub_71000499E0();
+        // 0x71000499f0 (unnamed in the CSV): applies an upward impulse (mass * 5) at the _15b8
+        // position `index` to the owner's main rigid body.
+        void sub_71000499F0(s32 index);
 
         Guardian* _8;  // the owner (sub_7100042338)
         u8 _10[0x10];
