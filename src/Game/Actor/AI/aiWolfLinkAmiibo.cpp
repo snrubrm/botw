@@ -64,6 +64,40 @@ void WolfLinkAmiibo::enter_(ksys::act::ai::InlineParamPack* params) {
     sub_7100600A6C();
 }
 
+void WolfLinkAmiibo::calc_() {
+    if (isFinishedOrFailed())
+        return;
+
+    if (_68) {
+        auto* child = getCurrentChild();
+        if (!child->isFinishedOrFailed())
+            return;
+
+        if (child->isFinished()) {
+            if (auto* amiibo = AmiiboMgr::instance()) {
+                AmiiboInfo info;
+                const AmiiboInfo& src = AmiiboMgr::instance()->_148.mInfo;
+                info._0 = src._0;
+                info._4 = src._4;
+                memcpy(info._8, src._8, sizeof(info._8));
+                info.mName = src.mName;
+                amiibo->registerAmiibo(info);
+            }
+            setFinished();
+        } else {
+            isCurrentChild("登録");
+            ui::showInfoOverlay(25);
+            setFailed();
+        }
+    } else {
+        _68 = havokQueryFinished();
+        if (_68) {
+            checkAndUpdateFlags();
+            sub_71006013D4();
+        }
+    }
+}
+
 void WolfLinkAmiibo::leave_() {
     ksys::act::ai::Ai::leave_();
 }

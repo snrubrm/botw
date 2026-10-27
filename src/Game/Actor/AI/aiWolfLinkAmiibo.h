@@ -17,6 +17,7 @@ public:
 
     bool init_(sead::Heap* heap) override;
     void enter_(ksys::act::ai::InlineParamPack* params) override;
+    void calc_() override;
     void leave_() override;
     void loadParams_() override;
 
@@ -29,6 +30,9 @@ public:
     // before the lsl/and mask.
     bool isFlagOn(Flag flag) const { return _5c.isOnBit(int(flag)); }
     void sub_7100600A6C();
+    // 0x7100600d28 (CSV placeholder name: AI_AI_WolfLinkAmiibo::checkAndUpdateFlags): updates the
+    // spawn flag byte from the current state.
+    void checkAndUpdateFlags();
     // 0x71006013d4 (placeholder name): checks the manager singletons and the spawn flags, then either
     // shows an info overlay and fails, warps, or runs sub_7100601594.
     void sub_71006013D4();
