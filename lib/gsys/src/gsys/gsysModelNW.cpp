@@ -605,6 +605,24 @@ int ModelNW::countPolygonNum() const {
     return count;
 }
 
+// NON_MATCHING: the body and size agree, but clang narrows the clear mask to the stored byte
+// (eor #0xff) where the original complements the full word (mvn).
+// 0x7100c0678c
+void ModelNW::setUserUniformBlock(int index, agl::UniformBlock* block) {
+    if (_70[index] == block)
+        return;
+    _70[index] = block;
+    const int num = getModelRenderUnitNum();
+    const u32 bit = 1u << index;
+    for (int i = 0; i < num; ++i) {
+        ModelRenderUnitNW* unit = mRenderUnits[i];
+        if (block)
+            unit->_232 |= bit;
+        else
+            unit->_232 &= ~bit;
+    }
+}
+
 // 0x7100c051e4
 void ModelNW::clearMaterialParameter(int material_idx) {
     const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);
