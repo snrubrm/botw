@@ -92,10 +92,7 @@ protected:
     // inline-only in the original; name is a guess (by-value enum parameters, as above; the flag test
     // repeats in three WolfLinkNormalRoot functions).
     f32 get1bc(Idx1bc idx) const { return _1bc[idx]; }
-    bool isFlag1b8(Flag1b8 flag) const {
-        const u8 mask = 1 << flag;
-        return (mask & _1b8) != 0;
-    }
+    u8 isFlag1b8(Flag1b8 flag) const { return (1 << int(flag)) & _1b8; }
     // inline-only in the original; name is a guess. The `_1b8` set / clear with an enum value repeats
     // in three WolfLinkNormalRoot functions; the by-value parameter gives the enum temporaries
     // lifetime markers (they share one stack slot).

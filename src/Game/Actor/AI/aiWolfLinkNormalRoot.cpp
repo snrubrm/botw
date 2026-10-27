@@ -689,8 +689,8 @@ void WolfLinkNormalRoot::sub_71006082FC(bool changeable) {
 }
 
 // 0x7100607a2c: updates the Sheikah sensor lead flags from the navmesh state and the timer expiry.
-// NON_MATCHING: the frame is 0x10 larger (the shared enum temporary goes to sp+0x18 instead of
-// sp+0xc) and the distance block schedules the tolerance load and its square differently.
+// NON_MATCHING: the original zero-extends the isFlag1b8 result with an extra `and #0xff` (it
+// treats the helper's value as a wider integer); ours proves the mask fits in a byte.
 void WolfLinkNormalRoot::sub_7100607A2C() {
     using Idx = act::WolfLink::Idx14f8;
 
@@ -705,8 +705,7 @@ void WolfLinkNormalRoot::sub_7100607A2C() {
             } else {
                 sead::Vector3f diff;
                 diff.setSub(nav->_194, _178);
-                const f32 tolerance = *mShiekSensorGoalTolerance_s;
-                if (diff.squaredLength() > tolerance * tolerance ||
+                if (diff.squaredLength() > *mShiekSensorGoalTolerance_s * *mShiekSensorGoalTolerance_s ||
                     nav->getPathState() == ksys::phys::NavMeshPathState::State3)
                     sub_7100609DFC();
             }
@@ -715,10 +714,10 @@ void WolfLinkNormalRoot::sub_7100607A2C() {
         setFlag1b8(Flag1b8::_2);
     }
 
-    if (isFlag1b8(Flag1b8::_0) && _70->_14f8[Idx(Idx::_2)].value <= sead::Mathf::epsilon())
+    if (isFlag1b8(Flag1b8::_0) && getTimerValue(_70, Idx(Idx::_2)) <= sead::Mathf::epsilon())
         clearFlag1b8(Flag1b8::_0);
 
-    if ((_70->_1698 & 0x20) && _70->_14f8[Idx(Idx::_14)].value <= sead::Mathf::epsilon())
+    if ((_70->_1698 & 0x20) && getTimerValue(_70, Idx(Idx::_14)) <= sead::Mathf::epsilon())
         _70->_1698 &= ~0x20;
 
     if (auto* radar = RadarMgr::instance()) {
@@ -726,7 +725,9 @@ void WolfLinkNormalRoot::sub_7100607A2C() {
             if (auto* nav = mActor->m45())
                 nav->inlineReset();
             _70->_1698 &= ~0x20;
-            _70->_14f8[Idx(Idx::_14)].value = 0.0f;
+            ksys::Timer& timer = _70->_14f8[Idx(Idx::_14)];
+            timer.value = 0.0f;
+            timer.previous_value = 0.0f;
             _1b8 = 0;
         }
     }
