@@ -6,6 +6,9 @@
 
 namespace uking {
 
+Unk_710246d448::Unk_710246d448(Root4::FlagIdx flag)
+    : ksys::SeadController(0), _1f0(nullptr), _1f8(flag) {}
+
 Unk_710246d448::~Unk_710246d448() = default;
 
 sead::SafeString Unk_710246d448::sub_7100D9DF34() const {

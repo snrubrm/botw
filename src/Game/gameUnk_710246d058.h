@@ -10,11 +10,11 @@ namespace uking {
 class Unk_71024739f8;
 
 // Placeholder name (vtable 0x710246d448; ctor 0x71008bf5dc, D1 0x71008bf61c, D0 0x71008bf620).
-// Not decompiled: the ctor passes a zero 4-byte value to SeadController and stores its argument in
-// _1f8.
 class Unk_710246d448 : public ksys::SeadController {
     SEAD_RTTI_OVERRIDE(Unk_710246d448, ksys::SeadController)
 public:
+    // 0x71008bf5dc: SeadController id 0; `flag` is the Root4 flag the subclass checks.
+    explicit Unk_710246d448(Root4::FlagIdx flag);
     ~Unk_710246d448() override;
 
     // Complete table 0x710246d448 overrides the three SeadController slots,
@@ -29,7 +29,8 @@ protected:
     // sub_7100D9DF58 passes this value to Root4::checkFlag.
     Root4::FlagIdx _1f8;
     // Bit 0 mirrors the touch hold; Unk_710249c338 latches its pointer position on the press.
-    u8 _1fc = 0;
+    // The base constructor leaves it alone (Unk_710249c338's constructor clears it).
+    u8 _1fc;
     u8 _1fd[3];
 };
 KSYS_CHECK_SIZE_NX150(Unk_710246d448, 0x200);
