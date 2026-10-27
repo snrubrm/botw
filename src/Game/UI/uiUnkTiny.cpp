@@ -1971,6 +1971,37 @@ void startMapStampButtonEntryOpenAnim(Unk_710247d8d8* entry) {
 }
 }  // namespace uking::ui
 
+// 0x7100a6c8c4
+// NON_MATCHING: the ring store reads the position's y component back from its stack slot and the two
+// products are scheduled around that reload; the original keeps both components in registers.
+void Unk_710249c338::sub_71008BF838() {
+    sead::Vector2f pos;
+    pos.x = _200 * getPointer().x;
+    pos.y = _204 * getPointer().y;
+    if (getHoldMask() & (1u << sead::Controller::cPadIdx_Touch)) {
+        if (!_210.pushBackwards(pos)) {
+            _210.remove(_210.size() - 1);
+            _210.pushBackwards(pos);
+        }
+    }
+    sub_7100A6C128(pos, &_408);
+    sub_7100A6C410(pos, &_440);
+    sub_7100A6C560(pos, &_468);
+    if (_4bc >= 0.0f) {
+        const f32 c = sead::Mathf::cos(_4bc * 0.017453292f);
+        if (mLeftStick.x > -c && mLeftStick.x < c)
+            mLeftStick.x = 0;
+        if (mLeftStick.y > -c && mLeftStick.y < c)
+            mLeftStick.y = 0;
+    } else {
+        const f32 scale = _4b8;
+        mLeftStick.x *= scale;
+        mLeftStick.y *= scale;
+        mRightStick.x *= scale;
+        mRightStick.y *= scale;
+    }
+}
+
 // 0x7100a6c070
 const sead::Vector2f* Unk_710249c338::sub_7100A6C070() const {
     if (!isPointerOn())

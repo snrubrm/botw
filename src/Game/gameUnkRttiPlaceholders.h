@@ -756,12 +756,19 @@ class Unk_710249c338 : public uking::Unk_710246d448 {
 public:
     ~Unk_710249c338() override;
 
-    // 0x7100a6c070 / 0x7100a6c0b8 (placeholder names): the oldest recorded pointer position (only while the
-    // pointer is on) / the oldest recorded position; ControllerBase::cInvalidPointer when there is none
+    // 0x7100a6c8c4: the per-frame pointer and stick calculation (the base class's callback)
+    void sub_71008BF838() override;
+    // 0x7100a6c070 / 0x7100a6c0b8 (placeholder names): the most recently recorded pointer position (only while
+    // the pointer is on) / the most recently recorded position; ControllerBase::cInvalidPointer when there is none
     const sead::Vector2f* sub_7100A6C070() const;
     const sead::Vector2f* sub_7100A6C0B8() const;
-    // 0x7100a6c86c: latches the oldest recorded position on the touch hold
+    // 0x7100a6c86c: latches the most recently recorded position on the touch hold
     void sub_7100A6C86C();
+    // 0x7100a6c128 / 0x7100a6c410 / 0x7100a6c560 (placeholder names): the touch / click / drag state machines of
+    // the three UI control regions, each fed the pointer position and its record.
+    void sub_7100A6C128(const sead::Vector2f& pos, uking::ui::Unk_710249c3b0* record);
+    void sub_7100A6C410(const sead::Vector2f& pos, uking::ui::Unk_710249c3d0* record);
+    void sub_7100A6C560(const sead::Vector2f& pos, uking::ui::Unk_710249c3f0* record);
 
     /* 0x200 */ f32 _200;
     /* 0x204 */ f32 _204;
