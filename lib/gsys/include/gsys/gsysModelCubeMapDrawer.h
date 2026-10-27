@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <cstddef>
 #include <environment/aglEnvCubeMapMgr.h>
+#include "gsys/gsysModelRenderQueue.h"
 
 namespace sead {
 class Heap;
@@ -16,6 +17,10 @@ class ShaderContext;
 // 0x7100c7d198, initialize 0x7100c7d330). Only the members the ModelSceneGI getters
 // and setter read are modelled.
 class ModelCubeMapDrawer {
+public:
+    // 0x7100c7d950: sorts the two render queues.
+    void update();
+
 private:
     u8 _0[0x348];
 
@@ -23,11 +28,11 @@ public:
     ShaderContext* mShaderContext;  // 348
 
 private:
-    u8 _350[0x430 - 0x350];
-    s32 _430;
-    u8 _434[0x458 - 0x434];
+    u8 _350[0x3d8 - 0x350];
 
 public:
+    ModelRenderQueue mQueue0;  // 3d8
+    ModelRenderQueue mQueue1;  // 418
     agl::env::CubeMapMgr mCubeMapMgr;  // 458
 
 private:
@@ -37,6 +42,8 @@ public:
     void* mCubeMap;  // ec0
 };
 static_assert(offsetof(ModelCubeMapDrawer, mShaderContext) == 0x348);
+static_assert(offsetof(ModelCubeMapDrawer, mQueue0) == 0x3d8);
+static_assert(offsetof(ModelCubeMapDrawer, mQueue1) == 0x418);
 static_assert(offsetof(ModelCubeMapDrawer, mCubeMapMgr) == 0x458);
 static_assert(offsetof(ModelCubeMapDrawer, mCubeMap) == 0xec0);
 
