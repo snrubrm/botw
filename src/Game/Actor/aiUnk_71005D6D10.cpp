@@ -33,6 +33,8 @@
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/World/worldWeatherMgr.h"
@@ -1029,6 +1031,115 @@ bool sub_71005E0384(ksys::act::Actor* actor) {
             return true;
     }
     return false;
+}
+
+// NON_MATCHING: clang keeps the filter address in a second callee-saved register where the original
+// rematerialises it, and splits one request zero store.
+// 0x71005e0f68: the link of the sight target that matches the actor's sight angle (kind 2).
+ksys::act::BaseProcLink* sub_71005E0F68(ksys::act::Actor* actor) {
+    auto* awareness = actor->getAwareness();
+    if (!awareness)
+        return &ksys::act::getDummyBaseProcLink();
+
+    Unk_7102451678 filter;
+    auto* sensor = awareness->_260[0];
+    if (sensor) {
+        if (auto* entry = ksys::act::sub_7100D7EEE8(&sensor->_8, &filter)) {
+            if (entry->_a0 == 2) {
+                Unk_71023e26d8 request;
+                if (auto* sight = awareness->_260[0])
+                    sight->m5(&request);
+                if (entry->_a8 < request.params.sight.radius * 2.0f / 3.0f)
+                    return &entry->_0.mLink;
+            }
+        }
+    }
+    return &ksys::act::getDummyBaseProcLink();
+}
+
+namespace {
+
+// NON_MATCHING: one extra bool copy after the filter call and a different false-return block order.
+// Face callback of sub_71005E11AC (vtable 0x710242dd40): keeps a usable face and checks its area.
+class NavFaceAreaCallback : public ksys::phys::NavMeshFaceCallback {
+public:
+    bool m0(const ksys::phys::Unk_7100f7e9f0& face) override {
+        const s32 material = face.sub_7100F7EEE4();
+        if (material == 6 || material == 8)
+            return false;
+        if (auto* filter = mNav->_58) {
+            if (!filter->m4(mNav, material, 0, ksys::phys::NavMeshCharacterType::Player))
+                return false;
+        } else {
+            if (sead::Mathf::abs(ksys::phys::NavMeshCharacter::sub_7100F74FD8(
+                    mNav->_1d8, material)) > std::numeric_limits<f32>::max())
+                return false;
+        }
+        mFace = face;
+        if (face.sub_7100F7ED6C(nullptr) >= mMinArea)
+            return true;
+        return false;
+    }
+
+    ksys::phys::NavMeshCharacter* mNav;
+    ksys::phys::Unk_7100f7e9f0 mFace;
+    f32 mMinArea;
+};
+
+}  // namespace
+
+// NON_MATCHING: block order of the material / material-6 test paths.
+// 0x71005e11ac: finds a navmesh position near `from` (or the actor's position) for the material of the
+// actor's navmesh character.
+bool sub_71005E11AC(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Vector3f* from,
+                    f32 radius, f32 min_area) {
+    auto* nav = actor->m45();
+    if (!nav)
+        return false;
+
+    auto* filter = nav->_58;
+    const u32 material = nav->_2a4.load() & 0xffff;
+    if (material != 6 && material != 8) {
+        if (filter) {
+            if (filter->m4(nav, material, 0, ksys::phys::NavMeshCharacterType::Player)) {
+                *out = actor->getMtx().getTranslation();
+                return true;
+            }
+        } else if (sead::Mathf::abs(ksys::phys::NavMeshCharacter::sub_7100F74FD8(
+                       nav->_1d8, material)) <= std::numeric_limits<f32>::max()) {
+            *out = actor->getMtx().getTranslation();
+            return true;
+        }
+    }
+
+    bool usable;
+    if (filter)
+        usable = filter->m4(nav, 6, 0, ksys::phys::NavMeshCharacterType::Player);
+    else
+        usable = sead::Mathf::abs(ksys::phys::NavMeshCharacter::sub_7100F74FD8(nav->_1d8, 6)) <=
+                 std::numeric_limits<f32>::max();
+
+    if (!usable) {
+        if (from->isNan()) {
+            const sead::Vector3f pos = actor->getMtx().getTranslation();
+            const auto face = nav->sub_7100F76078(out, pos, radius);
+            return face.sub_7100F7EB40();
+        }
+        const auto face = nav->sub_7100F76078(out, *from, radius);
+        return face.sub_7100F7EB40();
+    }
+
+    NavFaceAreaCallback callback;
+    callback.mNav = nav;
+    callback.mMinArea = min_area;
+    if (from->isNan())
+        nav->sub_7100F76168(radius, false, &callback);
+    else
+        nav->sub_7100F761C8(*from, radius, false, &callback);
+    if (!callback.mFace.sub_7100F7EB40())
+        return false;
+    callback.mFace.sub_7100F7EB60(out);
+    return true;
 }
 
 ksys::act::Unk_7100d860d8* sub_71005DB0EC(ksys::act::Actor* actor) {
