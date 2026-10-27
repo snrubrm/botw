@@ -36,8 +36,16 @@ public:
     // inline-only in the original; name is a guess. Evidence: both call sites spill the SEAD_ENUM
     // argument to the stack before the lsl/orr mask.
     void setFlag(Flag flag) { _5c.setDirect(u8((1 << int(flag)) | _5c.getDirect())); }
-
+    // inline-only in the original; name is a guess. Evidence: every test spills the SEAD_ENUM argument
+    // before the lsl/and mask.
+    bool isFlagOn(Flag flag) const { return _5c.isOnBit(int(flag)); }
     void sub_7100600A6C();
+    // 0x71006013d4 (placeholder name): checks the manager singletons and the spawn flags, then either
+    // shows an info overlay and fails, warps, or runs sub_7100601594.
+    void sub_71006013D4();
+    // 0x7100601594 (placeholder name): changes to the display-name-flag child with the spawn flags and
+    // the target position.
+    void sub_7100601594();
     // 0x7100600bc4 (CSV havokQueryFinished): finishes the navmesh query, casting +-2 m around its hit
     // position to find the ground.
     bool havokQueryFinished();

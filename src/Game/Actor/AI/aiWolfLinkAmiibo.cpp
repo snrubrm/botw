@@ -1,8 +1,11 @@
 #include "Game/Actor/AI/aiWolfLinkAmiibo.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "Game/Actor/actWolfLink.h"
 #include "Game/UI/uiUtils.h"
+#include "Game/gameAmiiboMgr.h"
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking::ai {
 
@@ -63,6 +66,50 @@ void WolfLinkAmiibo::enter_(ksys::act::ai::InlineParamPack* params) {
 
 void WolfLinkAmiibo::leave_() {
     ksys::act::ai::Ai::leave_();
+}
+
+// NON_MATCHING: the five flag tests differ only in the commutative `and` operand order (ours puts the
+// mask first). The natural isOnBit form also loads _5c before the mask; a one-use mask local fixes that
+// scheduling but not the operand order.
+void WolfLinkAmiibo::sub_71006013D4() {
+    if (!AmiiboMgr::instance() || !ksys::gdt::Manager::instance()) {
+        ui::showInfoOverlay(15);
+        setFailed();
+        return;
+    }
+
+    if (isFlagOn(Flag::_5)) {
+        ui::showInfoOverlay(26);
+        setFailed();
+        return;
+    }
+
+    if (isFlagOn(Flag::_0) && !isFlagOn(Flag::_2)) {
+        ksys::act::ai::InlineParamPack pack;
+        pack.addVec3(_50, "TargetPos", -1);
+        changeChild("ワープ", &pack);
+        return;
+    }
+
+    if (isFlagOn(Flag::_1)) {
+        sub_7100601594();
+        return;
+    }
+
+    if (isFlagOn(Flag::_3)) {
+        ui::showInfoOverlay(25);
+        setFailed();
+        return;
+    }
+
+    sub_7100601594();
+}
+
+void WolfLinkAmiibo::sub_7100601594() {
+    ksys::act::ai::InlineParamPack pack;
+    pack.addInt(_5c.getDirect(), "SpawnFlags", -1);
+    pack.addVec3(_50, "TargetPos", -1);
+    changeChild("登録", &pack);
 }
 
 void WolfLinkAmiibo::loadParams_() {
