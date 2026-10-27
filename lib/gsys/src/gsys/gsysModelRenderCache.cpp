@@ -512,4 +512,7 @@ void ModelRenderCache::reset() {
         _14c[i] = agl::ShaderLocation(-1);
 }
 
+// 0x7100c811b8
+ModelRenderState::~ModelRenderState() {}
+
 }  // namespace gsys

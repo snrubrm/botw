@@ -47,4 +47,12 @@ private:
 };
 static_assert(sizeof(ModelDrawObjStream) == 0x20);
 
+// Partial: the environment info bound to a draw object stream. Only the empty destructor
+// 0x7100c7e270 is modelled; the constructor 0x7100c7e24c and bind 0x7100c7e278 are still
+// undecompiled.
+class ModelEnvInfo {
+public:
+    ~ModelEnvInfo();
+};
+
 }  // namespace gsys

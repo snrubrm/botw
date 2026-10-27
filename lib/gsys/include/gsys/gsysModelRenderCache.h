@@ -111,4 +111,11 @@ private:
 };
 static_assert(sizeof(ModelRenderCache) == 0x258);
 
+// Partial: only the empty destructor 0x7100c811b8 is modelled. The constructor 0x7100c81184 and
+// update 0x7100c811c0 are still undecompiled.
+class ModelRenderState {
+public:
+    ~ModelRenderState();
+};
+
 }  // namespace gsys

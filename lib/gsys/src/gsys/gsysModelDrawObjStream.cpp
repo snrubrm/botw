@@ -51,4 +51,7 @@ const ModelDrawObjStream::Entry* ModelDrawObjStream::mount() const {
     return mEntries;
 }
 
+// 0x7100c7e270
+ModelEnvInfo::~ModelEnvInfo() {}
+
 }  // namespace gsys

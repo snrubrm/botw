@@ -18,6 +18,11 @@ public:
     // Partial model: only the empty write hook is known. The manager's layout is not modelled.
     class ProbeVolumeMgr {
     public:
+        // 0x7100c77dc0: the initialization record's empty destructor.
+        struct InitArg {
+            ~InitArg();
+        };
+
         // 0x7100c7663c: empty in this build.
         void postWrite_() const;
     };

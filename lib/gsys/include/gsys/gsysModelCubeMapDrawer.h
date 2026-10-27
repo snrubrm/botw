@@ -18,6 +18,11 @@ class ShaderContext;
 // and setter read are modelled.
 class ModelCubeMapDrawer {
 public:
+    // 0x7100c7dcc8: the argument record's empty destructor.
+    struct CreateArg {
+        ~CreateArg();
+    };
+
     // 0x7100c7d950: sorts the two render queues.
     void update();
 

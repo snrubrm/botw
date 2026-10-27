@@ -34,4 +34,7 @@ void LightProbeMgr::DebugProbeInterp::initialize(sead::Heap* heap) {
     mBlock1.create(heap, 1, 1);
 }
 
+// 0x7100c77dc0
+LightProbeMgr::ProbeVolumeMgr::InitArg::~InitArg() {}
+
 }  // namespace gsys

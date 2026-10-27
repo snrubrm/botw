@@ -8,4 +8,7 @@ void ModelCubeMapDrawer::update() {
     mQueue1.sort();
 }
 
+// 0x7100c7dcc8
+ModelCubeMapDrawer::CreateArg::~CreateArg() {}
+
 }  // namespace gsys
