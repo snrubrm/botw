@@ -17,6 +17,7 @@
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/VFR.h"
+#include "KingSystem/ActorSystem/actAiActionBase.h"
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -30,6 +31,7 @@
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include <prim/seadStringBuilder.h>
 #include "KingSystem/Utils/MathUtil.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
@@ -2027,5 +2029,19 @@ bool sub_71005E0904(ksys::act::Actor* actor, f32 value) {
         if (min - actor->getMtx().m[1][3] >= value)
             return true;
     }
+    return false;
+}
+
+bool Unk_71005e1be8::sub_71005E1BE8(ksys::act::ai::ActionBase* action, int idx) {
+    sead::FixedStringBuilder<64> name;
+    const int n = idx + 1;
+    name.format("EntitySensorName%d", n);
+    action->getStaticParam(&_20, name);
+    name.format("PartsKey%d", n);
+    action->getStaticParam(&_0, name);
+    name.format("RigidBodyName%d", n);
+    action->getStaticParam(&_10, name);
+    name.format("ModelMatrialName%d", n);
+    action->getStaticParam(&_30, name);
     return false;
 }

@@ -421,7 +421,7 @@ bool sub_71005E1974(ksys::act::Actor* actor, Unk_71023e7bc0* sender, const char*
 // of a Golem part (GolemRepairParts / GolemThrowPartsBase embed two, at +0x60 / +0xa0).
 struct Unk_71005e1be8 {
     // 0x71005e1be8: loads the strings as static params whose names are formatted with `idx` + 1.
-    void sub_71005E1BE8(ksys::act::ai::ActionBase* action, int idx);
+    bool sub_71005E1BE8(ksys::act::ai::ActionBase* action, int idx);
 
     sead::SafeString _0;
     sead::SafeString _10;
