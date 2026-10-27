@@ -39,7 +39,8 @@ public:
     void pushBack(const sead::Vector3f& position, agl::lght::LocalLightMapObj* obj);
     // 0x7100c32ccc: updates the light map and light pre-pass GPU state.
     void calcGPUDrawBackGround() const;
-    // 0x7100c33f60: passes the current view and frustum to SSII.
+    // 0x7100c32c1c / 0x7100c33f60: pass the current view state to the light pre-pass and SSII.
+    void calcViewLightPrePass(const ModelSceneContext& context);
     void calcViewSSII(const ModelSceneContext& context);
     // 0x7100c34844: the per-view GPU steps of SSSSS, SSII and the light probes.
     void calcViewGPU(const ModelSceneContext& context);

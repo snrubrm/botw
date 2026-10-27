@@ -56,6 +56,20 @@ void ModelSceneGI::calcGPUDrawBackGround() const {
         mLightPrePass->updateGPU();
 }
 
+// NON_MATCHING: the body agrees, but clang loads the view index straight into w1 where the
+// original loads it into w8 and moves it (one extra mov, 64 B against 68 B).
+// 0x7100c32c1c
+void ModelSceneGI::calcViewLightPrePass(const ModelSceneContext& context) {
+    if (!mLightPrePass || !_8->isFeatureEnabled(ModelSceneConfig::Feature::LightPrePass))
+        return;
+    const ModelRenderContext::ViewData* view = context.getViewData();
+    const u8 view_index = context.getViewIndex();
+    mLightPrePass->calcContext(view_index, view->view,
+                               view->frustum.getProjectionMatrix(), view->frustum.getNear(),
+                               view->frustum.getFar(), view->frustum.getFovy(),
+                               view->frustum.getAspect(), view->frustum.getOffset());
+}
+
 // 0x7100c33f60
 void ModelSceneGI::calcViewSSII(const ModelSceneContext& context) {
     if (!mSSII || !_8->isFeatureEnabled(ModelSceneConfig::Feature::SSII))
