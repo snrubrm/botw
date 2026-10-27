@@ -55,4 +55,9 @@ const char* ModelShader::getVtxSkinWeightName() {
     return "gsys_weight";
 }
 
+void ModelShader::clearShaderOption() {
+    mShaderOption = 0;
+}
+
 }  // namespace gsys
+

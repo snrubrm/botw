@@ -25,6 +25,12 @@ public:
     static const char* getAssignID();
     static const char* getAssignVariationID();
     static const char* getVtxSkinWeightName();
+    // 0x7100c3c258
+    void clearShaderOption();
+
+private:
+    u8 _0[0xc8];
+    /* 0xc8 */ u32 mShaderOption;
 };
 
 // Only the members ModelShaderHolder uses are declared (constructor 0x7100c3cc14 builds 0x58 bytes).
