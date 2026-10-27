@@ -785,6 +785,10 @@ sead::BoundBox2f* Unk_710249c3d0::getBounds() {
     return &mBounds;
 }
 
+// 0x7100a6cbc8
+Unk_710249c3f0::Unk_710249c3f0()
+    : _28(sead::ControllerBase::cInvalidPointer), _30(sead::ControllerBase::cInvalidPointer) {}
+
 // 0x7100a6cc44
 Unk_710249c3f0::~Unk_710249c3f0() = default;
 

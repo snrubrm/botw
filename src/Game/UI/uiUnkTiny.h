@@ -675,17 +675,29 @@ public:
 };
 static_assert(sizeof(Unk_710249c3d0) == 0x28);
 
-// Member _468 of Unk_710249c338 (ctor 0x7100a6cbc8, not decompiled: it stores the result of an unidentified
-// import call at 0x38).
+// Member _468 of Unk_710249c338 (ctor 0x7100a6cbc8). The drag state of a UI control region: 3.0f and
+// 20.0f are the squared and the plain distance thresholds, 0x18 is the last measured distance, and the
+// two positions at 0x28 / 0x30 start at ControllerBase::cInvalidPointer. The tick at 0x38 times the drag.
 class Unk_710249c3f0 {
 public:
+    Unk_710249c3f0();
     virtual ~Unk_710249c3f0();
     sead::BoundBox2f* getBounds();
     u8 get9() const;
 
-    /* 0x08 */ u8 _8;
-    /* 0x09 */ u8 _9;  // 30 after construction
-    u8 _a[0x40 - 0xa];
+    /* 0x08 */ u8 _8 = 0;
+    /* 0x09 */ u8 _9 = 30;
+    /* 0x0a */ u8 _a;
+    u8 _b;
+    /* 0x0c */ f32 _c = 0.0f;
+    /* 0x10 */ f32 _10 = 3.0f;
+    /* 0x14 */ f32 _14 = 20.0f;
+    /* 0x18 */ f32 _18 = 0.0f;
+    /* 0x1c */ u32 _1c;
+    /* 0x20 */ u64 _20 = 160;
+    /* 0x28 */ sead::Vector2f _28;
+    /* 0x30 */ sead::Vector2f _30;
+    /* 0x38 */ sead::TickTime _38;
     /* 0x40 */ sead::BoundBox2f mBounds;
 };
 static_assert(sizeof(Unk_710249c3f0) == 0x50);
