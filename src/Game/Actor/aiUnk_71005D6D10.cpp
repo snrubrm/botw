@@ -23,6 +23,12 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/VFR.h"
+#include "KingSystem/System/Vibration.h"
+#include "KingSystem/Sound/sndSound.h"
+#include "KingSystem/Physics/System/physStaticCompoundMgr.h"
+#include "KingSystem/Physics/System/physSystem.h"
+#include "Game/Actor/actSoundProxy.h"
+#include <xlink2/xlink2HandleSLink.h>
 #include "KingSystem/ActorSystem/actAiActionBase.h"
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
@@ -2467,6 +2473,42 @@ bool sub_71005DD7E4(sead::BufferedSafeString* out, const sead::SafeString& name)
         }
     }
     return false;
+}
+
+// 0x71005ddc98: stops the rotation sound and requests the matching camera rumble.
+void sub_71005DDC98(ksys::act::Actor* actor, s32 pattern, f32 power, f32 range, bool start,
+                    ksys::map::Object* object) {
+    if (auto* proxy = ksys::snd::SoundMgr::instance()->_a0->sub_710105A830(object)) {
+        xlink2::HandleSLink handle;
+        if (start)
+            proxy->sub_710105A10C("StopCW", &handle);
+        else
+            proxy->sub_710105A10C("StopCCW", &handle);
+        if (!handle.isActive())
+            proxy->sub_710105A10C("Stop", &handle);
+    } else {
+        xlink2::HandleSLink handle;
+        if (start)
+            ksys::eft::sub_710105DDB8(actor, "StopCW", &handle);
+        else
+            ksys::eft::sub_710105DDB8(actor, "StopCCW", &handle);
+        if (!handle.isActive())
+            ksys::eft::sub_710105DDB8(actor, "Stop", &handle);
+    }
+
+    ksys::Vibration::Unk2 request;
+    request._20 = pattern;
+    request._18 = power;
+    request._1c = range;
+    sead::Vector3f pos;
+    actor->getHomePos(&pos);
+    sead::Matrix34f mtx = sead::Matrix34f::ident;
+    mtx.setTranslation(pos);
+    if (auto* mgr = ksys::phys::System::instance()->getStaticCompoundMgr())
+        mtx = mgr->getTransformedMatrix(actor->getFieldBodyGroup(), mtx);
+    mtx.getTranslation(pos);
+    request._0 = pos;
+    ksys::Vibration::instance()->sub_71010BB428(request);
 }
 
 // 0x71005dd3a8: forwards a mimicry material request to every weapon and its optional weapon.
