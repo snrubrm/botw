@@ -116,6 +116,9 @@ public:
     void sub_71006E8770();
     void sub_71006E8AD0();
     void sub_71006E8D00();
+    // 0x71006e9780 (not decompiled): whether the actor touches curse ground or has a curse contact
+    // (twin of Unk_710244dd20::sub_71006D1C34).
+    bool sub_71006E9780();
     void sub_71006E8E04();
     void sub_71006E8F20();
     void sub_71006E90A0();

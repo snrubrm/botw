@@ -53,6 +53,31 @@ bool Unk_710244edc0::m8(const ksys::Message& message) {
     return _30.m2(message);
 }
 
+void Unk_710244edc0::sub_71006E8D00() {
+    if (sub_71006E9780()) {
+        auto* param = sub_71006DF5A4();
+        if (param && param->mCurseAffect.ref() && !_8.isOn(0x800)) {
+            sub_71006DF750();
+            param = sub_71006DF5A4();
+            _24 = param ? static_cast<f32>(param->mCurseInterval.ref()) : 0.0f;
+            _8.set(0x800);
+            param = sub_71006DF5A4();
+            if (param && param->mCurseDamage.ref() >= 1) {
+                act::ConditionDamageInfo info;
+                info.mKind = 11;
+                info.mDamage = param->mCurseDamage.ref();
+                sub_71006DF5CC(info);
+            }
+        }
+        _28 = 60.0f;
+    } else if (_28 > 0.0f) {
+        ksys::Timer::update(&_28, -1.0f);
+    } else {
+        sub_71006DF750();
+    }
+    _30.x();
+}
+
 // 60.0f at 0x7101DA2354 (read by sub_71006E90A0).
 extern const f32 sUnk_7101DA2354;
 const f32 sUnk_7101DA2354 = 60.0f;
