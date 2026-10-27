@@ -2819,6 +2819,77 @@ void ScreenAppPictureBookUnk::sub_710093F278(s32 value, s32 index) {
     sub_710093F29C();
 }
 
+// NON_MATCHING: the running-sum add has its operands swapped (commutative), the empty scroll box is built with
+// integer copies (ldp w / fmov) where the original loads floats, and the trailing sub_710094004C call is not a
+// tail call here (bl + epilogue vs b).
+// 0x710093f29c
+void ScreenAppPictureBookUnk::sub_710093F29C() {
+    if (PictureBookItem* item = _318) {
+        if (item->_10) {
+            item->_10 = false;
+            item->m9();
+        }
+        _318 = nullptr;
+    }
+
+    for (auto& list : mGroupLists) {
+        for (auto& unit : list.mUnits) {
+            for (auto& u : unit.mUnits) {
+                if (u._10)
+                    u._10->setFlag10(false);
+            }
+        }
+    }
+
+    for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+        if (*it)
+            (*it)->sub_710093AC7C();
+    }
+
+    _2ac = 0;
+    for (ScreenAppPictureBookEntry** it = mEntries.data(), **end = it + mEntries.size(); it != end; ++it) {
+        if (*it)
+            _2ac += (*it)->_2f4;
+    }
+
+    _2b0.setFromCornerAndXY(sead::Vector2f::zero, 0.0f, 0.0f);
+    {
+        sead::Vector2f last = sead::Vector2f::zero;
+        if (mEntries.size() > 0) {
+            // the last page of the last entry that has pages
+            const s32 last_entry = _2a8 - 1;
+            s32 page = -1;
+            if (last_entry >= 0) {
+                s32 i = _2a8;
+                s32 count;
+                do {
+                    count = mEntries(i - 1)->_2f4;
+                    if (i < 2)
+                        break;
+                    --i;
+                } while (count < 1);
+                page = count - 1;
+            }
+            sub_71009419E0(page, last_entry, &last);
+        }
+        _2b0.set(0.0f, 0.0f, -last.x, -last.y);
+    }
+
+    const s32 num_entries = mEntries.size();
+    for (s32 i = 0; i < num_entries; ++i) {
+        ScreenAppPictureBookEntry* entry = mEntries[i];
+        if (entry->_2f4 > 0) {
+            sub_71009419E0(0, i, &entry->_368);
+            sub_71009419E0(entry->_2f4 - 1, i, &entry->_370);
+        } else {
+            entry->_368.set(sead::Vector2f::zero);
+            entry->_370.set(sead::Vector2f::zero);
+        }
+    }
+
+    sub_710094004C();
+}
+
 // 0x710093fd14
 void ScreenAppPictureBookUnk::sub_710093FD14(s32 index) {
     if (index >= 0 && mEntries.data() && index < _2a8)

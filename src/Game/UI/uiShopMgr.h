@@ -55,6 +55,8 @@ class UiShopMgr : public UiShopMgrBase, public ksys::MessageTransceiverTxOnly::I
 
 public:
     ~UiShopMgr() override;
+    // 0x7100980a70: empty in the original (the class's stub initialiser).
+    void initStubbed();
     // The shop state (set by UiShopMgr::sub_7100982A44 & co.; 3 = ..., 4 = ..., 5 = NPC shop data set,
     // 6, 9, 10, 11-13, 14 are tested by the UI facade functions).
     s32 _30 = 0;

@@ -33,6 +33,9 @@ UiShopMgr::UiShopMgr() : mTransceiver(this) {}
 // D1 0x7100980968, D0 0x71009809e0 (thunks at +8: 0x71009809a4 / 0x7100980a24)
 UiShopMgr::~UiShopMgr() = default;
 
+// 0x7100980a70
+void UiShopMgr::initStubbed() {}
+
 // 0x7100980f48
 // NON_MATCHING: the state branches and currency/count lookup paths allocate registers differently.
 void UiShopMgr::sub_7100980F48(ShopItem* item) {
