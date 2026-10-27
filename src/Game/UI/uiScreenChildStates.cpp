@@ -1706,6 +1706,15 @@ void AppMapIconPart::sub_710099FD3C() {
     }
 }
 
+// 0x710099fd8c (placeholder name): stops the first marker's animator at its maximum frame.
+void AppMapIconPart::sub_710099FD8C() {
+    if (_2f0.size() != 0) {
+        Unk_7102478c68* marker = _2f0(0);
+        if (marker && marker->_58)
+            marker->_58->StopAtMax();
+    }
+}
+
 // 0x7100994e88
 bool AppMapIconPart::sub_7100994E88() const {
     return _410 != nullptr;

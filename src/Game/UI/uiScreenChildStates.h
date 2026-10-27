@@ -420,6 +420,8 @@ public:
     void sub_7100994E98();
     // 0x710099fd3c (placeholder name): resets the markers, then stops the first marker's animator.
     void sub_710099FD3C();
+    // 0x710099fd8c (placeholder name): stops the first marker's animator at its maximum frame.
+    void sub_710099FD8C();
     // 0x7100994e88: the +0x410 state object is set
     bool sub_7100994E88() const;
     // 0x7100990984: the hovered icon's subsystem entry (the +0x410 marker's +0x18), or null
