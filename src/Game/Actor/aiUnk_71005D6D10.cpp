@@ -1733,6 +1733,32 @@ bool sub_71005DF024(f32 range, f32 min_speed, f32 angle_limit, ksys::act::Actor*
     }
 }
 
+// 0x71005df270: the position of the linked map object named `anchor_name`, moved `dist` towards the
+// enemy's current target position (or towards the origin without one), along the ground plane.
+void sub_71005DF270(sead::Vector3f* out, ksys::act::Actor* actor, const sead::SafeString& anchor_name,
+                    f32 dist) {
+    if (auto* object = actor->getMapObject()) {
+        if (auto* links = object->getLinkData()) {
+            auto objects = links->mObjects;
+            for (s32 i = 0; i < objects.size(); ++i) {
+                if (sead::SafeString(objects(i)->getUnitConfigName()) == anchor_name) {
+                    const sead::Vector3f& anchor =
+                        sead::IsDerivedFrom<Enemy>(actor) ? static_cast<Enemy*>(actor)->_c48._18
+                                                          : sead::Vector3f::zero;
+                    out->set(anchor);
+                    *out -= objects(i)->getTranslate();
+                    out->y = 0;
+                    out->normalize();
+                    *out *= dist;
+                    *out += objects(i)->getTranslate();
+                    return;
+                }
+            }
+        }
+    }
+    actor->getHomePos(out);
+}
+
 // 0x71005dcb3c: forwards the actor's gravity/position vector to the launch-point search.
 bool sub_71005DCB3C(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Vector3f* pos, f32 a,
                     f32 b) {
