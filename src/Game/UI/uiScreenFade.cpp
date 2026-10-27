@@ -9,9 +9,14 @@
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiTagProcessor.h"
 #include "Game/AOC/aocHardModeManager.h"
+#include "Game/UI/euiAnimator.h"
 #include "Game/UI/uiUI.h"
+#include "KingSystem/Event/evtEventFlow.h"
+#include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Sound/sndSound.h"
+#include "KingSystem/System/SeadController.h"
 #include "KingSystem/System/UIGlue.h"
+#include <math/seadMathCalcCommon.h>
 
 namespace uking::ui {
 
@@ -263,6 +268,102 @@ void Fade::setStartedMaybe(bool started) {
 // 0x71010a0d40
 void Fade::clearSomeTipsField() {
     mTips.clear();
+}
+
+// 0x71010a13d4
+// NON_MATCHING: the event-name comparison's receiver address is loaded with a pre-indexed load here instead of the
+// original's separate add (one addressing-mode difference in the first block; the rest matches).
+void Fade::m94() {
+    auto* event = ksys::evt::Manager::instance()->getActiveEvent();
+    if (event && mDrawTarget == 1 && event->mEventName == "Demo169_0")
+        setDrawTargetMaybe(0);
+
+    if (!_3a8)
+        return;
+
+    if (_388) {
+        const f32 progress = sead::Mathf::clamp(_3b0, 0.0f, 1.0f);
+        _388->Stop(progress * f32(_388->GetFrameSize()));
+    }
+
+    switch (_a14) {
+    case 0:
+        if (_a26)
+            break;
+        if (_a25) {
+            _a14 = 4;
+            return;
+        }
+        if (mTips.size() == 0)
+            return;
+        if (!isOpened())
+            return;
+        _368->PlayAuto(1.0f);
+        updateTipMessage();
+        ++_a10;
+        _a14 = 1;
+        return;
+    case 1:
+        if (_a26)
+            break;
+        if (_a25) {
+            _a14 = 4;
+            return;
+        }
+        if (_a18 >= _a1c) {
+            _348->select(0)->PlayAuto(1.0f);
+            _a14 = 2;
+            return;
+        }
+        _a18 += getAnimationStep_();
+        return;
+    case 2:
+        if (_a26) {
+            _348->select(1)->PlayAuto(1.0f);
+            break;
+        }
+        if (_a25) {
+            _348->select(1)->PlayAuto(1.0f);
+            _a14 = 4;
+            return;
+        }
+        if (mTips.size() != 0) {
+            if (auto* controller = sub_71010AA9D0()) {
+                if (controller->isTrig(1)) {
+                    _348->select(0)->PlayAuto(1.0f);
+                    _350->select(0)->PlayAuto(1.0f);
+                    _a14 = 3;
+                }
+            }
+        }
+        return;
+    case 3:
+        if (_a26)
+            break;
+        if (_a25) {
+            _a14 = 4;
+            return;
+        }
+        if (!(_350->mCurrent->mFlags & 1))
+            return;
+        updateTipMessage();
+        _350->select(1)->PlayAuto(1.0f);
+        _a18 = 0;
+        ++_a10;
+        _a14 = 1;
+        return;
+    case 4:
+        if (!_a26)
+            return;
+        break;
+    default:
+        return;
+    }
+
+    if (_368->mFrame != 0.0f)
+        _378->PlayAuto(1.0f);
+    _380->PlayAuto(1.0f);
+    _a14 = 5;
 }
 
 // 0x71010a18b0

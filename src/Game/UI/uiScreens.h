@@ -1870,6 +1870,9 @@ public:
     void m100() override;
     // 0x71010a18b0 (CSV Fade::m98): resets the fade animators and flags and plays the fade UI sound.
     void m98() override;
+    // 0x71010a13d4 (CSV Fade::m94UpdateMaybe): the tips state machine; also switches the draw target away from the
+    // Demo169_0 event and scales the load-bar gauge with the fade progress.
+    void m94() override;
     // 0x71010a0b88 (placeholder name): whether the animator at _300 is at its last frame
     bool sub_71010A0B88() const;
     // 0x71010a0bbc: starts the colour animator forwards / backwards
