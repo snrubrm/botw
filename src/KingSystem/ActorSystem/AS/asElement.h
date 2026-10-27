@@ -944,8 +944,8 @@ public:
         virtual ~Unk18();
         virtual void sub_710125B118();
 
-        // 0x710125ac84 (not modelled): fills the node's key and value from the model animation and
-        // the actor's animation info (signature: (this, const Key&, gsys::Model*, act::Actor*, bool)).
+        // 0x710125ac84 fills the node's key and value from the model animation and
+        // the actor's animation info.
 
         // Left-leaning red-black tree node (same layout as sead::TreeMapNode): the low bit of
         // mColorAndPtr is the colour, the rest is the parent.
@@ -1101,8 +1101,8 @@ private:
     SkeltalAsset::Unk18* find(SkeltalAsset::Unk18* root, const Key& key) const;
 };
 
-// 0x710125ac84 (declaration only): fills a node's key, animation scale and partial flag from the
-// model animation and the actor's animation info / ASList AddRes entries.
+// 0x710125ac84: fills a node's key, animation scale and partial flag from the model animation and
+// the actor's animation info / ASList AddRes entries.
 bool sub_710125AC84(SkeltalAsset::Unk18* out,
                     const gsys::AnimationAccessKey<gsys::SkeletalAnmType>* key, gsys::Model* model,
                     act::Actor* actor);

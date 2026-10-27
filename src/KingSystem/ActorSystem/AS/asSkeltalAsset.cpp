@@ -1,8 +1,13 @@
 #include "KingSystem/ActorSystem/AS/asElement.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceAS.h"
+#include "KingSystem/Resource/Actor/resResourceASList.h"
 #include "KingSystem/Resource/Actor/resResourceASResource.h"
+#include "KingSystem/Resource/Actor/resResourceAnimInfo.h"
+#include "KingSystem/Resource/Actor/resResourceActorLink.h"
 #include "KingSystem/System/Patrol.h"
+#include <nn/g3d/ResFile.h>
 #include <nn/g3d/ResSkeletalAnim.h>
 #include <gsys/gsysModelUnit.h>
 
@@ -41,6 +46,43 @@ const nn::g3d::ResBoneAnim* SkeltalAsset::sub_710125D3FC(Context* ctx,
 void SkeltalAsset::Unk18::sub_710125B118() {
     _8 = nullptr;
     _10 = nullptr;
+}
+
+// NON_MATCHING: the target reads the key's index as a whole 32-bit word shifted right 16 (a bitfield
+// load) and uses the 32-bit value in the array index; our s16 `index` field loads with ldrsh and
+// 64-bit address math. The body is otherwise identical (see the lib request for AnimationAccessKey).
+bool sub_710125AC84(SkeltalAsset::Unk18* out,
+                    const gsys::AnimationAccessKey<gsys::SkeletalAnmType>* key, gsys::Model* model,
+                    act::Actor* actor) {
+    out->mKey = *key;
+
+    auto* animation = model->getAnimation();
+    if (animation) {
+        const auto* resource = static_cast<const nn::g3d::ResSkeletalAnim*>(
+            animation->mSkeletalResources[key->index].resource->resource);
+        if (resource) {
+            const act::ActorParam* param = actor->getParam();
+            const res::AnimInfo* anim_info = param->getRes().mAnimationInfo;
+            if (anim_info && !param->isDummyParam(res::ActorLink::User::AnimationInfo)) {
+                if (const auto* anim = anim_info->getAnim(resource->GetName()))
+                    out->_28 = &anim->scale;
+            }
+        }
+
+        const auto* file = animation->searchResFile(*key);
+        if (file) {
+            const sead::SafeString name(file->GetName());
+            const res::ASList* as_list = actor->getParam()->getRes().mASList;
+            const s32 num = as_list->getAddReses().size();
+            for (s32 i = 0; i < num; ++i) {
+                if (name == as_list->getAddReses()[i].anim.ref().cstr()) {
+                    out->_25 = as_list->getAddReses()[i].retarget_no_correct.ref();
+                    break;
+                }
+            }
+        }
+    }
+    return true;
 }
 
 // The animation-source tree of SkeltalAsset::m5 / m8 and ASList +0x168 / +0x178. The removal is the
