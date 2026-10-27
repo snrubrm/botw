@@ -37,6 +37,21 @@ bool sub_71010A7C00(s32 index) {
     return result;
 }
 
+// 0x71010a6454 (CSV unnamed): queues the message in the 3D message screen and plays its sound.
+bool UI::sub_71010A6454(const sead::SafeString& message_set, const sead::SafeString& label,
+                        ksys::act::Actor* actor, f32 time, bool flag) {
+    auto* screen = sead::DynamicCast<ScreenMessage3D>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::Message3D));
+    if (!screen)
+        return false;
+    if (screen->sub_71010AE104(message_set, label))
+        return false;
+    if (mBalloonTextOn)
+        screen->sub_71010AE190(actor, time, flag);
+    ksys::snd::SoundMgr::instance()->_48->sub_710105598C(message_set, label, -1, actor);
+    return true;
+}
+
 // 0x71010a66cc
 void UI::x(const sead::SafeString& item_name) {
     ksys::ui::sub_7100EDC530(ScreenId::MessageGet, nullptr);

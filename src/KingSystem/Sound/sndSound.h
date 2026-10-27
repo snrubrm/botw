@@ -1292,7 +1292,9 @@ public:
     virtual ~Unk_SoundMgr48();
     void sub_710105590C(sead::Heap* heap);
     void sub_7101055B44();
-    void sub_710105598C(const sead::SafeString& path, const sead::SafeString& name, s32 suffix);
+    // The original also passes a 4th (actor) argument that the release body never reads.
+    void sub_710105598C(const sead::SafeString& path, const sead::SafeString& name, s32 suffix,
+                        ksys::act::Actor* actor);
     // Outside-TU callers pass SoundMgr::_48. The unused bool and formal FP order
     // are interface inferences from the handle / 0-or-1 / delay argument protocol.
     void sub_7101055B88(aal::Handle* handle, bool flag, f32 delay);

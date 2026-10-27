@@ -55,7 +55,8 @@ void Unk_SoundMgr48::sub_710105590C(sead::Heap* heap) {
 
 // NON_MATCHING: string formatting, handle setup and register scheduling differ.
 void Unk_SoundMgr48::sub_710105598C(const sead::SafeString& path,
-                                   const sead::SafeString& name, s32 suffix) {
+                                   const sead::SafeString& name, s32 suffix,
+                                   ksys::act::Actor* actor) {
     if (!_10)
         return;
     aal::AssetInfo info;
