@@ -90,6 +90,9 @@ public:
     void sub_71002F5408();
     void sub_71002F5618();
     void sub_71002F56D8();
+    // 0x71002f581c (not decompiled; 616 bytes): called by sub_71002F56D8 while the attack event is
+    // neither playing nor latched.
+    void sub_71002F581C();
 
     // Fields are accessed directly by AI classes.
     /* 0x14c8 */ u8 _14c8[0x14f8 - 0x14c8];  // ctor 0x710071edf8(this + 0x14c8, this)

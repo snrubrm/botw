@@ -3,6 +3,9 @@
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameWolfLinkMgr.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
@@ -18,6 +21,9 @@
 #include "Game/Actor/aiUnk_7100742478.h"
 
 namespace uking::act {
+
+// The "AtkBody" havok body name, shared with sub_71002F581C in the original.
+static const sead::SafeString sAtkBody("AtkBody");
 
 WolfLink::~WolfLink() = default;
 
@@ -358,6 +364,52 @@ void WolfLink::sub_71002F5618() {
     }
 
     _1698 |= 0x2000;
+}
+
+// 0x71002f56d8: attack-body state of the AS event: while the attack event plays and the actor has
+// attack info, sets _1698 bit 1 and makes the "AtkBody" rigid body dynamic; clears bit 1 when the
+// event or the whole attack sequence ends.
+// NON_MATCHING: the two flag tests of the "not latched" path are if-converted into one
+// `bit1 | playing` value (two instructions more); the rest matches.
+void WolfLink::sub_71002F56D8() {
+    auto* as_list = getASList();
+    if (!as_list)
+        return;
+
+    ksys::as::ASList::Unk4 query;
+    const bool playing =
+        as_list->sub_710115FBC8(3, &query, &ksys::as::ASList::Unk2::sub_71011638DC, true);
+    if (!(_1698 & 1)) {
+        if (!(_1698 & 2)) {
+            if (!playing)
+                sub_71002F581C();
+        }
+    } else {
+        if (!(_1698 & 2)) {
+            bool start_attack = true;
+            if (playing) {
+                if (hasAttackInfo(this))
+                    _1698 |= 2;
+                else
+                    start_attack = false;
+            }
+            if (start_attack) {
+                auto* body_set = getPhysics()->findBodyByName(*sub_71007A24BC());
+                if (body_set) {
+                    if (auto* body = body_set->findBodyByHavokName(sAtkBody)) {
+                        sub_71007A3258(body, nullptr);
+                        if (auto* controller = getCharacterController()) {
+                            controller->sub_7100F62DD0(1.0f);
+                            _1698 &= ~1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (as_list->x_7(0, 0, &ksys::as::ASList::Unk2::sub_7101163940) || as_list->x_4(0, 0))
+        _1698 &= ~2;
 }
 
 void WolfLink::sub_71002F4B3C() {
