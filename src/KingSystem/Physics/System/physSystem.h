@@ -75,6 +75,9 @@ public:
     const sead::Vector3f& getField48() const { return _48; }
 
     bool isPaused() const;
+    // 0x7101216740 (CSV PhysicsMemSys::calc; placeholder name): frees the temp heap and marks it
+    // disposing.
+    void calc();
     // lane4 s30 (CSV PhysicsMemSys::setPauseState / initBeforeStageGen / waitForResourceCreation /
     // setRigidBodyDividedMeshShapeMgr):
     // 0x710121677c

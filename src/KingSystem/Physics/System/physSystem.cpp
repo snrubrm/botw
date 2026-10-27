@@ -45,6 +45,11 @@ void System::setPauseState(bool paused) {
     mPaused = paused;
 }
 
+void System::calc() {
+    mPhysicsTempDefaultHeap->freeAll();
+    mPhysicsTempDefaultHeap->mFlag.setBit(sead::Heap::Flag::cDisposing);
+}
+
 void System::initBeforeStageGen(sead::Heap* heap) {
     mContactMgr->initContactPointPool(heap, mIsIndoorStage);
 }
