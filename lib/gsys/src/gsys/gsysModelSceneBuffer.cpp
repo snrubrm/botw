@@ -18,6 +18,33 @@ void ModelSceneBuffer::preCalcView(ModelSceneContext* context) {
     mRenderBufferContext->clear(context->getViewIndex());
 }
 
+// 0x7100c18ee4
+void ModelSceneBuffer::beginDeferredShading(agl::DrawContext* draw_context,
+                                            ModelSceneContext* context) const {
+    GBuffer* gbuffer = mRenderBufferContext->getContext(context->getViewIndex())->mGBuffer;
+    gbuffer->beginDeferredShading(draw_context, GBuffer::MaterialIdMask(0),
+                                  agl::TextureCompSel(2));
+    context->setRenderBuffer(gbuffer->getRenderBuffer());
+}
+
+// 0x7100c18f3c
+bool ModelSceneBuffer::isDeferredShadingValid(const ModelSceneContext& context) const {
+    if (!_8->isFeatureEnabled(ModelSceneConfig::Feature::DeferredShading))
+        return false;
+    if (_1718 < 1)
+        return false;
+    return context.isQueueMaskValid(ModelSceneContext::QueueType(1), sead::BitFlag32(0x2000));
+}
+
+// 0x7100c18fa4
+bool ModelSceneBuffer::isPreDeferredShadingValid(const ModelSceneContext& context) const {
+    if (!_8->isFeatureEnabled(ModelSceneConfig::Feature::DeferredShading))
+        return false;
+    if (_1718 < 1)
+        return false;
+    return context.isQueueMaskValid(ModelSceneContext::QueueType(1), sead::BitFlag32(0x1000));
+}
+
 // 0x7100c17b6c
 void ModelSceneBuffer::updateFrame() {
     mFrameRateControlBuffer.updateFrame();

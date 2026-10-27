@@ -135,6 +135,7 @@ public:
     const ViewData* getViewData() const { return mViewData.getBufferPtr(); }
     u8 getViewIndex() const { return _8[0]; }
     const agl::RenderBuffer* getRenderBuffer() const { return mRenderBuffer; }
+    void setRenderBuffer(const agl::RenderBuffer* buffer) { mRenderBuffer = buffer; }
     const sead::Viewport* getViewport() const { return mViewport; }
     // Inline-only in the original; name is a guess (the map renderer sets its scene material through it).
     ShaderContext* getShaderContext() const { return mShaderContext; }

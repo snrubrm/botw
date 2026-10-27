@@ -34,6 +34,11 @@ public:
     void beginReducedQuarterBuffer(agl::DrawContext* draw_context, ModelSceneContext* context) const;
     void endReducedQuarterBuffer(agl::DrawContext* draw_context, ModelSceneContext* context) const;
     void endReducedBuffer(agl::DrawContext* draw_context, ModelSceneContext* context) const;
+    // 0x7100c18ee4: begins the deferred pass of the context's GBuffer.
+    void beginDeferredShading(agl::DrawContext* draw_context, ModelSceneContext* context) const;
+    // 0x7100c18f3c / 0x7100c18fa4
+    bool isDeferredShadingValid(const ModelSceneContext& context) const;
+    bool isPreDeferredShadingValid(const ModelSceneContext& context) const;
     // 0x7100c191a8 / 0x7100c191bc
     void releaseOpa(const ModelSceneContext& context) const;
     void releaseXlu(const ModelSceneContext& context) const;
@@ -55,7 +60,10 @@ private:
     u8 _4b8[0x1712 - 0x4b8];
     // endGBufferPreShading tests bit 3, expandGBuffer bit 2.
     u8 _1712;
-    u8 _1713[0x1728 - 0x1713];
+    u8 _1713[0x1718 - 0x1713];
+    // 0x7100c18f3c / 0x7100c18fa4 require at least one of these records.
+    s32 _1718;
+    u8 _171c[0x1728 - 0x171c];
 };
 static_assert(sizeof(ModelSceneBuffer) == 0x1728);
 

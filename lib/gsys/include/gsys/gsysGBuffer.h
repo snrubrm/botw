@@ -58,6 +58,8 @@ public:
 
     // 0x7100c7159c: whether either resolution's pre-shading buffers are flagged.
     bool isRendering() const;
+    /// Inline-only accessor: the first resolution's render buffer at +0x770.
+    agl::RenderBuffer* getRenderBuffer() { return &mRenderBuffer; }
     // 0x7100c7367c / 0x7100c73734: the deferred-shading pass around the material-ID expansion.
     void beginDeferredShading(agl::DrawContext*, MaterialIdMask, agl::TextureCompSel);
     void endDeferredShading();
