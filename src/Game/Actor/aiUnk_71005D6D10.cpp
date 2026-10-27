@@ -2032,6 +2032,19 @@ bool sub_71005E0904(ksys::act::Actor* actor, f32 value) {
     return false;
 }
 
+// 0x71005e2540: eases the controller's direction toward the target velocity and passes the
+// resulting speed to the controller.
+// NON_MATCHING: the original copies the velocity into callee-saved registers; ours round-trips the
+// copy through the local's stack slot (two extra load/store pairs).
+void sub_71005E2540(ksys::phys::CharacterController* controller, ksys::act::Actor* actor,
+                    const sead::Vector3f& target_velocity, f32 acc_ratio) {
+    sead::Vector3f dir = actor->getVelocity();
+    ksys::VFR::lerp(&dir, target_velocity, acc_ratio);
+    const f32 speed = dir.normalize();
+    sub_710072C1B4(controller, dir);
+    sub_7100737708(controller, speed);
+}
+
 bool Unk_71005e1be8::sub_71005E1BE8(ksys::act::ai::ActionBase* action, int idx) {
     sead::FixedStringBuilder<64> name;
     const int n = idx + 1;
