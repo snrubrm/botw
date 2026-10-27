@@ -111,7 +111,10 @@ private:
     // The pause menu's model mode for the selected category (m94 / m98): 0, 2, 1 for the first three
     // categories, 4 for the others.
     /* 0x10c */ s32 _10c;
-    u8 _110[0x1f4 - 0x110];
+    u8 _110[0x198 - 0x110];
+    // 0x198: the outgoing message transceiver (sub_7100907C34 sends through it).
+    ksys::MessageTransceiverTxOnly _198;
+    u8 _1e8[0x1f4 - 0x1e8];
     /* 0x1f4 */ sead::BitFlag8 _1f4;
     u8 _1f5[3];
 };

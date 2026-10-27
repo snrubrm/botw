@@ -189,6 +189,15 @@ void OnUiActorMgr::sub_7100907C24() {
         player->sub_71006E9E24();
 }
 
+// 0x7100907c34
+void OnUiActorMgr::sub_7100907C34(const s32* index) {
+    if (!mActor)
+        return;
+    static_cast<uking::act::PauseMenuPlayer*>(mActor)->_c38 = *index;
+    _198.sendMessage(*mActor->getMesTransceiverId(),
+                     static_cast<ksys::MessageType>(0x8000091), nullptr, true);
+}
+
 // 0x7100907914
 void OnUiActorMgr::sub_7100907914(bool on) {
     if (!on) {
