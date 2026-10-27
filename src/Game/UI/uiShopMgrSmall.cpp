@@ -10,6 +10,7 @@
 #include "Game/UI/uiPauseMenuDataMgr.h"
 #include "Game/gameRoot1.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/System/UIGlue.h"
 #include <math/seadMathCalcCommon.h>
 
 namespace uking::ui {
@@ -309,6 +310,35 @@ void UiShopMgr::sub_7100981888(bool value, s32 index) {
         if (auto* screen = sead::DynamicCast<ScreenShopBtnList5>(eui::ScreenMgr::instance()->getScreen(ScreenId::ShopBtnList5)))
             screen->sub_7100A4E070(value);
     }
+}
+
+// NON_MATCHING: the original reads the state table through the shop TU's static block at 0x71025d7b40
+// (+0x160 / +0x168); ours references the buffer at 0x71025d7ca0 directly (same rows as sub_7100981888).
+// 0x7100984ef8
+void UiShopMgr::sub_7100984EF8() {
+    if (_30 == 10) {
+        shop::setItemState(9);
+        sub_7100985134();
+    }
+    switch (sUnk_71025d7ca0[_30]) {
+    case 0:
+        if (auto* screen = sead::DynamicCast<ScreenShopBtnList20>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::ShopBtnList20)))
+            screen->sub_7100A4CC28(_30 == 10);
+        break;
+    case 1:
+        if (auto* screen = sead::DynamicCast<ScreenShopBtnList5>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::ShopBtnList5)))
+            screen->sub_7100A4DEB0();
+        break;
+    default:
+        if (auto* screen = sead::DynamicCast<ScreenShopBtnList15>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::ShopBtnList15)))
+            screen->sub_7100A4B2BC();
+        break;
+    }
+    sub_7100981888(true, _b0);
+    ksys::ui::sub_7100EDC5F0();
 }
 
 // 0x7100981fac

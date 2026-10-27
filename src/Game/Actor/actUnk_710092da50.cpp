@@ -1,5 +1,11 @@
 #include "Game/Actor/actCamera.h"
 #include "Game/Actor/actCameraUtil.h"
+#include "Game/UI/euiScreen.h"
+#include "Game/UI/uiScreens.h"
+#include "Game/UI/uiUtils.h"
+#include "Game/gameSaveSystem.h"
+#include "KingSystem/AOC/aocManager.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/ActorSystem/actBaseProcAccessor.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Camera/CameraMgr.h"
@@ -111,6 +117,108 @@ void Unk_71024742f0::m6() {
         return;
     if (auto* group = group_mgr->findGroup("World"))
         group->getParam().setVolume(1.0f);
+}
+
+// 0x710092e0e4 (slot m7): runs the title screen's open step, then the picture book screen's setup.
+void Unk_71024742f0::m7() {
+    if (auto* screen = sead::DynamicCast<uking::ui::ScreenTitle>(
+            eui::ScreenMgr::instance()->getScreen(uking::ui::ScreenId::Title))) {
+        if (screen->isClosed())
+            screen->sub_7100A69670();
+        else
+            screen->sub_7100A69AEC();
+    }
+    uking::ui::sub_71009FA68C();
+}
+
+// 0x710092e2f8 (slot m11): opens the hard-mode screen and lets it take over.
+void Unk_71024742f0::m11() {
+    uking::ui::createAndLoadScreenIfNeededImpl(uking::ui::ScreenId::HardMode, nullptr);
+    if (auto* screen = sead::DynamicCast<uking::ui::ScreenHardMode>(
+            eui::ScreenMgr::instance()->getScreen(uking::ui::ScreenId::HardMode)))
+        screen->sub_7100A0BAE4();
+}
+
+// 0x710092e838 (slot m27): tells the title screen to refresh its button state.
+void Unk_71024742f0::m27() {
+    if (auto* screen = sead::DynamicCast<uking::ui::ScreenTitle>(
+            eui::ScreenMgr::instance()->getScreen(uking::ui::ScreenId::Title)))
+        screen->sub_7100A69B28();
+}
+
+// NON_MATCHING: the original copies _3704 to the stack and reloads it for the test (a by-value state
+// copy); ours compares the member directly.
+// 0x710092e3b4 (slot m12): when the hard-mode screen has settled on its title state, save the
+// "played hard mode" flag and move on.
+void Unk_71024742f0::m12() {
+    if (auto* screen = sead::DynamicCast<uking::ui::ScreenHardMode>(
+            eui::ScreenMgr::instance()->getScreen(uking::ui::ScreenId::HardMode))) {
+        if (screen->_3704 == 4) {
+            ksys::gdt::setFlag_IsLastPlayHardMode(false, false);
+            uking::SaveSystem::instance()->sub_71009145F8();
+            mStateMachine.changeState(&uking::ui::sUnk_71025d2518);
+        }
+    }
+}
+
+// 0x710092e590 (slot m16): waits for the system window to be gone (or to leave its sub state).
+void Unk_71024742f0::m16() {
+    auto* screen = sead::DynamicCast<uking::ui::ScreenSystemWindow00>(
+        eui::ScreenMgr::instance()->getScreen(uking::ui::ScreenId::SystemWindow00));
+    if (!screen || (screen->_291 & 8))
+        mStateMachine.changeState(&uking::ui::sUnk_71025d26f8);
+}
+
+// 0x710092e658 (slot m19): forgets the state index.
+void Unk_71024742f0::m19() {
+    _100 = 0;
+}
+
+// 0x710092e7fc (slot m24): resets the save options and moves on.
+void Unk_71024742f0::m24() {
+    uking::SaveSystem::instance()->sub_71009145F8();
+    mStateMachine.changeState(&uking::ui::sUnk_71025d26f8);
+}
+
+// 0x710092e8e8 (slot m28): moves on once the title screen has finished its open animation.
+void Unk_71024742f0::m28() {
+    auto* screen = sead::DynamicCast<uking::ui::ScreenTitle>(
+        eui::ScreenMgr::instance()->getScreen(uking::ui::ScreenId::Title));
+    if (screen && screen->_3638)
+        mStateMachine.changeState(&uking::ui::sUnk_71025d2758);
+}
+
+// 0x710092e4b0 (slot m15): opens the system window in its "new hard-mode save" form.
+void Unk_71024742f0::m15() {
+    uking::ui::createAndLoadScreenIfNeededImpl(uking::ui::ScreenId::SystemWindow00, nullptr);
+    if (auto* screen = sead::DynamicCast<uking::ui::ScreenSystemWindow00>(
+            eui::ScreenMgr::instance()->getScreen(uking::ui::ScreenId::SystemWindow00))) {
+        screen->m154(12, 0, nullptr);
+        return;
+    }
+    mStateMachine.changeState(&uking::ui::sUnk_71025d26f8);
+}
+
+// 0x710092e660 (slot m20): walks the DLC window state (0x1e == opened, later == closing).
+void Unk_71024742f0::m20() {
+    if (_100 <= 0x1d) {
+        ++_100;
+        return;
+    }
+    if (_100 != 0x1e) {
+        if (sead::DynamicCast<uking::ui::ScreenDLCWindow>(
+                eui::ScreenMgr::instance()->getScreen(uking::ui::ScreenId::DLCWindow)))
+            return;
+        ksys::gdt::setFlag_Option_LatestAoCVerPlayed(ksys::aoc::Manager::instance()->getVersion(),
+                                                    false);
+        mStateMachine.changeState(&uking::ui::sUnk_71025d2698);
+        return;
+    }
+    uking::ui::createAndLoadScreenIfNeededImpl(uking::ui::ScreenId::DLCWindow, nullptr);
+    if (auto* screen = sead::DynamicCast<uking::ui::ScreenDLCWindow>(
+            eui::ScreenMgr::instance()->getScreen(uking::ui::ScreenId::DLCWindow)))
+        screen->sub_7100A05CB4(true);
+    ++_100;
 }
 
 // NON_MATCHING: ray and projection stack slots and Boolean return scheduling differ.

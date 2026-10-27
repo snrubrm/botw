@@ -425,8 +425,13 @@ private:
     // object at +0x90, and the destructor at 0x710092de00 destroys this member before the base that
     // owns the state machine.
     uking::GameScene::sb mSb;
+    // The original object keeps a fifth vtable pointer at +0xf8 (its constructor stores it) and a
+    // state index at +0x100 (m19 clears it; m20 reads and advances it).
+    u8 _90[0xf8 - 0x90];
+    u8 _f8[8];
+    s32 _100;
 };
-KSYS_CHECK_SIZE_NX150(Unk_71024742f0, 0x90);
+KSYS_CHECK_SIZE_NX150(Unk_71024742f0, 0x108);
 
 namespace eui {
 class Animator;

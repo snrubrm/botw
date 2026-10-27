@@ -122,6 +122,8 @@ public:
     void sub_7100984CA0(const sead::SafeString& name);
     void sub_7100984EE0();
     void sub_7100984EF8();
+    // 0x7100985134: releases the shop's grabbed items and finishes the selected button-list mode.
+    bool sub_7100985134();
     void sub_71009852C0(bool value);
     // Returns true when the current shop items are sold out (IsSoldOut query).
     bool sub_71009853F4();

@@ -9,6 +9,30 @@ namespace eui {
 // 0x7100bdae2c
 UniteButton::UniteButton() = default;
 
+// NON_MATCHING: the inlined type setter narrows the 0xffffffdf mask to 16 bits (one extra `mov` and a
+// register AND), as in sub_7100BDAFC0.
+// 0x7100bdae70
+UniteButton::UniteButton(const UniteButton& other, LayoutEx* layout, sead::Heap* heap)
+    : mStartPos(other.mStartPos), mPanePos(other.mPanePos), mAllowX(other.mAllowX),
+      mAllowY(other.mAllowY) {
+    CloneImpl_(other, layout, heap);
+    sub_7100BDAFC0(other.mType);
+    if (other.mCheckAnim) {
+        mCheckAnim = layout->tryCreateAnimatorAutoWithWarning(other.mCheckAnim->mName, true);
+        if (mCheckAnim) {
+            mCheckAnim->mFlags |= 0x10;
+            mCheckAnim->mFlags &= ~0x20;
+        }
+    }
+    if (other.mDragAnim) {
+        mDragAnim = layout->tryCreateAnimatorAutoWithWarning(other.mDragAnim->mName, true);
+        if (mDragAnim) {
+            mDragAnim->mFlags |= 0x10;
+            mDragAnim->mFlags &= ~0x20;
+        }
+    }
+}
+
 // 0x7100bdb254
 void UniteButton::Uncheck() {
     if (mType <= 1 && mChecked && !IsPlayDisableAnim()) {

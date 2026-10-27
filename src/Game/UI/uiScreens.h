@@ -4323,6 +4323,10 @@ public:
     void sub_71009F8510(s32);
 };
 
+// 0x71009fa68c (placeholder name): when the picture book screen is not loaded, resets its state data and
+// runs the layout setup.
+void sub_71009FA68C();
+
 class ScreenDLCSinJuAkashiNum;
 extern ksys::StateTemplate<ScreenDLCSinJuAkashiNum> sUnk_71025ecb40;
 extern ksys::StateTemplate<ScreenDLCSinJuAkashiNum> sUnk_71025ecc00;
@@ -5496,6 +5500,12 @@ public:
     u8 _3684[4];
     Unk_710249d300 _3688;
 };
+
+// States of the title screen's stage state machine (Unk_71024742f0; placeholder object names)
+extern const ksys::StateBase sUnk_71025d2518;
+extern const ksys::StateBase sUnk_71025d2698;
+extern const ksys::StateBase sUnk_71025d26f8;
+extern const ksys::StateBase sUnk_71025d2758;
 
 // State object of ScreenAppCamera (a StateTemplate<ScreenAppCamera>, 0x71025dcca0).
 extern const ksys::StateBase sUnk_71025dcca0;

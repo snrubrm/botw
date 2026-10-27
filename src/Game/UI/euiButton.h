@@ -350,6 +350,8 @@ public:
     const char* getClassName() const override { return "UniteButton"; }
 
     UniteButton();
+    // 0x7100bdae70: the copy constructor used by the manager (clones the animators).
+    UniteButton(const UniteButton& other, LayoutEx* layout, sead::Heap* heap);
 
     bool ProcessOn() override;
     void StartOn() override { AnimButton::StartOn(); }
@@ -407,6 +409,9 @@ class TapButton : public AnimButton {
 public:
     NN_RUNTIME_TYPEINFO(AnimButton)
     const char* getClassName() const override { return "TapButton"; }
+
+    // 0x7100bf01dc: makes a tap button from the pane's "TapButtonAnim" animator and links it into `group`.
+    static void CreateTapButton(nn::ui2d::Pane* pane, LayoutEx* layout, ButtonGroup* group);
 
     void On() override;
     void Off() override;
