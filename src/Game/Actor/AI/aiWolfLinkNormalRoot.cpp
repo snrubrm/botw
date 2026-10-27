@@ -688,6 +688,50 @@ void WolfLinkNormalRoot::sub_71006082FC(bool changeable) {
     }
 }
 
+// 0x7100607a2c: updates the Sheikah sensor lead flags from the navmesh state and the timer expiry.
+// NON_MATCHING: the frame is 0x10 larger (the shared enum temporary goes to sp+0x18 instead of
+// sp+0xc) and the distance block schedules the tolerance load and its square differently.
+void WolfLinkNormalRoot::sub_7100607A2C() {
+    using Idx = act::WolfLink::Idx14f8;
+
+    if (isFlag1b8(Flag1b8::_2)) {
+        if (sub_7100609738()) {
+            setFlag1b8(Flag1b8::_1);
+            clearFlag1b8(Flag1b8::_2);
+        } else {
+            auto* nav = mActor->m45();
+            if (!nav) {
+                sub_7100609DFC();
+            } else {
+                sead::Vector3f diff;
+                diff.setSub(nav->_194, _178);
+                const f32 tolerance = *mShiekSensorGoalTolerance_s;
+                if (diff.squaredLength() > tolerance * tolerance ||
+                    nav->getPathState() == ksys::phys::NavMeshPathState::State3)
+                    sub_7100609DFC();
+            }
+        }
+    } else if (sub_7100609628() && sub_7100609AC0()) {
+        setFlag1b8(Flag1b8::_2);
+    }
+
+    if (isFlag1b8(Flag1b8::_0) && _70->_14f8[Idx(Idx::_2)].value <= sead::Mathf::epsilon())
+        clearFlag1b8(Flag1b8::_0);
+
+    if ((_70->_1698 & 0x20) && _70->_14f8[Idx(Idx::_14)].value <= sead::Mathf::epsilon())
+        _70->_1698 &= ~0x20;
+
+    if (auto* radar = RadarMgr::instance()) {
+        if (radar->_52) {
+            if (auto* nav = mActor->m45())
+                nav->inlineReset();
+            _70->_1698 &= ~0x20;
+            _70->_14f8[Idx(Idx::_14)].value = 0.0f;
+            _1b8 = 0;
+        }
+    }
+}
+
 void WolfLinkNormalRoot::sub_7100609DFC() {
     using Idx = act::WolfLink::Idx14f8;
     _70->sub_71002F2E78(Idx(Idx::_2));

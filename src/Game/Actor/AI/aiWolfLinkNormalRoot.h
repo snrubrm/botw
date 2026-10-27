@@ -96,6 +96,11 @@ protected:
         const u8 mask = 1 << flag;
         return (mask & _1b8) != 0;
     }
+    // inline-only in the original; name is a guess. The `_1b8` set / clear with an enum value repeats
+    // in three WolfLinkNormalRoot functions; the by-value parameter gives the enum temporaries
+    // lifetime markers (they share one stack slot).
+    void setFlag1b8(Flag1b8 flag) { _1b8 |= 1 << flag; }
+    void clearFlag1b8(Flag1b8 flag) { _1b8 &= ~(1 << flag); }
 
     // Non-virtual helpers (unnamed in the original; placeholder names by address). The "state"
     // argument / _1a8 / _1ac values: 1 wait, 3 / 12 wait order, 4 follow, 5 follow retry, 6 player
