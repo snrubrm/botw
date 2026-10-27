@@ -68,6 +68,9 @@ void LocationalLightMgr::sub_7100F1334C() {
         _60 |= 0x20000000;
 }
 
+// 0x7100f10bec (empty in the original): the per-pass hook Graphics::drawModelSceneBG calls.
+void LocationalLightMgr::sub_7100F10BEC(agl::DrawContext* draw_context) {}
+
 // 0x7100f0cd60: allocates the render-light pool's records and gives every record to the free list.
 void LocationalLightMgr::RenderLightPool::init(s32 capacity, sead::Heap* heap) {
     mLights.tryAllocBuffer(capacity, heap, 8);
