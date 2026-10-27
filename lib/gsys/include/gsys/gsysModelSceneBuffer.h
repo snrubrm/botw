@@ -39,6 +39,8 @@ public:
     // 0x7100c18f3c / 0x7100c18fa4
     bool isDeferredShadingValid(const ModelSceneContext& context) const;
     bool isPreDeferredShadingValid(const ModelSceneContext& context) const;
+    // 0x7100c1900c: draws the deferred-shading queue into the context.
+    void drawDeferredShading(agl::DrawContext* draw_context, ModelSceneContext* context) const;
     // 0x7100c191a8 / 0x7100c191bc
     void releaseOpa(const ModelSceneContext& context) const;
     void releaseXlu(const ModelSceneContext& context) const;

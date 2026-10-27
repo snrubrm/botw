@@ -29,9 +29,11 @@ class ModelRenderQueue;
 namespace ModelEnum {
 // 0x7100c08334 indexes the eight float pairs at +0x2d0 with this type.
 enum class PolygonOffsetType;
-// XluZPrePass::draw 0x7100c68018 passes 1 and 9; the other enumerators are unrecovered.
+// XluZPrePass::draw 0x7100c68018 passes 1 and 9, ModelSceneGI::sssssCallback 0x7100c32288
+// passes 6; the other enumerators are unrecovered.
 enum class ShaderAssignType : s32 {
     _1 = 1,
+    _6 = 6,
     _9 = 9,
 };
 }

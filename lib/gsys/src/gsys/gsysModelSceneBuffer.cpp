@@ -105,6 +105,14 @@ bool ModelSceneBuffer::isZPrePassEnabled(const ModelSceneContext& context) const
     return (context.mFlags >> 4) & 1;
 }
 
+// 0x7100c1900c
+void ModelSceneBuffer::drawDeferredShading(agl::DrawContext* draw_context,
+                                           ModelSceneContext* context) const {
+    context->drawQueue(draw_context, "Model(Deferred Shading)", ModelSceneContext::QueueType(1),
+                       sead::BitFlag32(0x2000), 0, ModelEnum::ShaderAssignType(0),
+                       ModelSceneContext::ViewProjType(0), 0, 0xffff);
+}
+
 // 0x7100c191bc
 void ModelSceneBuffer::releaseXlu(const ModelSceneContext& context) const {
     mRenderBufferContext->release(context.getViewIndex(), 0x607fe);

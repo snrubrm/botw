@@ -1,13 +1,17 @@
 #include "gsys/gsysModelSceneGI.h"
+#include "gsys/gsysLayer3D.h"
 #include "gsys/gsysModelSceneConfig.h"
 #include "gsys/gsysShaderContext.h"
 #include "gsys/gsysModelSceneContext.h"
+#include <gfx/seadCamera.h>
+#include <gfx/seadProjection.h>
 #include <lighting/aglLightMapMgr.h>
 #include <lighting/aglLightPrePass.h>
 #include <lighting/aglPlanarReflection.h>
 #include <lighting/aglLocalReflection.h>
 #include <lighting/aglSSII.h>
 #include <lighting/aglSSSSS.h>
+#include <mc/seadCoreInfo.h>
 #include "gsys/gsysLightProbeMgr.h"
 
 namespace gsys {
@@ -44,8 +48,29 @@ bool ModelSceneGI::isCubeMapReady() const {
 
 // 0x7100c324e8
 void ModelSceneGI::pushBack(const sead::Vector3f&, agl::lght::LocalLightMapObj* obj) {
-    const s32 index = mCount++;
-    mObjects[index] = obj;
+    mObjects.pushBack(obj);
+}
+
+// 0x7100c3250c
+void ModelSceneGI::calcWorld() {
+    for (auto& obj : mObjects)
+        mFrameObjects.pushBack(&obj);
+    if (_8->isFeatureEnabled(ModelSceneConfig::Feature::LightProbe) && mLightProbeMgr &&
+        mLightProbeMgr->isEnabled())
+        mLightProbeMgr->calc();
+    if (mEnvCubeMap && _8->isFeatureEnabled(ModelSceneConfig::Feature::EnvCubeMap))
+        mEnvCubeMap->update();
+}
+
+// 0x7100c347d0
+void ModelSceneGI::calcGPU() {
+    if (mSSSSS && _8->isFeatureEnabled(ModelSceneConfig::Feature::SSSSS))
+        mSSSSS->calcGPU();
+    if (mSSII && _8->isFeatureEnabled(ModelSceneConfig::Feature::SSII))
+        mSSII->calcGPU();
+    if (_8->isFeatureEnabled(ModelSceneConfig::Feature::LightProbe) && mLightProbeMgr &&
+        mLightProbeMgr->isEnabled())
+        mLightProbeMgr->calcGPU();
 }
 
 // 0x7100c32ccc
@@ -56,18 +81,44 @@ void ModelSceneGI::calcGPUDrawBackGround() const {
         mLightPrePass->updateGPU();
 }
 
-// NON_MATCHING: the body agrees, but clang loads the view index straight into w1 where the
-// original loads it into w8 and moves it (one extra mov, 64 B against 68 B).
 // 0x7100c32c1c
 void ModelSceneGI::calcViewLightPrePass(const ModelSceneContext& context) {
     if (!mLightPrePass || !_8->isFeatureEnabled(ModelSceneConfig::Feature::LightPrePass))
         return;
+    const s32 view_index = context.getViewIndex();
     const ModelRenderContext::ViewData* view = context.getViewData();
-    const u8 view_index = context.getViewIndex();
     mLightPrePass->calcContext(view_index, view->view,
                                view->frustum.getProjectionMatrix(), view->frustum.getNear(),
                                view->frustum.getFar(), view->frustum.getFovy(),
                                view->frustum.getAspect(), view->frustum.getOffset());
+}
+
+// 0x7100c32c60
+void ModelSceneGI::calcView(const ModelSceneContext& context) {
+    if (((context.mFlags >> 2) & 1) && mLightMapMgr &&
+        _8->isFeatureEnabled(ModelSceneConfig::Feature::LightMap))
+        mLightMapMgr->update();
+    if (mSSSSS && _8->isFeatureEnabled(ModelSceneConfig::Feature::SSSSS))
+        mSSSSS->calcView(context.getViewIndex(), context.getViewData()->frustum);
+}
+
+// 0x7100c32288
+void ModelSceneGI::sssssCallback(const agl::lght::SSSSS::CallbackArg& arg) const {
+    const s32 core = int(sead::CoreInfo::getCurrentCoreId());
+    mContexts[core]->drawQueue(arg.mDrawContext, "Model(SSSSS)", ModelSceneContext::QueueType(0),
+                               sead::BitFlag32(0x80), 0, ModelEnum::ShaderAssignType::_6,
+                               ModelSceneContext::ViewProjType(0), 0, 0xffff);
+}
+
+// 0x7100c33fb4
+void ModelSceneGI::calcViewLightProbe(const ModelSceneContext& context) {
+    if (!_8->isFeatureEnabled(ModelSceneConfig::Feature::LightProbe) || !mLightProbeMgr ||
+        !mLightProbeMgr->isEnabled())
+        return;
+    const sead::Matrix44f projection =
+        context._398->getRenderProjection()->getProjectionMatrix();
+    const sead::Matrix34f view = context._398->sub_7100B60CE0()->getMatrix();
+    mLightProbeMgr->calcView(context.getViewIndex(), projection, view);
 }
 
 // 0x7100c33f60
