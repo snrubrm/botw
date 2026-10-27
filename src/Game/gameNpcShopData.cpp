@@ -1,6 +1,7 @@
 #include "Game/gameNpcShopData.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Resource/Actor/resResourceShop.h"
+#include "Game/UI/uiPauseMenuDataMgr.h"
 
 namespace uking {
 
@@ -29,6 +30,31 @@ bool NpcShopData::sub_710091CE98(const ksys::res::Shop* shop, const sead::SafeSt
 void NpcShopData::sub_710091BA3C() {
     mNumItems = 0;
     mItems.freeBuffer();
+}
+
+// 0x710091d8e4: whether any item of the shop's `table_name` table can still be made.
+// NON_MATCHING: the original also constructs three unused sead::FixedSafeString<64> locals before the
+// loop (three inlined ctors with their out-of-line assureTerminationImpl_ calls); writing them out is
+// the only residue.
+bool NpcShopData::sub_710091D8E4(const ksys::res::Shop* shop, const sead::SafeString& table_name,
+                                 bool a, bool b) {
+    if (!shop)
+        return false;
+    if (!ksys::act::InfoData::instance() || !ui::PauseMenuDataMgr::instance())
+        return false;
+    const s32 index = shop->findTableIndex(table_name);
+    if (index == -1)
+        return false;
+    const auto& table = shop->getTables()[index];
+    const s32 count = table.items.size();
+    if (count == 0)
+        return false;
+    const auto* items = table.items.getBufferPtr();
+    for (s64 i = 0; i < count; ++i) {
+        if (sub_710091D51C(items[i].name.ref(), a, b))
+            return true;
+    }
+    return false;
 }
 
 bool NpcShopData::sub_710091D4C8() {

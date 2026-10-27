@@ -44,6 +44,9 @@ public:
     // (CanCreateMakeItemList passes its two porch-material flags).
     static bool sub_710091D8E4(const ksys::res::Shop* shop, const sead::SafeString& table_name, bool a,
                                bool b);
+    // 0x710091d51c (declared only; placeholder name, 444 B): whether the item named `name` can be made
+    // (`a` / `b` are the two porch-material flags sub_710091D8E4 receives).
+    static bool sub_710091D51C(const sead::SafeString& name, bool a, bool b);
 
     // An item of the shop table (0x48 bytes; lane3 s86, from NPCGiveReward::enter_).
     struct Item {
