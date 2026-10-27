@@ -92,6 +92,13 @@ bool ModelNW::initRenderUnit_(ModelRenderUnitNW* unit, int index, const RenderUn
     return true;
 }
 
+// 0x7100c063fc
+void ModelNW::forceCalcDrawSetup() {
+    calcBounding_();
+    calcGPUSkinning_();
+    mModelObj.CalculateMaterial(_168 & 3);
+}
+
 // 0x7100c05414
 void ModelNW::setLodLevelNum(int lod_level_num) {
     mNumLods = lod_level_num;

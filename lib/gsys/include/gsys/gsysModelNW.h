@@ -140,6 +140,8 @@ public:
     void syncResource() override;
     // 0x7100c05414: stores the LOD count on the model and every render unit.
     void setLodLevelNum(int lod_level_num) override;
+    // 0x7100c063fc: recalculates the bounds and skinning, then the material.
+    void forceCalcDrawSetup() override;
 
     // 0x7100c06be0 / 0x7100c06db4 / 0x7100c07b5c: the model object's skeleton bone count and
     // the per-bone / per-material visibility bits.
