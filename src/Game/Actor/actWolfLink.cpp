@@ -7,6 +7,11 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWolfLink.h"
+#include "KingSystem/ActorSystem/actLodState.h"
+#include <prim/seadScopedLock.h>
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
 
 namespace uking::act {
 
@@ -170,6 +175,58 @@ void WolfLink::sub_71002F4A40(const sead::Vector3f* pos, f32 a, f32 b) {
             }
         }
     }
+}
+
+void WolfLink::calcMaybe() {
+    Enemy::calcMaybe();
+
+    if (_1250) {
+        if (auto* cloth = _1250->_18) {
+            auto* controller = getCharacterController();
+            if (controller && controller->sub_7100F5F14C()) {
+                if (!cloth->_30)
+                    cloth->m0();
+            } else {
+                if (cloth->_30)
+                    cloth->m1();
+            }
+        }
+    }
+
+    const f32 scale = _598 ? _598->_40 : 0.0f;
+    for (auto it = WolfLink::Idx14f8::begin(); it != WolfLink::Idx14f8::end(); ++it) {
+        const Idx14f8 idx = *it;
+        const s32 i = idx.getRelativeIndex();
+        if (!(_14f8[i].value <= sead::Mathf::epsilon())) {
+            _14f8[i].value += scale * _14f8[i].rate;
+            _14f8[i].update();
+        }
+    }
+
+    sub_71002F4D54();
+    sub_71002F50C4();
+
+    if (auto* controller = getCharacterController()) {
+        const f32 speed = controller->sub_7100F5EF00() / 11.0f;
+        sub_71005D8D4C(this, speed * 2.0f + 0.0f, 1, false);
+    }
+
+    sub_71002F5408();
+
+    if (auto* nav = m45()) {
+        if (auto* controller = getCharacterController()) {
+            const f32 speed = controller->sub_7100F5EF00() / 11.0f * 1.25f + 0.0f;
+            if (!sead::Mathf::isNan(speed)) {
+                auto lock = sead::makeScopedLock(nav->_1e0);
+                nav->_284.x = 0.0f;
+                nav->_284.y = 0.0f;
+                nav->_284.z = speed;
+            }
+        }
+    }
+
+    sub_71002F5618();
+    sub_71002F56D8();
 }
 
 void WolfLink::sub_71002F4B3C() {

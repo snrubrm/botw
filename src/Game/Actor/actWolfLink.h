@@ -83,6 +83,14 @@ public:
     void sub_71002F4A40(const sead::Vector3f* pos, f32 a, f32 b);
     void sub_71002F4008(ksys::act::BaseProcLink* link, s32 a);
 
+    // 0x71002f4d54 / 0x71002f50c4 / 0x71002f5408 / 0x71002f5618 / 0x71002f56d8 (not decompiled;
+    // placeholder names): the per-frame steps WolfLink::calcMaybe runs in this order.
+    void sub_71002F4D54();
+    void sub_71002F50C4();
+    void sub_71002F5408();
+    void sub_71002F5618();
+    void sub_71002F56D8();
+
     // Fields are accessed directly by AI classes.
     /* 0x14c8 */ u8 _14c8[0x14f8 - 0x14c8];  // ctor 0x710071edf8(this + 0x14c8, this)
     /* 0x14f8 */ sead::SafeArray<ksys::Timer, 19> _14f8;  // zero-initialised (memset)

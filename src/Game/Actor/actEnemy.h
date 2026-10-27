@@ -53,7 +53,9 @@ struct Unk_Enemy1250Sub {
     virtual void m1();
 
     /* 0x08 */ ksys::act::Actor* _8;
-    /* 0x10 */ u8 _10[0x38 - 0x10];
+    /* 0x10 */ u8 _10[0x20];
+    /* 0x30 */ u8 _30;  // read by WolfLink::calcMaybe (attached to the character controller)
+    /* 0x31 */ u8 _31[0x38 - 0x31];
     /* 0x38 */ Unk_71024512e8 _38;
 };
 KSYS_CHECK_SIZE_NX150(Unk_Enemy1250Sub, 0xd8);
