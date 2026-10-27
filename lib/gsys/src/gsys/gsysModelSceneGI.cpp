@@ -1,0 +1,26 @@
+#include "gsys/gsysModelSceneGI.h"
+#include "gsys/gsysModelSceneConfig.h"
+
+namespace gsys {
+
+// 0x7100c309f0
+bool ModelSceneGI::isEnvCubeMapEnabled() const {
+    return mEnvCubeMap && _8->isFeatureEnabled(ModelSceneConfig::Feature::EnvCubeMap);
+}
+
+// 0x7100c32bf8
+bool ModelSceneGI::isLightPrePassEnabled() const {
+    return mLightPrePass && _8->isFeatureEnabled(ModelSceneConfig::Feature::LightPrePass);
+}
+
+// 0x7100c33f3c
+bool ModelSceneGI::isPlanarReflectionEnabled() const {
+    return mPlanarReflection && _8->isFeatureEnabled(ModelSceneConfig::Feature::Reflection);
+}
+
+// 0x7100c33f90
+bool ModelSceneGI::isSSIIEnabled() const {
+    return mSSII && _8->isFeatureEnabled(ModelSceneConfig::Feature::SSII);
+}
+
+}  // namespace gsys

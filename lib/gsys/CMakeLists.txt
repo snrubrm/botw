@@ -36,6 +36,8 @@ add_library(gsys OBJECT
   include/gsys/gsysShaderContext.h
   include/gsys/gsysModelScene.h
   include/gsys/gsysModelSceneComponent.h
+  include/gsys/gsysModelSceneGI.h
+  src/gsys/gsysModelSceneGI.cpp
   include/gsys/gsysModelSceneShadow.h
   include/gsys/gsysModelScenePassCallback.h
   src/gsys/gsysModelScenePassCallback.cpp
