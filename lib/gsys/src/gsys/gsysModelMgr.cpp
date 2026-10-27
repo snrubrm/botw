@@ -48,6 +48,12 @@ void ModelMgr::rebindModelScene(const ModelScene* scene) {
     mCS.unlock();
 }
 
+// 0x7100c027b4
+void ModelMgr::calcModel(sead::WorkerMgr* wm) {
+    for (auto it = mScenes.begin(); it != mScenes.end(); ++it)
+        it->update(wm);
+}
+
 // 0x7100c0288c
 void ModelMgr::sortQueue(sead::WorkerMgr* wm) {
     sead::WorkerMgr* work = (mFlags & 2) && (mFlags & 1) ? wm : nullptr;

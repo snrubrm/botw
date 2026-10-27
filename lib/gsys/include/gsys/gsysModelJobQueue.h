@@ -49,6 +49,7 @@ public:
     void clear();
     void swapDrawList();
     void calc(bool);
+    void updateModel(bool, sead::WorkerMgr* wm);
     void updateModelUnit(sead::WorkerMgr* wm);
     void changeRequestFlag(bool, bool, bool);
 

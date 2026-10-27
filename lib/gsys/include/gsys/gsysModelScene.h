@@ -84,6 +84,8 @@ public:
 
     // 0x7100c10a5c (the three int arguments' meanings are unrecovered).
     void calc(sead::WorkerMgr* wm, int, int, int);
+    // 0x7100c10a0c: one scene step followed by the job queue's model update.
+    void update(sead::WorkerMgr* wm);
 
     // Inline in the original; ksys::world::EnvMgr::calcEntryJob 0x71010db0d4 reads the first scene's.
     agl::pfx::ColorCorrection* getColorCorrection() const { return mColorCorrection; }
@@ -167,7 +169,9 @@ public:
     // (mFlags & 0x100) is narrowed by the compiler to the original ldrb [x8, #0x5d81].
     /* 0x5d80 */ u32 mFlags;
 
-    u8 _5d84[0x5da0 - 0x5d84];
+    /// Bits 6 and 7 gate the job queue's model update; both must be set.
+    u32 mFlags5d84;
+    u8 _5d88[0x5da0 - 0x5d88];
     // Rain/snow intensity. ModelScene 0x7100c1020c computes it from +0x5da0 and a scale and stores it
     // here; MassRenderer::requestDraw 0x71011e3cd0 compares it with 0.0f.
     /* 0x5da0 */ f32 _5da0;

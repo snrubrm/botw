@@ -127,6 +127,12 @@ void ModelScene::calcModelUnit_(sead::WorkerMgr* wm) {
     mJobQueue.updateModelUnit(wm);
 }
 
+// 0x7100c10a0c
+void ModelScene::update(sead::WorkerMgr* wm) {
+    calc(wm, 2, 1, 0);
+    mJobQueue.updateModel((mFlags5d84 & 0xc0) != 0xc0, wm);
+}
+
 // 0x7100c10c94
 void ModelScene::sortQueue_(sead::WorkerMgr* wm) {
     mJobQueue.preSort(wm);

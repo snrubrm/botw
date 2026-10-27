@@ -60,6 +60,7 @@ public:
     void editAll();
     void editAll(const G3dResModelEx* res_model);
 
+    void calcModel(sead::WorkerMgr* wm);
     void sortQueue(sead::WorkerMgr* wm);
     void calcWorld(sead::WorkerMgr* wm);
     void calcRenderView(sead::WorkerMgr* wm);
