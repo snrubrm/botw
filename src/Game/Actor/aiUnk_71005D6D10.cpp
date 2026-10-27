@@ -1860,6 +1860,87 @@ bool sub_71005D7C94(sead::BufferedSafeString* out, const sead::SafeString* in) {
     return true;
 }
 
+// NON_MATCHING: a5 / flags take the other callee-saved registers (w21 / x22 vs w22 / x21).
+// 0x71005d7f4c: builds the request of type 2 (the caller passes the token, the two range values,
+// the flags and the attack direction type hash) and hands it to the equipped weapon.
+void sub_71005D7F4C(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeString* name,
+                    const sead::BitFlag8* flags, int a5, f32 a6, f32 a7) {
+    sead::FixedSafeString<9> token;
+    if (name && !name->isEmpty()) {
+        const sead::SafeString delimiter(",");
+        auto it = name->tokenBegin(delimiter);
+        const auto end = name->tokenEnd(delimiter);
+        if (it != end)
+            it.get(&token);
+    }
+
+    uking::act::Unk_71002edaec arg(2);
+    arg._4 = a2;
+    arg._8 = a6;
+    arg._c = a7;
+    arg._10 = sub_71007A3A8C(&token);
+    if (flags)
+        arg._14 = flags->getDirect();
+    arg._18 = a5;
+    sub_71005D79AC(actor, idx, arg);
+}
+
+// NON_MATCHING: the parameter saves and the stacked a8 use other callee-saved registers; the
+// stacked argument is reloaded instead of kept in x27 (3 instructions longer).
+// 0x71005d7adc: the type 0 request (a name picked by a query) for the equipped weapon.
+void sub_71005D7ADC(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeString* name,
+                    const sead::BitFlag8* flags, int a5, int a6, int a7, int a8, f32 a9, f32 a10) {
+    sead::FixedSafeString<9> token;
+    if (name && !name->isEmpty()) {
+        const sead::SafeString delimiter(",");
+        auto it = name->tokenBegin(delimiter);
+        const auto end = name->tokenEnd(delimiter);
+        if (it != end)
+            it.get(&token);
+    }
+
+    uking::act::Unk_71002edaec arg(0);
+    arg._4 = a2;
+    arg._8 = a9;
+    arg._c = a10;
+    arg._10 = sub_71007A3A8C(&token);
+    if (flags)
+        arg._14 = flags->getDirect();
+    arg._18 = a5;
+    arg._1c = a6;
+    arg._20 = a7;
+    arg._24 = a8;
+    sub_71005D79AC(actor, idx, arg);
+}
+
+// NON_MATCHING: same register allocation as sub_71005D7ADC (the stacking of a8), 3 instructions longer.
+// 0x71005d7d90: the same type 0 request with the trailing "keep the token" flag set.
+void sub_71005D7D90(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeString* name,
+                    const sead::BitFlag8* flags, int a5, int a6, int a7, int a8, f32 a9, f32 a10) {
+    sead::FixedSafeString<9> token;
+    if (name && !name->isEmpty()) {
+        const sead::SafeString delimiter(",");
+        auto it = name->tokenBegin(delimiter);
+        const auto end = name->tokenEnd(delimiter);
+        if (it != end)
+            it.get(&token);
+    }
+
+    uking::act::Unk_71002edaec arg(0);
+    arg._4 = a2;
+    arg._8 = a9;
+    arg._c = a10;
+    arg._10 = sub_71007A3A8C(&token);
+    if (flags)
+        arg._14 = flags->getDirect();
+    arg._18 = a5;
+    arg._1c = a6;
+    arg._20 = a7;
+    arg._24 = a8;
+    arg._28 = true;
+    sub_71005D79AC(actor, idx, arg);
+}
+
 // 0x71005d8a30: hands `weapon` to the PlayerOrEnemy or NPC (their m164 / m148).
 bool sub_71005D8A30(ksys::act::Actor* actor, uking::act::Weapon* weapon, s32 a3) {
     if (sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(actor))
