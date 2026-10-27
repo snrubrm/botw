@@ -31,6 +31,7 @@
 #include "KingSystem/Map/mapObjectEffect.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Map/mapPlacementActors.h"
+#include "KingSystem/XLink/xlinkManager.h"
 
 namespace {
 // Complete 31-entry table at 0x710261fb78, initialized by 0x71010c7fc8.
@@ -705,6 +706,28 @@ void ChemicalMgr::sub_71010CB5C0() {
             _c80.used.clear();
         }
     }
+}
+
+// 0x71010cb754: the placement query callback of sub_71010CB5C0: accepts the entry at the queried
+// position with the chemical tag and queues its transform once, scaled by the entry's bounds.
+bool ChemicalMgr::sub_71010CB754(map::Unk_71012497f8Entry* entry) {
+    bool result = false;
+    if (act::InfoData::instance()->hasTag(entry->mName.cstr(), 0xe91ea5f6) && entry->_80 &&
+        sUnk_710261FF70._20.x == entry->mPosition.x &&
+        sUnk_710261FF70._20.y == entry->mPosition.y &&
+        sUnk_710261FF70._20.z == entry->mPosition.z) {
+        result = true;
+        if (entry->mXLink) {
+            const sead::Vector3f half_size =
+                (entry->mBounds.getMax() - entry->mBounds.getMin()) * 0.5f;
+            const f32 radius = half_size.length();
+
+            sead::Matrix34f mtx;
+            mtx.makeST(sead::Vector3f(radius, radius, radius), entry->mPosition);
+            xlink::Manager::instance()->queueTransform(entry->mXLink, mtx, true);
+        }
+    }
+    return result;
 }
 
 void ChemicalMgr::unload2() {

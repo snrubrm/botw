@@ -157,7 +157,10 @@ struct Unk_71012497f8Entry {
     /* 0x10 */ void* _10;
     u8 _18[0x20 - 0x18];
     /* 0x20 */ sead::Vector3f mPosition;
-    u8 _2c[0x78 - 0x2c];
+    u8 _2c[0x60 - 0x2c];
+    // The model bounds the chemical callback measures; only read (and written by the placement
+    // query) around the entry.
+    /* 0x60 */ sead::BoundBox3f mBounds;
     /* 0x78 */ xlink::XLink* mXLink;
     /* 0x80 */ bool _80;
 };
