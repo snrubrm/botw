@@ -2,6 +2,7 @@
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelScene.h>
 #include <utility/aglDevTools.h>
+#include <gsys/gsysORUtil.h>
 
 namespace gsys
 {
@@ -20,6 +21,18 @@ f32 ModelMgr::getMeterScale() const {
 // 0x7100c02d64
 s32 ModelMgr::getXluZPrePassID() {
     return mXluZPrePassId++ & 0x7ff;
+}
+
+// 0x7100c01fd4
+void ModelMgr::initialize(sead::Heap* heap, sead::Heap* debug_heap) {
+    mArray30.allocBuffer(8, heap, 8);
+    mArray40.allocBuffer(8, heap, 8);
+    mScenes.allocBuffer(8, heap, 8);
+    mGPUStressAnalyzer.initialize(heap);
+    if (debug_heap)
+        mArray1e8.allocBuffer(0x800, debug_heap, 8);
+    ORUtil::setNodeMeta(this, ORUtil::Category::_6, debug_heap);
+    ORUtil::setNodeMeta(&mNode1e0, ORUtil::Category::_3, debug_heap);
 }
 
 // 0x7100c02a80

@@ -6,6 +6,7 @@
 #include <hostio/seadHostIONode.h>
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
+#include "gsys/gsysGPUStressAnalyzer.h"
 
 namespace sead
 {
@@ -56,6 +57,8 @@ public:
 
     // 0x7100c0288c / 0x7100c028f0 / 0x7100c02954 / 0x7100c029b8 / 0x7100c02a1c: run one step on every
     // scene. The step's flag bit selects whether the worker manager is forwarded.
+    // 0x7100c01fd4: allocates the three model arrays and the stress analyzer.
+    void initialize(sead::Heap* heap, sead::Heap* debug_heap);
     // 0x7100c02a80 / 0x7100c02b00: edit every live model with the given resource (or none).
     void editAll();
     void editAll(const G3dResModelEx* res_model);
@@ -70,9 +73,13 @@ public:
 private:
     // Bit 0 enables the worker manager; bits 1 / 3 / 4 / 6 select the scene step.
     /* 0x28 */ u32 mFlags;
-    /* 0x2c */ u8 _2c[0x50 - 0x2c];
+    /* 0x2c */ u8 _2c[4];
+    /* 0x30 */ sead::PtrArray<Model> mArray30;
+    /* 0x40 */ sead::PtrArray<ModelScene> mArray40;
     /* 0x50 */ sead::PtrArray<ModelScene> mScenes;
-    /* 0x60 */ u8 _60[0xcc - 0x60];
+    /* 0x60 */ u8 _60[0x10];
+    /* 0x70 */ GPUStressAnalyzer mGPUStressAnalyzer;
+    /* 0xb0 */ u8 _b0[0x1c];
     /* 0xcc */ sead::Atomic<s32> mXluZPrePassId;
     /* 0xd0 */ u8 _d0[0x150 - 0xd0];
     /* 0x150 */ sead::CriticalSection mCS;
@@ -87,7 +94,10 @@ public:
     /* 0x190 */ sead::OffsetList<Model> mModelList;
 
 private:
-    /* 0x1a8 */ u8 _1a8[0x208 - 0x1a8];
+    /* 0x1a8 */ u8 _1a8[0x1e0 - 0x1a8];
+    /* 0x1e0 */ sead::hostio::Node mNode1e0;
+    /* 0x1e8 */ sead::PtrArray<Model> mArray1e8;
+    /* 0x1f8 */ u8 _1f8[0x208 - 0x1f8];
 };
 static_assert(sizeof(ModelMgr) == 0x208);
 static_assert(offsetof(ModelMgr, mModelList) == 0x190);
