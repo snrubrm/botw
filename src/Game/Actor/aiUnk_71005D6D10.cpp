@@ -1510,6 +1510,16 @@ bool sub_71005DF66C(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Ve
     return true;
 }
 
+// 0x71005dcb3c: forwards the actor's gravity/position vector to the launch-point search.
+bool sub_71005DCB3C(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Vector3f* pos, f32 a,
+                    f32 b) {
+    if (!actor)
+        return false;
+    sead::Vector3f p;
+    sub_710072DC50(&p, actor);
+    return sub_71005DF4E4(out, pos, &p, a, b);
+}
+
 // 0x71005dc208: plays the SafeString/matrix pair returned for actor slot `idx` on the same
 // effect object the child actor exposes (child->m100()).
 void sub_71005DC208(ksys::act::Actor* actor, ksys::act::Actor* child, int idx) {

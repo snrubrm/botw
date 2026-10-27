@@ -480,5 +480,7 @@ bool sub_71005DE53C(uking::act::Weapon* weapon, uking::act::Enemy* enemy, f32 di
                    f32 angle, bool check_awareness);
 
 // Complete wrapper and ballistic solver establish the velocity output and direction input.
+bool sub_71005DF4E4(sead::Vector3f* out, const sead::Vector3f* pos, const sead::Vector3f* p, f32 a,
+                    f32 b);
 bool sub_71005DCB3C(sead::Vector3f* out, ksys::act::Actor* actor,
                     const sead::Vector3f* direction, f32 angle, f32 max_speed);
