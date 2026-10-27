@@ -17,6 +17,9 @@
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/aiUnk_71007368A4.h"
 #include "Game/Actor/aiUnk_71006F1DF0.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/actAiActionBase.h"
@@ -1616,6 +1619,72 @@ bool sub_71005DCBA4(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Ve
     sead::Vector3f gravity;
     sub_710072DC54(&gravity, actor);
     return sub_710072D344(out, sead::Vector3f::zero, *pos, a3, gravity.y);
+}
+
+// 0x71005df024: whether `actor` may attack `other` (hidden / fire / freeze rules): the actors must
+// be closer than `range`, moving at least `min_speed`, and looking more than `angle_limit` away from
+// the other's forward direction.
+// NON_MATCHING: the two parameter saves swap order and the untagged state range test is encoded
+// `cmp #3; b.hi` instead of `cmp #4; b.hs`; same instructions otherwise (147).
+bool sub_71005DF024(f32 range, f32 min_speed, f32 angle_limit, ksys::act::Actor* actor,
+                    ksys::act::Actor* other) {
+    if (!actor)
+        return false;
+
+    const sead::Vector3f offset =
+        actor->getMtx().getTranslation() - other->getMtx().getTranslation();
+    if (offset.length() >= range)
+        return true;
+
+    sead::Vector3f velocity;
+    velocity = actor->getVelocity();
+    const f32 speed = velocity.normalize();
+    const f32 dot = velocity.dot(other->getMtx().getBase(2));
+    const f32 angle = sead::Mathf::acos(sead::Mathf::clamp(dot, -1.0f, 1.0f));
+
+    if (!(speed >= min_speed) || angle <= angle_limit)
+        return true;
+
+    if (actor->getActorFlags2().isAnyOn({ksys::act::Actor::ActorFlag2::_40000000,
+                                        ksys::act::Actor::ActorFlag2::_40}))
+        return true;
+
+    auto* chemical = actor->getChemicalStuff();
+    if (!chemical)
+        return false;
+
+    const bool tagged = ksys::act::hasTag(actor, 0xff2ecb67);
+    const u8 state = chemical->_c0;
+    if (tagged) {
+        switch (state) {
+        case 1: {
+            const auto* liftable = actor->getParam()->getRes().mGParamList->getLiftable();
+            if (*liftable->mDisableFreezeLift)
+                return true;
+            break;
+        }
+        case 2: {
+            const auto* liftable = actor->getParam()->getRes().mGParamList->getLiftable();
+            if (*liftable->mDisableBurnLift)
+                return true;
+            break;
+        }
+        case 4:
+            return true;
+        }
+        return false;
+    }
+
+    switch (state) {
+    case 1:
+    case 2:
+    case 4:
+        return true;
+    case 3:
+        return false;
+    default:
+        return false;
+    }
 }
 
 // 0x71005dcb3c: forwards the actor's gravity/position vector to the launch-point search.
