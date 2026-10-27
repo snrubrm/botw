@@ -61,6 +61,12 @@ Unk_710260f2a8::~Unk_710260f2a8() {
     }
 }
 
+void Unk_710260f2a8::sub_7101001808(bool on) {
+    // The original drops this read of the state; the atomic load keeps it.
+    _34.load();
+    _60 = on;
+}
+
 void Unk_710260f2a8::m4(sead::Heap* heap) {
     DragonBgmInfo::DragonEnum type = DragonBgmInfo::DragonEnum::DragonBgm;
     if (mHandles[type])
@@ -81,7 +87,7 @@ void Unk_710260f2a8::m5() {
     if (_58)
         near = _5c < _10->mParamPerTypes[_30].mDistanceThreshold.ref();
 
-    switch (_34) {
+    switch (_34.load()) {
     case 0:
         if (!near) {
             _50 = 0;
@@ -172,7 +178,7 @@ void Unk_710260f2a8::m14(sead::TextWriter& writer) {
     writer.printf("ドラゴンとの距離  :%f\n", _5c);
     writer.printf("現在のBGM種別     :%s\n",
                   DragonBgmInfo::DragonEnum::text(_30) ? DragonBgmInfo::DragonEnum::text(_30) : "不明");
-    writer.printf("状態              :%s\n", State::text(_34) ? State::text(_34) : "不明");
+    writer.printf("状態              :%s\n", State::text(_34.load()) ? State::text(_34.load()) : "不明");
     writer.printf("再生待ちカウンタ  :%f\n", _50);
     writer.printf("停止待ちカウンタ  :%f\n", _54);
     writer.printf("フェーダボリューム:%f\n", _38.getValue());

@@ -65,6 +65,8 @@ void SoundMgr::sub_71011FC394(sead::Thread* thread) {
     delete thread;
 }
 
+void SoundMgr::initBeforeStageGenB() {}
+
 // NON_MATCHING: the output mode is chosen with a select here (the original branches to one call).
 void SoundMgr::sub_71011FB5AC() {
     if (!_28)

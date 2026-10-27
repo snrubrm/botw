@@ -608,9 +608,8 @@ public:
 
     // 0x7101001194: called at the end of the constructor; creates the two handles (Unk_71024fd3a0).
     void sub_7101001194(const BgmInitArg& arg);
-    // 0x7101001808 (declared only; placeholder name): sets _60 (DragonReleaseGrudgeForDemo::calc_ clears it).
+    // 0x7101001808: sets _60 (DragonReleaseGrudgeForDemo::calc_ clears it).
     void sub_7101001808(bool on);
-
     // The states of _34 (enum text "停止中,再生中,フェードアウト中,怨念切替停止": stopped, playing, fading out,
     // stopped for the grudge switch; text_ is 0x7101001d24).
     // clang-format off
@@ -623,7 +622,9 @@ public:
     sead::SafeArray<Unk_SpotBgmHandle*, 2> mHandles{};
     Unk_SpotBgmHandle* _28 = nullptr;
     u32 _30 = 0;
-    u32 _34 = 0;
+    // The state; read by the sound thread, so the original keeps its reads (sub_7101001808 reads it
+    // and drops the result).
+    sead::Atomic<u32> _34{sead::AtomicDirectInitTag(), 0};
     aal::SimpleTimedFader _38{1.0};
     // The play / stop wait counters (m14).
     f32 _50 = 0;
