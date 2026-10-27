@@ -595,6 +595,69 @@ bool ModelNW::isReverseCullingEnabled(int index) const {
     return enabled;
 }
 
+// 0x7100c0445c
+void* ModelNW::createSubMeshRangeBuffer(sead::Heap* heap) const {
+    int num = 0;
+    for (int i = 0; i < getModelRenderUnitNum(); ++i) {
+        const nn::g3d::ResShape* shape = mModelObj.GetShape(i)->GetResource();
+        num += getSubMeshRangeNum(shape->GetMeshCount(), shape->GetMesh(0)->GetSubMeshCount());
+    }
+    return new (heap, 8) u8[num * sizeof(SubMeshRange)]();
+}
+
+// 0x7100c04648
+void ModelNW::setSubMeshRangeBuffer(int index, void* buffer) {
+    SubMeshRange* range = static_cast<SubMeshRange*>(buffer);
+    if (range) {
+        for (int i = 0; i < getModelRenderUnitNum(); ++i) {
+            ModelRenderUnitNW* unit = mRenderUnits[i];
+            if (unit->mShapeRecords)
+                unit->mShapeRecords[index]._8 = range;
+            const nn::g3d::ResShape* shape = mModelObj.GetShape(i)->GetResource();
+            range += getSubMeshRangeNum(shape->GetMeshCount(),
+                                        shape->GetMesh(0)->GetSubMeshCount());
+        }
+    } else {
+        for (int i = 0; i < getModelRenderUnitNum(); ++i) {
+            ModelRenderUnitNW* unit = mRenderUnits[i];
+            if (unit->mShapeRecords)
+                unit->mShapeRecords[index]._8 = nullptr;
+        }
+    }
+}
+
+// 0x7100c04528
+void ModelNW::setSubMeshRangeBufferVisible(int index, int shape, const bool* visible) {
+    ModelRenderUnitNW* unit = mRenderUnits[shape];
+    if (!unit->mShapeRecords)
+        return;
+    u16* range = static_cast<u16*>(unit->mShapeRecords[index]._8);
+    if (!range)
+        return;
+    range[0] = 0;
+    range[1] = 0;
+    const int num = getShapeSubMeshNum(shape);
+    if (num >= 1) {
+        for (int i = 0; i < num; ++i) {
+            if (!visible || visible[i]) {
+                if (range[1] == 0)
+                    range[0] = i;
+                ++range[1];
+            } else if (range[1] != 0 || range[0] != 0) {
+                range += 3;
+                range[0] = 0;
+                range[1] = 0;
+            }
+            range[2] = 0;
+        }
+    }
+    if (range[1] != 0 || range[0] != 0) {
+        range += 3;
+        range[0] = 0;
+        range[1] = 0;
+    }
+}
+
 // 0x7100c054bc
 int ModelNW::countPolygonNum() const {
     int count = 0;

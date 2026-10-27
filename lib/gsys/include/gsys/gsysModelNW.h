@@ -157,6 +157,10 @@ public:
     // material `index`.
     void enableReverseCulling(int index, bool enable) override;
     bool isReverseCullingEnabled(int index) const override;
+    // 0x7100c0445c / 0x7100c04648 / 0x7100c04528: the per-render-unit sub-mesh range records.
+    void* createSubMeshRangeBuffer(sead::Heap* heap) const override;
+    void setSubMeshRangeBuffer(int index, void* buffer) override;
+    void setSubMeshRangeBufferVisible(int view, int index, const bool* visible) override;
     // 0x7100c054bc: sums the triangle counts of the shapes' first mesh.
     int countPolygonNum() const override;
     // 0x7100c0678c: stores the block and marks its bit on every render unit.
@@ -231,9 +235,16 @@ private:
     friend class ModelProceduralShape;
     friend class ModelRenderCache;
 
+    /// One 6-byte record of the sub-mesh range buffer from createSubMeshRangeBuffer.
+    struct SubMeshRange {
+        u16 _0;
+        u16 _2;
+        u16 _4;
+    };
+    static_assert(sizeof(SubMeshRange) == 6);
+
     u8 _168;
-    nn::g3d::ModelObj mModelObj;
-    mutable u8 _200;
+    nn::g3d::ModelObj mModelObj;    mutable u8 _200;
     u8 _201;
     u8 mBufferNum;
     u8 _203;
