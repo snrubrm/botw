@@ -21,7 +21,11 @@ public:
     struct Context {
         Context();
         ~Context();
-        u8 _0[0x3208];
+        u32 _0;
+        // Pass flags of the view's draw record: drawModelSceneCalcRenderView writes bits 7 / 8 / 11,
+        // 12 (the record's analyze flag) and 19 (Graphics' _284 bit 0).
+        /* 0x4 */ u32 mPassFlagsMaybe;
+        u8 _8[0x3208 - 0x8];
         // Per-axis render scale. The Context constructor path 0x7100c5934c copies the two words
         // of the global pair at 0x7101e9ff10 into both this pair and 0x4b0/0x4b4; update
         // 0x7100c59684 loads them as f32, multiplies them by the viewport scale, and Graphics

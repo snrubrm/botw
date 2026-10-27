@@ -134,6 +134,30 @@ void Graphics::clearModelSceneQueue() {
         _3b0->clear();
 }
 
+// NON_MATCHING: everything matches except the order of the _284 load at 0xf32a08; the original
+// loads it before materialising the mask. A named `const u32 pass_bit = (_284.getDirect() & 1) << 19;`
+// reproduces it (logged under Borderline) but it is a local used once only for scheduling.
+// 0x7100f3299c (slot m17): for view 1, ORs the pass flags into the view's render record; view 0
+// forwards to the frame calc at 0x7100f30c64.
+void Graphics::calcModelSceneCalcRenderView(s32 view, gsys::ModelScene* scene,
+                                            gsys::ModelRenderContext* context) {
+    switch (view) {
+    case 0:
+        sub_7100F30C64(scene, context);
+        break;
+    case 1: {
+        gsys::RenderBufferContext::Context* record =
+            scene->mBuffer.getRenderBufferContext()->getContext(context->getViewIndex());
+        u32 flags = record->mPassFlagsMaybe;
+        if (_b38 && _ae0 && _ae0->_48 == context->getViewIndex())
+            flags |= (_b38->mRecords(0)._1f91 & 1) << 12;
+        flags = (flags & 0xfffdf67fu) | ((_284.getDirect() & 1) << 19) | 0x980;
+        record->mPassFlagsMaybe = flags;
+        break;
+    }
+    }
+}
+
 void Graphics::drawModelSceneXlu(agl::DrawContext* draw_context, s32 pass,
                                  gsys::ModelScene* scene,
                                  gsys::ModelRenderContext* context) {

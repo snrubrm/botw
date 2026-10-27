@@ -1530,6 +1530,9 @@ public:
     // The scene argument is not read.
     void sub_7100F34848(agl::DrawContext* draw_context, bool pass, gsys::ModelScene* scene,
                         gsys::ModelSceneContext* context);
+    // 0x7100f30c64 (unnamed in the CSV): the frame calc that calcModelSceneCalcRenderView forwards
+    // view 0 to.
+    void sub_7100F30C64(gsys::ModelScene* scene, gsys::ModelRenderContext* context);
     // 0x7100f33e74 (unnamed in the CSV): the extra scene-pass draw the Pfx pass runs for pass 0
     // (the call passes pass 2). Draws the scene's render targets through the selected view's
     // 0x3878-byte render record and the model shader's viewport.
