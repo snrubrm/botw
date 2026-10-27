@@ -37,10 +37,10 @@ void UiShopMgr::sub_7100982C90() {
         if (_30 == 9) {
             if (info != nullptr) {
                 _e0 = ksys::act::getItemStainColor(info, _38.name.cstr());
-                shop::setColorChangeMaterialIndex(_e0);
+                setColorChangeMaterialIndex(_e0);
             }
         } else if (u32(_30 - 7) < 2) {
-            shop::setColorChangeMaterialIndex(_e0);
+            setColorChangeMaterialIndex(_e0);
         } else if (_30 == 6) {
             sead::FixedSafeString<64> rank;
             if (*_38.name.cstr() != sead::SafeString::cNullChar)

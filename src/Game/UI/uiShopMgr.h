@@ -107,6 +107,9 @@ public:
     // 0x7100983e48 / 0x7100982c90 / 0x7100980f48 (CSV unnamed; not decompiled): called by sub_710098425C
     bool sub_7100983E48(s32 category, s32 index, ShopItem* item);
     void sub_7100982C90();
+    // 0x710098258c (1208 bytes, not decompiled): opens / closes the screen list `sUnk_71025d7ca0`
+    // selects for the state (0 = close, 1 = shop, 2 = horse).
+    void sub_710098258C(u8 type);
     bool sub_71009831B0(s32 index, ShopItem* item);
     // Native 980F48 consumes the item metadata through +0x70, not just its string.
     void sub_7100980F48(ShopItem* item);

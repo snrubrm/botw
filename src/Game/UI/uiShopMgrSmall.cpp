@@ -19,6 +19,10 @@ namespace uking::ui {
 bool triggerRupeeCountScreen();
 bool sub_7100A96D24();
 bool sub_7100A97F80();
+// 0x7100a96964 / 0x7100a97ea4 (uiScreenFacade.cpp): the rupee count and the "sold out" screens.
+// The original discards both results.
+bool sub_7100A96964(bool a0);
+bool sub_7100A97EA4(bool a0);
 
 // The shop-state to screen-list table. The native TU initializer 0x7100985584 sets
 // the buffer to these 16 entries (count 0x71025d7ca0, pointer 0x71025d7ca8).
@@ -236,6 +240,22 @@ static bool isShopInfoState2(s32 state) {
     case 3:
     case 4:
     case 5:
+    case 14:
+        return true;
+    default:
+        return false;
+    }
+}
+
+// inline-only in the original; name is a guess. The state set of the NPC shop data (same as the
+// npc_shop switch in sub_71009831B0); its switch is the 0x2515 mask over the states 1 - 14.
+static bool isNpcShopState(s32 state) {
+    switch (state) {
+    case 1:
+    case 3:
+    case 5:
+    case 9:
+    case 11:
     case 14:
         return true;
     default:
@@ -481,6 +501,103 @@ static sead::SafeString sUnk_71025d7cb0 = "HorseReins";
 static sead::SafeString sUnk_71025d7cc0 = "HorseSaddle";
 static sead::SafeString sUnk_71025d7cd0 = "GameRomHorseReins_00";
 static sead::SafeString sUnk_71025d7ce0 = "GameRomHorseSaddle_00";
+
+// 0x71009821f0: switches the shop to `state`. Leaving the 7 / 8 states resets the selected item,
+// the NPC shop data and closes the info screen; the item count, the dye index and the horse item
+// name are refreshed for the new state, then the state's screen list is opened.
+// NON_MATCHING: blocked on this TU's static block. The horse profile strings are at +0x170 / +0x180
+// of the merged block the original fills in sinitHorseItemStrings 0x7100985584 (the floats and
+// vectors at 0x71025d7b40 - 0x71025d7c94 are not modelled), so our adrp/add offsets differ; the
+// original also keeps one copy of the 0x98248c block where our clang specializes it into the
+// state-10 arm. Everything else (the reset, the count and horse-name lookups, the masks) is as in
+// the original.
+bool UiShopMgr::sub_71009821F0(s32 state) {
+    if (_30 == state)
+        return true;
+    if (isShopBuySellState(_30) && !isShopBuySellState(state)) {
+        _d0 = nullptr;
+        _d8 = 0;
+        _b0 = -1;
+        _e0 = -1;
+        _38.name.clear();
+        _38._58 = 0;
+        _38._5c = 0;
+        _38._60 = 0;
+        _38._64 = 0;
+        _38._68 = -1;
+        _38._6c = 0;
+        _38._70 = nullptr;
+        _c7 = false;
+        if (auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::ShopInfo))
+            screen->close(-4);
+    }
+    _30 = state;
+    s32 screen_type;
+    if (state == 14)
+        screen_type = 1;
+    else if (state == 4)
+        screen_type = 2;
+    else if (state == 3)
+        screen_type = 1;
+    else
+        screen_type = state;
+    shop::setScreenType(screen_type);
+
+    auto* data_mgr = PauseMenuDataMgr::instance();
+    s32 count;
+    if (isNpcShopState(_30)) {
+        count = _d0 ? _d0->mNumItems : 0;
+    } else if (!data_mgr) {
+        count = 0;
+    } else if (_30 == 13) {
+        count = data_mgr->countItemsWithProfile(sUnk_71025d7cc0, true) + 1;
+    } else if (_30 == 12) {
+        count = data_mgr->countItemsWithProfile(sUnk_71025d7cb0, true) + 1;
+    } else {
+        count = 0;
+    }
+    _d8 = count;
+
+    if (state == 10) {
+        _e0 = ksys::gdt::getFlag_ColorChange_MaterialIndex(false);
+    } else if (u32(_30 - 11) < 3) {
+        const s32 index = ksys::gdt::getFlag_Horse_ActiveIndex(false);
+        if (index >= 0) {
+            const char* name = nullptr;
+            if (_30 == 12)
+                ksys::gdt::getFlag_Horse_ReinsName(&name, index, false);
+            else if (_30 == 11)
+                ksys::gdt::getFlag_Horse_ManeName(&name, index, false);
+            else
+                ksys::gdt::getFlag_Horse_SaddleName(&name, index, false);
+            if (name)
+                _e8.copy(name);
+        }
+    }
+    if (u32(state - 7) >= 2) {
+        if (isShopInfoState(state)) {
+            sub_7100A96964(false);
+        } else if (state == 3 || state == 4) {
+            sub_7100A97EA4(false);
+        }
+        sub_710098258C(sUnk_71025d7ca0[_30]);
+        _c0 = 1;
+    }
+
+    if (_30 != 10) {
+        shop::setSelectItemName(sead::SafeString::cEmptyString);
+        shop::setSelectItemPrice(0);
+        shop::setSelectItemNum(0);
+        shop::setItemState(-1);
+        setColorChangeMaterialIndex(-1);
+    }
+    if (isShopInfoState2(state)) {
+        if (auto* root = Root1::instance())
+            root->sub_7100899CA4(Root1::FlagIdx::_0, 1);
+    }
+    return true;
+}
+
 
 s32 sub_7100A82DE8(PouchCategory category);
 const PouchItem* sub_7100A82E00(PouchCategory category, s32 index);

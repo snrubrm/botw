@@ -749,17 +749,21 @@ void sub_7100A9B4C8(f32 a0, f32 a1, f32 unused);
 // The shop facade setters of uiGdtFacade.cpp (0x7100aa8108 - 0x7100aa8xxx; called by
 // UiShopMgr::sub_7100982C90). Definitions there, declarations here.
 namespace shop {
+// 0x7100aa8108
+void setScreenType(s32 type);
 void setSelectItemName(const sead::SafeString& name);
 void setSelectItemPrice(s32 price);
 void setSelectItemNum(s32 num);
 void setItemState(s32 state);
-void setColorChangeMaterialIndex(s32 index);
 // 0x7100aa813c / 0x7100aa8144: the trade item count and total price flags.
 void setTradeItemNum(s32 num);
 void setTradePrice(s32 price);
 // 0x7100aa8154: the IsManufactureEquipItem flag (a manufactured armor replaces the equipped one).
 void sub_7100AA8154(bool is_manufacture_equip_item);
 }  // namespace shop
+
+// 0x7100aa814c: the dye / colour material index flag
+void setColorChangeMaterialIndex(s32 index);
 
 }  // namespace uking::ui
 
