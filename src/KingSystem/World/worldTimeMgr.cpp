@@ -765,3 +765,7 @@ bool TimeMgr::isTimeFlowingNormally() const {
 }
 
 }  // namespace ksys::world
+
+// The event slot's out-of-line destructor pair (0x71009104a8 / 0x7100916ec0): the original
+// instantiates the slot type in this translation unit.
+template class sead::DelegateEvent<const ksys::world::TimeMgr::NewDayEvent&>::Slot;
