@@ -623,6 +623,21 @@ void ModelNW::setUserUniformBlock(int index, agl::UniformBlock* block) {
     }
 }
 
+// NON_MATCHING: the body agrees, but clang keeps the address of _200 in a register (one extra
+// add) and folds the clear mask to a 32-bit immediate.
+// 0x7100c03e8c
+void ModelNW::setCallbackBoneIndex(int bone_idx) {
+    nn::g3d::SkeletonObj* skeleton = mModelObj.GetSkeleton();
+    if (bone_idx != -1 && mBoneCallback) {
+        skeleton->setCalculateWorldCallback(this);
+        _200 |= 0x50;
+    } else {
+        skeleton->setCalculateWorldCallback(nullptr);
+        _200 &= ~0x10;
+    }
+    skeleton->setCallbackBoneIndex(bone_idx);
+}
+
 // 0x7100c051e4
 void ModelNW::clearMaterialParameter(int material_idx) {
     const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);
