@@ -2,9 +2,54 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Resource/Actor/resResourceShop.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
+#include "Game/UI/uiTUStatics.h"
+#include "KingSystem/AOC/aocManager.h"
 #include "KingSystem/GameData/gdtManager.h"
+#include <algorithm>
 
 namespace uking {
+
+// The TU's statics (static initializer 0x710091da68): the two additional shop tables are appended to
+// the biggest table; they come before the uiTUStatics.h block at 0x71025d2280.
+static sead::FixedSafeString<32> sUpdateAdditionalShop("Update_Additional_Shop");
+static sead::FixedSafeString<32> sAoCAdditionalShop("AoC_Additional_Shop");
+
+// 0x710091b7c8: sizes the item buffer to the largest table plus the update / DLC additional tables.
+bool NpcShopData::initFromBshopMaybe(const ksys::res::Shop* shop, sead::Heap* heap) {
+    if (!shop || !heap)
+        return false;
+
+    s32 num = 0;
+    for (s32 i = 0; i < shop->getNumTables(); ++i) {
+        const auto& table = shop->getTables()[i];
+        num = std::max(num, table.column_num.ref());
+    }
+
+    const s32 index = shop->findTableIndex(sUpdateAdditionalShop);
+    if (index != -1) {
+        const auto& table = shop->getTables()[index];
+        const s32 columns = table.column_num.ref();
+        num += table.items.size() > 0 ? columns : 0;
+    }
+
+    if (auto* aoc = ksys::aoc::Manager::instance(); aoc && aoc->getVersion()) {
+        const s32 aoc_index = shop->findTableIndex(sAoCAdditionalShop);
+        if (aoc_index != -1) {
+            const auto& table = shop->getTables()[aoc_index];
+            const s32 aoc_columns = table.column_num.ref();
+            num += table.items.size() > 0 ? aoc_columns : 0;
+        }
+    }
+
+    if (num < 1)
+        return false;
+
+    auto* items = new (heap, 8, std::nothrow) Item[num];
+    if (!items)
+        return true;
+    mItems = sead::Buffer<Item>(num, items);
+    return true;
+}
 
 // 0x710091ce98: copies the item names of the shop's `table_name` table into the owned items.
 // NON_MATCHING: the destination Buffer's bounds check takes the index as s32 here (`smaddl` and a 32-bit

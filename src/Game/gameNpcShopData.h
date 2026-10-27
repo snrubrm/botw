@@ -53,10 +53,10 @@ public:
     struct Item {
         // Native 91B7C8 constructs capacity 32 and initializes the four trailing words.
         sead::FixedSafeString<32> name;
-        /* 0x38 */ s32 unitPrice;
-        /* 0x3c */ s32 count;
-        /* 0x40 */ s32 _40;
-        /* 0x44 */ s32 price;
+        /* 0x38 */ s32 unitPrice = -1;
+        /* 0x3c */ s32 count = 0;
+        /* 0x40 */ s32 _40 = 0;
+        /* 0x44 */ s32 price = 0;
     };
     static_assert(sizeof(Item) == 0x48);
 
