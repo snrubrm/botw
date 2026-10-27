@@ -82,6 +82,32 @@ void NavMeshLoadMgr::load(sead::Heap* heap, const sead::SafeString& path) {
     (_8 ? _10 : nullptr)->mHandle.load(_18, &request, nullptr);
 }
 
+// NON_MATCHING: register allocation only (the cast type info and the lock spill to the other stack
+// slots; the body, both loops and the buffer teardown agree instruction for instruction).
+void NavMeshLoadMgr::sub_7100F898E4() {
+    auto lock = sead::makeScopedLock(_130);
+    if (_10) {
+        const u32 count = _8;
+        for (u32 i = 0; i != count; ++i) {
+            TileHandle& handle = _10[i];
+            if (!handle._58)
+                continue;
+            auto* resource =
+                sead::DynamicCast<Unk_7102519b90>(handle.mHandle.getResource());
+            for (auto& entry : resource->getEntries()) {
+                if (entry._8 && entry._28)
+                    HavokAI::instance()->sub_7100F81EE0(&entry, false);
+            }
+        }
+    }
+    if (_10) {
+        delete[] _10;
+        _10 = nullptr;
+        _8 = 0;
+    }
+    _190 = false;
+}
+
 void NavMeshLoadMgr::sub_7100F8AA78(s32 index, const sead::Matrix34f& transform) {
     if (_190)
         return;
