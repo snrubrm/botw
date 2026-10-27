@@ -1537,6 +1537,22 @@ bool sub_71005D70C8(ksys::act::Actor* actor) {
     return sub_71005D715C(actor);
 }
 
+// 0x71005dcba4: the same forward as sub_71005DCB3C but only for a non-zero speed (the launch
+// velocity is relative to sead::Vector3f::zero).
+bool sub_71005DCBA4(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Vector3f* pos,
+                    f32 a3) {
+    if (!actor)
+        return false;
+
+    const f32 neg = 0.0f - a3;
+    if (neg <= sead::Mathf::epsilon() && neg >= -sead::Mathf::epsilon())
+        return false;
+
+    sead::Vector3f gravity;
+    sub_710072DC54(&gravity, actor);
+    return sub_710072D344(out, sead::Vector3f::zero, *pos, a3, gravity.y);
+}
+
 // 0x71005dcb3c: forwards the actor's gravity/position vector to the launch-point search.
 bool sub_71005DCB3C(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Vector3f* pos, f32 a,
                     f32 b) {
