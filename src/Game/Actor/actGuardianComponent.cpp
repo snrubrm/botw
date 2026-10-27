@@ -365,11 +365,12 @@ void GuardianComponent::updatePositionMaybe() {
     DynamicActor::updatePositionMaybe();
 }
 
-// NON_MATCHING: the two inlined indexOf loops keep their -1 result in a register set before the loop.
 // Adds the owning Guardian to `actors` when this component is in it.
 void GuardianComponent::m147(sead::PtrArray<ksys::act::Actor>* actors) {
     ksys::act::Actor* guardian = sub_710003D2B4();
-    if (actors->indexOf(this) >= 0 && actors->indexOf(guardian) < 0)
+    const s32 this_index = actors->indexOf(this);
+    const s32 guardian_index = actors->indexOf(guardian);
+    if (this_index >= 0 && guardian_index < 0)
         actors->pushBack(guardian);
 }
 
