@@ -1,5 +1,8 @@
 #include "Game/gameNavMeshSystem.h"
+#include "KingSystem/Physics/RigidBody/Shape/physBoxShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyBox.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physUserTag.h"
 #include <math/seadBoundBox.h>
@@ -57,6 +60,25 @@ void NavMeshSystem::Entry::Tag::onBodyShapeChanged(ksys::phys::RigidBody*) {
 }
 
 NavMeshSystem::Entry::Entry() : nav(), body(nullptr), tag(this), boxes() {}
+
+// NON_MATCHING: identical instructions except the loop preheader's counter copy
+// (`mov w21, w23`); clang keeps the counter in the size register here instead of
+// moving it aside for the motion-type constant.
+void NavMeshSystem::init(sead::Heap* heap) {
+    if (!mEntries.tryAllocBuffer(0x14, heap) && mEntries.size() == 0)
+        return;
+
+    for (auto& entry : mEntries) {
+        ksys::phys::BoxParam param;
+        param.motion_type = ksys::phys::MotionType::Keyframed;
+        param.contact_layer = ksys::phys::ContactLayer::EntityNoHit;
+        param.name = "NavMeshGrassFire";
+        entry.body = ksys::phys::BoxRigidBody::make(&param, heap);
+        entry.body->setUserTag(&entry.tag);
+        entry.nav.sub_7100F7EF8C(entry.body, 2, true, ksys::phys::NavMeshSubMaterial::Fire, 0,
+                                 sead::SafeString("NavMeshGrassFire"));
+    }
+}
 
 // NON_MATCHING: the singleton disposer and deleteInstance inline the buffer teardown
 // differently; the disposer also saves an extra register around the base destructor.
