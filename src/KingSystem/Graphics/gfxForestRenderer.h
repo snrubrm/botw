@@ -18,6 +18,7 @@ namespace gsys {
 class Model;
 class ModelUnit;
 class ModelDrawObj;
+class ModelScene;
 }  // namespace gsys
 
 namespace ksys {
@@ -91,11 +92,16 @@ public:
     static_assert(sizeof(Record) == 0x1c);
 
     // Placeholder names: the 0x88-byte entries of the buffer at 0xd0 and their 0x98-byte items.
+    struct Unk_68;
+
     struct Item {
         // Placeholder: 0x7100f0914c reads the u64 model mask at +0x8 and uses it to select the slot
         // offset at +0x48 below.
         struct Unk_40 {
-            u8 _0[8];
+            // Same layout as the entry's Unk_28 head: the first record index and the count.
+            u16 mFirst;
+            u16 mCount;
+            u32 _4;
             u64 mModelMask;
         };
         static_assert(sizeof(Unk_40) == 0x10);
@@ -103,6 +109,9 @@ public:
         // 0x7100f0914c (placeholder name): updates the item for the changed record; true stops
         // ForestRenderer::x_8's loop.
         bool sub_7100F0914C(Record* record, bool a, bool b);
+
+        // 0x7100f07dd8: releases the item's records and returns its draw objects to the pool.
+        void sub_7100F07DD8(sead::Buffer<Record>* records, Unk_68* drawMgr, bool flag);
 
         // 0x7100f078a4 (vtable 0x71024f38b8): releases the item's pointer array and resets it if _8 is set.
         virtual ~Item();
@@ -116,7 +125,7 @@ public:
             _c.makeAllZero();
             _10 = 0;
             _18 = 0;
-            _30 = 0;
+            mScene = nullptr;
             _38 = 0;
             mCell.mMask = 0xff;
             mCell.mZ = 0xff;
@@ -125,23 +134,31 @@ public:
             _8 = 0;
         }
 
-        u32 _8;
+        u32 _8 = 0;
         sead::BitFlag16 _c;
-        u8 _e[0x10 - 0xe];
-        u32 _10;
-        u64 _18;
+        sead::BitFlag16 _e;
+        u32 _10 = 0;
+        u64 _18 = 0;
         sead::PtrArray<u8> _20;
-        u64 _30;
-        u16 _38;
-        GridCell mCell;
+        // The model scene the item's pointer array is allocated from (Entry::init 0x7100f032a4).
+        gsys::ModelScene* mScene = nullptr;
+        u16 _38 = 0;
+        GridCell mCell = {0, -1, -1, -1};
         u8 _3e[0x40 - 0x3e];
-        Unk_40* _40;
+        Unk_40* _40 = nullptr;
         // Per-model offsets added to the record's u16 base (0x7100f0914c).
         u16 mSlotOffsets[0x14];
         u8 _70[0x98 - 0x70];
     };
     static_assert(sizeof(Item) == 0x98);
     struct Entry {
+        // The entry constructor (inlined in the buffer allocation) marks the nine model cells invalid.
+        Entry();
+
+        // 0x7100f032a4: allocates the record table, the items and their pointer arrays.
+        void init(s32 numItems, bool primary, sead::Heap* heap, sead::Heap* recordHeap,
+                  gsys::ModelScene* scene);
+
         // 0x7100f0663c (declaration only; placeholder name): index of the item at `pos`, or -1.
         s32 sub_7100F0663C(const sead::Vector3f& pos);
         // 0x7100f071c4 (declaration only; placeholder name): adds a tree instance (name, position, rotation in
@@ -172,13 +189,15 @@ public:
         struct Unk_28 {
             u16 _0;
             u16 _2;
-            u32 _4;
-            u64 _8;
+            u32 _4 = 0;
+            u64 _8 = 0;
             u16 _10[0x14];  // per-model slot counters
         };
         static_assert(sizeof(Unk_28) == 0x38);
         sead::Buffer<Unk_28> _28;
-        u8 _38[0x60 - 0x38];
+        // Per-model sentinel cells (same layout as GridCell), reset to {0, -1, -1, -1} by the constructor.
+        GridCell mModelCells[9];
+        u8 _5c[0x60 - 0x5c];
         sead::Buffer<Item> mItems;
         s32 mNumRecords;
         // The largest _2 count of the elements of _28 (x_4).
@@ -194,20 +213,23 @@ public:
         // 0x7100f09374: deletes the model unit, resets the fields and frees the unit buffer.
         virtual ~UnitEntry();
 
-        s32 mState;
-        u8 _c[0x18 - 0xc];
+        s32 mState = 0;
+        u8 _c[0x10 - 0xc];
+        // The model scene the unit buffer is allocated from.
+        gsys::ModelScene* mScene = nullptr;
         // Two blocks of 0x400 unit pointers (requestDraw reads the buffer through data()).
         sead::PtrArrayImpl mUnits;
-        u32 mIndex;
-        u32 mCount;
-        u32 mPrevCount;
+        u32 mIndex = 0;
+        u32 mCount = 0;
+        u32 mPrevCount = 0;
         u8 _34[0x38 - 0x34];
-        gsys::ModelUnit* mModelUnit;
-        u64 _40;
-        s32 _48;
-        s32 _4c;
-        u64 _50;
-        u8 _58[0x60 - 0x58];
+        gsys::ModelUnit* mModelUnit = nullptr;
+        u64 _40 = 0;
+        s32 _48 = -1;
+        s32 _4c = -1;
+        u64 _50 = 0;
+        u8 _58 = 0;
+        u8 _59[0x60 - 0x59];
     };
     static_assert(sizeof(UnitEntry) == 0x60);
 
@@ -230,6 +252,9 @@ public:
     // 0x7100f01acc
     ForestRenderer();
     virtual ~ForestRenderer();
+
+    // 0x7100f02dac: creates the work heap, the tree resources, the entries and the model set.
+    void init(sead::Heap* heap, gsys::ModelScene* scene);
 
     // 0x7100f01bf8 / 0x7100f01ef8 (CSV names; declaration only): targets of the delegates at 0x1e0 / 0x200.
     bool invoked2(void* arg);
@@ -330,6 +355,9 @@ public:
         // 0x7100f09658
         virtual ~ModelSet();
 
+        // 0x7100f03580: creates and binds the two "ForestRenderer - DrawModel" models.
+        void init(sead::Heap* heap, gsys::ModelScene* scene);
+
         sead::SafeArray<ModelSlot, 2> mSlots;
         s32 mCurrent = 0;
     };
@@ -380,5 +408,13 @@ public:
     u64 _230 = 0;
 };
 static_assert(sizeof(ForestRenderer) == 0x238);
+
+// The nine sentinel cells of an entry; reset when the entry buffer is allocated (0x7100f03138).
+inline ForestRenderer::Entry::Entry()
+    : _8(0), mHeap(nullptr),
+      mModelCells{{0, -1, -1, -1}, {0, -1, -1, -1}, {0, -1, -1, -1}, {0, -1, -1, -1},
+                  {0, -1, -1, -1}, {0, -1, -1, -1}, {0, -1, -1, -1}, {0, -1, -1, -1},
+                  {0, -1, -1, -1}},
+      mNumRecords(0), _74(0) {}
 
 }  // namespace ksys::gfx

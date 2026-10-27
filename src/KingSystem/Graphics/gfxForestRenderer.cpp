@@ -4,6 +4,9 @@
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Effect/eftEffect.h"
 #include <cstring>
+#include <heap/seadExpHeap.h>
+#include <thread/seadThread.h>
+#include <time/seadTickSpan.h>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelDrawObj.h>
 #include <gsys/gsysModelScene.h>
@@ -28,6 +31,19 @@ bool sUnk_710260a1d8;
 u32 sUnk_710260a1dc;
 }  // namespace
 
+// 0x71024f37b8: the 25 tree model names the renderer loads into mTreeRes (init 0x7100f02dac).
+static const char* const sTreeResNames[25] = {
+    "Obj_TreeBroadleaf_A",       "Obj_TreeBroadleaf_B",       "Obj_TreeConiferous",
+    "Obj_TreeConiferous_C",      "Obj_TreeConiferousSnow_A",  "Obj_TreeWhiteBirch_A",
+    "Obj_TreeMaple_A",           "Obj_TreeGhost_A",           "Obj_TreeDead_A",
+    "Obj_TreeDeadLeaf_A",        "Obj_TreeApple_A",           "Obj_TreeTropical_A",
+    "Obj_TreePalmJungle_A",      "Obj_TreePalm_A",            "Obj_TreeDragonblood_A-00",
+    "Obj_TreeDragonblood_A-01",  "Obj_TreeBaobab_A",          "Obj_TreeConiferousDead_A",
+    "Obj_TreeBurned_A",          "Obj_TreeBurned_B-00",       "Obj_TreeBurned_B-01",
+    "Obj_TreeBroadleafLow_A",    "Obj_TreeBroadleafLow_B",    "FldObj_AncientStoneTower_A",
+    "FldObj_RockLayerMossTreeBroadleaf_A",
+};
+
 bool* ForestRenderer::sub_7100F00B94() {
     return &sUnk_710260a1cc;
 }
@@ -49,6 +65,37 @@ u32* ForestRenderer::sub_7100F01AC0() {
 }
 
 ForestRenderer::ForestRenderer() = default;
+
+// NON_MATCHING: the UnitEntry loop's two latch updates are scheduled in the opposite order
+// (`add x22` / `sub x23`); instructions, calls and frame are otherwise equal.
+void ForestRenderer::init(sead::Heap* heap, gsys::ModelScene* scene) {
+    _48 = sead::ExpHeap::create(0xc0000, "ForestRenderer - WorkHeap", heap, 8,
+                                sead::Heap::cHeapDirection_Forward, false);
+
+    mTreeRes.tryAllocBuffer(25, heap);
+    for (s32 i = 0; i < 25; ++i) {
+        TreeResMaybe& res = mTreeRes[i];
+        res.mIndex = i;
+        res.mName = sTreeResNames[i];
+        res._8 = 1;
+    }
+
+    _68.sub_7100F03034(heap, scene);
+
+    mEntries.allocBuffer(2, heap, 8);
+    mEntries[0].init(9, true, heap, _48, scene);
+    mEntries[1].init(9, false, heap, _48, scene);
+
+    mUnitEntries.mEntries.tryAllocBuffer(32, heap, 8);
+    for (auto& entry : mUnitEntries.mEntries) {
+        entry.mScene = scene;
+        entry.mUnits.allocBuffer(0x800, heap, 4);
+        entry.mState = 1;
+    }
+
+    mModelSet.init(heap, scene);
+    _54 = 1;
+}
 
 // The mask is a 64-bit bitmask; the bit-flag helpers take the low 32 bits.
 void ForestRenderer::ModelSlot::sub_7100F05B5C(const sead::Buffer<TreeResMaybe>* resources,
@@ -330,6 +377,47 @@ void ForestRenderer::Unk_1b8::invoked1(TaskPostRunResult*, const TaskPostRunCont
     mFlags &= ~1u;
 }
 
+// NON_MATCHING: the loop preheader computes `flag & 1` before the 0xe7 mask constant.
+void ForestRenderer::Item::sub_7100F07DD8(sead::Buffer<Record>* records, Unk_68* drawMgr,
+                                           bool flag) {
+    _8 = 5;
+    _e.reset(2);
+    _c.makeAllZero();
+
+    if (u32(mCell.mX) <= 9 && u32(mCell.mZ) <= 7 &&
+        ((mCell.mFlags & 1) || u32(mCell.mMask) <= 0xf)) {
+        auto* core = tera::Terrain::instance()->sub_710114DE70();
+        const u32 first = _40->mFirst;
+        const u32 count = _40->mCount;
+        for (u32 i = 0; i < count; ++i) {
+            Record& record = (*records)[first + i];
+            record._4.reset(0x18);
+            if (!record._4.isOn(0x40)) {
+                const s32 index = record._2;
+                sead::Vector3f pos(record.pos.x, record.pos.y, record.pos.z);
+                core->sub_7101083AA8(index, &pos, 1, flag);
+            }
+        }
+    }
+
+    drawMgr->mCS.lock();
+    for (u8& object : _20) {
+        u8* ptr = &object;
+        drawMgr->_58.pushBack(static_cast<gsys::ModelDrawObj*>(static_cast<void*>(ptr)));
+    }
+    _20.clear();
+    drawMgr->mCS.unlock();
+
+    mCell.mMask = 0xff;
+    mCell.mZ = 0xff;
+    mCell.mX = 0xff;
+    _40 = nullptr;
+    _38 = 0;
+    _18 = 0;
+    _10 = 0;
+    _8 = 1;
+}
+
 ForestRenderer::Item::~Item() {
     finalize();
 }
@@ -420,6 +508,64 @@ ForestRenderer::~ForestRenderer() {
         _48->destroy();
         _48 = nullptr;
     }
+}
+
+// NON_MATCHING: the UnitEntry loop's two latch updates are scheduled in the opposite order.
+void ForestRenderer::releaseResource(bool release_resources) {
+    while (_1b8.mFlags & 1)
+        sead::Thread::sleep(sead::TickSpan::makeFromMilliSeconds(1));
+
+    mModelSet.mSlots[0].mRes.sub_7100FDD264();
+    if (mModelSet.mSlots[0].mModel)
+        mModelSet.mSlots[0].mModel->sub_7100BF713C();
+    mModelSet.mSlots[0].mState = 1;
+
+    mModelSet.mSlots[1].mRes.sub_7100FDD264();
+    if (mModelSet.mSlots[1].mModel)
+        mModelSet.mSlots[1].mModel->sub_7100BF713C();
+    mModelSet.mSlots[1].mState = 1;
+
+    for (auto& entry : mUnitEntries.mEntries) {
+        entry.mState = 4;
+        if (entry.mModelUnit) {
+            delete entry.mModelUnit;
+            entry.mModelUnit = nullptr;
+        }
+        entry._48 = -1;
+        entry._4c = -1;
+        entry._50 = 0;
+        entry._40 = 0;
+        entry.mCount = 0;
+        entry._58 = 0;
+        entry.mState = 1;
+    }
+
+    for (auto& entry : mEntries) {
+        for (auto& item : entry.mItems)
+            item.sub_7100F07DD8(&entry.mRecords, &_68, true);
+        for (GridCell& cell : entry.mModelCells) {
+            cell.mMask = 0xff;
+            cell.mZ = 0xff;
+            cell.mX = 0xff;
+        }
+    }
+
+    for (auto& tree : mTreeRes) {
+        if (tree._8 == 1)
+            continue;
+        tree._8 = 4;
+        if (tree._68 && eft::Effect::instance()) {
+            eft::Effect::instance()->getModelMgr().requestDeleteModel(nullptr, tree._68);
+            eft::Effect::instance()->getModelMgr().release(nullptr, tree._68);
+            tree._68 = nullptr;
+        }
+        if (release_resources)
+            tree.mRes.resetUnitFlag20000IfSuccess();
+        tree.mRes.requestUnload2();
+        tree._8 = 1;
+    }
+
+    _54 = 6;
 }
 
 ForestRenderer::Unk_68::~Unk_68() {
@@ -597,6 +743,67 @@ void ForestRenderer::x_8(s32 idx, bool a, bool b) {
     for (auto& item : entry.mItems) {
         if (item.sub_7100F0914C(&record, a, false))
             break;
+    }
+}
+
+void ForestRenderer::ModelSet::init(sead::Heap* heap, gsys::ModelScene* scene) {
+    {
+        gsys::Model::CreateArg arg;
+        arg._0 = 0x20;
+        arg._4 = scene->mContexts.size();
+        gsys::Model* model = gsys::Model::postCreateModel_(
+            gsys::Model::create_("ForestRenderer - DrawModel", arg, heap), nullptr, heap, true);
+        mSlots[0].mModel = model;
+        if (model) {
+            model->bind(scene);
+            mSlots[0].mState = 1;
+        }
+    }
+    {
+        gsys::Model::CreateArg arg;
+        arg._0 = 0x20;
+        arg._4 = scene->mContexts.size();
+        gsys::Model* model = gsys::Model::postCreateModel_(
+            gsys::Model::create_("ForestRenderer - DrawModel", arg, heap), nullptr, heap, true);
+        mSlots[1].mModel = model;
+        if (model) {
+            model->bind(scene);
+            mSlots[1].mState = 1;
+        }
+    }
+}
+
+// NON_MATCHING: the nine cell flag updates and the _8 flag update are scheduled in a different
+// order (same 183 instructions).
+void ForestRenderer::Entry::init(s32 numItems, bool primary, sead::Heap* heap,
+                                 sead::Heap* recordHeap, gsys::ModelScene* scene) {
+    mHeap = recordHeap;
+
+    if (primary) {
+        for (GridCell& cell : mModelCells)
+            cell.mFlags |= 1;
+        _8 |= 1;
+    } else {
+        for (GridCell& cell : mModelCells)
+            cell.mFlags &= ~1;
+        _8 &= ~1;
+    }
+
+    const s32 table_size = (_8 & 1) ? 0x50 : 0x500;
+    _28.tryAllocBuffer(table_size, heap);
+    std::memset(_28.getBufferPtr(), 0, _28.getByteSize());
+
+    if (numItems > 0)
+        mItems.tryAllocBuffer(numItems, heap);
+
+    for (auto& item : mItems) {
+        item._20.allocBuffer(0x200, heap, 8);
+        item.mScene = scene;
+        item._8 = 1;
+        if (primary)
+            item._e.set(1);
+        else
+            item._e.reset(1);
     }
 }
 
