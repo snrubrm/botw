@@ -289,6 +289,10 @@ class GuardianComponent;
 // `component`'s link, or null.
 Guardian::Unk1* sub_710003D700(GuardianComponent* component);
 
+// 0x710004bba4 (unnamed in the CSV; placeholder name): rotates the x/z of `vec` around the Y axis by
+// `angle` radians (the positive direction; ksys::util::sub_71011EF010 is the negative one).
+void sub_710004BBA4(f32 angle, sead::Vector3f* vec);
+
 }  // namespace uking::act
 
 // Source owner unknown. Guardian accessor wrappers in the native Guardian family.

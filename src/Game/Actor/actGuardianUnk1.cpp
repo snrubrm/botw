@@ -106,5 +106,16 @@ void Guardian::Unk1::sub_7100042048() {
     nav->sub_7100F76380(world, nav_pos, velocity, nav_pos);
 }
 
+// 0x710004bba4: rotates the x/z components of `vec` around the Y axis.
+void sub_710004BBA4(f32 angle, sead::Vector3f* vec) {
+    const f32 sin_angle = sead::Mathf::sin(angle);
+    const f32 cos_angle = sead::Mathf::cos(angle);
+    if (!vec)
+        return;
+    const f32 x = vec->x;
+    const f32 z = vec->z;
+    vec->x = cos_angle * x - sin_angle * z;
+    vec->z = sin_angle * x + cos_angle * z;
+}
 
 }  // namespace uking::act
