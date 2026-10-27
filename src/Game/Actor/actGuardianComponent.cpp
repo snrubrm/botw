@@ -380,4 +380,17 @@ bool GuardianComponent::shouldUnload(s32* reason) {
     return false;
 }
 
+bool GuardianComponent::sub_71000400AC(const sead::Vector3f& a, const sead::Vector3f& b, f32 c,
+                                       f32 d) {
+    auto* bind = _ba8;
+    if (!sead::IsDerivedFrom<Unk_710235b408>(bind))
+        return false;
+    auto* part = static_cast<Unk_710235b408*>(bind);
+    part->_10 = a;
+    part->_1c = c;
+    part->_20 = b;
+    part->_2c = d;
+    return true;
+}
+
 }  // namespace uking::act

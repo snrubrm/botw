@@ -60,7 +60,10 @@ public:
     void m9() override;
     void m13() override;
 
-    /* 0x10 */ u8 _10[0x30 - 0x10];
+    /* 0x10 */ sead::Vector3f _10;
+    /* 0x1c */ f32 _1c = 0.0f;
+    /* 0x20 */ sead::Vector3f _20;
+    /* 0x2c */ f32 _2c = 0.0f;
     /* 0x30 */ f32 _30;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710235b408, 0x38);
@@ -216,6 +219,9 @@ public:
 
     // 0x710003d2b4 (placeholder name): the Guardian that owns this component (`_b90.getProc()` cast).
     Guardian* sub_710003D2B4();
+    // 0x71000400ac (unnamed in the CSV): stores the beam frame (two vectors and two scalars) in the
+    // Unk_710235b408 part; false when `_ba8` is not that part. Called by GuardianBeamAttack 40FC24.
+    bool sub_71000400AC(const sead::Vector3f& a, const sead::Vector3f& b, f32 c, f32 d);
 
     /* 0xb90 */ ksys::act::BaseProcLink _b90;
     // Full ctor 3BEC0 initializes the subtype selector to -1 and this pointer to
