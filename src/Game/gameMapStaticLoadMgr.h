@@ -21,6 +21,9 @@ static_assert(sizeof(MapStaticMubin) == 0xa8);
 extern const sead::SafeString* sMapNames;
 extern s32 sNumMubins;
 extern MapStaticMubin* sMubins;
+// 0x7102603dd8: set while the static mubin table is not meant to be built (cleared by
+// initMapStaticResources when the scene asks for map statics).
+extern bool sUnk_7102603DD8;
 // 0x7102603de0 / 0x7102603de8: the callbacks loadStaticFiles stores for the resource load step.
 extern void* sUnk_7102603DE0;
 extern void* sUnk_7102603DE8;
@@ -30,8 +33,8 @@ public:
     // 0x7100e8d84c: builds `count` mubin entries for `names` and starts their resource load.
     static void loadStaticFiles(const sead::SafeString* names, s32 count, sead::Heap* heap,
                                 void* callback1, void* callback2);
-    // 0x7100e8d984 (declared only; placeholder name): matches the loaded mubin names against
-    // sMapNames and requests the resources through the stored callbacks.
+    // 0x7100e8d984: copies each map name into its mubin entry and requests the
+    // "Map/<name>/Static.mubin" resource. Placeholder name.
     static void sub_7100E8D984();
 };
 
