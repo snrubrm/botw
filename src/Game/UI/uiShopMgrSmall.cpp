@@ -175,8 +175,9 @@ static const s32 sShopTypeScreens[] = {ScreenId::ShopBtnList20, ScreenId::ShopBt
 
 // 0x7100982f48: closes the button-list screen selected by `type` (the 15-button list is looked up
 // in the table) and then the shop background screen. `this` is unused.
-// NON_MATCHING: our build merges the identical `= 1` store tails of the 20- and 5-button screens
-// into one block (149 vs 154 bytes), and lays the type-2 block out before them.
+// NON_MATCHING: our build folds the type table's index (`sShopTypeScreens[type]`, type is known to be
+// 2 there) to the constant screen id, so the 0x7101e7d8a8 table load is gone (149 vs 154 bytes), and
+// it places the type-2 test before the type-0/1 tests instead of after them.
 void UiShopMgr::sub_7100982F48(u8 type, bool set_flag) {
     if (type == 0) {
         if (auto* screen = sead::DynamicCast<ScreenShopBtnList20>(
