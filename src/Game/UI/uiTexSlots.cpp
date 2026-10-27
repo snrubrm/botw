@@ -4,6 +4,7 @@
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "Game/UI/uiManager.h"
+#include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/AOC/aocManager.h"
 
 namespace eui {
@@ -53,6 +54,35 @@ void UiTexSlots::sub_7100A81B1C(const sead::SafeString& path, s32 index) {
         manager->sub_7100A7FDCC();
     }
     sub_7100A81DB0(path, index);
+}
+
+bool UiTexSlots::sub_7100A81BC8(const sead::SafeString& path, s32 index) {
+    if (mMode != 0)
+        return false;
+
+    if (mEntries[index].handle->requestedLoad())
+        mEntries[index].handle->requestUnload2();
+
+    {
+        ksys::res::SimpleLoadRequest request;
+        request._8 = true;
+        request.mRequester = mPath;
+        request.mPath = path;
+        request.mLaneId = 2;
+        mEntries[index].handle->load(path, &request, nullptr);
+    }
+
+    sead::Resource* resource = mEntries[index].handle->getResource();
+    if (!sead::IsDerivedFrom<Unk_710247e8c0>(resource))
+        return false;
+
+    auto* texture = static_cast<Unk_710247e8c0*>(resource);
+    mEntries[index].material->GetTexMapArray()[mEntries[index].texMapIndex].ReplaceTextureInfo(
+        &texture->mTexInfo);
+    if (mEntries[index].animator)
+        mEntries[index].animator->StopAtMax();
+    mEntries[index].loaded = true;
+    return true;
 }
 
 void UiTexSlots::sub_7100A81DB0(const sead::SafeString& path, s32 index) {
