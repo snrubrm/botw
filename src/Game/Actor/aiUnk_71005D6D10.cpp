@@ -1510,6 +1510,26 @@ bool sub_71005DF66C(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Ve
     return true;
 }
 
+// 0x71005dd1cc: fades the model material by `a3` (the material index comes from the ray cast in
+// sub_71005DCD84 when the angle is outside [-epsilon, 10 degrees]).
+bool sub_71005DD1CC(ksys::act::Actor* actor, bool a2, f32 a3, f32 a4) {
+    if (!actor || !actor->getModel())
+        return false;
+
+    u32 material = 0;
+    f32 value;
+    if (a3 <= sead::Mathf::epsilon() && a3 >= -sead::Mathf::epsilon()) {
+        value = 0.0f;
+    } else {
+        if (!sub_71005DCD84(&material, actor, a4, a2))
+            return false;
+        value = f32(material);
+    }
+
+    Unk_710260af28::instance()->sub_7100F1E794(actor->getModel(), value, a3);
+    return true;
+}
+
 // 0x71005d70c8: the Enemy-only entry point of sub_71005D715C (the Enemy target link).
 bool sub_71005D70C8(ksys::act::Actor* actor) {
     if (!sead::IsDerivedFrom<uking::act::Enemy>(actor))

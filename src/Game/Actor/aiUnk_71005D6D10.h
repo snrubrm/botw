@@ -263,6 +263,8 @@ void sub_71005DC3F4(ksys::act::Actor* actor);
 void sub_71005DC41C(ksys::act::Actor* actor);
 bool sub_71005DC444(ksys::act::Actor* actor);
 bool sub_71005DD1CC(ksys::act::Actor* actor, bool a2, f32 a3, f32 a4);
+/// 0x71005dcd84 (declaration only; ray cast for the material under the actor).
+bool sub_71005DCD84(u32* out, ksys::act::Actor* actor, f32 a3, bool a4);
 /// Whether the state (Unk_7100e4e084::_100) is 1 / 2 / 4 / 3 / 0.
 bool sub_71005DC470(ksys::act::Actor* actor);
 bool sub_71005DC49C(ksys::act::Actor* actor);
