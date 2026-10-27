@@ -8,10 +8,16 @@
 #include "Game/gameHorseMgr.h"
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
+#include "Game/gameRoot1.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include <math/seadMathCalcCommon.h>
 
 namespace uking::ui {
+
+// 0x7100a96c68 / 0x7100a96d24 / 0x7100a97f80 (uiScreenFacade.cpp)
+bool triggerRupeeCountScreen();
+bool sub_7100A96D24();
+bool sub_7100A97F80();
 
 // The shop-state to screen-list table. The native TU initializer 0x7100985584 sets
 // the buffer to these 16 entries (count 0x71025d7ca0, pointer 0x71025d7ca8).
@@ -161,6 +167,126 @@ void UiShopMgr::sub_7100980F48(ShopItem* item) {
     }
     if (screen->isClosed() || screen->isClosedOrClosing())
         screen->open(1);
+}
+
+// The screen of each shop type (0: 20 buttons, 1: 5 buttons, 2: 15 buttons).
+static const s32 sShopTypeScreens[] = {ScreenId::ShopBtnList20, ScreenId::ShopBtnList5,
+                                       ScreenId::ShopBtnList15};
+
+// 0x7100982f48: closes the button-list screen selected by `type` (the 15-button list is looked up
+// in the table) and then the shop background screen. `this` is unused.
+// NON_MATCHING: our build merges the identical `= 1` store tails of the 20- and 5-button screens
+// into one block (149 vs 154 bytes), and lays the type-2 block out before them.
+void UiShopMgr::sub_7100982F48(u8 type, bool set_flag) {
+    if (type == 0) {
+        if (auto* screen = sead::DynamicCast<ScreenShopBtnList20>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::ShopBtnList20))) {
+            if (set_flag)
+                screen->_3864 = 1;
+            screen->close(-1);
+        }
+    } else if (type == 1) {
+        if (auto* screen = sead::DynamicCast<ScreenShopBtnList5>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::ShopBtnList5))) {
+            if (set_flag)
+                screen->_3628 = 1;
+            screen->close(-1);
+        }
+    } else if (type == 2) {
+        if (auto* mgr = eui::ScreenMgr::instance()) {
+            if (auto* screen = mgr->getScreen(sShopTypeScreens[type]))
+                screen->close(-1);
+        }
+    }
+    if (auto* screen = sead::DynamicCast<ScreenShopBG>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::ShopBG)))
+        screen->close(-1);
+}
+
+// inline-only in the original; names are guesses. Their switches show up as the 0x20d3 / 0x201f
+// bit masks over the states 1, 2, 5, 7, 8, 14 and 1 - 5, 14 in sub_71009816B0, and the 7/8 test is
+// the `u32(state - 7) < 2` range check.
+static bool isShopBuySellState(s32 state) {
+    return u32(state - 7) < 2;
+}
+
+static bool isShopInfoState(s32 state) {
+    switch (state) {
+    case 1:
+    case 2:
+    case 5:
+    case 7:
+    case 8:
+    case 14:
+        return true;
+    default:
+        return false;
+    }
+}
+
+static bool isShopInfoState2(s32 state) {
+    switch (state) {
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 14:
+        return true;
+    default:
+        return false;
+    }
+}
+
+// 0x71009816b0
+// NON_MATCHING: instruction set and size agree; the reset block's store order, the 7/8 range test
+// encoding (cmp #1/b.ls vs cmp #2/b.lo) and register colours differ.
+bool UiShopMgr::sub_71009816B0(s32 state, s32 a2) {
+    if (_30 == 0)
+        return false;
+    if (isShopBuySellState(state)) {
+        if (_30 != 7 && _30 != 8)
+            return false;
+    } else if (_30 != state) {
+        return false;
+    }
+    const bool in_set = isShopInfoState(state);
+    if (isShopBuySellState(state)) {
+        if (in_set && sub_7100AA8F10() && !ksys::gdt::getFlag_IsOpenShopInfo_Demo())
+            sub_7100A96D24();
+    } else if (in_set) {
+        triggerRupeeCountScreen();
+    } else if (state == 3 || state == 4) {
+        sub_7100A97F80();
+    }
+    if (isShopInfoState2(state)) {
+        if (auto* root = Root1::instance())
+            root->sub_7100899CA4(Root1::FlagIdx::_0, 2);
+    }
+    if (auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::ShopInfo))
+        screen->close(-1);
+    if (isShopBuySellState(state)) {
+        _30 = 0;
+        _38.name.clear();
+        _38._58 = 0;
+        _38._5c = 0;
+        _38._60 = 0;
+        _38._64 = 0;
+        _38._68 = -1;
+        _38._6c = 0;
+        _38._70 = nullptr;
+        _b0 = -1;
+        _c0 = 3;
+        _c7 = false;
+        _d0 = nullptr;
+        _d8 = 0;
+        _dc = 0;
+        _e0 = -1;
+        return true;
+    }
+    sub_7100982F48(sUnk_71025d7ca0[_30], a2 & 1);
+    _c0 = 2;
+    return true;
 }
 
 // 0x7100981888
