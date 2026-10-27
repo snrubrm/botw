@@ -34,6 +34,7 @@
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/ActorSystem/actAiInlineParam.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
@@ -1675,6 +1676,55 @@ void sub_71005E1AE8(ksys::act::Actor* actor) {
     if (auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(actor)) {
         if (auto* handler = dynamic_actor->_868)
             handler->_d2.set(0x40);
+    }
+}
+
+// 0x71005e1d00: pushes the actor out of the penetrating contact points that are above it. Only
+// points more than 1 m away and above the actor with a negative separating distance count; their
+// distances along the separating normals are averaged and fed to the character controller.
+// NON_MATCHING: the empty-contact early exit duplicates the tail block where the original shares
+// it, and the contact-point distance load stays after the two range compares.
+void sub_71005E1D00(ksys::act::Actor* actor) {
+    auto* body = actor->getMainBody();
+    if (!body)
+        return;
+    auto* controller = actor->getCharacterController();
+    if (!controller)
+        return;
+
+    sead::Vector3f push = sead::Vector3f::zero;
+    const f32 speed = controller->sub_7100F5EF00();
+    if (speed <= 0.1f && speed >= -0.1f) {
+        if (auto* info = body->getContactPointInfo()) {
+            const sead::Vector3f position = actor->getMtx().getTranslation();
+            s32 count = 0;
+            auto it = info->begin();
+            auto end = info->end();
+            for (; it != end; ++it) {
+                const auto* point = *it;
+                const sead::Vector3f point_position =
+                    it.getPointPosition(ksys::phys::ContactPointInfo::Iterator::Point::BodyA);
+                sead::Vector3f dir = point_position - position;
+                dir.y = 0.0f;
+                const f32 dist = dir.normalize();
+                if (dist > 1.0f && point_position.y - position.y > 1.0f &&
+                    point->separating_distance < 0.0f &&
+                    dir.dot(point->separating_normal) >= 0.0f) {
+                    push.x += point->separating_distance * point->separating_normal.x;
+                    push.z += point->separating_distance * point->separating_normal.z;
+                    ++count;
+                }
+                ++it;
+            }
+            push *= 0.1f;
+            if (count > 0)
+                push *= 1.0f / count;
+        }
+    }
+    if (push.x == 0.0f && push.z == 0.0f) {
+        controller->sub_7100F5F060(sead::Vector3f::zero);
+    } else {
+        controller->sub_7100F5F060(push * 30.0f);
     }
 }
 
