@@ -926,6 +926,7 @@ public:
             sead::Heap* heap, const res::AS* as) override;
     bool m10(Context* ctx, State* state, const res::ASResource* resource) override;
     void m14(Context* ctx, void* state, EventState* events, const res::ASResource* resource) override;
+    void m15(Context* ctx, BoneBlendState* state, const res::ASResource* resource) override;
     int m31(Context* ctx, const res::ASResource* resource) override;
 
     /* 0x10 */ gsys::AnimationAccessKey<gsys::MaterialAnmType> mKey;
