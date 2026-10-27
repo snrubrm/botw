@@ -1,8 +1,14 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <math/seadVector.h>
+#include <thread/seadAtomic.h>
 #include "gsys/gsysModelCubeMapDrawer.h"
 #include "gsys/gsysModelSceneComponent.h"
+
+namespace agl::lght {
+class LocalLightMapObj;
+}
 
 namespace gsys {
 
@@ -21,6 +27,8 @@ public:
     bool isCubeMapReady() const;
     // 0x7100c309d0
     void setSceneMaterial(class ModelNW* model);
+    // 0x7100c324e8
+    void pushBack(const sead::Vector3f& position, agl::lght::LocalLightMapObj* obj);
 
 private:
     u8 _250[0x420 - 0x250];
@@ -36,6 +44,10 @@ private:
     void* _448;
     /// 0x7100c32bf8 (light pre-pass).
     void* mLightPrePass;  // 450
+    u8 _458[0x660 - 0x458];
+    /// 0x7100c324e8: the array index handed out by the atomic counter.
+    sead::Atomic<s32> mCount;  // 660
+    agl::lght::LocalLightMapObj** mObjects;  // 668
 };
 
 }  // namespace gsys

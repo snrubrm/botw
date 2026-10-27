@@ -34,6 +34,12 @@ bool ModelSceneGI::isCubeMapReady() const {
     return mEnvCubeMap && mEnvCubeMap->mCubeMap != nullptr;
 }
 
+// 0x7100c324e8
+void ModelSceneGI::pushBack(const sead::Vector3f&, agl::lght::LocalLightMapObj* obj) {
+    const s32 index = mCount++;
+    mObjects[index] = obj;
+}
+
 // 0x7100c309d0
 void ModelSceneGI::setSceneMaterial(ModelNW* model) {
     if (!mEnvCubeMap)
