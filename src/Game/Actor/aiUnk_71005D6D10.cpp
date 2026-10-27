@@ -1733,6 +1733,52 @@ bool sub_71005DF024(f32 range, f32 min_speed, f32 angle_limit, ksys::act::Actor*
     }
 }
 
+// 0x71005df820: one step of the vertical buoyancy velocity for floating in water (called by the
+// WaterFloat actions and the swim damage / jump actions).
+// NON_MATCHING: same operations (172 vs 176 instructions); the original keeps the outer flag tests
+// and the clamp tails in separate blocks and enters the clamp phase with an early exit, ours
+// merges them and if-converts the clamps.
+void sub_71005DF820(f32* out, f32 velY, f32 depth, f32 floatDepth, f32 inWaterDepth, f32 floatRadius,
+                    f32 floatCycleTime, f32 changeDepthSpeed) {
+    const f32 inv_cycle = 1.0f / std::max(floatCycleTime, 0.0001f);
+    const f32 diff = depth - (floatDepth + inWaterDepth);
+    const f32 delta = ksys::VFR::instance()->getDeltaFrame();
+    const f32 omega = inv_cycle * sead::Mathf::pi2();
+    f32 velocity = velY + diff * (inv_cycle * (inv_cycle * 39.47842f)) * delta;
+    const f32 limit = omega * floatRadius;
+    if (sead::Mathf::abs(velocity) < limit * 0.5f) {
+        if (sead::Mathf::abs(diff) < floatRadius * 0.25f) {
+            const f32 amplitude =
+                omega * sead::Mathf::sqrt(floatRadius * floatRadius - diff * diff);
+            if (velocity >= 0.0f)
+                ksys::VFR::lerp(&velocity, amplitude, 0.5f);
+            else
+                ksys::VFR::lerp(&velocity, -amplitude, 0.5f);
+        }
+    }
+    if (sead::Mathf::abs(diff) > floatRadius) {
+        if (diff > 0.0f) {
+            if (velocity >= 0.0f) {
+                const f32 max_delta = sead::Mathf::clampMin(2.0f * limit, changeDepthSpeed);
+                f32 max_velocity = max_delta * 5.0f;
+                if (diff - floatRadius <= max_velocity) {
+                    const f32 t = ((floatDepth + inWaterDepth) - floatRadius) / max_velocity;
+                    max_velocity = max_delta * t + limit * (1.0f - t);
+                }
+                velocity = sead::Mathf::clamp(velocity, -max_velocity, max_velocity);
+            }
+        } else if (limit < changeDepthSpeed) {
+            const f32 max_velocity = sead::Mathf::clampMax(-diff / delta, changeDepthSpeed);
+            velocity = sead::Mathf::clamp(velocity, -max_velocity, max_velocity);
+        } else {
+            velocity = sead::Mathf::clamp(velocity, -limit, limit);
+        }
+    } else {
+        velocity = sead::Mathf::clamp(velocity, -limit, limit);
+    }
+    *out = velocity;
+}
+
 // 0x71005df270: the position of the linked map object named `anchor_name`, moved `dist` towards the
 // enemy's current target position (or towards the origin without one), along the ground plane.
 void sub_71005DF270(sead::Vector3f* out, ksys::act::Actor* actor, const sead::SafeString& anchor_name,
