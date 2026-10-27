@@ -158,6 +158,39 @@ void Graphics::calcModelSceneCalcRenderView(s32 view, gsys::ModelScene* scene,
     }
 }
 
+// 0x7100f32ad4 (slot m18): draws the background pass: the terrain draw callback for pass 0, the sky
+// basis and sky pass (behind bit 2 of the scene context's flags) and the rain cloud map for pass 1.
+void Graphics::drawModelSceneBG(agl::DrawContext* draw_context, s32 pass,
+                                gsys::ModelScene* scene,
+                                gsys::ModelRenderContext* context) {
+    auto* scene_context = static_cast<gsys::ModelSceneContext*>(context);
+    switch (pass) {
+    case 0:
+        ksys::tera::Terrain::instance()->sub_710114DEFC(draw_context, context);
+        if (scene_context->mFlags & 4) {
+            if (_ac8)
+                _ac8->sub_710138D3D0(draw_context);
+            _ab0->sub_7100F29D78(draw_context, scene);
+            if (_aa8->getFlags() & 4)
+                _aa8->drawBasis(draw_context, 0);
+            _aa0->sub_7100F10BEC(draw_context);
+        }
+        if (!(_aa8->getFlags() & 4))
+            return;
+        {
+            const gsys::ModelRenderContext::ViewData* view_data = context->getViewData();
+            const agl::cull::ViewFrustumCulling& frustum = view_data[_19].frustum;
+            _aa8->drawContext(draw_context, 0, view_data[scene_context->mCurrentView].view,
+                              frustum.getNear(), frustum.getFar());
+        }
+        break;
+    case 1:
+        if ((scene_context->mFlags & 4) && scene->mRainRatio > 0.0f)
+            _ab8->sub_71012A2C14(draw_context);
+        break;
+    }
+}
+
 void Graphics::drawModelSceneXlu(agl::DrawContext* draw_context, s32 pass,
                                  gsys::ModelScene* scene,
                                  gsys::ModelRenderContext* context) {

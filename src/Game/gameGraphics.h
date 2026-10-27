@@ -44,6 +44,7 @@
 #include <utility/aglParameterObj.h>
 #include <common/aglGPUMemAddr.h>
 #include <common/aglGPUMemBlock.h>
+#include <postfx/aglPfxSky.h>
 #include <utility/aglAtomicPtrArray.h>
 #include <nn/gfx/detail/gfx_Buffer-api.nvn.8.h>
 #include <nn/gfx/gfx_Common.h>
@@ -110,6 +111,8 @@ KSYS_CHECK_SIZE_NX150(Unk_7100f35df8, 0x50);
 // object at 12A20E0 and stores it at Graphics + 0xab8. Its source name is unknown.
 class Unk_71012a20e0 : public sead::hostio::Node {
 public:
+    // 0x71012a2c14 (unnamed in the CSV): draws the cube-map units selected for the pass.
+    void sub_71012A2C14(agl::DrawContext* draw_context);
     // 12A2268 stores the low byte of mode at 0x1b0; the full word is tested for mode 2.
     // EnvMgr reset 10D326C, doCalc 10D62C0 and wrapper 10DB0B0 call this same receiver.
     void sub_71012A2268(u32 mode);
@@ -1272,6 +1275,8 @@ public:
     // and the mapping fields below are read by the height-map sampling path.
     struct Unk_ab0 : public sead::hostio::Node {
         bool sub_7100F29EB4(f32* height, const sead::Vector2f& pos);
+        // 0x7100f29d78: sorts the embedded render queue and runs the pass's queue updates.
+        void sub_7100F29D78(agl::DrawContext* draw_context, gsys::ModelScene* scene);
 
         u8 _8[0x18 - 0x8];
         agl::TextureSampler mSamplers[5];
@@ -1287,13 +1292,9 @@ public:
         u32 _e48;
     };
 
-    // Placeholder name: the block that Graphics + 0xaa8 points to; ksys::act::sub_7100EEAFDC casts along the vector at
-    // 0x7f8 (a down direction).
-    struct Unk_aa8 {
-        u8 _0[0x7f8];
-        /* 0x7f8 */ sead::Vector3f _7f8;
-    };
-    Unk_aa8* getUnk_aa8() const { return _aa8; }
+    // The sky object Graphics +0xaa8 points to (allocated as 0xe80 bytes by the initializer F2C140);
+    // ksys::act::sub_7100EEAFDC reads its down direction at 0x7f8.
+    agl::pfx::Sky* getUnk_aa8() const { return _aa8; }
 
     // The object at 0xac0. Only SkyMgr::sub_71010E35D8 reads it: it copies the parameter block at
     // +0x18 through a temporary, writes the dusk/dawn blend factor at +0x30 and sets bit 1 of the
@@ -1317,6 +1318,14 @@ public:
     };
     static_assert(sizeof(Unk_ac0) == 0xa4);
     Unk_ac0* getSkyEnvMaybe() const { return _ac0; }
+
+    // Placeholder: the object at 0xac8. The initializer F2C140 allocates 0x570 bytes, constructs it at
+    // 0x710138cbcc (two texture samplers, two texture datas) and initializes it at 0x710138ccd0.
+    // 0x710138d3d0 regenerates the first texture's mipmaps and compresses it; the real agl class name
+    // is not known (requested from gen).
+    struct Unk_ac8 : public sead::hostio::Node {
+        void sub_710138D3D0(agl::DrawContext* draw_context);
+    };
 
     // Only a pointer to the (separately allocated) shadow settings is modeled.
     ksys::gfx::LocationalLightMgr* getLocationalLightMgr() const { return _aa0; }
@@ -1414,14 +1423,18 @@ private:
     u8 _a90[0xa98 - 0xa90];
     Unk_a98* _a98;
     ksys::gfx::LocationalLightMgr* _aa0;
-    Unk_aa8* _aa8;
+    // The sky object (agl::pfx::Sky, allocated by the initializer F2C140).
+    agl::pfx::Sky* _aa8;
     Unk_ab0* _ab0;
     // EnvMgr reset/update and mode dispatch access this native field directly.
     friend class ksys::world::EnvMgr;
     Unk_71012a20e0* _ab8;
     // 0xac0: the sky environment parameters (only SkyMgr::sub_71010E35D8 reads them).
     Unk_ac0* _ac0;
-    u8 _ac8[0xad8 - 0xac8];
+    // The object whose texture 0x710138d3d0 regenerates for the background pass.
+    Unk_ac8* _ac8;
+    // The constructor stores 0.5f at +0xad0; the rest is unmodelled.
+    u8 _ad0[0xad8 - 0xad0];
     // Pointer whose byte +0x508 is set by sub_7100F35DE8.
     gsys::CopyLayerTexture* _ad8;
     Unk_7100f35df8* _ae0;

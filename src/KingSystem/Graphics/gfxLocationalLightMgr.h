@@ -9,6 +9,7 @@
 #include <thread/seadCriticalSection.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace agl { class DrawContext; }
 namespace gsys { class ModelUnit; }
 namespace gsys { class ModelRenderContext; }
 namespace ksys::map { class Object; }
@@ -132,6 +133,8 @@ public:
     // 0x7100f1334c (placeholder name): sets bit 29 of the manager flags at +0x60, or bit 30 when
     // bit 29 was already set.
     void sub_7100F1334C();
+    // 0x7100f10bec (empty in the original): the per-pass hook Graphics::drawModelSceneBG calls.
+    void sub_7100F10BEC(agl::DrawContext* draw_context);
     // inline-only in the original; name is a guess: the record updates (0x7101296bc4, 0x7101297bb4,
     // 0x7101298558) test bit 13 of the manager flags at +0x60.
     bool testFlag2000() const { return _60 & 0x2000; }

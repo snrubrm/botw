@@ -1160,7 +1160,7 @@ public:
         u8 _100[0x110 - 0x100];
         DebugMessage _110;
         u8 _1a0[0x10];
-        // The terrain editor's m6 copies Graphics::Unk_aa8::_7f8 (down direction) here.
+        // The terrain editor's m6 copies the sky's direction (agl::pfx::Sky::mDirectionMaybe) here.
         /* 0x1b0 */ sead::Vector3f _1b0;
     };
     Unk_a50* _a50;

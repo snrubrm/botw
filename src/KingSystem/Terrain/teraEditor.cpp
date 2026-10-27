@@ -58,7 +58,7 @@ void Unk_7102504260::m6() {
         }
         auto* scene = Graphics::instance()->getUnk_aa8();
         if (scene)
-            terrain->_a50->_1b0 = scene->_7f8;
+            terrain->_a50->_1b0 = scene->getDirectionMaybe();
     }
     // The first model scene's rain intensity.
     m20(Graphics::instance()->mModelScenes[0]->_5da0);

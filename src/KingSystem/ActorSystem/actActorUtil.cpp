@@ -1558,7 +1558,7 @@ void sub_7100EEAFDC(phys::RayCast* cast, const sead::Vector3f& pos, s32 steps) {
     const auto* unk = Graphics::instance()->getUnk_aa8();
     if (!unk)
         return;
-    const sead::Vector3f& dir = unk->_7f8;
+    const sead::Vector3f& dir = unk->getDirectionMaybe();
     const f32 length = steps * 200.0f + 0.1f;
     cast->setStartAndDisplacementScaled(pos - dir * length, -dir, 200.0f);
 }
