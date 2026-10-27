@@ -36,6 +36,37 @@ void GBuffer::swapRenderTarget() {
     buffer.setRenderTargetColor(target, mBufferRecords[0]._190);
 }
 
+// NON_MATCHING: body complete; clang strength-reduces the six-record loop to a pointer walk
+// (16 bytes shorter) where the original keeps the index and an smaddl per record.
+// 0x7100c73834
+void GBuffer::invalidate() {
+    for (s32 res = 0; res < 2; ++res) {
+        ResolutionData& data = mResolutionData[res];
+        for (s32 type = 0; type < 5; ++type) {
+            ResolutionPreShadingBuffer& buffer = data.mPreShadingBuffers[type];
+            if (buffer.mTexture) {
+                agl::utl::DynamicTextureAllocator::instance()->free(buffer.mTexture);
+                buffer.mTexture = nullptr;
+            }
+            data.mFlags &= ~(1u << type);
+        }
+    }
+
+    for (s32 i = 0; i < 6; ++i) {
+        PreShadingBuffer& buffer = mPreShadingBuffers[i];
+        if (buffer.mTexture) {
+            agl::utl::DynamicTextureAllocator::instance()->free(buffer.mTexture);
+            buffer.mTexture = nullptr;
+        }
+        if (i == 0 && mLightPrePass) {
+            mLightPrePass->release(mLightPrePassView);
+            mLightPrePass = nullptr;
+            mLightPrePassView = -1;
+        }
+        _9 &= ~(1 << i);
+    }
+}
+
 // 0x7100c73a80
 void GBuffer::invalidate(Resolution resolution, BufferType type) {
     ResolutionData& data = mResolutionData[int(resolution)];
