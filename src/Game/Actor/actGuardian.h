@@ -228,6 +228,8 @@ public:
         void sub_7100044B68(sead::Vector3f* out, s32 index);
         // 0x7100044c5c (declaration only; placeholder name): the local matrix of the position at `index`.
         void sub_7100044C5C(sead::Matrix34f* mtx, s32 index);
+        // 0x71000499e0 (unnamed in the CSV): sets bit 0 of _178.
+        void sub_71000499E0();
 
         Guardian* _8;  // the owner (sub_7100042338)
         u8 _10[0x10];
@@ -241,6 +243,8 @@ public:
         Unk_7100041da4* _50;
         u8 _58[0x64 - 0x58];
         u32 _64;
+        u8 _68[0x178 - 0x68];
+        u32 _178;
     };
     /* 0x15b0 */ Unk1* _15b0 = nullptr;
     /* 0x15b8 */ sead::Buffer<sead::Vector2f> _15b8;

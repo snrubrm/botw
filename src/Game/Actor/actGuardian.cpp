@@ -72,6 +72,10 @@ void Guardian::Unk1::sub_7100044B68(sead::Vector3f* out, s32 index) {
     }
 }
 
+void Guardian::Unk1::sub_71000499E0() {
+    _178 |= 1;
+}
+
 ksys::act::BaseProc* Guardian::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Guardian(arg);
 }
