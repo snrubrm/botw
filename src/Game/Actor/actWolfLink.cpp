@@ -9,6 +9,9 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWolfLink.h"
 #include "KingSystem/ActorSystem/actLodState.h"
 #include <prim/seadScopedLock.h>
+#include <random/seadGlobalRandom.h>
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
@@ -93,6 +96,113 @@ void WolfLink::sub_71002F31BC() {
     sub_71002F2E78(Idx14f8::_8);
     getDamageMgr()->mField_34 = false;
     _1698 &= ~4;
+}
+
+// 0x71002f2e78: sets timer `idx` of _14f8 to its configured length plus a random part of the
+// configured random range (length + random(length, length + rand)); the two "look at" cases pick the
+// Wait parameters when the current AS animation is "Wait" and the Run ones otherwise.
+// NON_MATCHING: in the two "look at" cases the original folds the value offset into the selected
+// pointer for both members; ours folds it into the add for the length and into the load for the
+// random value (two instructions differ).
+void WolfLink::sub_71002F2E78(Idx14f8 idx) {
+    if (!mActorParam)
+        return;
+    if (!mActorParam->getRes().mGParamList)
+        return;
+    f32 length = 0.0f;
+    f32 rand = 0.0f;
+    switch (idx) {
+    case Idx14f8::_0:
+        length = _1680->mHowlCooldownCounterLength.ref();
+        rand = _1680->mHowlCooldownCounterRand.ref();
+        break;
+    case Idx14f8::_1:
+        length = _1680->mHealCooldownCounterLength.ref();
+        rand = _1680->mHealCooldownCounterRand.ref();
+        break;
+    case Idx14f8::_2:
+        length = _1680->mFailPathCooldownCounterLength.ref();
+        rand = _1680->mFailPathCooldownCounterRand.ref();
+        break;
+    case Idx14f8::_3: {
+        if (!mASList)
+            return;
+        const f32* p_length;
+        const f32* p_rand;
+        if (mASList->x_1(0, 0) == "Wait") {
+            p_length = &_1680->mLookAtCooldownWait.ref();
+            p_rand = &_1680->mLookAtCooldownWaitRand.ref();
+        } else {
+            p_length = &_1680->mLookAtCooldownRun.ref();
+            p_rand = &_1680->mLookAtCooldownRunRand.ref();
+        }
+        length = *p_length;
+        rand = *p_rand;
+        break;
+    }
+    case Idx14f8::_4: {
+        if (!mASList)
+            return;
+        const f32* p_length;
+        const f32* p_rand;
+        if (mASList->x_1(0, 0) == "Wait") {
+            p_length = &_1680->mLookAtCounterWait.ref();
+            p_rand = &_1680->mLookAtCounterWaitRand.ref();
+        } else {
+            p_length = &_1680->mLookAtCounterRun.ref();
+            p_rand = &_1680->mLookAtCounterRunRand.ref();
+        }
+        length = *p_length;
+        rand = *p_rand;
+        break;
+    }
+    case Idx14f8::_5:
+        length = _1680->mRetargetCooldownCounterLength.ref();
+        rand = _1680->mRetargetCooldownCounterRand.ref();
+        break;
+    case Idx14f8::_6:
+        length = rand = _1680->mAfterTargetDeathCounterRand.ref();
+        break;
+    case Idx14f8::_7:
+        length = _1680->mLostTargetCounterLength.ref();
+        rand = _1680->mLostTargetCounterRand.ref();
+        break;
+    case Idx14f8::_8:
+        length = _1680->mInvinceableCounterLength.ref();
+        rand = _1680->mInvinceableCounterRand.ref();
+        break;
+    case Idx14f8::_9:
+        length = 30.0f;
+        break;
+    case Idx14f8::_10:
+        length = _1680->mSafePosFailCounter.ref();
+        break;
+    case Idx14f8::_11:
+    case Idx14f8::_12:
+        break;
+    case Idx14f8::_13:
+        length = _1680->mGiveUpShiekSensorLength.ref();
+        break;
+    case Idx14f8::_14:
+        length = _1680->mRetryShiekSensorLength.ref();
+        break;
+    case Idx14f8::_15:
+        length = _1680->mBattleWallHitLength.ref();
+        break;
+    case Idx14f8::_16:
+        length = _1680->mFollowRetryLength.ref();
+        break;
+    case Idx14f8::_17:
+        length = _1680->mPowerUpFoodLength.ref();
+        break;
+    case Idx14f8::_18:
+        length = 300.0f;
+        break;
+    }
+    ksys::Timer& timer = _14f8[idx];
+    const f32 value = sead::GlobalRandom::instance()->getF32Range(length, length + rand);
+    timer.value = value;
+    timer.previous_value = value;
 }
 
 void WolfLink::sub_71002F493C() {
