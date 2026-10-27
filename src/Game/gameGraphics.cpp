@@ -131,8 +131,6 @@ void Graphics::clearModelSceneQueue() {
         _3b0->clear();
 }
 
-// NON_MATCHING: one extra `mov x3, scene`; the original's call to sub_7100F34848 leaves the
-// unused third argument register undefined.
 void Graphics::drawModelSceneXlu(agl::DrawContext* draw_context, s32 pass,
                                  gsys::ModelScene* scene,
                                  gsys::ModelRenderContext* context) {
