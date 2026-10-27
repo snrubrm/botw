@@ -8,6 +8,7 @@
 #include "Game/UI/euiTextBoxEx.h"
 #include "Game/UI/uiScreens.h"
 #include "Game/UI/uiTagProcessor.h"
+#include "Game/AOC/aocHardModeManager.h"
 #include "Game/UI/uiUI.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/System/UIGlue.h"
@@ -262,6 +263,39 @@ void Fade::setStartedMaybe(bool started) {
 // 0x71010a0d40
 void Fade::clearSomeTipsField() {
     mTips.clear();
+}
+
+// 0x71010a18b0
+void Fade::m98() {
+    _348->select(0)->Stop(0.0f);
+    _350->select(0)->Stop(0.0f);
+    _368->StopAtMin();
+    _378->disableKeepLinked();
+    if (_3a8)
+        _370->PlayAuto(1.0f);
+    else
+        _370->Stop(0.0f);
+    _380->disableKeepLinked();
+    _a10 = 0;
+    _a14 = 0;
+    _a18 = 0;
+    _a24 = false;
+    _a25 = false;
+    _a26 = false;
+    _3b0 = 0;
+
+    f32 frame = 0.0f;
+    if (auto* hard_mode = aoc::HardModeManager::instance();
+        hard_mode && hard_mode->checkFlag(aoc::HardModeManager::Flag::EnableHardMode)) {
+        frame = 1.0f;
+    }
+    if (_398)
+        _398->Stop(frame);
+    if (_3a0)
+        _3a0->Stop(frame);
+
+    ksys::snd::SoundMgr::instance()->sub_71011FC0C0(
+        sub_71010A0DE0(_3a8, mLayout->_91 == 2, _3ac), 0);
 }
 
 // 0x71010a0de0: the sound kind of a fade state; the fade demo screen (another TU) calls it out of line,

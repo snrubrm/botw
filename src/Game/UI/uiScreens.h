@@ -1868,6 +1868,8 @@ public:
     void updateTipMessage();
     // 0x71010a1a48 (CSV Fade::m100): fades the tips out when the fade started and plays the matching UI sound.
     void m100() override;
+    // 0x71010a18b0 (CSV Fade::m98): resets the fade animators and flags and plays the fade UI sound.
+    void m98() override;
     // 0x71010a0b88 (placeholder name): whether the animator at _300 is at its last frame
     bool sub_71010A0B88() const;
     // 0x71010a0bbc: starts the colour animator forwards / backwards
