@@ -88,16 +88,6 @@ void sub_7100F3EE94() {
 // 0x7100e9cf78 (declared in another TU).
 void sub_7100E9CF78(bool value);
 
-// 0x710261f2f8 (placeholder: the object behind this pointer, a singleton next to the profiler /
-// video-recorder statics). Its log entry is a compiled-out va_list spill, so the parameter list is
-// unknown; the two callers pass none or (map type, map name).
-class Unk_710261f2f8 {
-public:
-    static Unk_710261f2f8* sInstance;
-    // 0x7100f3dcc0 (placeholder name).
-    void debugLog(...);
-};
-
 // 0x7100f3d1b4: waits for the stage resources and then runs the graphics stage-gen init.
 void waitForResourceCreation1() {
     if (auto* placement = map::PlacementMgr::instance())

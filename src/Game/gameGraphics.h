@@ -770,14 +770,23 @@ class Unk_7102519828 {
 public:
     // 0x710129f728: for pass 0, stores two of the view's textures in the render context.
     void sub_710129F728(s32 pass, gsys::ModelRenderContext* context);
+    // 0x710129f79c (four-byte body, empty in this release; the CSV's nullsub_4768): the hook the
+    // Pfx pass runs for every pass before its own work.
+    void sub_710129F79C(s32 pass, gsys::ModelRenderContext* context);
 };
 
-// Placeholder: the object at Graphics + 0xb70 (only the Vector3f that Graphics::sub_7100F3592C
-// writes is modelled).
-struct Unk_b70 {
+// One 0x10a0-byte record of the per-view pass-texture buffer at Graphics + 0xb68 (allocated by
+// Graphics::init 0x7100f2b4c8). The post-process pass frees the view's dynamic texture at +0x250;
+// Graphics::sub_7100F35FE4 applies the sampler at +0xdc0 and reads the fog floats at +0xfa0 /
+// +0xfa4 of the same record.
+struct ViewPassTextureRecord {
     u8 _0[0x110];
     sead::Vector3f _110;
+    u8 _11c[0x250 - 0x11c];
+    /* 0x250 */ const agl::TextureData* mDynamicTexture;
+    u8 _258[0x10a0 - 0x258];
 };
+static_assert(sizeof(ViewPassTextureRecord) == 0x10a0);
 
 namespace gsys {
 
@@ -1025,6 +1034,10 @@ public:
         void sub_71012890FC(s32 view);
         // 0x710128a988 (declaration only; placeholder name): draws the block's debug geometry.
         void sub_710128A988(agl::DrawContext* context, u8 view_index);
+        // 0x710128a148 (declaration only; placeholder name): runs the pass's analyzer work on the
+        // view's blocks, with the render buffer context and the pre-pass flag.
+        void sub_710128A148(agl::DrawContext* context, u8 view_index, gsys::RenderBufferContext* rbc,
+                            bool flag);
         // 0x710128aa30 (placeholder name): stores `value` at +0x14f0 of block `view`.
         void setValueMaybe(f32 value, s32 view);
 
@@ -1414,9 +1427,10 @@ private:
     Unk_7100f35df8* _ae0;
     u8 _ae8[0xb38 - 0xae8];
     Unk_710129175c* _b38;
-    u8 _b40[0xb70 - 0xb40];
-    // 0x7100f3592c: writes _b70->_110.
-    Unk_b70* _b70;
+    u8 _b40[0xb68 - 0xb40];
+    // The per-view pass-texture records (stride 0x10a0; drawModelScenePfx frees the view's
+    // dynamic texture at +0x250).
+    sead::Buffer<ViewPassTextureRecord> mPassTextures;
     u8 _b78[0xe08 - 0xb78];
 
 public:
@@ -1456,8 +1470,13 @@ private:
     // 0x7100f1d9b4 passes it as the second argument of fmodf).
     u8 _f60[0xf9c - 0xf60];
     /* 0xf9c */ f32 _f9c;
+    /* 0xfa0 */ f32 _fa0;
+    /* 0xfa4 */ f32 _fa4;
+    // Countdown set when the map mode leaves 2 / 5 (sub_7100F2E3C0) and decremented each frame; the
+    // Pfx pass skips the analyzer call while it is non-zero.
+    /* 0xfa8 */ u16 _fa8;
     // The rest of the 0xfe8-byte instance is not modelled.
-    u8 _fa0[0xfe8 - 0xfa0];
+    u8 _faa[0xfe8 - 0xfaa];
 
 public:
     // 0x7100f2a754 (declaration only). The original primary vtable 0x71024f45c0 has the ten
@@ -1511,6 +1530,11 @@ public:
     // The scene argument is not read.
     void sub_7100F34848(agl::DrawContext* draw_context, bool pass, gsys::ModelScene* scene,
                         gsys::ModelSceneContext* context);
+    // 0x7100f33e74 (unnamed in the CSV): the extra scene-pass draw the Pfx pass runs for pass 0
+    // (the call passes pass 2). Draws the scene's render targets through the selected view's
+    // 0x3878-byte render record and the model shader's viewport.
+    void sub_7100F33E74(agl::DrawContext* draw_context, s32 pass, gsys::ModelScene* scene,
+                        gsys::ModelRenderContext* context);
     // 0x7100f34e8c (slot m23; +8 copy 0x7100f34ed4): refreshes the view's records in the grid and
     // model renderer blocks.
     void calcModelSceneViewGPU(gsys::ModelRenderContext* context) override;

@@ -8,6 +8,7 @@
 #include <gsys/gsysModelNW.h>
 #include <gsys/gsysModelRenderUnit.h>
 #include <gsys/gsysGBuffer.h>
+#include <gsys/gsysModelSceneConfig.h>
 #include <gsys/gsysRenderBufferContext.h>
 #include <nn/g3d/ModelObj.h>
 #include <nn/g3d/ResMaterial.h>
@@ -20,6 +21,8 @@
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/System/VFR.h"
+#include "KingSystem/Terrain/teraSystem.h"
+#include "KingSystem/ksys.h"
 #include "KingSystem/Sound/sndSound.h"
 #include <utility/aglDynamicTextureAllocator.h>
 #include <utility/aglPrimitiveTexture.h>
@@ -205,6 +208,58 @@ void Graphics::sub_7100F34848(agl::DrawContext* draw_context, bool pass, gsys::M
     }
 }
 
+// NON_MATCHING: everything matches except the job-queue record index at 0xf34d30: the original
+// sign-extends the view byte to 32 bits and uses `smaddl`, our clang folds the extension into the
+// load (`ldrsb xN`) and uses `madd`, which also moves the count/pointer into different registers.
+void Graphics::drawModelScenePfx(agl::DrawContext* draw_context, s32 pass,
+                                 gsys::ModelScene* scene,
+                                 gsys::ModelRenderContext* context) {
+    auto* render_buffer_context = scene->mBuffer.getRenderBufferContext();
+    if (_a88)
+        _a88->sub_710129F79C(pass, context);
+    if (pass != 2) {
+        if (pass != 0)
+            return;
+        sub_7100F33E74(draw_context, 2, scene, context);
+        if (_378 && _fa8 != 0)
+            _378->sub_710128A148(draw_context, context->getViewIndex(), render_buffer_context,
+                                 false);
+        context->bind(draw_context, false);
+        return;
+    }
+    ViewPassTextureRecord& record = mPassTextures[context->getViewIndex()];
+    if (record.mDynamicTexture) {
+        agl::utl::DynamicTextureAllocator::instance()->free(record.mDynamicTexture);
+        record.mDynamicTexture = nullptr;
+    }
+    if (ksys::tera::Terrain::instance() &&
+        ksys::tera::Terrain::instance()->isGrassEnabled()) {
+        ksys::tera::Terrain::instance()->sub_710114DE4C()->sub_71011507B4(
+            draw_context, context->getViewIndex());
+        ksys::tera::Terrain::instance()->sub_710114DE70()->sub_7101081FE0(
+            draw_context, context->getViewIndex());
+    }
+    if (ksys::Unk_710261f2f8::sInstance)
+        ksys::Unk_710261f2f8::sInstance->drawLogMaybe(draw_context, context);
+    if (!_378)
+        return;
+    if (_fa8 != 0)
+        return;
+    bool valid = false;
+    if (scene->mConfig->isFeatureEnabled(gsys::ModelSceneConfig::Feature::XluZPrePass)) {
+        auto* scene_context = static_cast<gsys::ModelSceneContext*>(context);
+        const s32 view = scene_context->_392;
+        gsys::XluZPrePass& pre_pass = scene->mJobQueue.getXluZPrePassMaybe(view);
+        const sead::BitFlag32 mask(0x20000000);
+        valid = pre_pass.isValid(mask);
+    }
+    if (valid)
+        _378->sub_710128A148(draw_context, context->getViewIndex(), render_buffer_context, true);
+    else
+        _378->sub_710128A148(draw_context, context->getViewIndex(), render_buffer_context,
+                             false);
+}
+
 void Graphics::drawModelSceneFinalImage(agl::DrawContext* draw_context, s32 pass,
                                         gsys::ModelScene* scene,
                                         gsys::ModelRenderContext* context) {
@@ -380,7 +435,7 @@ void Graphics::sub_7100F35918(const sead::Color4f& color) {
 }
 
 void Graphics::sub_7100F3592C(const sead::Vector3f& value) {
-    _b70->_110 = value;
+    mPassTextures.getBufferPtr()->_110 = value;
 }
 
 f32 Graphics::sub_7100F35F28() const {

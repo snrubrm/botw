@@ -7,6 +7,7 @@
 #include <mc/seadJobQueue.h>
 #include <thread/seadCriticalSection.h>
 #include <utility/aglAtomicPtrArray.h>
+#include "gsys/gsysXluZPrePass.h"
 
 namespace sead {
 class WorkerMgr;
@@ -34,9 +35,14 @@ public:
         s32 mArg3;
     };
 
-    // Element of the buffer at +0xf8 (stride 0x3b8). Not modelled; the destructor destroys five
-    // ModelRenderQueue members and an XluZPrePass in it.
-    struct Unk_3b8;
+    // Element of the buffer at +0xf8 (stride 0x3b8). The destructor destroys five
+    // ModelRenderQueue members and an XluZPrePass; only the pre-pass object's offset is modelled.
+    struct Unk_3b8 {
+        u8 _0[0x2f8];
+        XluZPrePass mXluZPrePass;
+        u8 _3a0[0x3b8 - 0x3a0];
+    };
+    static_assert(sizeof(Unk_3b8) == 0x3b8);
 
     ModelJobQueue();
     virtual ~ModelJobQueue();
@@ -46,6 +52,9 @@ public:
     void invoke_(int, int, int, int);
     // 0x7100c7f5bc (declared only): sorts the queues before the scenes run sortQueue_.
     void preSort(sead::WorkerMgr* wm);
+    // Inline-only in the original; name is a guess: the pre-pass object of a view's record. The
+    // bounds-checked index repeats in ModelScene's draw paths and Graphics' Pfx / Opa passes.
+    XluZPrePass& getXluZPrePassMaybe(s32 view) { return _f8[view].mXluZPrePass; }
     void clear();
     void swapDrawList();
     void calc(bool);

@@ -69,8 +69,8 @@ public:
     // The fields after the Node subobject. The constructor 0x7100c20ec4 inlines their initial values.
     /* 0x390 */ u8 mFlags = 0x30;
     /* 0x391 */ u8 mParticleFlags = 0x01;
-    // Set to 0xff by calc 0x7100c21368.
-    /* 0x392 */ u8 _392;
+    // Set to -1 by calc (0x7100c21368); the Pfx paths index the job queue with it.
+    /* 0x392 */ s8 _392;
     /* 0x393 */ u8 mCurrentView = 0;
     /* 0x394 */ u8 _394[0x398 - 0x394];
     /* 0x398 */ Layer3D* _398 = nullptr;

@@ -222,6 +222,8 @@ public:
         sead::Vector3f* sub_7101152DA0(s32 index);
         // 0x71011503cc (placeholder name): draws the grass of system `index`.
         void sub_71011503CC(agl::DrawContext* context, s32 index, const DrawArgMaybe* arg);
+        // 0x71011507b4 (unnamed in the CSV): the Pfx pass's grass draw for `view`.
+        void sub_71011507B4(agl::DrawContext* context, u8 view);
         void sub_7101152B3C(f32 fovy, const sead::Vector3f* position,
                                const sead::Vector3f* target);
         // 0x710114ee5c (placeholder name): sets or clears bit 5 of both objects of every entry.
@@ -452,6 +454,8 @@ public:
         void sub_7101080A08();
         // 0x71010819d4 (empty in this release): Core::sub_710130241C calls it for the tree draw.
         void sub_71010819D4(agl::DrawContext* context, s32 index, const DrawArgMaybe* arg);
+        // 0x7101081fe0 (unnamed in the CSV): the Pfx pass's tree draw for `view`.
+        void sub_7101081FE0(agl::DrawContext* context, u8 view);
         // One 0x1a0-byte entry of the ten 8-entry tables at +0x30: 0x7101083060 stores its
         // table / entry indices and 0x710108330c hands it the heap. The per-entry bodies stay U.
         struct TableEntry {

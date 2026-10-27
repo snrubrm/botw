@@ -5,6 +5,14 @@ namespace sead {
 class Heap;
 }
 
+namespace agl {
+class DrawContext;
+}
+
+namespace gsys {
+class ModelRenderContext;
+}
+
 namespace ksys {
 namespace act {
 class PlayerLink;
@@ -12,6 +20,19 @@ class PlayerLink;
 
 struct InitParams {
     sead::Heap* king_sys_heap;
+};
+
+// 0x710261f2f8 (placeholder: the object behind this pointer, a singleton next to the profiler /
+// video-recorder statics). Its log entry is a compiled-out va_list spill, so the parameter list is
+// unknown; the two callers pass none or (map type, map name).
+class Unk_710261f2f8 {
+public:
+    static Unk_710261f2f8* sInstance;
+    // 0x7100f3dcc0 (placeholder name).
+    void debugLog(...);
+    // 0x7100f34db0 (placeholder name; four-byte empty variadic body in this release): the Pfx
+    // pass's hook, called with the draw context and the render context.
+    void drawLogMaybe(agl::DrawContext* draw_context, gsys::ModelRenderContext* context, ...);
 };
 
 // 0x0000007100f3a4e4
