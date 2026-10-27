@@ -3,6 +3,7 @@
 #include <basis/seadTypes.h>
 #include <container/seadPtrArray.h>
 #include <hostio/seadHostIONode.h>
+#include <nn/util/util_ResDic.h>
 #include <prim/seadSafeString.h>
 
 namespace sead {
@@ -66,6 +67,7 @@ private:
     struct ShaderArchive {
         u8 _0[0x10];
         ModelShaderRecord* mRecords;
+        nn::util::ResDic* mDic;
     };
 
     u8 _8[0x30 - 0x8];

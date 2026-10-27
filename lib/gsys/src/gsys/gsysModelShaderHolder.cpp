@@ -48,6 +48,19 @@ const ModelShaderRecord* ModelShaderArchive::getModelShader(int index) const {
     return &mShaderArchive->mRecords[index];
 }
 
+// 0x7100c3d244
+const ModelShaderRecord* ModelShaderArchive::searchModelShader(const sead::SafeString& name) const {
+    const ShaderArchive* archive = mShaderArchive;
+    const char* key = name.cstr();
+    const nn::util::ResDic* dic = archive->mDic;
+    if (!dic)
+        return nullptr;
+    const int index = dic->FindIndex(key);
+    if (index == nn::util::ResDic::Npos)
+        return nullptr;
+    return &archive->mRecords[index];
+}
+
 const char* ModelShader::getAssignID() {
     return "gsys_assign_type";
 }
