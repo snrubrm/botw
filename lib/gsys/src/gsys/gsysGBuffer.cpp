@@ -2,6 +2,7 @@
 
 #include <common/aglDrawContext.h>
 #include <gfx/seadViewport.h>
+#include <lighting/aglLightPrePass.h>
 #include <utility/aglDynamicTextureAllocator.h>
 
 namespace gsys {
@@ -11,6 +12,21 @@ bool GBuffer::isRendering() const {
     if ((mFlags768 & 0x1f) != 0)
         return true;
     return (mFlags10a8 & 0x1f) != 0;
+}
+
+// 0x7100c737a8
+void GBuffer::invalidatePreShading(PreShadingBufferType type) {
+    PreShadingBuffer& buffer = mPreShadingBuffers[int(type)];
+    if (buffer.mTexture) {
+        agl::utl::DynamicTextureAllocator::instance()->free(buffer.mTexture);
+        buffer.mTexture = nullptr;
+    }
+    if (type == PreShadingBufferType(0) && mLightPrePass) {
+        mLightPrePass->release(mLightPrePassView);
+        mLightPrePass = nullptr;
+        mLightPrePassView = -1;
+    }
+    _9 &= ~(1 << int(type));
 }
 
 // 0x7100c7367c

@@ -4,12 +4,16 @@
 #include <common/aglRenderBuffer.h>
 #include <common/aglRenderTarget.h>
 #include <common/aglTextureEnum.h>
+#include <common/aglTextureSampler.h>
 #include <gfx/seadColor.h>
 #include <prim/seadSafeString.h>
 
 namespace agl {
 class DrawContext;
 class RenderTargetColor;
+namespace lght {
+class LightPrePass;
+}
 namespace utl {
 class DebugTexturePage;
 }
@@ -24,6 +28,9 @@ public:
     enum class Resolution : int;
     enum class BufferType : int;
     enum class MaterialIdMask : int;
+    // invalidatePreShading 0x7100c737a8 indexes its records with this type; the callers pass
+    // 0 and 2..5 and the enumerator spellings are unrecovered.
+    enum class PreShadingBufferType : int;
 
     GBuffer();
     virtual ~GBuffer();
@@ -60,6 +67,8 @@ public:
     bool isRendering() const;
     /// Inline-only accessor: the first resolution's render buffer at +0x770.
     agl::RenderBuffer* getRenderBuffer() { return &mRenderBuffer; }
+    // 0x7100c737a8
+    void invalidatePreShading(PreShadingBufferType type);
     // 0x7100c7367c / 0x7100c73734: the deferred-shading pass around the material-ID expansion.
     void beginDeferredShading(agl::DrawContext*, MaterialIdMask, agl::TextureCompSel);
     void endDeferredShading();
@@ -82,7 +91,10 @@ private:
     };
     static_assert(sizeof(BufferRecord) == 0x198);
 
-    u8 _8[0x768 - 8];
+    u8 _8;
+    // Pre-shading buffer flags: invalidatePreShading 0x7100c737a8 clears the bit of its type.
+    u8 _9;
+    u8 _a[0x768 - 0xa];
     // Bit 2 selects the material-ID expansion path of beginDeferredShading 0x7100c7367c. Bits 0..4
     // are the pre-shading buffer flags isRendering tests.
     u8 mFlags768;
@@ -112,7 +124,20 @@ private:
     /* 0x1f84 */ u32 _1f84;
     /* 0x1f88 */ u32 _1f88;
     /* 0x1f8c */ u32 _1f8c;
-    u8 _1f90[0x3378 - 0x1f90];
+    u8 _1f90[0x2928 - 0x1f90];
+    // The pre-shading buffers constructor 0x7100c70958 builds at 0x2928-step strides: each holds
+    // the dynamic texture invalidatePreShading 0x7100c737a8 frees and its sampler. The sampler at
+    // 0x31f8 after the records and the light pre-pass pair at 0x3368 are modelled too.
+    struct PreShadingBuffer {
+        const agl::TextureData* mTexture;
+        agl::TextureSampler mSampler;
+    };
+    static_assert(sizeof(PreShadingBuffer) == 0x178);
+    PreShadingBuffer mPreShadingBuffers[6];  // 2928
+    agl::TextureSampler _31f8;               // 31f8
+    agl::lght::LightPrePass* mLightPrePass;  // 3368
+    s8 mLightPrePassView;                    // 3370
+    u8 _3371[0x3378 - 0x3371];
 };
 static_assert(sizeof(GBuffer) == 0x3378);
 

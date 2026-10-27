@@ -5,6 +5,7 @@
 #include "gsys/gsysModelSceneComponent.h"
 
 namespace gsys {
+class ModelSceneGI;
 class RenderBufferContext;
 
 // ModelScene constructs this component at +0x3778, before the next component
@@ -50,6 +51,8 @@ public:
     void endGBufferPreShading(agl::DrawContext* draw_context, ModelSceneContext* context) const;
     void expandGBuffer(agl::DrawContext* draw_context, ModelSceneContext* context) const;
     void expandDepthBuffer(agl::DrawContext* draw_context, ModelSceneContext* context) const;
+    // 0x7100c190e8: frees the pre-shading buffers of the context's GBuffer.
+    void invalidateGBufferPreShading(ModelSceneContext* context, const ModelSceneGI& gi) const;
     // 0x7100c19b44 / 0x7100c19b48: the buffer draws no debug output and attaches nothing.
     void drawDebug(agl::DrawContext* draw_context, const ModelSceneContext& context) const override;
     void attachHostIO(sead::hostio::Node* node) override;

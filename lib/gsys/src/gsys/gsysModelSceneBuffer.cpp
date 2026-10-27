@@ -74,6 +74,22 @@ void ModelSceneBuffer::endReducedBuffer(agl::DrawContext* draw_context,
     mRenderBufferContext->endHalfBuffer(draw_context, context->getViewIndex());
 }
 
+// 0x7100c190e8
+void ModelSceneBuffer::invalidateGBufferPreShading(ModelSceneContext* context,
+                                                  const ModelSceneGI&) const {
+    GBuffer* gbuffer = mRenderBufferContext->getContext(context->getViewIndex())->mGBuffer;
+    context->popPassTexture(ModelRenderContext::PassTextureType(4));
+    gbuffer->invalidatePreShading(GBuffer::PreShadingBufferType(2));
+    context->popPassTexture(ModelRenderContext::PassTextureType(0x16));
+    gbuffer->invalidatePreShading(GBuffer::PreShadingBufferType(3));
+    context->popPassTexture(ModelRenderContext::PassTextureType(5));
+    gbuffer->invalidatePreShading(GBuffer::PreShadingBufferType(0));
+    context->popPassTexture(ModelRenderContext::PassTextureType(7));
+    gbuffer->invalidatePreShading(GBuffer::PreShadingBufferType(4));
+    context->popPassTexture(ModelRenderContext::PassTextureType(0x10));
+    gbuffer->invalidatePreShading(GBuffer::PreShadingBufferType(5));
+}
+
 // 0x7100c191a8
 void ModelSceneBuffer::releaseOpa(const ModelSceneContext& context) const {
     mRenderBufferContext->release(context.getViewIndex(), 0x2003e);
