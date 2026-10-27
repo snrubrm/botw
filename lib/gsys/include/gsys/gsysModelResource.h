@@ -13,6 +13,7 @@ class ResModel;
 
 namespace gsys {
 class ModelShaderArchive;
+class ModelShaderRecord;
 class ModelShaderVariationKey;
 class G3dResModelEx;
 class G3dResMaterialEx;
@@ -108,7 +109,7 @@ public:
     void countDownAnimationReferenceCounter();
     s32 getAnimationReferenceCounter() const;
     // 0x7100c0c20c: the first shader of the resource's shader archives that matches the material.
-    const ModelShader* searchModelShader(const nn::g3d::ResModel* model,
+    const ModelShaderRecord* searchModelShader(const nn::g3d::ResModel* model,
                                          const G3dResMaterialEx* material) const;
 
 private:

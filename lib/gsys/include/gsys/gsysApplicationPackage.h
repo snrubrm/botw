@@ -43,9 +43,9 @@ public:
 
     void initialize(sead::Heap* heap, sead::Heap* debug_heap);
     void setApplicationPackage(sead::ArchiveRes* archive, sead::Heap* heap, sead::Heap* debug_heap);
-    const ModelShader* searchModelShader(const sead::SafeString& archive_name,
+    const ModelShaderRecord* searchModelShader(const sead::SafeString& archive_name,
                                          const sead::SafeString& shader_name) const;
-    const ModelShader* getInvalidModelShader() const;
+    const ModelShaderRecord* getInvalidModelShader() const;
     ParticleConfig* getParticleConfig() const;
     bool searchAglShaderFile(void** binary, void** source, const sead::SafeString& name);
     void setSystemModelShader(sead::ArchiveRes* archive);

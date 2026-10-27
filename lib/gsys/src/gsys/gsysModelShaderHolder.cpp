@@ -32,15 +32,20 @@ void ModelShaderHolder::setInvalidModelShaderArchive(ModelShaderArchive* archive
 }
 
 // NON_MATCHING: register allocation around the archive name.
-const ModelShader* ModelShaderHolder::searchModelShader(const sead::SafeString& archive_name,
-                                                        const sead::SafeString& shader_name) const {
+const ModelShaderRecord* ModelShaderHolder::searchModelShader(
+    const sead::SafeString& archive_name, const sead::SafeString& shader_name) const {
     for (auto& archive : mArchives) {
         if (archive_name == archive.getName()) {
-            if (const ModelShader* shader = archive.searchModelShader(shader_name))
+            if (const ModelShaderRecord* shader = archive.searchModelShader(shader_name))
                 return shader;
         }
     }
     return nullptr;
+}
+
+// 0x7100c3d3a0
+const ModelShaderRecord* ModelShaderArchive::getModelShader(int index) const {
+    return &mShaderArchive->mRecords[index];
 }
 
 const char* ModelShader::getAssignID() {

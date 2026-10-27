@@ -44,6 +44,7 @@ add_library(gsys OBJECT
   include/gsys/gsysLightProbeMgr.h
   src/gsys/gsysLightProbeMgr.cpp
   include/gsys/gsysModelSceneShadow.h
+  include/gsys/gsysModelScenePfx.h
   include/gsys/gsysModelScenePassCallback.h
   src/gsys/gsysModelScenePassCallback.cpp
   include/gsys/gsysModelMgrCallback.h
@@ -122,6 +123,7 @@ add_library(gsys OBJECT
   src/gsys/gsysModelScene.cpp
   src/gsys/gsysModelSceneComponent.cpp
   src/gsys/gsysModelSceneShadow.cpp
+  src/gsys/gsysModelScenePfx.cpp
   src/gsys/gsysModelSceneFx.cpp
   src/gsys/gsysModelSceneEnv.cpp
   src/gsys/gsysResourceEditor.cpp

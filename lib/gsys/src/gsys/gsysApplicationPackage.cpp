@@ -18,12 +18,12 @@ void ApplicationPackage::initialize(sead::Heap*, sead::Heap* debug_heap) {
     ORUtil::setNodeMeta(this, ORUtil::Category::_0, debug_heap);
 }
 
-const ModelShader* ApplicationPackage::searchModelShader(const sead::SafeString& archive_name,
+const ModelShaderRecord* ApplicationPackage::searchModelShader(const sead::SafeString& archive_name,
                                                          const sead::SafeString& shader_name) const {
     return mPackage->mModelShaderHolder.searchModelShader(archive_name, shader_name);
 }
 
-const ModelShader* ApplicationPackage::getInvalidModelShader() const {
+const ModelShaderRecord* ApplicationPackage::getInvalidModelShader() const {
     ModelShaderArchive* archive = mPackage->mModelShaderHolder.getInvalidModelShaderArchive();
     if (!archive)
         return nullptr;
