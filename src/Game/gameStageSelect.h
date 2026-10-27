@@ -23,6 +23,9 @@ public:
     virtual void moveLeave();
     virtual bool moveReenter(void* arg);
 
+    // 0x7cf060: the menu's title string.
+    sead::SafeString getStrField4F0() const;
+
 private:
     u8 _8[0x10 - 0x8];
     /* 0x010 */ sead::SafeString _10;

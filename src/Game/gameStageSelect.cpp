@@ -22,6 +22,11 @@ void StageSelect::moveRun() {
     _10 = _4f0;
 }
 
+// 0x7cf060: the menu's title string.
+sead::SafeString StageSelect::getStrField4F0() const {
+    return _4f0;
+}
+
 void StageSelect::moveLeave() {}
 
 bool StageSelect::moveReenter(void* arg) {

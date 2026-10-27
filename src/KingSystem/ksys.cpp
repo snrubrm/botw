@@ -146,6 +146,24 @@ void callCalcPlacementMgr() {
     CalcPlacementMgr();
 }
 
+// 0x7100f419dc: runs the placement manager's calc step.
+void sub_7100F419DC() {
+    if (auto* mgr = map::PlacementMgr::instance())
+        mgr->calc();
+}
+
+// 0x7100f41a18: runs the placement manager's stubbed step.
+void sub_7100F41A18() {
+    if (auto* mgr = map::PlacementMgr::instance())
+        mgr->stubbed();
+}
+
+// 0x7100f41acc: runs the placement manager's villager update.
+void sub_7100F41ACC() {
+    if (auto* mgr = map::PlacementMgr::instance())
+        mgr->sub_71011E6E8C();
+}
+
 // 0x7100f3dbc0: the heap / reaction half of the stage-generation start. `param` is forwarded to the
 // reaction actor creation; when `flag` is set the debug logger runs too.
 void initBeforeStageGenA(sead::Heap* heap, void* param, bool flag) {

@@ -285,6 +285,8 @@ public:
     // Native camera caller924078 passes both names and the origin; the callee returns the nearest Object.
     Object* sub_71011EC398(const sead::SafeString& name, const sead::SafeString& unique_name,
                            const sead::Vector3f& origin);
+    // 0x71011e97cc (declared only): the placement manager's per-frame calculation.
+    void calc();
     void stubbed();
     void insertTraverseResultPreActor(act::Actor* actor);
     void setFlag8Enabled(bool enabled);

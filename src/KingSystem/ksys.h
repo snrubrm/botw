@@ -46,6 +46,11 @@ void CalcView1();
 // 0x7100f3ed98 / 0x7100f41a54: the placement manager's per-frame calc and its thunk.
 void CalcPlacementMgr();
 void callCalcPlacementMgr();
+// 0x7100f419dc / 0x7100f41a18 / 0x7100f41acc (placeholder names): run one of the placement
+// manager's per-frame steps when it exists.
+void sub_7100F419DC();
+void sub_7100F41A18();
+void sub_7100F41ACC();
 
 void sub_7100F3ED50();
 void sub_7100F3ED80();
