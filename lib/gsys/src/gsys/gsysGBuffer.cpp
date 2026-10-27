@@ -7,6 +7,9 @@
 
 namespace gsys {
 
+// 0x7100c70da4 / 0x7100c7103c
+GBuffer::~GBuffer() {}
+
 // 0x7100c7159c
 bool GBuffer::isRendering() const {
     if ((mResolutionData[0].mFlags & 0x1f) != 0)
@@ -31,6 +34,60 @@ void GBuffer::swapRenderTarget() {
     buffer.setRenderTargetColor(buffer.getRenderTargetColor(mBufferRecords[0]._190),
                                 mBufferRecords[3]._190);
     buffer.setRenderTargetColor(target, mBufferRecords[0]._190);
+}
+
+// 0x7100c73a80
+void GBuffer::invalidate(Resolution resolution, BufferType type) {
+    ResolutionData& data = mResolutionData[int(resolution)];
+    ResolutionPreShadingBuffer& buffer = data.mPreShadingBuffers[int(type)];
+    if (buffer.mTexture) {
+        agl::utl::DynamicTextureAllocator::instance()->free(buffer.mTexture);
+        buffer.mTexture = nullptr;
+    }
+    data.mFlags &= ~(1u << int(type));
+}
+
+// 0x7100c72f94
+void GBuffer::invalidateGPUWriteCachePreShading(agl::DrawContext* draw_context,
+                                                const sead::SafeString&) const {
+    const agl::RenderBuffer& buffer = mResolutionData[1].mRenderBuffer;
+    for (s32 i = 0; i < 8; ++i) {
+        agl::RenderTargetColor* target = buffer.getRenderTargetColor(i);
+        if (target)
+            target->invalidateGPUCache(draw_context);
+    }
+}
+
+// 0x7100c725d4
+void GBuffer::invalidateGPUWriteCache(agl::DrawContext* draw_context, const sead::SafeString&,
+                                      Resolution resolution) const {
+    const ResolutionData& data = mResolutionData[int(resolution)];
+    const agl::RenderBuffer& buffer = data.mRenderBuffer;
+    if ((data.mFlags & 1) != 0) {
+        agl::RenderTargetColor* target = buffer.getRenderTargetColor(mBufferRecords[0]._190);
+        if (target)
+            target->invalidateGPUCache(draw_context);
+    }
+    if ((data.mFlags & 2) != 0) {
+        agl::RenderTargetColor* target = buffer.getRenderTargetColor(mBufferRecords[1]._190);
+        if (target)
+            target->invalidateGPUCache(draw_context);
+    }
+    if ((data.mFlags & 4) != 0) {
+        agl::RenderTargetColor* target = buffer.getRenderTargetColor(mBufferRecords[2]._190);
+        if (target)
+            target->invalidateGPUCache(draw_context);
+    }
+    if ((data.mFlags & 8) != 0) {
+        agl::RenderTargetColor* target = buffer.getRenderTargetColor(mBufferRecords[3]._190);
+        if (target)
+            target->invalidateGPUCache(draw_context);
+    }
+    if ((data.mFlags & 0x10) != 0) {
+        agl::RenderTargetColor* target = buffer.getRenderTargetColor(mBufferRecords[4]._190);
+        if (target)
+            target->invalidateGPUCache(draw_context);
+    }
 }
 
 // 0x7100c73cf8
@@ -98,6 +155,43 @@ void GBuffer::forwardPreShadingStepForXlu(agl::DrawContext* draw_context, int) {
 // 0x7100c73cf4
 void GBuffer::entryToDebugTexturePagePreShading(agl::DrawContext*, int,
                                                 const agl::utl::DebugTexturePage*) {}
+
+// 0x7100c73b40
+// The release build keeps the debug names but drops the page registration, so the strings are
+// built and never used.
+void GBuffer::entryToDebugTexturePage(agl::DrawContext*, int,
+                                      const agl::utl::DebugTexturePage*) {
+    if ((mResolutionData[0].mFlags & 1) != 0) {
+        sead::FormatFixedSafeString<32> name("%s%s", "GBuffer(Albedo)", "");
+    }
+    if ((mResolutionData[0].mFlags & 2) != 0) {
+        sead::FormatFixedSafeString<32> name("%s%s", "GBuffer(Normal)", "");
+    }
+    if ((mResolutionData[0].mFlags & 4) != 0) {
+        sead::FormatFixedSafeString<32> name("%s%s", "GBuffer(MaterialID)", "");
+    }
+    if ((mResolutionData[0].mFlags & 8) != 0) {
+        sead::FormatFixedSafeString<32> name("%s%s", "GBuffer(Emission)", "");
+    }
+    if ((mResolutionData[0].mFlags & 0x10) != 0) {
+        sead::FormatFixedSafeString<32> name("%s%s", "GBuffer(Shadow)", "");
+    }
+    if ((mResolutionData[1].mFlags & 1) != 0) {
+        sead::FormatFixedSafeString<32> name("%s%s", "GBuffer(Albedo)", "(Half)");
+    }
+    if ((mResolutionData[1].mFlags & 2) != 0) {
+        sead::FormatFixedSafeString<32> name("%s%s", "GBuffer(Normal)", "(Half)");
+    }
+    if ((mResolutionData[1].mFlags & 4) != 0) {
+        sead::FormatFixedSafeString<32> name("%s%s", "GBuffer(MaterialID)", "(Half)");
+    }
+    if ((mResolutionData[1].mFlags & 8) != 0) {
+        sead::FormatFixedSafeString<32> name("%s%s", "GBuffer(Emission)", "(Half)");
+    }
+    if ((mResolutionData[1].mFlags & 0x10) != 0) {
+        sead::FormatFixedSafeString<32> name("%s%s", "GBuffer(Shadow)", "(Half)");
+    }
+}
 
 // 0x7100c73af4
 void GBuffer::setFormat(BufferType type, agl::TextureFormat format) {

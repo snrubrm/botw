@@ -105,6 +105,22 @@ void ModelSceneBuffer::invalidateGBufferPreShading(ModelSceneContext* context,
     gbuffer->invalidatePreShading(GBuffer::PreShadingBufferType(5));
 }
 
+// NON_MATCHING: same 25 instructions and size; clang if-converts the two early returns into
+// selects where the original keeps tbnz branches.
+// 0x7100c19ae0
+const agl::TextureData* ModelSceneBuffer::selectBloomDepth(int view) const {
+    const RenderBufferContext::Context* context = mRenderBufferContext->getContext(view);
+    const agl::TextureData* depth = &context->_c98;
+    if ((_1710 & 8) == 0)
+        return depth;
+    const u32 flags = context->mPassFlagsMaybe;
+    if ((flags & 0x800) != 0)
+        return &context->_1a68;
+    if ((flags & 1) != 0)
+        return &context->_e08;
+    return (flags & 0x1000) != 0 ? depth : &context->_18f8;
+}
+
 // 0x7100c191a8
 void ModelSceneBuffer::releaseOpa(const ModelSceneContext& context) const {
     mRenderBufferContext->release(context.getViewIndex(), 0x2003e);

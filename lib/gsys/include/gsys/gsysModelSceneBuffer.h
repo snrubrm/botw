@@ -4,6 +4,10 @@
 #include "factory/aglFrameRateControlBuffer.h"
 #include "gsys/gsysModelSceneComponent.h"
 
+namespace agl {
+class TextureData;
+}
+
 namespace gsys {
 class ModelSceneGI;
 class RenderBufferContext;
@@ -63,13 +67,17 @@ public:
     // 0x7100c19b44 / 0x7100c19b48: the buffer draws no debug output and attaches nothing.
     void drawDebug(agl::DrawContext* draw_context, const ModelSceneContext& context) const override;
     void attachHostIO(sead::hostio::Node* node) override;
+    // 0x7100c19ae0: the depth buffer the Xlu Z-pre-pass reads, chosen by the view's pass flags.
+    const agl::TextureData* selectBloomDepth(int view) const;
 
 private:
     RenderBufferContext* mRenderBufferContext;
     // Constructor C17558 constructs the frame rate controller at +0x258 and the AA filter at
     // +0x4b8, so the controller is 0x260 bytes.
     agl::fctr::FrameRateControlBuffer mFrameRateControlBuffer;
-    u8 _4b8[0x1712 - 0x4b8];
+    u8 _4b8[0x1710 - 0x4b8];
+    // selectBloomDepth tests bit 3.
+    u16 _1710;
     // endGBufferPreShading tests bit 3, expandGBuffer bit 2.
     u8 _1712;
     u8 _1713[0x1718 - 0x1713];

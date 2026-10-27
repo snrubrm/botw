@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <common/aglTextureData.h>
 #include <container/seadBuffer.h>
 #include <hostio/seadHostIONode.h>
 #include <cstddef>
@@ -25,7 +26,17 @@ public:
         // Pass flags of the view's draw record: drawModelSceneCalcRenderView writes bits 7 / 8 / 11,
         // 12 (the record's analyze flag) and 19 (Graphics' _284 bit 0).
         /* 0x4 */ u32 mPassFlagsMaybe;
-        u8 _8[0x3208 - 0x8];
+        u8 _8[0xc98 - 0x8];
+        // ModelSceneBuffer::selectBloomDepth 0x7100c19ae0 returns one of these four depth
+        // textures depending on mPassFlagsMaybe.
+        agl::TextureData _c98;
+        u8 _dc0[0xe08 - 0xdc0];
+        agl::TextureData _e08;
+        u8 _f30[0x18f8 - 0xf30];
+        agl::TextureData _18f8;
+        u8 _1a20[0x1a68 - 0x1a20];
+        agl::TextureData _1a68;
+        u8 _1b90[0x3208 - 0x1b90];
         // Per-axis render scale. The Context constructor path 0x7100c5934c copies the two words
         // of the global pair at 0x7101e9ff10 into both this pair and 0x4b0/0x4b4; update
         // 0x7100c59684 loads them as f32, multiplies them by the viewport scale, and Graphics

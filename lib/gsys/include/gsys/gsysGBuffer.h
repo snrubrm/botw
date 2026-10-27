@@ -5,6 +5,7 @@
 #include <common/aglRenderTarget.h>
 #include <common/aglTextureEnum.h>
 #include <common/aglTextureSampler.h>
+#include <common/aglUniformBlock.h>
 #include <gfx/seadColor.h>
 #include <prim/seadSafeString.h>
 
@@ -47,6 +48,9 @@ public:
     void entryToDebugTexturePagePreShading(agl::DrawContext*, int,
                                            const agl::utl::DebugTexturePage*);
     void invalidateGPUWriteCache(agl::DrawContext*, const sead::SafeString&, Resolution) const;
+    // 0x7100c72f94: invalidates the eight colour targets of the second resolution's render
+    // buffer. The name argument is unused in the release build.
+    void invalidateGPUWriteCachePreShading(agl::DrawContext*, const sead::SafeString&) const;
 
     // 0x7100c73af4: per-buffer format.
     void setFormat(BufferType type, agl::TextureFormat format);
@@ -97,7 +101,9 @@ private:
         agl::TextureFormat mFormat;
         u32 mReduceFilter;
         sead::Color4f mClearColor;
-        u8 _18[0x190 - 0x18];
+        // The constructor 0x7100c70958 builds a colour target at +0x18 of every record; the
+        // destructor 0x7100c70da4 destroys them.
+        agl::RenderTargetColor mColorTarget;  // 18
         // Constructor 0x7100c70958 stores -1 here; swapRenderTarget 0x7100c7256c swaps the two
         // targets selected by records 0 and 3.
         s8 _190;
@@ -107,14 +113,21 @@ private:
     };
     static_assert(sizeof(BufferRecord) == 0x198);
 
+    // The five texture/sampler pairs the constructor 0x7100c70ce4 builds in every resolution
+    // block; invalidate 0x7100c73a80 frees one by type.
+    struct ResolutionPreShadingBuffer {
+        const agl::TextureData* mTexture;
+        agl::TextureSampler mSampler;
+    };
+    static_assert(sizeof(ResolutionPreShadingBuffer) == 0x178);
+
     // Two 0x940-byte blocks at +0x10, each with its own render buffer at +0x760 and the
     // pre-shading flags at +0x758 (constructor 0x7100c70958 and isRendering 0x7100c7159c).
     struct ResolutionData {
-        u8 _0[0x758];
-        u8 mFlags;                        // 758
-        u8 _759[0x760 - 0x759];
-        agl::RenderBuffer mRenderBuffer;  // 760
-        u8 _7c8[0x940 - 0x7c8];
+        ResolutionPreShadingBuffer mPreShadingBuffers[5];  // 0
+        u32 mFlags;                                      // 758
+        agl::RenderBuffer mRenderBuffer;                  // 760
+        agl::RenderTargetDepth mDepthTarget;              // 7c8
     };
     static_assert(sizeof(ResolutionData) == 0x940);
 
@@ -127,7 +140,9 @@ private:
     // `type * 0x198 + 0x1290` arithmetic. Only indices 0..4 are records; the original's record 5
     // is the 0x78 UniformBlock that follows, so the array stops here.
     BufferRecord mBufferRecords[5];
-    u8 _1a88[0x1b00 - 0x1a88];
+    // The address setFormat's `type * 0x198 + 0x1290` arithmetic reaches for type 5; the
+    // constructor 0x7100c70958 builds a UniformBlock there.
+    /* 0x1a88 */ agl::UniformBlock mUniformBlock;
     // The three targets the constructor 0x7100c70958 creates before the second record array.
     // The deferred-shading pass binds 0x1b00 as colour 0 and clears the depth target's storage.
     /* 0x1b00 */ agl::RenderTargetColor mDeferredColorTarget;
@@ -142,7 +157,10 @@ private:
     /* 0x1f88 */ u32 _1f88;
     /* 0x1f8c */ u32 _1f8c;
     /* 0x1f90 */ u32 _1f90;
-    u8 _1f94[0x2928 - 0x1f94];
+    u8 _1f94[0x1f98 - 0x1f94];
+    // The second per-buffer record array; the constructor builds its six colour targets and
+    // clear colours the same way as mBufferRecords.
+    BufferRecord mBufferRecordsPreShading[6];  // 1f98
     // The pre-shading buffers constructor 0x7100c70958 builds at 0x2928-step strides: each holds
     // the dynamic texture invalidatePreShading 0x7100c737a8 frees and its sampler. The sampler at
     // 0x31f8 after the records and the light pre-pass pair at 0x3368 are modelled too.

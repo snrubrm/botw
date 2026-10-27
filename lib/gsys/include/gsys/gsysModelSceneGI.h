@@ -29,6 +29,8 @@ class ModelSceneContext;
 // unmodelled sub-objects.
 class ModelSceneGI : public ModelSceneComponent {
 public:
+    // The argument of the light pre-pass calc delegate; the type itself is not modelled.
+    struct CalcLightPrePassCallbackArg;
     // 0x7100c309f0 / 0x7100c32bf8 / 0x7100c33f3c / 0x7100c33f90
     bool isEnvCubeMapEnabled() const;
     bool isLightPrePassEnabled() const;
@@ -65,6 +67,8 @@ public:
     void releaseLocalReflection(const ModelSceneContext& context) const;
     // 0x7100c33344
     void releaseSSSSS(const ModelSceneContext& context) const;
+    // 0x7100c35194: the component attaches no hostio node of its own.
+    void attachHostIO(sead::hostio::Node* node) override {}
 
 private:
     u8 _250[0x420 - 0x250];

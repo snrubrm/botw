@@ -3,6 +3,7 @@
 #include <gsys/gsysModelNW.h>
 #include <gsys/gsysModelRenderContext.h>
 #include <gsys/gsysModelSceneEnv.h>
+#include <gsys/gsysModelSceneGI.h>
 #include <gsys/gsysModelUnit.h>
 #include <gsys/gsysModelProceduralShape.h>
 #include <gsys/gsysShaderContext.h>
@@ -11,12 +12,6 @@
 // These callback argument types are known only from the delegate symbols; the classes
 // themselves are not modelled yet.
 namespace gsys {
-class ModelSceneGI
-{
-public:
-    struct CalcLightPrePassCallbackArg;
-};
-
 class ModelScenePfx
 {
 public:
@@ -26,12 +21,6 @@ public:
 
 namespace agl::lght {
 class PlanarReflection
-{
-public:
-    struct CallbackArg;
-};
-
-class SSSSS
 {
 public:
     struct CallbackArg;
