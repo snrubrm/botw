@@ -13,6 +13,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include <cmath>
 #include "Game/Actor/aiUnk_7102357d20.h"
+#include "Game/Actor/aiUnk_7100EDD26C.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/VFR.h"
@@ -1507,6 +1508,13 @@ bool sub_71005DF66C(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Ve
     if (out_time)
         *out_time = time;
     return true;
+}
+
+// 0x71005dc208: plays the SafeString/matrix pair returned for actor slot `idx` on the same
+// effect object the child actor exposes (child->m100()).
+void sub_71005DC208(ksys::act::Actor* actor, ksys::act::Actor* child, int idx) {
+    if (auto* obj = child->m100())
+        obj->sub_7100E4E304(sub_7100EDD258(actor, idx), actor->getMtx());
 }
 
 // 0x71005dd27c: switches the actor's model material to `material` and eases `a3` (the model
