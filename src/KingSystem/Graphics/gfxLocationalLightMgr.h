@@ -126,7 +126,8 @@ public:
     f32 sub_7100F143E4() const;
     f32 sub_7100F143FC() const;
 
-    // 0x7100f1334c (placeholder name): sets bit 29 of the manager flags at +0x60.
+    // 0x7100f1334c (placeholder name): sets bit 29 of the manager flags at +0x60, or bit 30 when
+    // bit 29 was already set.
     void sub_7100F1334C();
     // inline-only in the original; name is a guess: the record updates (0x7101296bc4, 0x7101297bb4,
     // 0x7101298558) test bit 13 of the manager flags at +0x60.

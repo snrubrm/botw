@@ -60,10 +60,12 @@ bool LocationalLightMgr::RigLightPool::release(ObjectLight::Light* light) {
     return false;
 }
 
-// NON_MATCHING: the original sets the bit with `(_60 & 0x20000000) + 0x20000000 | _60`, which also
-// carries into bit 30 when bit 29 was already set.
+// Requests the shutdown stage: 0x20000000 first, 0x40000000 when it was already set.
 void LocationalLightMgr::sub_7100F1334C() {
-    _60 |= 0x20000000;
+    if (_60 & 0x20000000)
+        _60 |= 0x40000000;
+    else
+        _60 |= 0x20000000;
 }
 
 // 0x7100f0cd60: allocates the render-light pool's records and gives every record to the free list.
