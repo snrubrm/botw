@@ -103,6 +103,8 @@ public:
     bool x_0();
     // 0x71006796f8
     bool hasHavokQueryStarted() const;
+    // 0x710067b414 (CSV name): plays the appear-point preview / decide UI sounds.
+    void playAppearPointSounds();
     // 0x710067b63c: the position of the motorcycle actor.
     bool sub_710067B63C(sead::Vector3f* pos);
     // 0x710067b6bc: the physics transform of the motorcycle actor.

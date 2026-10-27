@@ -3,6 +3,8 @@
 #include <math/seadMathCalcCommon.h>
 #include <codec/seadHashCRC32.h>
 #include "Game/Actor/actHorseRideInfo.h"
+#include "Game/Actor/aiXlinkHandle.h"
+#include "Game/UI/uiUtils.h"
 #include "Game/gameSceneSubsys12.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
@@ -316,6 +318,25 @@ void MotorcycleMgr::checkUsableForSoundEffectAndMarker() {
         sead::Matrix34f mtx = sead::Matrix34f::ident;
         x_1(&mtx);
         _148.sub_7101241A44(mtx);
+    }
+}
+
+// NON_MATCHING: the state test is lowered as ldrb + range compares (target ldrsb + cmn/ccmp)
+// and the fade/reset block is laid out after the state-0 arm; the calls and strings match.
+void MotorcycleMgr::playAppearPointSounds() {
+    const s32 state = _17f;
+    if (state == -1 || state == 1) {
+        uking::xlink::fade(_168, -1);
+        _168.reset();
+    } else if (state == 0) {
+        if (!_168.getEvent() || _168.getEvent()->getCreateId() != _168.getCreateId())
+            uking::ui::playSound("BikeAppearPointPreview", &_168);
+    }
+
+    if (_179) {
+        if (_17a)
+            uking::ui::playSound("BikeAppearPointDecide", nullptr);
+        _179 = false;
     }
 }
 
