@@ -159,6 +159,8 @@ public:
     void sub_7100A7FE9C();
     // 0x7100a7ff1c (placeholder name): the rune-window query used before opening the map.
     bool sub_7100A7FF1C();
+    // 0x7100a7ff6c (placeholder name): whether the DoCommand screen is closed and the UI flag is set.
+    bool sub_7100A7FF6C();
     // 0x7100a7fd64: remembers `pane` in the list of panes at 0x652f0 (ignored when it is null or the list is full)
     void sub_7100A7FD64(nn::ui2d::Pane* pane);
     void sub_7100A7C904();

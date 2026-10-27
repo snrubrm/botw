@@ -381,6 +381,16 @@ bool Manager::sub_7100A7FF1C() {
     return !(RuneMgr::instance()->_90 & 0x20);
 }
 
+// 0x7100a7ff6c (placeholder name): whether the DoCommand screen is closed (or absent) and the
+// corresponding UI flag is set.
+bool Manager::sub_7100A7FF6C() {
+    auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::DoCommand);
+    bool closed = true;
+    if (screen)
+        closed = screen->isClosed();
+    return closed & sub_7100AA948C();
+}
+
 // 0x7100a7f0d0
 void Manager::sub_7100A7F0D0() {
     mLocationResource.unload();
