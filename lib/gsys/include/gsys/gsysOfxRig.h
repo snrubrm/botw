@@ -26,7 +26,7 @@ public:
     // of these, then hands slots out as hooks bind to model units.
     class OfxObj {
     public:
-        virtual ~OfxObj() {}
+        virtual ~OfxObj();
 
         /* 0x08 */ s32 mIndexOfx = -1;
         /* 0x10 */ void* mOfx = nullptr;
@@ -39,7 +39,7 @@ public:
     // object (node at +0x08) and also lives in the rig's own offset list (node at +0x30).
     class OfxHook : public IModelRigObj {
     public:
-        virtual ~OfxHook() {}
+        virtual ~OfxHook();
 
         /* 0x18 */ OfxObj* mObj = nullptr;
         /* 0x20 */ Model* mModel = nullptr;
@@ -49,8 +49,20 @@ public:
         /* 0x40 */ OfxRig<Impl>* mRig = nullptr;
         /* 0x48 */ u16 mVisible = 0xffff;
         /* 0x4a */ u16 mPreviousVisible = 0xffff;
+
+        // 0x7100c30764 / 0x7100c309b4 (declared only name); the native body ANDs the unit's
+        // visibility mask with the passed mask and stores the 0/1 result.
+        void updateFromModel(ModelUnit* unit, u32 visibility_mask, f32 delta_time);
     };
     static_assert(sizeof(OfxHook) == 0x50);
+
+    // Empty overrides of ModelRig's m24 / m25 / m26 (slots 205-207). The base still carries the
+    // lane1 placeholder names (LocationalLightRig overrides them), so these real names are plain
+    // members for now; the bodies and symbols are the original ones.
+    void bindBone_(Model* model, const BoneAccessKey& key, const sead::SafeString& name);
+    void bindMaterial_(Model* model, const MaterialAccessKey& key,
+                       const sead::SafeString& name);
+    void release_(Model* model, int unit_index);
 
     // 0x260
     sead::OffsetList<OfxHook> mHooks;

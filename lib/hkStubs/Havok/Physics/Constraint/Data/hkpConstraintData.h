@@ -87,7 +87,7 @@ public:
     virtual void addInstance(hkpConstraintRuntime* runtime, int sizeOfRuntime) const;
 
     virtual void buildJacobian(const hkpConstraintQueryIn& in, hkpConstraintQueryOut& out);
-    virtual hkBool isBuildJacobianCallbackRequired() const { return false; }
+    virtual hkBool isBuildJacobianCallbackRequired() const;
     virtual void buildJacobianCallback(const hkpConstraintQueryIn& in,
                                        const hkpConstraintQueryOut& out);
     static void getConstraintInfoUtil(const hkpConstraintAtom* atoms, int sizeOfAllAtoms,

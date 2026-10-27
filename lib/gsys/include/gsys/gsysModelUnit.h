@@ -309,6 +309,7 @@ public:
 
 protected:
     friend class Model;
+    friend class ModelRenderCache;
     friend class ModelUnitDrawArray;
 
     sead::TypedBitFlag<Flag, u8> mFlags;
@@ -344,7 +345,7 @@ protected:
     nn::util::ResDic* mMaterialDic;
     MaterialInfo* mMaterialInfo;
     // Indexed by the uniform-block slot in setUserUniformBlock and ModelNW's override.
-    void* _70[3];
+    agl::UniformBlock* _70[3];
     void* _88;
     void* _90;
     ModelUnitCallbackStorage mCallback;

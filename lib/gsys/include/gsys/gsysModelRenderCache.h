@@ -2,9 +2,11 @@
 
 #include <basis/seadTypes.h>
 #include <cstddef>
+#include <common/aglShaderLocation.h>
 #include <gfx/seadColor.h>
 #include <gfx/seadGraphicsContext.h>
 #include <prim/seadBitFlag.h>
+#include "gsys/gsysG3dResMaterialEx.h"
 
 namespace agl {
 class DrawContext;
@@ -19,6 +21,7 @@ namespace gsys {
 class ModelRenderContext;
 class ModelRenderStatistics;
 class G3dResShaderProgramEx;
+class G3dResShapeEx;
 class ModelRenderUnitNW;
 class ModelAssignRenderInfo;
 namespace ModelEnum {
@@ -39,6 +42,8 @@ public:
     void setForceBlendColor(const sead::Color4f& color);
     // 0x7100c80438
     void loadOcclusionQuery(const agl::cull::OcclusionQuery* query);
+    // 0x7100c809ac: binds the unit's shape, material and shader state.
+    bool loadResource(const ModelRenderUnitNW* unit);
     // 0x7100c80ff4
     void loadResShaderProgram_(const ModelRenderUnitNW& unit, const ModelAssignRenderInfo& info);
     // 0x7100c80694: the cull-face and polygon-mode mapping reset also uses. Static; the native
@@ -72,7 +77,7 @@ private:
     u8 _34;
     u8 mBlendMask;
     u16 _36;
-    u8 _38;
+    s8 _38;
     u8 mPassViewProjIndex;
     u8 _3a[2];
     u32 mChannelMask;
@@ -82,15 +87,20 @@ private:
     u8 _130[0x148 - 0x130];
     /// The current shader program id.
     s32 _148;
-    /// Cached shader program state words; the constructor and reset invalidate them.
-    s32 _14c[16] = {-1, -1, -1, -1, -1, -1, -1, -1,
-                    -1, -1, -1, -1, -1, -1, -1, -1};
+    /// Cached shader program locations; the constructor and reset invalidate them.
+    agl::ShaderLocation _14c[16] = {
+        agl::ShaderLocation(-1), agl::ShaderLocation(-1), agl::ShaderLocation(-1),
+        agl::ShaderLocation(-1), agl::ShaderLocation(-1), agl::ShaderLocation(-1),
+        agl::ShaderLocation(-1), agl::ShaderLocation(-1), agl::ShaderLocation(-1),
+        agl::ShaderLocation(-1), agl::ShaderLocation(-1), agl::ShaderLocation(-1),
+        agl::ShaderLocation(-1), agl::ShaderLocation(-1), agl::ShaderLocation(-1),
+        agl::ShaderLocation(-1)};
     sead::Color4f mForceBlendColor;
     u8 _19c[0x1a0 - 0x19c];
     const agl::cull::OcclusionQuery* mOcclusionQuery;
-    u64 _1a8;
+    const G3dResShapeEx* _1a8;
     G3dResShaderProgramEx* mShaderProgram;
-    u64 _1b8;
+    const G3dResMaterialEx::RenderState* _1b8;
     u64 _1c0;
     sead::GraphicsContext mGraphicsContext;
     u8 _23c[0x240 - 0x23c];

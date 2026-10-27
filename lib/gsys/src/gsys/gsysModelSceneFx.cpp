@@ -386,3 +386,46 @@ void ModelSceneFx::drawCloud(agl::DrawContext* context,
 void ModelSceneFx::attachHostIO(sead::hostio::Node*) {}
 
 }  // namespace gsys
+
+namespace gsys {
+
+template <typename Impl>
+OfxRig<Impl>::OfxObj::~OfxObj() {}
+
+template <typename Impl>
+OfxRig<Impl>::OfxHook::~OfxHook() {}
+
+// NON_MATCHING: our clang folds the 16-bit test into the AND (one instruction less).
+template <typename Impl>
+void OfxRig<Impl>::OfxHook::updateFromModel(ModelUnit* unit, u32 visibility_mask, f32) {
+    const u16 visible = unit->getVisibilityMask() & visibility_mask;
+    mVisible = visible != 0;
+}
+
+template <typename Impl>
+void OfxRig<Impl>::bindBone_(Model*, const BoneAccessKey&, const sead::SafeString&) {}
+
+template <typename Impl>
+void OfxRig<Impl>::bindMaterial_(Model*, const MaterialAccessKey&, const sead::SafeString&) {}
+
+template <typename Impl>
+void OfxRig<Impl>::release_(Model*, int) {}
+
+template OfxRig<OfxLensFlareImpl>::OfxObj::~OfxObj();
+template OfxRig<OfxLensFlareImpl>::OfxHook::~OfxHook();
+template OfxRig<OfxLargeLensFlareImpl>::OfxObj::~OfxObj();
+template OfxRig<OfxLargeLensFlareImpl>::OfxHook::~OfxHook();
+template void OfxRig<OfxLensFlareImpl>::bindBone_(Model*, const BoneAccessKey&,
+                                                  const sead::SafeString&);
+template void OfxRig<OfxLensFlareImpl>::bindMaterial_(Model*, const MaterialAccessKey&,
+                                                      const sead::SafeString&);
+template void OfxRig<OfxLensFlareImpl>::release_(Model*, int);
+template void OfxRig<OfxLensFlareImpl>::OfxHook::updateFromModel(ModelUnit*, u32, f32);
+template void OfxRig<OfxLargeLensFlareImpl>::bindBone_(Model*, const BoneAccessKey&,
+                                                       const sead::SafeString&);
+template void OfxRig<OfxLargeLensFlareImpl>::bindMaterial_(Model*, const MaterialAccessKey&,
+                                                           const sead::SafeString&);
+template void OfxRig<OfxLargeLensFlareImpl>::release_(Model*, int);
+template void OfxRig<OfxLargeLensFlareImpl>::OfxHook::updateFromModel(ModelUnit*, u32, f32);
+
+}  // namespace gsys

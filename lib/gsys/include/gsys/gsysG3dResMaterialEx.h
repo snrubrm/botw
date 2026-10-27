@@ -1,6 +1,8 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <gfx/seadColor.h>
+#include <gfx/seadGraphicsContext.h>
 #include <hostio/seadHostIONode.h>
 #include <prim/seadSafeString.h>
 
@@ -9,6 +11,8 @@ class ResMaterial;
 }
 
 namespace gsys {
+
+class ModelRenderCache;
 
 namespace ModelEnum {
 enum class ShaderAssignType;
@@ -40,13 +44,41 @@ public:
     // 0x7100c6d974
     bool isShaderOptionBool(const sead::SafeString& name) const;
 
+    // Tail of the record used by ModelRenderCache::loadResource 0x7100c809ac. The cache stores
+    // the address of this sub-object at +0x298 to detect a material change, then copies the blend
+    // and depth state from it. The types and names of the leading bytes are unrecovered.
+    friend class ModelRenderCache;
+
+    struct RenderState {
+        u8 _0[0x9];
+        /* 0x2a1 */ u8 mType;
+        u8 _a[0xa];
+        /* 0x2ac */ bool mDepthTestEnable;
+        /* 0x2ad */ u8 mDepthWriteEnable;
+        u8 _ae[2];
+        /* 0x2b0 */ u32 mBlendTargetCount;
+        /* 0x2b4 */ sead::Color4f mBlendColor;
+        u8 _2c4[0x2d4 - 0x2c4];
+        /* 0x2d4 */ sead::GraphicsContext::BlendControl mBlendControl[8];
+        u8 _304[0x310 - 0x304];
+        /* 0x310 */ u8 mDepthFunc;
+        u8 _311[0x440 - 0x298 - 0x79];
+    };
+    static_assert(offsetof(RenderState, mType) == 0x9);
+    static_assert(offsetof(RenderState, mDepthTestEnable) == 0x14);
+    static_assert(offsetof(RenderState, mBlendTargetCount) == 0x18);
+    static_assert(offsetof(RenderState, mBlendColor) == 0x1c);
+    static_assert(offsetof(RenderState, mBlendControl) == 0x3c);
+    static_assert(offsetof(RenderState, mDepthFunc) == 0x78);
+
 private:
     u8 _8[0x10 - 0x8];
     const nn::g3d::ResMaterial* mResMaterial;
     u8 _18[0x20 - 0x18];
     ShadingModelInfo mShadingModel;
     /* 0xd8 */ u32 mMask;
-    u8 _dc[0x440 - 0xdc];
+    u8 _dc[0x298 - 0xdc];
+    /* 0x298 */ RenderState mRenderState;
 };
 static_assert(sizeof(G3dResMaterialEx) == 0x440);
 

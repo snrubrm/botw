@@ -1,6 +1,7 @@
 #pragma once
 
 #include <common/aglDisplayList.h>
+#include <nvn/nvn.h>
 #include "gsys/gsysModelShaderProgram.h"
 
 namespace gsys {
@@ -16,8 +17,9 @@ private:
     friend class ModelRenderCache;
 
     ModelShaderProgram mShaderProgram;
-    bool _10 = false;
-    void* _18 = nullptr;
+    u8 _10 = false;
+    // Passed to nvnCommandBufferCallCommands by ModelRenderCache::loadResource.
+    NVNcommandHandle mCommandHandle = 0;
     agl::DisplayList mDisplayLists[3];
 };
 static_assert(sizeof(ModelAssignRenderInfo) == 0x740);

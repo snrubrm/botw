@@ -8,6 +8,10 @@
 
 namespace agl {
 class DrawContext;
+namespace env {
+class EnvObjSetMgr;
+}
+
 class RenderBuffer;
 class TextureData;
 }
@@ -147,7 +151,8 @@ private:
     static_assert(sizeof(FloatPair) == 8);
     FloatPair mUnk2d0[8];
     ShaderContext* mShaderContext;  // +0x310, owned by initialize/destructor
-    u8 _318[8];
+    // ModelRenderCache::loadResource passes this to ShaderContext::getEnvUBO.
+    const agl::env::EnvObjSetMgr* mEnvObjSetMgr;  // +0x318
     const agl::RenderBuffer* mRenderBuffer;
     const sead::Viewport* mViewport;
     // Includes the contained callback object at +0x368. Its signature and

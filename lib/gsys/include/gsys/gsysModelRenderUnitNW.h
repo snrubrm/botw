@@ -4,10 +4,18 @@
 #include <container/seadSafeArray.h>
 #include <prim/seadSafeString.h>
 #include "gsys/gsysModelRenderUnit.h"
+#include "gsys/gsysModelShaderProgram.h"
 
 namespace sead {
 class Heap;
 }
+
+namespace agl {
+class DrawContext;
+namespace g3d {
+class ModelShaderSampler;
+}
+}  // namespace agl
 
 namespace nn::g3d {
 class MaterialObj;
@@ -22,6 +30,7 @@ enum class PriorityHintType : int;
 
 class ModelAssignRenderInfo;
 class G3dResShapeEx;
+class G3dResMaterialEx;
 
 // Native 0x298-byte game subclass created by 0x7101409a30 over this 0x238-byte base. The vtable is
 // 0x71024ca530 (vptr 0x71024ca540); the fourteen slots from vptr+0 to vptr+0x68 are listed below in
@@ -37,6 +46,9 @@ public:
 
     // 0x7100c09c24: stores the shape count, the per-shape render info and the shape display lists.
     bool initialize(const ModelUnit* unit, int index, sead::Heap* heap) override;
+
+    // ModelRenderCache::loadResource reads the shape and material extensions directly.
+    friend class ModelRenderCache;
 
     // vptr+0x18, 0x7100c0a8c8: the type word is always 0.
     s32 getType() const override;
@@ -72,6 +84,9 @@ public:
     void createShapeRecords(sead::Heap* heap);
     // 0x7100c09d28: the shape object at mModelObj's 0x68-byte shape array at mIndex.
     nn::g3d::ShapeObj* getShape() const;
+    // 0x7100c0a1c8
+    void activateInstance(agl::DrawContext* context, const ModelShaderProgram& program,
+                          const agl::g3d::ModelShaderSampler* sampler, int view, int index) const;
     // 0x7100c09d60: the material object of mModelObj's 0x80-byte material array at mMaterialIndex.
     nn::g3d::MaterialObj* getMaterial() const;
 
@@ -91,7 +106,7 @@ protected:
     // initialize 0x7100c09c24 loads the user pointer (+0x50) of the shape's ResShape; the destructor
     // passes it to G3dResShapeEx::destroyShapeDL.
     /* 0x20 */ const G3dResShapeEx* mResShapeEx = nullptr;
-    /* 0x28 */ void* _28 = nullptr;
+    /* 0x28 */ G3dResMaterialEx* mResMaterialEx = nullptr;
     /* 0x30 */ u8 mPolygonCtrl = 0;  // setPolygonCtrl 0x7100c0a65c stores one byte
     /* 0x31 */ u8 _31 = 0;
     /* 0x32 */ u8 mFlags32 = 0;

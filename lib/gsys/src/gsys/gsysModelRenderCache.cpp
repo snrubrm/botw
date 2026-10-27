@@ -4,10 +4,16 @@
 #include <common/aglTextureSampler.h>
 #include <common/aglUniformBlock.h>
 #include <cull/aglOcclusionQuery.h>
+#include <g3d/aglShaderUtilG3D.h>
 #include <nvn/nvn_FuncPtrInline.h>
+#include <nn/g3d/ModelObj.h>
+#include <nn/g3d/SkeletonObj.h>
+#include "gsys/gsysG3dResMaterialEx.h"
 #include "gsys/gsysG3dResShaderProgramEx.h"
+#include "gsys/gsysG3dResShapeEx.h"
 #include "gsys/gsysModelAssignRenderInfo.h"
 #include "gsys/gsysModelRenderContext.h"
+#include "gsys/gsysModelNW.h"
 #include "gsys/gsysModelRenderUnitNW.h"
 #include "gsys/gsysShaderContext.h"
 
@@ -166,6 +172,194 @@ void ModelRenderCache::loadOcclusionQuery(const agl::cull::OcclusionQuery* query
     mOcclusionQuery = query;
 }
 
+// 0x7100c809ac
+// NON_MATCHING: the blend-colour and depth-state copies use narrower stores and the recorded-command
+// path is laid out differently; the shape, material and shader records themselves are modelled.
+bool ModelRenderCache::loadResource(const ModelRenderUnitNW* unit) {
+    const G3dResShapeEx* shape_ex = unit->mResShapeEx;
+
+    s32 assign_type = _38;
+    if (_38 == -1)
+        assign_type = unit->getShaderVariation(mShaderAssignType);
+
+    const s32 variation_index = assign_type + mShaderAssignType * 4;
+    const ModelAssignRenderInfo* info = unit->mShapeRenderInfos[variation_index];
+    if (!info->mShaderProgram.mResShaderProgram)
+        return false;
+
+    if (info->mShaderProgram.mEx != mShaderProgram) {
+        loadResShaderProgram_(*unit, *info);
+        _1a8 = nullptr;
+    }
+
+    if (_1a8 != shape_ex) {
+        _1a8 = shape_ex;
+
+        u16 flags = _36;
+        if (flags & 2) {
+            G3dResMaterialEx* material = unit->mResMaterialEx;
+            G3dResMaterialEx::RenderState& state = material->mRenderState;
+            if (&state != _1b8) {
+                if (state.mType == 5 || state.mType == 2) {
+                    if (state.mBlendTargetCount == 0) {
+                        mGraphicsContext.setBlendEnableMask(0);
+                    } else {
+                        mGraphicsContext.setBlendEnableMask(mBlendMask);
+                        mGraphicsContext.setBlendColor(state.mBlendColor);
+                        for (s32 i = 0; i < 8; ++i) {
+                            const sead::GraphicsContext::BlendControl& control =
+                                state.mBlendControl[i];
+                            mGraphicsContext.setBlendControl(
+                                i, control.src_rgb, control.src_alpha, control.dst_rgb,
+                                control.dst_alpha, control.equation_rgb, control.equation_alpha);
+                        }
+                    }
+
+                    if (state.mType == 5 && (flags & 0x10)) {
+                        mGraphicsContext.setDepthTestEnable(state.mDepthTestEnable);
+                        mGraphicsContext.setDepthWriteEnable(state.mDepthWriteEnable);
+                        mGraphicsContext.setDepthFunc(state.mDepthFunc);
+                    }
+                }
+
+                flags |= 0x80;
+                _1b8 = &state;
+                _36 = flags;
+            }
+        }
+
+        if (!(flags & 0x20) || !(info->_10 & 1)) {
+            shape_ex->activateResource(mDrawContext, unit->mResMaterialEx,
+                                       ModelEnum::ShaderAssignType(mShaderAssignType), assign_type);
+        } else if (info->_10 & 2) {
+            nvnCommandBufferCallCommands(
+                mDrawContext->getCommandBuffer()->ToData()->pNvnCommandBuffer, 1,
+                &info->mCommandHandle);
+        }
+    }
+
+    const u16 flags = _36;
+    const s32 buffer_index = static_cast<const ModelNW*>(unit->mModelUnit)->_168 & 3;
+    if (!(flags & 0x20) || !info->mDisplayLists[buffer_index].isActiveMaybe()) {
+        const G3dResShapeEx::ShaderRecord& record =
+            shape_ex->mShaderRecords[assign_type + mShaderAssignType * 4];
+        unit->activateInstance(mDrawContext, record.mShaderProgram, record.mSampler, mViewIndex,
+                               buffer_index);
+    } else if (info->mDisplayLists[buffer_index].hasRecordedCommands()) {
+        const agl::DisplayList& list = info->mDisplayLists[buffer_index];
+        nvnCommandBufferCallCommands(
+            mDrawContext->getCommandBuffer()->ToData()->pNvnCommandBuffer, 1,
+            &list.getCommandHandle());
+
+        if (mViewIndex != 0 && (unit->mFlags32 & 2)) {
+            const nn::g3d::ShapeObj* shape = unit->getShape();
+            const nn::gfx::Buffer* buffer = nullptr;
+            if (shape->_8_flags & 1) {
+                if (shape->m_d == 0) {
+                    if (shape->mBuffers)
+                        buffer = &shape->mBuffers[buffer_index];
+                } else if (shape->mBuffers) {
+                    buffer = &shape->mBuffers[buffer_index + shape->m_f * mViewIndex];
+                }
+            }
+            agl::g3d::ShaderUtilG3D::load(mDrawContext, mShaderProgram->mUniformBlockLocations[4],
+                                          *buffer, 0x100, buffer_index);
+        }
+    }
+
+    if (unit->mPolygonCtrl != _31) {
+        const u8 polygon_flags = _22 | unit->mPolygonCtrl;
+        const u8 face_flags = polygon_flags & 8;
+        const u8 mode = polygon_flags & 3;
+
+        mGraphicsContext.setPolygonOffsetEnable((polygon_flags & 4) != 0);
+
+        u8 cull_face;
+        switch (mode) {
+        case 1:
+            cull_face = 2 - (face_flags >> 3);
+            break;
+        case 2:
+            cull_face = 0;
+            break;
+        case 3:
+            cull_face = 3;
+            break;
+        default:
+            cull_face = (face_flags >> 3) + 1;
+            break;
+        }
+        mGraphicsContext.setCullFace(cull_face);
+
+        const u8 packed = u8(0x1020200 >> ((polygon_flags >> 1 & 0x18) ^ 0x10));
+        mGraphicsContext.setPolygonMode(packed, packed);
+
+        _36 |= 0x80;
+        _31 = unit->mPolygonCtrl;
+    }
+
+    if (unit->mFlags32 != 0) {
+        if (unit->mFlags32 & 1) {
+            agl::UniformBlock* block = static_cast<const ModelNW*>(unit->mModelUnit)->_70[0];
+            block->setUniform(mDrawContext, block->getGPUAddressMaybe(),
+                              mShaderProgram->mUniformBlockLocations[11], 0,
+                              block->getBlockSizeMaybe());
+        }
+        if (unit->mFlags32 & 2) {
+            agl::UniformBlock* block = static_cast<const ModelNW*>(unit->mModelUnit)->_70[1];
+            block->setUniform(mDrawContext, block->getGPUAddressMaybe(),
+                              mShaderProgram->mUniformBlockLocations[12], 0,
+                              block->getBlockSizeMaybe());
+        }
+        if (unit->mFlags32 & 4) {
+            agl::UniformBlock* block = static_cast<const ModelNW*>(unit->mModelUnit)->_70[2];
+            block->setUniform(mDrawContext, block->getGPUAddressMaybe(),
+                              mShaderProgram->mUniformBlockLocations[13], 0,
+                              block->getBlockSizeMaybe());
+        }
+    }
+
+    if (unit->_31 != _34 && _14c[6].getLocation() != -1 &&
+        mContext->mEnvObjSetMgr != nullptr) {
+        agl::UniformBlock* block = mContext->mShaderContext->getEnvUBO(
+            mContext->mEnvObjSetMgr, s8(unit->_31));
+        block->setUniform(mDrawContext, block->getGPUAddressMaybe(), _14c[6], 0,
+                          block->getBlockSizeMaybe());
+        _34 = unit->_31;
+    }
+
+    if (_0 & 0x100000) {
+        const u8 index = static_cast<const ModelNW*>(unit->mModelUnit)->_203;
+        const nn::g3d::SkeletonObj* skeleton =
+            static_cast<const ModelNW*>(unit->mModelUnit)->getSkeletonObj();
+        const nn::gfx::Buffer* skeleton_buffer = nullptr;
+        if (skeleton->GetBuffersMaybe())
+            skeleton_buffer = &skeleton->GetBuffersMaybe()[index];
+        agl::g3d::ShaderUtilG3D::load(mDrawContext, _14c[3], *skeleton_buffer,
+                                      skeleton->GetBufferSizeMaybe(), index);
+
+        const nn::g3d::ShapeObj* shape = unit->getShape();
+        const nn::gfx::Buffer* shape_buffer = nullptr;
+        if (shape->_8_flags & 1) {
+            if (shape->m_d == 0) {
+                if (shape->mBuffers)
+                    shape_buffer = &shape->mBuffers[index];
+            } else if (shape->mBuffers) {
+                shape_buffer = &shape->mBuffers[index + shape->m_f * mViewIndex];
+            }
+        }
+        agl::g3d::ShaderUtilG3D::load(mDrawContext, _14c[5], *shape_buffer, 0x100, index);
+    }
+
+    if (_36 & 0x80) {
+        if ((_0 & 0x8000) == 0)
+            mGraphicsContext.apply(mDrawContext);
+        _36 &= ~u16(0x80);
+    }
+
+    return true;
+}
+
 // 0x7100c80ff4
 void ModelRenderCache::loadResShaderProgram_(const ModelRenderUnitNW& unit,
                                              const ModelAssignRenderInfo& info) {
@@ -176,27 +370,27 @@ void ModelRenderCache::loadResShaderProgram_(const ModelRenderUnitNW& unit,
 
     if (program->mProgramId != _148) {
         _148 = program->mProgramId;
-        _14c[3] = program->mUniformBlockLocations[3].getLocation();
-        _14c[5] = program->mUniformBlockLocations[5].getLocation();
+        _14c[3] = program->mUniformBlockLocations[3];
+        _14c[5] = program->mUniformBlockLocations[5];
 
         const agl::ShaderLocation& uniform_location = program->mUniformBlockLocations[1];
         const agl::ShaderLocation& scene_material_location = program->mUniformBlockLocations[10];
 
-        if (_14c[1] != uniform_location.getLocation()) {
-            _14c[1] = uniform_location.getLocation();
+        if (_14c[1].getLocation() != uniform_location.getLocation()) {
+            _14c[1] = uniform_location;
             agl::UniformBlock* block = mRenderUBO;
             agl::DrawContext* draw_context = mDrawContext;
             block->setUniform(draw_context, block->getGPUAddressMaybe(), uniform_location, 0,
                               block->getBlockSizeMaybe());
         }
 
-        if (_14c[10] != scene_material_location.getLocation()) {
-            _14c[10] = scene_material_location.getLocation();
+        if (_14c[10].getLocation() != scene_material_location.getLocation()) {
+            _14c[10] = scene_material_location;
             mContext->mShaderContext->loadSceneMaterial(mDrawContext, scene_material_location);
         }
 
-        if (_14c[6] != program->mUniformBlockLocations[6].getLocation()) {
-            _14c[6] = program->mUniformBlockLocations[6].getLocation();
+        if (_14c[6].getLocation() != program->mUniformBlockLocations[6].getLocation()) {
+            _14c[6] = program->mUniformBlockLocations[6];
             _34 = 0xff;
         }
     }
@@ -315,7 +509,7 @@ void ModelRenderCache::reset() {
     _40 = -1;
     _148 = -1;
     for (s32 i = 0; i < 15; ++i)
-        _14c[i] = -1;
+        _14c[i] = agl::ShaderLocation(-1);
 }
 
 }  // namespace gsys

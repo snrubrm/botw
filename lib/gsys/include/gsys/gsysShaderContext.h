@@ -8,6 +8,10 @@
 
 namespace agl {
 class DrawContext;
+namespace env {
+class EnvObjSetMgr;
+}
+
 class RenderBuffer;
 class ShaderLocation;
 }
@@ -44,6 +48,8 @@ public:
     void clear(int view, int arg);
     // 0x7100c5e744
     void loadSceneMaterial(agl::DrawContext*, const agl::ShaderLocation&) const;
+    // 0x7100c5e798
+    agl::UniformBlock* getEnvUBO(const agl::env::EnvObjSetMgr*, int) const;
     agl::UniformBlock* getContextRenderUBO(int index) const;
     void calcGpuViewFlush(int index, const sead::Matrix34f& view,
                           const sead::Matrix44f& projection,

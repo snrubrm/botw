@@ -154,6 +154,7 @@ private:
     friend class Model;
     friend class ModelRenderUnitNW;
     friend class ModelProceduralShape;
+    friend class ModelRenderCache;
 
     u8 _168;
     nn::g3d::ModelObj mModelObj;

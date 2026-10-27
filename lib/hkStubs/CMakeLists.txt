@@ -34,6 +34,8 @@ add_library(hkStubs OBJECT
   Havok/Ai/Pathfinding/Utilities/hkaiNavMeshUtils.h
   Havok/Ai/Pathfinding/Utilities/hkaiUserEdgeUtils.h
   Havok/Ai/Pathfinding/hkaiAgentTraversalInfo.h
+  Havok/Ai/Pathfinding/hkaiCharacterBehavior.h
+  Havok/Ai/Pathfinding/hkaiCharacterBehavior.cpp
   Havok/Ai/Pathfinding/hkaiEdgePath.h
   Havok/Ai/Pathfinding/hkaiEdgePath.cpp
   Havok/Ai/Pathfinding/Astar/hkaiAstarEdgeFilter.h
@@ -170,6 +172,7 @@ add_library(hkStubs OBJECT
 
   Havok/Physics/Constraint/Atom/hkpConstraintAtom.h
   Havok/Physics/Constraint/Data/hkpConstraintData.h
+  Havok/Physics/Constraint/Data/hkpConstraintData.cpp
   Havok/Physics/Constraint/Data/Fixed/hkpFixedConstraintData.h
   Havok/Physics/Constraint/Data/Fixed/hkpFixedConstraintData.cpp
   Havok/Physics/Constraint/Data/Hinge/hkpHingeConstraintData.h
