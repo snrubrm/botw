@@ -2625,12 +2625,7 @@ public:
     ~Unk_71024f9e58() override;
 };
 
-// vtable 0x710250b7c0 (4 slots); placeholder generated from the vtable (genskel.py).
-class Unk_710250b7c0 : public Unk_71025d0530 {
-    SEAD_RTTI_OVERRIDE(Unk_710250b7c0, Unk_71025d0530)
-public:
-    ~Unk_710250b7c0() override;
-};
+// Unk_710250b7c0 (vtable 0x710250b7c0) is DebugSubsys1: see Game/gameDebugSubsys.h.
 
 // typeinfo 0x71026205b8; the original has no vtable for this class (an abstract base: only its RTTI
 // checks remain). Placeholder generated from its children (genskel.py).

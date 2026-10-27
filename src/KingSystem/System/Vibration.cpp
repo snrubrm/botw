@@ -89,4 +89,3 @@ Vibration::Unk1::Unk1(s32 a1, const sead::Vector3f& a2, u8 a3, void* a4, f32 a5,
 
 }  // namespace ksys
 
-Unk_710250b7c0::~Unk_710250b7c0() = default;

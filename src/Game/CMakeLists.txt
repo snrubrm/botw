@@ -108,6 +108,8 @@ target_sources(uking PRIVATE
   gameCarriedItemEntry.cpp
   gameSceneSubsys12.cpp
   gameSceneStatusMgr.cpp
+  gameDebugSubsys.cpp
+  gameDebugSubsys.h
   gameScene320.cpp
   gameSystemStruct1.cpp
   gameSceneMgr.cpp
