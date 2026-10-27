@@ -21,6 +21,7 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/Map/mapObject.h"
 
 namespace uking::ui {
@@ -1407,9 +1408,34 @@ void Unk_7102476548::m16() {
     m20();
 }
 
+// 0x7100951084
+void UiSubsys1Entry::updateDistrictFromPos(const sead::Vector3f* pos) {
+    if (*pos != _28) {
+        _3c |= 0x4000;
+        _28 = *pos;
+    }
+
+    const s32 map_area = ksys::eco::Ecosystem::instance()->getMapTowerArea(pos->x, pos->z);
+    if (map_area != _44) {
+        _44 = map_area;
+        _3c |= 0x1000;
+    }
+
+    const s32 area = ksys::eco::Ecosystem::instance()->getFieldMapArea(pos->x, pos->z);
+    if (area == -1)
+        return;
+    const char* name = nullptr;
+    ksys::eco::Ecosystem::instance()->getAreaNameByNum(area, &name);
+    if (!name)
+        return;
+    if (_48 && sead::SafeString(name) == sead::SafeString(_48))
+        return;
+    _48 = name;
+    _3c |= 0x2000;
+}
+
 // 0x710095731c
-void Unk_7102476548::updateDistrictFromPos(const sead::Vector3f* pos) {
-    UiSubsys1Entry::updateDistrictFromPos(pos);
+void Unk_7102476548::updateDistrictFromPos(const sead::Vector3f* pos) {    UiSubsys1Entry::updateDistrictFromPos(pos);
     if ((_3c & 0x2000) && _48) {
         sead::FixedSafeString<256> name;
         name.format("%s%s", sUnk_71025d6c70._2d8.cstr(), _48);

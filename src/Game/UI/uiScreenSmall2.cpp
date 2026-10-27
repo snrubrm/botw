@@ -3978,23 +3978,17 @@ bool ScreenMainScreen3D::sub_7100A11D34(s32 id) {
 
 // 0x71009dcdd0: whether the map screen the home screen switched to (the dungeon map when the guide page is up)
 // still has to be opened.
-// NON_MATCHING: clang 4 folds both `if (x()) return false; return true;` arms into one `!x()` value and a shared
-// `and w0, w8, #1` epilogue; the original keeps the branches and returns 0 / 1 directly.
 bool sub_71009DCDD0(eui::Animator* animator, bool is_guide) {
     eui::ScreenMgr* mgr = eui::ScreenMgr::instance();
     if (is_guide) {
         auto* dungeon = sead::DynamicCast<ScreenAppMapDungeon>(mgr->getScreen(ScreenId::AppMapDungeon));
-        if (!dungeon)
-            return false;
-        if (dungeon->sub_71009E0D14())
-            return false;
-        return true;
+        if (dungeon && !dungeon->sub_71009E0D14())
+            return true;
+    } else {
+        auto* map = sead::DynamicCast<ScreenAppMap>(mgr->getScreen(ScreenId::AppMap));
+        if (map && !map->sub_71009ED860())
+            return true;
     }
-    auto* map = sead::DynamicCast<ScreenAppMap>(mgr->getScreen(ScreenId::AppMap));
-    if (!map)
-        return false;
-    if (!map->sub_71009ED860())
-        return true;
     return false;
 }
 

@@ -148,6 +148,9 @@ public:
     s32 getMapArea(const EcoMapInfo& info, f32 posX, f32 posZ) const;
 
     s32 getFieldMapArea(f32 x, f32 z) const { return getMapArea(mFieldMapArea, x, z); }
+    // Inline-only in the original; the name is a guess (UiSubsys1Entry::updateDistrictFromPos stores the map tower
+    // area of a pin position).
+    s32 getMapTowerArea(f32 x, f32 z) const { return getMapArea(mMapTower, x, z); }
 
     // Inline-only in the original; names are guesses. OpenWorldStage::postInit and
     // unload update bit 0 of the ecosystem word at +0x220.
