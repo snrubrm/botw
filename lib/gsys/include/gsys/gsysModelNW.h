@@ -71,6 +71,8 @@ public:
     void calcBounding() override;
     static void BoneVisibilityCallback(nn::g3d::ModelObj*, int);
     static void MaterialVisibilityCallback(nn::g3d::ModelObj*, int);
+    // 0x7100c04194 (declared only): installed by syncResource.
+    static void TextureChangeCallback(nn::g3d::MaterialObj*, int);
 
     using BoneCallback = sead::IDelegate1<BoneCallbackArg*>;
     using BoneCallbackStorage = sead::AnyDelegate1<BoneCallbackArg*>;
@@ -134,6 +136,8 @@ public:
     sead::Matrix34f* getBoneWorldMatrixPtr(int bone_idx) const override;
     // 0x7100c04cd0: writes the local scale and clears the matrix's scale bits.
     void setBoneLocalScale(const sead::Vector3f& scale, int bone_idx) override;
+    // 0x7100c04b38: caches the skeleton's world matrices and installs the callbacks.
+    void syncResource() override;
 
     // 0x7100c06be0 / 0x7100c06db4 / 0x7100c07b5c: the model object's skeleton bone count and
     // the per-bone / per-material visibility bits.

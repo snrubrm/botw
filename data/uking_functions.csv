@@ -68997,7 +68997,7 @@ Address,Quality,Size,Name
 0x0000007100c04758,U,000292,gsys::ModelNW::setUpMaterialImpl
 0x0000007100c0487c,U,000688,_ZN4gsys7ModelNW4bindEPKNS_10ModelSceneE
 0x0000007100c04b2c,O,000012,_ZN4gsys7ModelNW12bindResourceEv
-0x0000007100c04b38,U,000068,gsys::ModelNW::syncResource
+0x0000007100c04b38,O,000068,_ZN4gsys7ModelNW12syncResourceEv
 0x0000007100c04b7c,U,000072,_ZN4gsys7ModelNW14unbindResourceEv
 0x0000007100c04bc4,U,000148,gsys::ModelNW::setBoneLocalMatrix
 0x0000007100c04c58,U,000120,gsys::ModelNW::setBoneLocalRTMatrix

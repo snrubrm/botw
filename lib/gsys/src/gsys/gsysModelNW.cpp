@@ -92,6 +92,17 @@ bool ModelNW::initRenderUnit_(ModelRenderUnitNW* unit, int index, const RenderUn
     return true;
 }
 
+// 0x7100c04b38
+void ModelNW::syncResource() {
+    nn::g3d::SkeletonObj* skeleton = mModelObj.GetSkeleton();
+    skeleton->SetFlags(8);
+    mBoneWorldMatrices = static_cast<BoneWorldMatrix*>(skeleton->GetWorldMatrices());
+    mModelObj.SetUserPtr(this);
+    mModelObj.SetBoneVisibilityCallback(&BoneVisibilityCallback);
+    mModelObj.SetMaterialVisibilityCallback(&MaterialVisibilityCallback);
+    mModelObj.SetTextureChangeCallback(&TextureChangeCallback);
+}
+
 // 0x7100c06594
 void ModelNW::calcGPUSkinning_() {
     mModelObj.CalculateSkeleton(_168 & 3);
