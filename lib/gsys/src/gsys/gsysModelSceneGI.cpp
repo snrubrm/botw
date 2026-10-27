@@ -5,6 +5,7 @@
 #include <lighting/aglLightMapMgr.h>
 #include <lighting/aglLightPrePass.h>
 #include <lighting/aglPlanarReflection.h>
+#include <lighting/aglLocalReflection.h>
 #include <lighting/aglSSII.h>
 #include <lighting/aglSSSSS.h>
 #include "gsys/gsysLightProbeMgr.h"
@@ -85,6 +86,21 @@ void ModelSceneGI::releasePlanarReflection(const ModelSceneContext& context) con
     if (!mPlanarReflection || !_8->isFeatureEnabled(ModelSceneConfig::Feature::Reflection))
         return;
     mPlanarReflection->release(context.getViewIndex());
+}
+
+// 0x7100c340b8
+bool ModelSceneGI::isLocalReflectionEnabled() const {
+    return mLocalReflection && _8->isFeatureEnabled(ModelSceneConfig::Feature::LocalReflection) &&
+           mLocalReflection->mEnabled != 0;
+}
+
+// 0x7100c347a4
+void ModelSceneGI::releaseLocalReflection(const ModelSceneContext& context) const {
+    if (!mLocalReflection || !_8->isFeatureEnabled(ModelSceneConfig::Feature::LocalReflection))
+        return;
+    if (!mLocalReflection->mEnabled)
+        return;
+    mLocalReflection->releaseReflectionBuffer(context.getViewIndex());
 }
 
 // 0x7100c309d0
