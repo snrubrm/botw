@@ -77,6 +77,15 @@ void Guardian::Unk1::sub_7100044B68(sead::Vector3f* out, s32 index) {
     }
 }
 
+// 0x71000470cc (unnamed in the CSV): the offset of the _15b8 entry at `index` scaled by the radius
+// constant (4.0) plus `scale`, with y = 0.
+// NON_MATCHING: the two fmul operands are swapped (commutative only); the rest is identical.
+void Guardian::Unk1::sub_71000470CC(sead::Vector3f* out, s32 index, f32 scale) {
+    const f32 radius = sUnk_710235b9f0[5] + scale;
+    const sead::Vector2f& offset = _8->_15b8[index];
+    out->set(offset.x * radius, 0.0f, offset.y * radius);
+}
+
 void Guardian::Unk1::sub_71000499E0(const sead::Vector3f& position,
                                    const sead::Vector3f& direction) {
     _178 |= 1;

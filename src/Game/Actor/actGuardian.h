@@ -253,6 +253,8 @@ public:
         // 0x7100042b4c (unnamed in the CSV): applies an impulse from the _15a8 start point toward its
         // end point (plus up) against the body mass.
         void sub_7100042B4C();
+        // 0x71000470cc (unnamed in the CSV): the _15b8 offset at `index` scaled by 4.0 + scale, y = 0.
+        void sub_71000470CC(sead::Vector3f* out, s32 index, f32 scale);
 
         Guardian* _8;  // the owner (sub_7100042338)
         ksys::phys::RigidBody* _10 = nullptr;
