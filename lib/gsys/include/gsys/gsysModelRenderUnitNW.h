@@ -49,6 +49,7 @@ public:
 
     // ModelRenderCache::loadResource reads the shape and material extensions directly.
     friend class ModelRenderCache;
+    friend class ModelNW;
 
     // vptr+0x18, 0x7100c0a8c8: the type word is always 0.
     s32 getType() const override;

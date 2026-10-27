@@ -138,6 +138,8 @@ public:
     void setBoneLocalScale(const sead::Vector3f& scale, int bone_idx) override;
     // 0x7100c04b38: caches the skeleton's world matrices and installs the callbacks.
     void syncResource() override;
+    // 0x7100c05414: stores the LOD count on the model and every render unit.
+    void setLodLevelNum(int lod_level_num) override;
 
     // 0x7100c06be0 / 0x7100c06db4 / 0x7100c07b5c: the model object's skeleton bone count and
     // the per-bone / per-material visibility bits.

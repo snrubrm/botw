@@ -92,6 +92,15 @@ bool ModelNW::initRenderUnit_(ModelRenderUnitNW* unit, int index, const RenderUn
     return true;
 }
 
+// 0x7100c05414
+void ModelNW::setLodLevelNum(int lod_level_num) {
+    mNumLods = lod_level_num;
+    _168 = u8((_168 & 0xe3) | (lod_level_num << 2));
+    const int count = getModelRenderUnitNum();
+    for (int i = 0; i < count; ++i)
+        mRenderUnits[i]->_33 = lod_level_num;
+}
+
 // 0x7100c04b38
 void ModelNW::syncResource() {
     nn::g3d::SkeletonObj* skeleton = mModelObj.GetSkeleton();
