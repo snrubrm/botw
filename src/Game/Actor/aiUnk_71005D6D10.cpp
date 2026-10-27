@@ -380,18 +380,18 @@ bool sub_71005E1884(ksys::act::Actor* actor, Unk_7102357d20* sender, const char*
     if (!links)
         return false;
     auto objects = links->mObjects;
-    bool found = false;
+    u32 found = 0;
     for (s32 i = 0; i < objects.size(); ++i) {
         if (!objects[i])
             continue;
         ksys::act::ActorLinkConstDataAccess accessor;
         objects[i]->getActorWithAccessor(accessor);
         if (accessor.getProc() && accessor.hasTag(tag)) {
-            found = true;
+            found = 1;
             sender->sub_710070DD78(accessor, true);
         }
     }
-    return found;
+    return found & 1;
 }
 
 // 0x71005e1630: sends `sender` every linked actor whose unit config name is `name` (all linked actors
