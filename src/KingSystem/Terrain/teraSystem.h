@@ -118,6 +118,8 @@ class MapPatcher;
 class ImageUser;
 class Unk_7101106F44;
 class AreaEnvGetter;
+// The position record's 0x1a0-byte layout (see the definition after Core).
+struct Unk_7101115584Arg;
 // The vegetation terrain material manager (0x7101078674 setDirty); Core::Grass::sub_7101150A70
 // calls it through the first grass entry.
 class VegeTeraMatMgr;
@@ -144,6 +146,8 @@ public:
     void sub_71013019BC(const gsys::ModelViewData* model_view_data, int view_index);
     void sub_7101302080();
     void sub_71013021E0(const gsys::ModelViewData* model_view_data, int view_index);
+    // 0x7101301564 (placeholder name): the per-view state setup both calc paths run first.
+    void sub_7101301564(const gsys::ModelViewData* model_view_data, s32 view_index);
 
     // 0x7101302740 (placeholder name): empty in this release.
     void drawProceduralPassMaybe(int index, gsys::ModelRenderCache* cache) const override {}
@@ -226,6 +230,8 @@ public:
                                const sead::Vector3f* target);
         // 0x710114ee5c (placeholder name): sets or clears bit 5 of both objects of every entry.
         void sub_710114EE5C(bool on);
+        // 0x71011502f4 (placeholder name): the per-view grass state update.
+        void sub_71011502F4(u32 index);
 
         // Shared flags read and written by 0x7101150990 and 0x710114dd4c. The vptr inherited
         // from hostio::Node sits at +0.
@@ -399,23 +405,8 @@ public:
     void sub_71013010D4(const Unk_71013010d4& state, s32 index);
 
     // Setter 0x7101300b4c and cleanup 0x710130063c prove the position and record stride.
-    // The remainder includes an unrecovered uniform block; no record lifetime is implemented.
-    struct Unk_7101300b4c {
-        u8 _0[8];
-        sead::Vector3f mPosition;
-        // The previous position: 0x7101300d50 copies mPosition here.
-        sead::Vector3f _14;
-        u8 _20[0x120 - 0x20];
-        // The uniform block 0x71012ff9ec constructs for every record and 0x710130063c destroys
-        // before freeing the buffer.
-        agl::UniformBlock mBlock;
-        u8 _198;
-        // The two flags 0x7101300d50 stores from its arguments.
-        u8 _199;
-        u8 _19a;
-        u8 _19b[0x1a0 - 0x19b];
-    };
-    static_assert(sizeof(Unk_7101300b4c) == 0x1a0);
+    // The record type is Unk_7101115584Arg (the name in the callees' mangled symbols); see its
+    // definition after Core.
     void sub_7101300B4C(u32 index, const sead::Vector3f* position, bool update);
     void sub_7101300F1C(u32 index, const sead::Vector3f* position, bool update);
     void sub_7101300BF0();
@@ -524,6 +515,8 @@ public:
         // 0x71010816d0 (unnamed): unless the terrain debug flag or _8 bit 0 stops it, sets the buffer
         // index of every tree type and of both draw commands.
         void sub_71010816D0(u32 value);
+        // 0x71010817c4 (unnamed): the per-view tree state update.
+        void sub_71010817C4(u32 index);
         // +0 is the vptr inherited from hostio::Node.
         u32 _8;
         /* 0x0c */ u32 _c;
@@ -570,7 +563,7 @@ public:
     Unk_140* _140 = nullptr;
     // Getter 0x710114dd84 and setter 0x71013010d4 share this two-byte record buffer.
     sead::Buffer<Unk_71013010d4> mStates;
-    sead::Buffer<Unk_7101300b4c> mPositions;
+    sead::Buffer<Unk_7101115584Arg> mPositions;
     // The registered systems (0x7101301068 iterates it and calls System::sub_7101115158); the
     // node lives at +0x1340 of a System.
     sead::OffsetList<System> mSystems;
@@ -1464,13 +1457,22 @@ struct SceneBinaryMaybe {
 struct Unk_7101115584Arg {
     // Passed to sub_7101115338, which tests area boxes with ViewFrustumCulling::isInside 0x7100c7dcd0.
     const agl::cull::ViewFrustumCulling* _0;
-    u8 _8[0x14 - 0x8];
-    // Its x / z select the area node marked by System::sub_7101115674.
-    sead::Vector3f _14;
-    u8 _20[0x198 - 0x20];
-    bool _198;
-    u8 _199[0x1a0 - 0x199];
+    // The position record's current position (Core::sub_7101300B4C stores it).
+    /* 0x08 */ sead::Vector3f mPosition;
+    // The previous position: 0x7101300d50 copies mPosition here. Its x / z select the area node
+    // marked by System::sub_7101115674.
+    /* 0x14 */ sead::Vector3f _14;
+    u8 _20[0x120 - 0x20];
+    // The uniform block 0x71012ff9ec constructs for every record and 0x710130063c destroys
+    // before freeing the buffer.
+    agl::UniformBlock mBlock;
+    /* 0x198 */ bool _198;
+    // The two flags 0x7101300d50 stores from its arguments.
+    /* 0x199 */ u8 _199;
+    /* 0x19a */ u8 _19a;
+    u8 _19b[0x1a0 - 0x19b];
 };
+static_assert(sizeof(Unk_7101115584Arg) == 0x1a0);
 
 // Only the name is known ("[tera::Scene::exportFileBinary]"; no code in the tera range uses the string).
 class Scene {

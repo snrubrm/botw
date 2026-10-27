@@ -2,6 +2,7 @@
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelDrawObj.h>
 #include <gsys/gsysModelRenderContext.h>
+#include <gsys/gsysModelViewData.h>
 #include <common/aglGPUCache.h>
 #include <cmath>
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -177,7 +178,7 @@ void Core::sub_7101302080() {
 
     const s32 last = mPositions.size() - 1;
     for (s32 i = 0; i <= last; ++i) {
-        Unk_7101300b4c& position = mPositions[i];
+        Unk_7101115584Arg& position = mPositions[i];
         position.mBlock.setBufferIndexMaybe(_364);
     }
 
@@ -196,6 +197,39 @@ void Core::sub_7101302080() {
         _140->sub_71010816D0(_364);
 }
 
+// 0x71013021e0 (placeholder name): the per-view half of the core's before-draw calc. For every
+// view it hands the view state's position record to each registered system, then runs the grass /
+// tree per-view updates behind the terrain flags.
+void Core::sub_71013021E0(const gsys::ModelViewData* model_view_data, int view_index) {
+    Terrain::instance()->sub_710114D7C4();
+    sub_7101301564(model_view_data, view_index);
+
+    for (s32 i = 0; i < view_index; ++i) {
+        const Unk_71013010d4& state = mStates[model_view_data[i]._0];
+        const s8 material = state.mIndex;
+        if (!(state.mFlags & 2) || material == -1)
+            continue;
+
+        Unk_7101115584Arg& position = mPositions[material];
+        if (!position._198)
+            continue;
+
+        for (auto& system : mSystems)
+            system.sub_7101116E74(material, &position);
+
+        if (Terrain::instance()->_a58 & 1)
+            continue;
+
+        u32 flags = Terrain::instance()->_a50->_18;
+        if ((~flags & 0x18) != 0) {
+            _138->sub_71011502F4(material);
+            flags = Terrain::instance()->_a50->_18;
+        }
+        if (!(flags & 0x20))
+            _140->sub_71010817C4(material);
+    }
+}
+
 void Core::sub_710130241C(agl::DrawContext* context, const gsys::ModelRenderContext* arg) {
     if ((~Terrain::instance()->_a58 & 6) != 0)
         return;
@@ -203,7 +237,7 @@ void Core::sub_710130241C(agl::DrawContext* context, const gsys::ModelRenderCont
     const Unk_71013010d4& state = mStates[arg->getViewIndex()];
     const s8 material = state.mIndex;
     if ((state.mFlags & 2) && material != -1) {
-        const Unk_7101300b4c& position = mPositions[material];
+        const Unk_7101115584Arg& position = mPositions[material];
         if (_360.compareExchange(0, 1))
             Terrain::instance()->_370->sub_710113F374(context);
         if (Terrain::instance()->_460 == 0) {
