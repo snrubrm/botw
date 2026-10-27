@@ -171,6 +171,20 @@ void Guardian::Unk1::sub_7100042340() {
     sub_71000499E0(position, direction);
 }
 
+// 0x7100042b4c (unnamed in the CSV): applies an impulse from the _15a8 start point toward its end
+// point (+ up) against the body mass.
+// NON_MATCHING: same instructions and size; the 5.0 constant load, the second body reload and the
+// two output stores are scheduled in a different order.
+void Guardian::Unk1::sub_7100042B4C() {
+    auto* data = _8->_15a8;
+    sead::Vector3f dir = data->_c - data->_0;
+    dir.normalize();
+    dir += sead::Vector3f::ey;
+    const sead::Vector3f position = data->_0;
+    const f32 mass = _8->getMainBody()->getMass();
+    _8->getMainBody()->applyPointImpulse(dir * -mass * sUnk_710235b7e4, position);
+}
+
 // 0x710004bba4: rotates the x/z components of `vec` around the Y axis.
 void sub_710004BBA4(f32 angle, sead::Vector3f* vec) {
     const f32 sin_angle = sead::Mathf::sin(angle);

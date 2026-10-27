@@ -250,6 +250,9 @@ public:
         // 0x7100042340 (unnamed in the CSV): applies the damage manager's direction as a point impulse
         // scaled by the body mass, _68 and 5.0, then forwards the position / direction to slot 12.
         void sub_7100042340();
+        // 0x7100042b4c (unnamed in the CSV): applies an impulse from the _15a8 start point toward its
+        // end point (plus up) against the body mass.
+        void sub_7100042B4C();
 
         Guardian* _8;  // the owner (sub_7100042338)
         ksys::phys::RigidBody* _10 = nullptr;
