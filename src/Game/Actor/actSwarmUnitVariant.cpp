@@ -37,6 +37,18 @@ void Unk_71023d0e08::m8() {
     uking::act::Swarm::Unit::m8();
 }
 
+void Unk_71023d0e08::m10() {
+    uking::act::Swarm::Unit::m10();
+    auto* swarm = _b0;
+    for (s32 i = 0; i < swarm->_15f8.size(); ++i) {
+        auto& body = swarm->_15f8[i];
+        if (body._8._10 == this) {
+            body.sub_71002D7A54();
+            break;
+        }
+    }
+}
+
 void Unk_71023d0e08::sub_71002DAE8C() {
     _f0 = sead::GlobalRandom::instance()->getF32() * sead::Mathf::pi2();
 }
