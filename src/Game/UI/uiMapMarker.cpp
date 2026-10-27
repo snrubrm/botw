@@ -160,20 +160,18 @@ void UiSubsys1Entry::m15() {
         _18 = _10->mFrame;
 }
 
-// NON_MATCHING: the original tests the kind with a 64-bit shift of the mask 0x141d000 and no range check
+// inline-only in the original; name is a guess. The pin kinds 12, 14, 15, 16, 22 and 24 are checked against the
+// map screen (m18 and m20 test the same set).
+static inline bool isPinKindWithMapScreenCheck(UiSubsys1Entry::Kind kind) {
+    const s64 index = int(kind);
+    return (u64(0x141d000) >> index) & 1;
+}
+
 // 0x7100950bb8: shown for the kinds 12, 14, 15, 16, 22 and 24, else when the map screen says the pin is visible
 void UiSubsys1Entry::m18() {
-    switch (int(_20)) {
-    case 12:
-    case 14:
-    case 15:
-    case 16:
-    case 22:
-    case 24:
+    if (isPinKindWithMapScreenCheck(_20)) {
         m24(true);
         return;
-    default:
-        break;
     }
     auto* screen = sead::DynamicCast<ScreenAppMap>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap));
     if (screen && screen->sub_71009F1A64(&_28))
@@ -1432,6 +1430,26 @@ void UiSubsys1Entry::updateDistrictFromPos(const sead::Vector3f* pos) {
         return;
     _48 = name;
     _3c |= 0x2000;
+}
+
+// 0x7100950d24
+void UiSubsys1Entry::m20() {
+    if (!sUnk_71025d6c70._50 || !(_3c & 1))
+        return;
+
+    sead::Vector2f pos{0.0f, 0.0f};
+    sUnk_71025d6c70._50->sub_71009A9E90(_28, &pos);
+    if (pos != _34) {
+        _3c |= 0x4000;
+        _34 = pos;
+    }
+
+    if (isPinKindWithMapScreenCheck(_20)) {
+        auto* screen =
+            sead::DynamicCast<ScreenAppMap>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap));
+        if (!screen || !screen->sub_71009F1A64(&_28))
+            sub_7100950E80();
+    }
 }
 
 // 0x710095731c

@@ -526,6 +526,8 @@ struct UiSubsys1Entry {
     bool sub_7100951058() const;
     // 0x7100951074: whether the kind _24 is below 18
     bool sub_7100951074() const;
+    // 0x7100950e80 (placeholder name): repositions the pin through the map screen (0x71009f1a64)
+    void sub_7100950E80();
 
     /* 0x08 */ Unk_7102477fc0* _8;
     /* 0x10 */ eui::Animator* _10;  // the pin layout's open animator
