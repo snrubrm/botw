@@ -168,6 +168,29 @@ public:
                                 float* rotate, sead::Vector2f* translate) const override;
     sead::SafeString getMaterialParamName(int material_idx, int param_idx) const override;
 
+    // 0x7100c07104 .. 0x7100c07a38: write the runtime parameter buffer.
+    void setMaterialParamBool(int material_idx, int param_idx, bool value) override;
+    void setMaterialParamInt(int material_idx, int param_idx, int value) override;
+    void setMaterialParamU32(int material_idx, int param_idx, u32 value) override;
+    void setMaterialParamF32(int material_idx, int param_idx, float value) override;
+    void setMaterialParamVector2f(int material_idx, int param_idx,
+                                  const sead::Vector2f& value) override;
+    void setMaterialParamVector3f(int material_idx, int param_idx,
+                                  const sead::Vector3f& value) override;
+    void setMaterialParamVector4f(int material_idx, int param_idx,
+                                  const sead::Vector4f& value) override;
+    void setMaterialParamColor4f(int material_idx, int param_idx,
+                                 const sead::Color4f& value) override;
+    void setMaterialParamColor3f(int material_idx, int param_idx,
+                                 const sead::Color4f& value) override;
+    void setMaterialParamEffectMatrixPtr(int material_idx, int param_idx,
+                                         sead::Matrix34f* matrix) override;
+    void setMaterialParamTexSRT(int material_idx, int param_idx,
+                                const sead::Vector2f& scale, float rotate,
+                                const sead::Vector2f& translate) override;
+    bool setMaterialParamXluAlpha(int material_idx, int param_idx, float xlu_alpha) override;
+    void clearMaterialParameter(int material_idx) override;
+
 protected:
     // 0x7100c042e0 (declared here because ModelProceduralShape also calls it): recycles the render
     // unit at `index` into `init` and allocates an unconstructed unit of `size` bytes.

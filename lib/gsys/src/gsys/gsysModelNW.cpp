@@ -5,6 +5,7 @@
 #include "gsys/gsysG3dResMaterialEx.h"
 #include <g3d/aglNW4FToNN.h>
 #include <heap/seadHeapMgr.h>
+#include <cstring>
 #include <new>
 #include <nn/g3d/SkeletonObj.h>
 #include <nn/g3d/ResModel.h>
@@ -284,6 +285,273 @@ float ModelNW::getMaterialParamXluAlpha(int material_idx, int param_idx) const {
         static_cast<const void*>(static_cast<const u8*>(data) +
                                  res2->mShaderParams[alpha_index].mDataOffset));
     return values[index];
+}
+
+// 0x7100c07200
+void ModelNW::setMaterialParamInt(int material_idx, int param_idx, int value) {
+    const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);
+    _201 = u8(buffer_mask | (_201 & 0xf));
+
+    nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    const nn::g3d::ResShaderParam* param = &res->mShaderParams[param_idx];
+    if ((param->mFlags & 0x80000000) == 0)
+        material->markParamDirty(param_idx);
+
+    const u16 dependent = param->mDependentIndex;
+    if ((material->GetResource()->mShaderParams[dependent].mFlags & 0x80000000) == 0)
+        material->markParamDirty(dependent);
+
+    material->setParam<int>(param->mDataOffset, value);
+}
+
+// 0x7100c07104
+void ModelNW::setMaterialParamBool(int material_idx, int param_idx, bool value) {
+    const u32 stored = value;
+    const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);
+    _201 = u8(buffer_mask | (_201 & 0xf));
+
+    nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    const nn::g3d::ResShaderParam* param = &res->mShaderParams[param_idx];
+    if ((param->mFlags & 0x80000000) == 0)
+        material->markParamDirty(param_idx);
+
+    const u16 dependent = param->mDependentIndex;
+    if ((material->GetResource()->mShaderParams[dependent].mFlags & 0x80000000) == 0)
+        material->markParamDirty(dependent);
+
+    material->setParam<u32>(param->mDataOffset, stored);
+}
+
+// 0x7100c072f8
+void ModelNW::setMaterialParamU32(int material_idx, int param_idx, u32 value) {
+    const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);
+    _201 = u8(buffer_mask | (_201 & 0xf));
+
+    nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    const nn::g3d::ResShaderParam* param = &res->mShaderParams[param_idx];
+    if ((param->mFlags & 0x80000000) == 0)
+        material->markParamDirty(param_idx);
+
+    const u16 dependent = param->mDependentIndex;
+    if ((material->GetResource()->mShaderParams[dependent].mFlags & 0x80000000) == 0)
+        material->markParamDirty(dependent);
+
+    material->setParam<u32>(param->mDataOffset, value);
+}
+
+// 0x7100c073f0
+void ModelNW::setMaterialParamF32(int material_idx, int param_idx, float value) {
+    const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);
+    _201 = u8(buffer_mask | (_201 & 0xf));
+
+    nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    const nn::g3d::ResShaderParam* param = &res->mShaderParams[param_idx];
+    if ((param->mFlags & 0x80000000) == 0)
+        material->markParamDirty(param_idx);
+
+    const u16 dependent = param->mDependentIndex;
+    if ((material->GetResource()->mShaderParams[dependent].mFlags & 0x80000000) == 0)
+        material->markParamDirty(dependent);
+
+    material->setParam<float>(param->mDataOffset, value);
+}
+
+// 0x7100c074e8
+void ModelNW::setMaterialParamVector2f(int material_idx, int param_idx,
+                                       const sead::Vector2f& value) {
+    const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);
+    _201 = u8(buffer_mask | (_201 & 0xf));
+
+    nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    const nn::g3d::ResShaderParam* param = &res->mShaderParams[param_idx];
+    if ((param->mFlags & 0x80000000) == 0)
+        material->markParamDirty(param_idx);
+
+    const u16 dependent = param->mDependentIndex;
+    if ((material->GetResource()->mShaderParams[dependent].mFlags & 0x80000000) == 0)
+        material->markParamDirty(dependent);
+
+    material->setParam<sead::Vector2f>(param->mDataOffset, value);
+}
+
+// 0x7100c075f0
+void ModelNW::setMaterialParamVector3f(int material_idx, int param_idx,
+                                       const sead::Vector3f& value) {
+    const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);
+    _201 = u8(buffer_mask | (_201 & 0xf));
+
+    nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    const nn::g3d::ResShaderParam* param = &res->mShaderParams[param_idx];
+    if ((param->mFlags & 0x80000000) == 0)
+        material->markParamDirty(param_idx);
+
+    const u16 dependent = param->mDependentIndex;
+    if ((material->GetResource()->mShaderParams[dependent].mFlags & 0x80000000) == 0)
+        material->markParamDirty(dependent);
+
+    material->setParam<sead::Vector3f>(param->mDataOffset, value);
+}
+
+// 0x7100c07700
+void ModelNW::setMaterialParamVector4f(int material_idx, int param_idx,
+                                       const sead::Vector4f& value) {
+    const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);
+    _201 = u8(buffer_mask | (_201 & 0xf));
+
+    nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    const nn::g3d::ResShaderParam* param = &res->mShaderParams[param_idx];
+    if ((param->mFlags & 0x80000000) == 0)
+        material->markParamDirty(param_idx);
+
+    const u16 dependent = param->mDependentIndex;
+    if ((material->GetResource()->mShaderParams[dependent].mFlags & 0x80000000) == 0)
+        material->markParamDirty(dependent);
+
+    material->setParam<sead::Vector4f>(param->mDataOffset, value);
+}
+
+// 0x7100c07818
+void ModelNW::setMaterialParamColor4f(int material_idx, int param_idx,
+                                      const sead::Color4f& value) {
+    const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);
+    _201 = u8(buffer_mask | (_201 & 0xf));
+
+    nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    const nn::g3d::ResShaderParam* param = &res->mShaderParams[param_idx];
+    if ((param->mFlags & 0x80000000) == 0)
+        material->markParamDirty(param_idx);
+
+    const u16 dependent = param->mDependentIndex;
+    if ((material->GetResource()->mShaderParams[dependent].mFlags & 0x80000000) == 0)
+        material->markParamDirty(dependent);
+
+    material->setParam<sead::Color4f>(param->mDataOffset, value);
+}
+
+// 0x7100c0792c
+void ModelNW::setMaterialParamColor3f(int material_idx, int param_idx,
+                                      const sead::Color4f& value) {
+    const sead::Vector3f color(value.r, value.g, value.b);
+    const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);
+    _201 = u8(buffer_mask | (_201 & 0xf));
+
+    nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    const nn::g3d::ResShaderParam* param = &res->mShaderParams[param_idx];
+    if ((param->mFlags & 0x80000000) == 0)
+        material->markParamDirty(param_idx);
+
+    const u16 dependent = param->mDependentIndex;
+    if ((material->GetResource()->mShaderParams[dependent].mFlags & 0x80000000) == 0)
+        material->markParamDirty(dependent);
+
+    material->setParam<sead::Vector3f>(param->mDataOffset, color);
+}
+
+// 0x7100c07a38
+void ModelNW::setMaterialParamEffectMatrixPtr(int material_idx, int param_idx,
+                                              sead::Matrix34f* matrix) {
+    const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);
+    _201 = u8(buffer_mask | (_201 & 0xf));
+
+    nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    const nn::g3d::ResShaderParam* param = &res->mShaderParams[param_idx];
+    if ((param->mFlags & 0x80000000) == 0)
+        material->markParamDirty(param_idx);
+
+    const u16 dependent = param->mDependentIndex;
+    if ((material->GetResource()->mShaderParams[dependent].mFlags & 0x80000000) == 0)
+        material->markParamDirty(dependent);
+
+    const u16 offset = param->mDataOffset;
+    u8* data = static_cast<u8*>(material->m_UserData) + offset;
+    *static_cast<sead::Matrix34f**>(static_cast<void*>(data + 0x18)) = matrix;
+}
+
+// 0x7100c04eec
+void ModelNW::setMaterialParamTexSRT(int material_idx, int param_idx,
+                                     const sead::Vector2f& scale, float rotate,
+                                     const sead::Vector2f& translate) {
+    const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);
+    _201 = u8(buffer_mask | (_201 & 0xf));
+
+    nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    const nn::g3d::ResShaderParam* param = &res->mShaderParams[param_idx];
+    if ((param->mFlags & 0x80000000) == 0)
+        material->markParamDirty(param_idx);
+
+    const u16 dependent = param->mDependentIndex;
+    if ((material->GetResource()->mShaderParams[dependent].mFlags & 0x80000000) == 0)
+        material->markParamDirty(dependent);
+
+    const u16 offset = param->mDataOffset;
+    u8* data = static_cast<u8*>(material->m_UserData) + offset;
+    auto* value = static_cast<nn::g3d::MaterialParamTexSRT*>(static_cast<void*>(data));
+    value->mScale = scale;
+    value->mRotate = rotate;
+    value->mTranslate = translate;
+}
+
+// 0x7100c05074
+// NON_MATCHING: the body is complete; clang keeps the alpha-parameter offset in a second
+// register and folds the final store address, so the call-preserved set and two instructions
+// differ from the original.
+bool ModelNW::setMaterialParamXluAlpha(int material_idx, int param_idx, float xlu_alpha) {
+    const nn::g3d::ResMaterial* res = mModelObj.GetMaterial(material_idx)->GetResource();
+    const auto* ex = static_cast<const G3dResMaterialEx*>(res->m_88);
+    const s32 alpha_index = ex->getXluAlphaParamIndex();
+    if (alpha_index == -1)
+        return false;
+
+    const nn::g3d::ResShaderParam& alpha = res->mShaderParams[alpha_index];
+    const size_t size =
+        nn::g3d::ResShaderParam::GetSize(nn::g3d::ResShaderParam::Type(alpha.mType));
+
+    nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const void* data = material->getParamData();
+    const nn::g3d::ResMaterial* res2 = material->GetResource();
+    const s32 index = param_idx < (size >> 2) ? param_idx : 0;
+    const u16 offset = res2->mShaderParams[alpha_index].mDataOffset;
+    const f32* values = static_cast<const f32*>(
+        static_cast<const void*>(static_cast<const u8*>(data) + offset));
+    if (values[index] == xlu_alpha)
+        return false;
+
+    if ((alpha.mFlags & 0x80000000) == 0)
+        material->markParamDirty(alpha_index);
+
+    const u16 dependent = alpha.mDependentIndex;
+    if ((material->GetResource()->mShaderParams[dependent].mFlags & 0x80000000) == 0)
+        material->markParamDirty(dependent);
+
+    material->setParam<float>(offset + index * sizeof(f32), xlu_alpha);
+
+    const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);
+    _201 = u8(buffer_mask | (_201 & 0xf));
+    return true;
+}
+
+// 0x7100c051e4
+void ModelNW::clearMaterialParameter(int material_idx) {
+    const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);
+    _201 = u8(buffer_mask | (_201 & 0xf));
+
+    nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    material->ResetDirtyFlags();
+
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    memcpy(material->m_UserData, res->mDefaultParamData, res->mParamDataSize);
+    material->InitializeDependPointer();
 }
 
 // 0x7100c0709c
