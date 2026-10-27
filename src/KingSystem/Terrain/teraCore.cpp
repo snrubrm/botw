@@ -167,6 +167,35 @@ void Core::calcBeforeDraw(gsys::ModelScene* scene, const gsys::ModelViewData* mo
     sub_71013021E0(model_view_data, view_index);
 }
 
+// NON_MATCHING: the position-buffer loop keeps a 32-bit index and a smaddl per iteration in the
+// original; clang strength-reduces it to a byte-offset induction (two extra adds, 64-bit compares).
+// 0x7101302080 (placeholder name): advances the position-buffer index, points every position
+// record's uniform block at it, then runs the per-system update and the grass / tree pass setup.
+void Core::sub_7101302080() {
+    _364 = 1 - _364;
+    Terrain::instance()->sub_710114D7C0();
+
+    const s32 last = mPositions.size() - 1;
+    for (s32 i = 0; i <= last; ++i) {
+        Unk_7101300b4c& position = mPositions[i];
+        position.mBlock.setBufferIndexMaybe(_364);
+    }
+
+    for (auto& system : mSystems)
+        system.sub_7101116D44();
+
+    if (Terrain::instance()->_a58 & 1)
+        return;
+
+    u32 flags = Terrain::instance()->_a50->_18;
+    if ((~flags & 0x18) != 0) {
+        _138->sub_710115021C(_364);
+        flags = Terrain::instance()->_a50->_18;
+    }
+    if (!(flags & 0x20))
+        _140->sub_71010816D0(_364);
+}
+
 void Core::sub_710130241C(agl::DrawContext* context, const gsys::ModelRenderContext* arg) {
     if ((~Terrain::instance()->_a58 & 6) != 0)
         return;

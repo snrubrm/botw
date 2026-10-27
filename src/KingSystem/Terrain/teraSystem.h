@@ -218,6 +218,8 @@ public:
         sead::Vector3f* sub_7101152DA0(s32 index);
         // 0x71011503cc (placeholder name): draws the grass of system `index`.
         void sub_71011503CC(agl::DrawContext* context, s32 index, const gsys::ModelRenderContext* arg);
+        // 0x710115021c (placeholder name): resets the entry buffers for the position-buffer index.
+        void sub_710115021C(u32 index);
         // 0x71011507b4 (unnamed in the CSV): the Pfx pass's grass draw for `view`.
         void sub_71011507B4(agl::DrawContext* context, u8 view);
         void sub_7101152B3C(f32 fovy, const sead::Vector3f* position,
