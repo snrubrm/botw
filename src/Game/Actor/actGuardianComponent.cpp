@@ -26,7 +26,7 @@ GuardianComponentBind::~GuardianComponentBind() = default;
 // 0x710003c2dc / D0 0x710003c2e4: empty.
 Unk_710235b408::~Unk_710235b408() = default;
 
-bool Unk_710235b408::m6(sead::Heap*) {
+bool Unk_710235b408::m6(sead::Heap*, ksys::act::BaseProc::PrepareArg&) {
     return true;
 }
 
@@ -43,7 +43,7 @@ void Unk_710235b408::m9() {
 void Unk_710235b408::m13() {}
 
 // NON_MATCHING: the original writes _28 and the key through the new pointer without reloading mBind.
-bool GuardianWeakPointPart::m6(sead::Heap* heap) {
+bool GuardianWeakPointPart::m6(sead::Heap* heap, ksys::act::BaseProc::PrepareArg&) {
     if (!mBind) {
         mBind = new (heap) ksys::act::ModelBindInfo;
         mBind->_28 = "Body";
@@ -123,7 +123,7 @@ bool Unk_710235b6d8::invoke(ksys::phys::ContactPointInfo::ShouldDisableContact* 
     return true;
 }
 
-bool Unk_710235b4f8::m6(sead::Heap*) {
+bool Unk_710235b4f8::m6(sead::Heap*, ksys::act::BaseProc::PrepareArg&) {
     _40 = sead::DynamicCast<ksys::phys::CapsuleRigidBody>(GuardianComponentBind::_8->findPhysicsBodyByName("Body", "Tibia"));
     GuardianComponentBind::_8->sub_71011DA824(this);
     if (auto* physics = GuardianComponentBind::_8->getPhysics()) {
@@ -235,6 +235,24 @@ GuardianComponent::GuardianComponent(const CreateArg& arg) : DynamicActor(arg) {
 }
 
 GuardianComponent::~GuardianComponent() = default;
+
+bool GuardianComponent::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
+    if (!DynamicActor::prepareInit_(heap, arg))
+        return false;
+
+    if (getName().findIndex("Cannon") != -1)
+        _ba8 = new (heap, 8) Unk_710235b408(this);
+    else if (getName().findIndex("WeakPoint") != -1)
+        _ba8 = new (heap, 8) GuardianWeakPointPart(this);
+    else if (getName().findIndex("BrokenLeg") != -1)
+        _ba8 = new (heap, 8) Unk_710235b5e8(this);
+    else if (getName().findIndex("Leg") != -1)
+        _ba8 = new (heap, 8) Unk_710235b4f8(this);
+    else if (getName().findIndex("Propeller") != -1)
+        _ba8 = new (heap, 8) Unk_710235b660(this);
+
+    return _ba8->m6(heap, arg);
+}
 
 void GuardianComponent::preDelete2_(const PreDeleteArg& arg) {
     sub_71005DA114(this, &mDamageCallback);

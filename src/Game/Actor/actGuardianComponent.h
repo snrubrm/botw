@@ -25,12 +25,14 @@ class GuardianComponent;
 class GuardianComponentBind {
     SEAD_RTTI_BASE(GuardianComponentBind)
 public:
+    // Stores the owner in _8 (the inline prefix of every part's constructor).
+    explicit GuardianComponentBind(GuardianComponent* owner) : _8(owner) {}
     virtual ~GuardianComponentBind();
     // Slots 0x20-0x60 (vtable 0x710235b390; null entries are pure). Placeholder names; m7 is called by
     // GuardianComponent::preDelete2_, m10 by initMaybe, m13 by updateMtxFromPhysics.
     // m6 creates the subtype's binding objects on `heap`; m8 binds them to `proc`
     // (GuardianWeakPointPart 0x710003c744 / 0x710003d4e0).
-    virtual bool m6(sead::Heap* heap) = 0;
+    virtual bool m6(sead::Heap* heap, ksys::act::BaseProc::PrepareArg& arg) = 0;
     virtual void m7(const ksys::act::BaseProc::PreDeleteArg& arg) = 0;
     // The s32 argument: Unk_710235b4f8 stores it in _38, Unk_710235b660 in _10.
     virtual void m8(ksys::act::BaseProc* proc, s32 value) = 0;
@@ -53,18 +55,19 @@ KSYS_CHECK_SIZE_NX150(GuardianComponentBind, 0x10);
 class Unk_710235b408 : public GuardianComponentBind {
     SEAD_RTTI_OVERRIDE(Unk_710235b408, GuardianComponentBind)
 public:
+    explicit Unk_710235b408(GuardianComponent* owner) : GuardianComponentBind(owner) {}
     ~Unk_710235b408() override;
-    bool m6(sead::Heap* heap) override;
+    bool m6(sead::Heap* heap, ksys::act::BaseProc::PrepareArg& arg) override;
     void m7(const ksys::act::BaseProc::PreDeleteArg& arg) override;
     void m8(ksys::act::BaseProc* proc, s32 value) override;
     void m9() override;
     void m13() override;
 
-    /* 0x10 */ sead::Vector3f _10;
+    /* 0x10 */ sead::Vector3f _10 = sead::Vector3f::zero;
     /* 0x1c */ f32 _1c = 0.0f;
-    /* 0x20 */ sead::Vector3f _20;
+    /* 0x20 */ sead::Vector3f _20 = sead::Vector3f::zero;
     /* 0x2c */ f32 _2c = 0.0f;
-    /* 0x30 */ f32 _30;
+    /* 0x30 */ f32 _30 = -1.0f;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710235b408, 0x38);
 
@@ -74,8 +77,9 @@ KSYS_CHECK_SIZE_NX150(Unk_710235b408, 0x38);
 class GuardianWeakPointPart : public GuardianComponentBind {
     SEAD_RTTI_OVERRIDE(GuardianWeakPointPart, GuardianComponentBind)
 public:
+    explicit GuardianWeakPointPart(GuardianComponent* owner) : GuardianComponentBind(owner) {}
     ~GuardianWeakPointPart() override = default;
-    bool m6(sead::Heap* heap) override;
+    bool m6(sead::Heap* heap, ksys::act::BaseProc::PrepareArg& arg) override;
     void m7(const ksys::act::BaseProc::PreDeleteArg& arg) override;
     void m8(ksys::act::BaseProc* proc, s32 value) override;
     void m9() override;
@@ -92,8 +96,9 @@ KSYS_CHECK_SIZE_NX150(GuardianWeakPointPart, 0x18);
 class Unk_710235b5e8 : public GuardianComponentBind {
     SEAD_RTTI_OVERRIDE(Unk_710235b5e8, GuardianComponentBind)
 public:
+    explicit Unk_710235b5e8(GuardianComponent* owner) : GuardianComponentBind(owner) {}
     ~Unk_710235b5e8() override = default;
-    bool m6(sead::Heap* heap) override;
+    bool m6(sead::Heap* heap, ksys::act::BaseProc::PrepareArg& arg) override;
     void m7(const ksys::act::BaseProc::PreDeleteArg& arg) override;
     void m8(ksys::act::BaseProc* proc, s32 value) override;
     void m9() override;
@@ -130,8 +135,9 @@ KSYS_CHECK_SIZE_NX150(Unk_710235b6d8, 0x8);
 class Unk_710235b4f8 : public GuardianComponentBind, public ksys::act::ActorBind {
     SEAD_RTTI_OVERRIDE(Unk_710235b4f8, GuardianComponentBind)
 public:
+    explicit Unk_710235b4f8(GuardianComponent* owner) : GuardianComponentBind(owner), ActorBind() {}
     ~Unk_710235b4f8() override = default;
-    bool m6(sead::Heap* heap) override;
+    bool m6(sead::Heap* heap, ksys::act::BaseProc::PrepareArg& arg) override;
     void m7(const ksys::act::BaseProc::PreDeleteArg& arg) override;
     void m8(ksys::act::BaseProc* proc, s32 value) override;
     void m9() override;   // 0x710003da28 (declared only)
@@ -155,8 +161,9 @@ KSYS_CHECK_SIZE_NX150(Unk_710235b4f8, 0x50);
 class Unk_710235b660 : public GuardianComponentBind {
     SEAD_RTTI_OVERRIDE(Unk_710235b660, GuardianComponentBind)
 public:
+    explicit Unk_710235b660(GuardianComponent* owner) : GuardianComponentBind(owner) {}
     ~Unk_710235b660() override;
-    bool m6(sead::Heap* heap) override;
+    bool m6(sead::Heap* heap, ksys::act::BaseProc::PrepareArg& arg) override;
     void m7(const ksys::act::BaseProc::PreDeleteArg& arg) override;
     void m8(ksys::act::BaseProc* proc, s32 value) override;
     void m9() override;
@@ -201,6 +208,8 @@ public:
     static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     explicit GuardianComponent(const CreateArg& arg);
     ~GuardianComponent() override;
+    // 0x710003c41c (CSV m18): allocates the part named by the actor name and runs its m6.
+    bool prepareInit_(sead::Heap* heap, ksys::act::BaseProc::PrepareArg& arg) override;
     bool canWakeUp_() override;
     void preDelete2_(const PreDeleteArg& arg) override;
     void initMaybe() override;

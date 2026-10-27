@@ -220,10 +220,15 @@ protected:
         bool sleep_after_init;
     };
 
+public:
+    // The argument is public so the Guardian component's bind interfaces (Game/Actor) can take it by reference
+    // like BaseProc's own prepareInit_ does.
     struct PrepareArg {
         bool _0 = false;
         int _4;
     };
+
+protected:
 
     /// Initialize the actor.
     /// @return Ok to keep the actor alive, anything else to kill it?
