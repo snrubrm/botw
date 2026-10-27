@@ -9,6 +9,9 @@
 #include "KingSystem/System/UIGlue.h"
 #include "Game/gameGraphics.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
+#include "KingSystem/Camera/CameraMgr.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/System/KingEditor.h"
 #include "KingSystem/System/PlayReportMgr.h"
@@ -141,6 +144,30 @@ void CalcAttentionAndVibration() {
     tera::sUnk_710260B220._2 = 0;
 }
 
+// 0x7100f3ed98: hands the placement manager the camera position and the player position. The terrain
+// manager's third state replaces the camera position while the terrain is generated.
+void CalcPlacementMgr() {
+    if (!map::PlacementMgr::instance())
+        return;
+
+    sead::Vector3f camera_pos = sead::Vector3f::zero;
+    if (auto* camera_mgr = CameraMgr::instance()) {
+        if (auto* camera = camera_mgr->getLookAtCamera())
+            camera_pos = camera->getPos();
+    }
+
+    sead::Vector3f target_pos = sead::Vector3f::zero;
+    if (auto* actor_system = act::ActorSystem::instance()) {
+        if (auto* link = actor_system->getPlayerLink())
+            target_pos = link->getPlayer()->getMtx().getTranslation();
+    }
+
+    if (tera::sUnk_710260B220._10 == 4)
+        camera_pos = tera::sUnk_710260B220._b8;
+
+    map::PlacementMgr::instance()->preCalc(camera_pos, target_pos, 2, 0x400000);
+}
+
 // 0x7100f41a54: the placement manager job's entry point.
 void callCalcPlacementMgr() {
     CalcPlacementMgr();
@@ -162,6 +189,16 @@ void sub_7100F41A18() {
 void sub_7100F41ACC() {
     if (auto* mgr = map::PlacementMgr::instance())
         mgr->sub_71011E6E8C();
+}
+
+// 0x7100f41c7c: the world manager's LOD step. A debug instance without flag 0x40000000 skips it.
+void sub_7100F41C7C() {
+    if (auto* debug = act::ActorDebug::instance()) {
+        if (!debug->hasFlag(act::ActorDebug::Flag::_40000000))
+            return;
+    }
+    if (auto* mgr = world::Manager::instance())
+        mgr->sub_71010F78A4();
 }
 
 // 0x7100f3dbc0: the heap / reaction half of the stage-generation start. `param` is forwarded to the

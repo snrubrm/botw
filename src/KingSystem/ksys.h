@@ -51,6 +51,8 @@ void callCalcPlacementMgr();
 void sub_7100F419DC();
 void sub_7100F41A18();
 void sub_7100F41ACC();
+// 0x7100f41c7c (placeholder name): the world manager's LOD step, gated on an ActorDebug flag.
+void sub_7100F41C7C();
 
 void sub_7100F3ED50();
 void sub_7100F3ED80();

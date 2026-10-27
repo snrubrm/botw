@@ -291,6 +291,9 @@ public:
     // 0x71011e97cc (declared only): the placement manager's per-frame calculation.
     void calc();
     void stubbed();
+    // 0x71011e645c (declared only): the placement job's first step; the camera and player positions are
+    // forwarded as-is and the last argument reaches printDebugInfo.
+    void preCalc(const sead::Vector3f& camera_pos, const sead::Vector3f& target_pos, s32 a3, s32 a4);
     void insertTraverseResultPreActor(act::Actor* actor);
     void setFlag8Enabled(bool enabled);
     const char* getEntryUnitConfigName(const Object* obj) const;
