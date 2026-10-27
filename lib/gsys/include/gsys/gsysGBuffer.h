@@ -76,6 +76,10 @@ public:
     void bindRenderBuffer(agl::DrawContext*, Resolution) const;
     // 0x7100c7256c: swaps the two colour targets the resolution's records select.
     void swapRenderTarget();
+    // 0x7100c73cf8: stores a colour target in a resolution's render buffer and ORs the mask
+    // into the two accumulated words.
+    void setRenderTargetColor(Resolution resolution, int index, agl::RenderTargetColor* target,
+                              u32 mask);
 
     // begin 0x7100c715c4 accumulates 4-bit material IDs per pre-shading buffer into +0x1f84; the
     // grudge renderer 0x710128f798 copies that word and its sibling +0x1f88 into its draw arg

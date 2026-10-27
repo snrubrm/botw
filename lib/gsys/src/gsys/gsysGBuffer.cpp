@@ -33,6 +33,14 @@ void GBuffer::swapRenderTarget() {
     buffer.setRenderTargetColor(target, mBufferRecords[0]._190);
 }
 
+// 0x7100c73cf8
+void GBuffer::setRenderTargetColor(Resolution resolution, int index, agl::RenderTargetColor* target,
+                                   u32 mask) {
+    mResolutionData[int(resolution)].mRenderBuffer.setRenderTargetColor(target, index);
+    _1f84 |= mask;
+    _1f8c |= mask;
+}
+
 // 0x7100c737a8
 void GBuffer::invalidatePreShading(PreShadingBufferType type) {
     PreShadingBuffer& buffer = mPreShadingBuffers[int(type)];

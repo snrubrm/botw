@@ -126,6 +126,47 @@ void ModelSceneBuffer::drawGBufferXluSeal(agl::DrawContext* draw_context,
     context.draw(draw_context, arg);
 }
 
+// NON_MATCHING: 276 bytes against 272; the target stores DrawArg +0x4c and +0x48 separately,
+// clang merges them into one stp in every natural assignment order tried.
+// 0x7100c187a4
+void ModelSceneBuffer::drawGBufferXluOpa(agl::DrawContext* draw_context,
+                                         const ModelSceneContext& context) const {
+    if (!context.isQueueMaskValid(ModelSceneContext::QueueType(1), sead::BitFlag32(0x40)))
+        return;
+    GBuffer* gbuffer = mRenderBufferContext->getContext(context.getViewIndex())->mGBuffer;
+    gbuffer->swapRenderTarget();
+    gbuffer->bindRenderBuffer(draw_context, GBuffer::Resolution(0));
+    ModelRenderContext::DrawArg arg("Model(GBuffer/XluOpa)",
+                                    *context.getRenderQueue(ModelSceneContext::QueueType(1)),
+                                    sead::BitFlag32(0x40), ModelEnum::ShaderAssignType(2), 0,
+                                    0x20020, 0xffff);
+    arg._40 = 7;
+    arg._30 = 0xff;
+    arg._34 = gbuffer->getBlendMaskXluSealMaybe();
+    arg._44 = 3;
+    context.draw(draw_context, arg);
+    gbuffer->swapRenderTarget();
+}
+
+// 0x7100c18c64
+void ModelSceneBuffer::drawGBufferXlu(agl::DrawContext* draw_context, ModelSceneContext* context,
+                                      bool) const {
+    if (!context->isQueueMaskValid(ModelSceneContext::QueueType(1), sead::BitFlag32(0x20)))
+        return;
+    if (!_8->isFeatureEnabled(ModelSceneConfig::Feature::Xlu))
+        return;
+    GBuffer* gbuffer = mRenderBufferContext->getContext(context->getViewIndex())->mGBuffer;
+    gbuffer->bindRenderBuffer(draw_context, GBuffer::Resolution(0));
+    ModelRenderContext::DrawArg arg("Model(GBuffer/Xlu)",
+                                    *context->getRenderQueue(ModelSceneContext::QueueType(1)),
+                                    sead::BitFlag32(0x20), ModelEnum::ShaderAssignType(2), 0, 0,
+                                    0xffff);
+    arg._40 = 8;
+    arg._30 = gbuffer->getMaterialIdMaskXluSealMaybe();
+    arg._34 = gbuffer->getBlendMaskXluSealMaybe();
+    context->draw(draw_context, arg);
+}
+
 // 0x7100c18c00
 void ModelSceneBuffer::endGBufferPreShading(agl::DrawContext* draw_context,
                                             ModelSceneContext* context) const {
