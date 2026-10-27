@@ -654,6 +654,40 @@ void ScreenAppPictureBookEntry::sub_710093C660() {
     }
 }
 
+// 0x710093cb64
+void ScreenAppPictureBookEntry::sub_710093CB64() {
+    _378.set(sead::Vector2f::zero);
+    _380.set(sead::Vector2f::zero);
+    _388 = -1;
+    for (auto it = mRecords.begin(), end = mRecords.end(); it != end; ++it) {
+        it->_0 = 0;
+        it->mPosition.set(sead::Vector2f::zero);
+        it->_c = -1;
+    }
+    if (_2f4 < 1)
+        return;
+    for (auto it = mRecords.begin(), end = mRecords.end(); it != end; ++it) {
+        const s32 index = mRecords.indexOf(&*it);
+        if (index >= _2f4)
+            continue;
+        it->_c = index;
+        switch (mController->mConfig._60) {
+        case 0:
+            it->mPosition.y = _340.y * f32(it->_c);
+            break;
+        case 1:
+            it->mPosition.y = -(_340.y * f32(it->_c));
+            break;
+        case 2:
+            it->mPosition.x = -(_340.x * f32(it->_c));
+            break;
+        case 3:
+            it->mPosition.x = _340.x * f32(it->_c);
+            break;
+        }
+    }
+}
+
 // NON_MATCHING: the original copies _2a8 as one 64-bit value (ours: two floats, like the other vectors)
 // 0x7100938f28
 void ScreenAppPictureBookEntry::Params::sub_7100938F28(const Params& other) {
