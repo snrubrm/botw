@@ -153,6 +153,7 @@ public:
     const sead::Color4f& getMaterialParamColor4f(int material_idx, int param_idx) const override;
     sead::Color4f getMaterialParamColor3f(int material_idx, int param_idx) const override;
     sead::Matrix34f* getMaterialParamEffectMatrixPtr(int material_idx, int param_idx) const override;
+    float getMaterialParamXluAlpha(int material_idx, int param_idx) const override;
     void getMaterialParamTexSRT(int material_idx, int param_idx, sead::Vector2f* scale,
                                 float* rotate, sead::Vector2f* translate) const override;
     sead::SafeString getMaterialParamName(int material_idx, int param_idx) const override;

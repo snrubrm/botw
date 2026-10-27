@@ -44,6 +44,9 @@ public:
     // 0x7100c6d974
     bool isShaderOptionBool(const sead::SafeString& name) const;
 
+    // Inline-only in the original; name is a guess.
+    s16 getXluAlphaParamIndex() const { return mXluAlphaParamIndex; }
+
     // Tail of the record used by ModelRenderCache::loadResource 0x7100c809ac. The cache stores
     // the address of this sub-object at +0x298 to detect a material change, then copies the blend
     // and depth state from it. The types and names of the leading bytes are unrecovered.
@@ -72,7 +75,10 @@ public:
     static_assert(offsetof(RenderState, mDepthFunc) == 0x78);
 
 private:
-    u8 _8[0x10 - 0x8];
+    u8 _8[0xe - 0x8];
+    /// Index into the resource's shader parameter array for the xlu alpha parameter, or -1.
+    /// ModelNW::getMaterialParamXluAlpha 0x7100c04fdc loads it from +0xe.
+    s16 mXluAlphaParamIndex;
     const nn::g3d::ResMaterial* mResMaterial;
     u8 _18[0x20 - 0x18];
     ShadingModelInfo mShadingModel;
