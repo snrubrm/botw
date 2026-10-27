@@ -654,6 +654,67 @@ void ScreenAppPictureBookEntry::sub_710093C660() {
     }
 }
 
+// inline-only in the original; name is a guess (the same fcmp / fccmp axis test is inlined in
+// ScreenAppPictureBookEntry::sub_710093B684 and sub_710093B9F4)
+static inline bool isInRange(f32 min, f32 max, f32 low, f32 high) {
+    return low <= max && min <= high;
+}
+
+// NON_MATCHING: the two axis tests swap their fcmp / fccmp operand order and the original loads
+// the box maximum after the right / top edge; the group lookup also merges its bounds check into the
+// null test (ours branches first).
+// 0x710093b684
+void ScreenAppPictureBookEntry::sub_710093B684(PictureBookGroupRecord* record) {
+    if (_38d)
+        return;
+    if (record->_c < 0)
+        return;
+    const f32 x = _378.x + record->mPosition.x;
+    const f32 half_width = mGroupList->_20.x * 0.5f;
+    const f32 left = x - half_width;
+    const f32 right = x + half_width;
+    if (!isInRange(_308.getMin().x, _308.getMax().x, left, right))
+        return;
+    const f32 y = _378.y + record->mPosition.y;
+    const f32 half_height = mGroupList->_20.y * 0.5f;
+    const f32 bottom = y - half_height;
+    const f32 top = y + half_height;
+    if (!isInRange(_308.getMin().y, _308.getMax().y, bottom, top))
+        return;
+    if (record->_0 & 1)
+        return;
+    s32 offset = 0;
+    if (_2f0 >= 1) {
+        for (s32 i = 0; i < _2f0; ++i) {
+            const ScreenAppPictureBookEntry* entry = mController->mEntries(i);
+            if (!entry->_38d)
+                offset += entry->_2f4;
+        }
+    }
+    const s32 count = mGroupList->mUnits.size();
+    if (count == 0)
+        return;
+    const s32 index = record->_c + offset;
+    Unk_7102474f10* group = mGroupList->mUnits[index % count];
+    if (!group || group->mRecord)
+        return;
+    record->_0 |= 1;
+    group->mEntry = this;
+    group->mRecord = record;
+    if (group->_40) {
+        group->_40->_8 = group->mUnits[0];
+        group->_40->m4();
+    }
+    const s32 unit_count = group->mUnits.size();
+    for (s32 i = 0; i < unit_count; ++i) {
+        Unk_7102474e38* unit = group->mUnits(i);
+        unit->_30 = 0;
+        unit->_8->mPane->SetVisible(false);
+        if (unit->_10)
+            unit->_10->setFlag10(false);
+    }
+}
+
 // 0x710093cb64
 void ScreenAppPictureBookEntry::sub_710093CB64() {
     _378.set(sead::Vector2f::zero);
