@@ -14,6 +14,11 @@ void SnapshotTextureMgr::setRenderQueue(ModelRenderQueue* queue0, ModelRenderQue
     mRenderQueues[1] = queue1;
 }
 
+// 0x7100c84618
+bool SnapshotTexture::checkEnableToDraw() {
+    return true;
+}
+
 // 0x7100c60c94
 void SnapshotTextureMgr::updateGPU() {
     if (!mLightMapUpdated)

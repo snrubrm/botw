@@ -12,6 +12,7 @@ add_library(gsys OBJECT
   src/gsys/gsysModelRenderCache.cpp
   include/gsys/gsysGBuffer.h
   include/gsys/gsysRenderBufferContext.h
+  include/gsys/gsysProcessMeter.h
   include/gsys/gsysModelSceneBuffer.h
   include/gsys/gsysMaskedProjLight.h
   include/gsys/gsysMaskedProjLight.h
@@ -81,6 +82,7 @@ add_library(gsys OBJECT
   src/gsys/gsysRenderDisplay.cpp
   src/gsys/gsysModelRig.cpp
   src/gsys/gsysPointLight.cpp
+  src/gsys/gsysProcessMeter.cpp
   src/gsys/gsysOfxLensFlareRig.cpp
   src/gsys/gsysSpotLight.cpp
   src/gsys/gsysLightRigObj.cpp

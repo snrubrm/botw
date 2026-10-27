@@ -15,6 +15,13 @@ namespace gsys {
 // modelled.
 class LightProbeMgr {
 public:
+    // Partial model: only the empty write hook is known. The manager's layout is not modelled.
+    class ProbeVolumeMgr {
+    public:
+        // 0x7100c7663c: empty in this build.
+        void postWrite_() const;
+    };
+
     // 0x7100c76c3c: allocates the two interpolation uniform blocks. Constructor 0x7100c76c68
     // is not modelled; the class is 0x110 bytes with the blocks at +0x20 and +0x98.
     class DebugProbeInterp {

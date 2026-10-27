@@ -15,7 +15,14 @@
 namespace gsys {
 
 class ModelRenderQueue;
-class SnapshotTexture;
+
+// Partial: only the draw gate is known; the texture's own vtable and render targets are not
+// modelled.
+class SnapshotTexture {
+public:
+    // 0x7100c84618: always true in this build.
+    bool checkEnableToDraw();
+};
 
 class SnapshotTextureMgr : public sead::hostio::Node {
 public:
