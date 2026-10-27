@@ -894,6 +894,8 @@ public:
             // 0x710114161c (placeholder name): looks up the four terrain materials of _8 and the shader
             // parameter indices _6d0 - _6e8; stores the material table _6ec - _6fc.
             void sub_710114161C();
+            // 0x710113fdf4 (placeholder name): updates the material texture for the pass.
+            void sub_710113FDF4(agl::DrawContext* context);
             // 0x7101147360 / 0x7101147370 / 0x710114737c / 0x7101147388 / 0x7101147394: per-index
             // accessors (sampler, material index, shader parameter index, constant table, texture entry).
             agl::TextureSampler* getSamplerMaybe(s32 index);
@@ -980,7 +982,15 @@ public:
         u8 _8[0x10 - 0x8];
         Unk_10 _10;
         Unk_f98 _f98;
-        u8 _16c0[0x3910 - 0x16c0];
+        u8 _16c0[0x31f0 - 0x16c0];
+        // Placeholder: the polymorphic object at 0x31f0 whose pass entry 0x71011400c8 is called by
+        // Unk370::sub_710113F374. Its virtual at +0x10 returns a texture record.
+        class Unk_31f0 {
+        public:
+            void sub_71011400C8(agl::DrawContext* context);
+        };
+        Unk_31f0 _31f0;
+        u8 _31f1[0x3910 - 0x31f1];
         u32 _3910;
         IndexPair* _3918;
         u8 _3920[0x3ad8 - 0x3920];
@@ -993,6 +1003,12 @@ public:
         // 0x710113f374 (placeholder name): called by Core::sub_710130241C when the model is
         // registered for the first time.
         void sub_710113F374(agl::DrawContext* context);
+        // 0x710113f484 / 0x710113f784 (CSV names): the grid and frame texture updates the first
+        // registration runs. Written against this object (0x3858 / 0x39c8), so they are members.
+        void update_grid(agl::DrawContext* context, u32 a, u32 b);
+        void update_frame(agl::DrawContext* context, u32 a, u32 b, u32 c, u32 d);
+        // 0x710113f9c4 (placeholder name): the pass setup that follows the texture updates.
+        void sub_710113F9C4(agl::DrawContext* context);
 
         u8 _0[0x478];
         // 0x710114cbf4 and 0x710113fdf4 select variants through ShaderProgram data.
@@ -1001,6 +1017,9 @@ public:
         Unk4ae0* _4ae0;
         // The terrain XML's name pool (read by ExtraInfoMaybe::addLayer / createLayer).
         ExtraInfoNamePoolMaybe* _4ae8;
+        u8 _4af0[0x4b98 - 0x4af0];
+        // The first-registration pass flags set by sub_710113F374 (grid / frame / pass setup).
+        u8 _4b98;
     };
     // 0x710114de10 (CSV Terrain::__auto9) / 0x710114de3c (CSV Terrain::__auto6) / 0x710114de20 (placeholder names).
     void* sub_710114DE10() const;

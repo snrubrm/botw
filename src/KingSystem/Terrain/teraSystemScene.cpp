@@ -19,6 +19,35 @@ bool Terrain::Unk370::sub_710113F34C() const {
     return data->_3ad8;
 }
 
+// 0x710113f374 (placeholder name): the first time a model is registered, builds the grid and frame
+// textures once, runs the pass setup once, and lets the sub-object at 0x31f0 draw its pass.
+void Terrain::Unk370::sub_710113F374(agl::DrawContext* context) {
+    auto* terrain = Terrain::instance();
+    if (terrain->sub_710107EC48() && (terrain->_a58 & 0x10)) {
+        if (!(_4b98 & 1)) {
+            update_grid(context, 2, 10);
+            _4b98 |= 1;
+        }
+        if (!(_4b98 & 2)) {
+            update_frame(context, 4, 12, 64, 70);
+            _4b98 |= 2;
+        }
+    }
+    if (!(_4b98 & 4)) {
+        sub_710113F9C4(context);
+        _4b98 |= 4;
+    }
+
+    Unk4ae0* data = _4ae0;
+    if (!data->_10._888)
+        data->_10.sub_710113FDF4(context);
+
+    data = _4ae0;
+    if (data->_3ad8)
+        return;
+    data->_31f0.sub_71011400C8(context);
+}
+
 void System::allocateApertureMapsCollectorImage(sead::Heap* heap) {
     const u32 count = mScenes.size();
     for (u32 i = 0; i < count; ++i)
