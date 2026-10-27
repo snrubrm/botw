@@ -141,7 +141,7 @@ void Graphics::drawModelSceneXlu(agl::DrawContext* draw_context, s32 pass,
     if (pass != 1)
         return;
     if (context->getViewIndex() == 0) {
-        sub_7100F34848(draw_context, 1, scene, context);
+        sub_7100F34848(draw_context, true, scene, static_cast<gsys::ModelSceneContext*>(context));
         if (_398)
             _398->sub_71012940CC(draw_context, scene, context);
         auto* render_buffer_context = scene->mBuffer.getRenderBufferContext();
@@ -156,6 +156,55 @@ void Graphics::drawModelSceneXlu(agl::DrawContext* draw_context, s32 pass,
     }
     if (_aa0 && (agl::lyr::Renderer::instance()->get_1b8() & 2) == 0)
         _aa0->sub_7100F12828(draw_context, context);
+}
+
+// 0x7100f34848: the pass setup shared by the OPA and XLU passes. For view 0 it expands the depth
+// buffer once for the opaque pass, uploads the record's render targets, then draws the two
+// "Model(Analyze/Opa)" and "Model(Analyze/Xlu)" queues and binds the render buffer again.
+// NON_MATCHING: the original reads _398->_8 before the _284 flag test (unconditional load);
+// keeping that read inside the ternary leaves a branch where the original has a select.
+void Graphics::sub_7100F34848(agl::DrawContext* draw_context, bool pass, gsys::ModelScene* scene,
+                              gsys::ModelSceneContext* context) {
+    const u8 view_index = context->getViewIndex();
+    if (view_index != 0)
+        return;
+    if (!_b38 || !_ae0)
+        return;
+    if (_ae0->_48 != view_index)
+        return;
+    const Unk_710129175c::Record& record = _b38->mRecords(0);
+    if (!(record._1f91 & 1))
+        return;
+    const u8 analyze_mode = record._1f93;
+    const bool analyze_opa = _284.isOnBit(14) ? u32(_398->_8 - 1) < 3 : analyze_mode == 0;
+    if ((!pass && analyze_opa) || (_f5c == 2 && pass)) {
+        if (!pass)
+            context->getRenderBuffer()->getRenderTargetDepth()->expandHiZBuffer(draw_context);
+        _b38->sub_71012927E0(draw_context, 0, context->getRenderBuffer());
+        const s32 view = analyze_mode == 1 ? Unk_710260af28::instance()->sub_7100F1C3E8()
+                                           : Unk_710260af28::instance()->sub_7100F1C774();
+        const sead::BitFlag32 mask(0x800000u << view);
+        gsys::ModelRenderContext::DrawArg opa_arg(
+            sead::SafeString("Model(Analyze/Opa)"),
+            *context->getRenderQueue(gsys::ModelSceneContext::QueueType(0)), mask,
+            gsys::ModelEnum::ShaderAssignType::_1,
+            Unk_710260af28::instance()->sub_7100F1EEA0(), 0x26000, 0xffff);
+        opa_arg._3c = 2;
+        opa_arg._30 = 0xf0;
+        opa_arg._34 = 0;
+        context->draw(draw_context, opa_arg);
+        gsys::ModelRenderContext::DrawArg xlu_arg(
+            sead::SafeString("Model(Analyze/Xlu)"),
+            *context->getRenderQueue(gsys::ModelSceneContext::QueueType(1)), mask,
+            gsys::ModelEnum::ShaderAssignType::_1,
+            Unk_710260af28::instance()->sub_7100F1EEA0(), 0x36000, 0xffff);
+        xlu_arg._3c = 2;
+        xlu_arg._30 = 0xf0;
+        xlu_arg._34 = 0;
+        context->draw(draw_context, xlu_arg);
+        _b38->sub_7101292B2C(draw_context, 0);
+        context->bind(draw_context);
+    }
 }
 
 void Graphics::drawModelSceneFinalImage(agl::DrawContext* draw_context, s32 pass,

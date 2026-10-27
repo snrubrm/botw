@@ -169,7 +169,11 @@ public:
         u8 _1dc8[0x1f91 - 0x1dc8];
         ~Record();
         u8 _1f91;  // Graphics::sub_7100F2E2A4 tests bit 1 of record 0
-        u8 _1f92[0x1f98 - 0x1f92];
+        u8 _1f92;
+        // 0 / 1 / 2: selects the analyze-queue mask constant and which of the two paths
+        // sub_7101292B2C takes (it branches on 1 and on non-zero).
+        u8 _1f93;
+        u8 _1f94[0x1f98 - 0x1f94];
         u64 _1f98;
         f32 _1fa0;
         f32 _1fa4;
@@ -208,6 +212,13 @@ public:
     // 0x710129276c (declaration only; placeholder name): copies record `index` (the first if out of range)
     // into `result`.
     void sub_710129276C(s32 index, Result* result);
+    // 0x71012927e0 (declaration only; placeholder name): uploads the render targets of record `view`
+    // from `render_buffer` and clears its depth buffer.
+    void sub_71012927E0(agl::DrawContext* draw_context, s32 view,
+                        const agl::RenderBuffer* render_buffer);
+    // 0x7101292b2c (declaration only; placeholder name): draws the opaque or translucent model
+    // geometries of record `view`.
+    void sub_7101292B2C(agl::DrawContext* draw_context, s32 view);
 
     u32 _8;
     u8 _c[4];
@@ -1495,10 +1506,11 @@ public:
     // drawer and the four renderer blocks, for pass 0 only.
     void drawModelSceneFinalImage(agl::DrawContext* draw_context, s32 pass, gsys::ModelScene* scene,
                                   gsys::ModelRenderContext* context) override;
-    // 0x7100f34848 (declaration only): the setup shared by the XLU and OPA passes (it draws the two
-    // opa queues through the render context and releases the view's depth buffer).
-    void sub_7100F34848(agl::DrawContext* draw_context, s32 flag, gsys::ModelScene* scene,
-                        gsys::ModelRenderContext* context);
+    // 0x7100f34848: the setup shared by the XLU and OPA passes (it draws the two
+    // "Model(Analyze/...)" queues through the render context and releases the view's depth buffer).
+    // The scene argument is not read.
+    void sub_7100F34848(agl::DrawContext* draw_context, bool pass, gsys::ModelScene* scene,
+                        gsys::ModelSceneContext* context);
     // 0x7100f34e8c (slot m23; +8 copy 0x7100f34ed4): refreshes the view's records in the grid and
     // model renderer blocks.
     void calcModelSceneViewGPU(gsys::ModelRenderContext* context) override;
