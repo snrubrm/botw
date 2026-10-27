@@ -370,6 +370,14 @@ void NavMeshCharacter::sub_7100F76790() {
     _220 |= 0x8000;
 }
 
+// 0x710151c3b0 (library; unnamed in the CSV): the nav-mesh nearest-point query for a character.
+void sub_710151C3B0(hkaiWorld* world, NavMeshCharacterUnk8* character);
+
+// 0x7100f767a8 (unnamed in the CSV): hands the character's hkaiWorld and nav-mesh object to the query.
+void NavMeshCharacter::sub_7100F767A8() {
+    sub_710151C3B0(_10->_18, _8);
+}
+
 void NavMeshCharacter::sub_7100F7D350() {
     _d0 = 0;
 }

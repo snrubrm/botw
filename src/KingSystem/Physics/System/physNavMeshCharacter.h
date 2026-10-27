@@ -20,6 +20,7 @@
 #include <Havok/Common/Base/Object/hkReferencedObject.h>
 
 class hkaiStreamingCollection;
+class hkaiWorld;
 
 namespace sead {
 class Heap;
@@ -137,7 +138,10 @@ void sub_7100F809BC();
 
 // Placeholder: object at NavMeshCharacter::_10 (only the accessed fields are modelled).
 struct NavMeshCharacterUnk10 : public hkReferencedObject {
-    /* 0x010 */ u8 _0[0x68];
+    /* 0x010 */ u8 _0[8];
+    // Passed as the hkaiWorld of the character's nav-mesh query (0x7100f767a8).
+    /* 0x018 */ hkaiWorld* _18;
+    /* 0x020 */ u8 _20[0x68 - 0x10];
     /* 0x078 */ NavMeshCharacterMoveParam* _78;
     /* 0x080 */ u8 _80[0x16c - 0x80];
     /* 0x16c */ u32 _16c;
