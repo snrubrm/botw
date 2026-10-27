@@ -1,5 +1,6 @@
 #include "Game/Actor/actWolfLink.h"
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
+#include "Game/gameStatisticsMgr.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameWolfLinkMgr.h"
@@ -10,6 +11,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWolfLink.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/ActorSystem/actLodState.h"
 #include <prim/seadScopedLock.h>
 #include <math/seadMathCalcCommon.h>
@@ -27,6 +29,68 @@ namespace uking::act {
 static const sead::SafeString sAtkBody("AtkBody");
 
 WolfLink::~WolfLink() = default;
+
+bool Unk_71023d2f50::m0(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6,
+                        const ksys::act::Struct8Base* info, const ksys::act::PhysicsUserTag* tag) {
+    return static_cast<ksys::phys::RigidBody*>(a5)->getContactLayer() ==
+           ksys::phys::ContactLayer::SensorAttackPlayer;
+}
+
+// 0x71002f460c: looks up the WolfLink GParam object, resets the target table, the per-state timers
+// and the home position, then enables the animal-support ray cast.
+// NON_MATCHING: the entry-table loop's two constant stores are merged into one 64-bit store (the
+// original keeps an stp), the timer index temporaries take separate stack slots, and the CalcArg /
+// loop scheduling differs. Same instructions otherwise.
+WolfLink::InitResult WolfLink::init_() {
+    _1680 = getParam()->getRes().mGParamList->getWolfLink();
+    if (!_1680)
+        return InitResult::Failed;
+
+    auto* sub1250 = _1250;
+    if (auto* sub = sub1250->_18)
+        sub->m0();
+    if (auto* sub = sub1250->_10)
+        sub->sub_71006F6518();
+
+    auto* atk = getAtk();
+    if (!sead::IsDerivedFrom<ksys::act::ActorAtk>(atk))
+        return InitResult::Failed;
+    static_cast<ksys::act::ActorAtk*>(atk)->sub_710079E344(&_15e0);
+
+    _1650 = StatisticsMgr::instance()->getStatsPointer("player_safety_restart");
+
+    for (auto& entry : _1608) {
+        entry._8 = -1.0f;
+        entry.mActorId = -1;
+        entry._20 = State::_0;
+        entry._24 = 0;
+        entry._10.reset();
+    }
+
+    for (const auto idx : Idx14f8()) {
+        _14f8[idx].rate = 0;
+        sub_71002F2E78(idx);
+    }
+
+    getHomePos(&_1668);
+    _1674.set(_1668);
+
+    _14f8[Idx14f8::_9].rate = -1.0f;
+    _14f8[Idx14f8::_10].value = 0.0f;
+    _14f8[Idx14f8::_10].previous_value = 0.0f;
+    _14f8[Idx14f8::_10].rate = -1.0f;
+    _14f8[Idx14f8::_5].rate = -1.0f;
+
+    _14c8.sub_710071EE1C();
+
+    if (_1198) {
+        Unk_7102357908::Unk50::CalcArg arg{
+            sead::Vector3f(0, 0, -0.44f), 2.5f, sead::Vector3f(0, 0, 0), 2.0f, true};
+        _1198->sub_71006F0800(arg);
+    }
+
+    return InitResult::Ok;
+}
 
 bool WolfLink::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
     if (!Enemy::prepareInit_(heap, arg))

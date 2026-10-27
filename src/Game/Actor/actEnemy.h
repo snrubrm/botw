@@ -51,6 +51,8 @@ struct Unk_7100732b28 {
 struct Unk_Enemy1250Sub {
     virtual void m0();
     virtual void m1();
+    // 0x71006f6518: 0x71011da868(body) on the bone handle when the actor is set.
+    void sub_71006F6518();
 
     /* 0x08 */ ksys::act::Actor* _8;
     /* 0x10 */ u8 _10[0x20];

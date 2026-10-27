@@ -4,7 +4,11 @@
 #include <container/seadSafeArray.h>
 #include <prim/seadEnum.h>
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/aiUnk_710071edf8.h"
 #include "Game/Actor/aiUnk_7102357d20.h"
+#include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/System/Timer.h"
 
 // 2026-10-07: WolfLink's factory installs these two message senders at 0x1620 / 0x1638.
@@ -26,6 +30,16 @@ class GParamListObjectWolfLink;
 }
 
 namespace uking::act {
+
+// Placeholder name (vtable 0x71023d2f50): the WolfLink's attack sensor listener embedded at 0x15e0.
+// Its override (0x71002f5d70) accepts a hit only on a rigid body with contact layer 0x27 (ground).
+class Unk_71023d2f50 : public ksys::act::AttackSensor2Listener {
+public:
+    bool m0(void* a1, void* a2, void* a3, void* a4, void* a5, void* a6,
+            const ksys::act::Struct8Base* info,
+            const ksys::act::PhysicsUserTag* tag) override;
+};
+KSYS_CHECK_SIZE_NX150(Unk_71023d2f50, 0x28);
 
 // Name from the CSV (WolfLink::*); vtable 0x71023d2948 (181 slots, no new virtuals over Enemy).
 // TODO: incomplete. Factory size 0x16a0 (WolfLink::construct, which inlines the ctor).
@@ -95,10 +109,10 @@ public:
     void sub_71002F581C();
 
     // Fields are accessed directly by AI classes.
-    /* 0x14c8 */ u8 _14c8[0x14f8 - 0x14c8];  // ctor 0x710071edf8(this + 0x14c8, this)
+    /* 0x14c8 */ Unk_710071edf8 _14c8{this};
     /* 0x14f8 */ sead::SafeArray<ksys::Timer, 19> _14f8;  // zero-initialised (memset)
     /* 0x15dc */ u32 _15dc;
-    /* 0x15e0 */ u8 _15e0[0x1608 - 0x15e0];  // object with vtable (GOT 0x7102584a68)
+    /* 0x15e0 */ Unk_71023d2f50 _15e0;
     // 2026-10-07: preDelete2_ destroys the link in each 0x28-byte array entry.
     struct Entry1608 {
         // 2026-10-27: sub_71002F4008 stores the restricted-target time in _0/_4 and -1.0f in _8.
@@ -117,7 +131,10 @@ public:
     /* 0x1618 */ u32 _1618;
     /* 0x1620 */ Unk_71023d2f68 _1620{this, 0x80000af};
     /* 0x1638 */ Unk_71023d2f90 _1638{this, 0x80000b0};
-    /* 0x1650 */ u8 _1650[0x1680 - 0x1650];
+    /* 0x1650 */ void* _1650;  // StatisticsMgr "player_safety_restart" stat
+    /* 0x1658 */ u8 _1658[0x1668 - 0x1658];
+    /* 0x1668 */ sead::Vector3f _1668;  // home position
+    /* 0x1674 */ sead::Vector3f _1674;  // copy of the home position
     /* 0x1680 */ const ksys::res::GParamListObjectWolfLink* _1680;  // the WolfLink GParam object
     /* 0x1688 */ f32 _1688;  // 0-100 (WolfLinkChainAttack::leave_ lowers it per attack)
     /* 0x168c */ s32 _168c;
