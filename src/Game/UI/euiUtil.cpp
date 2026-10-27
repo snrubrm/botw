@@ -158,6 +158,19 @@ void CalcPaneBoundBox(sead::BoundBox2f* box, const nn::ui2d::Pane& pane) {
     box->setMax({x + width, y + height});
 }
 
+// 0x7100bed0f8
+bool SetupTextureInfoByAglTextureData(nn::ui2d::TextureInfo* info, const agl::TextureData& data,
+                                      const agl::TextureCompSel* comp_sel) {
+    const u16 width = std::max<u32>(1, data.getWidth());
+    const s32 min_height = s32(data.getMinHeight_());
+    const u16 height = min_height > s32(data.getHeight()) ? min_height : data.getHeight();
+    if (auto* external = nn::font::DynamicCast<nn::ui2d::ExternalTextureInfo>(info))
+        external->SetSize(width, height);
+    data.getTexture().setReference_();
+    info->GetDescriptorSlot().ToData()->value = u32(data.getTexture().getTextureId());
+    return true;
+}
+
 // 0x7100bed208
 bool SetupAglTextureDataByTextureInfo(agl::TextureData* texture, const nn::ui2d::TextureInfo& info) {
     if (!info.GetTextureView())
