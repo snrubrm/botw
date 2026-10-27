@@ -549,6 +549,18 @@ void ModelNW::unbindResource() {
             ->countDownReferenceCounter();
 }
 
+// 0x7100c05258
+void ModelNW::setMaterialShaderAssignVariation(int material_idx,
+                                               ModelEnum::ShaderAssignType assign_type,
+                                               int variation) {
+    const int num = getModelRenderUnitNum();
+    for (int i = 0; i < num; ++i) {
+        ModelRenderUnitNW* unit = mRenderUnits[i];
+        if (unit->getMaterialIndex() == material_idx)
+            unit->setShaderVariation(int(assign_type), u32(variation));
+    }
+}
+
 // 0x7100c051e4
 void ModelNW::clearMaterialParameter(int material_idx) {
     const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);

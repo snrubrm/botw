@@ -189,6 +189,8 @@ public:
     void setMaterialParamTexSRT(int material_idx, int param_idx,
                                 const sead::Vector2f& scale, float rotate,
                                 const sead::Vector2f& translate) override;
+    void setMaterialShaderAssignVariation(int material_idx, ModelEnum::ShaderAssignType assign_type,
+                                          int variation) override;
     bool setMaterialParamXluAlpha(int material_idx, int param_idx, float xlu_alpha) override;
     void clearMaterialParameter(int material_idx) override;
 
