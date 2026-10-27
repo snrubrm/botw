@@ -1,3 +1,4 @@
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/System/DebugBoard.h"
 #include "KingSystem/Utils/Thread/MessageTransceiverBase.h"
 
@@ -75,6 +76,10 @@ bool Unk_710246c4f8::sub_710089CAF4(ksys::MessageTransceiverBase* transceiver,
 
 void DebugBoardMgr::sub_710089BA4C(bool on) {
     _44c0 = on ? _44c0 | 0x20000 : _44c0 & ~0x20000u;
+}
+
+bool DebugBoardMgr::hasLoadingScreenStarted() {
+    return uking::GameScene::hasLoadingScreenStarted();
 }
 
 // NON_MATCHING: the original merges the constant stores into 64-bit pairs and shares the last two stores of
