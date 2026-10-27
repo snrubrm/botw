@@ -1,6 +1,7 @@
 #include "Game/Actor/actGuardianComponent.h"
 #include "Game/Actor/actGuardian.h"
 #include <basis/seadNew.h>
+#include <prim/seadFormatPrint.h>
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/aiUnk_7102451120.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
@@ -94,6 +95,16 @@ void Unk_710235b5e8::m13() {
     auto* actor = _8;
     actor->mMtx = mtx;
     actor->nullsub_4648();
+}
+
+// The discarded cstr() calls are in the original (one per formatted string).
+void Unk_710235b5e8::m14() {
+    for (s32 i = 0; i < 7; ++i) {
+        sead::FormatFixedSafeString<16> index("%d : index", i);
+        index.cstr();
+        sead::FormatFixedSafeString<16> weight("%d : weight", i);
+        weight.cstr();
+    }
 }
 
 // Fixes both leg bodies while the Guardian is in state 12.
