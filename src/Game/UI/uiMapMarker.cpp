@@ -1481,6 +1481,20 @@ void UiSubsys1Entry::m20() {
     }
 }
 
+// 0x7100950e80: converts the pin position to screen space through the map screen and stores it when it moved.
+void UiSubsys1Entry::sub_7100950E80() {
+    auto* screen = sead::DynamicCast<ScreenAppMap>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap));
+    if (!screen)
+        return;
+
+    sead::Vector2f pos = _34;
+    screen->sub_71009F1B18(&pos);
+    if (pos != _34) {
+        _3c |= 0x4000;
+        _34 = pos;
+    }
+}
+
 // 0x710095731c
 void Unk_7102476548::updateDistrictFromPos(const sead::Vector3f* pos) {    UiSubsys1Entry::updateDistrictFromPos(pos);
     if ((_3c & 0x2000) && _48) {
