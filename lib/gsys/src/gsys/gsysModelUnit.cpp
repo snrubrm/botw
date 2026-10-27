@@ -471,4 +471,62 @@ void ModelUnit::gatherVisibleModelRenderUnit() {
     }
 }
 
+static bool sEnableSimpleLodCalc;
+
+// 0x7100c4bd28
+ModelViewInfo::ModelViewInfo()
+    : mLodLevel(-1), mInlineLevel(0), mInlineFlags(0), mInlineDistance(1.0f), mInlineRate(0.0f) {
+    mLevel = &mInlineLevel;
+}
+
+ModelViewInfo::~ModelViewInfo() {}
+
+// 0x7100c4bd4c
+// NON_MATCHING: the calls, constants and branches agree; clang duplicates the level store into
+// each simple-LOD path and strength-reduces the fallback loop, so only the block shape differs.
+void ModelViewInfo::calcLodLevel(int lod_count, const Lod& lod,
+                                 const agl::cull::ViewFrustumCulling& culling,
+                                 const sead::Sphere3f& sphere, f32 distance) {
+    if (mInlineFlags & 1)
+        return;
+
+    u8* current = mLevel;
+    if (current != &mInlineLevel) {
+        const int level = lod_count - 1;
+        const u8 value = *current;
+        mInlineLevel = value < level ? value : level;
+        return;
+    }
+
+    if (sEnableSimpleLodCalc) {
+        u8 level = 0;
+        const int count = lod_count - 2;
+        if (count >= 0) {
+            const f32 start = mInlineRate + lod.mValues[0];
+            if (start < distance) {
+                const f32 t = (distance - start) * lod.mValues[2];
+                level = t <= 1.0f ? u8(s32(t * count + 1.0f)) : u8(lod_count - 1);
+            }
+        }
+        mInlineLevel = level;
+    } else {
+        mInlineLevel = 0;
+        for (int n = lod_count; n > 1; --n) {
+            if (mInlineDistance < lod.mValues[n + 1]) {
+                mInlineLevel = n - 1;
+                return;
+            }
+            --n;
+        }
+    }
+}
+
+// 0x7100c4be14
+void ModelViewInfo::forceLodLevel(bool, int) {}
+
+// 0x7100c4be18
+void ModelViewInfo::enableLodCalcSimple(bool enable) {
+    sEnableSimpleLodCalc = enable;
+}
+
 }  // namespace gsys

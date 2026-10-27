@@ -8,6 +8,7 @@
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <nn/g3d/World.h>
+#include <geom/seadSphere.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadDelegate.h>
 #include <prim/seadRuntimeTypeInfo.h>
@@ -17,6 +18,10 @@
 
 namespace agl {
 class UniformBlock;
+}
+
+namespace agl::cull {
+class ViewFrustumCulling;
 }
 
 namespace nn::util {
@@ -355,6 +360,35 @@ protected:
 #ifdef SEAD_DEBUG
     sead::TypedBitFlag<ORFlag, u8> mORFlags;
 #endif
+};
+
+// 0x7100c4bd28: per-view LOD state used by ModelUnitDrawArray's draw loop.
+class ModelViewInfo {
+public:
+    // The distance table the draw loop passes to calcLodLevel; only the accessed float
+    // slots are modelled.
+    struct Lod {
+        f32 mValues[8];
+    };
+
+    ModelViewInfo();
+    ~ModelViewInfo();
+
+    void calcLodLevel(int lod_count, const Lod& lod,
+                      const agl::cull::ViewFrustumCulling& culling, const sead::Sphere3f& sphere,
+                      f32 distance);
+    void forceLodLevel(bool enable, int level);
+    static void enableLodCalcSimple(bool enable);
+
+private:
+    s32 mLodLevel;        // 0
+    u8 _4[4];
+    u8* mLevel;           // 8, points at mInlineLevel unless an external level is set
+    u8 mInlineLevel;      // 10
+    u8 mInlineFlags;      // 11, bit 0: keep the current level
+    u8 _12[2];
+    f32 mInlineDistance;  // 14
+    f32 mInlineRate;      // 18
 };
 
 }  // namespace gsys
