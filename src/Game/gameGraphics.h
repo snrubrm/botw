@@ -735,6 +735,10 @@ public:
     void sub_7101293D68(u32 index, gsys::ModelScene* scene);
     // 0x7101293fc0: fades the item-filter alpha with the scene's rain ratio and applies it.
     void sub_7101293FC0();
+    // 0x71012940cc: uploads the view's render targets and pass textures before the XLU pass and
+    // releases them after it.
+    void sub_71012940CC(agl::DrawContext* draw_context, gsys::ModelScene* scene,
+                        gsys::ModelRenderContext* context);
     // 0x7101293ce8: selects filter index `index` and its GBuffer material-id mask.
     void sub_7101293CE8(u32 index, u8 value, gsys::ModelScene* scene);
     s32 _8;
@@ -746,6 +750,16 @@ public:
     f32 _254;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7101293bac, 0x258);
+
+// Placeholder: the per-view pass-texture records at Graphics + 0xa88 (allocated by init
+// 0x7100f2b4c8; the object is 0x18 bytes and its vtable 0x7102519828 holds only the destructor
+// pair). Its methods select a view's 0x138-byte record and copy the textures held there into the
+// render context's pass-texture slots.
+class Unk_7102519828 {
+public:
+    // 0x710129f728: for pass 0, stores two of the view's textures in the render context.
+    void sub_710129F728(s32 pass, gsys::ModelRenderContext* context);
+};
 
 // Placeholder: the object at Graphics + 0xb70 (only the Vector3f that Graphics::sub_7100F3592C
 // writes is modelled).
@@ -1368,7 +1382,12 @@ private:
     s32 mLensFlarePreset;  // 0x7100f2ddf0 compares and updates this preset index.
     u8 _664[0x668 - 0x664];
     Unk_668* _668;
-    u8 _670[0xa98 - 0x670];
+    u8 _670[0xa88 - 0x670];
+    // The per-view pass-texture records (allocated by init 0x7100f2b4c8, 0x18 bytes, vtable
+    // 0x7102519828 with only the destructor pair). The methods copy the selected view's textures
+    // into the render context's pass-texture slots.
+    Unk_7102519828* _a88;
+    u8 _a90[0xa98 - 0xa90];
     Unk_a98* _a98;
     ksys::gfx::LocationalLightMgr* _aa0;
     Unk_aa8* _aa8;
@@ -1476,6 +1495,10 @@ public:
     // drawer and the four renderer blocks, for pass 0 only.
     void drawModelSceneFinalImage(agl::DrawContext* draw_context, s32 pass, gsys::ModelScene* scene,
                                   gsys::ModelRenderContext* context) override;
+    // 0x7100f34848 (declaration only): the setup shared by the XLU and OPA passes (it draws the two
+    // opa queues through the render context and releases the view's depth buffer).
+    void sub_7100F34848(agl::DrawContext* draw_context, s32 flag, gsys::ModelScene* scene,
+                        gsys::ModelRenderContext* context);
     // 0x7100f34e8c (slot m23; +8 copy 0x7100f34ed4): refreshes the view's records in the grid and
     // model renderer blocks.
     void calcModelSceneViewGPU(gsys::ModelRenderContext* context) override;

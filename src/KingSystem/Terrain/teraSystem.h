@@ -587,6 +587,10 @@ public:
 };
 KSYS_CHECK_SIZE_NX150(Core, 0x380);
 
+// 0x710114ef3c (placeholder name): adds the grass entry of the first registered system of the
+// terrain core to the grass grid.
+void sub_710114EF3C(Core::Grass* grass, System* system);
+
 // One 0x2c0-byte grass entry shared by both actual grid owners.
 struct GrassEntry {
     Core::Grass::EntryPart* _0;
@@ -820,7 +824,8 @@ public:
     bool sub_710114DD40();
     f64 sub_710114D9E8();
     void* sub_710114DED4();
-    void* sub_710114D8D0();
+    // 0x710114d8d0: the core's registered systems (null when there is no core).
+    sead::OffsetList<System>* sub_710114D8D0();
     // The callers (System::x_3, parseSceneXmlMaybe, sub_710111DD0C, 0x71013019bc) pass a System.
     sead::Vector2f sub_710114D8E4(const System* system);
     f32 sub_710114D8F8(const System* system);

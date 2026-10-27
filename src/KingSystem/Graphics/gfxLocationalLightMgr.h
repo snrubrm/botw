@@ -10,6 +10,7 @@
 #include "KingSystem/Utils/Types.h"
 
 namespace gsys { class ModelUnit; }
+namespace gsys { class ModelRenderContext; }
 namespace ksys::map { class Object; }
 namespace ksys::eft { class MothEffectEmitter; }
 class Unk_7102519378;
@@ -108,6 +109,8 @@ public:
     void sub_7100F13060(void* obj);
     // 0x7100f131c0 (placeholder name): the same re-registration for the second record array.
     void sub_7100F131C0(void* obj);
+    // 0x7100f12828: draws the frame's locational lights for one render context.
+    void sub_7100F12828(agl::DrawContext* draw_context, gsys::ModelRenderContext* context);
     // 0x7100f13420: remove the bindings of a model unit.
     void sub_7100F13420(gsys::ModelUnit* unit);
     // 0x7100f134e8: remove bindings whose objects lie in the open range.

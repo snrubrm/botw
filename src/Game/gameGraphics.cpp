@@ -12,6 +12,7 @@
 #include <nn/g3d/ModelObj.h>
 #include <nn/g3d/ResMaterial.h>
 #include <layer/aglLayer.h>
+#include <layer/aglRenderer.h>
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include <postfx/aglDepthOfField.h>
@@ -128,6 +129,33 @@ void Graphics::unbindModelScene(gsys::ModelScene* scene) {
 void Graphics::clearModelSceneQueue() {
     if (_3b0)
         _3b0->clear();
+}
+
+// NON_MATCHING: one extra `mov x3, scene`; the original's call to sub_7100F34848 leaves the
+// unused third argument register undefined.
+void Graphics::drawModelSceneXlu(agl::DrawContext* draw_context, s32 pass,
+                                 gsys::ModelScene* scene,
+                                 gsys::ModelRenderContext* context) {
+    if (_a88)
+        _a88->sub_710129F728(pass, context);
+    if (pass != 1)
+        return;
+    if (context->getViewIndex() == 0) {
+        sub_7100F34848(draw_context, 1, scene, context);
+        if (_398)
+            _398->sub_71012940CC(draw_context, scene, context);
+        auto* render_buffer_context = scene->mBuffer.getRenderBufferContext();
+        auto* gbuffer = render_buffer_context->getContext(context->getViewIndex())->mGBuffer;
+        gbuffer->invalidate(gsys::GBuffer::Resolution(0), gsys::GBuffer::BufferType(2));
+        gbuffer->invalidate(gsys::GBuffer::Resolution(0), gsys::GBuffer::BufferType(1));
+        gbuffer->invalidate(gsys::GBuffer::Resolution(1), gsys::GBuffer::BufferType(1));
+        render_buffer_context->release(context->getViewIndex(), 0x200000);
+        gbuffer->setMaterialIdMask(gsys::GBuffer::MaterialIdMask(0), 0xf);
+        gbuffer->setMaterialIdMask(gsys::GBuffer::MaterialIdMask(1), 0xe);
+        gbuffer->setMaterialIdMask(gsys::GBuffer::MaterialIdMask(2), 0x1f);
+    }
+    if (_aa0 && (agl::lyr::Renderer::instance()->get_1b8() & 2) == 0)
+        _aa0->sub_7100F12828(draw_context, context);
 }
 
 void Graphics::drawModelSceneFinalImage(agl::DrawContext* draw_context, s32 pass,

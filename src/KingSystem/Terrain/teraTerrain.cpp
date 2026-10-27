@@ -958,7 +958,9 @@ gsys::Model* Terrain::sub_710114DEE0() { return _360->mModel; }
 bool Terrain::sub_710114DD40() { return false; }
 f64 Terrain::sub_710114D9E8() { return _a48; }
 void* Terrain::sub_710114DED4() { return _360->mScene; }
-void* Terrain::sub_710114D8D0() { return _360 ? &_360->mSystems : nullptr; }
+sead::OffsetList<System>* Terrain::sub_710114D8D0() {
+    return _360 ? &_360->mSystems : nullptr;
+}
 sead::Vector2f Terrain::sub_710114D8E4(const System* system) {
     return system->_10 * _3c8;
 }

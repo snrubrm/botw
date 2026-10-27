@@ -56,6 +56,9 @@ void sub_7100F41ACC();
 bool sub_7100F4193C(void* a1, u32 value, u32* out);
 // 0x7100f41b08 (placeholder name): the chemical manager's and the world manager's frame steps.
 void sub_7100F41B08();
+// 0x7100f41bac (placeholder name): the placement manager's first step, then the grass core step of
+// the terrain's first registered system, gated on an ActorDebug flag.
+void sub_7100F41BAC();
 // 0x7100f41c7c (placeholder name): the world manager's LOD step, gated on an ActorDebug flag.
 void sub_7100F41C7C();
 

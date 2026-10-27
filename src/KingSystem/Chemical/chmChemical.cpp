@@ -3,6 +3,7 @@
 #include "KingSystem/Chemical/chmSystemConfig.h"
 #include <cmath>
 #include <heap/seadExpHeap.h>
+#include <thread/seadThread.h>
 
 namespace ksys::chm {
 
@@ -54,6 +55,28 @@ s32 Chemical::sub_7100D9979C() {
 void Chemical::drawScene(sead::DrawContext* context) {
     for (auto& holder : _68)
         holder.sub_7100D9D154(context);
+}
+
+// 0x7100d994a0 / 0x7100d99520 (placeholder names): the watch reset, then one update step per held
+// element holder. A different current chemical instance takes over the watch byte.
+void Chemical::sub_7100D994A0() {
+    if (_85 && (Chemical::instance()->_84 & 1)) {
+        sead::ThreadMgr::instance()->getCurrentThread();
+        if (Chemical::instance() != this)
+            Chemical::instance()->_85 = 100;
+    }
+    for (auto& holder : _68)
+        holder.sub_7100D9B8C8();
+}
+
+void Chemical::sub_7100D99520() {
+    if (_85 && (Chemical::instance()->_84 & 1)) {
+        sead::ThreadMgr::instance()->getCurrentThread();
+        if (Chemical::instance() != this)
+            Chemical::instance()->_85 = 100;
+    }
+    for (auto& holder : _68)
+        holder.sub_7100D9BBC4();
 }
 
 // Scales a value into [1, 1000) by powers of 1000 (the mantissa for an SI prefix).

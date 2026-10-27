@@ -129,6 +129,10 @@ public:
     bool sub_7100D9D52C() const;
     // 0x7100d9d154 (placeholder name; declared only): frustum-culls and draws the holder's elements.
     void sub_7100D9D154(sead::DrawContext* context);
+    // 0x7100d9b8c8 / 0x7100d9bbc4 (unnamed in the CSV): the two per-frame element update steps the
+    // chemical frame calls on every held holder.
+    void sub_7100D9B8C8();
+    void sub_7100D9BBC4();
     // 0x7100d9ae5c (placeholder name): sets flag 0x80 in _c8.
     void sub_7100D9AE5C();
     // 0x7100d9ae24 / 0x7100d9ae40 (placeholder names): store a vector at _188 and set _c8 bit 5 / 6.

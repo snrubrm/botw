@@ -213,6 +213,23 @@ void sub_7100F41B08() {
     world::Manager::instance()->sub_71010F78E4();
 }
 
+// 0x7100f41bac (placeholder name): the placement manager's first step, then the grass core step of
+// the terrain's first registered system. An ActorDebug instance without flag 0x100000 skips it.
+void sub_7100F41BAC() {
+    if (map::PlacementMgr::instance())
+        map::PlacementMgr::instance()->sub_71011E9DB0();
+    if (act::ActorDebug::instance() &&
+        !act::ActorDebug::instance()->hasFlag(act::ActorDebug::Flag::_100000))
+        return;
+    if (!tera::Terrain::instance())
+        return;
+    if (!tera::Terrain::instance()->isGrassEnabled() || !tera::sUnk_710260B220.mSystem)
+        return;
+    auto* grass = tera::Terrain::instance()->sub_710114DE4C();
+    auto* system = tera::Terrain::instance()->sub_710114D8D0()->nth(0);
+    tera::sub_710114EF3C(grass, system);
+}
+
 // 0x7100f41c7c: the world manager's LOD step. A debug instance without flag 0x40000000 skips it.
 void sub_7100F41C7C() {
     if (auto* debug = act::ActorDebug::instance()) {

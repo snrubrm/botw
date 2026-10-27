@@ -16,6 +16,9 @@ public:
         _100 = 0x100,
         // Set while the mass-renderer draw request is skipped (byte +0x31 bit 6).
         _4000 = 0x4000,
+        // Failure flag of the quest / world frame step 0x7100f41bac: it runs the grass core step
+        // unless a debug instance exists without it.
+        _100000 = 0x100000,
         _200000 = 0x200000,  // enables the UI handler call of ksys::sub_7100F3ED50
         _10000000 = 0x10000000,
         _20000000 = 0x20000000,
