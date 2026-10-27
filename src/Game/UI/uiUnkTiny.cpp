@@ -760,48 +760,6 @@ void sub_7100A6C0EC(Unk_710249c338* controller, f32 value) {
         controller->setLeftStickCrossThreshold(0.95f, 0.9f);
 }
 
-// 0x7100a6caf8
-Unk_710249c3b0::Unk_710249c3b0() {
-    _8 |= 2;
-}
-
-// 0x7100a6cb74
-sead::BoundBox2f* Unk_710249c3b0::getBounds() {
-    return &mBounds;
-}
-
-// 0x7100a6cb6c
-Unk_710249c3b0::~Unk_710249c3b0() = default;
-
-// 0x7100a6cb7c
-// NON_MATCHING: the original pairs the stores as 0x10 / 0x14 and 0x18 / 0x1c (ours: 0xc / 0x10, 0x14 / 0x18)
-Unk_710249c3d0::Unk_710249c3d0() = default;
-
-// 0x7100a6cbb8
-Unk_710249c3d0::~Unk_710249c3d0() = default;
-
-// 0x7100a6cbc0
-sead::BoundBox2f* Unk_710249c3d0::getBounds() {
-    return &mBounds;
-}
-
-// 0x7100a6cbc8
-Unk_710249c3f0::Unk_710249c3f0()
-    : _28(sead::ControllerBase::cInvalidPointer), _30(sead::ControllerBase::cInvalidPointer) {}
-
-// 0x7100a6cc44
-Unk_710249c3f0::~Unk_710249c3f0() = default;
-
-// 0x7100a6cc4c
-sead::BoundBox2f* Unk_710249c3f0::getBounds() {
-    return &mBounds;
-}
-
-// 0x7100a6cc54
-u8 Unk_710249c3f0::get9() const {
-    return _9;
-}
-
 // 0x7100a6d2c8
 Unk_710249c410::~Unk_710249c410() = default;
 
@@ -2013,6 +1971,55 @@ void Unk_710249c338::sub_71008BF838() {
         mLeftStick.y *= scale;
         mRightStick.x *= scale;
         mRightStick.y *= scale;
+    }
+}
+
+// inline-only in the original; name is a guess (the same pair of tests repeats in 0x7100a6c128 / c410 / c560)
+static bool isBoundBoxUndef(const sead::BoundBox2f* box) {
+    return box->getMin().x > box->getMax().x || box->getMin().y > box->getMax().y;
+}
+
+// inline-only in the original; name is a guess
+static bool isPosInBoundBox(const sead::BoundBox2f* box, const sead::Vector2f& pos) {
+    return pos.x >= box->getMin().x && pos.x <= box->getMax().x && pos.y >= box->getMin().y &&
+           pos.y <= box->getMax().y;
+}
+
+// 0x7100a6c410
+// NON_MATCHING: the two upper-bound comparisons keep the bound on the left (ours compares the position
+// with the bound) and the position loads are scheduled after the bound loads.
+void Unk_710249c338::sub_7100A6C410(const sead::Vector2f& pos, uking::ui::Unk_710249c3d0* record) {
+    const u8 flags = record->_8 & 0xfc;
+    record->_8 = flags;
+    switch (record->_c) {
+    case 2:
+        if (!(getHoldMask() & (1u << sead::Controller::cPadIdx_Touch))) {
+            record->_c = 0;
+            record->_8 = flags | 2;
+        }
+        return;
+    case 1:
+        if (!(getHoldMask() & (1u << sead::Controller::cPadIdx_Touch))) {
+            record->_c = 0;
+            return;
+        }
+        if ((pos.x - _208.x) * (pos.x - _208.x) + (pos.y - _208.y) * (pos.y - _208.y) > record->_10) {
+            record->_c = 2;
+            record->_8 = flags | 1;
+        }
+        return;
+    case 0:
+        if (_1fc & 1)
+            return;
+        if (!(getHoldMask() & (1u << sead::Controller::cPadIdx_Touch)))
+            return;
+        if (isBoundBoxUndef(record->getBounds()))
+            record->_c = 1;
+        else if (isPosInBoundBox(record->getBounds(), pos))
+            record->_c = 1;
+        else if (isBoundBoxUndef(record->getBounds()))
+            record->_c = 1;
+        return;
     }
 }
 

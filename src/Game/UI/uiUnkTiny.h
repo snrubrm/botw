@@ -669,7 +669,7 @@ public:
     sead::BoundBox2f* getBounds();
 
     /* 0x08 */ u8 _8 = 0;
-    /* 0x0c */ f32 _c = 0.0f;
+    /* 0x0c */ s32 _c = 0;  // 0 idle / 1 pressed / 2 dragged
     /* 0x10 */ f32 _10 = 25.0f;
     /* 0x14 */ sead::BoundBox2f mBounds;
 };

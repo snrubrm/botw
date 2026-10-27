@@ -237,6 +237,7 @@ target_sources(uking PRIVATE
   uiTexSlots.h
   uiTimer.cpp
   uiTimer.h
+  uiControllerRecords.cpp
   uiUnkTiny.cpp
   uiUnk_7102474c08.cpp
   uiUnkTiny.h
