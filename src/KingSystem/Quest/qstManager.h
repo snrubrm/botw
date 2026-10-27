@@ -24,6 +24,8 @@ public:
 
     void init(sead::Heap* heap);
     void cleanUp();
+    // 0x7100fd5dd8 (unnamed in the CSV): the manager's per-frame step (renamed row).
+    void calc();
     // 0x7100fd76d4: frees the quest data and requests the quest pack again unless it loaded.
     void resetAndLoadQuestInfo();
     // 0x7100fd7820: polls the quest resource; parses it when needed. True once it is ready.

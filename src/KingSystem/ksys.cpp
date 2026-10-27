@@ -7,6 +7,8 @@
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include "KingSystem/ActorSystem/actDebug.h"
 #include "KingSystem/System/UIGlue.h"
+#include "KingSystem/Quest/qstManager.h"
+#include "KingSystem/Utils/Thread/MessageDispatcher.h"
 #include "Game/gameGraphics.h"
 #include "Game/gameStatisticsMgr.h"
 #include "KingSystem/ActorSystem/Attention/actAttentionSingleton.h"
@@ -96,6 +98,25 @@ void waitForResourceCreation1() {
         phys::System::instance()->waitForResourceCreation();
     if (Graphics::instance())
         Graphics::instance()->initBeforeStageGenB();
+}
+
+// 0x7100f3d5b0 / 0x7100f3d480 (unnamed in the CSV): the quest step and the event / actor-delete tail
+// of the frame.
+void sub_7100F3D5B0();
+void sub_7100F3D480();
+
+// 0x7100f3d534: the quest, message-dispatch and event steps of the frame.
+void CalcQuestAndEventAndActorDeleteOrPreload() {
+    if (!act::BaseProcMgr::instance())
+        return;
+    if (ui::sub_7100EDC580())
+        sub_7100F3D5B0();
+    if (!act::BaseProcMgr::instance()->isSpecialJobType(act::JobType::PreCalc)) {
+        if (qst::Manager::instance())
+            qst::Manager::instance()->calc();
+        MessageDispatcher::instance()->update();
+    }
+    sub_7100F3D480();
 }
 
 // 0x7100f3d7e4: the world manager's share of the frame calc. While the base proc manager runs a
