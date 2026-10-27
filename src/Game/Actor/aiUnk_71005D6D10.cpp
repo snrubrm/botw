@@ -21,6 +21,7 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyLevel.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/System/Vibration.h"
@@ -2424,6 +2425,33 @@ void sub_71005DDE8C(ksys::act::Actor* actor, const sead::Vector3f* axis, s32 par
     info.angle = angle;
     info.pos = pos;
     uking::ui::sub_7100A9D0B4(&info);
+}
+
+// 0x71005dfbe4: whether an attack from behind is possible on the enemy's target: the target must
+// face away (within `angle`) and be within `dist`.
+bool sub_71005DFBE4(ksys::act::Actor* actor, f32 dist, f32 angle) {
+    if (!actor)
+        return false;
+
+    const auto* level = actor->getParam()->getRes().mGParamList->getEnemyLevel();
+    if (!level || !*level->mIsBackSwiftAttack)
+        return false;
+
+    sead::Vector3f to_target = sub_71005D9330(actor);
+    to_target -= actor->getMtx().getTranslation();
+    to_target.y = 0.0f;
+    if (to_target.normalize() > dist)
+        return false;
+
+    const sead::Matrix34f& mtx = sub_71005D96A8(actor);
+    sead::Vector3f forward;
+    mtx.getBase(forward, 2);
+    forward.y = 0.0f;
+    forward.normalize();
+
+    // NON_MATCHING: same operations; the original's flattened y is -0.0f, so its final dot has
+    // `fmul` where ours has `fnmul`, and it keeps &_c48 in an extra register (0x10 larger frame)
+    return forward.dot(-to_target) <= sead::Mathf::cos(angle);
 }
 
 // 0x71005dfe40: hides the tree trunk and stump section materials.

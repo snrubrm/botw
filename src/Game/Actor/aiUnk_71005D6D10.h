@@ -98,8 +98,9 @@ const sead::Vector3f& sub_71005D93CC(ksys::act::Actor* actor);
 /// Velocity of the target actor, zero if not an Enemy.
 const sead::Vector3f& sub_71005D9548(ksys::act::Actor* actor);
 const sead::Vector3f& sub_71005D960C(ksys::act::Actor* actor);
-/// 0x71005dfbe4 (declared only; lane1 s23): whether the enemy's target is within `dist` and `angle` (radians). Placeholder name.
-bool sub_71005DFBE4(uking::act::Enemy* enemy, f32 dist, f32 angle);
+/// 0x71005dfbe4: whether an attack from behind is possible on the actor's target: the target must
+/// be within `dist` and face away within `angle` (radians).
+bool sub_71005DFBE4(ksys::act::Actor* actor, f32 dist, f32 angle);
 const sead::Matrix34f& sub_71005D96A8(ksys::act::Actor* actor);
 /// Enemy target state (0 if not an Enemy).
 s32 sub_71005D9744(ksys::act::Actor* actor);
