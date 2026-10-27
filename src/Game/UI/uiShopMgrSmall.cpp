@@ -651,6 +651,59 @@ static bool isCarryStateMaybe(s32 state) {
     }
 }
 
+// 0x7100984988
+void UiShopMgr::sub_7100984988() {
+    s32 screen_type = ksys::gdt::getFlag_Shop_ScreenType(false);
+    if (static_cast<u32>(screen_type) < 15 && (0x400a & (1 << screen_type)) != 0)
+        screen_type = _30;
+    const s32 num = sead::Mathi::max(ksys::gdt::getFlag_Shop_TradeItemNum(false), 1);
+    s32 price = ksys::gdt::getFlag_ShopTradePrice(false);
+    switch (screen_type) {
+    case 1:
+    case 3:
+    case 14:
+        if (_b0 < 0)
+            return;
+        if (screen_type == 1) {
+            if (_38._5c == 2)
+                price = _38._60;
+            sub_7100A91424(_38.name, price, 0, num);
+        } else if (screen_type == 14) {
+            if (_38._5c == 2)
+                price = _38._60;
+            sub_7100A91424(_38.name, price, 0, num);
+            _cc = 1;
+        } else {
+            sub_7100A91424(_38.name, price, 2, num);
+        }
+        if (_38._5c != 2)
+            _d0->mItems[_b0].count -= num;
+        sub_7100A9127C(screen_type, _38.name, num);
+        _c5 = true;
+        break;
+    case 7: {
+        const char* name;
+        ksys::gdt::getFlag_Shop_SelectItemName(&name, false);
+        const s32 material = ksys::gdt::getFlag_ColorChange_MaterialIndex(false);
+        if (material == -1)
+            sub_7100A91424(sead::SafeString(name), price, 0, num);
+        else
+            sub_7100A915D4(sead::SafeString(name), price, 0, material);
+        sub_7100A9127C(7, sead::SafeString(name), num);
+        break;
+    }
+    case 8: {
+        const char* name;
+        ksys::gdt::getFlag_Shop_SelectItemName(&name, false);
+        sub_7100A91424(sead::SafeString(name), price, 1, 1);
+        sub_7100A9127C(_30, sead::SafeString(name), 1);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 // 0x7100985134
 bool UiShopMgr::sub_7100985134() {
     PauseMenuDataMgr* data = PauseMenuDataMgr::instance();

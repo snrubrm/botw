@@ -16,6 +16,10 @@ class PouchItem;
 
 // 0x7100a9127c (CSV shopBuyOrSellRupeeOrMamoStuff; declared only; placeholder name)
 void sub_7100A9127C(s32 state, const sead::SafeString& item_name, s32 count);
+// 0x7100a91424 / 0x7100a915d4 (declared only): apply a purchase with the item name, its price, the
+// payment type (0 rupees, 1 recipe, 2 mamo) and the item count.
+s32 sub_7100A91424(const sead::SafeString& name, s32 price, s32 type, s32 num);
+s32 sub_7100A915D4(const sead::SafeString& name, s32 price, s32 type, s32 num);
 
 // The item record the shop manager works on (0x78 bytes at UiShopMgr + 0x38). Its name comes first;
 // the state helpers (0x7100a90e40 / 0x7100a91e84 / 0x7100a91f64 / 0x7100a92180) read the fields after
