@@ -11,7 +11,11 @@
 #include "Game/gameRoot1.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/System/UIGlue.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
+#include <limits>
 #include <math/seadMathCalcCommon.h>
+#include <math/seadVector.h>
+#include <time/seadTickTime.h>
 
 namespace uking::ui {
 
@@ -23,6 +27,36 @@ bool sub_7100A97F80();
 // The original discards both results.
 bool sub_7100A96964(bool a0);
 bool sub_7100A97EA4(bool a0);
+
+// The TU's merged static block (0x71025d7b40), built by sinitHorseItemStrings 0x7100985584: the
+// shared InitConstants and tick pair at +0, the FLT_MAX vectors at +0x18 / +0x20, the 19 UI colors
+// at +0x2c, then the shop-state buffer at +0x160 and the horse profile strings at +0x170 - +0x1b0.
+// GlobalMerge sorts by size, so the declaration order keeps those offsets.
+static ksys::util::InitConstants sInitConstants;
+static sead::TickTime sUnk_71025d7b48;
+static sead::TickSpan sUnk_71025d7b50;
+static sead::Vector2f sMaxVector2{std::numeric_limits<f32>::max(), std::numeric_limits<f32>::max()};
+static sead::Vector3f sMaxVector{std::numeric_limits<f32>::max(), std::numeric_limits<f32>::max(),
+                                 std::numeric_limits<f32>::max()};
+static sead::Color4f sColorBlack{0.0f, 0.0f, 0.0f, 1.0f};
+static sead::Color4f sColorBlackHalf{0.0f, 0.0f, 0.0f, 0.5f};
+static sead::Color4f sColorGray{0.5f, 0.5f, 0.5f, 1.0f};
+static sead::Color4f sColorGrayHalf{0.5f, 0.5f, 0.5f, 0.5f};
+static sead::Color4f sColorWhite{1.0f, 1.0f, 1.0f, 1.0f};
+static sead::Color4f sColorWhiteHalf{1.0f, 1.0f, 1.0f, 0.5f};
+static sead::Color4f sColorRed{1.0f, 0.0f, 0.0f, 1.0f};
+static sead::Color4f sColorRedHalf{1.0f, 0.0f, 0.0f, 0.5f};
+static sead::Color4f sColorGreen{0.0f, 1.0f, 0.0f, 1.0f};
+static sead::Color4f sColorGreenHalf{0.0f, 1.0f, 0.0f, 0.5f};
+static sead::Color4f sColorBlue{0.0f, 0.0f, 1.0f, 1.0f};
+static sead::Color4f sColorBlueHalf{0.0f, 0.0f, 1.0f, 0.5f};
+static sead::Color4f sColorYellow{1.0f, 1.0f, 0.0f, 1.0f};
+static sead::Color4f sColorYellowHalf{1.0f, 1.0f, 0.0f, 0.5f};
+static sead::Color4f sColorMagenta{1.0f, 0.0f, 1.0f, 1.0f};
+static sead::Color4f sColorMagentaHalf{1.0f, 0.0f, 1.0f, 0.5f};
+static sead::Color4f sColorCyan{0.0f, 1.0f, 1.0f, 1.0f};
+static sead::Color4f sColorCyanHalf{0.0f, 1.0f, 1.0f, 0.5f};
+static sead::Color4f sColorClear{0.0f, 0.0f, 0.0f, 0.0f};
 
 // The shop-state to screen-list table. The native TU initializer 0x7100985584 sets
 // the buffer to these 16 entries (count 0x71025d7ca0, pointer 0x71025d7ca8).
@@ -505,12 +539,11 @@ static sead::SafeString sUnk_71025d7ce0 = "GameRomHorseSaddle_00";
 // 0x71009821f0: switches the shop to `state`. Leaving the 7 / 8 states resets the selected item,
 // the NPC shop data and closes the info screen; the item count, the dye index and the horse item
 // name are refreshed for the new state, then the state's screen list is opened.
-// NON_MATCHING: blocked on this TU's static block. The horse profile strings are at +0x170 / +0x180
-// of the merged block the original fills in sinitHorseItemStrings 0x7100985584 (the floats and
-// vectors at 0x71025d7b40 - 0x71025d7c94 are not modelled), so our adrp/add offsets differ; the
-// original also keeps one copy of the 0x98248c block where our clang specializes it into the
-// state-10 arm. Everything else (the reset, the count and horse-name lookups, the masks) is as in
-// the original.
+// NON_MATCHING: the merged static block is modelled (the horse strings are now read at the
+// original's +0x170 / +0x180), but two residues remain: the opening 7/8 guard is one branch here
+// where the original materialises the second test (cmp/cset/ccmp), and our clang specializes the
+// 0x98248c state block into the state-10 arm where the original keeps one shared copy. Everything
+// else (the reset, the count and horse-name lookups, the masks) is as in the original.
 bool UiShopMgr::sub_71009821F0(s32 state) {
     if (_30 == state)
         return true;
