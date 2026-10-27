@@ -82,7 +82,13 @@ public:
     /* 0x3bc */ f32 _3bc = -1000.0f;
     /* 0x3c0 */ f32 _3c0 = -1000.0f;
     /* 0x3c4 */ f32 _3c4 = 0.2f;
-    /* 0x3c8 */ f32 _3c8 = 0;
+    // Pass flags: 0x3c9 bit 5 (planar reflection drawn) and bit 6 (local reflection drawn) are
+    // read by drawPlanarReflection 0x7100c341cc and drawLocalReflection 0x7100c34600, 0x3ca
+    // bit 0 (SSSSS drawn) by drawSSSSS 0x7100c33298 and releaseSSSSS 0x7100c33344.
+    /* 0x3c8 */ u8 _3c8 = 0;
+    /* 0x3c9 */ u8 _3c9 = 0;
+    /* 0x3ca */ u8 _3ca = 0;
+    /* 0x3cb */ u8 _3cb = 0;
     /* 0x3cc */ u8 _3cc[4];
     /* 0x3d0 */ sead::Viewport mViewport;
 };

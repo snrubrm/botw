@@ -58,11 +58,13 @@ public:
     void calcViewSSII(const ModelSceneContext& context);
     // 0x7100c34844: the per-view GPU steps of SSSSS, SSII and the light probes.
     void calcViewGPU(const ModelSceneContext& context);
-    // 0x7100c33274 / 0x7100c340b8 / 0x7100c3423c / 0x7100c347a4
+    // 0x7100c33f3c / 0x7100c33f90 / 0x7100c340b8 / 0x7100c347a4
     void releaseLightPrePass(const ModelSceneContext& context) const;
     void releasePlanarReflection(const ModelSceneContext& context) const;
     bool isLocalReflectionEnabled() const;
     void releaseLocalReflection(const ModelSceneContext& context) const;
+    // 0x7100c33344
+    void releaseSSSSS(const ModelSceneContext& context) const;
 
 private:
     u8 _250[0x420 - 0x250];

@@ -168,6 +168,15 @@ void ModelSceneGI::releaseLocalReflection(const ModelSceneContext& context) cons
     mLocalReflection->releaseReflectionBuffer(context.getViewIndex());
 }
 
+// 0x7100c33344
+void ModelSceneGI::releaseSSSSS(const ModelSceneContext& context) const {
+    if (!mSSSSS || !_8->isFeatureEnabled(ModelSceneConfig::Feature::SSSSS))
+        return;
+    if ((context._3ca & 1) == 0)
+        return;
+    mSSSSS->release(context.getViewIndex());
+}
+
 // 0x7100c309d0
 void ModelSceneGI::setSceneMaterial(ModelNW* model) {
     if (!mEnvCubeMap)
