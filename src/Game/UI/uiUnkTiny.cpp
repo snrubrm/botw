@@ -12,6 +12,7 @@
 #include "Game/UI/euiTextBoxEx.h"
 #include "KingSystem/Utils/Types.h"
 #include "KingSystem/Sound/sndSound.h"
+#include "KingSystem/System/Account.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiButton.h"
@@ -19,6 +20,13 @@
 #include "Game/UI/euiScreen.h"
 #include "Game/UI/uiUtils.h"
 #include <nn/ui2d/Pane.h>
+#include <nn/nn.h>
+
+// 0x18005d0: the SDK import _ZN2nn2ec24ShowShopAddOnContentListENS_13ApplicationIdERKNS_7account10UserHandleE.
+namespace nn::ec {
+void ShowShopAddOnContentList(ApplicationId appId, const account::UserHandle& userHandle);
+}
+
 
 // The "{ ; }" destructors keep the original's vtable store (upstream GameDataFlagSelector::~GameDataFlagSelector() { ; },
 // commit 96101229; the original D1 is `str vptr; ret`).
@@ -1062,6 +1070,32 @@ bool Unk_710249d300::sub_7100A83EC0() const { return _18; }
 void Unk_710249d300::sub_7100A83EC8(bool value) { _19 = value; }
 
 void Unk_710249d300::sub_7100A83ED4(s32 value) { _9c = value; }
+
+// 0x7100a83334
+void Unk_710249d300::sub_7100A83334() {
+    switch (_8) {
+    case 0:
+        if (_18)
+            _18 = false;
+        break;
+    case 1:
+        return sub_7100A83444();
+    case 2:
+        return sub_7100A83688();
+    case 3: {
+        ksys::snd::SoundMgr::instance()->sub_71011FBF08(ksys::snd::UiSoundKind{5}, true);
+        sead::Thread* thread = ksys::snd::SoundMgr::instance()->sub_71011FC348();
+        nn::ec::ShowShopAddOnContentList(nn::ApplicationId{_10},
+                                         *ksys::Account::instance()->getUserHandle());
+        ksys::snd::SoundMgr::instance()->sub_71011FC394(thread);
+        ksys::snd::SoundMgr::instance()->sub_71011FBF08(ksys::snd::UiSoundKind{5}, false);
+        _8 = 4;
+        break;
+    }
+    case 4:
+        return sub_7100A838A0();
+    }
+}
 
 // 0x7100a8331c
 Unk_710249d300::~Unk_710249d300() { ; }

@@ -787,6 +787,11 @@ public:
     // 0x7100a83334 (placeholder name): the AoC shop state step, switched on _8 (0 - 4); called by
     // Unk_710247b428::m25.
     void sub_7100A83334();
+    // 0x7100a83444 / 0x7100a83688 / 0x7100a838a0 (declared only; unnamed in the CSV): states 1 / 2 / 4 of
+    // sub_7100A83334
+    void sub_7100A83444();
+    void sub_7100A83688();
+    void sub_7100A838A0();
     void sub_7100A83EC8(bool value);
     void sub_7100A83ED4(s32 value);
     // 0x7100a83ea4 / 0x7100a83eac (placeholder names; called by 0x71009bad4c and 0x7100a6b278 as

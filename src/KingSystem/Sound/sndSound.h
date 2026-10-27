@@ -2081,6 +2081,9 @@ public:
     void sub_71011FBDA8();
     sead::Thread* sub_71011FC348();
     void sub_71011FC394(sead::Thread* thread);
+    // 0x71011fbf08 (placeholder name; CSV Sound::__auto6; declared only): `mode` 5 / 4 switched by the on / off
+    // flag (five starts the sequence the AoC shop screen runs, four stops it through the group manager).
+    void sub_71011FBF08(UiSoundKind kind, bool enabled);
 
     // Tested by calc (nothing runs before Sound::init sets it).
     /* 0x28 */ bool _28;
