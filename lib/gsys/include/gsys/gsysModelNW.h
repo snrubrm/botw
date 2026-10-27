@@ -132,6 +132,8 @@ public:
     void safeGetBoneWorldMatrix(sead::Matrix34f* matrix, int bone_idx) const override;
     // 0x7100c04e54: sets the world-matrix dirty flag and returns the 0x40-byte bone matrix.
     sead::Matrix34f* getBoneWorldMatrixPtr(int bone_idx) const override;
+    // 0x7100c04cd0: writes the local scale and clears the matrix's scale bits.
+    void setBoneLocalScale(const sead::Vector3f& scale, int bone_idx) override;
 
     // 0x7100c06be0 / 0x7100c06db4 / 0x7100c07b5c: the model object's skeleton bone count and
     // the per-bone / per-material visibility bits.

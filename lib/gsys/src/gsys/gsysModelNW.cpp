@@ -92,6 +92,16 @@ bool ModelNW::initRenderUnit_(ModelRenderUnitNW* unit, int index, const RenderUn
     return true;
 }
 
+// 0x7100c04cd0
+void ModelNW::setBoneLocalScale(const sead::Vector3f& scale, int bone_idx) {
+    _200 |= 0x40;
+    nn::g3d::SkeletonObj* skeleton = mModelObj.GetSkeleton();
+    skeleton->SetFlags(2);
+    nn::g3d::BoneLocalMatrix& matrix = *skeleton->GetLocalMatrix(bone_idx);
+    matrix.mScale = scale;
+    matrix.mFlags &= 0xf0ffffff;
+}
+
 // 0x7100c06be0
 int ModelNW::getBoneNum() const {
     return mModelObj.GetSkeleton()->GetRes()->GetBoneCount();
