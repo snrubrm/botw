@@ -220,6 +220,15 @@ void callCalcPlacementMgr() {
     CalcPlacementMgr();
 }
 
+// NON_MATCHING: the instructions agree; the original places the call block after the return
+// (b.eq to the call), ours falls through to it (b.ne over the call).
+// 0x7100f41a7c (CSV CalcPlacementMgr2): while the effect manager or the terrain manager is not
+// ready, runs the effect manager's placement step.
+void CalcPlacementMgr2() {
+    if (!eft::Effect::instance() || !tera::sUnk_710260B220._10)
+        eft::Effect::instance()->sub_71011B7F60();
+}
+
 // 0x7100f419dc: runs the placement manager's calc step.
 void sub_7100F419DC() {
     if (auto* mgr = map::PlacementMgr::instance())

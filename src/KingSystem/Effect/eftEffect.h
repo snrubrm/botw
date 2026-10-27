@@ -70,6 +70,9 @@ public:
     // Bit 13 (byte +0x192f5 bit 5) makes calc skip the ambient effect manager. Meaning unknown.
     static constexpr u32 cFlag_Unk2000 = 0x2000;
 
+    // 0x71011b7f60 (placeholder name): the placement effect step ksys::CalcPlacementMgr2 runs while
+    // the terrain manager is not ready.
+    void sub_71011B7F60();
     // 0x71011b63ac / 0x71011b7b0c (CSV calcMostProbably / calcMostProbably2; declaration only): called by
     // MCMgr::invoked3.
     void calcMostProbably();
