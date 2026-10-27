@@ -2,6 +2,7 @@
 #include "Game/Actor/aiAwarenessFilters.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
@@ -1803,6 +1804,44 @@ void sub_71005DF270(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Sa
         }
     }
     actor->getHomePos(out);
+}
+
+// 0x71005d9a20: the horizontal front direction of the actor (or of the enemy's target matrix when
+// the enemy's target is not the player, or the camera direction is zero).
+// NON_MATCHING: same 210 instructions; ours sets the return value before the last out.z store and
+// hoists the target matrix address in the camera-zero branch.
+bool sub_71005D9A20(sead::Vector3f* out, ksys::act::Actor* actor) {
+    if (!out)
+        return false;
+
+    sead::Vector3f dir;
+    if (sead::IsDerivedFrom<Enemy>(actor) &&
+        ksys::act::isPlayerProfile(&static_cast<Enemy*>(actor)->_c48._8)) {
+        ksys::sub_7100D8C7FC(&dir);
+        dir.y = 0.0f;
+        dir.normalize();
+        if (dir.x == 0.0f && dir.z == 0.0f) {
+            const sead::Matrix34f& mtx = sead::IsDerivedFrom<Enemy>(actor)
+                                             ? static_cast<Enemy*>(actor)->_c48._24
+                                             : sead::Matrix34f::ident;
+            mtx.getBase(dir, 2);
+            dir.y = 0.0f;
+            dir.normalize();
+        }
+    } else {
+        const sead::Matrix34f& mtx = sead::IsDerivedFrom<Enemy>(actor)
+                                         ? static_cast<Enemy*>(actor)->_c48._24
+                                         : sead::Matrix34f::ident;
+        mtx.getBase(dir, 2);
+        dir.y = 0.0f;
+        dir.normalize();
+    }
+    if (dir.x == 0.0f && dir.y == 0.0f && dir.z == 0.0f) {
+        *out = sead::Vector3f(0.0f, 0.0f, 1.0f);
+        return false;
+    }
+    *out = dir;
+    return true;
 }
 
 // 0x71005dc8ac: writes the launch velocity for a throw at the carried object's target to `out`.
