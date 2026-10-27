@@ -21,6 +21,7 @@ public:
     void m35(const sead::Vector3f& target) override;
     void m37() override;
     void m38() override;
+    void m39() override;
     void loadParams_() override;
 
 protected:

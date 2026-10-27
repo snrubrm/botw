@@ -335,6 +335,39 @@ void UnarmedEnemyNoiseTarget::m38() {
     }
 }
 
+// 0x71005d5490: the twin of m38 without the position refresh: follows the selected weapon, and goes
+// back to the search child when the target is far away.
+void UnarmedEnemyNoiseTarget::m39() {
+    if (!_d0.hasProc()) {
+        setFailed();
+        return;
+    }
+    auto* target = sead::DynamicCast<ksys::act::Actor>(_d0.getProc(nullptr, nullptr));
+    if (!sead::IsDerivedFrom<act::Weapon>(target)) {
+        setFailed();
+        return;
+    }
+    if (sub_71005DEC08(&_d0, mActor, 999.0f, 999.0f, sead::Mathf::pi())) {
+        sub_71005D46FC();
+        return;
+    }
+    bool close = false;
+    if (auto* actor = mActor) {
+        close = sub_7100739030(actor, _d0);
+        if (!close) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            ksys::act::acquireActor(&_d0, &accessor);
+            const sead::Vector3f difference =
+                accessor.getActorMtx().getTranslation() - actor->getMtx().getTranslation();
+            close = difference.squaredLength() < 2.0f;
+        }
+    }
+    if (close)
+        sub_71005D4AB0();
+    else
+        changeChild("探す", nullptr);
+}
+
 // NON_MATCHING: register allocation and traversal scheduling differ.
 // 0x71005d394c: tracks the last noise target and dispatches the search / alarm children.
 void UnarmedEnemyNoiseTarget::calc_() {
