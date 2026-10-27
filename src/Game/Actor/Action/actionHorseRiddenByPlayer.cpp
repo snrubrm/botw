@@ -1,4 +1,5 @@
 #include "Game/Actor/Action/actionHorseRiddenByPlayer.h"
+#include "Game/Actor/actRideable.h"
 
 namespace uking::action {
 
@@ -73,3 +74,12 @@ void HorseRiddenByPlayer::calc_() {
 }
 
 }  // namespace uking::action
+
+// 0x71001abf60: plays the AS names `name` expands to on the rideable's S1 controller.
+void sub_71001ABF60(uking::act::Rideable* rideable, const char* name, ...) {
+    std::va_list args;
+    va_start(args, name);
+    rideable->_18.sub_7100E787B0(name, args);
+    va_end(args);
+}
+
