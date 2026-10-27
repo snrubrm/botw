@@ -2,6 +2,7 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/Resource/Actor/resResourceShop.h"
 #include "Game/UI/uiPauseMenuDataMgr.h"
+#include "KingSystem/GameData/gdtManager.h"
 
 namespace uking {
 
@@ -29,6 +30,29 @@ bool NpcShopData::sub_710091CE98(const ksys::res::Shop* shop, const sead::SafeSt
         }
     }
     mNumItems = count;
+    return true;
+}
+
+// 0x710091d030: resets the "<actor>_<item>" stock flags of every item of the table: the actor name plus
+// '_' is the prefix of every key, the value is the item's _40 - count.
+// NON_MATCHING: the prefix copy and the per-item key build are scheduled differently (the original keeps
+// the FixedSafeString<128> copy vptr stores and the append's length loads in another order), and the frame
+// is 0x20 smaller here.
+bool NpcShopData::sub_710091D030(const sead::SafeString& actor_name) {
+    auto* mgr = ksys::gdt::Manager::instance();
+    sead::FixedSafeString<128> prefix;
+    prefix = actor_name;
+    prefix.append('_');
+    if (mItems.size() == 0)
+        return true;
+    for (u32 i = 0; i != u32(mItems.size()); ++i) {
+        const Item& item = mItems[i];
+        sead::FixedSafeString<128> key;
+        key = prefix;
+        key.append(item.name);
+        if (!mgr->setS32(item._40 - item.count, key))
+            return false;
+    }
     return true;
 }
 

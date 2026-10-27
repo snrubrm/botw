@@ -34,8 +34,9 @@ public:
     // shop table `table_name` of `shop` and gives the items of the actor `actor_name`.
     bool giveItem(const ksys::res::Shop* shop, const sead::SafeString& actor_name, const sead::SafeString& table_name,
                   bool flag);
-    // 0x710091d030 (declared only; placeholder name, 1176 B): called with the actor's name after the sale finished.
-    void sub_710091D030(const sead::SafeString& actor_name);
+    // 0x710091d030 (placeholder name): called with the actor's name after the sale finished; resets the
+    // "<actor>_<item>" stock flags of every item.
+    bool sub_710091D030(const sead::SafeString& actor_name);
     // 0x710091d6d8 (declared only; placeholder name): the same with two more flags (NPCMakeItem with IncludePorch).
     bool sub_710091D6D8(const ksys::res::Shop* shop, const sead::SafeString& table_name, bool a, bool b);
     // 0x710091d4c8 (declared only; placeholder name): checks the items of the selected table (IsSoldOut).
