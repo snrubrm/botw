@@ -47,7 +47,7 @@ protected:
     bool* mIsCliffFreeze_a{};
     sead::Vector3f _70;
     f32 _7c = 0;
-    s32 _80 = 0;
+    u32 _80 = 0;
     ksys::act::BoneHandle _88;
     ksys::act::BoneHandle _130;
     f32 _1d8 = 0;

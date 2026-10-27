@@ -28,7 +28,15 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include <gsys/gsysModelAccessKey.h>
 #include <gsys/gsysModel.h>
+#include <gsys/gsysModelUnit.h>
 #include <prim/seadRuntimeTypeInfo.h>
+#include "KingSystem/Utils/MathUtil.h"
+#include "Game/UI/uiUtils.h"
+#include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/Terrain/teraSystem.h"
+#include "Game/Actor/actOptionalWeapon.h"
+#include <prim/seadBitUtil.h>
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actNPC.h"
@@ -50,6 +58,11 @@
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
+
+namespace uking::ui {
+// 0x7100a9d0b4 (defined in uiMiscFacade.cpp): forwards a dungeon-rotate marker to the UI singleton.
+void sub_7100A9D0B4(const void* a0);
+}  // namespace uking::ui
 
 using uking::act::Enemy;
 using uking::act::NPC;
@@ -1657,4 +1670,362 @@ void sub_71005DE398(sead::Vector3f* out, ksys::act::BaseProcLink* link,
 
 void sub_71005E00C8(ksys::act::Actor* actor) {
     sub_71005DFF24(actor, 0, -1);
+}
+
+// NON_MATCHING: the link select is if-converted to csel; the original branches.
+// 0x71005d715c: checks the actor's Enemy target link with acc::PlayerOrEnemy::sub_710000975C
+// (the weapon check behind sub_71005D70C8).
+bool sub_71005D715C(ksys::act::Actor* actor) {
+    ksys::act::BaseProcLink* link = &ksys::act::sUnk_71026505e0;
+    if (sead::IsDerivedFrom<Enemy>(actor))
+        link = &static_cast<Enemy*>(actor)->_c48._8;
+    if (!link->hasProc())
+        return false;
+    ksys::act::acc::PlayerOrEnemy accessor;
+    ksys::act::acquireActor(link, &accessor);
+    return accessor.sub_710000975C(actor);
+}
+
+// 0x71005d7c94: copies the first comma-separated token of `in` to `out`.
+bool sub_71005D7C94(sead::BufferedSafeString* out, const sead::SafeString* in) {
+    if (!out || in->isEmpty())
+        return false;
+    const sead::SafeString delimiter(",");
+    auto it = in->tokenBegin(delimiter);
+    const auto end = in->tokenEnd(delimiter);
+    if (it == end)
+        return false;
+    it.get(out);
+    return true;
+}
+
+// 0x71005d8a30: hands `weapon` to the PlayerOrEnemy or NPC (their m164 / m148).
+bool sub_71005D8A30(ksys::act::Actor* actor, uking::act::Weapon* weapon, s32 a3) {
+    if (sead::IsDerivedFrom<ksys::act::PlayerOrEnemy>(actor))
+        return static_cast<ksys::act::PlayerOrEnemy*>(actor)->m164(a3, weapon, false, false);
+    if (sead::IsDerivedFrom<NPC>(actor))
+        return static_cast<NPC*>(actor)->m148(a3, weapon, false, false);
+    return false;
+}
+
+// 0x71005db96c: index of the actor's first shield (weapon type 4), or -1; 0 without weapons.
+s32 sub_71005DB96C(ksys::act::Actor* actor) {
+    auto* weapons = actor->getWeapons();
+    if (!weapons)
+        return 0;
+    for (s32 i = 0; i < 6; ++i) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (weapons->mWeapons[i].link.hasProc())
+            ksys::act::acquireActor(&weapons->mWeapons[i].link, &accessor);
+        if (sub_71002F0258(accessor) == 4)
+            return i;
+    }
+    return -1;
+}
+
+// 0x71005dbf28: sets the entity motion flag 8 of `body` and stores the PhysicsUserTag state.
+void sub_71005DBF28(ksys::phys::RigidBody* body, s32 a1, s32 a2, bool a3, bool a4, bool a5,
+                    bool a6) {
+    body->setEntityMotionFlag8(true);
+    auto* tag = body->getUserTag();
+    if (sead::IsDerivedFrom<ksys::act::PhysicsUserTag>(tag))
+        static_cast<ksys::act::PhysicsUserTag*>(tag)->setStateMaybe(a1, a2, a3, a4, a5, a6);
+}
+
+// 0x71005dbc94: the PhysicsUserTag counterpart of sub_71005DC02C with entity motion flag 8 set.
+void sub_71005DBC94(ksys::act::Actor* actor, s32 a1, s32 a2, bool a3, bool a4, bool a5,
+                    bool a6) {
+    if (!sead::IsDerivedFrom<ksys::act::PhysicsUserTag>(&actor->mPhysicsUserTag))
+        return;
+
+    if (auto* controller = actor->getCharacterController())
+        controller->sub_7100F62D3C(true);
+
+    if (auto* bodies = actor->getRigidBodyByName(ksys::act::getStr_Body().cstr())) {
+        const s32 last = bodies->getRigidBodies().size() - 1;
+        for (s32 i = 0; i <= last; ++i)
+            bodies->getRigidBody(i)->setEntityMotionFlag8(true);
+    }
+
+    actor->mPhysicsUserTag.setStateMaybe(a1, a2, a3, a4, a5, a6);
+}
+
+struct DungeonRotateMarkerInfo {
+    s32 part_type;
+    f32 angle;
+    sead::Vector3f pos;
+};
+
+// NON_MATCHING: the original has an extra (unused) x28 save and x29-relative frame addresses.
+// 0x71005dde8c: passes the current remains rotation (home matrix relative to the field-body
+// transform) and its position to the dungeon-rotate UI.
+void sub_71005DDE8C(ksys::act::Actor* actor, const sead::Vector3f* axis, s32 part_type) {
+    f32 angle = 0.0f;
+    const sead::Vector3f pos = actor->getHomeMtxRaw().getTranslation();
+    sead::Matrix34f home;
+    actor->getHomeMtx(&home);
+    sead::Matrix34f from;
+    from = actor->getHomeMtxRaw();
+    if (axis) {
+        sead::Vector3f out_axis;
+        ksys::util::sub_71011EF78C(&out_axis, &angle, from, home, *axis);
+        if (axis->dot(out_axis) < 0.0f)
+            angle = -angle;
+    }
+    DungeonRotateMarkerInfo info;
+    info.part_type = part_type;
+    info.angle = angle;
+    info.pos = pos;
+    uking::ui::sub_7100A9D0B4(&info);
+}
+
+// 0x71005dfe40: hides the tree trunk and stump section materials.
+void sub_71005DFE40(ksys::act::Actor* actor) {
+    auto* model = actor->getModel();
+    if (!model)
+        return;
+
+    auto key = model->searchMaterial("Mt_TreeSection_Trunk");
+    if (key.isValid())
+        model->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->setMaterialVisible(
+            key.material_index, false);
+
+    key = model->searchMaterial("Mt_TreeSection_Stump");
+    if (key.isValid())
+        model->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->setMaterialVisible(
+            key.material_index, false);
+}
+
+// 0x71005e00d4: hides every material and shows only the tree stump.
+void sub_71005E00D4(ksys::act::Actor* actor) {
+    auto* model = actor->getModel();
+    if (!model)
+        return;
+
+    auto key = model->searchMaterial("Mt_Tree_Stump");
+    if (key.isValid()) {
+        model->setMaterialVisibleAll(false);
+        model->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->setMaterialVisible(
+            key.material_index, true);
+    }
+
+    key = model->searchMaterial("Mt_TreeSection_Stump");
+    if (key.isValid())
+        model->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->setMaterialVisible(
+            key.material_index, true);
+}
+
+// NON_MATCHING: the clear flag lives in w20 (target w19) and the two false returns carry
+// their own zero moves; same operations.
+// 0x71005d91a0: whether the fall path below the Enemy is clear up to `value` (a ground ray cast
+// from the actor's depth below its home position).
+bool sub_71005D91A0(ksys::act::Actor* actor, f32 value) {
+    if (!sead::IsDerivedFrom<Enemy>(actor))
+        return false;
+    auto* enemy = static_cast<Enemy*>(actor);
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&enemy->_c48._8, &accessor);
+    const f32 depth = accessor.sub_7100D110E4();
+    bool clear = false;
+    if (depth <= 0.0f)
+        return clear;
+    sead::Vector3f start;
+    accessor.getActorMtx().getTranslation(start);
+    start.y += depth + 0.1f;
+    sead::Vector3f end = start;
+    end.y -= value + 0.1f;
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    query.setStartAndEnd(start, end);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundSmooth);
+    clear = !query.worldRayCast(ksys::phys::ContactLayerType::Entity);
+    return clear;
+}
+
+// 0x71005dcf80: the terrain texture along `dir` from the actor (a short ray cast through the
+// actor's position).
+bool sub_71005DCF80(u32* material, ksys::act::Actor* actor, const sead::Vector3f& dir, bool unused) {
+    if (!actor || !actor->getModel())
+        return false;
+
+    sead::Vector3f pos;
+    actor->getMtx().getTranslation(pos);
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    sead::Vector3f direction = dir;
+    direction.normalize();
+    const sead::Vector3f start = pos - direction;
+    const sead::Vector3f end = pos + direction;
+    query.setStartAndDisplacement(start, end);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGround);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(ksys::phys::ContactLayer::EntityGroundObject);
+    query.set99(true);
+    if (!query.worldRayCast(ksys::phys::ContactLayerType::Entity))
+        return false;
+
+    sead::Vector3f hit_pos;
+    query.getHitPosition(&hit_pos);
+    if (sub_710072C388(material, &hit_pos, 1.0f))
+        return true;
+
+    const ksys::phys::MaterialMask mask = query.getMaterialMask();
+    if (auto* object = query.getHitMapObject()) {
+        ksys::act::InfoData::TerrainTextures textures;
+        const s32 count = ksys::act::InfoData::instance()->getTerrainTextures(
+            object->getUnitConfigName(), textures);
+        for (s32 i = 0; i < count; ++i) {
+            const u8 texture = textures.textures[i];
+            s32 a, b;
+            ksys::tera::sub_710110C134(&a, &b, texture);
+            if ((mask.getRawData() & 0x3f) == static_cast<u32>(a)) {
+                ksys::tera::sub_710110C1A4(material, texture);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// NON_MATCHING: the u64 argument is built in a register (target stores its two fields separately).
+// 0x71005dcc34: forwards a mimicry material request (material index and value) to every weapon.
+void sub_71005DCC34(ksys::act::Actor* actor, u32 material, f32 a3) {
+    auto* weapons = actor->getWeapons();
+    if (!weapons)
+        return;
+
+    const u64 value = u64(material) | (u64(sead::BitUtil::bitCast<u32>(a3)) << 32);
+    for (s32 i = 0; i < 6; ++i) {
+        auto* proc = weapons->mWeapons[i].link.getProc(nullptr, nullptr);
+        auto* weapon_base = sead::DynamicCast<ksys::act::WeaponBase>(proc);
+        if (sead::IsDerivedFrom<uking::act::Weapon>(weapon_base))
+            static_cast<uking::act::Weapon*>(weapon_base)->sub_71002EDB84(value);
+    }
+}
+
+// 0x71005dd7e4: copies the second comma-separated token of `name` to `out`.
+bool sub_71005DD7E4(sead::BufferedSafeString* out, const sead::SafeString& name) {
+    if (!out || name.isEmpty())
+        return false;
+    const sead::SafeString delimiter(",");
+    auto it = name.tokenBegin(delimiter);
+    const auto end = name.tokenEnd(delimiter);
+    if (end != it) {
+        ++it;
+        if (end != it) {
+            it.get(out);
+            return true;
+        }
+    }
+    return false;
+}
+
+// 0x71005dd3a8: forwards a mimicry material request to every weapon and its optional weapon.
+void sub_71005DD3A8(ksys::act::Actor* actor, f32 value, bool use_parent) {
+    if (!actor)
+        return;
+    auto* weapons = actor->getWeapons();
+    if (!weapons)
+        return;
+
+    uking::act::Unk_71002edc14 request;
+    request._0 = sead::BitUtil::bitCast<u32>(value);
+    request._4 = use_parent;
+    for (s32 i = 0; i < 6; ++i) {
+        auto* proc = weapons->mWeapons[i].link.getProc(nullptr, nullptr);
+        auto* weapon_base = sead::DynamicCast<ksys::act::WeaponBase>(proc);
+        if (!sead::IsDerivedFrom<uking::act::Weapon>(weapon_base))
+            continue;
+        auto* weapon = static_cast<uking::act::Weapon*>(weapon_base);
+        weapon->sub_71002EDC14(request);
+        auto* optional = weapon->m162();
+        if (sead::IsDerivedFrom<uking::act::OptionalWeapon>(optional))
+            static_cast<uking::act::OptionalWeapon*>(optional)->sub_7100EF2290(value, use_parent);
+    }
+}
+
+// NON_MATCHING: one fmul is scheduled before the other (x*x / z*z); same operations.
+// 0x71005df4e4: ballistic launch velocity for `angle` and `speed` from the horizontal
+// distance in `pos`; false when the trajectory is not reachable.
+bool sub_71005DF4E4(sead::Vector3f* out, const sead::Vector3f* pos, const sead::Vector3f* p,
+                    f32 angle, f32 speed) {
+    const f32 len = std::sqrt(pos->x * pos->x + pos->z * pos->z);
+    const f32 height = pos->y;
+    const f32 tan_angle = std::tan(angle);
+    const f32 denom = (height - len * tan_angle) / (tan_angle * tan_angle + 1.0f);
+    const f32 h = p->y * len * len / (denom + denom);
+    if (h >= 0.0f) {
+        const f32 velocity = std::sqrt(h);
+        speed = sead::Mathf::clampMax(velocity / 30.0f, speed);
+        sead::Vector3f dir(pos->x, 0.0f, pos->z);
+        dir.normalize();
+        *out = (dir * std::cos(angle) + sead::Vector3f::ey * std::sin(angle)) * speed;
+        return true;
+    }
+    return false;
+}
+
+// 0x71005e1484: movement speed scale for the actor's horizontal velocity against the ground
+// ahead (1.0 on a hit, 0.4 or a ratio depending on the reachable distance).
+f32 sub_71005E1484(ksys::act::Actor* actor) {
+    f32 speed = 1.0f;
+    const sead::Vector3f velocity = actor->getVelocity();
+    sead::Vector3f dir = velocity;
+    dir.y = 0.0f;
+    const f32 len = dir.normalize();
+    if (len > 0.0f) {
+        if (dir.x != 0.0f || dir.y != 0.0f || dir.z != 0.0f) {
+            const f32 distance = len * ksys::VFR::instance()->getDeltaFrame();
+            sead::Vector3f pos;
+            actor->getMtx().getTranslation(pos);
+            sead::Vector3f hit;
+            if (!sub_710072FD0C(actor, pos, dir, &hit, -1, distance + distance, -1.0f, -1.0f,
+                                -1.0f)) {
+                sead::Vector3f delta = hit - pos;
+                delta.y = 0.0f;
+                f32 reach = delta.dot(dir);
+                if (reach < 0.0f)
+                    reach = 0.0f;
+                if (!(reach < distance))
+                    speed = 0.4f;
+                else
+                    speed = reach * 0.7f / distance;
+            }
+        }
+    }
+    return speed;
+}
+
+// 0x71005e0904: whether one of the sensed actors of the Enemy is above it by `value`.
+bool sub_71005E0904(ksys::act::Actor* actor, f32 value) {
+    if (!sub_71007A4178(actor, false))
+        return false;
+    if (!sead::IsDerivedFrom<Enemy>(actor))
+        return false;
+    auto* enemy = static_cast<Enemy*>(actor);
+    const s32 count = sub_71007A425C(actor);
+    if (count < 1)
+        return false;
+
+    f32 min = std::numeric_limits<f32>::infinity();
+    bool found = false;
+    for (s32 i = 0; i < count; ++i) {
+        auto* entry = sub_71007A40D0(actor, i);
+        if (!entry)
+            continue;
+        if (entry->_50 != enemy->_c48._8)
+            continue;
+        if (!(entry->_c.dot(sead::Vector3f::ey) < 0.0f))
+            continue;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        ksys::act::acquireActor(&entry->_50, &accessor);
+        min = sead::Mathf::min(accessor.getActorMtx().m[1][3], min);
+        found = true;
+    }
+    if (found) {
+        if (min - actor->getMtx().m[1][3] >= value)
+            return true;
+    }
+    return false;
 }

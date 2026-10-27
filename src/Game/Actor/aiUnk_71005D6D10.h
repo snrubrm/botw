@@ -297,7 +297,7 @@ void sub_71005DD2E8(ksys::act::Actor* actor);
 void sub_71005DD34C(ksys::act::Actor* actor, bool on);
 /// 0x71005dcf80 (declaration only): ray cast along `dir` through the actor's position; stores a
 /// texture index for the hit (terrain textures / material mask) in `material`. `a4` is unused.
-bool sub_71005DCF80(s32* material, ksys::act::Actor* actor, const sead::Vector3f& dir, bool a4);
+bool sub_71005DCF80(u32* material, ksys::act::Actor* actor, const sead::Vector3f& dir, bool a4);
 /// 0x71005dd27c: uses texture index `material` for the actor's model.
 void sub_71005DD27C(ksys::act::Actor* actor, u32 material, f32 a3);
 /// 0x71005dcc34 (declaration only; tail-called by sub_71005DD27C): material fade of the actor's model.
@@ -374,7 +374,7 @@ bool sub_71005DD798(ksys::act::Actor* actor, int type, ksys::as::ASList::Unk4* q
 bool sub_71005DD7B0(ksys::act::Actor* actor, ksys::as::ASList::Unk4* query, int a2, int a3);
 /// 0x71005dd7e4 (declared only; lane3 s81): writes a number taken from `name` (an AS event name) to `out`;
 /// GanonWeaponNearAttack parses it with tryParseS32 as a weapon index.
-void sub_71005DD7E4(sead::BufferedSafeString* out, const sead::SafeString& name);
+bool sub_71005DD7E4(sead::BufferedSafeString* out, const sead::SafeString& name);
 /// Build an Unk_71002edaec request (_0 = 2 / 1 / 0) and pass it to sub_71005D79AC. `name` and
 /// `flags` may be null; flags is copied to Unk_71002edaec::_14.
 void sub_71005D7F4C(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeString* name,
@@ -478,6 +478,11 @@ void sub_71005DE398(sead::Vector3f* out, ksys::act::BaseProcLink* link,
 // Native Lumberjack caller selects model indices; source owner remains unknown.
 void sub_71005DFF24(ksys::act::Actor* actor, s32 new_index, s32 old_index);
 void sub_71005E00C8(ksys::act::Actor* actor);
+
+// 0x71005dfe40 (unnamed in the CSV): hides the tree trunk and stump section materials of the model.
+void sub_71005DFE40(ksys::act::Actor* actor);
+// 0x71005e00d4 (unnamed in the CSV): hides every material of the model except the tree stump.
+void sub_71005E00D4(ksys::act::Actor* actor);
 
 // 0x71005de53c: whether an Enemy can select a weapon, including visibility, height and type checks.
 bool sub_71005DE53C(uking::act::Weapon* weapon, uking::act::Enemy* enemy, f32 distance,
