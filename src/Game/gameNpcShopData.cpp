@@ -6,8 +6,9 @@
 namespace uking {
 
 // 0x710091ce98: copies the item names of the shop's `table_name` table into the owned items.
-// NON_MATCHING: the loop's trip-count guard (`cmp w23, #1; b.lt`) and the count's register are
-// missing here, which adds a sign extension and a stack spill (the frame is 0x10 larger).
+// NON_MATCHING: the destination Buffer's bounds check takes the index as s32 here (`smaddl` and a 32-bit
+// compare) where the original compares the 64-bit index (`madd`, `cmp x`) - its sead::Buffer::operator[]
+// takes a wider index type.
 bool NpcShopData::sub_710091CE98(const ksys::res::Shop* shop, const sead::SafeString& table_name) {
     if (!shop)
         return false;
@@ -21,8 +22,12 @@ bool NpcShopData::sub_710091CE98(const ksys::res::Shop* shop, const sead::SafeSt
     if (count == 0)
         return false;
     const auto* items = table.items.getBufferPtr();
-    for (s64 i = 0; i != count; ++i)
-        mItems[i].name.copy(items[i].name.ref());
+    if (count >= 1) {
+        for (u64 i = 0; i != u32(count); ++i) {
+            const auto& src_name = items[i].name.ref();
+            mItems[i].name.copy(src_name);
+        }
+    }
     mNumItems = count;
     return true;
 }
@@ -75,11 +80,13 @@ bool NpcShopData::sub_710091D6D8(const ksys::res::Shop* shop, const sead::SafeSt
         return false;
     const auto* items = table.items.getBufferPtr();
     s32 num = 0;
-    for (u64 i = 0; i != count; ++i) {
-        const auto& item = items[i];
-        if (sub_710091D51C(item.name.ref(), a, b)) {
-            mItems[num].name.copy(item.name.ref());
-            ++num;
+    if (count >= 1) {
+        for (u64 i = 0; i != u32(count); ++i) {
+            const auto& item = items[i];
+            if (sub_710091D51C(item.name.ref(), a, b)) {
+                mItems[num].name.copy(item.name.ref());
+                ++num;
+            }
         }
     }
     mNumItems = num;
