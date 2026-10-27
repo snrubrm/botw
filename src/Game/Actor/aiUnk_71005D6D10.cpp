@@ -1090,7 +1090,7 @@ namespace {
 // Face callback of sub_71005E11AC (vtable 0x710242dd40): keeps a usable face and checks its area.
 class NavFaceAreaCallback : public ksys::phys::NavMeshFaceCallback {
 public:
-    bool m0(const ksys::phys::Unk_7100f7e9f0& face) override {
+    bool m0(const ksys::phys::Unk_7100f7e9f0& face, const sead::Vector3f& ref_pos) override {
         const s32 material = face.sub_7100F7EEE4();
         if (material == 6 || material == 8)
             return false;

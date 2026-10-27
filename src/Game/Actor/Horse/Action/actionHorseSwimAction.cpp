@@ -7,7 +7,7 @@ namespace uking::action {
 
 // NON_MATCHING: the original tests the filter's m4 result in place; ours copies it and zeroes the
 // return register before the shared false branch.
-bool HorseSwimFaceQuery::m0(const ksys::phys::Unk_7100f7e9f0& face) {
+bool HorseSwimFaceQuery::m0(const ksys::phys::Unk_7100f7e9f0& face, const sead::Vector3f& ref_pos) {
     sead::Vector3f normal = sead::Vector3f::zero;
     if (!(face.sub_7100F7ED6C(&normal) > _34))
         return false;

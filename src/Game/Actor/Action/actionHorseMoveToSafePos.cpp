@@ -12,7 +12,7 @@ class HorseSafePosQuery : public ksys::phys::NavMeshFaceQuery {
 public:
     explicit HorseSafePosQuery(ksys::phys::NavMeshCharacter* character) { mCharacter = character; }
     ~HorseSafePosQuery() override;
-    bool m0(const ksys::phys::Unk_7100f7e9f0& face) override;
+    bool m0(const ksys::phys::Unk_7100f7e9f0& face, const sead::Vector3f& ref_pos) override;
     void* m1() override { return nullptr; }
 
     ksys::phys::Unk_7100f7e9f0 mFace;
@@ -23,7 +23,7 @@ KSYS_CHECK_SIZE_NX150(HorseSafePosQuery, 0x58);
 HorseSafePosQuery::~HorseSafePosQuery() = default;
 
 // NON_MATCHING: The navigation filter is loaded after the material query.
-bool HorseSafePosQuery::m0(const ksys::phys::Unk_7100f7e9f0& face) {
+bool HorseSafePosQuery::m0(const ksys::phys::Unk_7100f7e9f0& face, const sead::Vector3f& ref_pos) {
     const s32 material = face.sub_7100F7EEE4();
     if (!mCharacter->isMaterialUsableMaybe(material))
         return false;

@@ -98,8 +98,9 @@ public:
 // defaults are 0x71000e43d0 / 0x71000e43e0 (not Unk_NavMeshCallback's out-of-line copies).
 class NavMeshFaceCallback {
 public:
-    // Visits one face; returning true takes it.
-    virtual bool m0(const Unk_7100f7e9f0& face) = 0;
+    // Visits one face; returning true takes it. `ref_pos` is the query's reference point (the
+    // collector at 0x7100f893cc passes the point it searched from).
+    virtual bool m0(const Unk_7100f7e9f0& face, const sead::Vector3f& ref_pos) = 0;
     virtual void* m1() { return nullptr; }
     virtual bool m2() { return true; }
 };
@@ -112,15 +113,15 @@ class Unk_7102372790 : public NavMeshQuery, public NavMeshFaceCallback {
 public:
     // 0x71000e4350
     void process(HavokAI* ai) override;
-    bool m0(const Unk_7100f7e9f0& face) override = 0;
+    bool m0(const Unk_7100f7e9f0& face, const sead::Vector3f& ref_pos) override = 0;
     void* m1() override { return nullptr; }
 
-    /* 0x18 */ sead::Vector3f _18;
-    /* 0x24 */ f32 _24;
-    /* 0x28 */ f32 _28;
-    /* 0x2c */ s8 _2c;
+    /* 0x18 */ sead::Vector3f _18 = sead::Vector3f::zero;
+    /* 0x24 */ f32 _24 = 0;
+    /* 0x28 */ f32 _28 = 0;
+    /* 0x2c */ s8 _2c = -1;
     u8 _2d[3];
-    /* 0x30 */ f32 _30;
+    /* 0x30 */ f32 _30 = 0;
 };
 
 // Placeholder name (vtable 0x710239b220, address point 0x710239b230, object size 0x28, process 0x71001a2f2c):

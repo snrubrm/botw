@@ -3,22 +3,11 @@
 #include <math/seadVector.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadEnum.h>
+#include "Game/gameNavMeshSystem.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 
 namespace uking::ai {
-
-// Placeholder name (vtable 0x71024ed6a0): the navmesh position query that sub_7100600A6C allocates
-// (0x50 bytes) and submits; process() fills the distance pair and the hit position.
-class Unk_71024ed6a0 : public ksys::phys::Unk_7102372790 {
-public:
-    /* 0x34 */ u32 _34 = 1;
-    /* 0x38 */ f32 _38 = 0;
-    /* 0x3c */ f32 _3c = 0;
-    /* 0x40 */ sead::Vector3f _40{0, 0, 0};
-    /* 0x4c */ u8 _4c[4];
-};
-KSYS_CHECK_SIZE_NX150(Unk_71024ed6a0, 0x50);
 
 class WolfLinkAmiibo : public ksys::act::ai::Ai {
     SEAD_RTTI_OVERRIDE(WolfLinkAmiibo, ksys::act::ai::Ai)

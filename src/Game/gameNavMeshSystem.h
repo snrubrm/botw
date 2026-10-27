@@ -2,7 +2,10 @@
 
 #include <container/seadBuffer.h>
 #include <heap/seadDisposer.h>
+#include <limits>
 #include <math/seadVector.h>
+#include "KingSystem/Physics/System/physCharacterControllerParam.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace uking {
@@ -27,3 +30,26 @@ private:
 KSYS_CHECK_SIZE_NX150(NavMeshSystem, 0x30);
 
 }  // namespace uking
+
+namespace uking::ai {
+
+// Placeholder name (vtable 0x71024ed6a0): the navmesh position query that WolfLinkAmiibo's
+// sub_7100600A6C allocates (0x50 bytes) and submits. m0 runs the nearest-face query at _18 with
+// the radius in _30, keeps the reference position it was handed as the hit position and stops the
+// search once the accumulated face area reaches _3c.
+class Unk_71024ed6a0 : public ksys::phys::Unk_7102372790 {
+public:
+    // 0x7100e8e67c
+    bool m0(const ksys::phys::Unk_7100f7e9f0& face, const sead::Vector3f& ref_pos) override;
+
+    /* 0x34 */ ksys::phys::NavMeshCharacterType _34 = ksys::phys::NavMeshCharacterType::Horse;
+    /* 0x38 */ f32 _38 = 0;  // accumulated face area
+    /* 0x3c */ f32 _3c = 0;  // area limit
+    /* 0x40 */ sead::Vector3f _40{std::numeric_limits<f32>::quiet_NaN(),
+                                  std::numeric_limits<f32>::quiet_NaN(),
+                                  std::numeric_limits<f32>::quiet_NaN()};
+    /* 0x4c */ u8 _4c[4];
+};
+KSYS_CHECK_SIZE_NX150(Unk_71024ed6a0, 0x50);
+
+}  // namespace uking::ai

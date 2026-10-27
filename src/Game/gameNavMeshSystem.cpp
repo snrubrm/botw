@@ -4,6 +4,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBodyBox.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyParam.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/System/physUserTag.h"
 #include <math/seadBoundBox.h>
 
@@ -90,3 +91,25 @@ NavMeshSystem::~NavMeshSystem() {
 }
 
 }  // namespace uking
+
+namespace uking::ai {
+
+bool Unk_71024ed6a0::m0(const ksys::phys::Unk_7100f7e9f0& face,
+                        const sead::Vector3f& ref_pos) {
+    if (sead::Mathf::isNan(_40.x)) {
+        const f32 radius = _30 <= 0.0f ? 2.0f : _30;
+        sead::Vector3f pos;
+        const ksys::phys::Unk_7100f7e9f0 result =
+            ksys::phys::HavokAI::instance()->sub_7100F87ED0(&pos, _18, radius);
+        if (!result.sub_7100F7EB40())
+            return true;
+        if (sead::Mathf::abs(ksys::phys::NavMeshCharacter::sub_7100F74FD8(
+                _34, result.sub_7100F7EEE4())) > std::numeric_limits<f32>::max())
+            return true;
+        _40 = ref_pos;
+    }
+    _38 += face.sub_7100F7ED6C(nullptr);
+    return _38 >= _3c;
+}
+
+}  // namespace uking::ai

@@ -49,7 +49,7 @@ public:
     EscapeFaceCallback(sead::Vector3f* out, ksys::phys::NavMeshCharacter* nav) : mOut(out), mNav(nav) {}
 
     // 0x71003f9260
-    bool m0(const ksys::phys::Unk_7100f7e9f0& face) override {
+    bool m0(const ksys::phys::Unk_7100f7e9f0& face, const sead::Vector3f& ref_pos) override {
         const s32 material = face.sub_7100F7EEE4();
         if (material == 5 || material == 10)
             return false;
