@@ -11,12 +11,14 @@ class Node;
 
 namespace agl::sdw {
 class ShadowPrePass;
+class SSAO;
 }
 
 namespace gsys {
 
 class MaskedLight;
 class ModelSceneConfig;
+class ModelSceneContext;
 
 // The shadow component of a ModelScene. Only the masked-light shadow interface that
 // MaskedLight::assignModelSceneShadow (0x7100c794c0) uses is declared; the layout is not modelled.
@@ -35,6 +37,8 @@ public:
     bool disableMaskedLightShadow(const MaskedLight* light);
     // 0x7100c3ad9c
     bool isEnableMaskedLightShadow(const MaskedLight* light) const;
+    // 0x7100c3ab50: frees the view's SSAO texture when the feature is enabled.
+    void releaseSSAO(ModelSceneContext* context) const;
     // 0x7100c3adf0: nothing in the retail build.
     void attachHostIO(sead::hostio::Node* node);
 
@@ -42,7 +46,7 @@ private:
     u8 _0[8];
     /* 0x8 */ ModelSceneConfig* mConfig;
     u8 _10[0x428 - 0x10];
-    /* 0x428 */ void* mSSAO;
+    /* 0x428 */ agl::sdw::SSAO* mSSAO;
     /* 0x430 */ u8 _430[0x438 - 0x430];
     /* 0x438 */ agl::sdw::ShadowPrePass* mShadowPrePass;
     u8 _440[0x17a8 - 0x440];

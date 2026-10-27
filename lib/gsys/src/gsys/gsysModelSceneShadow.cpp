@@ -1,5 +1,7 @@
 #include <gsys/gsysModelSceneShadow.h>
 #include <gsys/gsysModelSceneConfig.h>
+#include <gsys/gsysModelSceneContext.h>
+#include <shadow/aglSSAO.h>
 #include <shadow/aglShadowPrePass.h>
 
 namespace gsys {
@@ -61,6 +63,15 @@ bool ModelSceneShadow::isEnableMaskedLightShadow(const MaskedLight* light) const
             return true;
     }
     return false;
+}
+
+// 0x7100c3ab50
+void ModelSceneShadow::releaseSSAO(ModelSceneContext* context) const {
+    if (!mSSAO)
+        return;
+    if (!mConfig->isFeatureEnabled(ModelSceneConfig::Feature::SSAO))
+        return;
+    mSSAO->release(context->getViewIndex());
 }
 
 // 0x7100c3adf0
