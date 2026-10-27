@@ -634,6 +634,49 @@ void UiShopMgr::sub_710098411C(s32 value) {
         _c7 = false;
 }
 
+// inline-only in the original; name is a guess (the same mask test is inlined here and in
+// sub_71009852C0): the shop states of a carry action
+static bool isCarryStateMaybe(s32 state) {
+    switch (state) {
+    case 9:
+    case 11:
+    case 12:
+    case 13:
+        return true;
+    default:
+        return false;
+    }
+}
+
+// 0x7100985134
+bool UiShopMgr::sub_7100985134() {
+    PauseMenuDataMgr* data = PauseMenuDataMgr::instance();
+    if (!data || data->isNothingBeingGrabbed())
+        return false;
+    data->unholdGrabbedItems();
+    auto* screen = sead::DynamicCast<ScreenShopBtnList20>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::ShopBtnList20));
+    if (!screen)
+        return true;
+    screen->sub_7100A4CD70();
+    const s32 item_index = screen->sub_7100A4CE28();
+    if (_c0 != 2) {
+        if (_b4) {
+            _b4 = false;
+        } else {
+            sub_7100983E48(item_index, _b0, &_38);
+            sub_7100982C90();
+            if (!isCarryStateMaybe(_30))
+                sub_7100980F48(&_38);
+            if (_30 == 11 || _30 == 12 || _30 == 13)
+                _c7 = false;
+        }
+    }
+    screen->sub_7100A4CC28(1);
+    screen->sub_7100A4CE68(4);
+    return true;
+}
+
 // 0x71009852c0
 void UiShopMgr::sub_71009852C0(bool value) {
     s32 screen_type = ksys::gdt::getFlag_Shop_ScreenType(false);
