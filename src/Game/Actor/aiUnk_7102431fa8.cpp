@@ -7,6 +7,7 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_7100742478.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/actWolfLink.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
@@ -149,6 +150,43 @@ bool sub_7100742664(sead::Vector3f* hit, ksys::phys::NavMeshCharacter* nav,
     if (hit)
         hit->set(result._18);
     return found;
+}
+
+// 0x7100742738: navmesh point query `distance` (0.75 when not positive) along the WolfLink's
+// forward direction; bit 7 of _1698 records whether it hit.
+// NON_MATCHING: the direction components stay in FP registers here where the original keeps them in
+// integer registers for the query.dir copy, so the saved set and the Unk2 store order differ (six
+// instructions fewer).
+bool sub_7100742738(sead::Vector3f* out, uking::act::WolfLink* wolf, f32 distance) {
+    if (distance <= 0.0f)
+        distance = 0.75f;
+    const sead::Matrix34f& mtx = wolf->getMtx();
+    sead::Vector3f dir(mtx.m[0][2], 0.0f, mtx.m[2][2]);
+    dir.normalize();
+
+    auto* nav = wolf->m45();
+    if (!nav)
+        return false;
+
+    ksys::phys::HavokAI::Unk1 result;
+    ksys::phys::HavokAI::Unk2 query;
+    query.from = sead::Vector3f(cNaN, cNaN, cNaN);
+    query.tolerance = 0.1f;
+    query._10 = sead::Vector3f::zero;
+    query.dir = dir;
+    query.distance = distance;
+    query.radius = 10.0f;
+    query._30 = 0xff;
+
+    ksys::phys::HavokAI* havok = nav->_18 ? nav->_18 : ksys::phys::HavokAI::instance();
+    const bool hit = havok->sub_7100F86324(nav, query, &result);
+    if (out)
+        out->set(result._18);
+    if (hit)
+        wolf->_1698 &= ~0x80;
+    else
+        wolf->_1698 |= 0x80;
+    return hit;
 }
 
 // 0x7100742478: navmesh query from `pos` down by `height` along Vector3f::ey; true when the hit material
