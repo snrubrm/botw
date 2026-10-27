@@ -776,7 +776,6 @@ public:
     /* 0x210 */ sead::RingBuffer<sead::Vector2f> _210;
     u8 _228[0x408 - 0x228];
     /* 0x408 */ uking::ui::Unk_710249c3b0 _408;
-    u8 _410[0x440 - 0x410];
     /* 0x440 */ uking::ui::Unk_710249c3d0 _440;
     /* 0x468 */ uking::ui::Unk_710249c3f0 _468;
     // The controller ctor 0x7100a6bf14 stores the float pair (1.0f, -1.0f) at +0x4b8/+0x4bc;

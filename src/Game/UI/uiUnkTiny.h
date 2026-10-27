@@ -9,6 +9,7 @@
 #include <math/seadBoundBox.h>
 #include <prim/seadEnum.h>
 #include <prim/seadSafeString.h>
+#include <time/seadTickTime.h>
 #include "Game/UI/uiTimer.h"
 #include "Game/UI/euiButton.h"
 
@@ -642,8 +643,23 @@ public:
 
 class Unk_710249c3b0 {
 public:
+    Unk_710249c3b0();
     virtual ~Unk_710249c3b0();
+    // 0x7100a6cb74: the region's bounds
+    sead::BoundBox2f* getBounds();
+
+    /* 0x08 */ u8 _8 = 0;   // bit 1 set at the end of the constructor
+    /* 0x09 */ u8 _9 = 0;
+    /* 0x0a */ u8 _a = 2;
+    u8 _b;
+    /* 0x0c */ f32 _c = 0.0f;
+    /* 0x10 */ f32 _10 = 400.0f;
+    /* 0x14 */ u32 _14;
+    /* 0x18 */ u64 _18 = 240;
+    /* 0x20 */ sead::TickTime _20;
+    /* 0x28 */ sead::BoundBox2f mBounds;
 };
+static_assert(sizeof(Unk_710249c3b0) == 0x38);
 
 // Member _440 of Unk_710249c338 (ctor 0x7100a6cb7c).
 class Unk_710249c3d0 {

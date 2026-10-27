@@ -760,6 +760,16 @@ void sub_7100A6C0EC(Unk_710249c338* controller, f32 value) {
         controller->setLeftStickCrossThreshold(0.95f, 0.9f);
 }
 
+// 0x7100a6caf8
+Unk_710249c3b0::Unk_710249c3b0() {
+    _8 |= 2;
+}
+
+// 0x7100a6cb74
+sead::BoundBox2f* Unk_710249c3b0::getBounds() {
+    return &mBounds;
+}
+
 // 0x7100a6cb6c
 Unk_710249c3b0::~Unk_710249c3b0() = default;
 
