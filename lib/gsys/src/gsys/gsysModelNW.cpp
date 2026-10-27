@@ -92,6 +92,12 @@ bool ModelNW::initRenderUnit_(ModelRenderUnitNW* unit, int index, const RenderUn
     return true;
 }
 
+// 0x7100c06594
+void ModelNW::calcGPUSkinning_() {
+    mModelObj.CalculateSkeleton(_168 & 3);
+    mModelObj.CalculateShape(_168 & 3);
+}
+
 // 0x7100c04cd0
 void ModelNW::setBoneLocalScale(const sead::Vector3f& scale, int bone_idx) {
     _200 |= 0x40;

@@ -511,12 +511,11 @@ void ModelViewInfo::calcLodLevel(int lod_count, const Lod& lod,
         mInlineLevel = level;
     } else {
         mInlineLevel = 0;
-        for (int n = lod_count; n > 1; --n) {
+        for (int n = lod_count; n >= 2; --n) {
             if (mInlineDistance < lod.mValues[n + 1]) {
                 mInlineLevel = n - 1;
-                return;
+                break;
             }
-            --n;
         }
     }
 }

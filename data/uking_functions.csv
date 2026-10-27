@@ -69026,7 +69026,7 @@ Address,Quality,Size,Name
 0x0000007100c061d8,U,000548,_ZN4gsys7ModelNW14calcBeforeDrawEPNS_10ModelSceneEPKNS_13ModelViewDataEi
 0x0000007100c063fc,U,000068,gsys::ModelNW::forceCalcDrawSetup
 0x0000007100c06440,U,000340,_ZN4gsys7ModelNW13calcBounding_Ev
-0x0000007100c06594,U,000060,gsys::ModelNW::calcGPUSkinning_
+0x0000007100c06594,O,000060,_ZN4gsys7ModelNW16calcGPUSkinning_Ev
 0x0000007100c065d0,U,000284,_ZNK4gsys7ModelNW28isDefaultRenderOptionEnabledEiNS_9ModelEnum12RenderOptionE
 0x0000007100c066ec,U,000160,gsys::ModelNW::isDefaultRenderViewOptionEnabled
 0x0000007100c0678c,U,000308,gsys::ModelNW::setUserUniformBlock
