@@ -2972,7 +2972,8 @@ public:
 
 private:
     // The booleans at +0x25c and +0x260; the rest of the game framework's state is not modelled.
-    u8 _218[0x25c - 0x218];
+    // The base's data size is 0x215 (its last three bytes are tail padding).
+    u8 _215[0x25c - 0x215];
     bool mFlag25c;
     u8 _25d[0x260 - 0x25d];
     bool mFlag260;
