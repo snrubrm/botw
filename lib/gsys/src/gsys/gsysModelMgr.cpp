@@ -1,4 +1,5 @@
 #include <gsys/gsysModelMgr.h>
+#include <gsys/gsysModel.h>
 #include <gsys/gsysModelScene.h>
 #include <utility/aglDevTools.h>
 
@@ -19,6 +20,32 @@ f32 ModelMgr::getMeterScale() const {
 // 0x7100c02d64
 s32 ModelMgr::getXluZPrePassID() {
     return mXluZPrePassId++ & 0x7ff;
+}
+
+// 0x7100c02a80
+void ModelMgr::editAll() {
+    mCS.lock();
+    for (auto it = mModelList.begin(); it != mModelList.end(); ++it)
+        it->edit_(nullptr);
+    mCS.unlock();
+}
+
+// 0x7100c02b00
+void ModelMgr::editAll(const G3dResModelEx* res_model) {
+    mCS.lock();
+    for (auto it = mModelList.begin(); it != mModelList.end(); ++it)
+        it->edit_(res_model);
+    mCS.unlock();
+}
+
+// 0x7100c02cc8
+void ModelMgr::rebindModelScene(const ModelScene* scene) {
+    mCS.lock();
+    for (auto it = mModelList.begin(); it != mModelList.end(); ++it) {
+        if (it->getScene() == scene)
+            it->bindToModelScene();
+    }
+    mCS.unlock();
 }
 
 // 0x7100c0288c

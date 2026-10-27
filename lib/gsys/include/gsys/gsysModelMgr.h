@@ -5,6 +5,7 @@
 #include <heap/seadDisposer.h>
 #include <hostio/seadHostIONode.h>
 #include <thread/seadAtomic.h>
+#include <thread/seadCriticalSection.h>
 
 namespace sead
 {
@@ -20,6 +21,7 @@ class DrawContext;
 namespace gsys
 {
 
+class G3dResModelEx;
 class Model;
 class ModelScene;
 
@@ -54,6 +56,10 @@ public:
 
     // 0x7100c0288c / 0x7100c028f0 / 0x7100c02954 / 0x7100c029b8 / 0x7100c02a1c: run one step on every
     // scene. The step's flag bit selects whether the worker manager is forwarded.
+    // 0x7100c02a80 / 0x7100c02b00: edit every live model with the given resource (or none).
+    void editAll();
+    void editAll(const G3dResModelEx* res_model);
+
     void sortQueue(sead::WorkerMgr* wm);
     void calcWorld(sead::WorkerMgr* wm);
     void calcRenderView(sead::WorkerMgr* wm);
@@ -67,7 +73,13 @@ private:
     /* 0x50 */ sead::PtrArray<ModelScene> mScenes;
     /* 0x60 */ u8 _60[0xcc - 0x60];
     /* 0xcc */ sead::Atomic<s32> mXluZPrePassId;
-    /* 0xd0 */ u8 _d0[0x190 - 0xd0];
+    /* 0xd0 */ u8 _d0[0x150 - 0xd0];
+    /* 0x150 */ sead::CriticalSection mCS;
+
+public:
+    sead::CriticalSection& getCS() { return mCS; }
+
+private:
 
 public:
     // Walked directly by ModelRig::listenPropertyEventEnvObj (0x7100c83d48).

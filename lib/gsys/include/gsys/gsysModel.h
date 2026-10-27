@@ -35,6 +35,7 @@ struct MaterialAccessKey;
 class ModelAnimation;
 class ModelBone;
 class ModelDebugInfo;
+class G3dResModelEx;
 class Model;
 class ModelOcclusionQuery;
 class ModelResource;
@@ -248,6 +249,9 @@ public:
     void updateBounding();
     // 0x7100bf6d94 (CSV name): binds the model (and its used units) to a scene, unbinding it from the old one.
     void bind(ModelScene* scene);
+    ModelScene* getScene() const { return mScene; }
+    // 0x7100bf75e0: edits the model against a resource, or resets it when null.
+    void edit_(const G3dResModelEx* res_model);
     // 0x7100bf77ec: rebinds this model and its used units to the saved scene.
     void bindToModelScene();
     // 0x7100bf6e20 / 0x7100bf76d0 (CSV names): remove / search every registered access handle.
