@@ -24,6 +24,8 @@ class ModelRenderCache;
 // TODO: incomplete. Only the fields the render cache reads are modelled.
 class G3dResShaderProgramEx {
 public:
+    // 0x7100c6e864: the original body is a four-byte empty function.
+    ~G3dResShaderProgramEx();
     // 0x7100c6ee24
     void load(agl::DrawContext*, const nn::g3d::ResShaderProgram*, agl::ShaderOptimizeType,
               bool) const;
