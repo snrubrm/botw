@@ -538,6 +538,8 @@ bool sub_71009BEB44();
 // ScreenChildUnk_71025d9b08 before.
 class Unk_710247af10 : public ScreenChildEx {
 public:
+    // 0x71009b446c (unnamed in the CSV): constructor
+    explicit Unk_710247af10(eui::LayoutEx* layout);
     // The original caches a RuntimeTypeInfo built from the parent's (0x71009b9144 has the guard + cache).
     static const nn::font::detail::RuntimeTypeInfo* GetRuntimeTypeInfoStatic() {
         static const nn::font::detail::RuntimeTypeInfo sTypeInfo(
@@ -618,7 +620,10 @@ public:
     u8 _330[0x340 - 0x330];
     // The picture book state record (0x71009b8b6c releases it through sub_71009B88AC).
     /* 0x340 */ Unk_7102474e38* _340 = nullptr;
+    // The original factory sub_7100A33038 allocates 0x388 bytes.
+    u8 _348[0x388 - 0x348];
 };
+static_assert(sizeof(Unk_710247af10) == 0x388);
 
 class Unk_710247b428 : public ScreenChildEx {
 public:
