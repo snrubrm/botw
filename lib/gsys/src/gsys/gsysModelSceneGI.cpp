@@ -1,6 +1,10 @@
 #include "gsys/gsysModelSceneGI.h"
 #include "gsys/gsysModelSceneConfig.h"
 #include "gsys/gsysShaderContext.h"
+#include "gsys/gsysModelSceneContext.h"
+#include <lighting/aglLightMapMgr.h>
+#include <lighting/aglLightPrePass.h>
+#include <lighting/aglSSII.h>
 
 namespace gsys {
 
@@ -38,6 +42,21 @@ bool ModelSceneGI::isCubeMapReady() const {
 void ModelSceneGI::pushBack(const sead::Vector3f&, agl::lght::LocalLightMapObj* obj) {
     const s32 index = mCount++;
     mObjects[index] = obj;
+}
+
+// 0x7100c32ccc
+void ModelSceneGI::calcGPUDrawBackGround() const {
+    if (mLightMapMgr && _8->isFeatureEnabled(ModelSceneConfig::Feature::LightMap))
+        mLightMapMgr->updateGPU();
+    if (mLightPrePass && _8->isFeatureEnabled(ModelSceneConfig::Feature::LightPrePass))
+        mLightPrePass->updateGPU();
+}
+
+// 0x7100c33f60
+void ModelSceneGI::calcViewSSII(const ModelSceneContext& context) {
+    if (!mSSII || !_8->isFeatureEnabled(ModelSceneConfig::Feature::SSII))
+        return;
+    mSSII->calcView(context.getViewIndex(), context.getViewData()->frustum);
 }
 
 // 0x7100c309d0

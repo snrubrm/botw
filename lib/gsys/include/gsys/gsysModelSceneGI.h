@@ -8,6 +8,9 @@
 
 namespace agl::lght {
 class LocalLightMapObj;
+class LightMapMgr;
+class LightPrePass;
+class SSII;
 }
 
 namespace gsys {
@@ -29,6 +32,10 @@ public:
     void setSceneMaterial(class ModelNW* model);
     // 0x7100c324e8
     void pushBack(const sead::Vector3f& position, agl::lght::LocalLightMapObj* obj);
+    // 0x7100c32ccc: updates the light map and light pre-pass GPU state.
+    void calcGPUDrawBackGround() const;
+    // 0x7100c33f60: passes the current view and frustum to SSII.
+    void calcViewSSII(const ModelSceneContext& context);
 
 private:
     u8 _250[0x420 - 0x250];
@@ -37,14 +44,17 @@ private:
     /// 0x7100c33f3c (planar reflection).
     void* mPlanarReflection;  // 428
     /// 0x7100c33f90 (SSII).
-    void* mSSII;  // 430
+    agl::lght::SSII* mSSII;  // 430
     void* _438;
     /// 0x7100c340b8 (local reflection).
     void* mLocalReflection;  // 440
     void* _448;
     /// 0x7100c32bf8 (light pre-pass).
-    void* mLightPrePass;  // 450
-    u8 _458[0x660 - 0x458];
+    agl::lght::LightPrePass* mLightPrePass;  // 450
+    u8 _458[0x458 - 0x458];
+    /// 0x7100c32ccc (light map).
+    agl::lght::LightMapMgr* mLightMapMgr;  // 458
+    u8 _460[0x660 - 0x460];
     /// 0x7100c324e8: the array index handed out by the atomic counter.
     sead::Atomic<s32> mCount;  // 660
     agl::lght::LocalLightMapObj** mObjects;  // 668
