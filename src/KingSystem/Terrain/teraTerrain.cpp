@@ -559,7 +559,7 @@ bool Core::Grass::sub_7101151A14() {
 // 0x71011503cc (placeholder name): draws the grass of system `index`. Skipped while the world
 // manager is absent, the terrain debug bit 3 is set, or the two grass flags are clear; the wind
 // manager update only runs for system 0.
-void Core::Grass::sub_71011503CC(agl::DrawContext* context, s32 index, const DrawArgMaybe* arg) {
+void Core::Grass::sub_71011503CC(agl::DrawContext* context, s32 index, const gsys::ModelRenderContext* arg) {
     if (!world::Manager::instance())
         return;
     if (!(mFlags & 1))
@@ -877,7 +877,7 @@ void Terrain::sub_710114D73C() {
         _360->sub_710130085C();
 }
 
-void Terrain::sub_710114DEFC(agl::DrawContext* context, const DrawArgMaybe* arg) {
+void Terrain::sub_710114DEFC(agl::DrawContext* context, const gsys::ModelRenderContext* arg) {
     if ((~_a58 & 6) != 0)
         return;
     if (_360)

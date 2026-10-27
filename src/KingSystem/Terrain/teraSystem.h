@@ -55,6 +55,7 @@ namespace gsys {
 class Model;
 class ModelDrawObj;
 class ModelResource;
+class ModelRenderContext;
 class ModelScene;
 class ModelUnit;
 }
@@ -121,13 +122,8 @@ class AreaEnvGetter;
 // calls it through the first grass entry.
 class VegeTeraMatMgr;
 
-// Placeholder: the draw argument the terrain draw hands to Core::sub_710130241C and
-// Terrain::sub_710114DEFC. Only the byte at +8 is read; it is the index of the registered
-// system state.
-struct DrawArgMaybe {
-    u8 _0[8];
-    u8 mSystemIndex;
-};
+// The terrain draw is handed the render context: the only field the draw reads is its view
+// index (the index of the registered system state).
 
 // Core is a procedural model unit: the constructor 0x71012ff868 calls gsys::IModelProcedural's
 // constructor (0xc7fbec) and stores its vtable at +0. Its own members therefore start at 0xe0.
@@ -151,9 +147,9 @@ public:
 
     // 0x7101302740 (placeholder name): empty in this release.
     void drawProceduralPassMaybe(int index, gsys::ModelRenderCache* cache) const override {}
-    // 0x710130241c (placeholder name): draws the material of the state at `arg->mSystemIndex`:
-    // registers the model once, runs every registered system's draw and the grass draw.
-    virtual void sub_710130241C(agl::DrawContext* context, const DrawArgMaybe* arg);
+    // 0x710130241c (placeholder name): draws the material of the state at the context's view
+    // index: registers the model once, runs every registered system's draw and the grass draw.
+    virtual void sub_710130241C(agl::DrawContext* context, const gsys::ModelRenderContext* arg);
 
     // The vtable (0x710250fc48) starts with sead::hostio::Node's getNodeClassType and then the
     // destructor pair; the object at 0x138 is deleted through it.
@@ -221,7 +217,7 @@ public:
         // 0x7101152da0 (placeholder name): _274 of entry `index` (with the buffer's bounds fallback).
         sead::Vector3f* sub_7101152DA0(s32 index);
         // 0x71011503cc (placeholder name): draws the grass of system `index`.
-        void sub_71011503CC(agl::DrawContext* context, s32 index, const DrawArgMaybe* arg);
+        void sub_71011503CC(agl::DrawContext* context, s32 index, const gsys::ModelRenderContext* arg);
         // 0x71011507b4 (unnamed in the CSV): the Pfx pass's grass draw for `view`.
         void sub_71011507B4(agl::DrawContext* context, u8 view);
         void sub_7101152B3C(f32 fovy, const sead::Vector3f* position,
@@ -453,7 +449,7 @@ public:
         // 0x7101080a08 (empty in this release): called before the object is deleted.
         void sub_7101080A08();
         // 0x71010819d4 (empty in this release): Core::sub_710130241C calls it for the tree draw.
-        void sub_71010819D4(agl::DrawContext* context, s32 index, const DrawArgMaybe* arg);
+        void sub_71010819D4(agl::DrawContext* context, s32 index, const gsys::ModelRenderContext* arg);
         // 0x7101081fe0 (unnamed in the CSV): the Pfx pass's tree draw for `view`.
         void sub_7101081FE0(agl::DrawContext* context, u8 view);
         // One 0x1a0-byte entry of the ten 8-entry tables at +0x30: 0x7101083060 stores its
@@ -758,7 +754,7 @@ public:
     void m23() override {}
     // 0x710114defc (slot 9 of the primary vtable; placeholder name): while bits 1 and 2 of _a58 are
     // set, forwards the draw context and draw argument to Core::sub_710130241C (slot 0x2a0).
-    virtual void sub_710114DEFC(agl::DrawContext* context, const DrawArgMaybe* arg);
+    virtual void sub_710114DEFC(agl::DrawContext* context, const gsys::ModelRenderContext* arg);
     bool m9() override { return false; }
     void m10() override {}
     // 0x7101149bd4 (placeholder name): tears down the terrain systems; the destructor calls it while

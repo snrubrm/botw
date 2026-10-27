@@ -1,6 +1,7 @@
 #include "KingSystem/Terrain/teraSystem.h"
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelDrawObj.h>
+#include <gsys/gsysModelRenderContext.h>
 #include <common/aglGPUCache.h>
 #include <cmath>
 #include "Game/gameUnkRttiPlaceholders.h"
@@ -166,11 +167,11 @@ void Core::calcBeforeDraw(gsys::ModelScene* scene, const gsys::ModelViewData* mo
     sub_71013021E0(model_view_data, view_index);
 }
 
-void Core::sub_710130241C(agl::DrawContext* context, const DrawArgMaybe* arg) {
+void Core::sub_710130241C(agl::DrawContext* context, const gsys::ModelRenderContext* arg) {
     if ((~Terrain::instance()->_a58 & 6) != 0)
         return;
 
-    const Unk_71013010d4& state = mStates[arg->mSystemIndex];
+    const Unk_71013010d4& state = mStates[arg->getViewIndex()];
     const s8 material = state.mIndex;
     if ((state.mFlags & 2) && material != -1) {
         const Unk_7101300b4c& position = mPositions[material];
