@@ -157,6 +157,8 @@ public:
     void sub_7100A7A72C(bool checked);
     // 0x7100a7fe9c (declared only)
     void sub_7100A7FE9C();
+    // 0x7100a7ff1c (placeholder name): the rune-window query used before opening the map.
+    bool sub_7100A7FF1C();
     // 0x7100a7fd64: remembers `pane` in the list of panes at 0x652f0 (ignored when it is null or the list is full)
     void sub_7100A7FD64(nn::ui2d::Pane* pane);
     void sub_7100A7C904();

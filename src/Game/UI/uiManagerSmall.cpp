@@ -373,6 +373,14 @@ void Manager::sub_7100A7FE9C() {
     _65387 = 0;
 }
 
+// 0x7100a7ff1c (placeholder name): false while the rune wheel is up with rune 5 selected, and true when
+// the second rune-window flag is clear.
+bool Manager::sub_7100A7FF1C() {
+    if ((RuneMgr::instance()->_90 & 0x10) && RuneMgr::instance()->isSelectedRune(5))
+        return false;
+    return !(RuneMgr::instance()->_90 & 0x20);
+}
+
 // 0x7100a7f0d0
 void Manager::sub_7100A7F0D0() {
     mLocationResource.unload();
