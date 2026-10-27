@@ -81,7 +81,7 @@ public:
     // sub_7100742C7C, or _c48._18 without a linked actor.
     sead::Vector3f sub_71002F4988();
     void sub_71002F4A40(const sead::Vector3f* pos, f32 a, f32 b);
-    void sub_71002F4008(ksys::act::BaseProcLink* link, s32 a);
+    void sub_71002F4008(ksys::act::BaseProcLink* link, State state);
 
     // 0x71002f4d54 / 0x71002f50c4 / 0x71002f5408 / 0x71002f5618 / 0x71002f56d8 (not decompiled;
     // placeholder names): the per-frame steps WolfLink::calcMaybe runs in this order.
@@ -101,12 +101,16 @@ public:
     /* 0x15e0 */ u8 _15e0[0x1608 - 0x15e0];  // object with vtable (GOT 0x7102584a68)
     // 2026-10-07: preDelete2_ destroys the link in each 0x28-byte array entry.
     struct Entry1608 {
+        // 2026-10-27: sub_71002F4008 stores the restricted-target time in _0/_4 and -1.0f in _8.
+        f32 _0;
+        f32 _4;
+        f32 _8;
         // 2026-10-07: sub_71002F420C searches this unsigned actor id.
-        u8 _0[0xc];
         u32 mActorId;
         ksys::act::BaseProcLink _10;
-        u32 _20;
-        u32 _24;
+        State _20;
+        u8 _24;  // set to 1 when sub_71002F4008 fills the entry
+        u8 _25[3];
     };
     /* 0x1608 */ sead::Buffer<Entry1608> _1608;
     /* 0x1618 */ u32 _1618;
@@ -117,11 +121,18 @@ public:
     /* 0x1688 */ f32 _1688;  // 0-100 (WolfLinkChainAttack::leave_ lowers it per attack)
     /* 0x168c */ s32 _168c;
     /* 0x1690 */ s32 _1690;
-    /* 0x1694 */ u32 _1694;
+    /* 0x1694 */ s32 _1694;
     /* 0x1698 */ u16 _1698;
     /* 0x169a */ u8 _169a;
 };
 KSYS_CHECK_SIZE_NX150(WolfLink, 0x16a0);
+
+// 0x71002f612c: ascending comparator of two _1608 entries by actor id.
+s32 sub_71002F612C(const WolfLink::Entry1608* a, const WolfLink::Entry1608* b);
+// 0x71002f5da8: rebuilds the heap of _1608 entries in [start, end) with `compare`.
+void sub_71002F5DA8(sead::Buffer<WolfLink::Entry1608>* buffer,
+                    s32 (*compare)(const WolfLink::Entry1608*, const WolfLink::Entry1608*), s32 start,
+                    s32 end);
 
 }  // namespace uking::act
 

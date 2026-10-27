@@ -12,6 +12,7 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectWolfLink.h"
 #include "KingSystem/ActorSystem/actLodState.h"
 #include <prim/seadScopedLock.h>
+#include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
@@ -82,6 +83,80 @@ WolfLink::State WolfLink::sub_71002F430C(const ksys::act::BaseProcLink* link) {
 
 WolfLink::State WolfLink::sub_71002F440C() {
     return sub_71002F430C(&_c48._8);
+}
+
+// 0x71002f612c: ascending comparator of two _1608 entries by actor id.
+s32 sub_71002F612C(const WolfLink::Entry1608* a, const WolfLink::Entry1608* b) {
+    if (a->mActorId < b->mActorId)
+        return -1;
+    return b->mActorId < a->mActorId;
+}
+
+// 0x71002f4008: adds the actor behind `link` to the _1608 target table unless it is already
+// listed. `state` selects the restricted-target time stored in the entry.
+// NON_MATCHING: clang hoists the 90.0f arm's constant load into the jump-table dispatch (the arm
+// block disappears), two instructions shorter than the original.
+void WolfLink::sub_71002F4008(ksys::act::BaseProcLink* link, State state) {
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (!ksys::act::acquireActor(link, &accessor))
+        return;
+
+    f32 time;
+    switch (state) {
+    case State::_0:
+        time = _1680->mRestrictedTargetTimeNormal.ref();
+        break;
+    case State::_1:
+        time = 90.0f;
+        break;
+    case State::_2:
+        time = _1680->mRestrictedTargetTimeNormal.ref();
+        break;
+    case State::_3:
+        time = 90.0f;
+        break;
+    case State::_4:
+        time = _1680->mRestrictedTargetTimeSpecial.ref();
+        break;
+    case State::_5:
+        time = 90.0f;
+        break;
+    case State::_6:
+        time = _1680->mRestrictedTargetTimeSpecial.ref();
+        break;
+    case State::_7:
+        time = 90.0f;
+        break;
+    default:
+        time = 0.0f;
+        break;
+    }
+
+    const u32 id = accessor.getId();
+    if (_1608.binarySearch(id, +[](const Entry1608& entry, const u32& id) -> s32 {
+            if (entry.mActorId < id)
+                return -1;
+            if (entry.mActorId > id)
+                return 1;
+            return 0;
+        }) != -1)
+        return;
+
+    const s32 index = sead::Mathi::clampMax(_1694, 15);
+    Entry1608* entry = _1608.get(index);
+    if (!entry || entry->mActorId != -1)
+        return;
+
+    entry->_24 = 1;
+    entry->mActorId = accessor.getId();
+    entry->_0 = time;
+    entry->_4 = time;
+    entry->_8 = -1.0f;
+    entry->_20 = state;
+    entry->_10 = *link;
+
+    _1694 = sead::Mathi::clamp(_1694 + 1, 0, 15);
+    sub_71002F5DA8(&_1608, sub_71002F612C, 0, sead::Mathi::min(_1694, 15));
 }
 
 void WolfLink::sub_71002F3148(u32 a1, bool flag) {
