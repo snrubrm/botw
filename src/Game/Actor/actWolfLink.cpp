@@ -574,6 +574,55 @@ void WolfLink::sub_71002F4B3C() {
     }
 }
 
+// inline-only in the original; name is a guess. Evidence: the same inlined enum spill, SafeArray
+// bounds select and index multiply as WolfLinkNormalRoot's helper even though no call remains.
+static f32 getTimerValue(WolfLink* wolf, WolfLink::Idx14f8 idx) {
+    return wolf->_14f8[idx].value;
+}
+
+// 0x71002f5408: samples the "player_safety_restart" statistics at the actor position while timers
+// 9 and 10 have run out; a hit moves the home position to the sampled cell's position.
+void WolfLink::sub_71002F5408() {
+    if (getTimerValue(this, Idx14f8::_9) <= sead::Mathf::epsilon() &&
+        getTimerValue(this, Idx14f8::_10) <= sead::Mathf::epsilon()) {
+        const sead::Vector3f pos = mMtx.getTranslation();
+
+        u32 mask;
+        if ((StatisticsMgr::instance()->_110 & 6) == 6 &&
+            sub_7100E33EA4(StatisticsMgr::instance(), &mask, 1, _1650, &pos)) {
+            const f32 x = pos.x;
+            f32 sx = 0;
+            if (sead::Mathf::abs(x) > 1.1920929e-06f)
+                sx = x / 5.0f;
+
+            const f32 z = pos.z;
+            f32 sz = 0;
+            if (sead::Mathf::abs(z) > 1.1920929e-06f)
+                sz = z / 5.0f;
+
+            const s32 ix = sead::Mathf::floor(sx);
+            const u32 fx = u32((sx - ix) * 5.0f);
+            const s32 iz = sead::Mathf::floor(sz);
+            const u32 fz = u32((sz - iz) * 5.0f);
+            if ((mask & (1u << (fz * 5 + fx))) == 0)
+                return;
+        }
+
+        if (!getParam()->getRes().mGParamList->getWolfLink())
+            return;
+        if (_68f != 0)
+            return;
+        if (!getCharacterController())
+            return;
+        if (!getCharacterController()->sub_7100F5F14C())
+            return;
+
+        sub_71002F2E78(Idx14f8::_9);
+        _1674.set(_1668);
+        _1668.set(pos);
+    }
+}
+
 // 0x71002f581c: starts the WolfLink's attack sensor while the attack event is not latched. The
 // attack type is 0x100 for an Enemy while the Stalfos-critical flag is set, 2 when the tagged
 // target's critical chance passes, and 1 otherwise.
