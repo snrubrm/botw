@@ -29,6 +29,7 @@ target_sources(uking PRIVATE
   gameMapStaticLoadMgr.h
   gameGraphics.cpp
   gameGraphicsUnk378.cpp
+  gameFramework.cpp
   gameGrudgeRenderer.cpp
   gameUnk_710129175c.cpp
   gameGraphics.h
