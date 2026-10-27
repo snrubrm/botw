@@ -339,11 +339,14 @@ public:
     struct Unk_68 {
         virtual ~Unk_68();
 
+        // 0x7100f03034: allocates and initializes the 0x900 draw objects and their pointer array.
+        void sub_7100F03034(sead::Heap* heap, gsys::ModelScene* scene);
+
         sead::CriticalSection mCS;
         u32 mFlags = 0;
         // 0x900 draw objects, released by gsys::ModelDrawObj::freeBuffer.
         gsys::ModelDrawObj* _50 = nullptr;
-        sead::PtrArrayImpl _58;
+        sead::PtrArray<gsys::ModelDrawObj> _58;
     };
     static_assert(sizeof(Unk_68) == 0x68);
 

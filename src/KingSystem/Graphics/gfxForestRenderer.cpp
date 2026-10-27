@@ -6,6 +6,7 @@
 #include <cstring>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelDrawObj.h>
+#include <gsys/gsysModelScene.h>
 #include <gsys/gsysModelUnit.h>
 #include <gsys/gsysModelUnitDrawArray.h>
 #include <gsys/gsysParticleMgr.h>
@@ -601,6 +602,25 @@ void ForestRenderer::sub_7100F06864(s32 idx) {
     if (entry_idx > 1)
         return;
     mEntries[entry_idx].mRecords[idx & 0xffff]._4.set(0x40);
+}
+
+void ForestRenderer::Unk_68::sub_7100F03034(sead::Heap* heap, gsys::ModelScene* scene) {
+    auto* buffer = new (heap, 8) char[0x900 * sizeof(gsys::ModelDrawObj)];
+    _50 = static_cast<gsys::ModelDrawObj*>(static_cast<void*>(buffer));
+    for (s32 i = 0; i < 0x900; ++i)
+        new (&_50[i]) gsys::ModelDrawObj;
+
+    gsys::ModelDrawObj::CreateArg create_arg;
+    create_arg._4 = 1;
+    create_arg._8 = false;
+    create_arg._0 = scene->mContexts.size();
+    gsys::ModelDrawObj::initialize(_50, 0x900, create_arg, heap);
+
+    _58.allocBuffer(0x900, heap);
+    for (s32 i = 0; i < 0x900; ++i)
+        _58.pushBack(&_50[i]);
+
+    mFlags |= 1;
 }
 
 }  // namespace ksys::gfx
