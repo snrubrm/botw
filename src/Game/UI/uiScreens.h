@@ -2966,6 +2966,9 @@ public:
     // 0x71009f1720 / 0x71009f1828 / 0x71009f15a0 (declared only): icon entry helpers of sub_71009F0508
     void sub_71009F1720(UiSubsys1Entry* icon);
     void sub_71009F15A0(UiSubsys1Entry* icon);
+    // 0x71009f0ef8 / 0x71009f10dc (declared only): apply a dungeon marker of Unk_71024755d8 / Unk_71024756f0
+    void sub_71009F0EF8(UiSubsys1Entry* icon);
+    void sub_71009F10DC(UiSubsys1Entry* icon);
     // 0x71009ed084 / 0x71009ed1e4 (placeholder names): play the map mode animators forward / backward
     void sub_71009ED084();
     void sub_71009ED1E4();

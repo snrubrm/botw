@@ -1007,6 +1007,22 @@ void ScreenAppMap::sub_71009F0508(UiSubsys1Entry* icon) {
     sub_71009F15A0(icon);
 }
 
+// NON_MATCHING: the original compares the entry id through stack temporaries: `_1c` is a 4-byte
+// SEAD_ENUM-like id there, and the enum local (plus the constants) is materialised for operator==.
+// Ours compares the s32 member directly, so the 0x30-byte frame and the spills are missing.
+// 0x71009f15a0
+void ScreenAppMap::sub_71009F15A0(UiSubsys1Entry* icon) {
+    if (icon && (icon->_1c == 2 || icon->_1c == 43)) {
+        if (sead::IsDerivedFrom<Unk_71024755d8>(icon) &&
+            static_cast<Unk_71024755d8*>(icon)->isDungeonEntered())
+            return sub_71009F0EF8(icon);
+        if (sead::IsDerivedFrom<Unk_71024756f0>(icon) &&
+            static_cast<Unk_71024756f0*>(icon)->isDungeonEntered())
+            return sub_71009F10DC(icon);
+    }
+    _3c18->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+}
+
 // 0x71009f0be4
 void ScreenAppMap::sub_71009F0BE4() {
     eui::Animator* animator = _3c28;
