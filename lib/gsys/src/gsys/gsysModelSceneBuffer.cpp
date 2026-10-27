@@ -110,6 +110,22 @@ void ModelSceneBuffer::releaseOpa(const ModelSceneContext& context) const {
     mRenderBufferContext->release(context.getViewIndex(), 0x2003e);
 }
 
+// 0x7100c184a8
+void ModelSceneBuffer::drawGBufferXluSeal(agl::DrawContext* draw_context,
+                                          const ModelSceneContext& context) const {
+    GBuffer* gbuffer = mRenderBufferContext->getContext(context.getViewIndex())->mGBuffer;
+    gbuffer->bindRenderBuffer(draw_context, GBuffer::Resolution(0));
+    ModelRenderContext::DrawArg arg("Model(GBuffer/XluSeal)",
+                                    *context.getRenderQueue(ModelSceneContext::QueueType(1)),
+                                    sead::BitFlag32(0x200), ModelEnum::ShaderAssignType(2), 0, 0x30,
+                                    0xffff);
+    arg._40 = 5;
+    arg._30 = gbuffer->getMaterialIdMaskXluSealMaybe();
+    arg._34 = gbuffer->getBlendMaskXluSealMaybe();
+    arg._44 = 3;
+    context.draw(draw_context, arg);
+}
+
 // 0x7100c18c00
 void ModelSceneBuffer::endGBufferPreShading(agl::DrawContext* draw_context,
                                             ModelSceneContext* context) const {

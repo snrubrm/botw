@@ -83,6 +83,10 @@ public:
     // 0x7100c71284 writes it (to zero).
     u32 getMaterialIdMask() const { return _1f84; }
     u32 getBlendMaskMaybe() const { return _1f88; }
+    // drawGBufferXluSeal 0x7100c184a8 and drawGBufferXluOpa 0x7100c187a4 read the two words
+    // that follow; the names are guesses, only the order is known.
+    u32 getMaterialIdMaskXluSealMaybe() const { return _1f8c; }
+    u32 getBlendMaskXluSealMaybe() const { return _1f90; }
 
 private:
     struct BufferRecord {
@@ -133,7 +137,8 @@ private:
     /* 0x1f84 */ u32 _1f84;
     /* 0x1f88 */ u32 _1f88;
     /* 0x1f8c */ u32 _1f8c;
-    u8 _1f90[0x2928 - 0x1f90];
+    /* 0x1f90 */ u32 _1f90;
+    u8 _1f94[0x2928 - 0x1f94];
     // The pre-shading buffers constructor 0x7100c70958 builds at 0x2928-step strides: each holds
     // the dynamic texture invalidatePreShading 0x7100c737a8 frees and its sampler. The sampler at
     // 0x31f8 after the records and the light pre-pass pair at 0x3368 are modelled too.

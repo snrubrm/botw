@@ -44,6 +44,8 @@ public:
     void drawDeferredShading(agl::DrawContext* draw_context, ModelSceneContext* context) const;
     // 0x7100c183d0
     void drawGBufferOpa(agl::DrawContext* draw_context, const ModelSceneContext& context) const;
+    // 0x7100c184a8
+    void drawGBufferXluSeal(agl::DrawContext* draw_context, const ModelSceneContext& context) const;
     // 0x7100c191a8 / 0x7100c191bc
     void releaseOpa(const ModelSceneContext& context) const;
     void releaseXlu(const ModelSceneContext& context) const;
