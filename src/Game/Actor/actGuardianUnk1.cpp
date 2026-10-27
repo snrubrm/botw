@@ -113,6 +113,39 @@ void Guardian::Unk1::sub_7100042048() {
 
 // 0x71000418d0: adds the owner's pieces to the world and feeds the navigation position and X
 // direction from the main body's transform.
+// NON_MATCHING: the inlined sead::ObjArray::pushBack keeps its index in an s32 here (the original
+// materialises it with sxtw before both the compare and the store), and the position stores are
+// scheduled differently.
+// 0x710004b7c8 (placeholder name): samples the midpoint between the owner and a point 50 m down its
+// start direction (XZ) and one step further along that line, and appends the navmesh positions.
+s32 Guardian::Unk1::sub_710004B7C8(sead::ObjArray<sead::Vector3f>* out) {
+    Guardian* guardian = _8;
+    const sead::Vector3f start = guardian->_15a8->_c;
+    const sead::Vector3f actor_pos = guardian->getMtx().getTranslation();
+
+    sead::Vector3f dir = actor_pos - start;
+    dir.y = 0.0f;
+    dir.normalize();
+
+    sead::Vector3f hit;
+    sead::Vector3f pos;
+    pos.x = actor_pos.x + (start.x + dir.x * 50.0f - actor_pos.x) * 0.5f;
+    pos.y = actor_pos.y + (start.y + dir.y * 50.0f - actor_pos.y) * 0.5f;
+    pos.z = actor_pos.z + (start.z + dir.z * 50.0f - actor_pos.z) * 0.5f;
+
+    if (_30->sub_7100F76078(&hit, pos, 15.0f).sub_7100F7EB40())
+        out->pushBack(hit);
+
+    pos.x = actor_pos.x + (pos.x - actor_pos.x);
+    pos.y = actor_pos.y + (pos.y - actor_pos.y);
+    pos.z = actor_pos.z + (pos.z - actor_pos.z);
+
+    if (_30->sub_7100F76078(&hit, pos, 15.0f).sub_7100F7EB40())
+        out->pushBack(hit);
+
+    return 0x78;
+}
+
 void Guardian::Unk1::sub_71000418D0() {
     if (_30) {
         auto* body = _8->getMainBody();

@@ -223,7 +223,7 @@ public:
                                     const sead::Vector3f& direction);
         // 0x710004b268 / 0x710004b7c8 (placeholder names): the rank 0 and rank 1 position variants.
         void sub_710004B268(sead::ObjArray<sead::Vector3f>* out);
-        void sub_710004B7C8(sead::ObjArray<sead::Vector3f>* out);
+        s32 sub_710004B7C8(sead::ObjArray<sead::Vector3f>* out);
 
         // 0x7100042048: updates the navigation position (declaration only).
         void sub_7100042048();
