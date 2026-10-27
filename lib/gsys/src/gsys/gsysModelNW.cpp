@@ -5,7 +5,6 @@
 #include "gsys/gsysG3dResMaterialEx.h"
 #include <g3d/aglNW4FToNN.h>
 #include <heap/seadHeapMgr.h>
-#include <prim/seadPtrUtil.h>
 #include <new>
 #include <nn/g3d/SkeletonObj.h>
 #include <nn/g3d/ResModel.h>
@@ -265,8 +264,6 @@ void ModelNW::getMaterialParamTexSRT(int material_idx, int param_idx, sead::Vect
 }
 
 // 0x7100c04fdc
-// NON_MATCHING: the data pointer and the shader parameter offset are added in the other order;
-// every other instruction agrees.
 float ModelNW::getMaterialParamXluAlpha(int material_idx, int param_idx) const {
     const nn::g3d::ResMaterial* res = mModelObj.GetMaterial(material_idx)->GetResource();
     const auto* ex = static_cast<const G3dResMaterialEx*>(res->m_88);
@@ -284,7 +281,8 @@ float ModelNW::getMaterialParamXluAlpha(int material_idx, int param_idx) const {
     const nn::g3d::ResMaterial* res2 = material->GetResource();
     const s32 index = count > param_idx ? param_idx : 0;
     const f32* values = static_cast<const f32*>(
-        sead::PtrUtil::addOffset(data, res2->mShaderParams[alpha_index].mDataOffset));
+        static_cast<const void*>(static_cast<const u8*>(data) +
+                                 res2->mShaderParams[alpha_index].mDataOffset));
     return values[index];
 }
 
