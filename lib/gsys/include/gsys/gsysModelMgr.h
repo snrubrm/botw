@@ -7,6 +7,7 @@
 #include <thread/seadAtomic.h>
 #include <thread/seadCriticalSection.h>
 #include "gsys/gsysGPUStressAnalyzer.h"
+#include "gsys/gsysModelMgrCallback.h"
 
 namespace sead
 {
@@ -59,6 +60,13 @@ public:
     // scene. The step's flag bit selects whether the worker manager is forwarded.
     // 0x7100c01fd4: allocates the three model arrays and the stress analyzer.
     void initialize(sead::Heap* heap, sead::Heap* debug_heap);
+    // 0x7100c02d80 / 0x7100c02e0c / 0x7100c02ee4 / 0x7100c02f84: register a scene or a model.
+    void add_(ModelScene* scene, sead::Heap* heap, sead::Heap*);
+    void remove_(ModelScene* scene);
+    void add_(Model* model, bool append_or, sead::Heap* heap);
+    void remove_(Model* model);
+    void appendOR_(Model* model);
+
     // 0x7100c02a80 / 0x7100c02b00: edit every live model with the given resource (or none).
     void editAll();
     void editAll(const G3dResModelEx* res_model);
@@ -77,11 +85,13 @@ private:
     /* 0x30 */ sead::PtrArray<Model> mArray30;
     /* 0x40 */ sead::PtrArray<ModelScene> mArray40;
     /* 0x50 */ sead::PtrArray<ModelScene> mScenes;
-    /* 0x60 */ u8 _60[0x10];
+    /* 0x60 */ u8 _60[8];
+    /* 0x68 */ IModelMgrCallback* mModelMgrCallback;
     /* 0x70 */ GPUStressAnalyzer mGPUStressAnalyzer;
     /* 0xb0 */ u8 _b0[0x1c];
     /* 0xcc */ sead::Atomic<s32> mXluZPrePassId;
-    /* 0xd0 */ u8 _d0[0x150 - 0xd0];
+    /* 0xd0 */ sead::CriticalSection mSceneCS;
+    /* 0x110 */ u8 _110[0x40];
     /* 0x150 */ sead::CriticalSection mCS;
 
 public:
@@ -97,7 +107,9 @@ private:
     /* 0x1a8 */ u8 _1a8[0x1e0 - 0x1a8];
     /* 0x1e0 */ sead::hostio::Node mNode1e0;
     /* 0x1e8 */ sead::PtrArray<Model> mArray1e8;
-    /* 0x1f8 */ u8 _1f8[0x208 - 0x1f8];
+    /* 0x1f8 */ u8 _1f8[8];
+    /* 0x200 */ s32 mModelCounter;
+    /* 0x204 */ u8 _204[4];
 };
 static_assert(sizeof(ModelMgr) == 0x208);
 static_assert(offsetof(ModelMgr, mModelList) == 0x190);

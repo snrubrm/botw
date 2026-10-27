@@ -51,6 +51,28 @@ void ModelMgr::editAll(const G3dResModelEx* res_model) {
     mCS.unlock();
 }
 
+// 0x7100c02d80
+void ModelMgr::add_(ModelScene* scene, sead::Heap* heap, sead::Heap*) {
+    mSceneCS.lock();
+    mArray40.pushBack(scene);
+    mSceneCS.unlock();
+
+    if (mModelMgrCallback)
+        mModelMgrCallback->onAddModelScene(scene, heap);
+}
+
+// 0x7100c02ee4
+void ModelMgr::add_(Model* model, bool append_or, sead::Heap* heap) {
+    mCS.lock();
+    model->mModelIndex = mModelCounter++;
+    if (append_or)
+        appendOR_(model);
+    mModelList.pushBack(model);
+    if (mModelMgrCallback)
+        mModelMgrCallback->onAddModel(model, heap);
+    mCS.unlock();
+}
+
 // 0x7100c02cc8
 void ModelMgr::rebindModelScene(const ModelScene* scene) {
     mCS.lock();

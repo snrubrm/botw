@@ -6,15 +6,15 @@ namespace gsys {
 
 void IModelMgrCallback::onInitializeModelResource() {}
 
-void IModelMgrCallback::onAddModel() {}
+void IModelMgrCallback::onAddModel(Model*, sead::Heap*) {}
 
 void IModelMgrCallback::onAddModelUnit() {}
 
 void IModelMgrCallback::onSetUpModelUnitMaterialAndShape() {}
 
-void IModelMgrCallback::onAddModelScene() {}
+void IModelMgrCallback::onAddModelScene(ModelScene*, sead::Heap*) {}
 
-void IModelMgrCallback::onRemoveModel() {}
+void IModelMgrCallback::onRemoveModel(Model*) {}
 
 void IModelMgrCallback::callback7() {}
 

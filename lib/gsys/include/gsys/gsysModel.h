@@ -337,7 +337,10 @@ private:
     mutable sead::CriticalSection mCS;
     mutable sead::OffsetList<IModelAccesssHandle> mHandleList;
     sead::FixedSafeString<256> mName{"名称未設定"};
-    u8 _2b0[0x2b8 - 0x2b0];
+    friend class ModelMgr;
+    /// Index handed out by ModelMgr::add_.
+    s32 mModelIndex;
+    u8 _2b4[4];
 };
 
 }  // namespace gsys
