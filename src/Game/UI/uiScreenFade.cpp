@@ -264,6 +264,38 @@ void Fade::clearSomeTipsField() {
     mTips.clear();
 }
 
+// 0x71010a0de0: the sound kind of a fade state; the fade demo screen (another TU) calls it out of line,
+// Fade::m100 inlines it.
+ksys::snd::UiSoundKind sub_71010A0DE0(bool a, bool b, s32 c) {
+    s32 kind = a ? 3 : 5;
+    if (!a && !b) {
+        static const s32 kinds[4] = {0, 1, 2, 4};
+        kind = static_cast<u32>(c) < 4 ? kinds[c] : 1;
+    }
+    return {kind};
+}
+
+// 0x71010a1a48
+void Fade::m100() {
+    bool started;
+    if (_3a8) {
+        if (_a26) {
+            started = true;
+        } else {
+            if (_368->mFrame != 0.0f)
+                _378->PlayAuto(1.0f);
+            _380->PlayAuto(1.0f);
+            _a14 = 5;
+            started = _3a8;
+        }
+    } else {
+        started = false;
+    }
+
+    ksys::snd::SoundMgr::instance()->sub_71011FC17C(
+        sub_71010A0DE0(started, mLayout->_91 == 0, _3ac), 0);
+}
+
 }  // namespace uking::ui
 
 namespace uking::ui {

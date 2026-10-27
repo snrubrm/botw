@@ -1082,6 +1082,11 @@ struct UiSoundKind {
     s32 value;
 };
 
+// Placeholder name for the second argument of SoundMgr::sub_71011FC0C0 / sub_71011FC17C: the bit of the
+// active fade-sound mask SoundMgr::_f8 (0 from the Fade screen, 1 from the fade demo screen). The callee spills
+// it, i.e. it is a SEAD_ENUM by value like UiSoundKind.
+SEAD_ENUM(UiFadeSound, _0, _1)
+
 // Placeholder name (ctor 0x710103b704; SoundMgr::_98): starts / stops the two custom duckers (indices 0x30 / 0x31
 // of the DuckingMgr). Used by CustomDuckingStartAction / CustomDuckingEndAction.
 class Unk_710103b704 {
@@ -2066,8 +2071,8 @@ public:
     // 0x71011fc288 (declared only; lane2 s46): called by ScreenFadeDemo's slot 101 (nothing happens while the byte at 0xf8 is set)
     void sub_71011FC288();
     // 0x71011fc0c0 / 0x71011fc17c (CSV Sound::__auto4 / __auto5; declared only): `kind` 0..5, `bit` the bit set in the byte at 0xf8
-    void sub_71011FC0C0(UiSoundKind kind, s32 bit);
-    void sub_71011FC17C(UiSoundKind kind, s32 bit);
+    void sub_71011FC0C0(UiSoundKind kind, UiFadeSound bit);
+    void sub_71011FC17C(UiSoundKind kind, UiFadeSound bit);
     // 0x71011fb5ac (CSV Sound::calc2; declaration only): called by MCMgr::invoked4.
     void sub_71011FB5AC();
     // 0x71011fb5a8 (placeholder name; CSV nullsub_4689): empty in this build.

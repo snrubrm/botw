@@ -260,9 +260,8 @@ void SoundMgr::sub_71011FC288() {
         _30->sub_7100FF8804();
 }
 
-// NON_MATCHING: the original spills both arguments to the stack and reads them back (they are not plain ints; the types are
-// unknown).
-void SoundMgr::sub_71011FC0C0(UiSoundKind kind, s32 bit) {
+// NON_MATCHING: the two argument spill slots are swapped ([sp,#8] for the fade-sound bit in the original).
+void SoundMgr::sub_71011FC0C0(UiSoundKind kind, UiFadeSound bit) {
     _f8.setBit(bit);
     if (!_f8.isZero()) {
         switch (kind.value) {
@@ -286,8 +285,9 @@ void SoundMgr::sub_71011FC0C0(UiSoundKind kind, s32 bit) {
     }
 }
 
-// NON_MATCHING: the original spills `bit` to the stack and reads it back (the type is unknown).
-void SoundMgr::sub_71011FC17C(UiSoundKind kind, s32 bit) {
+// NON_MATCHING: the two frame slots are swapped (the original keeps the bit at [sp,#8] and the ducker index at
+// [sp,#0xc]).
+void SoundMgr::sub_71011FC17C(UiSoundKind kind, UiFadeSound bit) {
     _f8.resetBit(bit);
     if (_f8.isZero()) {
         bool active = mDuckingMgr->mDuckers[DuckingMgr::DuckerType(DuckingMgr::DuckerType::cScreenFadeLogo)].isOnDucking();
