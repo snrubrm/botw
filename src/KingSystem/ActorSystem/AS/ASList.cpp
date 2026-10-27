@@ -1333,8 +1333,11 @@ void ASList::unk1() {}
 void ASList::unk3() {}
 void ASList::unk4() {}
 
-// 0x710115f8c: releases the slots (unless destroying), the frames' buffers, the define chain and the
+// 0x7101159f8c: releases the slots (unless destroying), the frames' buffers, the define chain and the
 // source tree.
+// NON_MATCHING: the target's inlined Unk8::release() keeps Buffer::freeBuffer's empty else arm as a
+// `cbnz` to the four bytes of padding after the tail call (a branch to an empty block), so its row
+// size is 4 bytes larger; our SEAD_ASSERT compiles out and the block is dropped.
 void ASList::sub_7101159F8C(bool destroying) {
     // The native loops bump the element pointer and count down in 64 bits, which is the
     // range-for lowering used by the define-chain loop below.
