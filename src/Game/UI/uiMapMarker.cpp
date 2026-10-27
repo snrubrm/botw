@@ -1461,6 +1461,26 @@ void Unk_7102476548::updateDistrictFromPos(const sead::Vector3f* pos) {    UiSub
     }
 }
 
+// 0x7100957788
+void Unk_7102476548::m20() {
+    if (!sUnk_71025d6c70._50)
+        return;
+
+    sead::Vector2f pos{0.0f, 0.0f};
+    sUnk_71025d6c70._50->sub_71009A9E90(_28, &pos);
+    if (pos != _34) {
+        _3c |= 0x4000;
+        _34 = pos;
+    }
+
+    if (isPinKindWithMapScreenCheck(_20)) {
+        auto* screen =
+            sead::DynamicCast<ScreenAppMap>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap));
+        if (!screen || !screen->sub_71009F1A64(&_28))
+            sub_7100950E80();
+    }
+}
+
 void Unk_7102476548::m4() {
     _3c &= ~0x777f;
     m11();
