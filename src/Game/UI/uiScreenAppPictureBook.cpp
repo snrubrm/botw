@@ -594,6 +594,29 @@ void ScreenAppPictureBookEntry::sub_710093C304(sead::Heap* heap) {
     }
 }
 
+// 0x710093c48c
+eui::LayoutEx* ScreenAppPictureBookEntry::sub_710093C48C(sead::Heap* heap, s32 index) {
+    sead::FixedSafeString<64> path;
+    if (mParams._28.isEmpty())
+        path.format("%s%02d", mParams._80.cstr(), 0);
+    else
+        path.format("%s/%s%02d", mParams._28.cstr(), mParams._80.cstr(), 0);
+
+    eui::PartsEx* parts = eui::sub_7100945088(mController->mScreen->sub_7100A48104(path, nullptr));
+    if (!parts)
+        return nullptr;
+    auto* layout = static_cast<eui::LayoutEx*>(parts->mPartsLayoutLink.layout);
+    if (!layout)
+        return nullptr;
+    if (index == 0)
+        return layout;
+
+    sead::FixedSafeString<64> name;
+    name.format("%s%02d", mParams._80.cstr(), index);
+    return mController->mScreen->sub_7100A47A5C(
+        heap, 1, static_cast<eui::LayoutEx*>(parts->mPartsLayoutLink.layout), name, parts, true, true);
+}
+
 // NON_MATCHING: the original copies Vector2f::zero into _34 as one 64-bit value (ours: two floats), which
 // shifts the registers after it
 // 0x710093c660
@@ -800,10 +823,10 @@ PictureBookListConfig::PictureBookListConfig() {
     _94 = 0x4000;
     _98 = 0;
     _9c = 0;
-    mStrings._b0.clear();
-    mStrings._108.clear();
-    mStrings._160.clear();
-    mStrings._1b8.clear();
+    mStrings.mLayoutNames[0].clear();
+    mStrings.mLayoutNames[1].clear();
+    mStrings.mLayoutNames[2].clear();
+    mStrings.mLayoutNames[3].clear();
     _210 = true;
     _218 = false;
     _214 = 30;
@@ -830,10 +853,10 @@ void PictureBookListConfig::sub_71009396EC() {
     _a0 = 0;
     _a4 = 0;
     _a8 = 0;
-    mStrings._b0.clear();
-    mStrings._108.clear();
-    mStrings._160.clear();
-    mStrings._1b8.clear();
+    mStrings.mLayoutNames[0].clear();
+    mStrings.mLayoutNames[1].clear();
+    mStrings.mLayoutNames[2].clear();
+    mStrings.mLayoutNames[3].clear();
     _210 = false;
     _218 = false;
     _214 = 30;
@@ -861,10 +884,10 @@ void PictureBookListConfig::sub_7100939764(const PictureBookListConfig& other) {
     _a0 = other._a0;
     _a4 = other._a4;
     _a8 = other._a8;
-    mStrings._b0 = other.mStrings._b0;
-    mStrings._108 = other.mStrings._108;
-    mStrings._160 = other.mStrings._160;
-    mStrings._1b8 = other.mStrings._1b8;
+    mStrings.mLayoutNames[0] = other.mStrings.mLayoutNames[0];
+    mStrings.mLayoutNames[1] = other.mStrings.mLayoutNames[1];
+    mStrings.mLayoutNames[2] = other.mStrings.mLayoutNames[2];
+    mStrings.mLayoutNames[3] = other.mStrings.mLayoutNames[3];
     _210 = other._210;
     _214 = other._214;
     _218 = other._218;
@@ -1900,6 +1923,28 @@ void ScreenAppPictureBookUnk::sub_7100944004(ScreenEx* screen, const PictureBook
         mConfig._0.format("%d", mScreen->sub_7100A482A4(this));
     _348.format("%s:%s", sUnk_71025D6128.cstr(), mConfig._0.cstr());
     mName = _348.cstr();
+}
+
+// 0x7100944138
+void ScreenAppPictureBookUnk::sub_7100944138() {
+    if (!mScreen)
+        return;
+    for (u64 i = 0; i != 4; ++i) {
+        const sead::FixedSafeString<64>& name = mConfig.mStrings.mLayoutNames[i];
+        if (name.isEmpty())
+            continue;
+        eui::PartsEx* parts = eui::sub_7100945088(mScreen->sub_7100A48104(name, nullptr));
+        if (!parts)
+            continue;
+        auto* layout = nn::font::DynamicCast<eui::LayoutEx>(parts->mPartsLayoutLink.layout);
+        if (!layout) {
+            _40[i] = nullptr;
+            continue;
+        }
+        _40[i] = layout;
+        parts->SetVisible(true);
+        _40[i]->startAnimCloseImpl_(false, true);
+    }
 }
 
 // NON_MATCHING: the original copies Vector2f::zero as one 64-bit value, merges the `*axis += value` tails of the

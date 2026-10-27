@@ -3813,11 +3813,9 @@ struct PictureBookListConfig {
     void sub_7100939764(const PictureBookListConfig& other);
 
     // value-initialised together (one memset in the constructor)
+    // Pane paths of the four direction layouts set up by sub_7100944138 (_40).
     struct Strings {
-        sead::FixedSafeString<64> _b0;
-        sead::FixedSafeString<64> _108;
-        sead::FixedSafeString<64> _160;
-        sead::FixedSafeString<64> _1b8;
+        sead::FixedSafeString<64> mLayoutNames[4];
     };
 
     /* 0x000 */ sead::FixedSafeString<64> _0;
