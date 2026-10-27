@@ -90,10 +90,20 @@ struct GrassEntry;
 // One 0x2e8-byte tree-type record of the table at Core::Unk_140 + 0x10: the per-type buffer whose
 // index 0x71010816d0 sets from Core's _364 (an agl::UniformBlock at +0x270).
 struct TreeTypeMaybe {
-    u8 _0[0x270];
+    u8 _0[0xa8];
+    // Data slots 6 / 7 of the per-view uniform block (0x71010817c4).
+    u8 _a8[0x40];
+    u8 _e8[0x30];
+    /* 0x118 */ u32 _118;
+    u8 _11c[0x244 - 0x11c];
+    u8 _244[0x250 - 0x244];
+    u8 _250[0x270 - 0x250];
     agl::UniformBlock mBlock;
 };
 KSYS_CHECK_SIZE_NX150(TreeTypeMaybe, 0x2e8);
+
+// 0x7102504450: the eight tune values 0x71010817c4 copies into a tree-type uniform block.
+KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_7102504450[8];
 
 // Existing terrain draw-state setter called by GearMgr teardown.
 void sub_7100F418B8(void* value);
@@ -527,13 +537,19 @@ public:
         sead::Heap* _28;
         // Ten tables of eight entries: table 0 / 1 at +0x30 / +0xd30 (0x7101083060 / 0x710108330c).
         TableEntry mTables[10][8];
-        u8 _8230[0x14cb8 - 0x8230];
+        u8 _8230[0x14cb0 - 0x8230];
+        /* 0x14cb0 */ f32 _14cb0;
+        /* 0x14cb4 */ f32 _14cb4;
         /* 0x14cb8 */ f32 _14cb8;
-        u8 _14cbc[0x14ccc - 0x14cbc];
+        /* 0x14cbc */ f32 _14cbc;
+        u8 _14cc0[0x14cc4 - 0x14cc0];
+        /* 0x14cc4 */ f32 _14cc4;
+        /* 0x14cc8 */ f32 _14cc8;
         /* 0x14ccc */ u32 _14ccc;
         // The two tree draw commands (0x14cd0 / 0x14cd8). Indexed through a SafeArray so the
         // helpers 0x7101083a58 / 0x7101083a80 use its index-0 fallback.
         sead::SafeArray<Unk_71025046d0*, 2> _14cd;
+        /* 0x14ce0 */ u32 _14ce0;
     };
 
     // gsys::IModelProcedural (0xe0) plus the Core fields. Both heaps are named after the class:

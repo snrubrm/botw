@@ -1245,6 +1245,61 @@ void Core::Unk_140::sub_71010816D0(u32 value) {
     _14cd[1]->sub_7101085198(value);
 }
 
+// NON_MATCHING: the three vector-slot builds keep their first two words as separate stores (the
+// original merges them into stp w) and schedule the slot-3 multiply after those stores; the
+// resulting register allocation differs from the first instruction.
+// 0x71010817c4 (unnamed): the per-view tree-type uniform update. Fills the ten data slots of the
+// record's uniform block from the view-independent tree state and uploads them.
+void Core::Unk_140::sub_71010817C4(u32 index) {
+    if (Terrain::instance() && Terrain::instance()->_a50 &&
+        (Terrain::instance()->_a50->_18 & 0x20))
+        return;
+    if (!(_8 & 1))
+        return;
+
+    TreeTypeMaybe& type = mTreeTypes[index];
+    type.mBlock.dcbz(0);
+    type.mBlock.setData(0, &_14ce0);
+    type.mBlock.setData(1, &type._244);
+    type.mBlock.setData(2, &type._250);
+
+    {
+        f32 data[4];
+        data[2] = _14cc4;
+        data[3] = _14cc4 * _14cc8;
+        data[0] = _14cb0;
+        data[1] = _14cb8;
+        type.mBlock.setData(3, data);
+    }
+    {
+        f32 data[4];
+        data[0] = _14cb0 / _14cb4;
+        data[1] = 1.0f / sUnk_7102504450[1];
+        data[2] = _14cb8 / _14cbc;
+        data[3] = 1.0f / _14cbc;
+        type.mBlock.setData(4, data);
+    }
+    {
+        f32 data[4];
+        data[0] = sUnk_7102504450[2];
+        data[1] = sUnk_7102504450[3];
+        data[2] = sUnk_7102504450[4] * 4.0f;
+        data[3] = sUnk_7102504450[5];
+        type.mBlock.setData(5, data);
+    }
+
+    type.mBlock.setData(6, &type._a8, 0, 4);
+    type.mBlock.setData(7, &type._e8, 0, 3);
+    type.mBlock.setData(8, &type._118);
+
+    const f32 height = Terrain::instance()->sub_710114D9E8();
+    type.mBlock.setData(9, &height);
+    const s32 height_int = Terrain::instance()->sub_710114D9E8();
+    type.mBlock.setData(10, &height_int);
+
+    type.mBlock.flushCPUCache();
+}
+
 void Core::Unk_140::sub_71010827DC() {
     if (_8 & 4)
         _8 &= ~4u;

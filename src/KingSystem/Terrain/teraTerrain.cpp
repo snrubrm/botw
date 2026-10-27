@@ -37,6 +37,12 @@ namespace ksys::tera {
 const f32 sUnk_7101E79608[4] = {0.0f, 0.5f, 0.0f, 0.5f};
 const f32 sUnk_7101E79618[4] = {0.0f, 0.0f, 0.5f, 0.5f};
 
+// 0x7102504450: the tree-type uniform tune values (distance limit, divisor and the two vector
+// slots 0x71010817c4 uploads).
+KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_7102504450[8] = {
+    1000000.0f, 50.0f, 1.0f, 1.0f, 4.0f, 1.0f, -1.0f, -1.0f,
+};
+
 // NON_MATCHING: bounded grid iteration and floor arithmetic differ in scheduling.
 void Core::Grass::EntryPart::sub_7101076258(f32 diameter, f32, const sead::Vector2f* position) {
     sead::ScopedLock<sead::CriticalSection> lock(&mCS);
