@@ -115,6 +115,14 @@ bool checkTeraSystemStatus() {
     return static_cast<u8*>(sUnk_710260B220._b0)[0x13d09] != 0;
 }
 
+// 0x7100f4073c: after the terrain system has started, updates the terrain and its image resources.
+void sub_7100F4073C() {
+    if (sUnk_710260B220._14 < 3)
+        return;
+    Terrain::instance()->sub_710114D73C();
+    Terrain::instance()->sub_710114D758();
+}
+
 void sub_7100F418A0(void* value) {
     sUnk_710260B190 = value;
 }

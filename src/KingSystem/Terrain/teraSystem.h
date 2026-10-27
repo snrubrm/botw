@@ -2257,6 +2257,9 @@ void sub_710110B7A4(s32* out_a, s32* out_b, s32 index);
 bool sub_710110C1A4(u32* out, u32 index);
 
 bool checkTeraSystemStatus();
+// 0x7100f4073c (placeholder name): once the terrain system has started, updates the terrain and its
+// image resources.
+void sub_7100F4073C();
 
 // 0x710106bc54 / 0x71012e258c (declaration only): release the two parts of one grass entry.
 void sub_710106BC54(void* entry);
