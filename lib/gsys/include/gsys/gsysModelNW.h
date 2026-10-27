@@ -153,6 +153,13 @@ public:
     void setBoneVisible(int bone_idx, bool visible) override;
     void setMaterialVisible(int material_idx, bool visible) override;
 
+    // 0x7100c052f0 / 0x7100c053a8: set / read the reverse-culling bit of the render units of
+    // material `index`.
+    void enableReverseCulling(int index, bool enable) override;
+    bool isReverseCullingEnabled(int index) const override;
+    // 0x7100c054bc: sums the triangle counts of the shapes' first mesh.
+    int countPolygonNum() const override;
+
     // 0x7100c070d0 .. 0x7100c07a08: read the material object's runtime parameter buffer.
     bool getMaterialParamBool(int material_idx, int param_idx) const override;
     int getMaterialParamInt(int material_idx, int param_idx) const override;

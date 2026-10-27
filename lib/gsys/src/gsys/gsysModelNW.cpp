@@ -561,6 +561,50 @@ void ModelNW::setMaterialShaderAssignVariation(int material_idx,
     }
 }
 
+// 0x7100c052f0
+void ModelNW::enableReverseCulling(int index, bool enable) {
+    const int num = getModelRenderUnitNum();
+    if (num < 1)
+        return;
+    if (enable) {
+        for (int i = 0; i < num; ++i) {
+            ModelRenderUnitNW* unit = mRenderUnits[i];
+            if (unit->getMaterialIndex() == index)
+                unit->setPolygonCtrl(unit->mPolygonCtrl | 8);
+        }
+    } else {
+        for (int i = 0; i < num; ++i) {
+            ModelRenderUnitNW* unit = mRenderUnits[i];
+            if (unit->getMaterialIndex() == index)
+                unit->setPolygonCtrl(unit->mPolygonCtrl & ~8);
+        }
+    }
+}
+
+// 0x7100c053a8
+bool ModelNW::isReverseCullingEnabled(int index) const {
+    bool enabled = false;
+    const int num = getModelRenderUnitNum();
+    for (int i = 0; i < num; ++i) {
+        const ModelRenderUnitNW* unit = mRenderUnits[i];
+        if (unit->getMaterialIndex() == index) {
+            enabled = (unit->mPolygonCtrl & 8) != 0;
+            break;
+        }
+    }
+    return enabled;
+}
+
+// 0x7100c054bc
+int ModelNW::countPolygonNum() const {
+    int count = 0;
+    for (int i = 0; i < getModelRenderUnitNum(); ++i) {
+        const nn::g3d::ResMesh* mesh = mModelObj.GetShape(i)->GetResource()->GetMesh(0);
+        count += mesh->mIndexCount / 3;
+    }
+    return count;
+}
+
 // 0x7100c051e4
 void ModelNW::clearMaterialParameter(int material_idx) {
     const u8 buffer_mask = u8((0x10 << mBufferNum) + 0xf0);
