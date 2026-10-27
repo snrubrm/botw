@@ -3319,12 +3319,11 @@ public:
     void sub_7100A38A48(s32 tab, s32 page);
     // inline-only in the original; names are guesses (0x7100a39464 inlines the wrap and the page check)
     static u8 wrapTab(u8 tab) {
-        s32 index = s8(tab);
-        if (index < 0)
-            index = 2;
-        if (index > 2)
-            index = 0;
-        return u8(index);
+        if (s8(tab) > 2)
+            return 0;
+        if (s8(tab) < 0)
+            return 2;
+        return tab;
     }
     // inline-only in the original; name is a guess (0x7100a39464 inlines the wrap and the page check,
     // and 0x7100a3772c uses the result to pick the show / hide arm)

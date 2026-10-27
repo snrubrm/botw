@@ -218,8 +218,10 @@ void ScreenPauseMenu::sub_7100A399F4(s32 a1, u8 tab) {
 
 // 0x7100a36784 (placeholder name): steps the page offset and re-lays the tab controls when the
 // current page moved; then shows the page of the tab control that holds the target page.
-// NON_MATCHING: the inlined wrapTab comparisons and the shared 2 constant differ per instance
-// (ours compares the selected value, the original the sign-extended argument).
+// NON_MATCHING: only the load of `page` (_3648) is scheduled differently: the original loads it right
+// after `tab`'s address setup, ours sinks it past the first `_3a00[...]` element address computation.
+// Same instructions otherwise. (The inlined wrapTab block needs wrapTab to compare the sign-extended
+// argument and return the raw u8; that form is now in uiScreens.h and all other callers stayed matched.)
 void ScreenPauseMenu::sub_7100A36784() {
     _3660 = 0;
     const f32 offset = _3650;
