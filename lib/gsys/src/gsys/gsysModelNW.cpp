@@ -90,6 +90,145 @@ bool ModelNW::initRenderUnit_(ModelRenderUnitNW* unit, int index, const RenderUn
     return true;
 }
 
+// 0x7100c06be0
+int ModelNW::getBoneNum() const {
+    return mModelObj.GetSkeleton()->GetRes()->GetBoneCount();
+}
+
+// 0x7100c06db4
+bool ModelNW::isBoneVisible(int bone_idx) const {
+    return mModelObj.IsBoneVisible(bone_idx);
+}
+
+// 0x7100c07b5c
+bool ModelNW::isMaterialVisible(int material_idx) const {
+    return mModelObj.IsMatVisible(material_idx);
+}
+
+// 0x7100c06d60
+// NON_MATCHING: same instructions, but clang schedules the new-bit shift after the old-bit test
+// and picks different registers.
+void ModelNW::setBoneVisible(int bone_idx, bool visible) {
+    const bool old = mModelObj.SetBoneVisible(bone_idx, visible);
+    auto callback = mModelObj.GetBoneVisibilityCallback();
+    if (callback && old != visible)
+        callback(&mModelObj, bone_idx);
+}
+
+// 0x7100c07b08
+// NON_MATCHING: same instructions, but clang schedules the new-bit shift after the old-bit test
+// and picks different registers.
+void ModelNW::setMaterialVisible(int material_idx, bool visible) {
+    const bool old = mModelObj.SetMatVisible(material_idx, visible);
+    auto callback = mModelObj.GetMaterialVisibilityCallback();
+    if (callback && old != visible)
+        callback(&mModelObj, material_idx);
+}
+
+// 0x7100c04e54
+sead::Matrix34f* ModelNW::getBoneWorldMatrixPtr(int bone_idx) const {
+    _200 |= 4;
+    return &mBoneWorldMatrices[bone_idx].mMatrix;
+}
+
+// 0x7100c070d0
+bool ModelNW::getMaterialParamBool(int material_idx, int param_idx) const {
+    const nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    return material->getParam<int>(res->mShaderParams[param_idx].mDataOffset) != 0;
+}
+
+// 0x7100c071d4
+int ModelNW::getMaterialParamInt(int material_idx, int param_idx) const {
+    const nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    return material->getParam<int>(res->mShaderParams[param_idx].mDataOffset);
+}
+
+// 0x7100c072cc
+u32 ModelNW::getMaterialParamU32(int material_idx, int param_idx) const {
+    const nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    return material->getParam<u32>(res->mShaderParams[param_idx].mDataOffset);
+}
+
+// 0x7100c073c4
+float ModelNW::getMaterialParamF32(int material_idx, int param_idx) const {
+    const nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    return material->getParam<float>(res->mShaderParams[param_idx].mDataOffset);
+}
+
+// 0x7100c074bc
+const sead::Vector2f& ModelNW::getMaterialParamVector2f(int material_idx, int param_idx) const {
+    const nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    return material->getParam<sead::Vector2f>(res->mShaderParams[param_idx].mDataOffset);
+}
+
+// 0x7100c075c4
+const sead::Vector3f& ModelNW::getMaterialParamVector3f(int material_idx, int param_idx) const {
+    const nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    return material->getParam<sead::Vector3f>(res->mShaderParams[param_idx].mDataOffset);
+}
+
+// 0x7100c076d4
+const sead::Vector4f& ModelNW::getMaterialParamVector4f(int material_idx, int param_idx) const {
+    const nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    return material->getParam<sead::Vector4f>(res->mShaderParams[param_idx].mDataOffset);
+}
+
+// 0x7100c077ec
+const sead::Color4f& ModelNW::getMaterialParamColor4f(int material_idx, int param_idx) const {
+    const nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    return material->getParam<sead::Color4f>(res->mShaderParams[param_idx].mDataOffset);
+}
+
+// 0x7100c078f4
+sead::Color4f ModelNW::getMaterialParamColor3f(int material_idx, int param_idx) const {
+    const nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    const sead::Vector3f& color =
+        material->getParam<sead::Vector3f>(res->mShaderParams[param_idx].mDataOffset);
+    return sead::Color4f(color.x, color.y, color.z, 1.0f);
+}
+
+// 0x7100c07a08
+sead::Matrix34f* ModelNW::getMaterialParamEffectMatrixPtr(int material_idx,
+                                                         int param_idx) const {
+    const nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    return material->getParam<sead::Matrix34f*>(res->mShaderParams[param_idx].mDataOffset + 0x18);
+}
+
+// 0x7100c04e8c
+void ModelNW::getMaterialParamTexSRT(int material_idx, int param_idx, sead::Vector2f* scale,
+                                     float* rotate, sead::Vector2f* translate) const {
+    const nn::g3d::MaterialObj* material = mModelObj.GetMaterial(material_idx);
+    const nn::g3d::ResMaterial* res = material->GetResource();
+    const nn::g3d::MaterialParamTexSRT& value = material->getParam<nn::g3d::MaterialParamTexSRT>(
+        res->mShaderParams[param_idx].mDataOffset);
+    if (scale)
+        *scale = value.mScale;
+    if (rotate)
+        *rotate = value.mRotate;
+    if (translate)
+        *translate = value.mTranslate;
+}
+
+// 0x7100c0709c
+sead::SafeString ModelNW::getMaterialParamName(int material_idx, int param_idx) const {
+    const nn::g3d::ResMaterial* res = mModelObj.GetMaterial(material_idx)->GetResource();
+    const nn::util::ResDic* dic = res->mShaderParamDic;
+    const char* name = nullptr;
+    if (dic)
+        name = dic->GetKey(param_idx).data();
+    return sead::SafeString(name);
+}
+
 // 0x7100c07b80
 int ModelNW::getShapeNum() const {
     return mModelObj.GetNumShapes();

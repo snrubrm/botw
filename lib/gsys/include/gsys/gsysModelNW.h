@@ -130,6 +130,32 @@ public:
     // dispatches to +70. Both are distinct from the pointer-return slot +78.
     void getBoneWorldMatrix(sead::Matrix34f* matrix, int bone_idx) const override;
     void safeGetBoneWorldMatrix(sead::Matrix34f* matrix, int bone_idx) const override;
+    // 0x7100c04e54: sets the world-matrix dirty flag and returns the 0x40-byte bone matrix.
+    sead::Matrix34f* getBoneWorldMatrixPtr(int bone_idx) const override;
+
+    // 0x7100c06be0 / 0x7100c06db4 / 0x7100c07b5c: the model object's skeleton bone count and
+    // the per-bone / per-material visibility bits.
+    int getBoneNum() const override;
+    bool isBoneVisible(int bone_idx) const override;
+    bool isMaterialVisible(int material_idx) const override;
+    // 0x7100c06d60 / 0x7100c07b08: update the visibility bit and call the model's callback.
+    void setBoneVisible(int bone_idx, bool visible) override;
+    void setMaterialVisible(int material_idx, bool visible) override;
+
+    // 0x7100c070d0 .. 0x7100c07a08: read the material object's runtime parameter buffer.
+    bool getMaterialParamBool(int material_idx, int param_idx) const override;
+    int getMaterialParamInt(int material_idx, int param_idx) const override;
+    u32 getMaterialParamU32(int material_idx, int param_idx) const override;
+    float getMaterialParamF32(int material_idx, int param_idx) const override;
+    const sead::Vector2f& getMaterialParamVector2f(int material_idx, int param_idx) const override;
+    const sead::Vector3f& getMaterialParamVector3f(int material_idx, int param_idx) const override;
+    const sead::Vector4f& getMaterialParamVector4f(int material_idx, int param_idx) const override;
+    const sead::Color4f& getMaterialParamColor4f(int material_idx, int param_idx) const override;
+    sead::Color4f getMaterialParamColor3f(int material_idx, int param_idx) const override;
+    sead::Matrix34f* getMaterialParamEffectMatrixPtr(int material_idx, int param_idx) const override;
+    void getMaterialParamTexSRT(int material_idx, int param_idx, sead::Vector2f* scale,
+                                float* rotate, sead::Vector2f* translate) const override;
+    sead::SafeString getMaterialParamName(int material_idx, int param_idx) const override;
 
 protected:
     // 0x7100c042e0 (declared here because ModelProceduralShape also calls it): recycles the render
@@ -158,7 +184,7 @@ private:
 
     u8 _168;
     nn::g3d::ModelObj mModelObj;
-    u8 _200;
+    mutable u8 _200;
     u8 _201;
     u8 mBufferNum;
     u8 _203;
@@ -171,7 +197,14 @@ private:
     ModelAutoAnimation* mAutoAnimation;
     ModelDynamicEnvInfo* mDynamicEnvInfo;
     void* _228;
-    void* _230;
+    /// 0x40-byte per-bone world matrix slots; getBoneWorldMatrixPtr indexes this array.
+    /// getBoneWorldMatrix 0x7100c04df8 loads a full 4x4 from the same slot.
+    struct BoneWorldMatrix {
+        sead::Matrix34f mMatrix;
+        f32 _30[4];
+    };
+    static_assert(sizeof(BoneWorldMatrix) == 0x40);
+    BoneWorldMatrix* mBoneWorldMatrices;
     void* _238;
     BoneCallbackStorage mBoneCallback;
     void* _260;
