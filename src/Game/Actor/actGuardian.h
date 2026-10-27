@@ -215,6 +215,12 @@ public:
         virtual void sub_7100043F5C();
         virtual void sub_71000445D8();
         virtual void sub_7100041F74();
+        virtual void sub_7100045004();
+        virtual void sub_7100045650();
+        // 0x71000499e0 (slot 12, unnamed in the CSV): sets bit 0 of _178. The base's signature takes the
+        // hit position and damage direction; this override ignores them.
+        virtual void sub_71000499E0(const sead::Vector3f& position,
+                                    const sead::Vector3f& direction);
         // 0x710004b268 / 0x710004b7c8 (placeholder names): the rank 0 and rank 1 position variants.
         void sub_710004B268(sead::ObjArray<sead::Vector3f>* out);
         void sub_710004B7C8(sead::ObjArray<sead::Vector3f>* out);
@@ -235,14 +241,15 @@ public:
         void sub_7100044B68(sead::Vector3f* out, s32 index);
         // 0x7100044c5c (declaration only; placeholder name): the local matrix of the position at `index`.
         void sub_7100044C5C(sead::Matrix34f* mtx, s32 index);
-        // 0x71000499e0 (unnamed in the CSV): sets bit 0 of _178.
-        void sub_71000499E0();
         // 0x71000499f0 (unnamed in the CSV): applies an upward impulse (mass * 5) at the _15b8
         // position `index` to the owner's main rigid body.
         void sub_71000499F0(s32 index);
         // 0x71000418d0 (unnamed in the CSV): adds the owner's pieces to the world and feeds the
         // navigation position / direction from the "EntitySensor" body's transform.
         void sub_71000418D0();
+        // 0x7100042340 (unnamed in the CSV): applies the damage manager's direction as a point impulse
+        // scaled by the body mass, _68 and 5.0, then forwards the position / direction to slot 12.
+        void sub_7100042340();
 
         Guardian* _8;  // the owner (sub_7100042338)
         ksys::phys::RigidBody* _10 = nullptr;

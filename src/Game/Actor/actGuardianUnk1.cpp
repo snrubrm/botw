@@ -3,6 +3,8 @@
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "Game/Actor/aiUnk_710072BA90.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardian.h"
 
@@ -25,6 +27,7 @@ KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_710235b9f0[70] = {
 
 // 0x71025af300: BSS flags of the Guardian helpers (sub_710003B554 / sub_71000380A8).
 KSYS_VISIBILITY_HIDDEN u32 sUnk_71025af300 = 0;
+KSYS_VISIBILITY_HIDDEN extern f32 sUnk_710235b7e4;
 
 // 0x710235ada0: 30 floats shared by the Guardian helpers (m34 reads [28] / [29]).
 KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_710235ada0[30] = {
@@ -136,6 +139,36 @@ void Guardian::Unk1::sub_71000418D0() {
     }
     _68 = 1.0f;
     sub_71000445D8();
+}
+
+// 0x7100042340: applies the damage manager's direction as a point impulse scaled by the body mass,
+// the _68 factor and 5.0, then forwards the position / direction to vtable slot 12.
+void Guardian::Unk1::sub_7100042340() {
+    auto* manager = sub_710072BA90(_8);
+    if (!manager)
+        return;
+    sead::Vector3f direction;
+    sead::Vector3f position;
+    if (!manager->getPosition(&position))
+        return;
+    if (!manager->getDamageDir(&direction))
+        return;
+
+    if (_8->_14d8 == 0xa)
+        direction += sead::Vector3f::ey * 1.5f;
+
+    const f32 mass = _8->getMainBody()->getMass();
+    sead::Vector3f impulse = direction * mass * sUnk_710235b7e4;
+    f32 scale = _68;
+    if (scale < 0.0f)
+        scale = 0.0f;
+    else if (scale > 1.0f)
+        scale = 1.0f;
+    impulse *= scale;
+    _68 = 0.0f;
+
+    _8->getMainBody()->applyPointImpulse(impulse, position);
+    sub_71000499E0(position, direction);
 }
 
 // 0x710004bba4: rotates the x/z components of `vec` around the Y axis.

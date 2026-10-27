@@ -27,6 +27,8 @@ KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_710235ada0[30];
 // 0x710235b968: the impulse scale applied by Unk1::sub_71000499F0 (5.0). Writable in the original,
 // so clang loads it instead of folding the literal.
 KSYS_VISIBILITY_HIDDEN f32 sUnk_710235b968 = 5.0f;
+// 0x710235b7e4: the damage-impulse scale applied by Unk1::sub_7100042340 (5.0); writable as well.
+KSYS_VISIBILITY_HIDDEN f32 sUnk_710235b7e4 = 5.0f;
 
 
 
@@ -75,7 +77,8 @@ void Guardian::Unk1::sub_7100044B68(sead::Vector3f* out, s32 index) {
     }
 }
 
-void Guardian::Unk1::sub_71000499E0() {
+void Guardian::Unk1::sub_71000499E0(const sead::Vector3f& position,
+                                   const sead::Vector3f& direction) {
     _178 |= 1;
 }
 
