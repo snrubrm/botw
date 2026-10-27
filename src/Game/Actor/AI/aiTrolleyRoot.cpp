@@ -114,4 +114,19 @@ bool TrolleyRoot::handleMessage_(const ksys::Message* message) {
     return false;
 }
 
+bool TrolleyRoot::sub_71005D1570(const sead::Vector3f& pos, const sead::Vector3f& dir) {
+    const sead::Vector3f actor_pos = mActor->getMtx().getTranslation();
+    sead::Vector3f normalized = dir;
+    const f32 dir_len = normalized.normalize();
+    if (dir_len / 30.0f > *mNearGoalLimitSpd_s) {
+        if ((actor_pos - pos).length() < *mNearGoalDist_s) {
+            sead::Vector3f to_actor = pos - actor_pos;
+            to_actor.normalize();
+            if (normalized.dot(to_actor) >= -4.371139e-08f)
+                return true;
+        }
+    }
+    return false;
+}
+
 }  // namespace uking::ai

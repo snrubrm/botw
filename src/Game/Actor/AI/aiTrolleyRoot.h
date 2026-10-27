@@ -31,6 +31,9 @@ protected:
     const float* mNearGoalLimitSpd_s{};
     // 0x71005d0cb4: the DynamicActor _a70 callback.
     void sub_71005D0CB4(ksys::act::Unk_71006dc134* arg);
+    // 0x71005d1570 (placeholder name): true when `pos` is within mNearGoalDist_s of the actor and in
+    // front of the normalized `dir` (whose length must exceed 30x mNearGoalLimitSpd_s).
+    bool sub_71005D1570(const sead::Vector3f& pos, const sead::Vector3f& dir);
 
     // static_param at offset 0x48
     const float* mNearGoalReduceRate_s{};
