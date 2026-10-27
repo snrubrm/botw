@@ -428,8 +428,6 @@ bool sub_71005E1974(ksys::act::Actor* actor, Unk_71023e7bc0* sender, const char*
     return sub_71005E1884(actor, sender, tag);
 }
 
-// NON_MATCHING: same loop; the original keeps its three `return false` exits as separate blocks and numbers the loop
-// registers x21 (count) / x22 (found) / x23 (pointer)
 bool sub_71005E19F8(ksys::act::Actor* actor, Unk_7102357d20* sender, const char* tag) {
     if (sead::SafeString(tag).isEmpty())
         return false;
@@ -440,18 +438,18 @@ bool sub_71005E19F8(ksys::act::Actor* actor, Unk_7102357d20* sender, const char*
     if (!links)
         return false;
     auto objects = links->mObjects;
-    bool found = false;
+    u32 found = 0;
     for (s32 i = 0; i < objects.size(); ++i) {
         if (!objects[i])
             continue;
         ksys::act::ActorLinkConstDataAccess accessor;
         objects[i]->getActorWithAccessor(accessor);
         if (accessor.getProc() && accessor.hasTag(tag)) {
-            found = true;
+            found = 1;
             sender->sub_710070DFD8(accessor, true);
         }
     }
-    return found;
+    return found & 1;
 }
 
 bool sub_71005DA434(ksys::act::Actor* actor, int idx) {
