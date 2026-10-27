@@ -368,8 +368,6 @@ bool sub_71005E1800(ksys::act::Actor* actor, Unk_710235aba0* sender, const char*
     return sub_71005E1884(actor, sender, tag);
 }
 
-// NON_MATCHING: same loop; the original keeps its three `return false` exits as separate blocks and numbers the loop
-// registers x21 (count) / x22 (found) / x23 (pointer)
 bool sub_71005E1884(ksys::act::Actor* actor, Unk_7102357d20* sender, const char* tag) {
     if (sead::SafeString(tag).isEmpty())
         return false;
