@@ -1,6 +1,7 @@
 #include "gsys/gsysModelNW.h"
 #include "gsys/gsysModelRenderUnitNW.h"
 #include "gsys/gsysModelDynamicEnvInfo.h"
+#include "gsys/gsysG3dResModelEx.h"
 #include <g3d/aglNW4FToNN.h>
 #include <heap/seadHeapMgr.h>
 #include <new>
@@ -154,6 +155,16 @@ sead::SafeString ModelNW::getName() const {
 // 0x7100c06d30
 sead::SafeString ModelNW::getBoneName(int bone_idx) const {
     return mModelObj.GetSkeleton()->GetRes()->GetBoneName(bone_idx);
+}
+
+// 0x7100c04b2c
+void ModelNW::bindResource() {
+    G3dResModelEx::getFromResModel(mModelObj.GetResource())->countUpReferenceCounter();
+}
+
+// 0x7100c04e70
+int ModelNW::getBoneParentIndex(int bone_idx) const {
+    return mModelObj.GetSkeleton()->GetRes()->GetBone(bone_idx)->GetParentIndex();
 }
 
 // 0x7100c06dd8

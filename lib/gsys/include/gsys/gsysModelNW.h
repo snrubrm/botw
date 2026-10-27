@@ -1,6 +1,7 @@
 #pragma once
 
 #include <gsys/gsysModelUnit.h>
+#include <gsys/gsysG3dResModelEx.h>
 #include <nn/g3d/ModelObj.h>
 #include <nn/gfx/gfx_MemoryPool.h>
 #include <nn/gfx/gfx_Types.h>
@@ -77,6 +78,11 @@ public:
     const nn::g3d::SkeletonObj* getSkeletonObj() const { return mModelObj.GetSkeleton(); }
     // Graphics 0x7100f2e0f4 reads the material array of the model object at +0xe0.
     nn::g3d::ModelObj* getModelObj() { return &mModelObj; }
+    // Inline-only in the original; name is a guess. The extension object initialize stored at the
+    // resource's +0x60; the AS bone lookups go through it (ModelObj m_ResModel -> ResModel +0x60).
+    G3dResModelEx* getResModelEx() const {
+        return G3dResModelEx::getFromResModel(mModelObj.GetResource());
+    }
 
     // 0x7100c03df8 / 0x7100c04230 (declaration only): mark the display lists of all shapes / one shape dirty.
     void setDisplayListDirty();
@@ -100,6 +106,10 @@ public:
 
     // ModelUnit overrides (0x7100c06d30 / 0x7100c06dd8).
     sead::SafeString getBoneName(int bone_idx) const override;
+    // 0x7100c04b2c: counts the model resource's extension object in.
+    void bindResource() override;
+    // 0x7100c04e70
+    int getBoneParentIndex(int bone_idx) const override;
     void clearBoneLocalMatrix() override;
     // The remaining ModelUnit pure virtuals have unnamed implementations in the original; declared only.
     int getMaterialNum() const override;

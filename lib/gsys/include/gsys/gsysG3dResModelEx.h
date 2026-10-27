@@ -2,12 +2,13 @@
 
 #include <hostio/seadHostIONode.h>
 #include <thread/seadAtomic.h>
+#include <nn/g3d/ResModel.h>
 #include "gsys/gsysG3dResMaterialEx.h"
 #include "gsys/gsysG3dResShapeEx.h"
 #include "gsys/gsysModelAutoAnimation.h"
 
 namespace nn::g3d {
-class ResModel;
+class ResSkeleton;
 }
 
 namespace gsys {
@@ -23,6 +24,14 @@ public:
     // Inline-only in the original; name is a guess. C6DD78 stores the resource;
     // independent C6F3CC formats its name and callback 1200AC0 reads it.
     const nn::g3d::ResModel* getResModel() const { return mResModel; }
+    // Inline-only in the original; name is a guess. initialize (0xc6dda8) stores this object at
+    // ResModel+0x60; the AS bone lookups start from the model object's resource and recover it.
+    static G3dResModelEx* getFromResModel(const nn::g3d::ResModel* res_model) {
+        return static_cast<G3dResModelEx*>(res_model->pExtension);
+    }
+    // Inline-only in the original; name is a guess. SkeltalAsset 0x710125d88c / 0x710125daec read
+    // the model resource's skeleton through the extension and index the 0x50-byte bone array.
+    const nn::g3d::ResSkeleton* getResSkeleton() const { return mResModel->GetSkeleton(); }
     // 0x7100c6e7e4: the buffer count byte at ModelResource+0x1d4.
     int getBufferNum() const;
     // Inline-only in the original; names are guesses. ksys::tera 0x71011413b4 indexes the

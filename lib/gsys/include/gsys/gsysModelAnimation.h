@@ -104,6 +104,17 @@ public:
     static_assert(sizeof(SkeletalAnm) == 0xa8);
     static_assert(sizeof(SkeletalResource) == 0x28);
 
+    // initializeMaterialAnm_ (0x7100bfae64) allocates one 0x18-byte record per material
+    // animation and stores the resource pointer at +0 and a u16 index list at +8/+0x10
+    // (initMaterialAnmData_ 0x7100bfb1f8 fills both). getMaterialAnmFrameCount
+    // (0x7100bff0b0) and GraphicsAsset's resource constructor 0x710125b7ec index them.
+    struct MaterialAnmResource {
+        const G3dResAnimationEx* resource;
+        sead::Buffer<u16> indices;
+    };
+
+    static_assert(sizeof(MaterialAnmResource) == 0x18);
+
     // The debug skeletal-animation accessors are compiled out in the release build: the
     // setters are empty and the getters return an invalid key / frame 0 (0x7100bff29c..b4).
     enum class DebugSkeletalAnmSlotType : int;
@@ -154,6 +165,11 @@ public:
     sead::Buffer<MaterialAnm>& getMaterialAnms() { return mMaterialAnms; }
     const sead::Buffer<MaterialAnm>& getMaterialAnms() const { return mMaterialAnms; }
 
+    sead::Buffer<MaterialAnmResource>& getMaterialAnmResources() { return mMaterialAnmResources; }
+    const sead::Buffer<MaterialAnmResource>& getMaterialAnmResources() const {
+        return mMaterialAnmResources;
+    }
+
 private:
     u8 _8[0x38 - 8];
     ModelAnimation* mSelfReferenceMaybe;
@@ -164,7 +180,9 @@ private:
 public:
     sead::Buffer<SkeletalResource> mSkeletalResources;
 private:
-    u8 _70[0x80 - 0x70];
+    // One record per material animation; getMaterialAnmFrameCount reads the count at +0x70 and
+    // the 0x18-byte array at +0x78.
+    sead::Buffer<MaterialAnmResource> mMaterialAnmResources;
     u16 mMaterialAnmEnd[8];
 public:
     // ASList::sub_7101160ED4 stores its owner at +0x90 after enabling the animation.
