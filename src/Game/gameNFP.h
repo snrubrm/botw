@@ -59,6 +59,9 @@ public:
     void sub_F45E1C(const s32* amiibo_id);
     void sub_F45E24(const s32* amiibo_id);
 
+    // 0x7100f45b50 (CSV NFP::quitThread; declaration only): stops the NFP thread and destroys the
+    // singleton.
+    void quitThread();
     // 0xf45ce8 (CSV NFP::returnFalse).
     bool returnFalse() const;
     // 0xf45cf0 (CSV NFP::c) / 0xf45d5c: set flag 0x800 and queue a request (2 / 3) on the NFP thread.

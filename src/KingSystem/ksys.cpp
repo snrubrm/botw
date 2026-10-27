@@ -42,6 +42,7 @@
 #include <gsys/gsysParticleMgr.h>
 #include "Game/gameEventMgr1.h"
 #include "Game/gameEventMgrMiniGame.h"
+#include "Game/gameNFP.h"
 
 namespace ksys {
 
@@ -426,3 +427,12 @@ void sub_7100F40428(void* camera) {
 }
 
 }  // namespace ksys
+
+// 0x7100f3d180: requests the terrain model's unload, stops the amiibo thread and destroys the awareness
+// and King editor singletons (stage teardown).
+void deleteInstanceForNFPAwarenessAndKingEditor() {
+    ksys::tera::sUnk_710260B220._260.requestUnload2();
+    NFP::instance()->quitThread();
+    ksys::act::Awareness::deleteInstance();
+    ksys::KingEditor::deleteInstance();
+}

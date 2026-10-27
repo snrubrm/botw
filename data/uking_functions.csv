@@ -82211,7 +82211,7 @@ Address,Quality,Size,Name
 0x0000007100f3b1bc,m,000132,_ZN4ksys39checkPreInitializeResourcesStillLoadingEv
 0x0000007100f3b240,U,007612,ksys::InitializeApp
 0x0000007100f3cffc,O,000388,_ZN4ksys15initBaseProcMgrEPN4sead4HeapE
-0x0000007100f3d180,U,000052,deleteInstanceForNFPAwarenessAndKingEditor
+0x0000007100f3d180,O,000052,_Z42deleteInstanceForNFPAwarenessAndKingEditorv
 0x0000007100f3d1b4,O,000080,_ZN4ksys24waitForResourceCreation1Ev
 0x0000007100f3d204,U,000004,nullsub_4162
 0x0000007100f3d208,U,000252,gameScenePreCalc_
