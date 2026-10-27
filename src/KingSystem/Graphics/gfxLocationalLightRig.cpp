@@ -1,6 +1,8 @@
 #include "Game/gameGraphics.h"
 #include "KingSystem/Graphics/gfxLocationalLightRig.h"
 #include <gsys/gsysModel.h>
+#include <gsys/gsysModelNW.h>
+#include <gsys/gsysShaderContext.h>
 #include <gsys/gsysG3dResMaterialEx.h>
 #include <utility/aglDynamicTextureAllocator.h>
 #include <utility/aglPrimitiveTexture.h>
@@ -296,6 +298,16 @@ void Unk_7100f185a4::sub_7100F19928(ksys::gfx::ModelRenderDataMaybe* data) {
     }
 
     block->mGroup = nullptr;
+}
+
+// 0x7100f19a2c: stores the scene it draws and the scene model's derived gsys::ModelNW, then hands
+// that model to the shader context's setSceneMaterial.
+void Unk_7100f185a4::sub_7100F19A2C(gsys::ModelScene* scene) {
+    if (!scene->mSceneModelNW)
+        return;
+    _fc0 = scene;
+    _fc8 = sead::DynamicCast<gsys::ModelNW>(scene->mSceneModelNW);
+    mRenderContext.getShaderContext()->setSceneMaterial(_fc8);
 }
 
 // NON_MATCHING: the flags loop's peeled first block uses the +0x60 address as its induction (so the

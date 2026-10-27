@@ -365,8 +365,8 @@ private:
     agl::RenderTargetDepth mRenderTargetDepth;
     agl::TextureData mTextureData;
     agl::TextureSampler mSampler1;
-    void* _fc0;
-    void* _fc8;
+    gsys::ModelScene* _fc0;
+    gsys::ModelNW* _fc8;
     // 0xfd0: map-unit tables: the group is selected by the id's high half and each group is an
     // inline array of 0x68-byte entries indexed by the id's low 16 bits.
     sead::Buffer<UnitGroup*> mUnitGroups;
