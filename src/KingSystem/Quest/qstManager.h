@@ -54,6 +54,10 @@ public:
     static act::BaseProc* sub_7100FD5848(const sead::SafeString& s1, const sead::SafeString& s2);
     // 0x71007b15a8 / GameScene::unloadStage store the byte at +0x5d.
     void setUnk5D(bool value) { mUnk5D = value; }
+    // 0x7100fd7454: GameScene::unloadStage sets this before the event manager finishes.
+    void setUnk5E();
+    // 0x7100fd76b0: whether the quest state machine is in state 3 with the +0x58 flag set.
+    bool sub_7100FD76B0() const;
 
 private:
     u32 _28;
@@ -63,11 +67,16 @@ private:
     u32 temp2;
     u32 _44;
     sead::PtrArray<const CameraTarget> _48;  // camera targets of all quest steps (sub_7100FD78F8)
-    u32 _58;
+    u8 _58;
+    u8 _59;
+    u8 _5a;
+    u8 _5b;
     u8 _5c;
     // Set by GameScene::initBeforeStageGen and GameScene::unloadStage.
     bool mUnk5D;
-    u8 _5e[2];
+    // Set by GameScene::unloadStage (0x7100fd7454); cleared with mUnk5D by the quest update.
+    bool mUnk5E;
+    u8 _5f;
     u32 temp4;
     res::Handle mHandle;
     sead::ObjArray<Quest> mQuests;

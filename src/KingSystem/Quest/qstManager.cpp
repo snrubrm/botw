@@ -46,6 +46,16 @@ void Manager::prepareFirstTimeGenStage() {
     _30 = 0;
 }
 
+void Manager::setUnk5E() {
+    mUnk5E = true;
+}
+
+bool Manager::sub_7100FD76B0() const {
+    if (_2c != 3)
+        return false;
+    return _58 != 0;
+}
+
 SEAD_SINGLETON_DISPOSER_IMPL(Manager)
 
 Manager::~Manager() {
