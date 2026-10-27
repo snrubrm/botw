@@ -520,6 +520,8 @@ public:
     void sub_7100F81EE0(Unk_7102519a98* obj, bool queued);
     // 0x7100f81a00 (declaration only; placeholder name): updates the transform of an added entry.
     void sub_7100F81A00(Unk_7102519a98* obj, const sead::Matrix34f& transform);
+    // 0x7100f81868 (declaration only; placeholder name): queues a freshly loaded tile entry.
+    void sub_7100F81868(Unk_7102519a98* obj);
 
     // 0x7100f84194 (placeholder name; CSV guess HavokAI::getNavMeshLoadMgr): walks the +0x118 offset list and
     // the +0x28 object's +0xe0 array. Called by NavMeshSystemThread::sub_7100F8962C on timeout (declared only).

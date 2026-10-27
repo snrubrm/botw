@@ -82,6 +82,45 @@ void NavMeshLoadMgr::load(sead::Heap* heap, const sead::SafeString& path) {
     (_8 ? _10 : nullptr)->mHandle.load(_18, &request, nullptr);
 }
 
+// NON_MATCHING: one load pair only: the original reads the tile's two indices with two `ldr`
+// instructions, ours merges them into one `ldp` (692 vs 696 bytes); every other instruction agrees.
+void NavMeshLoadMgr::a(TileHandle* handle) {
+    if (handle->mHandle.requestedLoad()) {
+        if (handle->mHandle.isReadyOrNeedsParse())
+            handle->mHandle.parseResource(nullptr);
+    } else {
+        res::LoadRequest request(0x10, 0, false);
+        request.mRequester = "NavMeshLoadMgr";
+        request._22 = true;
+
+        sead::SafeString path = _18;
+        sead::FixedSafeString<256> tile_path;
+        if ((_178.x | _178.y) != 0) {
+            const s32 x = handle->_50;
+            const s32 z = handle->_54;
+            tile_path.format("%s/%d-%d.hknm2", _18.cstr(), x, z);
+            path = tile_path;
+        }
+
+        if (aoc::Manager::instance() != nullptr)
+            request.mAocFileDevice = aoc::Manager::instance()->getFileDeviceForNavMesh(path);
+
+        handle->mHandle.requestLoad(path, &request, nullptr);
+    }
+
+    if (handle->mHandle.isSuccess() && handle->_58 != 1) {
+        auto* entries =
+            sead::DynamicCast<Unk_7102519b90>(handle->mHandle.getResource())->getEntries().getBufferPtr();
+        const s32 count =
+            sead::DynamicCast<Unk_7102519b90>(handle->mHandle.getResource())->getEntries().size();
+        for (s32 i = 0; i != count; ++i) {
+            if (entries[i]._8 && entries[i]._28)
+                HavokAI::instance()->sub_7100F81868(&entries[i]);
+        }
+        handle->_58 = 1;
+    }
+}
+
 // NON_MATCHING: register allocation only (the cast type info and the lock spill to the other stack
 // slots; the body, both loops and the buffer teardown agree instruction for instruction).
 void NavMeshLoadMgr::sub_7100F898E4() {
