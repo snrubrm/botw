@@ -1860,7 +1860,8 @@ bool sub_71005D7C94(sead::BufferedSafeString* out, const sead::SafeString* in) {
     return true;
 }
 
-// NON_MATCHING: a5 / flags take the other callee-saved registers (w21 / x22 vs w22 / x21).
+// NON_MATCHING: the a6 / a7 copies to v8 / v9 are scheduled before the integer parameter copies;
+// the original interleaves them (v8 after x21, v9 after x24). Same 108 instructions otherwise.
 // 0x71005d7f4c: builds the request of type 2 (the caller passes the token, the two range values,
 // the flags and the attack direction type hash) and hands it to the equipped weapon.
 void sub_71005D7F4C(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeString* name,
@@ -1879,14 +1880,14 @@ void sub_71005D7F4C(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeSt
     arg._8 = a6;
     arg._c = a7;
     arg._10 = sub_71007A3A8C(&token);
+    arg._18 = a5;
     if (flags)
         arg._14 = flags->getDirect();
-    arg._18 = a5;
     sub_71005D79AC(actor, idx, arg);
 }
 
-// NON_MATCHING: the parameter saves and the stacked a8 use other callee-saved registers; the
-// stacked argument is reloaded instead of kept in x27 (3 instructions longer).
+// NON_MATCHING: the a9 / a10 copies to v8 / v9 are scheduled before the integer parameter copies;
+// the original interleaves them (v8 after x21, v9 after x26). Same 110 instructions otherwise.
 // 0x71005d7adc: the type 0 request (a name picked by a query) for the equipped weapon.
 void sub_71005D7ADC(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeString* name,
                     const sead::BitFlag8* flags, int a5, int a6, int a7, int a8, f32 a9, f32 a10) {
@@ -1904,16 +1905,16 @@ void sub_71005D7ADC(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeSt
     arg._8 = a9;
     arg._c = a10;
     arg._10 = sub_71007A3A8C(&token);
-    if (flags)
-        arg._14 = flags->getDirect();
     arg._18 = a5;
     arg._1c = a6;
     arg._20 = a7;
     arg._24 = a8;
+    if (flags)
+        arg._14 = flags->getDirect();
     sub_71005D79AC(actor, idx, arg);
 }
 
-// NON_MATCHING: same register allocation as sub_71005D7ADC (the stacking of a8), 3 instructions longer.
+// NON_MATCHING: same float copy scheduling as sub_71005D7ADC. Same 111 instructions otherwise.
 // 0x71005d7d90: the same type 0 request with the trailing "keep the token" flag set.
 void sub_71005D7D90(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeString* name,
                     const sead::BitFlag8* flags, int a5, int a6, int a7, int a8, f32 a9, f32 a10) {
@@ -1931,13 +1932,13 @@ void sub_71005D7D90(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeSt
     arg._8 = a9;
     arg._c = a10;
     arg._10 = sub_71007A3A8C(&token);
-    if (flags)
-        arg._14 = flags->getDirect();
     arg._18 = a5;
     arg._1c = a6;
     arg._20 = a7;
     arg._24 = a8;
     arg._28 = true;
+    if (flags)
+        arg._14 = flags->getDirect();
     sub_71005D79AC(actor, idx, arg);
 }
 
