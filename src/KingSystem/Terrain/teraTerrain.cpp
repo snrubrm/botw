@@ -416,6 +416,29 @@ void sub_71012EB840(CellQuadMaybe* out, const sead::Vector2f* a, const sead::Vec
     out->_2c = sead::BitUtil::bitCast<u32>(a->y);
 }
 
+Terrain::Unk_a50::~Unk_a50() {
+    if (mPositions) {
+        delete[] mPositions;
+        mPositions = nullptr;
+        mPosCount = 0;
+    }
+    if (mPageAperture) {
+        mPageAperture->cleanUp();
+        delete mPageAperture;
+        mPageAperture = nullptr;
+    }
+    if (mPageResource) {
+        mPageResource->cleanUp();
+        delete mPageResource;
+        mPageResource = nullptr;
+    }
+    if (mPageEdit) {
+        mPageEdit->cleanUp();
+        delete mPageEdit;
+        mPageEdit = nullptr;
+    }
+}
+
 // NON_MATCHING: the original addresses the _8 pointer (entry + 8) once and reads _0 through -8;
 // ours keeps the entry base instead (one ldur vs ldr difference).
 void Core::Grass::sub_710114EE5C(bool on) {

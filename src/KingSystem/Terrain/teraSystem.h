@@ -43,6 +43,7 @@
 #include <common/aglRenderBuffer.h>
 #include <common/aglRenderTarget.h>
 #include <common/aglTextureSampler.h>
+#include <utility/aglDebugTexturePage.h>
 
 class Unk_7102503a50;
 class Unk_71025046d0;
@@ -1168,7 +1169,14 @@ public:
     f64 _a48;
     // Placeholder type: ForestRenderer::requestDraw 0x7100f03964 draws nothing when bit 5 is set.
     struct Unk_a50 {
-        u8 _0[0x18];
+        // 0x71012eb874 / 0x71012ebd0c. The three debug texture pages hold the aperture, edit and
+        // resource previews; the destructor cleans up all three and frees the position ring.
+        Unk_a50();
+        ~Unk_a50();
+
+        agl::utl::DebugTexturePage* mPageAperture;  // 00 "tera debug - aperture"
+        agl::utl::DebugTexturePage* mPageEdit;      // 08 "tera debug - edit"
+        agl::utl::DebugTexturePage* mPageResource;  // 10 "tera debug - resource"
         // Bits: 3 - Unk_710250fc48::sub_710114EA70 returns false; 5 - ForestRenderer::requestDraw draws nothing;
         // 7 - sub_7101115584 skips sub_7101115338; 8 - the terrain editor's m6 copies it into editor _30 bit 3;
         // 0x100 - m6 clears that bit instead.
