@@ -10,7 +10,7 @@ namespace ksys::phys {
 class RigidBody;
 }
 
-// 0x71005dbf28 (lane1 s47; declared only, 260 B): sets the entity motion flag 8 of `body` and, if its user tag is a
+// 0x71005dbf28 (lane1 s47; matched in s207, 260 B): sets the entity motion flag 8 of `body` and, if its user tag is a
 // PhysicsUserTag, stores `a1` / `a2` in it and sets the flag bits 1 / 4 / 8 / 0x10 of the byte at +0x15 for `a3` .. `a6`.
 void sub_71005DBF28(ksys::phys::RigidBody* body, s32 a1, s32 a2, bool a3, bool a4, bool a5, bool a6);
 

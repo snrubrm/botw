@@ -59,7 +59,7 @@ ksys::act::BaseProcLink* sub_71005D9050(ksys::act::Actor* actor);
 ksys::act::BaseProcLink& sub_71005D94AC(ksys::act::Actor* actor);
 /// Whether the Enemy has a target (link has a proc).
 bool sub_71005D8F28(ksys::act::Actor* actor);
-/// 0x71005d91a0 (declared only; lane1 s21): checks the actor (an Enemy) against `value` (a depth /
+/// 0x71005d91a0 (lane1 s21; m in s207): checks the actor (an Enemy) against `value` (a depth /
 /// distance; LandHumEnemyFindPlayer::enter_ passes NoBurnWaterDepth).
 bool sub_71005D91A0(ksys::act::Actor* actor, f32 value);
 /// 0x71005da5ac (lane1 s21): whether the weapon in slot `idx` (0 - 5) of the actor's ActorWeapons is
@@ -171,7 +171,7 @@ bool sub_71005E0384(ksys::act::Actor* actor);
 
 /// The actor in weapon slot `idx` if it is a uking::act::Weapon (nullptr otherwise).
 uking::act::Weapon* sub_71005D83E8(ksys::act::Actor* actor, int idx);
-/// 0x71005d8a30 (lane3 s18, declaration only; placeholder name, PullOut::handleMessage_): hands `weapon` to the
+/// 0x71005d8a30 (lane3 s18; matched in s207): hands `weapon` to the
 /// actor (the action depends on the actor's class: Enemy, NPC, ...). Returns whether it was accepted (ForkCatchWeapon::calc_
 /// finishes on true); the third parameter is an int (ForkCatchWeapon passes its WeaponIdx).
 bool sub_71005D8A30(ksys::act::Actor* actor, uking::act::Weapon* weapon, s32 a3);
@@ -181,13 +181,13 @@ bool sub_71005D8514(ksys::act::Actor* actor, int idx);
 bool sub_71005D8B60(ksys::act::Actor* actor);
 /// Whether slot `idx` has an equipped weapon and ActorWeapons::mWeapons[idx]._10 is not set.
 bool sub_71005DB904(ksys::act::Actor* actor, int idx);
-// Queries the shield weapon slot (declaration only).
+// The first shield weapon slot, or -1; 0 without weapons.
 s32 sub_71005DB96C(ksys::act::Actor* actor);
 
 // ActorWeapons::mWeapons[idx]._10
 
 void sub_71005DB5C0(ksys::act::Actor* actor, int idx);
-// 0x71005dbc94 (declared only; lane4 s23): Thrown / WillBallAttack / SetImpulseDamageMin /
+// 0x71005dbc94 (lane4 s23; matched in s207): Thrown / WillBallAttack / SetImpulseDamageMin /
 // GanonBeastRoot::enter_ helper. If the actor's PhysicsUserTag (+0x528) is of a certain class (typeinfo
 // GOT 0x7102578f08): sets the character controller's flag (true), every rigid body of the Body group
 // to entity motion flag 8, and stores `a1` at +0x538, `a2` at +0x53c and the other flags as bits
@@ -295,12 +295,12 @@ bool sub_71005DA8CC(ksys::act::Actor* actor, int idx);
 /// 0x71005dd2e8: disables all attention clients except LockOn and AutoAim.
 void sub_71005DD2E8(ksys::act::Actor* actor);
 void sub_71005DD34C(ksys::act::Actor* actor, bool on);
-/// 0x71005dcf80 (declaration only): ray cast along `dir` through the actor's position; stores a
+/// 0x71005dcf80 (M in s207): ray cast along `dir` through the actor's position; stores a
 /// texture index for the hit (terrain textures / material mask) in `material`. `a4` is unused.
 bool sub_71005DCF80(u32* material, ksys::act::Actor* actor, const sead::Vector3f& dir, bool a4);
 /// 0x71005dd27c: uses texture index `material` for the actor's model.
 void sub_71005DD27C(ksys::act::Actor* actor, u32 material, f32 a3);
-/// 0x71005dcc34 (declaration only; tail-called by sub_71005DD27C): material fade of the actor's model.
+/// 0x71005dcc34 (m in s207; tail-called by sub_71005DD27C): material fade of the actor's model.
 void sub_71005DCC34(ksys::act::Actor* actor, u32 material, f32 a3);
 /// The actor linked by the actor's ride info (Actor::getPlayerRideInfo), or nullptr.
 ksys::act::Actor* sub_71005D7348(ksys::act::Actor* actor);
@@ -372,7 +372,7 @@ bool sub_71005DD780(ksys::act::Actor* actor, int type, ksys::as::ASList::Unk4* q
 bool sub_71005DD798(ksys::act::Actor* actor, int type, ksys::as::ASList::Unk4* query, int a3,
                     int a4);
 bool sub_71005DD7B0(ksys::act::Actor* actor, ksys::as::ASList::Unk4* query, int a2, int a3);
-/// 0x71005dd7e4 (declared only; lane3 s81): writes a number taken from `name` (an AS event name) to `out`;
+/// 0x71005dd7e4 (lane3 s81; matched in s207): writes a number taken from `name` (an AS event name) to `out`;
 /// GanonWeaponNearAttack parses it with tryParseS32 as a weapon index.
 bool sub_71005DD7E4(sead::BufferedSafeString* out, const sead::SafeString& name);
 /// Build an Unk_71002edaec request (_0 = 2 / 1 / 0) and pass it to sub_71005D79AC. `name` and
@@ -388,7 +388,7 @@ void sub_71005D7ADC(ksys::act::Actor* actor, int idx, u32 a2, const sead::SafeSt
 /// null or height / gravity are ~0.
 bool sub_71005DF66C(sead::Vector3f* out, ksys::act::Actor* actor, const sead::Vector3f* target,
                     f32* out_time, f32 height, f32 gravity);
-/// 0x71005d7c94 (declared only; placeholder name): copies the first token of `in` into `out`
+/// 0x71005d7c94 (matched in s207): copies the first token of `in` into `out`
 /// (false if either is empty / null).
 bool sub_71005D7C94(sead::BufferedSafeString* out, const sead::SafeString* in);
 
@@ -448,7 +448,7 @@ void sub_71005E1D00(ksys::act::Actor* actor);
 // Signature from the CSV mangled name and the matching caller.
 void sub_71005DDC98(ksys::act::Actor* actor, s32 pattern, f32 power, f32 range, bool start,
                     ksys::map::Object* object);
-// 0x71005dde8c (declared only; lane3 s46): remains-part helper for DunegonRotateWait::calc_.
+// 0x71005dde8c (lane3 s46; m in s207): remains-part helper for DunegonRotateWait::calc_.
 // Signature from the CSV mangled name and the matching caller.
 void sub_71005DDE8C(ksys::act::Actor* actor, const sead::Vector3f* axis, s32 part_type);
 // 0x71005ddf80 (declared only; lane3 s55): velocity solver for IgniteToTarget::sub_
@@ -489,7 +489,7 @@ bool sub_71005DE53C(uking::act::Weapon* weapon, uking::act::Enemy* enemy, f32 di
                    f32 angle, bool check_awareness);
 
 // Complete wrapper and ballistic solver establish the velocity output and direction input.
-/// 0x71005d715c (declaration only): the Enemy target-link check behind sub_71005D70C8.
+/// 0x71005d715c (m in s207): the Enemy target-link check behind sub_71005D70C8.
 bool sub_71005D715C(ksys::act::Actor* actor);
 bool sub_71005DF4E4(sead::Vector3f* out, const sead::Vector3f* pos, const sead::Vector3f* p, f32 a,
                     f32 b);
