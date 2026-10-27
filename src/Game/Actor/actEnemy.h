@@ -345,6 +345,8 @@ public:
     void setNecklaceFlag(s32 index);
     // 0x71007313cc: reads the defeated save flag of this enemy.
     bool isDefeated();
+    // 0x7100731520: reads the MamonoShop big enemy activation flag.
+    bool isMonsterShopActivated();
     // 0x71007318c8: reads the necklace save flag of this enemy.
     bool checkNecklaceFlag(s32 index);
 

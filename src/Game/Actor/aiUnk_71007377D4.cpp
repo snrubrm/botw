@@ -1826,6 +1826,34 @@ bool sub_710073200C(ksys::act::Actor* actor, s32 index) {
     return (bits & (1u << index) & 0xff) != 0;
 }
 
+// 0x7100731520: reads the MamonoShop big enemy activation flag that the two tags / the Sandworm
+// profile select.
+// NON_MATCHING: the original evaluates each SafeString argument before the getParam() receiver
+// (C++14 order) and keeps the false result in w0 from the entry block; ours loads the receiver
+// first and merges the two return false blocks.
+bool uking::act::Enemy::isMonsterShopActivated() {
+    if (!this)
+        return false;
+    auto* manager = ksys::gdt::Manager::instance();
+    if (!manager)
+        return false;
+    bool on = false;
+    if (ksys::act::hasTag(this, ksys::act::tags::Unk_0x2BC52291)) {
+        manager->getParam().get().getBuffer()->getBool(
+            &on, "MamonoShop_BigEnemy_Golem_Activated",
+            manager->getParam().shouldCheckPermissions(), true);
+    } else if (ksys::act::hasTag(this, ksys::act::tags::Unk_0xE2522FB8)) {
+        manager->getParam().get().getBuffer()->getBool(
+            &on, "MamonoShop_BigEnemy_Giant_Activated",
+            manager->getParam().shouldCheckPermissions(), true);
+    } else if (getProfile() == "Sandworm") {
+        manager->getParam().get().getBuffer()->getBool(
+            &on, "MamonoShop_BigEnemy_Sandworm_Activated",
+            manager->getParam().shouldCheckPermissions(), true);
+    }
+    return on;
+}
+
 void uking::act::Enemy::setNecklaceFlag(s32 index) {
     if (!this)
         return;
