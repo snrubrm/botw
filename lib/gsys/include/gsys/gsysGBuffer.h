@@ -30,6 +30,8 @@ public:
     void initialize(sead::Heap* heap);
     // 0x7100c73834 (declared only)
     void invalidate();
+    // 0x7100c73a80: frees one resolution's buffer-type texture and clears its flag.
+    void invalidate(Resolution resolution, BufferType type);
     // 0x7100c72f18 / 0x7100c7303c / 0x7100c73b40 (declared only)
     void endPreShading(agl::DrawContext*);
     void expand(agl::DrawContext*);
