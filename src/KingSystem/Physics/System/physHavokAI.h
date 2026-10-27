@@ -174,14 +174,22 @@ public:
     virtual ~NavMeshLoadMgr();
     // 0x7100f898e4: releases the loaded Havok tile resources (declared only).
     void sub_7100F898E4();
+    // 0x7100f89d50: loads the tile resource set for `path` (one handle) if none is loaded yet.
+    void load(sead::Heap* heap, const sead::SafeString& path);
+    // 0x7100f89af4: allocates the ten tile handles and sets the tile grid.
+    void createResources(sead::Heap* heap, const sead::SafeString& path, const sead::Vector2i& area,
+                         const sead::Vector2i& origin, const sead::Vector2i& size);
     // 2026-10-07: createResources constructs ten resource handles at 0x60-byte
     // intervals; sub_7100F8ADC4 walks the same array and sub_7100F8AF0C checks status58.
-    struct TileHandle : public res::Handle {
+    struct TileHandle {
+        TileHandle() : _50(-1), _54(-1), _58(0) {}
+        bool sub_7100F8AF0C();
+
+        res::Handle mHandle;
         /* 0x50 */ s32 _50;
         /* 0x54 */ s32 _54;
         /* 0x58 */ u8 _58;
         /* 0x59 */ u8 _59[7];
-        bool sub_7100F8AF0C();
     };
     KSYS_CHECK_SIZE_NX150(TileHandle, 0x60);
     // 0x7100f89f4c (CSV NavMeshLoadMgr::x; declared only; 1132 B): called with Vector3f::zero by the dungeon stages' preCalc.

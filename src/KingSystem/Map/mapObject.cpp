@@ -232,6 +232,53 @@ bool Object::isFlags8Cleared() const {
     return mActorFlags8.isZero();
 }
 
+bool Object::checkYDistance(f32 object_y, f32 player_y, f32 offset) const {
+    using DFlag = ActorData::Flag;
+    const auto* data = &PlacementMgr::instance()->mPlacementActors->mActorData[mActorDataIdx];
+
+    if (!data->mFlags.isOnBit(DFlag::LimitYDiff)) {
+        if (!data->mFlags.isOnBit(DFlag::TraverseDist400))
+            return false;
+
+        const f32 diff = object_y - player_y;
+        f32 dist = 0.0f;
+
+        if (data->mFlags.isOnBit(DFlag::TraverseDistReset))
+            dist = 0.0f;
+        else {
+            if (mFlags.isOn(Flag::HasTraversePos))
+                mMubinIter.tryGetParamFloatByKey(&dist, "TraverseRadiusXZ");
+
+            if (data->mFlags.isOnBit(DFlag::TraverseDistReset))
+                dist = dist + 0.0f;
+            else if (data->mFlags.isOnBit(DFlag::TraverseDist400) ||
+                     data->mFlags.isOnBit(DFlag::TraverseDist200) ||
+                     data->mFlags.isOnBit(DFlag::TraverseDist4000) ||
+                     data->mFlags.isOnBit(DFlag::TraverseDist800))
+                dist = mTraverseDist + dist;
+            else if (data->mFlags.isOffBit(DFlag::TraverseDist2000))
+                dist = mTraverseDist + dist;
+            else
+                dist = mTraverseDist;
+
+            f32 mult = getDispDistanceMultiplier();
+            if (dist > 0.0f)
+                dist = dist * mult;
+            else
+                dist = 100.0f * mult;
+        }
+
+        // NON_MATCHING: the block order of the LimitYDiff arm and the if-converted boolean
+        // comparison differ; the conditions and constants agree.
+        return diff > dist || diff < -dist;
+    }
+
+    const f32 diff = object_y - player_y;
+    if (diff > offset + 40.0f)
+        return true;
+    return diff < -70.0f - data->_114 - offset;
+}
+
 f32 Object::getDispDistance(const ActorData* data, bool get_diameter, u32 unused,
                             bool ignore_radius) const {
     if (data->mFlags.isOnBit(ActorData::Flag::TraverseDistReset))

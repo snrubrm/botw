@@ -146,7 +146,10 @@ public:
     /* 0xf8 */ eft::EffectModelData* mEffectModelData;
     u8 _100[0x10c - 0x100];
     f32 _10c;
-    u8 _110[0x140 - 0x110];
+    u8 _110[0x114 - 0x110];
+    // Read by Object::checkYDistance for the LimitYDiff check.
+    f32 _114;
+    u8 _118[0x140 - 0x118];
     gfx::LocationalLightMgr::ObjectLight* mObjectLight;
     sead::FixedSafeString<64> mActorName;
 };

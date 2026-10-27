@@ -1,6 +1,8 @@
 #include <devenv/seadStackTrace.h>
+#include <new>
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
+#include "KingSystem/AOC/aocManager.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Physics/Ragdoll/physUnk_7102519b90.h"
@@ -31,13 +33,62 @@ void NavMeshObj2Maybe::sub_7100F8B584(hkaiStreamingCollection* collection) {
 }
 
 // NON_MATCHING: register allocation (entry index and count swap registers)
+// NON_MATCHING: only the parameter registers x22 / x23 (area / size) are swapped; the body and
+// constants agree.
+void NavMeshLoadMgr::createResources(sead::Heap* heap, const sead::SafeString& path,
+                                     const sead::Vector2i& area, const sead::Vector2i& origin,
+                                     const sead::Vector2i& size) {
+    auto lock = sead::makeScopedLock(_130);
+    if (_10)
+        return;
+
+    _18 = path;
+    _170 = origin;
+    _178 = size;
+    _180 = sead::Vector2i(area.x / size.x, area.y / size.y);
+    _188 = sead::Vector2i(-1, -1);
+
+    auto* handles = new (heap, 8, std::nothrow) TileHandle[10];
+    if (handles) {
+        _8 = 10;
+        _10 = handles;
+    }
+}
+
+void NavMeshLoadMgr::load(sead::Heap* heap, const sead::SafeString& path) {
+    auto lock = sead::makeScopedLock(_130);
+    if (_10)
+        return;
+
+    _18 = path;
+    _170 = sead::Vector2i(0, 0);
+    _178 = sead::Vector2i(0, 0);
+    _180 = sead::Vector2i(0, 0);
+    _188 = sead::Vector2i(0, 0);
+
+    auto* handle = new (heap, 8, std::nothrow) TileHandle[1];
+    if (handle) {
+        _8 = 1;
+        _10 = handle;
+    }
+
+    res::LoadRequest request(0x10, 0, false);
+    request.mRequester = "NavMeshLoadMgr";
+    request._22 = true;
+
+    if (aoc::Manager::instance() != nullptr)
+        request.mAocFileDevice = aoc::Manager::instance()->getFileDeviceForNavMesh(_18);
+
+    (_8 ? _10 : nullptr)->mHandle.load(_18, &request, nullptr);
+}
+
 void NavMeshLoadMgr::sub_7100F8AA78(s32 index, const sead::Matrix34f& transform) {
     if (_190)
         return;
     auto lock = sead::makeScopedLock(_130);
     if (!_10 || (_178.x | _178.y) != 0)
         return;
-    auto* resource = sead::DynamicCast<Unk_7102519b90>(_10->getResource());
+    auto* resource = sead::DynamicCast<Unk_7102519b90>(_10->mHandle.getResource());
     if (index < 0 || !resource)
         return;
     auto& entries = resource->getEntries();
@@ -79,7 +130,7 @@ void NavMeshLoadMgr::sub_7100F8B334(const sead::Vector3f* pos) {
     const s32 x = sead::Mathi::clamp((s32(pos->x) - _170.x) / _178.x, 0, _180.x - 1);
     const s32 z = sead::Mathi::clamp((s32(pos->z) - _170.y) / _178.y, 0, _180.y - 1);
     TileHandle* handle = _8 > 9 ? &_10[9] : nullptr;
-    if (handle->requestedLoad()) {
+    if (handle->mHandle.requestedLoad()) {
         if (x != handle->_50 || z != handle->_54)
             return;
     }
@@ -119,7 +170,7 @@ bool NavMeshLoadMgr::sub_7100F8ADC4(const sead::Vector3f* pos) {
         auto lock = sead::makeScopedLock(_130);
         u32 count = _8;
         for (auto* handle = _10; count != 0; --count, ++handle) {
-            if (handle->requestedLoad() && handle->_50 == x && handle->_54 == z)
+            if (handle->mHandle.requestedLoad() && handle->_50 == x && handle->_54 == z)
                 return handle->sub_7100F8AF0C();
         }
         return false;
@@ -130,12 +181,12 @@ bool NavMeshLoadMgr::sub_7100F8ADC4(const sead::Vector3f* pos) {
 }
 
 bool NavMeshLoadMgr::TileHandle::sub_7100F8AF0C() {
-    if (!requestedLoad() || _58 != 1)
+    if (!mHandle.requestedLoad() || _58 != 1)
         return false;
 
     const auto* entries =
-        sead::DynamicCast<Unk_7102519b90>(getResource())->getEntries().getBufferPtr();
-    const s32 count = sead::DynamicCast<Unk_7102519b90>(getResource())->getEntries().size();
+        sead::DynamicCast<Unk_7102519b90>(mHandle.getResource())->getEntries().getBufferPtr();
+    const s32 count = sead::DynamicCast<Unk_7102519b90>(mHandle.getResource())->getEntries().size();
     for (s32 i = 0; i != count; ++i) {
         if (entries[i]._8 && !(entries[i]._60.load() & 0x400))
             return false;
@@ -154,7 +205,7 @@ void NavMeshLoadMgr::x_2() {
         return;
 
     TileHandle* handle = _8 > 9 ? &_10[9] : nullptr;
-    if (handle->requestedLoad())
+    if (handle->mHandle.requestedLoad())
         x_3(handle, handle);
 }
 
