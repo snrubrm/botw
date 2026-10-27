@@ -10,6 +10,7 @@ namespace agl::lght {
 class LocalLightMapObj;
 class LightMapMgr;
 class LightPrePass;
+class PlanarReflection;
 class SSII;
 class SSSSS;
 }
@@ -41,13 +42,16 @@ public:
     void calcViewSSII(const ModelSceneContext& context);
     // 0x7100c34844: the per-view GPU steps of SSSSS, SSII and the light probes.
     void calcViewGPU(const ModelSceneContext& context);
+    // 0x7100c33274 / 0x7100c3423c: release one view's pre-pass and planar reflection.
+    void releaseLightPrePass(const ModelSceneContext& context) const;
+    void releasePlanarReflection(const ModelSceneContext& context) const;
 
 private:
     u8 _250[0x420 - 0x250];
     /// 0x7100c348dc reads the ready pointer at +0xec0 and 0x7100c348c8 returns +0x458.
     ModelCubeMapDrawer* mEnvCubeMap;  // 420
     /// 0x7100c33f3c (planar reflection).
-    void* mPlanarReflection;  // 428
+    agl::lght::PlanarReflection* mPlanarReflection;  // 428
     /// 0x7100c33f90 (SSII).
     agl::lght::SSII* mSSII;  // 430
     /// 0x7100c34844 (light probes).

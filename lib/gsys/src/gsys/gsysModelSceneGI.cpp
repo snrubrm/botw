@@ -4,6 +4,7 @@
 #include "gsys/gsysModelSceneContext.h"
 #include <lighting/aglLightMapMgr.h>
 #include <lighting/aglLightPrePass.h>
+#include <lighting/aglPlanarReflection.h>
 #include <lighting/aglSSII.h>
 #include <lighting/aglSSSSS.h>
 #include "gsys/gsysLightProbeMgr.h"
@@ -70,6 +71,20 @@ void ModelSceneGI::calcViewGPU(const ModelSceneContext& context) {
     if (_8->isFeatureEnabled(ModelSceneConfig::Feature::LightProbe) && mLightProbeMgr &&
         mLightProbeMgr->isEnabled())
         mLightProbeMgr->calcGPU(context.getViewIndex());
+}
+
+// 0x7100c33274
+void ModelSceneGI::releaseLightPrePass(const ModelSceneContext& context) const {
+    if (!mLightPrePass || !_8->isFeatureEnabled(ModelSceneConfig::Feature::LightPrePass))
+        return;
+    mLightPrePass->release(context.getViewIndex());
+}
+
+// 0x7100c3423c
+void ModelSceneGI::releasePlanarReflection(const ModelSceneContext& context) const {
+    if (!mPlanarReflection || !_8->isFeatureEnabled(ModelSceneConfig::Feature::Reflection))
+        return;
+    mPlanarReflection->release(context.getViewIndex());
 }
 
 // 0x7100c309d0
