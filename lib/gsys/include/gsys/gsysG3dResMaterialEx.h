@@ -50,12 +50,16 @@ public:
     // Tail of the record used by ModelRenderCache::loadResource 0x7100c809ac. The cache stores
     // the address of this sub-object at +0x298 to detect a material change, then copies the blend
     // and depth state from it. The types and names of the leading bytes are unrecovered.
+    friend class ModelNW;
     friend class ModelRenderCache;
 
     struct RenderState {
         u8 _0[0x9];
         /* 0x2a1 */ u8 mType;
-        u8 _a[0xa];
+        u8 _a[0x10 - 0xa];
+        /// Defaults of render view options 0 and 1. ModelNW::isDefaultRenderViewOptionEnabled
+        /// 0x7100c066ec tests one bit of it.
+        /* 0x2a8 */ u32 mRenderOptionFlags;
         /* 0x2ac */ bool mDepthTestEnable;
         /* 0x2ad */ u8 mDepthWriteEnable;
         u8 _ae[2];

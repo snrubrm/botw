@@ -625,6 +625,21 @@ void ModelNW::setUserUniformBlock(int index, agl::UniformBlock* block) {
 
 // NON_MATCHING: the body agrees, but clang keeps the address of _200 in a register (one extra
 // add) and folds the clear mask to a 32-bit immediate.
+// NON_MATCHING: the body agrees, but clang sinks the view-option record load into the
+// non-default arm; the original computes it before testing the option.
+// 0x7100c066ec
+bool ModelNW::isDefaultRenderViewOptionEnabled(int material_idx,
+                                               ModelEnum::RenderViewOption option,
+                                               int view) const {
+    const nn::g3d::ResMaterial* res = mModelObj.GetMaterial(material_idx)->GetResource();
+    const auto* ex = static_cast<const G3dResMaterialEx*>(res->m_88);
+    bool enabled = (mViewOptions[getShapeNum() * material_idx + view].flags &
+                    (1 << int(option))) != 0;
+    if (int(option) == 0 || int(option) == 1)
+        enabled = (ex->mRenderState.mRenderOptionFlags & (1 << int(option))) != 0;
+    return enabled;
+}
+
 // 0x7100c03e8c
 void ModelNW::setCallbackBoneIndex(int bone_idx) {
     nn::g3d::SkeletonObj* skeleton = mModelObj.GetSkeleton();

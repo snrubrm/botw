@@ -161,6 +161,9 @@ public:
     int countPolygonNum() const override;
     // 0x7100c0678c: stores the block and marks its bit on every render unit.
     void setUserUniformBlock(int index, agl::UniformBlock* block) override;
+    // 0x7100c066ec: the per-view option record, with the material defaults for options 0 and 1.
+    bool isDefaultRenderViewOptionEnabled(int material_idx, ModelEnum::RenderViewOption option,
+                                          int view) const override;
 
     // 0x7100c070d0 .. 0x7100c07a08: read the material object's runtime parameter buffer.
     bool getMaterialParamBool(int material_idx, int param_idx) const override;
