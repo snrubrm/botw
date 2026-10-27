@@ -2145,12 +2145,14 @@ void ScreenAppPictureBookUnk::sub_710093EC3C(s32 index, s32 mode) {
 
 // NON_MATCHING: branch layout and register allocation (same search as sub_710093EC3C)
 // NON_MATCHING: the original re-sign-extends the entry index for mEntries.at (sbfiz); ours reuses the 64-bit counter.
+// NON_MATCHING: the last entry lookup (mEntries.at(i)) lacks the original's sign-extension of the index
+// (one sbfiz); everything else matches.
 // 0x710093edbc
 void ScreenAppPictureBookUnk::sub_710093EDBC(s32 index, s32* out_entry, s32* out_page, s32* x, s32* y) const {
     for (s32 i = 0; i < _2a8; ++i) {
         const auto* entry = mEntries(i);
         if (index - entry->mParams._29c < 0) {
-            const s32 per_page = entry->mParams._2a4 * entry->mParams._2a0;
+            const s32 per_page = entry->mParams._2a0 * entry->mParams._2a4;
             for (s32 page = 0; page < entry->_2f4; ++page) {
                 if (index - per_page < 0) {
                     if (out_entry)
