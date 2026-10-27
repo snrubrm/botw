@@ -5473,6 +5473,8 @@ public:
     bool sub_7100A69B6C();
     // 0x7100a69b28 (placeholder name): clears _363c, sets _3680 to 0x200 in E3 demo mode, and sets bit 1 of the button group's _38
     void sub_7100A69B28();
+    // 0x7100a69ae8 (placeholder name; empty in the original): no operation
+    void sub_7100A69AE8();
     // 0x7100a6af64 (placeholder name): stops the open animation while a system / option window is open
     void sub_7100A6AF64();
     // 0x7100a69670 (placeholder name): opens the screen and sets the button texts for the demo / save state
@@ -5503,6 +5505,8 @@ public:
 
 // States of the title screen's stage state machine (Unk_71024742f0; placeholder object names)
 extern const ksys::StateBase sUnk_71025d2518;
+extern const ksys::StateBase sUnk_71025d25d8;
+extern const ksys::StateBase sUnk_71025d2638;
 extern const ksys::StateBase sUnk_71025d2698;
 extern const ksys::StateBase sUnk_71025d26f8;
 extern const ksys::StateBase sUnk_71025d2758;

@@ -131,6 +131,30 @@ void Unk_71024742f0::m7() {
     uking::ui::sub_71009FA68C();
 }
 
+// NON_MATCHING: the inlined BitFlag8::isOnBit ANDs its operands in the other order (commutative).
+// 0x710092e1a4 (slot m8): picks the next title state from the AoC version and the demo mode.
+void Unk_71024742f0::m8() {
+    auto* screen = sead::DynamicCast<uking::ui::ScreenTitle>(
+        eui::ScreenMgr::instance()->getScreen(uking::ui::ScreenId::Title));
+    if (!screen || !screen->sub_7100A69B6C())
+        return;
+
+    auto* aoc = ksys::aoc::Manager::instance();
+    if (aoc && aoc->isVersionTooOld()) {
+        mStateMachine.changeState(&uking::ui::sUnk_71025d25d8);
+        return;
+    }
+    if (!aoc || u32(aoc->getVersion()) >> 8 <=
+                     u32(ksys::gdt::getFlag_Option_LatestAoCVerPlayed(false)) >> 8) {
+        mStateMachine.changeState(&uking::ui::sUnk_71025d26f8);
+        return;
+    }
+    if (uking::ui::isE3DemoMode())
+        mStateMachine.changeState(&uking::ui::sUnk_71025d26f8);
+    else
+        mStateMachine.changeState(&uking::ui::sUnk_71025d2638);
+}
+
 // 0x710092e2f8 (slot m11): opens the hard-mode screen and lets it take over.
 void Unk_71024742f0::m11() {
     uking::ui::createAndLoadScreenIfNeededImpl(uking::ui::ScreenId::HardMode, nullptr);
@@ -186,6 +210,13 @@ void Unk_71024742f0::m28() {
         eui::ScreenMgr::instance()->getScreen(uking::ui::ScreenId::Title));
     if (screen && screen->_3638)
         mStateMachine.changeState(&uking::ui::sUnk_71025d2758);
+}
+
+// 0x710092e9b4 (slot m31): tells the title screen that the stage state is done.
+void Unk_71024742f0::m31() {
+    if (auto* screen = sead::DynamicCast<uking::ui::ScreenTitle>(
+            eui::ScreenMgr::instance()->getScreen(uking::ui::ScreenId::Title)))
+        screen->sub_7100A69AE8();
 }
 
 // 0x710092e4b0 (slot m15): opens the system window in its "new hard-mode save" form.

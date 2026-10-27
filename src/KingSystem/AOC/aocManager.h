@@ -41,6 +41,9 @@ public:
     /// @return Whether the Champion's Ballad DLC is supported.
     bool hasAoc3() const { return mVersion >= 0x300; }
 
+    /// @return Whether the version file was rejected as too old.
+    bool isVersionTooOld() const { return mVersionFlags.isOnBit(VersionError(VersionError::TooOld)); }
+
     // 0x7100f37864 (declared only; 68 bytes): toggles +0x2e8 and clears one of the two +0x1e0 words.
     void sub_7100F37864();
 
