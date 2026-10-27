@@ -15,6 +15,8 @@
 #include "Game/Actor/aiUnk_7102357d20.h"
 #include "Game/Actor/aiUnk_7100EDD26C.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/aiUnk_71007368A4.h"
+#include "Game/Actor/aiUnk_71006F1DF0.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/actAiActionBase.h"
@@ -85,6 +87,46 @@ void sub_71005D6D48(ksys::act::Actor* actor) {
             drop_data->_c |= 1;
     }
     callDeleteAndCreateDropAndEmit(actor, false);
+}
+
+// 0x71005d6e28: whether the actor may play the damage / death reaction. Excludes the damage
+// types that other code handles (and dead actors).
+// NON_MATCHING: the type-5 arm tests the enemy pointer after the damage type and narrows the flag
+// load to a byte; the true / false return blocks are laid out the other way round.
+bool sub_71005D6E28(ksys::act::Actor* actor) {
+    if (actor->getActorFlags2().isOn(ksys::act::Actor::ActorFlag2::_40000))
+        return false;
+
+    auto* mgr = actor->getDamageMgr();
+    if (!mgr)
+        return false;
+    const s32 type = mgr->getField54();
+    auto* enemy = sead::DynamicCast<Enemy>(actor);
+
+    if (!enemy || !enemy->_e84.isOnBit(0) || mgr->checkDamageFlags(8) ||
+        sub_7100736BD8(type) || type == 0x17) {
+        s32* life = actor->getLife();
+        if (life && *life < 1)
+            return true;
+    }
+
+    auto* player_or_enemy = sead::DynamicCast<ksys::act::PlayerOrEnemy>(actor);
+    if (player_or_enemy && (player_or_enemy->m151(3) || player_or_enemy->m151(4)))
+        return true;
+
+    if (enemy && type == 5 && enemy->_e84.isOnBit(0))
+        return true;
+
+    switch (type) {
+    case -1:
+    case 0:
+    case 1:
+    case 2:
+    case 5:
+        return false;
+    default:
+        return true;
+    }
 }
 
 void sub_71005D7014(ksys::act::Actor* actor) {
@@ -1279,6 +1321,14 @@ bool sub_71005E116C(ksys::act::BaseProcLink* link) {
     return ksys::act::isPlayerProfile(link);
 }
 
+// 0x71005e2ad4: whether the actor the accessor points at is the kind of target
+// sub_71006E3580 accepts (resolves the link first).
+bool sub_71005E2AD4(const ksys::act::BaseProcAccessor& accessor) {
+    ksys::act::ActorLinkConstDataAccess link;
+    link.acquireActor(accessor);
+    return sub_71006E3580(link);
+}
+
 int sub_71005E2B28(int value) {
     switch (value) {
     case 0:
@@ -1670,6 +1720,46 @@ void sub_71005DE398(sead::Vector3f* out, ksys::act::BaseProcLink* link,
     *out = direction * sead::Mathf::min(blend, 1.0f);
 }
 
+// 0x71005dff24: clears the stump flag of the old unit and switches the tree trunk materials to
+// the new one.
+void sub_71005DFF24(ksys::act::Actor* actor, s32 new_index, s32 old_index) {
+    auto* model = actor->getModel();
+    if (!model)
+        return;
+    const s32 index = old_index > new_index ? old_index : new_index;
+    if (index >= model->getUnits().size())
+        return;
+    if (actor->getMapObject())
+        return;
+
+    if (old_index >= 0) {
+        auto* info = model->getUnits()(old_index);
+        if (info->mModelUnit)
+            info->_1e &= ~0x20;
+    }
+
+    if (new_index < 0)
+        return;
+
+    auto* info = model->getUnits()(new_index);
+    if (info->mModelUnit) {
+        auto key = model->searchMaterial("Mt_TreeSection_Trunk");
+        if (key.isValid())
+            model->getUnits()(key.model_unit_index)->mModelUnit->setMaterialVisible(
+                key.material_index, true);
+    }
+
+    auto key = model->searchMaterial("Mt_Tree_Stump");
+    if (key.isValid())
+        model->getUnits()(key.model_unit_index)->mModelUnit->setMaterialVisible(
+            key.material_index, false);
+
+    key = model->searchMaterial("Mt_TreeSection_Stump");
+    if (key.isValid())
+        model->getUnits()(key.model_unit_index)->mModelUnit->setMaterialVisible(
+            key.material_index, false);
+}
+
 void sub_71005E00C8(ksys::act::Actor* actor) {
     sub_71005DFF24(actor, 0, -1);
 }
@@ -1815,6 +1905,49 @@ void sub_71005E00D4(ksys::act::Actor* actor) {
     if (key.isValid())
         model->getUnits().unsafeAt(key.model_unit_index)->mModelUnit->setMaterialVisible(
             key.material_index, true);
+}
+
+// 0x71005e0648: sweeps a ground ray from one unit along `direction` out to `max_distance`; returns
+// true when nothing blocks the sweep, else writes the hit distance to `out_distance`.
+// NON_MATCHING: the three fmul of the direction have their operands swapped (commutative).
+bool sub_71005E0648(sead::Matrix34f mtx, f32* out_distance, f32 dx, f32 dy, f32 dz,
+                    f32 max_distance) {
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    ksys::act::sub_7100EEACE8(&query);
+    if (!(max_distance > 1.0f))
+        return true;
+
+    f32 distance = 1.0f;
+    do {
+        sead::Vector3f start =
+            mtx.getTranslation() + sead::Vector3f(dx, dy, dz) * distance;
+        start.y += 5.0f;
+        sead::Vector3f end = start;
+        end.y += -50.0f;
+        query.setStartAndEnd(start, end);
+        if (query.worldRayCast(ksys::phys::ContactLayerType::Entity) &&
+            !sub_71006F1E70(query.getMaterialMask())) {
+            if (out_distance)
+                *out_distance = distance;
+            return false;
+        }
+        distance += 1.0f;
+    } while (distance < max_distance);
+    return true;
+}
+
+// 0x71005e0514: sweeps the matrix's z basis vector, rotated by `angle` around the Y axis, and
+// reports the first blocked distance up to `max_distance`.
+// NON_MATCHING: the rotation's sin/cos temporaries take the other s registers and the z term is
+// scheduled after the subtract; same operations.
+bool sub_71005E0514(const sead::Matrix34f* mtx, f32* out_distance, f32 angle, f32 max_distance) {
+    const sead::Vector3f base = mtx->getBase(2);
+    sead::Matrix33f rot;
+    rot.makeR(sead::Vector3f(0.0f, angle, 0.0f));
+    sead::Vector3f dir;
+    dir.setRotated(rot, base);
+    dir.normalize();
+    return sub_71005E0648(*mtx, out_distance, dir.x, dir.y, dir.z, max_distance);
 }
 
 // NON_MATCHING: the clear flag lives in w20 (target w19) and the two false returns carry
@@ -2043,6 +2176,23 @@ void sub_71005E2540(ksys::phys::CharacterController* controller, ksys::act::Acto
     const f32 speed = dir.normalize();
     sub_710072C1B4(controller, dir);
     sub_7100737708(controller, speed);
+}
+
+// 0x71005e2684: resolves the named physics body (entity sensor first, then plain body) among the
+// actor's bodies and passes it to the contact-event helper.
+bool sub_71005E2684(ksys::act::Actor* actor, const sead::SafeString& body_name,
+                    const sead::SafeString& event_name, sead::Vector3f* position,
+                    sead::Vector3f* normal) {
+    if (body_name.isEmpty())
+        return false;
+
+    ksys::phys::RigidBody* body =
+        actor->findPhysicsBodyByName(sub_71007A250C()->cstr(), body_name.cstr());
+    if (!body)
+        body = actor->findPhysicsBodyByName(sub_71007A24E4()->cstr(), body_name.cstr());
+    if (!body)
+        return false;
+    return sub_71005E2788(actor, body, event_name, position, normal);
 }
 
 bool Unk_71005e1be8::sub_71005E1BE8(ksys::act::ai::ActionBase* action, int idx) {

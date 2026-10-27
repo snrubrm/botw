@@ -209,8 +209,13 @@ s32 sub_71005E2B28(s32 value);
 /// Sets bit 0 of a flag field (+0xc) in the actor's DropData (Actor vslot 134, RTTI 0x71025ae610),
 /// then callDeleteAndCreateDropAndEmit(actor, false).
 void sub_71005D6D48(ksys::act::Actor* actor);
-/// Not decompiled (492 bytes; actor flag 0x51b bit 2, damage manager, Enemy::_e84 bit 0).
+/// Whether the actor may play the damage / death reaction (492 bytes; actor flag 0x51b bit 2,
+/// damage manager, Enemy::_e84 bit 0).
 bool sub_71005D6E28(ksys::act::Actor* actor);
+/// 0x71006e3580 (unnamed in the CSV): target-kind predicate on an accessor's actor.
+bool sub_71006E3580(const ksys::act::BaseProcAccessor& accessor);
+/// 0x71005e2ad4 (unnamed in the CSV): resolves the accessor's link and calls sub_71006E3580.
+bool sub_71005E2AD4(const ksys::act::BaseProcAccessor& accessor);
 /// Whether the actor's map object has rails.
 bool sub_71005D9F04(ksys::act::Actor* actor);
 
@@ -438,6 +443,11 @@ void sub_71005E2540(ksys::phys::CharacterController* controller, ksys::act::Acto
 bool sub_71005E2684(ksys::act::Actor* actor, const sead::SafeString& body_name,
                    const sead::SafeString& event_name, sead::Vector3f* position,
                    sead::Vector3f* normal);
+// 0x71005e2788 (unnamed in the CSV): emits the contact event on the resolved body and outputs the
+// contact position / normal.
+bool sub_71005E2788(ksys::act::Actor* actor, ksys::phys::RigidBody* body,
+                    const sead::SafeString& event_name, sead::Vector3f* position,
+                    sead::Vector3f* normal);
 
 // Updates the character controller velocity from the actor contact points.
 // 0x71005E1AE8 consumes an Actor receiver and sets its DynamicActor ragdoll-handler flag.
@@ -476,6 +486,7 @@ void sub_71005DE398(sead::Vector3f* out, ksys::act::BaseProcLink* link,
                     const sead::Vector3f* target, f32 speed, f32 ratio, f32 mass_limit);
 
 // Native Lumberjack caller selects model indices; source owner remains unknown.
+// Clears the stump flag of the old unit and switches the tree trunk materials to the new one.
 void sub_71005DFF24(ksys::act::Actor* actor, s32 new_index, s32 old_index);
 void sub_71005E00C8(ksys::act::Actor* actor);
 
@@ -483,6 +494,14 @@ void sub_71005E00C8(ksys::act::Actor* actor);
 void sub_71005DFE40(ksys::act::Actor* actor);
 // 0x71005e00d4 (unnamed in the CSV): hides every material of the model except the tree stump.
 void sub_71005E00D4(ksys::act::Actor* actor);
+
+// 0x71005e0514 / 0x71005e0648 (unnamed in the CSV): ground sweep used by the Towing placement
+// search. sub_71005E0648 steps a ray from one unit along a direction out to `max_distance` and
+// returns true when nothing blocks it; sub_71005E0514 rotates the matrix's z basis vector around
+// the Y axis and sweeps that direction.
+bool sub_71005E0648(sead::Matrix34f mtx, f32* out_distance, f32 dx, f32 dy, f32 dz,
+                    f32 max_distance);
+bool sub_71005E0514(const sead::Matrix34f* mtx, f32* out_distance, f32 angle, f32 max_distance);
 
 // 0x71005de53c: whether an Enemy can select a weapon, including visibility, height and type checks.
 bool sub_71005DE53C(uking::act::Weapon* weapon, uking::act::Enemy* enemy, f32 distance,
