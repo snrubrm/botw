@@ -265,8 +265,11 @@ bool ForestRenderer::Entry::sub_7100F071C4(const sead::SafeString& name, const s
 }
 
 // 0x7100f0663c: the item index of the record at `pos` inside the cell's `_28` range, or -1.
-// NON_MATCHING: same code and block contents, but the three early returns are laid out with an inverted
-// branch (b.ls to the next block plus an unconditional branch to the -1 block) instead of the target's b.hi.
+// NON_MATCHING: same code and block contents, 93 vs 87 instructions. The target merges the three guard
+// exits into one `mov w0, #-1` block that falls into the epilogue; our clang duplicates that small block
+// into every guard (b.ls over `mov w0, #-1; b`) and places it away from the epilogue. Folding the guards
+// into one positive condition (so the fail block is a single statement) shares the block but turns the
+// mask compare into `b.hs` (<= 0xf canonicalises to < 0x10), and `!(mask > 0xf)` canonicalises the same.
 s32 ForestRenderer::Entry::sub_7100F0663C(const sead::Vector3f& pos) {
     GridCell cell;
     cell.mFlags = _8 & 1;
