@@ -2,6 +2,7 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physUserTag.h"
+#include <math/seadBoundBox.h>
 
 namespace uking {
 
@@ -15,10 +16,19 @@ struct NavMeshSystem::Entry {
     // SEAD_RTTI_OVERRIDE); it only overrides the shape-change notification,
     // which re-registers the nav mesh object with the entry's new body.
     struct Tag : public ksys::phys::UserTag {
+        explicit Tag(Entry* entry) : _8(entry) {}
+
         void onBodyShapeChanged(ksys::phys::RigidBody* body) override;
 
         Entry* _8;
     };
+
+    struct Box {
+        sead::Vector3f min;
+        sead::Vector3f max;
+    };
+
+    Entry();
 
     ~Entry() {
         nav.sub_7100F7F6A0();
@@ -30,16 +40,23 @@ struct NavMeshSystem::Entry {
         body = nullptr;
     }
     static_assert(sizeof(Tag) == 0x10);
+    static_assert(sizeof(sead::BoundBox3f) == 0x18);
 
     ksys::phys::NavMeshObjMaybe nav;
     ksys::phys::RigidBody* body;
     Tag tag;
-    u8 _c8[0x260 - 0xc8];
+    // One slot per sub-material (the `id & 0xffff` of sub_7100E8F1C0, clamped to
+    // 16 slottable ids), plus the union of the occupied slots that the rigid
+    // body's extents follow.
+    sead::SafeArray<sead::BoundBox3f, 16> boxes;
+    sead::BoundBox3f bounds;
 };
 
 void NavMeshSystem::Entry::Tag::onBodyShapeChanged(ksys::phys::RigidBody*) {
     _8->nav.sub_7100F7F428(_8->body);
 }
+
+NavMeshSystem::Entry::Entry() : nav(), body(nullptr), tag(this), boxes() {}
 
 // NON_MATCHING: the singleton disposer and deleteInstance inline the buffer teardown
 // differently; the disposer also saves an extra register around the base destructor.
