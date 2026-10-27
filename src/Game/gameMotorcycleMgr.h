@@ -74,6 +74,11 @@ public:
     // player (the default when `player` is null) passes PlayerLink::m211, otherwise depends on the climate at
     // `pos` (true without a world manager).
     bool isProhibited(const sead::Vector3f& pos, ksys::act::PlayerLink* player);
+    // 0x710067b588 (CSV name): fills the spawn position / nav mesh result and returns false in the
+    // desert and Eldin climates or while the player passes m211.
+    bool prepareNewSpawn(ksys::act::PlayerLink* player);
+    // 0x710067b054 (CSV name, declaration only): fills the two position vectors used by the spawn.
+    void calculateSomePositionStuff(sead::Vector3f& a, sead::Vector3f& b);
     bool checkAndStartQueryNavMesh(ksys::act::PlayerLink* player);
     // Declaration only: full callee reads position and PlayerLink slots 48 / 0; the independent
     // PlayerNormal caller supplies the player's interface at +0xc38.

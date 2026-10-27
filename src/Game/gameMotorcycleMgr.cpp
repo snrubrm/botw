@@ -248,6 +248,33 @@ MotorcycleMgr::~MotorcycleMgr() {
     }
 }
 
+// NON_MATCHING: the final climate bit test is folded to `and w0, w8, #1`; the original
+// branches to the shared `return true` block.
+bool MotorcycleMgr::prepareNewSpawn(ksys::act::PlayerLink* player) {
+    if (_17e == 1)
+        return false;
+
+    calculateSomePositionStuff(_12c, _138);
+
+    if (!player)
+        player = ksys::act::ActorSystem::instance()->getPlayerLink();
+    if (player && player->m211())
+        return false;
+
+    auto* mgr = ksys::world::Manager::instance();
+    if (!mgr)
+        return true;
+
+    switch (mgr->getClimate(_12c)) {
+    case ksys::world::Climate::GerudoDesertClimate:
+    case ksys::world::Climate::EldinClimateLv1:
+    case ksys::world::Climate::EldinClimateLv2:
+    case ksys::world::Climate::GerudoDesertClimateLv2:
+        return false;
+    }
+    return true;
+}
+
 }  // namespace uking
 
 namespace uking {
