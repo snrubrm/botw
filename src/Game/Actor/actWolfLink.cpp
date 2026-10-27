@@ -28,6 +28,17 @@ static const sead::SafeString sAtkBody("AtkBody");
 
 WolfLink::~WolfLink() = default;
 
+bool WolfLink::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
+    if (!Enemy::prepareInit_(heap, arg))
+        return false;
+
+    Entry1608* entries = new (heap, 8, std::nothrow) Entry1608[16];
+    if (!entries)
+        return true;
+    _1608 = sead::Buffer<Entry1608>(16, entries);
+    return true;
+}
+
 void WolfLink::preDelete2_(const PreDeleteArg& arg) {
     Enemy::preDelete2_(arg);
     _1608.freeBuffer();

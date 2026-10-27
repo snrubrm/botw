@@ -102,14 +102,15 @@ public:
     // 2026-10-07: preDelete2_ destroys the link in each 0x28-byte array entry.
     struct Entry1608 {
         // 2026-10-27: sub_71002F4008 stores the restricted-target time in _0/_4 and -1.0f in _8.
-        f32 _0;
-        f32 _4;
-        f32 _8;
+        // prepareInit_ builds the 16 entries with these defaults (unused id -1).
+        f32 _0 = 0.0f;
+        f32 _4 = 0.0f;
+        f32 _8 = 0.0f;
         // 2026-10-07: sub_71002F420C searches this unsigned actor id.
-        u32 mActorId;
+        u32 mActorId = -1;
         ksys::act::BaseProcLink _10;
-        State _20;
-        u8 _24;  // set to 1 when sub_71002F4008 fills the entry
+        State _20 = State::_0;
+        u8 _24 = 0;  // set to 1 when sub_71002F4008 fills the entry
         u8 _25[3];
     };
     /* 0x1608 */ sead::Buffer<Entry1608> _1608;
