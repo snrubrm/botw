@@ -1,6 +1,8 @@
 #include "Game/Actor/actGuardian.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGuardian.h"
 
@@ -104,6 +106,36 @@ void Guardian::Unk1::sub_7100042048() {
         nav_pos = nav->_248;
     }
     nav->sub_7100F76380(world, nav_pos, velocity, nav_pos);
+}
+
+// 0x71000418d0: adds the owner's pieces to the world and feeds the navigation position and X
+// direction from the main body's transform.
+void Guardian::Unk1::sub_71000418D0() {
+    if (_30) {
+        auto* body = _8->getMainBody();
+        if (!body)
+            return;
+        sead::Matrix34f mtx;
+        body->getTransform(&mtx);
+        {
+            sead::Vector3f pos;
+            mtx.getTranslation(pos);
+            _30->sub_7100F765E8(pos);
+        }
+        {
+            sead::Vector3f dir;
+            mtx.getBase(dir, 0);
+            _30->sub_7100F76694(dir);
+        }
+    }
+    if (_10)
+        _10->addToWorld();
+    if (auto* set = _8->getPhysics()) {
+        if (auto* body_set = set->findBodyByName("EntitySensor"))
+            body_set->addToWorld();
+    }
+    _68 = 1.0f;
+    sub_71000445D8();
 }
 
 // 0x710004bba4: rotates the x/z components of `vec` around the Y axis.

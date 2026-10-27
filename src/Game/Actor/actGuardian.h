@@ -208,6 +208,13 @@ public:
         // 0x710004b1d4 (slot 4, declared only): adds the target positions to `out` (only the owner's
         // position in one mode). Returns 0x3c or 0x78.
         virtual s32 sub_710004B1D4(sead::ObjArray<sead::Vector3f>* out);
+        // Vtable slots 5-9 (0x710004bb40, 0x7100044278, 0x7100043f5c, 0x71000445d8, 0x7100041f74),
+        // not decompiled yet; declared so sub_71000418D0 can call slot 8.
+        virtual void sub_710004BB40();
+        virtual void sub_7100044278();
+        virtual void sub_7100043F5C();
+        virtual void sub_71000445D8();
+        virtual void sub_7100041F74();
         // 0x710004b268 / 0x710004b7c8 (placeholder names): the rank 0 and rank 1 position variants.
         void sub_710004B268(sead::ObjArray<sead::Vector3f>* out);
         void sub_710004B7C8(sead::ObjArray<sead::Vector3f>* out);
@@ -233,9 +240,13 @@ public:
         // 0x71000499f0 (unnamed in the CSV): applies an upward impulse (mass * 5) at the _15b8
         // position `index` to the owner's main rigid body.
         void sub_71000499F0(s32 index);
+        // 0x71000418d0 (unnamed in the CSV): adds the owner's pieces to the world and feeds the
+        // navigation position / direction from the "EntitySensor" body's transform.
+        void sub_71000418D0();
 
         Guardian* _8;  // the owner (sub_7100042338)
-        u8 _10[0x10];
+        ksys::phys::RigidBody* _10 = nullptr;
+        u8 _18[8];
         // 0x7100042048 transforms this local offset with the owner's main rigid body.
         sead::Vector3f _20;
         u8 _2c[4];
@@ -246,7 +257,8 @@ public:
         Unk_7100041da4* _50;
         u8 _58[0x64 - 0x58];
         u32 _64;
-        u8 _68[0x178 - 0x68];
+        f32 _68 = 0.0f;
+        u8 _6c[0x178 - 0x6c];
         u32 _178;
     };
     /* 0x15b0 */ Unk1* _15b0 = nullptr;
