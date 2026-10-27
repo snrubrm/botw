@@ -7,6 +7,7 @@
 #include <utility>
 #include <gfx/seadProjection.h>
 #include <layer/aglRenderer.h>
+#include <nn/os.h>
 #include <layer/aglLayer.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
@@ -394,6 +395,10 @@ void LODMgr::init(sead::Heap* heap) {
     _21b8 = new (heap, 8) Unk_71011086dc();
     _21b8->sub_7101108774(heap_arg);
     _1838.allocBuffer(512, heap, 8);
+}
+
+void LODMgr::sub_710125495C() {
+    _21d0 = nn::os::GetSystemTick().value;
 }
 
 void LODMgr::initBeforeStageGenB() {

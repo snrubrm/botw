@@ -54,6 +54,8 @@ public:
     void initBeforeStageGenB();
     // 0x7101251b08 (CSV LODMgr::__auto3): `pos` + 5 along the look direction of the look-at camera.
     void sub_7101251B08(sead::Vector3f* pos);
+    // 0x710125495c (CSV LODMgr::__auto2): stores the current system tick.
+    void sub_710125495C();
     // 0x7101254328 (CSV name): requests a draw for every model in _1838.
     void requestDrawModels();
     // 0x71012537e8 (CSV LODMgr::calc_x_0; placeholder name): takes back the queued slots of both
@@ -127,7 +129,8 @@ public:
     f32 _21b4;
     /* 0x21b8 */ Unk_71011086dc* _21b8;
     /* 0x21c0 */ sead::Vector3f _21c0;
-    u8 _21cc[0x21d8 - 0x21cc];
+    u8 _21cc[0x21d0 - 0x21cc];
+    /* 0x21d0 */ u64 _21d0;
     f32 _21d8;
     // calc_x suppresses distance-based requests when this byte is set.
     bool _21dc;
