@@ -8,8 +8,18 @@
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
 #include "KingSystem/System/Timer.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Map/mapRail.h"
+#include <geom/seadSegment.h>
+#include <geom/seadGeometry.h>
+#include <math/seadMathCalcCommon.h>
 
 namespace uking {
+
+namespace act {
+extern const f32 sUnk_7101DA238C;
+extern const f32 sUnk_7101DA23D4;
+}  // namespace act
 
 // 0x7100e8a080 (TU of its own: its address block starts right after the HorseMgr functions, and HorseMgr's
 // dtor and sub_7100E87760 call these out of line).
@@ -170,6 +180,49 @@ bool Unk_7100e8a080::sub_7100E8A5D4(HorseMgr* mgr) {
     return false;
 }
 
+// 0x7100e8afe8 (placeholder name): the squared distance from `pos` to the rail route `name` at the connectable
+// point nearest to `pos`; false when the point, its junction rail or the route id is missing. Used by the climate
+// check of sub_7100E8AA6C.
+bool sub_7100E8AFE8(f32* out, const sead::Vector3f& pos, const sead::SafeString& name) {
+    auto* point = ksys::map::PlacementMgr::instance()->sub_71011EA45C(&pos, name);
+    if (!point)
+        return false;
+    const auto* rail = point->getJunctionRail();
+    if (!rail)
+        return false;
+    const char* route_id = static_cast<const ksys::map::RailRoute*>(rail)->getRouteId();
+    if (!route_id || name != route_id)
+        return false;
+
+    const s32 num_points = rail->getNumPoints();
+    const s32 last = num_points - 1;
+    for (s32 index = 0; index <= last; ++index) {
+        if (rail->getPoint(index) != point)
+            continue;
+
+        const sead::Vector3f& translate = point->getTranslate();
+        *out = INFINITY;
+        f32 dist;
+        if (index != 0) {
+            const sead::Segment3f segment(translate, rail->getPoint(index - 1)->getTranslate());
+            dist = sead::Geometry::calcSquaredDistancePointToSegment(pos, segment, nullptr);
+            *out = dist;
+        } else {
+            dist = act::sUnk_7101DA23D4;
+        }
+        if (index != last) {
+            const sead::Segment3f segment(translate, rail->getPoint(index + 1)->getTranslate());
+            dist = sead::Mathf::min(
+                sead::Geometry::calcSquaredDistancePointToSegment(pos, segment, nullptr), *out);
+            *out = dist;
+        }
+        if (sead::Mathf::abs(dist) > act::sUnk_7101DA238C)
+            *out = (translate - pos).squaredLength();
+        return true;
+    }
+    return false;
+}
+
 // 0x7100e8aeec (placeholder name): casts a ray through `pos` from y + `up` down to y - `down` on the ground
 // layers (ground object, ground, smooth ground, object) and writes the hit position back into `pos`.
 bool Unk_7100e8a080::sub_7100E8AEEC(sead::Vector3f* pos, f32 up, f32 down) {
@@ -201,3 +254,11 @@ bool Unk_7100e8a080::sub_7100E8AE80(const sead::Matrix34f& mtx) {
 }
 
 }  // namespace uking
+
+namespace uking::act {
+// 0x7101da238c (FLT_MAX) and 0x7101da23d4 (infinity): the range / initial distance of the rail query above.
+extern const f32 sUnk_7101DA238C;
+const f32 sUnk_7101DA238C = 3.402823466e+38f;
+extern const f32 sUnk_7101DA23D4;
+const f32 sUnk_7101DA23D4 = __builtin_inff();
+}  // namespace uking::act
