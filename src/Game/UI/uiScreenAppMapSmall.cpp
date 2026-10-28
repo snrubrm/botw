@@ -864,6 +864,24 @@ void ScreenAppMap::sub_71009EEF98() {
     }
 }
 
+// 0x71009ef6ec
+// NON_MATCHING: scheduling only. The original loads the pane tree (layout->GetPane()) after the table element's
+// count / pointer loads but before the index compare, while ours (C++17, so the postfix expression is sequenced
+// first) loads it before the whole table index. Naming the element's name in a local matches the row exactly.
+void Unk_7102481e30::sub_71009EF6EC(sead::Heap* heap, eui::LayoutEx* layout) {
+    if (!layout)
+        return;
+    _8 = layout;
+    _10.sub_7100A814D8(heap, 2, 6, "AppMap_00");
+    for (s32 i = 0; i < 6; ++i) {
+        auto* pane = layout->GetPane()->FindPaneByName(sUnk_71025df330.mTexEntries[i].name, true);
+        if (auto* picture = nn::font::DynamicCast<eui::PictureEx>(pane))
+            _10.setMaterialAndTexMapIndex(i, picture->nn::ui2d::Pane::GetMaterial(),
+                                          sUnk_71025df330.mTexEntries[i].tex_map_index, false);
+    }
+    _10.applyMaterial(3);
+}
+
 // 0x71009ef5d0
 void ScreenAppMap::sub_71009EF5D0() {
     if (_3ae8) {

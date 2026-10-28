@@ -2848,6 +2848,13 @@ struct ScreenAppMapWidget : public ScreenChildEx {
 static_assert(sizeof(ScreenAppMapWidget) == 0xb538);
 static_assert(offsetof(ScreenAppMapWidget, mNormalMap) == 0x8f0);
 
+// Element of the map texture-slot table at Unk_71025df330 +0x230: a texture map index and a pane name.
+struct Unk_71025df330TexEntry {
+    /* 0x00 */ s32 tex_map_index;
+    /* 0x04 */ char name[0x40];
+};
+static_assert(sizeof(Unk_71025df330TexEntry) == 0x44);
+
 // 0x71025df330: the map screen's static data block; m143 returns its button pane path buffer at +0x170
 struct Unk_71025df330 {
     u8 _0[0x10];
@@ -2864,7 +2871,9 @@ struct Unk_71025df330 {
     // the map mode index of the four mode animators
     /* 0x1f0 */ sead::Buffer<s32> mModeOrder;
     /* 0x200 */ sead::Buffer<sead::SafeString> mHintAnimatorNames;
-    u8 _210[0x240 - 0x210];
+    u8 _210[0x230 - 0x210];
+    // the six texture slots of the map's own UiTexSlots
+    /* 0x230 */ sead::Buffer<Unk_71025df330TexEntry> mTexEntries;
     /* 0x240 */ sead::Buffer<sead::SafeString> mCursorAnimatorNames;
     // message labels initialised by the TU's static initializer
     /* 0x250 */ sead::SafeString _250;

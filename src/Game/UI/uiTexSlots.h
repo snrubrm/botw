@@ -71,8 +71,11 @@ class Unk_7102481e30 {
 public:
     virtual ~Unk_7102481e30();
 
-    u8 _8[8];
-    UiTexSlots _10;
+    // 0x71009ef6ec: binds the six texture panes named in the map texture table to this holder's slots
+    void sub_71009EF6EC(sead::Heap* heap, eui::LayoutEx* layout);
+
+    /* 0x8 */ eui::LayoutEx* _8;
+    /* 0x10 */ UiTexSlots _10;
 };
 
 }  // namespace uking::ui
