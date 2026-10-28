@@ -34,6 +34,7 @@ class HavokMemoryAllocator;
 class Unk_710251a370;
 class LayerContactPointInfo;
 class MaterialTable;
+class Phantom;
 class RayCastForRequest;
 class RayCastRequestMgr;
 class RagdollControllerKeyList;
@@ -134,6 +135,12 @@ public:
     void initMemorySystem(sead::Heap* heap, sead::Heap* heap2);
     // 0x7101214b9c (CSV PhysicsMemSys::initHeaps; declared only)
     void initHeaps(sead::Heap* heap, sead::Heap* heap2);
+    // 0x7101214abc (CSV PhysicsMemSys::__auto4; placeholder name): sets the y range of the
+    // sensor phantom at _1a0 and (re)adds it to the world.
+    void sub_7101214ABC(f32 top, f32 height);
+    // 0x7101216df0 (CSV PhysicsMemSys::__auto9; placeholder name): scratch allocation for the
+    // physics queries: one 0x2800-byte buffer per core group, larger requests go to Havok.
+    void* sub_7101216DF0(int size);
     // 0x7101215984 (CSV PhysicsMemSys::initGroupFilterXs): fills _2c0 / _300 with the system group handlers of
     // both group filters (four from free list 0, two from free list 1 each).
     void initSystemGroupHandlers();
@@ -260,7 +267,7 @@ private:
     RayCastRequestMgr* mRayCastRequestMgr{};
     RigidBody* _190{};
     void* _198{};
-    void* _1a0{};
+    Phantom* _1a0{};
     sead::Heap* mPhysicsSystemHeap{};
     sead::Heap* mDebugHeap{};
     sead::Heap* mPhysicsTempDefaultHeap{};
@@ -274,7 +281,13 @@ private:
     // lane4 s46: system group handlers (sub_7101216894 / sub_71012168C8).
     sead::SafeArray<sead::SafeArray<SystemGroupHandler*, 4>, 2> _2c0;
     sead::SafeArray<sead::SafeArray<SystemGroupHandler*, 2>, 2> _300;
-    u8 _320[0x480 - 0x320];
+    u8 _320[0x448 - 0x320];
+    // Per-core-group scratch memory for the physics queries (init allocates three 0x2800-byte
+    // blocks; sub_7101216DF0 hands out one of them and sub_7101216D80 tracks the peak size).
+    sead::SafeArray<u32, 3> _448;
+    u8 _454[0x458 - 0x454];
+    sead::SafeArray<void*, 3> _458;
+    u8 _470[0x480 - 0x470];
 };
 KSYS_CHECK_SIZE_NX150(System, 0x480);
 

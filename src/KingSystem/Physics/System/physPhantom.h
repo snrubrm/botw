@@ -26,6 +26,12 @@ public:
 
     hkpAabbPhantom* getHavokPhantom() const { return mHavokPhantom; }
     const sead::BoundBox3f& getAabb() const { return mAabb; }
+    // Inline-only in the original; name is a guess (the caller System::sub_7101214ABC stores the
+    // two y components directly). const_cast as in sead::SafeStringBase::clear().
+    void setAabbYRange(f32 min_y, f32 max_y) {
+        const_cast<sead::Vector3f&>(mAabb.getMin()).y = min_y;
+        const_cast<sead::Vector3f&>(mAabb.getMax()).y = max_y;
+    }
     ContactLayerType getLayerType() const { return mLayerType; }
     sead::BitFlag32 getLayerMask() const { return mLayerMask; }
 

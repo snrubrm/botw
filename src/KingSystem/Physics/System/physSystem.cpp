@@ -1,5 +1,7 @@
 #include "KingSystem/Physics/System/physSystem.h"
+#include <Havok/Common/Base/Memory/Router/hkMemoryRouter.h>
 #include <Havok/Common/Visualize/hkVisualDebugger.h>
+#include <mc/seadCoreInfo.h>
 #include <new>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Physics/Ragdoll/physRagdollInstanceMgr.h"
@@ -27,6 +29,7 @@
 #include "KingSystem/Physics/System/physLayerContactPointInfo.h"
 #include "KingSystem/Physics/System/physMaterialTable.h"
 #include "KingSystem/Physics/System/physRayCastRequestMgr.h"
+#include "KingSystem/Physics/System/physPhantom.h"
 #include "KingSystem/Physics/System/physSensorGroupFilter.h"
 #include "KingSystem/Physics/System/physSystemData.h"
 #include "KingSystem/Physics/System/physHavokMemoryAllocator.h"
@@ -52,6 +55,15 @@ void System::calc() {
 
 void System::initBeforeStageGen(sead::Heap* heap) {
     mContactMgr->initContactPointPool(heap, mIsIndoorStage);
+}
+
+void System::sub_7101214ABC(f32 top, f32 height) {
+    if (!_1a0)
+        return;
+
+    _1a0->setAabbYRange(top - height, top);
+    _1a0->updateHavokFilterInfoAndAabb();
+    _1a0->addPhantomToWorld();
 }
 
 void System::waitForResourceCreation() {
@@ -406,6 +418,13 @@ sead::Heap* System::getPhysicsTempHeap(LowPriority low_priority) const {
         mPhysicsTempDefaultHeap->dump();
 
     return mPhysicsTempDefaultHeap;
+}
+
+void* System::sub_7101216DF0(int size) {
+    if (size > 0x2800)
+        return hkMemoryRouter::alignedAlloc(hkMemoryRouter::getInstance().heap(), size, 0x10);
+
+    return _458[sead::CoreInfo::getCurrentCoreId()];
 }
 
 void System::sub_7101215358(CharacterController* controller) {
