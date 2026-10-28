@@ -37,6 +37,17 @@ public:
     virtual void m22();
     virtual void m23();
     virtual Unk_71024f13f0* m24();
+
+    // The object behind +0x440: only its flags word at +0x30 is known (updateGraphicsLayers reads it).
+    struct Unk_440 {
+        u8 _0[0x30];
+        u32 mFlags;
+    };
+
+    u8 _8[0x440 - 0x8];
+    /* 0x440 */ Unk_440* _440;
+    u8 _448[0x660 - 0x448];
+    /* 0x660 */ u32 _660;
 };
 
 // Placeholder name (lane4 s49, request of lane5): the object behind the pointer at 0x710261ea78 (GOT 0x2590f60), null
@@ -58,6 +69,9 @@ public:
     // updates the graphics pass (0x710109ca1c).
     void sub_710109CB20(agl::lyr::Layer* a, agl::lyr::Layer* b);
     void sub_710109CA1C();
+
+    // 0x710109ca1c (placeholder name): applies the per-type object's two enable bits to _28 / _30.
+    void updateGraphicsLayers();
 
     u8 _0[0x28];
     /* 0x28 */ agl::lyr::Layer* _28;
