@@ -12,11 +12,12 @@ const sead::SafeString* sMapNames;
 s32 sNumMubins;
 MapStaticMubin* sMubins;
 bool sUnk_7102603DD8;
-void* sUnk_7102603DE0;
-void* sUnk_7102603DE8;
+void (*sUnk_7102603DE0)();
+void (*sUnk_7102603DE8)();
+void (*sLoadLocationMubinCallback)();
 
 void MapStaticLoadMgr::loadStaticFiles(const sead::SafeString* names, s32 count, sead::Heap* heap,
-                                       void* callback1, void* callback2) {
+                                       void (*callback1)(), void (*callback2)()) {
     sMapNames = names;
     sNumMubins = count;
     sUnk_7102603DE0 = callback1;
@@ -55,6 +56,10 @@ void MapStaticLoadMgr::sub_7100E8D984() {
 }
 
 }  // namespace ksys::map
+
+void setLoadLocationMubinCallback(void (*callback)()) {
+    ksys::map::sLoadLocationMubinCallback = callback;
+}
 
 ksys::res::Handle* getMapStaticMubin(const sead::SafeString& name) {
     for (s32 i = 0; i < ksys::map::sNumMubins; ++i) {
