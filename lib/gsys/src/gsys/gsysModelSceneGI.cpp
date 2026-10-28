@@ -186,4 +186,22 @@ void ModelSceneGI::setSceneMaterial(ModelNW* model) {
     mEnvCubeMap->mShaderContext->setSceneMaterial(model);
 }
 
+// 0x7100c33a70
+void ModelSceneGI::free(PointLightRig* rig, Model* model, int index) {
+    if (mPointLightResMgr)
+        mPointLightResMgr->free(rig, model, index);
+}
+
+// 0x7100c33c04
+void ModelSceneGI::free(SpotLightRig* rig, Model* model, int index) {
+    if (mSpotLightResMgr)
+        mSpotLightResMgr->free(rig, model, index);
+}
+
+// 0x7100c33d8c
+void ModelSceneGI::free(MaskedSpotLightRig* rig, Model* model, int index) {
+    if (mMaskedSpotLightResMgr)
+        mMaskedSpotLightResMgr->free(rig, model, index);
+}
+
 }  // namespace gsys

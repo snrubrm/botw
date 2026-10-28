@@ -65,9 +65,19 @@ public:
     void calcGPU();
     void calcViewGPU(const ModelSceneContext& context) override;
     void calcGPUDrawBackGround() const;
+    // 0x7100c364bc: the per-view background passes of bloom and HDR compose.
+    void calcGPUDrawBackGround(ModelSceneContext* context) const;
+    // 0x7100c3600c: the bloom pass with the view's depth texture.
+    void drawBloom(agl::DrawContext* draw_context, ModelSceneContext* context,
+                   const agl::TextureData* texture) const;
 
 private:
-    /* 0x250 */ u8 _250[0x288 - 0x250];
+    /* 0x250 */ u8 _250[0x280 - 0x250];
+    // Initialised to 1 by the constructor 0x7100c354a0; drawBloom reads bit 0 to pick the
+    // bloom-buffer draw when HDR compose is enabled.
+    /* 0x280 */ u32 mFlags;
+    /* 0x284 */ u32 _284;
+
     // The post effects the component releases in release(int); the rest of the member block stays
     // unmodelled.
     /* 0x288 */ agl::pfx::Bloom* mBloom;

@@ -6,6 +6,7 @@
 #include <thread/seadAtomic.h>
 #include <utility/aglAtomicPtrArray.h>
 #include <lighting/aglSSSSS.h>
+#include "gsys/gsysLightResMgr.h"
 #include "gsys/gsysModelCubeMapDrawer.h"
 #include "gsys/gsysModelSceneComponent.h"
 
@@ -22,7 +23,11 @@ class SSSSS;
 namespace gsys {
 
 class LightProbeMgr;
+class MaskedSpotLightRig;
+class Model;
 class ModelSceneContext;
+class PointLightRig;
+class SpotLightRig;
 
 // The GI component of a ModelScene (ModelScene +0x3a90). Partial: only the feature
 // flags read by the is*Enabled getters are modelled, as pointers to the component's
@@ -67,6 +72,10 @@ public:
     void releaseLocalReflection(const ModelSceneContext& context) const;
     // 0x7100c33344
     void releaseSSSSS(const ModelSceneContext& context) const;
+    // 0x7100c33a70 / 0x7100c33c04 / 0x7100c33d8c: release a rig through its manager.
+    void free(PointLightRig* rig, Model* model, int index);
+    void free(SpotLightRig* rig, Model* model, int index);
+    void free(MaskedSpotLightRig* rig, Model* model, int index);
     // 0x7100c35194: the component attaches no hostio node of its own.
     void attachHostIO(sead::hostio::Node* node) override {}
 
@@ -90,7 +99,12 @@ private:
     agl::lght::LightMapMgr* mLightMapMgr;  // 458
     /// 0x7100c34844 (SSSSS).
     agl::lght::SSSSS* mSSSSS;  // 460
-    u8 _468[0x660 - 0x468];
+    u8 _468[0x478 - 0x468];
+    /// 0x7100c33a70 / 0x7100c33c04 / 0x7100c33d8c: the rig managers.
+    LightResMgr<PointLightRig>* mPointLightResMgr;  // 478
+    LightResMgr<SpotLightRig>* mSpotLightResMgr;    // 480
+    LightResMgr<MaskedSpotLightRig>* mMaskedSpotLightResMgr;  // 488
+    u8 _490[0x660 - 0x490];
     /// 0x7100c324e8: the light map objects registered for the next calcWorld.
     agl::utl::AtomicPtrArray<agl::lght::LocalLightMapObj> mObjects;  // 660
     /// 0x7100c3250c: the objects of the current frame, drawn by drawLightMap.

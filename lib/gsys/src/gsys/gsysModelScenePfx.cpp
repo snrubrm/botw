@@ -6,6 +6,7 @@
 #include <postfx/aglDepthOfField.h>
 
 #include <common/aglRenderBuffer.h>
+#include <common/aglRenderTarget.h>
 #include <postfx/aglFlareFilter.h>
 #include <postfx/aglGlareFilter.h>
 #include <postfx/aglHDRCompose.h>
@@ -154,6 +155,44 @@ void ModelScenePfx::calcGPUDrawBackGround() const {
         mBloom->calcGPU();
     if (_8->isFeatureEnabled(ModelSceneConfig::Feature::HDR) && mHDRCompose)
         mHDRCompose->calcGPU();
+}
+
+// NON_MATCHING: same size and instruction set; the view-mask `and` has its operands swapped.
+// 0x7100c364bc
+void ModelScenePfx::calcGPUDrawBackGround(ModelSceneContext* context) const {
+    if (_8->isFeatureEnabled(ModelSceneConfig::Feature::Bloom)) {
+        if (mBloom && mBloom->isViewEnabled(context->getViewIndex()))
+            mBloom->calcGPU(context->getViewIndex());
+    }
+    if (_8->isFeatureEnabled(ModelSceneConfig::Feature::HDR)) {
+        if (mHDRCompose)
+            mHDRCompose->calcGPU(context->getViewIndex());
+    }
+}
+
+// NON_MATCHING: same size; the argument's clear stores are grouped differently and the view-mask
+// `and` has its operands swapped.
+// 0x7100c3600c
+void ModelScenePfx::drawBloom(agl::DrawContext* draw_context, ModelSceneContext* context,
+                              const agl::TextureData* texture) const {
+    if (!_8->isFeatureEnabled(ModelSceneConfig::Feature::Bloom))
+        return;
+    if (!mBloom)
+        return;
+    if (!mBloom->isViewEnabled(context->getViewIndex()))
+        return;
+
+    agl::pfx::Bloom::DrawArg arg = {};
+    arg.mRenderBuffer = context->getRenderBuffer();
+    arg.mViewport = context->getViewport();
+    arg.mDepthTexture = texture;
+    arg._28 = arg.mRenderBuffer->getRenderTargetColor(0);
+    arg.mIsColor = texture && !texture->isDepthFormat();
+
+    if (_8->isFeatureEnabled(ModelSceneConfig::Feature::HDR) && (mFlags & 1) != 0)
+        mBloom->drawToBloomBuffer(draw_context, context->getViewIndex(), arg);
+    else
+        mBloom->draw(draw_context, context->getViewIndex(), arg);
 }
 
 }  // namespace gsys
