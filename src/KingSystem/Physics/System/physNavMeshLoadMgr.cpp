@@ -259,8 +259,6 @@ bool NavMeshLoadMgr::TileHandle::sub_7100F8AF0C() {
     return true;
 }
 
-// NON_MATCHING: the duplicate-tile scan keeps its trip count in a 32-bit register where the
-// original widens it to 64 bits (one mov/sub pair); the cast blocks, state arms and calls match.
 void NavMeshLoadMgr::x_3(TileHandle* handle, TileHandle* other) {
     if (handle->mHandle.isReadyOrNeedsParse())
         handle->mHandle.parseResource(nullptr);
@@ -269,10 +267,11 @@ void NavMeshLoadMgr::x_3(TileHandle* handle, TileHandle* other) {
 
     bool matched = false;
     if (handle == other) {
-        const s32 count = s32(sead::Mathu::min(_8, 9u));
-        for (s32 i = 0; i != count; ++i) {
-            TileHandle& h = _10[i];
-            if (h.mHandle.requestedLoad() && handle->_50 == h._50 && handle->_54 == h._54) {
+        const u32 count = sead::Mathu::min(_8, 9u);
+        sead::Buffer<TileHandle> tiles(count, _10);
+        for (TileHandle& tile : tiles) {
+            if (tile.mHandle.requestedLoad() && handle->_50 == tile._50 &&
+                handle->_54 == tile._54) {
                 matched = true;
                 break;
             }
@@ -295,8 +294,10 @@ void NavMeshLoadMgr::x_3(TileHandle* handle, TileHandle* other) {
                     }
                 }
             }
-            if (handle->_58 == 0)
-                break;
+            if (handle->_58 == 0) {
+                handle->mHandle.requestUnload();
+                return;
+            }
             [[fallthrough]];
         }
         case 1: {
