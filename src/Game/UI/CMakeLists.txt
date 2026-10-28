@@ -186,6 +186,7 @@ target_sources(uking PRIVATE
   uiScreenAppMenuBtn.cpp
   uiScreenMessage3D.cpp
   uiScreenSmall2.cpp
+  uiScreenAppSystemWindow.cpp
   uiScreenShopHorse.cpp
   uiScreenAmiiboWindow.cpp
   uiScreenLeafSlots.cpp

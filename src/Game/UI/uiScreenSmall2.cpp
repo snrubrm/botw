@@ -2424,62 +2424,6 @@ void ScreenKeyNum::m93(sead::Heap*) {
     _3618 = mLayout->createAnimatorAuto("Flash", false);
 }
 
-// 0x71009fb988
-void ScreenAppSystemWindowNoBtn::m93(sead::Heap*) {
-    _3610 = mLayout->createAnimatorAuto("FadeOut", false);
-}
-
-namespace {
-// 0x7102483440: message set, label and text widget of ScreenAppSystemWindowNoBtn::m98
-const sead::SafeString sAppSystemWindowNoBtnText[] = {
-    sead::SafeString(sead::SafeString::ConstInitTag{}, "LayoutMsg/AppSystemWindowNoBtn_00"),
-    sead::SafeString(sead::SafeString::ConstInitTag{}, "0002"),
-    sead::SafeString(sead::SafeString::ConstInitTag{}, "T_Text_00")};
-}  // namespace
-
-namespace {
-// 0x7102482ea0 / 0x7102483420: the sensor state message labels, in UiSubsys1::get38a8 order
-const sead::SafeString sSensorStateLabelNames[] = {"0000", "0001", "0003"};
-const sead::SafeString* const sSensorStateLabels[] = {&sSensorStateLabelNames[1], &sSensorStateLabelNames[0],
-                                                      &sSensorStateLabelNames[2]};
-}  // namespace
-
-// 0x71009fbadc
-// NON_MATCHING: the sound name is picked with a csel (the original branches), and the text array sits at another
-// offset of the merged constant block (as in m98)
-void ScreenAppSystemWindowNoBtn::sub_71009FBADC() {
-    const s32 state = UiSubsys1::instance()->get38a8();
-    eui::MessageString message;
-    if (u32(state) <= 2 &&
-        !getMessage(sAppSystemWindowNoBtnText[0], *sSensorStateLabels[state], &message)) {
-        invokeSoundLink2Event_(state == 2 ? "mc_SensorOff" : "mc_SensorOn");
-        setWidgetString(mLayout, sAppSystemWindowNoBtnText[2], message);
-    } else {
-        setWidgetString(mLayout, sAppSystemWindowNoBtnText[2], sead::SafeString::cEmptyString);
-    }
-}
-
-// 0x71009fba20
-// NON_MATCHING: GlobalMerge places the text array 0x20 into a merged constant block (the original addresses it directly)
-void ScreenAppSystemWindowNoBtn::m98() {
-    switch (_3618) {
-    case 1:
-        sub_71009FBADC();
-        break;
-    case 2: {
-        eui::MessageString message;
-        if (getMessage(sAppSystemWindowNoBtnText[0], sAppSystemWindowNoBtnText[1], &message))
-            setWidgetString(mLayout, sAppSystemWindowNoBtnText[2], sead::SafeString::cEmptyString);
-        else
-            setWidgetString(mLayout, sAppSystemWindowNoBtnText[2], message);
-        break;
-    }
-    default:
-        setWidgetString(mLayout, sAppSystemWindowNoBtnText[2], sead::SafeString::cEmptyString);
-        break;
-    }
-}
-
 // 0x7100a321e8
 void ScreenPauseMenuMantan::m93(sead::Heap*) {
     eui::ButtonGroup* group = mButtonGroup;
@@ -2771,25 +2715,6 @@ void ScreenBootUp::m94() {
             mLayout->mPane->SetVisible(false);
         close(-4);
     }
-}
-
-// 0x71009fb958
-void ScreenAppSystemWindowNoBtn::sub_71009FB958() {
-    _3618 = 1;
-    open(2);
-}
-
-// 0x71009fb970
-void ScreenAppSystemWindowNoBtn::sub_71009FB970() {
-    _3618 = 2;
-    open(2);
-}
-
-// 0x71009fb9bc
-void ScreenAppSystemWindowNoBtn::m94() {
-    if ((_291 & 2) || isOpened() ||
-        (_3610 && _3610->mFrame == static_cast<f32>(_3610->GetFrameSize())))
-        _292 |= 0x20;
 }
 
 // 0x7100a606c4
@@ -3301,13 +3226,6 @@ void ScreenPauseMenuInfo::sub_7100A30380(s32 value) {
 // 0x7100a31988
 void ScreenPauseMenuInfo::sub_7100A31988(bool flag) {
     _39f8.sub_71009348D0(flag);
-}
-
-// 0x71009fb930
-void ScreenAppSystemWindowNoBtn::sub_71009FB930() {
-    if (!_3610 || _3610->mRate != 0)
-        return;
-    _3610->PlayAuto(1.0f);
 }
 
 // 0x7100a4b444
