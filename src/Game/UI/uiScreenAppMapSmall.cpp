@@ -201,8 +201,8 @@ bool ScreenAppMapDungeon::sub_71009E0DF8() const {
 void ScreenAppMap::sub_71009EF488(const sead::Vector3f* pos, s32 scale_level) {
     if (_3610) {
         UiSubsys1::instance()->sub_7100968AF8(0);
-        _3ad4 = pos->x;
-        _3ad8 = -pos->z;
+        _3ad4.x = pos->x;
+        _3ad4.y = -pos->z;
         _3adc = scale_level;
     }
 }
@@ -834,6 +834,69 @@ void ScreenAppMap::sub_71009EA83C() {
         _36e8->Stop(sUnk_71025df330._10);
         _3710->Stop(sUnk_71025df330._10);
     }
+}
+
+// 0x71009eacc0 (placeholder name): opens the map for `mode`: the view position for mode 0, the selected entry's
+// marker position and texture path for the marker modes, then changes the map state.
+void ScreenAppMap::sub_71009EACC0(s32 mode) {
+    UiSubsys1::instance()->set848(mode);
+    if (isClosed())
+        return;
+    x_0();
+    UiSubsys1* subsys = UiSubsys1::instance();
+    if (!subsys)
+        return;
+    if (!subsys->sub_7100960DF8())
+        return;
+    UiSubsys1::instance()->resetVec3834();
+
+    if (subsys->sub_7100960DAC(0)) {
+        subsys->sub_71009659A4(&_3ad4);
+        _3610->sub_71009A9A38(s32(_3adc));
+    } else if (subsys->sub_7100960DAC(1) || subsys->sub_7100960DAC(2)) {
+        const s32 index = subsys->_128;
+        if (index == -1)
+            return;
+        subsys->sub_7100965864(index);
+        if (_3b10) {
+            const sead::Vector3f& pos = UiSubsys1::instance()->_710[index];
+            const f32 px = pos.x;
+            const f32 pz = pos.z;
+            const f32 scale = sub_7100965960(UiSubsys1::instance()->get7c4(index));
+            f32 x = px * scale;
+            f32 y = pz * scale;
+            x += x;
+            y += y;
+            _3b10->SetPosition(nn::util::Float3{-x, y, 0.0f});
+        }
+        if (subsys->is128EqualTo6())
+            _3b08->StopAtMin();
+        else
+            _3b08->StopAtMax();
+        if (u32(index) < 15) {
+            sead::FormatFixedSafeString<64> label("%s/%s%02d%s", sUnk_71025df330._210.cstr(),
+                                                  sUnk_71025df330._220.cstr(), index, ".bmapopen");
+            const bool is6 = UiSubsys1::instance()->is128EqualTo6();
+            const s32 start = is6 ? 3 : 0;
+            const s32 end = is6 ? 6 : 3;
+            for (s32 i = start; i != end; ++i)
+                _3b18._10.sub_7100A81B1C(label, i);
+        }
+        if (_3c90) {
+            if (UiSubsys1::instance()->sub_7100968A44(0))
+                _3c90->sub_71009C12DC(0);
+            else if (UiSubsys1::instance()->sub_7100968A44(1))
+                _3c90->sub_71009C12DC(1);
+        }
+    } else if (subsys->sub_7100960DAC(3) || subsys->sub_7100960DAC(4)) {
+        if (_3c90) {
+            if (UiSubsys1::instance()->sub_7100968A44(0))
+                _3c90->sub_71009C12DC(0);
+            else if (UiSubsys1::instance()->sub_7100968A44(1))
+                _3c90->sub_71009C12DC(1);
+        }
+    }
+    getStateMachine().changeState(&sUnk_71025df240);
 }
 
 // 0x71009eee04

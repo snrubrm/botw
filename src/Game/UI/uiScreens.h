@@ -2871,7 +2871,9 @@ struct Unk_71025df330 {
     // the map mode index of the four mode animators
     /* 0x1f0 */ sead::Buffer<s32> mModeOrder;
     /* 0x200 */ sead::Buffer<sead::SafeString> mHintAnimatorNames;
-    u8 _210[0x230 - 0x210];
+    // the area and region names used by the map texture paths (sub_71009EACC0)
+    /* 0x210 */ sead::SafeString _210;
+    /* 0x220 */ sead::SafeString _220;
     // the six texture slots of the map's own UiTexSlots
     /* 0x230 */ sead::Buffer<Unk_71025df330TexEntry> mTexEntries;
     /* 0x240 */ sead::Buffer<sead::SafeString> mCursorAnimatorNames;
@@ -2887,6 +2889,8 @@ struct Unk_71025df330 {
 };
 // 0x71025df330 (defined in uiScreenAppMapSmall.cpp)
 KSYS_VISIBILITY_HIDDEN extern Unk_71025df330 sUnk_71025df330;
+// 0x71025df240: the state ScreenAppMap::sub_71009EACC0 changes to (bss, defined by the map TU's initializer)
+extern const ksys::StateBase sUnk_71025df240;
 
 // 0x71009f0ce4 (placeholder name; declared only): the AppMap message label for `mode` from the map mode
 // table (mode -1 gives the empty string).
@@ -3004,6 +3008,8 @@ public:
     u64 sub_71009EDB4C();
     // 0x71009eda64 (CSV ScreenAppMap::x_2): the same animator change from get3900, called by x_1
     void x_2();
+    // 0x71009efd24 (CSV ScreenAppMap::x_0): the map's per-frame widget / label update, run before x_1
+    void x_0();
     // 0x71009f0150 (CSV ScreenAppMap::x_1): the map's per-frame widget / label update, run after x_0
     void x_1();
     // 0x71009ecea4: samples the map move input (pad mask and left stick with a dead zone)
@@ -3120,8 +3126,7 @@ public:
     /* 0x3ad1 */ u8 _3ad1;
     /* 0x3ad2 */ u8 _3ad2;  // written by sub_71009EF4EC / sub_71009EF51C
     u8 _3ad3;
-    /* 0x3ad4 */ f32 _3ad4;
-    /* 0x3ad8 */ f32 _3ad8;
+    /* 0x3ad4 */ sead::Vector2f _3ad4;
     /* 0x3adc */ f32 _3adc;
     /* 0x3ae0 */ f32 _3ae0 = 0.0f;
     u8 _3ae4[0x3ae8 - 0x3ae4];
@@ -3131,7 +3136,7 @@ public:
     /* 0x3af8 */ eui::Animator* _3af8 = nullptr;
     /* 0x3b00 */ eui::Animator* _3b00 = nullptr;
     /* 0x3b08 */ eui::Animator* _3b08 = nullptr;
-    u8 _3b10[0x3b18 - 0x3b10];
+    /* 0x3b10 */ nn::ui2d::Pane* _3b10;
     /* 0x3b18 */ Unk_7102481e30 _3b18;
     u8 _3bf0[0x3bf8 - 0x3b18 - sizeof(Unk_7102481e30)];
     // The map cursor layout part and its six animators (sub_71009F0668).

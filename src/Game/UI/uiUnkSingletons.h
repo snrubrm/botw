@@ -1605,6 +1605,8 @@ public:
     // 0x7100965e60 (placeholder name): always false
     bool returnFalse() const;
     s32 get7c4(s32 index) const;
+    // 0x7100965864 (CSV unnamed): selects map entry `index` (_128), resets the view scale and the marker state
+    void sub_7100965864(s32 index);
 
 private:
     /* 0x28 */ u8 _28;
@@ -1688,7 +1690,9 @@ private:
     /* 0x6e8 */ s32 _6e8;
     /* 0x6ec */ bool _6ec;
     /* 0x6f0 */ UiTimer _6f0;
-    u8 _708[0x7c4 - 0x708];
+    u8 _708[8];
+    // The fifteen map marker / mode positions (x and z are read by ScreenAppMap::sub_71009EACC0).
+    /* 0x710 */ sead::SafeArray<sead::Vector3f, 15> _710;
     /* 0x7c4 */ sead::SafeArray<s32, 15> _7c4;
     /* 0x800 */ s32 _800;
     u8 _804[0x808 - 0x804];
