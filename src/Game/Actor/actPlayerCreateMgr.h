@@ -151,6 +151,8 @@ class CreatePlayerTrashActorMgr {
 public:
     // 0x7100667974 (placeholder name): whether the count at 0x40 is zero.
     bool sub_7100667974() const;
+    // 0x7100667970 (placeholder name; 4-byte empty body): called by the stage unload hook.
+    void sub_7100667970();
 
 private:
     // _28: the tracer finished by the destructor. Members before it unknown.

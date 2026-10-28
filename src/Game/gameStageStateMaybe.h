@@ -53,6 +53,11 @@ public:
     // 0x710122dc60: whether `tool` is the active navi tool of the object for the current stage type.
     static bool isActiveNaviMaybe(const Unk_71024f13f0* tool);
 
+    // 0x710109cb20: stores the two objects at 0x28 / 0x30, sets bits 0 / 1 of `_a00` from their 0x90 flag and
+    // updates the graphics pass. The parameter types are not modelled yet (only the stages' unload hook calls it,
+    // with nullptrs).
+    void sub_710109CB20(void* a, void* b);
+
     u8 _0[0x38];
     /* 0x38 */ s32 _38;
     u8 _3c[0x58 - 0x3c];

@@ -368,6 +368,10 @@ class Unk_710245c368 : public uking::StageArg {
     SEAD_RTTI_OVERRIDE(Unk_710245c368, uking::StageArg)
 public:
     ~Unk_710245c368() override;
+
+    /* 0x08 */ u32 _0;
+    /* 0x0c */ u32 _4;
+    /* 0x10 */ sead::Heap* mHeap;
 };
 
 // vtable 0x710246cb78 is ksys::evt::S7EventFlow (evtS7.h).

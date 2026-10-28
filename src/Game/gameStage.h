@@ -49,13 +49,16 @@ extern f32 sMapStaticScale;
 // 0x7102606938: XZ centre that ksys::eft::Effect::sub_71011B2A34 measures against sMapStaticScale (as a radius).
 extern sead::Vector2f sUnk_7102606938;
 
-// State of the startup save check (0x18 bytes, vtable 0x710245c470: a sead::hostio node).
-struct StartupSaveCheckState {
-    const void* _0;
+// State of the startup save check (0x18 bytes, vtable 0x710245c460; only a virtual destructor).
+class KSYS_VISIBILITY_HIDDEN StartupSaveCheckState {
+public:
+    StartupSaveCheckState() : mPhase(0), _c(0), mSlot(0) {}
+    virtual ~StartupSaveCheckState() = default;
+
     // 0: start loading slot `mSlot`, 1: wait for the load, 2 / 3: done, 4: finished
-    s32 mPhase;
-    s32 _c;
-    s32 mSlot;
+    /* 0x08 */ s32 mPhase;
+    /* 0x0c */ s32 _c;
+    /* 0x10 */ s32 mSlot;
 };
 
 class StartupSaveCheckStage : public Stage {

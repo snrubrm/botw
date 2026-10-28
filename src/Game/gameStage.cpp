@@ -33,6 +33,7 @@
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include <gsys/gsysResourceEditor.h>
 #include <gsys/gsysViewer.h>
+#include <heap/seadExpHeap.h>
 #include "KingSystem/System/VFR.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
@@ -271,6 +272,17 @@ StartupSaveCheckStage::StartupSaveCheckStage() : mHeap(nullptr), mState(nullptr)
 
 StartupSaveCheckStage::~StartupSaveCheckStage() {
     mHeap->destroy();
+}
+
+bool StartupSaveCheckStage::init(StageArg* arg) {
+    auto* a = sead::DynamicCast<Unk_710245c368>(arg);
+    if (!a)
+        return false;
+
+    mHeap = sead::ExpHeap::create(0, "StartupSaveCheckStage", a->mHeap, 8,
+                                  sead::Heap::cHeapDirection_Forward, false);
+    mState = new (mHeap, 8) StartupSaveCheckState();
+    return true;
 }
 
 // NON_MATCHING: the original stores the phase / _c pairs as `stp w, w`; ours merges the two constant stores into one

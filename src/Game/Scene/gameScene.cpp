@@ -53,6 +53,14 @@
 #include "KingSystem/System/UI/LayoutResourceMgr.h"
 #include "KingSystem/Utils/Thread/MessageBroker.h"
 #include "Game/gameUnkRttiPlaceholders.h"
+#include "Game/gameRumble.h"
+#include "Game/gameSceneSubsysMisc.h"
+#include "Game/UI/uiOnUiActorMgr.h"
+#include "Game/Actor/actPlayerCreateMgr.h"
+#include "Game/gameStageStateMaybe.h"
+#include "Game/gameHorseMgr.h"
+#include "Game/gameWolfLinkMgr.h"
+#include "Game/gameMotorcycleMgr.h"
 
 Unk_71025d1740* Unk_71025d1740::sInstance;
 
@@ -894,6 +902,27 @@ void loadQuestRes_SceneStaticBars_staticVoicePack_expressionSound_voice() {
 // 0x71007b85fc (CSV name): polls the quest resource load.
 bool questMgrLoadResource() {
     return ksys::qst::Manager::instance()->sub_7100FD7820();
+}
+
+// 0x71007b8650 (CSV name): stops the rumble and releases the per-stage actor managers; the title stage (3) skips
+// the release block.
+void postStageUnload1(void* a1, s32 type) {
+    Rumble::instance()->sub_710089878C();
+    if (type != 3) {
+        GameSceneSubsys5::instance()->sub_710090549C();
+        GameSceneSubsys4::instance()->m5();
+        if (ui::OnUiActorMgr::instance())
+            ui::OnUiActorMgr::instance()->sub_7100906E70();
+        if (act::CreatePlayerEquipActorMgr::instance())
+            act::CreatePlayerEquipActorMgr::instance()->resetAll();
+        if (act::CreatePlayerTrashActorMgr::instance())
+            act::CreatePlayerTrashActorMgr::instance()->sub_7100667970();
+    }
+    if (StageStateMaybe::sInstance)
+        StageStateMaybe::sInstance->sub_710109CB20(nullptr, nullptr);
+    HorseMgr::deleteInstance();
+    WolfLinkMgr::deleteInstance();
+    MotorcycleMgr::deleteInstance();
 }
 
 // 0x71007bea48 (CSV name)
