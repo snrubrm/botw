@@ -2636,6 +2636,7 @@ struct FootPrintBlock {
 
 class Unk_710249d330 {
 public:
+    Unk_710249d330();
     virtual ~Unk_710249d330();
     // 0x7100a862a4 (placeholder name): allocates the arrays and the "FootPrintWorkHeap" and sets the state
     void init(sead::Heap* heap);

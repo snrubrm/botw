@@ -1168,3 +1168,17 @@ bool isCurrentMapTypeMainFieldOrGameTestField() {
     return uking::StageInfo::getCurrentMapType() == "MainField" ||
            uking::StageInfo::getCurrentMapType() == "GameTestField";
 }
+
+// Placeholder name for the first argument of sub_7100AAB900 (the parameter is spilled, i.e. a SEAD_ENUM by
+// value; the function maps its kinds 1 .. 7 to sound kinds).
+SEAD_ENUM(MapSoundType, _0, _1, _2, _3, _4, _5, _6, _7)
+
+// 0x7100aab900: starts / stops the map sound of `type` (1 .. 7); anything else uses kind 0.
+void sub_7100AAB900(MapSoundType type, bool on) {
+    if (!ksys::snd::SoundMgr::instance())
+        return;
+    static const s32 kinds[7] = {1, 3, 0, 0, 6, 4, 5};
+    const u32 index = u32(int(type)) - 1;
+    const s32 kind = index < 7 ? kinds[s32(index)] : 0;
+    ksys::snd::SoundMgr::instance()->sub_71011FBF08(ksys::snd::UiSoundKind{kind}, on);
+}

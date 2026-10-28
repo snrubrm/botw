@@ -600,6 +600,9 @@ u8 ScreenAppMapWidget::sub_71009AF37C() const {
 
 ScreenAppMapWidget::~ScreenAppMapWidget() = default;
 
+// 0x7100a8429c
+Unk_710249d330::Unk_710249d330() {}
+
 // 0x7100a842e4
 Unk_710249d330::~Unk_710249d330() {
     mCells.freeBuffer();
