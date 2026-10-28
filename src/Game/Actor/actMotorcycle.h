@@ -65,6 +65,10 @@ KSYS_CHECK_SIZE_NX150(MotorcycleStruct2, 0x1b0);
 
 // 0x7100fd0464 (declared only): releases the object at MotorcycleStruct2::_158.
 void sub_7100FD0464(void* obj);
+// 0x710006cb00 (declared only; placeholder name): the wheel contact query behind x_13: `flag` is set
+// when the query hit, and a null `mtx` uses the wheel's current transform.
+ksys::phys::RigidBody* sub_710006CB00(MotorcycleStruct2* wheel, bool* flag,
+                                      const sead::Matrix34f* mtx, f32 value);
 
 // CSV MotorcycleUserTag (no namespace in the CSV; vtable 0x71023612c0, RTTI parent PhysicsUserTag, size
 // 0x60). Created inline by Motorcycle::prepareInit_ with the main body and both wheels; it records the
@@ -447,6 +451,12 @@ public:
     // 0x710007a9c8 (CSV Motorcycle::speedStuff): the stick value scaled by a speed curve, divided by 45 and
     // clamped to [-1, 1].
     f32 speedStuff();
+    // 0x7100072264 (CSV Motorcycle::x_13; declared only): queries both wheels for their contact (the
+    // second with the wheel matrix from x_21 unless the fader moves) and writes the two bodies.
+    void x_13(ksys::phys::RigidBody** out);
+    // 0x710007abc4 / 0x710007ae8c (CSV Motorcycle::speedStuff_0 / x_21; declared only): wheel transforms.
+    sead::Matrix34f speedStuff_0();
+    sead::Matrix34f x_21();
     // 0x710007bf90 (CSV Motorcycle::speedStuff_1).
     f32 speedStuff_1();
     // 0x710007abc4 (not decompiled)

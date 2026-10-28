@@ -930,6 +930,27 @@ void Motorcycle::sub_7100071998() {
     xlinkEventOn(this, 0x3c, 1, false);
 }
 
+// 0x7100072264: asks each wheel for its contact body, the second one with the x_21 transform unless
+// the wheel fader is moving (or bit 17 of _f88 is set).
+void Motorcycle::x_13(ksys::phys::RigidBody** out) {
+    if (!_f88.isOnBit(7))
+        return;
+
+    bool contact = false;
+    const sead::Matrix34f mtx = speedStuff_0();
+    out[0] = sub_710006CB00(_dd0, &contact, &mtx, _b90._8);
+
+    if (_f88.isOnBit(17) || _f40.getValue() != _f40.getNextValue()) {
+        const sead::Matrix34f second_mtx = x_21();
+        out[1] = sub_710006CB00(_dd8, &contact, &second_mtx, _b90._8);
+    } else {
+        out[1] = sub_710006CB00(_dd8, &contact, nullptr, _b90._8);
+    }
+
+    if (contact)
+        _f88.set(0x800000000);
+}
+
 // 0x7100072694: while bit 7 of _f88 is set, tracks the highest main-body height in _e6c / _e70
 // (the second pinned while either wheel touches the ground) and forwards the drop since then.
 void Motorcycle::x_16() {
