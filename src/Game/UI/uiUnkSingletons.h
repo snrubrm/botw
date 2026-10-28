@@ -1369,7 +1369,8 @@ public:
     void sub_710096372C(ksys::act::Actor* actor);
     // 0x71009686f0 (placeholder name): whether the map scale _850._28 equals the threshold selected by
     // _128 and _7c4 (false for the -1 entries).
-    bool sub_71009686F0() const;
+    // `flag` is unused in the body; the map demo state's ready check is the only caller and passes false.
+    bool sub_71009686F0(bool flag) const;
     void* sub_71009648A8();
     bool sub_7100964A0C(s32 a1);
     // 0x7100964b24 (placeholder name): the number of entries of the table at 0x610 whose flag (bit 4 of the byte at 0x3c) is clear
@@ -1590,7 +1591,8 @@ public:
     void sub_7100964A40(const sead::Vector3f& pos);
     s32 get614() const;
     // 0x7100965938 / 0x7100965994 / 0x710096599c / 0x7100965cf0 (placeholder names)
-    s32 sub_7100965938() const;
+    // `flag` is unused in the body; the map demo state's ready check is the only caller and passes true.
+    s32 sub_7100965938(bool flag) const;
     void set898(s32 value);
     bool returnTrue2() const;
     // 0x7100965e60 (placeholder name): always false

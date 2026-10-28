@@ -499,7 +499,7 @@ void UiSubsys1::sub_7100961088() {
 }
 
 // 0x71009686f0 (placeholder name): whether the map scale matches the selected threshold.
-bool UiSubsys1::sub_71009686F0() const {
+bool UiSubsys1::sub_71009686F0(bool) const {
     if (_128 == -1)
         return false;
     const s32 index = u32(_128) < 15 ? _128 : 0;
@@ -1414,7 +1414,7 @@ f32 sub_7100965960(s32 index) {
 }
 
 // 0x7100965938
-s32 UiSubsys1::sub_7100965938() const {
+s32 UiSubsys1::sub_7100965938(bool) const {
     if (_128 == -1)
         return -1;
     return _7c4[_128];

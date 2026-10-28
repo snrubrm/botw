@@ -229,6 +229,66 @@ bool ScreenAppMap::sub_71009EF5A8(s32 type) {
     return true;
 }
 
+// 0x71009ef8dc (placeholder name): whether the demo state's map mode (`UiSubsys1::sub_7100968B1C`) has its
+// animator / texture assets ready.
+bool ScreenAppMap::sub_71009EF8DC() {
+    if (!_3610)
+        return false;
+    const s32 mode = UiSubsys1::instance()->sub_7100968B1C();
+    if (u32(mode) > 0xb)
+        return false;
+    switch (mode) {
+    case 0:
+        if (!UiSubsys1::instance()->sub_7100960DAC(3))
+            return true;
+        return isOpened();
+    case 1: {
+        if (!UiSubsys1::instance()->sub_71009686F0(false))
+            return false;
+        if (UiSubsys1::instance()->_128 == -1)
+            return false;
+        const bool six = UiSubsys1::instance()->is128EqualTo6();
+        const s32 first = six ? 3 : 0;
+        const s32 last = six ? 6 : 3;
+        for (s32 i = first; i != last; ++i) {
+            if (!_3b18._10.isLoaded(i))
+                return false;
+        }
+        return true;
+    }
+    case 2:
+        return _3af0->mFrame == f32(_3af0->GetFrameSize());
+    case 3: {
+        bool result = false;
+        if (UiSubsys1::instance()->sub_7100968900(1)) {
+            const f32 value = UiSubsys1::instance()->getVec3834()->value;
+            if (value > sub_7100959D14(0)) {
+                result = true;
+                _3cb1 = 1;
+            }
+        }
+        if (UiSubsys1::instance()->get3820() == 4)
+            result = true;
+        return result;
+    }
+    case 4:
+        return _3af8->mFrame == f32(_3af8->GetFrameSize());
+    case 5: {
+        const f32 scale = sub_7100965960(UiSubsys1::instance()->sub_7100965938(true));
+        return UiSubsys1::instance()->_850.get28() == scale;
+    }
+    case 6:
+    case 7:
+        return true;
+    case 9:
+    case 10:
+        return _3c90->sub_71009C1814(0);
+    case 11:
+        return _3c90->sub_71009C1814(1);
+    }
+    return false;
+}
+
 // 0x71009ef4ec (CSV unnamed)
 void ScreenAppMap::sub_71009EF4EC(s32 a1, s32 a2) {
     if (u32(a1 - 3) > 1)
