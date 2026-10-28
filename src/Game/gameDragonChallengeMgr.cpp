@@ -2,6 +2,7 @@
 #include <math/seadMathCalcCommon.h>
 #include <prim/seadScopedLock.h>
 #include <container/seadSafeArray.h>
+#include "Game/Actor/aiXlinkHandle.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 namespace uking {
@@ -65,6 +66,37 @@ void DragonChallengeMgr::x_0(u32 idx) {
         if (handle.sub_7101241B6C())
             handle.sub_7101241A44(_fc);
     }
+}
+
+void DragonChallengeMgr::x(u32 idx, bool fade_) {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    if (!mProcLink.hasProc())
+        return;
+    if (mRefCount.load() == 0)
+        return;
+    const bool has_proc = mProcLink.hasProc();
+    if (idx > 2 || !has_proc)
+        return;
+    auto& handle = mHandles[idx];
+    auto& elink = handle.mELink;
+    auto* event = elink.getEvent();
+    if (event && event->getCreateId() == u32(elink.getCreateId())) {
+        auto* user = event->getUserInstance();
+        if (fade_) {
+            user->checkAndErrorCallInCalc("HandleELink::fade(%s)",
+                                          xlink::detail::getKeyName(event));
+            user->printLogFadeOrKill(elink.getEvent(), "HandleELink::fade(%s)",
+                                     xlink::detail::getKeyName(elink.getEvent()));
+            elink.getEvent()->fade(-1);
+        } else {
+            user->checkAndErrorCallInCalc("HandleELink::kill(%s)",
+                                          xlink::detail::getKeyName(event));
+            user->printLogFadeOrKill(elink.getEvent(), "HandleELink::kill(%s)",
+                                     xlink::detail::getKeyName(elink.getEvent()));
+            elink.getEvent()->kill();
+        }
+    }
+    handle.mSLink.fade();
 }
 
 void DragonChallengeMgr::sub_71006F9E20(const sead::Matrix34f& mtx) {

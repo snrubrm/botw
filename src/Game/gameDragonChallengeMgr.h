@@ -39,7 +39,7 @@ public:
     void emitXLink(u32 idx);
     // 0x71006f9b68 (CSV x_0): emitXLink(idx), then moves the event to `_fc`.
     void x_0(u32 idx);
-    // 0x71006f9c00 (CSV x; declared only): fades (or kills) the events of handle `idx`.
+    // 0x71006f9c00 (CSV x): fades (or kills) the ELink event of handle `idx`, then fades its SLink event.
     void x(u32 idx, bool a2);
     // 0x71006f9e20 (declared only).
     void sub_71006F9E20(const sead::Matrix34f& mtx);
