@@ -5,6 +5,7 @@
 #include <xlink2/xlink2UserInstanceELink.h>
 #include <math/seadMathCalcCommon.h>
 #include <gsys/gsysParticleMgr.h>
+#include <nn/vfx/Resource.h>
 #include <ptcl/seadPtclSystem.h>
 #include <cstring>
 #include <prim/seadScopedLock.h>
@@ -107,6 +108,67 @@ f32 Effect::getLevelScaleMaybe(f32 level) const {
     const f32 lo = mLevelScaleTable[index];
     const f32 hi = mLevelScaleTable[index + 1];
     return lo + t * (hi - lo);
+}
+
+// 0x71011b2ee0 (slot m13): xlink asks us for the emitter set to use for a DummyBlank replacement.
+// Scans resource slots 0..9 and the demo resource ids 10..41; the dummy-blank name takes a set
+// that does not need a fade, the dummy-blank-loop name one that does.
+// NON_MATCHING: only the two condition blocks differ: clang merges the two error tests into one
+// inverted-or form and orders them differently (5 instructions). Registers, calls and the loop
+// agree.
+void Effect::replaceResEset(Unk_ResEset* eset, const xlink2::ResAssetCallTable& table,
+                            const xlink2::ResourceAccessorELink& accessor, const char* name) {
+    if (!(mFlags & cFlag_Unk2000))
+        return;
+
+    const int dummy_blank = std::strcmp(name, "DummyBlank");
+    const int dummy_blank_loop = std::strcmp(name, "DummyBlankLoop");
+    if (dummy_blank != 0 && dummy_blank_loop != 0)
+        return;
+
+    const char* resource_name = accessor.getCustomParamValueString(11, table);
+    auto* system = gsys::ParticleMgr::instance()->getSystem();
+    for (s32 i = 0; i < 42; ++i) {
+        s32 resource_id;
+        if (i < 10)
+            resource_id = i;
+        else
+            resource_id = mDemoResourceIds[i - 10];
+        if (resource_id == -1)
+            continue;
+
+        auto* resource = system->GetResourceMaybe(resource_id);
+        if (!resource || !resource->IsAvailableMaybe())
+            continue;
+
+        const s32 eset_id = system->SearchEmitterSetId(resource_name, resource_id);
+        if (eset_id < 0)
+            continue;
+
+        const bool need_fade = resource->IsNeedFade(eset_id);
+        if (dummy_blank == 0) {
+            if (need_fade) {
+                if (!xlink2::SystemELink::instance()->isServerConnecting())
+                    sead::FormatFixedSafeString<128> message(
+                        "EFT_ERR[System::replaceResEset_NeedLoop](%s)", resource_name);
+                return;
+            }
+        }
+        if (!(need_fade || dummy_blank_loop != 0)) {
+            if (!xlink2::SystemELink::instance()->isServerConnecting())
+                sead::FormatFixedSafeString<128> message(
+                    "EFT_ERR[System::replaceResEset_NeedLoop](%s)", resource_name);
+            return;
+        }
+
+        eset->_0 = u16(resource_id);
+        eset->_2 = u16(eset_id);
+        return;
+    }
+
+    if (!xlink2::SystemELink::instance()->isServerConnecting())
+        sead::FormatFixedSafeString<128> message("EFT_ERR[System::replaceResEset](%s)",
+                                                 resource_name);
 }
 
 // NON_MATCHING: Camera basis calculations use different floating-point register allocation.

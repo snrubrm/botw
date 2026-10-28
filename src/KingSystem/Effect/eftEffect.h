@@ -12,6 +12,11 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace xlink2 {
+class ResAssetCallTable;
+class ResourceAccessorELink;
+}
+
 namespace ksys::act {
 class Actor;
 class PlayerLink;
@@ -24,6 +29,13 @@ class Unk_7102459cc0;
 namespace ksys::eft {
 
 class AmbientEffectMgr;
+
+// Placeholder for the two u16 ids xlink2 writes back through the ResEset out parameter. lib/xlink2
+// models ResEset as an empty struct; this is the layout the game code stores into.
+struct Unk_ResEset {
+    u16 _0;
+    u16 _2;
+};
 
 // Effect + 0x9fe0 (placeholder name): a locked table of 32 actor slots (0x30 bytes each, the actor
 // pointer first), a count at +0x600 and the lock at +0x608.
@@ -126,6 +138,10 @@ public:
     void updatePlayerPos(const sead::Matrix34f& matrix, const sead::Matrix34f& alternate);
     // 0x71011b87ac: queries the forest_density table selected during stage initialization.
     f32 queryForestDensity(const sead::Vector3f* position);
+    // 0x71011b2ee0 (placeholder parameter type; lib models ResEset as empty): replaces the
+    // resource / emitter set ids of a DummyBlank or DummyBlankLoop replacement set.
+    void replaceResEset(Unk_ResEset* eset, const xlink2::ResAssetCallTable& table,
+                        const xlink2::ResourceAccessorELink& accessor, const char* name);
     // 0x71011b3e84 (placeholder name): interpolates the effect-level scale curve at `level`
     // (0 outside 0..15, the last sample from 15 up).
     f32 getLevelScaleMaybe(f32 level) const;
@@ -191,7 +207,7 @@ private:
     s32 _2a42c;
     u8 _2a430[0x2a43c - 0x2a430];
     /// Demo resource ids (initialised to -1 by the constructor).
-    /* 0x2a43c */ s32 mDemoResourceIds[32];
+    /* 0x2a43c */ sead::SafeArray<s32, 32> mDemoResourceIds;
     u8 _2a4bc[4];
     /* 0x2a4c0 */ sead::CriticalSection mDemoResourceCS;
     u8 _2a500[0x2a750 - 0x2a500];
