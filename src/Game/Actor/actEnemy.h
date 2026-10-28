@@ -332,7 +332,9 @@ public:
     // the map object (its hash id), i.e. whether this enemy's map object already dropped its weapon.
     bool isWeaponAlreadyDropped();
     bool weaponDroppedByEnemy() override;
-    const char* getEquippedItem() override;
+    // 0x7100014f04: the map unit parameter "EquipItem<index + 1>", or null for "Default" / a
+    // missing parameter.
+    const char* getEquippedItem(s32 index) override;
 
     // FIXME: figure out return types, parameters and names
     // Equips `weapon` in slot `idx` (the original asks getWeapons() first).

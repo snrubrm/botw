@@ -201,7 +201,8 @@ s32 PlayerOrEnemy::getBaseAtkPower() {
     return getEnemyAtkPower();
 }
 
-const char* PlayerOrEnemy::getEquippedItem() {
+const char* PlayerOrEnemy::getEquippedItem(s32 index) {
+    static_cast<void>(index);
     return nullptr;
 }
 

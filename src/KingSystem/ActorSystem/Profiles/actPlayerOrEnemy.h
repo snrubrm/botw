@@ -100,7 +100,7 @@ public:
     virtual bool m173();
     virtual bool weaponDroppedByEnemy() { return true; }
     // The equipped item's actor name (null without one).
-    virtual const char* getEquippedItem();
+    virtual const char* getEquippedItem(s32 index);
     virtual void m176();
 
     // 0x710073632c (CSV name): enemy attack power (0 for non-enemies); the base getBaseAtkPower.

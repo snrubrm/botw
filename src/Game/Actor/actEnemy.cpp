@@ -158,6 +158,28 @@ bool Enemy::sub_710001A2B0(const sead::Vector3f& target, const sead::Vector3f& o
     return true;
 }
 
+// 0x710073de80 (declared only; placeholder name): maps the equipped item name of the map unit
+// parameter to a weapon name (the "Weapon_Lsword_03x" aliases).
+const char* sub_710073DE80(const sead::SafeString* name);
+
+// 0x7100014f04: the "EquipItem<n>" map unit parameter of the root AI, with the weapon-name mapping
+// for the first slot.
+const char* Enemy::getEquippedItem(s32 index) {
+    sead::FixedSafeString<32> name;
+    name.format("EquipItem%d", index + 1);
+
+    sead::SafeString value;
+    if (!getRootAi()->getMapUnitParam(&value, name))
+        return nullptr;
+    if (value == "Default")
+        return nullptr;
+    if (!(_e82 & 0x80))
+        return value.cstr();
+    if (index == 0 && (_e82 & 0x100))
+        return sub_710073DE80(&value);
+    return nullptr;
+}
+
 Unk_71025ae680* Enemy::m178(sead::Heap* heap) {
     if (sub_71006E8644(this))
         return new (heap, 8) Unk_710244edc0(this);
