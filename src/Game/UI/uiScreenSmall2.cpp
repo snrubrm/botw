@@ -474,6 +474,70 @@ void ScreenAppAlbum::m174() {
     _3a9c = Unk_71025d1740::instance()->sub_7100901A90(false) ? 0 : -1;
 }
 
+// 0x71009d65a8: the discard flow after a selection: discards the held picture, waits for the texture
+// controllers, removes the selected pictures from the save and sets the picture-book page ranges.
+void ScreenAppAlbum::m175() {
+    switch (_3a9c) {
+    case -1:
+        if (Unk_71025d1740::instance()->sub_7100901A90(false))
+            ++_3a9c;
+        return;
+    case 0:
+        if (auto* window = sead::DynamicCast<ScreenAppSystemWindow>(
+                eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow)))
+            window->invokeSoundLink2Event_("mc_DiscardPicture");
+        if (_3638)
+            _3638->sub_710093FF88();
+        if (_3640)
+            _3640->sub_710093FF88();
+        ++_3a9c;
+        // fallthrough
+    case 1:
+        for (auto* controller : sUnk_71025dc5e0) {
+            if (!controller->sub_71009CBFA4())
+                return;
+        }
+        ++_3a9c;
+        return;
+    case 2: {
+        s32 index;
+        if (sUnk_71025DC890._1 == 1) {
+            for (s32 i = 0x2f; i >= 0; --i) {
+                if (sUnk_71025DC54C[i]) {
+                    SaveSystem::instance()->removeAlbumPictureIndex(i);
+                    --_3610;
+                }
+            }
+            index = _3638->_30c - sUnk_71025DC890._14;
+        } else {
+            index = _3640->_30c - sUnk_71025DC890._14;
+            SaveSystem::instance()->removeAlbumPictureIndex(index);
+            --_3610;
+        }
+        sUnk_71025dc57c = index;
+        ++_3a9c;
+        return;
+    }
+    case 3:
+        if (_3638)
+            _3638->sub_710093F278(_3610, 1);
+        if (_3640)
+            _3640->sub_710093F278(sUnk_71025DC890._14 + _3610, 0);
+        sUnk_71025dc57c = sead::Mathi::clamp(sUnk_71025dc57c, 0, _3610 - 1) + sUnk_71025DC890._14;
+        ++_3a9c;
+        break;
+    }
+    if (!(sUnk_71025DC890._1 & 1)) {
+        if (_3640)
+            _3640->sub_710093DAE8(0);
+        if (_3630)
+            _3630->PlayAuto(-1.0f);
+    }
+    if (_3638)
+        _3638->sub_710093EC3C(sUnk_71025dc57c, 1);
+    getStateMachine().changeState(&sUnk_71025dc300);
+}
+
 // NON_MATCHING: same instructions, but the two `return false` blocks are tail-merged into one (the
 // original keeps each in place, so its early-out branches are tbz where ours are tbnz).
 // 0x71009d3b54
