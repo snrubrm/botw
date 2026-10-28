@@ -22,6 +22,7 @@ struct Unk117;
 namespace ksys::phys {
 class RayCastBodyQuery;
 class CapsuleRigidBody;
+class InstanceSet;
 class Unk_710239b220;
 }
 
@@ -86,6 +87,8 @@ public:
     // 0x7100679708 (CSV name, declaration only): fills the marker matrix.
     void x_1(sead::Matrix34f* mtx);
     bool checkAndStartQueryNavMesh(ksys::act::PlayerLink* player);
+    // 0x7100679dbc: whether the spawn query has a usable result.
+    bool spawnMotorcycle_checkHavokQueryStuff();
     // Declaration only: full callee reads position and PlayerLink slots 48 / 0; the independent
     // PlayerNormal caller supplies the player's interface at +0xc38.
     bool sub_7100679B30(const sead::Vector3f& pos, ksys::act::PlayerLink* player);
@@ -99,6 +102,10 @@ public:
     // the last cast hit.
     bool spawnMotorcycle_x_0(const sead::Vector3f& pos, const sead::Vector3f& size,
                              const sead::Vector3f& dir, ksys::phys::RayCastBodyQuery* cast);
+    // 0x710067a40c: a zero-length shape cast at `pos` + size/2 with the instance set's first system
+    // group handler; returns whether the second query misses (ground hit type 0).
+    bool spawnMotorcycleShapeCastStuff(sead::Vector3f* pos, sead::Vector3f* size,
+                                       sead::Vector3f* dir, ksys::phys::InstanceSet* instance);
     // 0x7100679ac8 (CSV MotorcycleMgr::x_0): whether there is a tracked motorcycle actor.
     bool x_0();
     // 0x71006796f8

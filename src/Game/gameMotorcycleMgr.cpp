@@ -14,10 +14,19 @@
 #include "KingSystem/Physics/RigidBody/Shape/physCapsuleShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/Physics/System/physShapeCastWithInfo.h"
+#include "KingSystem/Physics/System/physQueryContactPointInfo.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 namespace uking {
+
+// 0x71025c5fb8: set to 6.0f by the TU's global initialiser (0x710067b7c8, still undecompiled): the
+// radius of the spawn nav mesh query and the squared-distance threshold.
+KSYS_VISIBILITY_HIDDEN f32 sHavokQueryRadius;
+
 
 SEAD_SINGLETON_DISPOSER_IMPL(MotorcycleMgr)
 
@@ -69,6 +78,36 @@ bool MotorcycleMgr::checkAndStartQueryNavMesh(ksys::act::PlayerLink* player) {
     return sub_7100679B30(_12c, player);
 }
 
+// 0x7100679dbc: whether the spawn query has a usable result. A pending query compares its position
+// with the last accepted one (within the radius); a finished query checks the nav mesh material.
+// NON_MATCHING: the bool result's false block stays at the fallthrough in our build (`b.le` instead
+// of the original's `b.gt`), and the position components load in a different order.
+bool MotorcycleMgr::spawnMotorcycle_checkHavokQueryStuff() {
+    auto* query = _d8;
+    if (query->_24 == 0x13)
+        return false;
+    if (query->_24 != 0x17) {
+        const f32 dx = query->_c.x - _f0.m[0][3];
+        const f32 dy = query->_c.y - _f0.m[1][3];
+        const f32 dz = query->_c.z - _f0.m[2][3];
+        return !(dx * dx + dy * dy + dz * dz > sHavokQueryRadius * sHavokQueryRadius);
+    }
+
+    sead::Vector3f pos;
+    const auto result = ksys::phys::HavokAI::instance()->sub_7100F87ED0(
+        &pos, query->_c, sHavokQueryRadius);
+    if (!result.sub_7100F7EB40())
+        return true;
+    const f32 cost = ksys::phys::NavMeshCharacter::sub_7100F74FD8(
+        ksys::phys::NavMeshCharacterType::Horse, result.sub_7100F7EEE4());
+    bool usable = false;
+    if (!(sead::Mathf::abs(cost) > std::numeric_limits<f32>::max())) {
+        if (result.sub_7100F7EEE4() != 0x13)
+            usable = true;
+    }
+    return usable;
+}
+
 // NON_MATCHING: the original re-reads the query position relative to `_d8` after every call; we keep
 // strength-reduced pointers into it in extra callee-saved registers (frame 0x50 instead of 0x40)
 bool MotorcycleMgr::spawnMotorcycle_x(sead::Vector3f* out_pos, sead::Vector3f* out_normal,
@@ -109,6 +148,40 @@ bool MotorcycleMgr::spawnMotorcycle_x(sead::Vector3f* out_pos, sead::Vector3f* o
 
 // NON_MATCHING: scheduling / register allocation of the corner computations (the original keeps the first
 // two corners' components in callee-saved registers and stores `end` with a pair store)
+// 0x710067a40c: a zero-length shape cast with the player's system group handler at the spawn
+// position; the cast's rotation uses the box size and the query direction as two axes.
+// NON_MATCHING: our subscribeAllLayers helper stores both masked words with one 64-bit store (the
+// original stores each word), and the rotation matrix stores are scheduled differently.
+bool MotorcycleMgr::spawnMotorcycleShapeCastStuff(sead::Vector3f* pos, sead::Vector3f* size,
+                                                  sead::Vector3f* dir,
+                                                  ksys::phys::InstanceSet* instance) {
+    ksys::phys::ShapeCastWithInfo cast(_d0, 4, ksys::phys::ShapeCast::Mode::_0,
+                                       sead::SafeString::cEmptyString,
+                                       ksys::phys::LowPriority::No);
+    if (instance)
+        _d0->setSystemGroupHandler(instance->get188(0));
+    auto* info = cast.getContactPointInfo();
+    info->subscribeAllLayers();
+    info->unsubscribeLayer(ksys::phys::ContactLayer::EntityWater);
+
+    sead::Vector3f start = *pos;
+    start.x = size->x * 0.5f + start.x;
+    start.y = size->y * 0.5f + start.y;
+    start.z = size->z * 0.5f + start.z;
+    cast.setStartAndEnd(start, start);
+
+    const sead::Vector3f cross = size->cross(*dir);
+    cast.setRotation(sead::Matrix33f(cross.x, size->x, dir->x, cross.y, size->y, dir->y,
+                                     cross.z, size->z, dir->z));
+
+    _d0->setGroundHitType(ksys::phys::GroundHit::Animal);
+    // called through a pointer in the original (not devirtualised)
+    if ((&cast)->executeQuery(ksys::phys::ShapeCast::WeldClosestPoints::Yes))
+        return false;
+    _d0->setGroundHitType(ksys::phys::GroundHit::Player);
+    return !(&cast)->executeQuery(ksys::phys::ShapeCast::WeldClosestPoints::Yes);
+}
+
 bool MotorcycleMgr::spawnMotorcycle_x_0(const sead::Vector3f& pos_, const sead::Vector3f& size,
                                         const sead::Vector3f& dir_,
                                         ksys::phys::RayCastBodyQuery* cast) {
