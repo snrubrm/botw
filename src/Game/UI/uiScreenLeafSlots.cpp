@@ -1048,6 +1048,69 @@ void ScreenAppPictureBook::m154() {
     }
 }
 
+// 0x71009fa824: runs the reference page: steps its page timer / counter, or on the sensor trigger
+// opens the selected picture's message.
+void ScreenAppPictureBook::m155() {
+    if (!_3628)
+        return;
+    if (!_3658)
+        return;
+    if ((_3628->mFlags & 1) && _3660)
+        _3660->sub_710093FF88();
+    if (_3628->mFrame == 0.0f) {
+        const s32 mode = sUnk_71025eb5b8;
+        if (mode == 1) {
+            if (sUnk_71025eb430.isDone()) {
+                ++sUnk_7102482788;
+                sUnk_71025eb430.reset();
+                if (_3630 && sUnk_7102482788 == 0)
+                    _3630->PlayAuto(1.0f);
+            }
+            sUnk_71025eb430.update();
+            if (_3658)
+                _3658->sub_710093F594(false);
+            return;
+        }
+        if (mode == 2) {
+            if (sPictureBookState._1 == 1) {
+                if (Unk_71025d69f0::instance()->sub_710094F6F8()) {
+                    sPictureBookState._1 = 0;
+                    sUnk_7102482788 = 0;
+                }
+            } else if (sUnk_71025eb430.updateAndCheckEnded()) {
+                sUnk_7102482788 = 0;
+            }
+            if (sUnk_7102482788 == 0) {
+                sUnk_7102482788 = 1;
+                invokeSoundLink2Event_("mc_AddPicture");
+            }
+            if (_3658)
+                _3658->sub_710093F594(false);
+            return;
+        }
+
+        if (mode == 3 && isTrigMaybe(2)) {
+            sUnk_71025eb5b8 = 0;
+            Unk_71025d69f0::instance()->sub_710094DCC4(1, -2);
+        }
+        if (isTrigMaybe(0x10)) {
+            s32 local_index = -1;
+            s32 entry_index = -1;
+            if (_3658)
+                _3658->sub_710093F10C(_3658->_310, &local_index, &entry_index);
+            if (local_index >= 0 && entry_index >= 0) {
+                const u64 page = entry_index;
+                const u64 clamped = page < 5 ? page : 0;
+                const s64 index = sPictureBookState._288[clamped] + local_index;
+                if (sPictureBookState._320[index])
+                    sub_71009F9F30(sUnk_71025dfca0[index]);
+            }
+        }
+        if (_3658)
+            _3658->sub_710093F594(true);
+    }
+}
+
 // 0x71009faab0
 void ScreenAppPictureBook::m158() {
     if (auto* home = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome)))

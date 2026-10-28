@@ -21,7 +21,7 @@ static sead::SafeArray<sead::FixedSafeString<64>, 16> sNewEnemyPictureBookNames;
 static sead::SafeArray<sead::FixedSafeString<64>, 16> sNewBossPictureBookNames;
 static sead::SafeArray<sead::FixedSafeString<64>, 2> sNewWeaponPictureBookNames;
 // 0x71025dfca0: the registered picture names, searched by sub_71009F70B0.
-static sead::SafeArray<sead::FixedSafeString<64>, 500> sUnk_71025dfca0;
+KSYS_VISIBILITY_HIDDEN sead::SafeArray<sead::FixedSafeString<64>, 500> sUnk_71025dfca0;
 static bool sUnk_71025eb850;
 // Hidden visibility keeps the member offsets relative to the block instead of the merged static block.
 KSYS_VISIBILITY_HIDDEN PictureBookState sPictureBookState;
@@ -3278,8 +3278,9 @@ void Unk_7102482790::m14() {
 
 // 0x71009f5abc (placeholder name): shows the reference page message in T_SubTextC_00 and hides the
 // parts' texture panes.
-// NON_MATCHING: the label and the message swap stack slots; the original constructs the message
-// first although it is the lower local.
+// NON_MATCHING: the label and the message swap construction order; the original builds the message
+// first although it is declared after the label. Any source order that gives the target's +8 / +0x18
+// slots constructs the label first (temp-in-argument and message-first forms move it to +0x30).
 void Unk_7102482790::sub_71009F5ABC() {
     {
         sead::FormatFixedSafeString<16> label("%04d", 10);

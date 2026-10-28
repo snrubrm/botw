@@ -4261,6 +4261,10 @@ extern sead::ObjArray<Unk_71009cb0c8*> sUnk_71025dc5e0;
 extern const ksys::StateBase sUnk_71025eb490;
 extern const ksys::StateBase sUnk_71025eb4f0;
 extern const ksys::StateBase sUnk_71025eb550;
+// 0x71025eb430: the reference page's timer, run by m155 to step through the pages
+KSYS_VISIBILITY_HIDDEN extern UiTimer sUnk_71025eb430;
+// 0x7102482788: the reference page counter (m155 increments it when the timer ends and clears it on entry)
+KSYS_VISIBILITY_HIDDEN extern s32 sUnk_7102482788;
 // 0x71025eb5b8: the app screen mode set by sub_71009F8420
 extern s32 sUnk_71025eb5b8;
 // 0x71025eb5b4: cleared by sub_71009F8420
@@ -4280,7 +4284,9 @@ void sub_71009D3AA0(u32 index);
 // getInitialWeaponPictureBookNames computes base + 0x2a0), so the block is one object. The screen
 // flag at +0 is a separate bool object (its load is an i1 load), modelled below.
 struct PictureBookState {
-    /* 0x000 */ u8 _0[0x1c];
+    /* 0x000 */ u8 _0;
+    /* 0x001 */ u8 _1 = 0;  // set by m155 when the sensor bit and the home screen allow it
+    /* 0x002 */ u8 _2[0x1a];
     /* 0x01c */ s32 _1c = 0;  // number of names registered so far
     /* 0x020 */ s32 _20 = 0;
     /* 0x024 */ u32 mNumNewEnemyPictures = 0;
@@ -4311,13 +4317,16 @@ struct PictureBookState {
     /* 0x2a0 */ sead::SafeString _2a0[2] = {"Weapon_Bow_071", "Weapon_Sword_070"};
     /* 0x2c0 */ sead::SafeString _2c0[6] = {"Obj_Photo_Animal", "Obj_Photo_Enemy", "Obj_Photo_Material",
                                             "Obj_Photo_Weapon", "Obj_Photo_Other", "Obj_Photo_BossEnemy"};
-    /* 0x320 */ u8 _320[0x1f4];
+    /* 0x320 */ sead::SafeArray<bool, 500> _320;
     // The registered-name index of each album picture (read by sub_71009F6A5C).
     /* 0x514 */ sead::SafeArray<s32, 500> _514;
 };
 
 // The block is hidden so the member offsets stay relative to it, not to the merged static block.
 KSYS_VISIBILITY_HIDDEN extern PictureBookState sPictureBookState;
+// 0x71025dfca0: the registered picture names (filled by sub_71009F71F4, searched by sub_71009F70B0)
+// and indexed by m155 when it selects a sensor target.
+KSYS_VISIBILITY_HIDDEN extern sead::SafeArray<sead::FixedSafeString<64>, 500> sUnk_71025dfca0;
 
 class ScreenAppPictureBook : public ScreenEx {
 public:
@@ -4356,7 +4365,7 @@ public:
     /* 0x3618 */ nn::ui2d::Pane* _3618;
     u8 _pad_3620[0x3628 - 0x3620];
     /* 0x3628 */ eui::Animator* _3628;
-    u8 _pad_3630[0x3638 - 0x3630];
+    /* 0x3630 */ eui::Animator* _3630 = nullptr;  // the frame animator m155 plays with PlayAuto
     /* 0x3638 */ eui::Animator* _3638;
     /* 0x3640 */ eui::Animator* _3640;
     u8 _pad_3648[0x3650 - 0x3648];

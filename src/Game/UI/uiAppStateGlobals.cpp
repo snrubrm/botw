@@ -9,6 +9,9 @@ namespace uking::ui {
 u16 sUnk_71025de180;
 // 0x71025de182
 KSYS_VISIBILITY_HIDDEN u8 sUnk_71025de182;
+// 0x71025eb430 (m155's page timer) and 0x7102482788 (its page counter)
+KSYS_VISIBILITY_HIDDEN UiTimer sUnk_71025eb430;
+KSYS_VISIBILITY_HIDDEN s32 sUnk_7102482788;
 // 0x71025eb5b8 / 0x71025eb5b4 / 0x71025eb5b0: mode and pane value set by sub_71009F8420 / m101
 s32 sUnk_71025eb5b8;
 u8 sUnk_71025eb5b4;
