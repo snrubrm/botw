@@ -1376,6 +1376,8 @@ public:
     void sub_7100963C8C(const UiSubsys1PinArg* arg);
     // 0x7100961e48 (CSV uiSubsys1::__auto0; declared only): called by GameSceneSubsys13::setGameOverPosition.
     void sub_7100961E48(const sead::Vector3f* pos);
+    // 0x7100961c2c (placeholder name): copies the map mode mask and resets the fifteen map mode entries.
+    void sub_7100961C2C();
     // 0x71008b43cc (CSV uiSubsys1::__auto43; not decompiled)
     bool sub_71008B43CC();
     void sub_7100963C78(bool a1);

@@ -305,6 +305,13 @@ void UiSubsys1::sub_7100961E48(const sead::Vector3f* pos) {
     }
 }
 
+// 0x7100961c2c (placeholder name): copies the map mode mask and resets the fifteen map mode entries.
+void UiSubsys1::sub_7100961C2C() {
+    _124 = _120;
+    for (auto& entry : _30)
+        entry.sub_7100959970();
+}
+
 bool UiSubsys1::sub_710096310C(s32* out_index, const sead::Vector3f* pos, f32 radius) {
     bool found = false;
     f32 nearest = std::numeric_limits<f32>::max();

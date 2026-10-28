@@ -743,6 +743,9 @@ class Unk_7102476a40 {
 public:
     virtual ~Unk_7102476a40();
 
+    // 0x7100959970 (declared only; not decompiled): resets the entry and looks up its map marker.
+    void sub_7100959970();
+
     /* 0x08 */ s32 _8;
     /* 0x0c */ s32 _c;
 };
