@@ -675,3 +675,5 @@ void Core::Grass::EntryPart::setBufferIndex(u32 index) {
 }
 
 }  // namespace ksys::tera
+
+template class agl::GPUMemBlock<Unk_7102503a50::Vertex>;
