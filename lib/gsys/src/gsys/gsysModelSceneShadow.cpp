@@ -74,6 +74,18 @@ void ModelSceneShadow::releaseSSAO(ModelSceneContext* context) const {
     mSSAO->release(context->getViewIndex());
 }
 
+// 0x7100c3ab74
+void ModelSceneShadow::drawDebug(agl::DrawContext* draw_context,
+                                 const ModelSceneContext& context) const {
+    if ((_444 & 1) == 0)
+        return;
+    if (!mConfig->isFeatureEnabled(ModelSceneConfig::Feature::StaticDepthShadow))
+        return;
+    const ModelRenderContext::ViewData& view = context.getViewData()[0];
+    mStaticDepthShadow.drawDebug(draw_context, view.view,
+                                 view.frustum.getProjectionMatrix());
+}
+
 // 0x7100c3adf0
 void ModelSceneShadow::attachHostIO(sead::hostio::Node*) {}
 
