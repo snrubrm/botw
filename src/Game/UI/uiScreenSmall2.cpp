@@ -69,7 +69,9 @@ sead::SafeArray<bool, 0x30> sUnk_71025DC54C;
 // The original block is 16-byte aligned (0x71025dc890); the alignment keeps this object first in the
 // TU's merged statics, ahead of the 8-byte-aligned SafeString statics.
 struct alignas(16) AlbumState {
-    /* 0x00 */ u8 _0;    // set by sub_71009D3FB0; bit 0 read by sub_71009D3B54 / sub_71009D3C78
+    // The screen flag at +0 is a separate bool object in the original (its loads are i1 loads and
+    // its stores are direct symbol accesses); it is modelled below and this byte keeps the offsets.
+    /* 0x00 */ u8 _0;
     /* 0x01 */ u8 _1;    // bit 0 set by m162; m154 / m158 clear it, m163 / m167 / m175 test it
     /* 0x04 */ ScreenNameTableHeader _4;
     /* 0x0c */ s32 _c;   // 1: the picture book page is open
@@ -81,6 +83,9 @@ struct alignas(16) AlbumState {
     /* 0x198 */ sead::SafeString _198;
 };
 }  // namespace
+// 0x71025dc890: the album screen flag. The original has a file-local bool at the same address as the
+// block base, so its accesses are direct symbol loads/stores.
+static bool sUnk_71025dc890;
 // Hidden (not file-local) so the address is materialised as the block base plus the field offset.
 KSYS_VISIBILITY_HIDDEN AlbumState sUnk_71025DC890;
 
@@ -392,7 +397,7 @@ bool ScreenAppAlbum::sub_71009D3B54() {
         eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow));
     if (window)
         return false;
-    if (sUnk_71025DC890._c == 1 && (sUnk_71025DC890._0 & 1))
+    if (sUnk_71025DC890._c == 1 && sUnk_71025dc890)
         return false;
     if (_3630 && _3630->mRate != 0.0f)
         return false;
@@ -411,7 +416,7 @@ bool ScreenAppAlbum::sub_71009D3C78() {
         if (window->isOpening())
             return false;
     }
-    if (sUnk_71025DC890._c == 1 && (sUnk_71025DC890._0 & 1))
+    if (sUnk_71025DC890._c == 1 && sUnk_71025dc890)
         return false;
     // called through a pointer in the original (not devirtualised)
     return getStateMachine().getState()->getId() != (&sUnk_71025dc4e0)->getId();
@@ -433,7 +438,7 @@ bool ScreenAppAlbum::sub_71009D3DC0() const {
 // rather than the AlbumState member; the AlbumState block model keeps it at +0 as a byte.
 bool sub_71009D3E0C() {
     if (sUnk_71025DC890._c == 1)
-        return !sUnk_71025DC890._0;
+        return !sUnk_71025dc890;
     return false;
 }
 
@@ -4992,7 +4997,7 @@ void sub_71009D3FB0(s32 mode, s32 index, const sead::SafeString* name) {
     sUnk_71025dc580 = false;
     switch (mode) {
     case 1:
-        sUnk_71025DC890._0 = 1;
+        sUnk_71025dc890 = true;
         return;
     case 2:
         if (u32(sUnk_710247fc88) <= 0xb) {
