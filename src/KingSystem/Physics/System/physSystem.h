@@ -141,6 +141,11 @@ public:
     // 0x7101216df0 (CSV PhysicsMemSys::__auto9; placeholder name): scratch allocation for the
     // physics queries: one 0x2800-byte buffer per core group, larger requests go to Havok.
     void* sub_7101216DF0(int size);
+    // 0x7101216d80 (placeholder name): records the peak scratch request per core group.
+    void sub_7101216D80(const void* ptr, s32 size);
+    // 0x7101216e88 (placeholder name): frees a scratch request that was too large for the
+    // per-core-group buffers.
+    void sub_7101216E88(void* ptr, s32 size);
     // 0x7101215984 (CSV PhysicsMemSys::initGroupFilterXs): fills _2c0 / _300 with the system group handlers of
     // both group filters (four from free list 0, two from free list 1 each).
     void initSystemGroupHandlers();
@@ -284,7 +289,7 @@ private:
     u8 _320[0x448 - 0x320];
     // Per-core-group scratch memory for the physics queries (init allocates three 0x2800-byte
     // blocks; sub_7101216DF0 hands out one of them and sub_7101216D80 tracks the peak size).
-    sead::SafeArray<u32, 3> _448;
+    sead::SafeArray<s32, 3> _448;
     u8 _454[0x458 - 0x454];
     sead::SafeArray<void*, 3> _458;
     u8 _470[0x480 - 0x470];

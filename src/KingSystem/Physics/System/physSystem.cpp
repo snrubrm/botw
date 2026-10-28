@@ -427,6 +427,17 @@ void* System::sub_7101216DF0(int size) {
     return _458[sead::CoreInfo::getCurrentCoreId()];
 }
 
+void System::sub_7101216D80(const void* ptr, s32 size) {
+    s32& max_size = _448[sead::CoreInfo::getCurrentCoreId()];
+    if (max_size < size)
+        max_size = size;
+}
+
+void System::sub_7101216E88(void* ptr, s32 size) {
+    if (size > 0x2800)
+        hkMemoryRouter::alignedFree(hkMemoryRouter::getInstance().heap(), ptr);
+}
+
 void System::sub_7101215358(CharacterController* controller) {
     auto lock = sead::makeScopedLock(_270);
     _2b0.pushBack(controller);
