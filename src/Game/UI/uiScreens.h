@@ -3032,6 +3032,8 @@ public:
     bool sub_71009EF5A8(s32);
     // 0x71009e9f48 / 0x71009eb52c / 0x71009eb72c (CSV unnamed; declared only)
     bool sub_71009E9F48();
+    // 0x71009ec794 (CSV unnamed; declared only): the map's per-frame update, run before sub_71009F038C
+    void sub_71009EC794();
     // 0x71009e9f20 (placeholder name): false unless `_3ad1` is set; then the negated sub_71009E9F48
     bool sub_71009E9F20();
     // 0x71009eacc0 (CSV unnamed, 640 bytes; declared only)
@@ -3089,7 +3091,9 @@ public:
     /* 0x3960 */ agl::driver::NVNsampler_ _3960;
     u8 _3960pad[0x39c8 - 0x3960 - sizeof(agl::driver::NVNsampler_)];
     /* 0x39c8 */ agl::driver::NVNtexture_ _39c8;
-    u8 _39c8pad[0x3ad1 - 0x39c8 - sizeof(agl::driver::NVNtexture_)];
+    u8 _39c8pad[0x3ad0 - 0x39c8 - sizeof(agl::driver::NVNtexture_)];
+    // Frames since the hero path became active; the pause-menu message-tips screen opens at the limit.
+    /* 0x3ad0 */ u8 _3ad0;
     /* 0x3ad1 */ u8 _3ad1;
     /* 0x3ad2 */ u8 _3ad2;  // written by sub_71009EF4EC / sub_71009EF51C
     u8 _3ad3;

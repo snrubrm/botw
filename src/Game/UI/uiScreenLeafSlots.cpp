@@ -22,6 +22,9 @@
 #include <gfx/nin/seadGraphicsNvn.h>
 #include <nn/ui2d/BuildTypes.h>
 
+// Defined in uiMiscFacade.cpp (global namespace).
+bool activateHeroPath();
+
 // Trivial state-callback slots (154 and up) of the leaf screens that declare their own virtuals.
 namespace uking::ui {
 
@@ -448,6 +451,50 @@ void ScreenAppMap::mainRun() {
         sub_71009EB72C();
     if (sub_71009E9F48())
         getStateMachine().changeState(&sUnk_71025df1e0);
+}
+
+// 0x71009eb52c (CSV unnamed, declared only): the map's main-run step: updates the time / temperature
+// widgets and the map markers, reports the displayed temperature and opens the pause-menu message-tips
+// screen once the hero path has been active for a while.
+void ScreenAppMap::sub_71009EB52C() {
+    sub_71009EC794();
+    sub_71009F038C();
+    _3c64 = 0;
+    const s32 hour = wm::getHour();
+    if (hour != _3c58) {
+        _3c58 = hour;
+        _3c64 = 1;
+    }
+    _3c65 = 0;
+    const s32 minute = wm::getMinute();
+    if (minute != _3c5c) {
+        _3c5c = minute;
+        _3c65 = 1;
+    }
+    sub_71009F1CA4(_3c78);
+    _3c66 = 0;
+    const f32 temperature = sead::Mathf::floor(wm::getWorldTemperatureForUI());
+    if (temperature != _3c60) {
+        _3c60 = temperature;
+        _3c66 = 1;
+    }
+    sub_71009F1B9C();
+    sub_71009EBEC8();
+    const f32 displayed_temperature = UiSubsys1::instance()->_850.get38();
+    ksys::gdt::Manager::instance()->setF32(displayed_temperature, sUnk_71025df330.mWorldTemperatureFlag);
+    if (activateHeroPath() && !sub_7100A25D7C(1) && isOpened()) {
+        if (_3ad0 <= 0x13) {
+            ++_3ad0;
+        } else {
+            createAndLoadScreenIfNeededImpl(0x33, nullptr);
+            if (auto* screen = sead::DynamicCast<ScreenMessageTipsPauseMenu>(
+                    eui::ScreenMgr::instance()->getScreen(ScreenId::MessageTipsPauseMenu))) {
+                if (screen->isClosed())
+                    screen->sub_7100A25D9C(1);
+            }
+            _3ad0 = 0;
+        }
+    }
 }
 
 // 0x71009eb814 (CSV ScreenAppMap::subEnter)
