@@ -840,6 +840,52 @@ void HorseMgr::sub_7100E857CC(s32 index, bool a2, bool a3, s32 a4) {
         setFlagOff(Flag::_6);
 }
 
+// 0x7100e85cac: creates the horse of record `index` at `pos` on `heap` (NPCDeliverHorse::oneShot_): replaces
+// the owned horse, adds the position and tack names to the parameter pack and sets the delivery flag; the
+// actor passed in (if any) becomes the linked delivery actor.
+// NON_MATCHING: same calls and blocks; our invalid-record join is laid out before the body (the target
+// branches past it), the flag mask is materialised per arm, and the last flag test orders the `and`
+// operands flags-first (commutative).
+void HorseMgr::sub_7100E85CAC(sead::Heap* heap, s32 index, const sead::Vector3f& pos,
+                              ksys::act::Actor* actor, bool flag) {
+    auto lock = sead::makeScopedLock(_230);
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
+        accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+        mOwnedHorse.reset();
+    }
+
+    HorseData data;
+    if (!x_8(&data, index) || !isValid(data))
+        return;
+
+    ksys::act::InstParamPack params;
+    params->addPosition(pos);
+    params->add(sead::SafeString(data.maneName), "HorseManeName");
+    params->add(sead::SafeString(data.reinsName), "HorseReinsName");
+    params->add(sead::SafeString(data.saddleName), "HorseSaddleName");
+    params->add(true, "IsIncreaseSkeletalSlotNumLimit");
+
+    ksys::act::ActorCreator::instance()->requestCreateActor(data.actorName, heap, &_80, &params,
+                                                            nullptr, 1);
+
+    if (flag)
+        setFlagOn(Flag::_8);
+    else
+        setFlagOff(Flag::_8);
+
+    if (actor)
+        _a0.acquire(actor, false);
+    else
+        _a0.reset();
+
+    _d0 = index;
+
+    if (isFlagOn(Flag::_0))
+        ksys::gdt::Manager::instance()->setS32(index, _1a0);
+}
+
 act::HorseBase* HorseMgr::getOwnedHorseBase() const {
     return sead::DynamicCast<act::HorseBase>(mOwnedHorse.getProc(nullptr));
 }
