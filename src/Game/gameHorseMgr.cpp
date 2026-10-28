@@ -65,7 +65,9 @@ void HorseMgr::initHorseGameDataIters() {
 }
 
 bool HorseMgr::isLinkedToActor(ksys::act::Actor* actor) {
-    return actor && _30.hasProcById(actor);
+    if (actor && _30.hasProcById(actor))
+        return true;
+    return false;
 }
 
 ksys::act::Actor* HorseMgr::getRegisteringHorseActor() const {
@@ -86,7 +88,9 @@ bool HorseMgr::isAmiiboUsed(const sead::SafeString& uid_hash) {
 
 // NON_MATCHING: The compiler tail-calls hasProcById rather than normalizing its bool result.
 bool HorseMgr::sub_7100E84AB8(ksys::act::Actor* actor) {
-    return actor && mOwnedHorse.hasProcById(actor);
+    if (actor && mOwnedHorse.hasProcById(actor))
+        return true;
+    return false;
 }
 
 bool HorseMgr::sub_7100E8527C(ksys::act::BaseProcLink* link, const sead::SafeString& name,
@@ -275,6 +279,25 @@ void HorseMgr::sub_7100E89DAC(ksys::act::BaseProcLink* link, bool flag, ksys::gd
     }
 }
 
+// 0x7100e86f80: the DeadHorse_* flags of dead horse `index` through buffer 0 (the other dead-horse
+// reader, sub_7100E89B20, uses buffer 1).
+bool HorseMgr::sub_7100E86F80(HorseData* data, s32 index) {
+    using ksys::gdt::Manager;
+    bool ok = Manager::instance()->getParam().get().getStr64(&data->actorName, "DeadHorse_ActorName", index);
+    ok &= Manager::instance()->getParam().get().getF32(&data->familiarity, "DeadHorse_Familiarity", index);
+    ok &= Manager::instance()->getParam().get().getS32(&data->collarType, "DeadHorse_CollarType", index);
+    ok &= Manager::instance()->getParam().get().getS32(&data->footType, "DeadHorse_FootType", index);
+    ok &= Manager::instance()->getParam().get().getStr64(&data->userName, "DeadHorse_UserName", index);
+    ok &= Manager::instance()->getParam().get().getStr64(&data->reinsName, "DeadHorse_ReinsName", index);
+    ok &= Manager::instance()->getParam().get().getStr64(&data->saddleName, "DeadHorse_SaddleName", index);
+    ok &= Manager::instance()->getParam().get().getStr64(&data->maneName, "DeadHorse_ManeName", index);
+    ok &= Manager::instance()->getParam().get().getStr64(&data->amiiboUidHash, "DeadHorse_AmiiboUidHash",
+                                                          index);
+    ok &= Manager::instance()->getParam().get().getS32(&data->rideTimeSec, "DeadHorse_RideTimeSec", index);
+    ok &= Manager::instance()->getParam().get().getS32(&data->deadCause, "DeadHorse_DeadCause", index);
+    return ok;
+}
+
 // 0x7100e89b20: the DeadHorse_* flags of dead horse `index` (no `this`).
 bool HorseMgr::sub_7100E89B20(HorseData* data, s32 index) {
     using ksys::gdt::Manager;
@@ -378,6 +401,33 @@ s32 HorseMgr::getNumRegisteredHorses() {
         }
     }
     return count;
+}
+
+// 0x7100e82768: creates the stage generator's horse unless the owned horse exists or the saved
+// last-ridden-horse flag is set. The game data read's result is discarded by the original; only the
+// value it writes is tested (logged as a discarded call).
+// NON_MATCHING: the original keeps the shift base 1 in x22 and gives the flag temporaries and the bool
+// separate stack slots (0x40 frame); ours rematerialises the 1 and reuses one slot (0x30 frame).
+void HorseMgr::initAndCreateHorseForStageGen(sead::Heap* heap, bool flag) {
+    if (mOwnedHorse.hasProc())
+        return;
+    getNumRegisteredHorses();
+    bool found = x_4(RiddenAnimalType::_6, false) || x_5(RiddenAnimalType::_6, false);
+    if (found)
+        setFlagOn(Flag::_5);
+    else
+        setFlagOff(Flag::_5);
+    found = x_4(RiddenAnimalType::_3, false) || x_5(RiddenAnimalType::_3, false);
+    if (found)
+        setFlagOn(Flag::_6);
+    else
+        setFlagOff(Flag::_6);
+    x_6(heap);
+    bool lastRidden = false;
+    ksys::gdt::Manager::instance()->getBool(_1a8, &lastRidden);
+    if (lastRidden)
+        return;
+    createHorse(heap, flag);
 }
 
 act::HorseBase* HorseMgr::getOwnedHorseBase() const {

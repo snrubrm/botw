@@ -16,6 +16,7 @@
 
 namespace sead {
 class Random;
+class Heap;
 }
 
 namespace ksys::phys {
@@ -127,8 +128,9 @@ public:
     // 0x7100e82df8 (CSV HorseMgr::x_5): whether one of the five horse records is a live / dead
     // horse of the given ridden-animal type (the records must be complete and in range).
     bool x_5(RiddenAnimalType type, bool dead);
-    // 0x7100e86f80 (declared only; placeholder name): reads the live horse `index` into `data`.
-    bool sub_7100E86F80(HorseData* data, s32 index);
+    // 0x7100e86f80 (placeholder name; static, no `this`): reads dead horse `index` into `data` (the
+    // DeadHorse_* flags of buffer 0; sub_7100E89B20 is the buffer-1 reader).
+    static bool sub_7100E86F80(HorseData* data, s32 index);
     // 0x7100e83a08 (CSV x_8): the same as sub_7100E854EC on buffer 0 (the regular getters, no `_40000` check).
     bool x_8(HorseData* data, s32 index);
     // 0x7100e854ec: reads horse `index` (the Horse_* flags) into `data` from buffer 1.
@@ -146,6 +148,16 @@ public:
     // data (moving the valid ones up, fixing the selected index) and returns the number of valid ones
     // (5 if the game data is not initialised yet).
     s32 getNumRegisteredHorses();
+    // 0x7100e82768 (name from the CSV): creates a horse of the given type for the stage generator unless the
+    // owned horse already exists, one of the two type records is present (setting / clearing the matching
+    // Flag) or the saved last-ridden-horse flag is set.
+    void initAndCreateHorseForStageGen(sead::Heap* heap, bool flag);
+    // 0x7100e82b10 (CSV x_4; declaration only): whether a record of `type` exists in buffer 0.
+    bool x_4(RiddenAnimalType type, bool dead);
+    // 0x7100e830cc (CSV x_6; declaration only): starts creating the stage-generator horse on `heap`.
+    void x_6(sead::Heap* heap);
+    // 0x7100e835c0 (CSV createHorse; declaration only): creates the horse on `heap`.
+    void createHorse(sead::Heap* heap, bool flag);
     // 0x7100e887b8 (placeholder name; called by ai::Horse::calc_): sub_7100E857CC on the selected horse (under
     // _230) if `proc` is the owned horse.
     void sub_7100E887B8(ksys::act::BaseProc* proc, bool a2, bool a3, s32 a4);

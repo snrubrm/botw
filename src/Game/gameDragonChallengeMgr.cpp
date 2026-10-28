@@ -67,6 +67,20 @@ void DragonChallengeMgr::x_0(u32 idx) {
     }
 }
 
+void DragonChallengeMgr::sub_71006F9E20(const sead::Matrix34f& mtx) {
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    if (!mProcLink.hasProc())
+        return;
+    for (auto& handle : mHandles) {
+        sead::ScopedLock<sead::CriticalSection> handleLock(&mCS);
+        if (mProcLink.hasProc() && mRefCount.load() != 0 && mProcLink.hasProc()) {
+            if (handle.sub_7101241B6C())
+                handle.sub_7101241A44(mtx);
+        }
+    }
+    _fc = mtx;
+}
+
 void DragonChallengeMgr::setAllFlags(bool on) {
     mFlags = on ? 0xffffffff : 0;
 }
