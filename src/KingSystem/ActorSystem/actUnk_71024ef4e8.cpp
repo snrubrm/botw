@@ -663,3 +663,9 @@ void Unk_71024ef4e8::Unk3::emitSurfBump() {
 }
 
 }  // namespace ksys::act
+
+namespace sead {
+// 0x7100eb5c08 / 0x7100eb5c38 (unnamed in the CSV): the worker request delegate `_250` submitted by
+// sub_7100EB59E8 (its binding is not decompiled yet).
+template class Delegate1R<ksys::act::Unk_71024ef4e8, void*, bool>;
+}  // namespace sead
