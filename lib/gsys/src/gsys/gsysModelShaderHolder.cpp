@@ -1,4 +1,5 @@
 #include "gsys/gsysModelShaderHolder.h"
+#include <nn/g3d/ResMaterial.h>
 #include <nn/g3d/ResShaderFile.h>
 #include "gsys/gsysORUtil.h"
 
@@ -59,6 +60,19 @@ const ModelShaderRecord* ModelShaderArchive::searchModelShader(const sead::SafeS
     if (index == nn::util::ResDic::Npos)
         return nullptr;
     return &archive->mRecords[index];
+}
+
+// NON_MATCHING: the original loads SafeStringBase<char>::cNullChar and the SafeStringBase vtable
+// directly; our sead objects are reached through the GOT. The instruction count and body agree.
+// 0x7100c3d3b4
+const ModelShaderRecord* ModelShaderArchive::searchModelShader(
+    const nn::g3d::ResModel* model, const nn::g3d::ResMaterial* material) const {
+    const auto* assign = material->mShaderAssign;
+    if (!assign)
+        return nullptr;
+    if (!mName.isEqual(assign->mShadingModelName.Get()->GetData()))
+        return nullptr;
+    return searchModelShader(assign->mShaderName.Get()->GetData());
 }
 
 const char* ModelShader::getAssignID() {
