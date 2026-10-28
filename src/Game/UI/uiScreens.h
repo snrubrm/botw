@@ -2679,7 +2679,12 @@ static_assert(sizeof(Unk_710249d330) == 0x148);
 struct Unk_71025D9610 {
     // 0x71009ae04c (setMode) sets this when the map display mode changes to 0.
     /* 0x000 */ bool mUnkFlag;
-    u8 _1[0x198 - 1];
+    u8 _1[0x01c - 1];
+    // The map view move rate / duration used when the view starts moving in mode 1 (0.15f / 5.0f in the
+    // original; sub_71009A9DBC uses the same two values for mode 2).
+    /* 0x01c */ f32 mViewMoveRate;
+    /* 0x020 */ f32 mViewMoveDuration;
+    u8 _24[0x198 - 0x24];
     // The "App_Map_Scale" game data flag (sub_71009A98A4 stores the map scale through it).
     /* 0x198 */ sead::SafeString mAppMapScale;
 };

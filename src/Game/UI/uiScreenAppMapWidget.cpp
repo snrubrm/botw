@@ -1,5 +1,7 @@
 #include "KingSystem/AOC/aocManager.h"
+#include "Game/UI/uiManager.h"
 #include "Game/UI/uiScreens.h"
+#include "KingSystem/System/Patrol.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/Scene/gameStageInfo.h"
 #include "Game/AOC/aocHardModeManager.h"
@@ -359,6 +361,43 @@ void ScreenAppMapWidget::sub_71009A9B7C() {
     sub_71009A9B8C();
 }
 
+// 0x71009a9b8c (placeholder name): starts the map view move in mode 1. Picks the target position from the map
+// marker (or the mode's own marker position), centres it, then stores the move rate / duration from the TU's
+// static block and the distance from the centred position.
+// NON_MATCHING: the mode tests are 5..6 / (7 or <= 4) in both, but clang canonicalises ours as `cmp #1; b.hi` and
+// `ccmp #4, #4, ne; b.gt` where the original has `cmp #2; b.hs` and `ccmp #4, #0, ne; b.hi`; ours also keeps
+// `&mSubsys` in x20, which shifts the two rate registers from w21/w20 to w22/w21 (everything else matches).
+void ScreenAppMapWidget::sub_71009A9B8C() {
+    if (ksys::Patrol::instance() && ksys::Patrol::instance()->mField0 &&
+        UiSubsys1::instance()->is848Zero())
+        return;
+    if (!_b33a)
+        return;
+
+    sead::Vector3f position{0.0f, 0.0f, 0.0f};
+    const s32 mode = Manager::instance()->_64c38;
+    if (mode == 5 || mode == 6) {
+        mSubsys->sub_7100961CD4(&position);
+    } else if (mode == 7 || mode < 5) {
+        position = *mSubsys->getMapMarkerPosition();
+    }
+
+    sead::Vector2f target{0.0f, 0.0f};
+    const f32 rate = sUnk_71025D9610.mViewMoveRate;
+    const f32 duration = sUnk_71025D9610.mViewMoveDuration;
+    _8e0->sub_7100950464(position, &target);
+    const sead::Vector2f center = *mSubsys->getVec3868();
+    const sead::Vector2f clamped = target;
+    mSubsys->sub_7100966350(clamped);
+    const f32 dx = center.x - clamped.x;
+    const f32 dy = center.y - clamped.y;
+    const f32 distance = sead::Mathf::sqrt(dx * dx + dy * dy);
+    _b51c = rate;
+    _b520 = distance;
+    _b524 = duration;
+    _b338 = true;
+}
+
 // 0x71009a9e74
 void ScreenAppMapWidget::sub_71009A9E74(const sead::Vector3f* pos) {
     _b350 = 2;
@@ -500,7 +539,7 @@ void ScreenAppMapWidget::sub_71009AEF88() {
 
 // The TU's static block: the map display mode flag and the "App_Map_Scale" game data flag. The original
 // TU also merges its remaining statics into this block; they are not modelled yet.
-KSYS_VISIBILITY_HIDDEN Unk_71025D9610 sUnk_71025D9610 = {false, {}, "App_Map_Scale"};
+KSYS_VISIBILITY_HIDDEN Unk_71025D9610 sUnk_71025D9610 = {false, {}, 0.15f, 5.0f, {}, "App_Map_Scale"};
 
 // NON_MATCHING: same work; the original passes a copy of the target vector to sub_7100966350 (ours passes the local
 // itself) and adds _b388 + _b499 in the other operand order.
