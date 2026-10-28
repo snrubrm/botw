@@ -951,6 +951,58 @@ void Motorcycle::x_13(ksys::phys::RigidBody** out) {
         _f88.set(0x800000000);
 }
 
+// 0x7100073b28: the wheel friction update; when only the front wheel touches the ground and it is
+// below the rear wheel, damps the y component of the angular velocity of the main body and wheels.
+// NON_MATCHING: the slide flag is if-converted to a csel (the original branches on the low byte and
+// on bit 23); the rest of the body matches.
+void Motorcycle::x_22(ksys::phys::RigidBody** bodies) {
+    if (!_f88.isOnBit(7))
+        return;
+
+    bool slide = false;
+    if (_f88.isOnBit(21)) {
+        slide = true;
+    } else {
+        const u32 state = _1648->_8.load();
+        if ((state & 0xff) == 0) {
+            if (!_f88.isOnBit(23))
+                slide = true;
+        }
+    }
+
+    const bool airborne = !_f88.isOnBit(28);
+
+    f32 friction;
+    if (_d78._23)
+        friction = 1.0f;
+    else if (!_f88.isOnAll(0x2000020000))
+        friction = _e4c;
+    else
+        friction = 0.0f;
+
+    sub_710006F02C(_dd0, bodies[0], slide, airborne, _ea8 == 1, friction);
+    sub_710006F02C(_dd8, bodies[1], slide, airborne, _eac == 1, friction);
+
+    if (_dd0->_13d && !_dd8->_13d) {
+        const f32 front_y = _dd0->_0->getPosition().y;
+        const f32 rear_y = _dd8->_0->getPosition().y;
+        if (front_y < rear_y) {
+            sead::Vector3f velocity;
+            _bb8->getAngularVelocity(&velocity);
+            velocity.y *= 0.1f;
+            _bb8->setAngularVelocity(velocity);
+
+            _dd0->_0->getAngularVelocity(&velocity);
+            velocity.y *= 0.1f;
+            _dd0->_0->setAngularVelocity(velocity);
+
+            _dd8->_0->getAngularVelocity(&velocity);
+            velocity.y *= 0.1f;
+            _dd8->_0->setAngularVelocity(velocity);
+        }
+    }
+}
+
 // 0x7100072694: while bit 7 of _f88 is set, tracks the highest main-body height in _e6c / _e70
 // (the second pinned while either wheel touches the ground) and forwards the drop since then.
 void Motorcycle::x_16() {

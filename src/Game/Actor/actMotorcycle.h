@@ -63,6 +63,10 @@ struct MotorcycleStruct2 {
 };
 KSYS_CHECK_SIZE_NX150(MotorcycleStruct2, 0x1b0);
 
+// 0x710006f02c (declared only; placeholder name): per-wheel friction / contact response: `body` is
+// the wheel's contact data and the three flags select slide / airborne / boost handling.
+void sub_710006F02C(MotorcycleStruct2* wheel, const void* body, bool a, bool b, bool c, f32 friction);
+
 // 0x7100fd0464 (declared only): releases the object at MotorcycleStruct2::_158.
 void sub_7100FD0464(void* obj);
 // 0x710006cb00 (declared only; placeholder name): the wheel contact query behind x_13: `flag` is set
@@ -457,6 +461,9 @@ public:
     // 0x710007abc4 / 0x710007ae8c (CSV Motorcycle::speedStuff_0 / x_21; declared only): wheel transforms.
     sead::Matrix34f speedStuff_0();
     sead::Matrix34f x_21();
+    // 0x7100073b28 (CSV Motorcycle::x_22; declared only): the wheel friction update; `bodies` are
+    // the two contact bodies from x_13.
+    void x_22(ksys::phys::RigidBody** bodies);
     // 0x710007bf90 (CSV Motorcycle::speedStuff_1).
     f32 speedStuff_1();
     // 0x710007abc4 (not decompiled)
