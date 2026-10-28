@@ -15,6 +15,8 @@ void reportQuestStep(const ksys::qst::Quest* quest, int step_index);
 void reportGetItem(const sead::Vector3f& pos, const sead::SafeString& item_name);
 // 0x7100a8885c (declaration only)
 void reportGanonQuestFinished();
+// 0x7100a899f4 (declaration only): the title stage's unload hook reports the options.
+void reportOptionsFromTitleStage();
 
 // TODO: More functions
 

@@ -20,6 +20,8 @@ class ModelScene;
 
 void nullsub_2452(sead::Heap* heap);
 
+class Unk_71024742f0;
+
 namespace ksys::act {
 class ActorCaptureMgr;
 }
@@ -103,8 +105,8 @@ public:
 private:
     /* 0x10 */ sead::Heap* mHeap;
     /* 0x18 */ void* _18;
-    /* 0x20 */ void* _20;
-    /* 0x28 */ void* _28;
+    /* 0x20 */ gsys::ModelScene* _20;
+    /* 0x28 */ Unk_71024742f0* _28;
     /* 0x30 */ void* _30;
     /* 0x38 */ ksys::evt::BaseProcLinkForEvent _38;
 };

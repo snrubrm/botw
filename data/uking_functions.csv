@@ -40477,7 +40477,7 @@ Address,Quality,Size,Name
 0x00000071006766ec,U,000688,RuneMgr::__auto9
 0x000000710067699c,U,002108,RuneMgr::__auto4
 0x00000071006771d8,U,000664,
-0x0000007100677470,U,000396,_ZN5uking27stageUnloadLoadSaveRuneInfoEv
+0x0000007100677470,O,000396,_ZN5uking27stageUnloadLoadSaveRuneInfoEv
 0x00000071006775fc,O,000008,_ZN5uking7RuneMgr13handleMessageEPKN4ksys7MessageE
 0x0000007100677604,O,000100,_ZN5uking11LastBossMgr18SingletonDisposer_D2Ev
 0x0000007100677668,O,000108,_ZN5uking11LastBossMgr18SingletonDisposer_D0Ev
@@ -49803,7 +49803,7 @@ Address,Quality,Size,Name
 0x00000071007d4228,m,000132,_ZN5uking23calledFromNewSaveRun_10Ev
 0x00000071007d42ac,U,000876,_ZN5uking10TitleStage4calcEv
 0x00000071007d4618,O,000004,_ZN5uking10TitleStage8postCalcEv
-0x00000071007d461c,U,000284,_ZN5uking10TitleStage6unloadEv
+0x00000071007d461c,O,000284,_ZN5uking10TitleStage6unloadEv
 0x00000071007d4738,O,000008,_ZN5uking10TitleStage8unloadOkEv
 0x00000071007d4740,O,000004,_ZN5uking10TitleStage15initForStageGenEv
 0x00000071007d4744,O,000004,_ZN5uking10TitleStage3m13Ev
@@ -61444,7 +61444,7 @@ Address,Quality,Size,Name
 0x0000007100a88a6c,U,001740,uking::reportGameOver
 0x0000007100a89138,U,001384,uking::reportBloodMoon
 0x0000007100a896a0,O,000852,_ZN5uking13reportGetItemERKN4sead7Vector3IfEERKNS0_14SafeStringBaseIcEE
-0x0000007100a899f4,U,008496,uking::reportOptionsFromTitleStage
+0x0000007100a899f4,U,008496,_ZN5uking27reportOptionsFromTitleStageEv
 0x0000007100a8bb24,O,000176,_ZN4ksys18PosTrackerUploader18SingletonDisposer_D1Ev
 0x0000007100a8bbd4,O,000184,_ZN4ksys18PosTrackerUploader18SingletonDisposer_D0Ev
 0x0000007100a8bc8c,O,000220,_ZN4ksys18PosTrackerUploader14createInstanceEPN4sead4HeapE

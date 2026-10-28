@@ -215,13 +215,6 @@ s32 MainFieldDungeonStageArg::m4() {
 // GameScene statics (0x71025cb0e0 / 0x71025cb0ea).
 bool sIsTitleStageActive;
 
-TitleStage::TitleStage() : mHeap(nullptr), _18(nullptr), _20(nullptr), _28(nullptr), _30(nullptr) {}
-
-TitleStage::~TitleStage() {
-    sIsTitleStageActive = false;
-    mHeap->destroy();
-}
-
 // NON_MATCHING: the native call supplies three unused arguments to setSceneChangeEventFlow.
 void calledFromNewSaveRun_10() {
     setSceneChangeEventFlow("Demo102_0", "");
