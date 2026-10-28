@@ -243,26 +243,27 @@ public:
     /* 0x90 */ ksys::act::BaseProcHandle _90;
     /* 0xa0 */ ksys::act::BaseProcLink _a0;
     /* 0xb0 */ ksys::MesTransceiverId _b0;  // NPCHorseResurrect::oneShot_ messages the horse manager's receiver
-    u8 _c8[0xd0 - 0xc8];
-    /* 0x0d0 */ s32 _d0;  // the selected horse (-1: none)
-    /* 0x0d4 */ s32 _d4;
-    u8 _d8[0xe0 - 0xd8];
+    u8 _c8[0xd0 - 0xc8] = {};
+    /* 0x0d0 */ s32 _d0 = -1;  // the selected horse (-1: none)
+    /* 0x0d4 */ s32 _d4 = -1;
+    /* 0x0d8 */ f32 _d8 = 40000.0f;
+    /* 0x0dc */ f32 _dc = 40000.0f;
     // Torn down by the destructor (0x7100e82360) from the last to the first.
-    /* 0xe0 */ ksys::act::BaseProcLink _e0[10];
+    /* 0xe0 */ sead::SafeArray<ksys::act::BaseProcLink, 10> _e0;
     // Game data handles set by initHorseGameDataIters (0x7100e82500).
-    /* 0x180 */ ksys::gdt::FlagHandle _180;  // Horse_Pos
-    /* 0x184 */ ksys::gdt::FlagHandle _184;  // Horse_RotY
-    /* 0x188 */ ksys::gdt::FlagHandle _188;  // Horse_Pos_For_Map
-    /* 0x18c */ ksys::gdt::FlagHandle _18c;  // Last_Ridden_Horse_Pos
-    /* 0x190 */ ksys::gdt::FlagHandle _190;  // Last_Ridden_Horse_RotY
-    /* 0x194 */ ksys::gdt::FlagHandle _194;  // Horse_Extra_Charge_Num
-    /* 0x198 */ ksys::gdt::FlagHandle _198;  // Last_Ridden_Horse_Extra_Charge_Num
-    /* 0x19c */ ksys::gdt::FlagHandle _19c;  // Horse_Familiarity
-    /* 0x1a0 */ ksys::gdt::FlagHandle _1a0;  // Horse_ActiveIndex
-    /* 0x1a4 */ ksys::gdt::FlagHandle _1a4;  // Horse_ActorName
-    /* 0x1a8 */ ksys::gdt::FlagHandle _1a8;  // Horse_Is_LastRidden_Owned
-    /* 0x1ac */ ksys::gdt::FlagHandle _1ac;  // Horse_Large_Exists
-    /* 0x1b0 */ ksys::gdt::FlagHandle _1b0;  // Horse_Zelda_Exists
+    /* 0x180 */ ksys::gdt::FlagHandle _180 = {};  // Horse_Pos
+    /* 0x184 */ ksys::gdt::FlagHandle _184 = {};  // Horse_RotY
+    /* 0x188 */ ksys::gdt::FlagHandle _188 = {};  // Horse_Pos_For_Map
+    /* 0x18c */ ksys::gdt::FlagHandle _18c = {};  // Last_Ridden_Horse_Pos
+    /* 0x190 */ ksys::gdt::FlagHandle _190 = {};  // Last_Ridden_Horse_RotY
+    /* 0x194 */ ksys::gdt::FlagHandle _194 = {};  // Horse_Extra_Charge_Num
+    /* 0x198 */ ksys::gdt::FlagHandle _198 = {};  // Last_Ridden_Horse_Extra_Charge_Num
+    /* 0x19c */ ksys::gdt::FlagHandle _19c = {};  // Horse_Familiarity
+    /* 0x1a0 */ ksys::gdt::FlagHandle _1a0 = {};  // Horse_ActiveIndex
+    /* 0x1a4 */ ksys::gdt::FlagHandle _1a4 = {};  // Horse_ActorName
+    /* 0x1a8 */ ksys::gdt::FlagHandle _1a8 = {};  // Horse_Is_LastRidden_Owned
+    /* 0x1ac */ ksys::gdt::FlagHandle _1ac = {};  // Horse_Large_Exists
+    /* 0x1b0 */ ksys::gdt::FlagHandle _1b0 = {};  // Horse_Zelda_Exists
     u8 _1b4[0x1b8 - 0x1b4];
     // Registered with gdt::Manager::addReinitCallback by initHorseGameDataItersAndStuff (the delegate target is
     // set by the constructor, not decompiled).

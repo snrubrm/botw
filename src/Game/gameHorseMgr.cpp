@@ -17,6 +17,12 @@
 
 namespace uking {
 
+HorseMgr::HorseMgr() : _e0(), mReinitSlot(this, &HorseMgr::onGameDataReinit) {
+    _180 = _184 = _188 = _18c = _190 = _194 = _198 = _19c = _1a0 = _1a4 = _1a8 = _1ac = _1b0 =
+        ksys::gdt::InvalidHandle;
+}
+
+
 SEAD_SINGLETON_DISPOSER_IMPL(HorseMgr)
 
 // NON_MATCHING: The compiler tail-calls hasProcById rather than normalizing its bool result.
