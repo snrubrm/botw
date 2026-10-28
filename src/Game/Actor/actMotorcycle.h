@@ -439,6 +439,11 @@ public:
     // 0x7100072750 (CSV Motorcycle::x_17): the engine sound and acceleration; stores the value in
     // _bc8._0._48.
     void x_17();
+    // 0x7100072694 (CSV Motorcycle::x_16): tracks the highest main-body height in _e6c / _e70
+    // while the wheels are off the ground and forwards the drop to the actor event.
+    void x_16();
+    // 0x710007b130 (declared only; placeholder name): resets the wheelie / ground flags of _f88.
+    void sub_710007B130();
     // 0x710007a9c8 (CSV Motorcycle::speedStuff): the stick value scaled by a speed curve, divided by 45 and
     // clamped to [-1, 1].
     f32 speedStuff();

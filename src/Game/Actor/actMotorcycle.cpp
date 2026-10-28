@@ -930,6 +930,29 @@ void Motorcycle::sub_7100071998() {
     xlinkEventOn(this, 0x3c, 1, false);
 }
 
+// 0x7100072694: while bit 7 of _f88 is set, tracks the highest main-body height in _e6c / _e70
+// (the second pinned while either wheel touches the ground) and forwards the drop since then.
+void Motorcycle::x_16() {
+    if (!_f88.isOnBit(7))
+        return;
+    sub_710007B130();
+    const f32 y = _bb8->getPosition().y;
+
+    const bool both_wheels_grounded = _dd0->_13d && _dd8->_13d && _dd0->_13e && _dd8->_13e;
+    f32 base;
+    if (both_wheels_grounded || y > _e6c) {
+        _e6c = y;
+        base = y;
+    } else {
+        base = _e6c;
+    }
+
+    if (_dd0->_13d || _dd8->_13d || _f88.isOnBit(32) || y > _e70)
+        _e70 = y;
+
+    sub_71012412E4(this, 0x37, base - y, false);
+}
+
 // NON_MATCHING: same instructions; the original computes `&_f88` in both predecessors of the
 // "wheel is on the ground" block and keeps the zero result in s9 across the sub_710006FBF8 call
 void Motorcycle::x_17() {
