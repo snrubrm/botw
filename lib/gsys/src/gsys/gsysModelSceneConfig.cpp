@@ -91,9 +91,9 @@ ModelSceneConfig::ModelSceneConfig() {
     mEnvObjMgrInitArg.setContainMax(agl::env::HemisphereLight::sTypeInfo->id, 10);
     mEnvObjMgrInitArg.setContainMax(agl::env::DirectionalLight::sTypeInfo->id, 30);
     mEnvObjMgrInitArg.setContainMax(agl::env::Projector::sTypeInfo->id, 10);
-    mEnvObjMgrInitArg.setContainMax(agl::env::Fog::sTypeInfo->id, 10);
-    mEnvObjMgrInitArg.setContainMax(agl::pfx::BloomObj::sTypeInfo->id, 10);
-    mEnvObjMgrInitArg.setContainMax(agl::pfx::DepthOfFieldObj::sTypeInfo->id, 10);
+    mEnvObjMgrInitArg.setContainMax(s16(*agl::env::Fog::sTypeInfo), 10);
+    mEnvObjMgrInitArg.setContainMax(s16(*agl::pfx::BloomObj::sTypeInfo), 10);
+    mEnvObjMgrInitArg.setContainMax(s16(*agl::pfx::DepthOfFieldObj::sTypeInfo), 10);
     mEnvObjMgrInitArg.setContainMax(MaskedSpotLight::sTypeInfo->id, 13);
     mEnvObjBufferAllocateArg.setContainMax(agl::env::AmbientLight::sTypeInfo->id, 1);
     mEnvObjBufferAllocateArg.setContainMax(agl::env::HemisphereLight::sTypeInfo->id, 1);
