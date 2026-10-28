@@ -10,7 +10,9 @@
 #include "Game/UI/euiButton.h"
 #include "Game/UI/euiPartsEx.h"
 #include "Game/UI/euiLayoutEx.h"
+#include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 
 namespace uking::ui {
 
@@ -27,7 +29,10 @@ struct PictureBookState {
     /* 0x024 */ u32 mNumNewEnemyPictures = 0;
     /* 0x028 */ u32 mNumNewBossPictures = 0;
     /* 0x02c */ u32 mNumNewWeaponPictures = 0;
-    /* 0x030 */ u8 _30[0x270];
+    /* 0x030 */ u8 _30[0x158];
+    // The sensor target text widget name (read by sub_71009F9C30).
+    /* 0x188 */ sead::SafeString _188;
+    /* 0x198 */ u8 _198[0x2a0 - 0x198];
 };
 
 static sead::SafeArray<sead::FixedSafeString<64>, 16> sNewEnemyPictureBookNames;
@@ -3009,6 +3014,37 @@ static sead::SafeString sUnk_71025ebac8 = "LayoutMsg/AppPictureBook_00";
 // 0x71025eb478: the picture-book units' fallback texture info (an external texture with no
 // descriptor).
 static nn::ui2d::ExternalTextureInfo sUnk_71025eb478;
+
+// 0x71009f9c30: shows the current sensor target's message on the picture book's text widget, or clears it
+// when the target is not a message actor.
+// NON_MATCHING: the picture book state struct is placed 0x70 bytes into the TU's merged static block here, so the
+// text widget name is at +0x1f8 instead of the original's +0x188. The rest of the body matches.
+void ScreenAppPictureBook::sub_71009F9C30() {
+    if (!_3ab8)
+        return;
+    if (_3ac8)
+        _3ac8->Stop(1.0f);
+    UiSubsys1::instance()->sub_710096705C(true);
+    eui::MessageString message;
+    const char* actor_name;
+    ksys::gdt::getFlag_ActorName_SeakSensor_Slot0(&actor_name, false);
+    if (sub_7100AA2BDC(actor_name, &message) == 0) {
+        uking::ui::setWidgetString(_3ac0, sPictureBookCounts._188, message);
+        _3ac0->sub_7100BDDE7C(false, 1, true);
+        if (_3650)
+            _3650->StopAtMax();
+    } else {
+        uking::ui::setWidgetString(_3ac0, sPictureBookCounts._188, sead::SafeString::cEmptyString);
+        _3ac0->startAnimCloseImpl_(false, true);
+        if (_3650)
+            _3650->StopAtMin();
+    }
+    if (_3658)
+        _3658->sub_710093FEAC();
+    if (_3660)
+        _3660->sub_710093FEAC();
+    _3ab8 = false;
+}
 
 // 0x71009fa33c
 void ScreenAppPictureBook::m101() {
