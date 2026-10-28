@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorse.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectHorseUnit.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -32,6 +33,34 @@ ksys::act::BaseProcLink* sub_7100E811F0(ksys::act::Actor* actor) {
     if (!info)
         return &ksys::act::sUnk_71026505e0;
     return &info->_18;
+}
+
+// 0x7100e81260: the ride animation name for `actor` riding `ride_actor`: "RideonRunHorse" while
+// the horse is flagged as running, "RideonAboveHorse" when it is above and inside the configured
+// height / radius, "RideonWaitHorse" otherwise.
+// NON_MATCHING: the two parameter pointers are kept in the opposite callee-saved registers (x20 /
+// x21); every other instruction is identical.
+sead::SafeString sub_7100E81260(ksys::act::Actor* actor, ksys::act::Actor* ride_actor) {
+    if (ride_actor) {
+        if (auto* options = ride_actor->getHorseOptionsMaybe()) {
+            if (options->RideableBase::_8 & 0x200)
+                return "RideonRunHorse";
+        }
+
+        const auto* unit = ride_actor->getParam()->getRes().mGParamList->getHorseUnit();
+        if (unit) {
+            const auto& mtx = actor->getMtx();
+            const auto& ride_mtx = ride_actor->getMtx();
+            if (mtx(1, 3) - ride_mtx(1, 3) > unit->mRideonAboveASHeight.ref()) {
+                const f32 dz = mtx(2, 3) - ride_mtx(2, 3);
+                const f32 dx = mtx(0, 3) - ride_mtx(0, 3);
+                const f32 radius = unit->mRideonAboveASRadius.ref();
+                if (dx * dx + dz * dz < radius * radius)
+                    return "RideonAboveHorse";
+            }
+        }
+    }
+    return "RideonWaitHorse";
 }
 
 // NON_MATCHING: the original loads the ridden actor's x / z before the actor's own
