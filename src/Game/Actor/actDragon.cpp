@@ -333,6 +333,25 @@ void Dragon::initMaybe() {
     _1f70.set(0x100000);
 }
 
+// 0x710000c2f4: starts the visible / invisible grudge-eye animation of the head, both body parts
+// and the tail, depending on the AI flags.
+// NON_MATCHING: same instructions; `this` and the frame count get the opposite callee-saved
+// registers (x19/x20) and the ternaries are scheduled one instruction earlier.
+void Dragon::sub_710000C2F4() {
+    const char* head = _1f70.isOnBit(4) ? "GrudgeEye_Head_Visible" : "GrudgeEye_Head_Invisible";
+    const s32 count = 5;
+    getASList()->startAnimationMaybe(-1.0f, -1.0f, head, count, 3, true);
+
+    const char* body0 = _1f70.isOnBit(5) ? "GrudgeEye_Body0_Visible" : "GrudgeEye_Body0_Invisible";
+    getASList()->startAnimationMaybe(-1.0f, -1.0f, body0, count, 4, true);
+
+    const char* body1 = _1f70.isOnBit(6) ? "GrudgeEye_Body1_Visible" : "GrudgeEye_Body1_Invisible";
+    getASList()->startAnimationMaybe(-1.0f, -1.0f, body1, count, 5, true);
+
+    const char* tail = _1f70.isOnBit(7) ? "GrudgeEye_Tail_Visible" : "GrudgeEye_Tail_Invisible";
+    getASList()->startAnimationMaybe(-1.0f, -1.0f, tail, count, 6, true);
+}
+
 ksys::act::BaseProc* Dragon::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Dragon(arg);
 }
