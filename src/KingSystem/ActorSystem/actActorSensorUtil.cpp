@@ -12,6 +12,7 @@
 #include "KingSystem/Physics/System/physParamSet.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourcePhysics.h"
+#include "Game/Actor/actMotorcycle.h"
 
 using ksys::act::Actor;
 using ksys::act::ActorAtk;
@@ -475,6 +476,25 @@ s32 sub_71007A49F0(Actor* actor) {
     if (!obj)
         return 0;
     return obj->sub_710079CED0();
+}
+
+// 0x71007a4a90: whether the actor's wheels have the queried ground state (`on` selects which wheel's
+// flag must match); a non-motorcycle actor falls back to its contact sensor.
+bool motorcycleCheckStuff(Actor* actor, bool on) {
+    if (auto* moto = sead::DynamicCast<uking::act::Motorcycle>(actor)) {
+        if (on) {
+            if (!moto->_dd0->_13d)
+                return false;
+        } else {
+            if (moto->_dd0->_13d)
+                return true;
+        }
+        return moto->_dd8->_13d != 0;
+    }
+    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->m126());
+    if (!obj)
+        return false;
+    return obj->sub_710079CEB0();
 }
 
 void sub_71007A5230(ksys::phys::RayCast* cast) {

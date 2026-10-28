@@ -145,6 +145,9 @@ bool isBgGroundHit(ksys::act::Actor* actor, bool ignore_creator);
 ksys::act::Unk_7102459df8::Unk_7102459e88::Unk1* sub_71007A4948(ksys::act::Actor* actor, int idx);
 // 0x71007a49f0
 s32 sub_71007A49F0(ksys::act::Actor* actor);
+// 0x71007a4a90: whether the actor's wheels have the queried ground state; a non-motorcycle actor
+// falls back to its contact sensor (same result as isBgGroundHit).
+bool motorcycleCheckStuff(ksys::act::Actor* actor, bool on);
 // 0x71007a5230 / 0x71007a52a4 (placeholder names): contact layer presets for the magnesis ray casts; the former also
 // sets the ground hit type to Magnet.
 void sub_71007A5230(ksys::phys::RayCast* cast);
