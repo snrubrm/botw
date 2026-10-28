@@ -13,6 +13,7 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/uiUtils.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 
 namespace uking::ui {
 
@@ -54,11 +55,16 @@ struct PictureBookState {
     /* 0x2a0 */ sead::SafeString _2a0[2] = {"Weapon_Bow_071", "Weapon_Sword_070"};
     /* 0x2c0 */ sead::SafeString _2c0[6] = {"Obj_Photo_Animal", "Obj_Photo_Enemy", "Obj_Photo_Material",
                                             "Obj_Photo_Weapon", "Obj_Photo_Other", "Obj_Photo_BossEnemy"};
+    /* 0x320 */ u8 _320[0x1f4];
+    // The registered-name index of each album picture (read by sub_71009F6A5C).
+    /* 0x514 */ sead::SafeArray<s32, 500> _514;
 };
 
 static sead::SafeArray<sead::FixedSafeString<64>, 16> sNewEnemyPictureBookNames;
 static sead::SafeArray<sead::FixedSafeString<64>, 16> sNewBossPictureBookNames;
 static sead::SafeArray<sead::FixedSafeString<64>, 2> sNewWeaponPictureBookNames;
+// 0x71025dfca0: the registered picture names, searched by sub_71009F70B0.
+static sead::SafeArray<sead::FixedSafeString<64>, 500> sUnk_71025dfca0;
 static bool sUnk_71025eb850;
 // Hidden visibility keeps the member offsets relative to the block instead of the merged static block.
 KSYS_VISIBILITY_HIDDEN PictureBookState sPictureBookState;
@@ -70,6 +76,18 @@ KSYS_VISIBILITY_HIDDEN sead::Vector2f sUnk_71025D5CE8{std::numeric_limits<f32>::
 // 0x71009f8284
 bool ScreenAppPictureBook::sub_71009F8284() const {
     return _3628 && _3628->mFrame != 0.0f;
+}
+
+// 0x71009f70b0: refills the new-picture name lists, then records the index of `name` in the registered
+// name table (sUnk_71025eb5b0) when it is present.
+void sub_71009F70B0(const sead::SafeString& name) {
+    sub_71009F71F4();
+    if (sPictureBookState._1c == 0)
+        return;
+    for (u32 i = 0; i < u32(sPictureBookState._1c); ++i) {
+        if (sUnk_71025dfca0[i] == name)
+            sUnk_71025eb5b0 = s32(i);
+    }
 }
 
 // 0x71009f82a4 (placeholder name): whether the picture book may show its state.
@@ -3246,6 +3264,17 @@ void Unk_7102482790::m5() {
 }
 
 // 0x71009f4edc
+// 0x71009f6a5c: clears the "IsNewPictureBook_" flag of the picture selected in the album.
+void Unk_7102482790::m15(eui::AnimButton*) {
+    const s32 index = sub_7100939C78();
+    if (index >= uking::ui::sPictureBookState._20)
+        return;
+    sead::FormatFixedSafeString<128> key(
+        "IsNewPictureBook_%s",
+        uking::ui::sUnk_71025dfca0[uking::ui::sPictureBookState._514[index]].cstr());
+    ksys::gdt::setBoolByKey(false, key, false);
+}
+
 void Unk_7102482790::m8() {
     _48.sub_71009CC3A0();
     for (s32 i = 0; i < 15; ++i) {

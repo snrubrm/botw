@@ -174,6 +174,8 @@ public:
     void m5() override;
     void m8() override;
     void m14() override;
+    // 0x71009f6a5c: clears the new-picture flag of the selected picture (the button is unused)
+    void m15(eui::AnimButton*) override;
     // 9F57C4 (m13) calls these on the same picture-book unit receiver.
     void sub_71009F6220(const char* actor);
     // 0x71009f617c: shows the actor's "%s_PictureBook" message in T_SubTextB_00.
