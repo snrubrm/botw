@@ -1434,6 +1434,35 @@ s32 Unk_710247e468::m112() { return 0; }
 
 Unk_710247e468::~Unk_710247e468() = default;
 
+// 0x71025dac60: the radar entry's animator names (the Buffer is at +0x180; the rest is its state)
+struct alignas(16) Unk_71025dac60 {
+    u8 _0[0x180];
+    sead::Buffer<sead::SafeString> _180;
+};
+KSYS_VISIBILITY_HIDDEN Unk_71025dac60 sUnk_71025dac60;
+
+// 0x71009c03e0: sets up the radar entry's eight animators from the reference page's animator names,
+// stops them at their start and centers the first one.
+void Unk_710247c368::m24(sead::Heap* heap) {
+    Unk_71025d6ac0::instance()->sub_7100968040();
+    for (u32 i = 0; i < 8; ++i) {
+        eui::LayoutEx* layout = mLayout;
+        if (layout)
+            mAnimators[i] = layout->createAnimatorAuto(sUnk_71025dac60._180[i].cstr(), false);
+    }
+    const u16 frame_size = mAnimators[0]->GetFrameSize();
+    const f32 half = f32(frame_size) * 0.5f;
+    _148 = half;
+    _140 = half;
+    _144 = half;
+    mAnimators[0]->Stop(half);
+    mAnimators[1]->StopAtMin();
+    mAnimators[6]->StopAtMin();
+    mAnimators[7]->StopAtMin();
+    _14c = 0;
+    mAnimators[3]->StopAtMin();
+}
+
 // 0x71009c0310
 void Unk_710247c368::sub_71009C0310() {
     if (!Unk_71025d6ac0::instance()->get88())
