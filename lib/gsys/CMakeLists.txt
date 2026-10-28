@@ -137,6 +137,7 @@ add_library(gsys OBJECT
   src/gsys/gsysModelJobQueue.cpp
   src/gsys/gsysXluZPrePass.cpp
   src/gsys/gsysModelShaderHolder.cpp
+  src/gsys/gsysModelShaderArchive.cpp
   src/gsys/gsysViewer.cpp
   src/gsys/gsysDebugCtrl.cpp
   src/gsys/gsysShaderHolder.cpp
