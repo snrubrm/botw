@@ -147,6 +147,8 @@ void NavMeshLoadMgr::sub_7100F898E4() {
     _190 = false;
 }
 
+// NON_MATCHING: the Buffer bounds compare keeps the size and index in the opposite registers (only
+// a commutative cmp residue; every other instruction agrees).
 void NavMeshLoadMgr::sub_7100F8AA78(s32 index, const sead::Matrix34f& transform) {
     if (_190)
         return;
@@ -163,20 +165,23 @@ void NavMeshLoadMgr::sub_7100F8AA78(s32 index, const sead::Matrix34f& transform)
     entries.get(i)->sub_71012A7324(transform);
 }
 
-// NON_MATCHING: boolean return materialization, tile-size loads and saved registers differ.
+// NON_MATCHING: the final `abs(z - _188.y) >= 2` compare is if-converted to `cset` where the original
+// branches through the shared false block; the return value also lives in w20 there and w22 here.
 bool NavMeshLoadMgr::x_0(const sead::Vector3f* pos) {
     if (_190)
         return false;
     auto lock = sead::makeScopedLock(_130);
     if (!_10)
         return false;
-    if (_178.x == 0 && _178.y == 0)
+    if ((_178.x | _178.y) == 0)
         return true;
     const s32 x = sead::Mathi::clamp((s32(pos->x) - _170.x) / _178.x, 0, _180.x - 1);
     if (sead::Mathi::abs(x - _188.x) > 1)
         return false;
     const s32 z = sead::Mathi::clamp((s32(pos->z) - _170.y) / _178.y, 0, _180.y - 1);
-    return sead::Mathi::abs(z - _188.y) < 2;
+    if (sead::Mathi::abs(z - _188.y) >= 2)
+        return false;
+    return true;
 }
 
 // NON_MATCHING: register allocation / instruction scheduling only (the original ors the tile sizes in the other operand order
