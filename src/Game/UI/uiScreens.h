@@ -4299,8 +4299,7 @@ public:
     void m94() override;
     // 0x71009fa33c: copies the active list controller's pane value and stops the frame animator
     void m101() override;
-    // 0x71009f71f4 / 0x71009f8e28 (declared only; 4240 / 1948 bytes): layout setup steps of m92
-    void sub_71009F71F4(sead::Heap* heap);
+    // 0x71009f8e28 (declared only; 1948 bytes): second layout setup step of m92
     void sub_71009F8E28(sead::Heap* heap);
     // 0x71009f9c30 (declared only; 308 bytes): called by m94 before the state machine runs
     void sub_71009F9C30();
@@ -4340,6 +4339,9 @@ public:
     void sub_71009F8510(s32);
 };
 
+// 0x71009f71f4 (declared only; 4240 bytes): fills the new-picture name lists from the actor data.
+// Its three call sites set up no arguments (and the function reads neither x0 nor x1), so it takes none.
+void sub_71009F71F4();
 // 0x71009fa68c (placeholder name): when the picture book screen is not loaded, resets its state data and
 // runs the layout setup.
 void sub_71009FA68C();

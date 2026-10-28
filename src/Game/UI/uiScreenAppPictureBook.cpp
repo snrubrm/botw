@@ -18,29 +18,50 @@ namespace uking::ui {
 
 // The AppPictureBook screen's new-picture name lists (0x71025ea0880 / 0x71025ea0e00 /
 // 0x71025eb0380) and the screen's state block (0x71025eb850). The lists hold the names of pictures
-// taken but not yet registered; the block keeps the screen flag followed by the counts. Only the
-// members the decompiled functions use are modelled so far.
-// The flag is its own object: the block's other members are merged after it, and the original reads
-// the flag as a bool (0x71009f8450 tests it with `mvn / and #1`).
-static bool sUnk_71025eb850;
-
+// taken but not yet registered; the block keeps the name counts, the widget names and the initial
+// weapon picture names. Every access in the original is relative to the block base (e.g.
+// getInitialWeaponPictureBookNames computes base + 0x2a0), so the block is one object. The screen
+// flag at +0 is a separate bool object (its load is an i1 load), modelled below.
 struct PictureBookState {
-    /* 0x000 */ u8 _0[0x24];
+    /* 0x000 */ u8 _0[0x1c];
+    /* 0x01c */ s32 _1c = 0;  // number of names registered so far
+    /* 0x020 */ s32 _20 = 0;
     /* 0x024 */ u32 mNumNewEnemyPictures = 0;
     /* 0x028 */ u32 mNumNewBossPictures = 0;
     /* 0x02c */ u32 mNumNewWeaponPictures = 0;
-    /* 0x030 */ u8 _30[0x158];
+    /* 0x030 */ u8 _30[0x148];
+    /* 0x178 */ sead::SafeString _178 = "AppPictureBook_00Screen";
     // The sensor target text widget name (read by sub_71009F9C30).
-    /* 0x188 */ sead::SafeString _188;
-    /* 0x198 */ u8 _198[0x2a0 - 0x198];
+    /* 0x188 */ sead::SafeString _188 = "T_Name_00";
+    /* 0x198 */ sead::SafeString _198 = "T_PhotoInfo_00";
+    /* 0x1a8 */ sead::SafeString _1a8 = "T_SubTextA_00";
+    /* 0x1b8 */ sead::SafeString _1b8 = "T_SubTextB_00";
+    /* 0x1c8 */ sead::SafeString _1c8 = "T_SubTextC_00";
+    /* 0x1d8 */ sead::SafeString _1d8 = "T_SubTextD_00";
+    /* 0x1e8 */ sead::SafeString _1e8 = "T_SubTextE_00";
+    /* 0x1f8 */ sead::SafeString _1f8 = "T_SubTextF_00";
+    /* 0x208 */ sead::SafeString _208 = "T_Param_00";
+    /* 0x218 */ sead::SafeString _218 = "T_SubTitleA_00";
+    /* 0x228 */ sead::SafeString _228 = "T_SubTitleF_00";
+    /* 0x238 */ sead::SafeString _238 = "WeaponShield";
+    /* 0x248 */ sead::SafeString _248 = "WeaponBow";
+    /* 0x258 */ sead::SafeString _258 = "Bullet";
+    /* 0x268 */ sead::SafeString _268 = "StaticMsg/Reference";
+    /* 0x278 */ sead::SafeString _278 = "LayoutMsg/AppPictureBook_00";
+    /* 0x288 */ s32 _288[5];
+    /* 0x29c */ u8 _29c[4];
+    // "Weapon_Bow_071" and "Weapon_Sword_070" (0x71009f8464).
+    /* 0x2a0 */ sead::SafeString _2a0[2] = {"Weapon_Bow_071", "Weapon_Sword_070"};
+    /* 0x2c0 */ sead::SafeString _2c0[6] = {"Obj_Photo_Animal", "Obj_Photo_Enemy", "Obj_Photo_Material",
+                                            "Obj_Photo_Weapon", "Obj_Photo_Other", "Obj_Photo_BossEnemy"};
 };
 
 static sead::SafeArray<sead::FixedSafeString<64>, 16> sNewEnemyPictureBookNames;
 static sead::SafeArray<sead::FixedSafeString<64>, 16> sNewBossPictureBookNames;
 static sead::SafeArray<sead::FixedSafeString<64>, 2> sNewWeaponPictureBookNames;
-static PictureBookState sPictureBookCounts;
-// "Weapon_Bow_071" and "Weapon_Sword_070" (0x71009f8464).
-KSYS_VISIBILITY_HIDDEN sead::SafeString sUnk_71025eb0af0[2] = {"Weapon_Bow_071", "Weapon_Sword_070"};
+static bool sUnk_71025eb850;
+// Hidden visibility keeps the member offsets relative to the block instead of the merged static block.
+KSYS_VISIBILITY_HIDDEN PictureBookState sPictureBookState;
 
 // Initialized as two FLT_MAX components by native 9384e4; read as the
 // optional layout size by 93bb48 and copied by both parameter lifetime bodies.
@@ -56,15 +77,17 @@ bool ScreenAppPictureBook::sub_71009F82A4() const {
     if (sead::IsDerivedFrom<ScreenAppSystemWindow>(eui::ScreenMgr::instance()->getScreen(0x3e)))
         return false;
     const s32 mode = sUnk_71025eb5b8;
-    if (mode == 2) {
+    switch (mode) {
+    case 2:
         if (sUnk_71025eb850)
             return false;
-    }
-    if (mode == 3)
+        break;
+    case 3:
         return false;
-    if (mode == 1) {
+    case 1:
         if (sUnk_71025eb850)
             return false;
+        break;
     }
     if (_3628 && _3628->mRate != 0.0f)
         return false;
@@ -73,8 +96,6 @@ bool ScreenAppPictureBook::sub_71009F82A4() const {
 
 // 0x71009f8398: false when the picture book already is in the app state's state; otherwise the app
 // screen mode decides (modes 1 and 2 follow the screen's flag, mode 3 is always false).
-// NON_MATCHING: same instructions; our compiler lays out the final return true / return false blocks
-// in the opposite order, so the two mode-test branch targets differ.
 bool ScreenAppPictureBook::sub_71009F8398() const {
     // called through a pointer in the original (not devirtualised)
     if (getStateMachine().getState()->getId() == (&sUnk_71025eb550)->getId())
@@ -3004,21 +3025,12 @@ void ScreenAppPictureBookUnk::sub_7100940288() {
 
 namespace uking::ui {
 // Picture-book TU objects initialized by 9F2EC0.
-static sead::SafeString sUnk_71025eb9f8 = "T_SubTextA_00";
-static sead::SafeString sUnk_71025eba08 = "T_SubTextB_00";
-static sead::SafeString sUnk_71025eba28 = "T_SubTextD_00";
-static sead::SafeString sUnk_71025eba48 = "T_SubTextF_00";
-static sead::SafeString sUnk_71025eba68 = "T_SubTitleA_00";
-static sead::SafeString sUnk_71025eba78 = "T_SubTitleF_00";
-static sead::SafeString sUnk_71025ebac8 = "LayoutMsg/AppPictureBook_00";
 // 0x71025eb478: the picture-book units' fallback texture info (an external texture with no
 // descriptor).
 static nn::ui2d::ExternalTextureInfo sUnk_71025eb478;
 
 // 0x71009f9c30: shows the current sensor target's message on the picture book's text widget, or clears it
 // when the target is not a message actor.
-// NON_MATCHING: the picture book state struct is placed 0x70 bytes into the TU's merged static block here, so the
-// text widget name is at +0x1f8 instead of the original's +0x188. The rest of the body matches.
 void ScreenAppPictureBook::sub_71009F9C30() {
     if (!_3ab8)
         return;
@@ -3029,12 +3041,12 @@ void ScreenAppPictureBook::sub_71009F9C30() {
     const char* actor_name;
     ksys::gdt::getFlag_ActorName_SeakSensor_Slot0(&actor_name, false);
     if (sub_7100AA2BDC(actor_name, &message) == 0) {
-        uking::ui::setWidgetString(_3ac0, sPictureBookCounts._188, message);
+        uking::ui::setWidgetString(_3ac0, sPictureBookState._188, message);
         _3ac0->sub_7100BDDE7C(false, 1, true);
         if (_3650)
             _3650->StopAtMax();
     } else {
-        uking::ui::setWidgetString(_3ac0, sPictureBookCounts._188, sead::SafeString::cEmptyString);
+        uking::ui::setWidgetString(_3ac0, sPictureBookState._188, sead::SafeString::cEmptyString);
         _3ac0->startAnimCloseImpl_(false, true);
         if (_3650)
             _3650->StopAtMin();
@@ -3069,8 +3081,17 @@ void ScreenAppPictureBook::m101() {
 
 // 0x71009f8dfc
 void ScreenAppPictureBook::m92(sead::Heap* heap) {
-    sub_71009F71F4(heap);
+    sub_71009F71F4();
     sub_71009F8E28(heap);
+}
+
+// 0x71009fa68c (placeholder name): when the picture book screen is not loaded, clears the number of
+// registered names and fills the name lists again.
+void sub_71009FA68C() {
+    if (eui::ScreenMgr::instance()->getScreen(ScreenId::AppPictureBook))
+        return;
+    sPictureBookState._1c = 0;
+    sub_71009F71F4();
 }
 
 // 0x71009f9bb8
@@ -3094,7 +3115,7 @@ PictureBookNameIterator newEnemyPictureBookNamesBegin() {
 PictureBookNameIterator newEnemyPictureBookNamesEnd() {
     // NON_MATCHING: the original selects the clamp with 64-bit registers (csel x1); ours uses w1.
     return {sNewEnemyPictureBookNames.getBufferPtr(),
-            s32(sead::Mathu::min(sPictureBookCounts.mNumNewEnemyPictures, 16u))};
+            s32(sead::Mathu::min(sPictureBookState.mNumNewEnemyPictures, 16u))};
 }
 
 // 0x71009f84a8
@@ -3105,7 +3126,7 @@ PictureBookNameIterator newBossPictureBookNamesBegin() {
 // 0x71009f84b8
 PictureBookNameIterator newBossPictureBookNamesEnd() {
     return {sNewBossPictureBookNames.getBufferPtr(),
-            s32(sead::Mathu::min(sPictureBookCounts.mNumNewBossPictures, 16u))};
+            s32(sead::Mathu::min(sPictureBookState.mNumNewBossPictures, 16u))};
 }
 
 // 0x71009f84dc
@@ -3116,13 +3137,12 @@ PictureBookNameIterator newWeaponPictureBookNamesBegin() {
 // 0x71009f84ec
 PictureBookNameIterator newWeaponPictureBookNamesEnd() {
     return {sNewWeaponPictureBookNames.getBufferPtr(),
-            s32(sead::Mathu::min(sPictureBookCounts.mNumNewWeaponPictures, 2u))};
+            s32(sead::Mathu::min(sPictureBookState.mNumNewWeaponPictures, 2u))};
 }
 
 // 0x71009f8464
-// NON_MATCHING: the two names are a separate object here (they are at state + 0x2a0 in the original)
 const sead::SafeString* getInitialWeaponPictureBookNames() {
-    return sUnk_71025eb0af0;
+    return sPictureBookState._2a0;
 }
 
 // 0x710093ddbc
@@ -3251,11 +3271,11 @@ void Unk_7102482790::m14() {
         flag = 0;
 }
 
-// NON_MATCHING: ours references the widget-name SafeStrings directly instead of through the picture
-// book state block; the reference shape differs (see the block merge note above).
+// NON_MATCHING: the mode switch arms and the value / second initialisers are lowered in a different
+// order, so their registers differ.
 void Unk_7102482790::sub_71009F4F58(s32 mode) {
-    uking::ui::setWidgetString(_8, uking::ui::sUnk_71025eba48, sead::SafeString::cEmptyString);
-    uking::ui::setWidgetString(_8, uking::ui::sUnk_71025eba28, sead::SafeString::cEmptyString);
+    uking::ui::setWidgetString(_8, uking::ui::sPictureBookState._1f8, sead::SafeString::cEmptyString);
+    uking::ui::setWidgetString(_8, uking::ui::sPictureBookState._1d8, sead::SafeString::cEmptyString);
     if (!_338)
         return;
     s32 value = 0;
@@ -3291,21 +3311,19 @@ void Unk_7102482790::sub_71009F4F58(s32 mode) {
     {
         sead::FormatFixedSafeString<16> label("%04d", value);
         eui::MessageString message;
-        uking::ui::getMessage(uking::ui::sUnk_71025ebac8, label, &message);
-        uking::ui::setWidgetString(_8, uking::ui::sUnk_71025eba68, message);
+        uking::ui::getMessage(uking::ui::sPictureBookState._278, label, &message);
+        uking::ui::setWidgetString(_8, uking::ui::sPictureBookState._218, message);
     }
     if (second == -1)
         return;
     {
         sead::FormatFixedSafeString<16> label("%04d", second);
         eui::MessageString message;
-        uking::ui::getMessage(uking::ui::sUnk_71025ebac8, label, &message);
-        uking::ui::setWidgetString(_8, uking::ui::sUnk_71025eba78, message);
+        uking::ui::getMessage(uking::ui::sPictureBookState._278, label, &message);
+        uking::ui::setWidgetString(_8, uking::ui::sPictureBookState._228, message);
     }
 }
 
-// NON_MATCHING: the widget-name SafeStrings are separate statics in our build, so the address is a
-// direct adrp + add; the original reaches them through the merged picture-book block (base + 0x1b8).
 void Unk_7102482790::sub_71009F617C(const char* actor) {
     const char* profile;
     ksys::act::InfoData::instance()->getActorProfile(&profile, actor);
@@ -3313,7 +3331,7 @@ void Unk_7102482790::sub_71009F617C(const char* actor) {
     sead::FormatFixedSafeString<128> message_name("%s_PictureBook", actor);
     eui::MessageString message;
     if (uking::ui::getMessage(actor_type, message_name, &message) == 0)
-        uking::ui::setWidgetString(_8, uking::ui::sUnk_71025eba08, message);
+        uking::ui::setWidgetString(_8, uking::ui::sPictureBookState._1b8, message);
 }
 
 void Unk_7102482790::sub_71009F6220(const char* actor) {
@@ -3340,7 +3358,7 @@ void Unk_7102482790::sub_71009F6220(const char* actor) {
             if (live_spots[i] <= 0)
                 continue;
             sead::FormatFixedSafeString<16> label("%04d", live_spots[i]);
-            result = uking::ui::getMessage(uking::ui::sUnk_71025ebac8, label, &message);
+            result = uking::ui::getMessage(uking::ui::sPictureBookState._278, label, &message);
         } else {
             // Native uses the home area itself as the format string, not a new "%s" wrapper.
             sead::FormatFixedSafeString<64> area(homes.names[i]);
@@ -3355,7 +3373,7 @@ void Unk_7102482790::sub_71009F6220(const char* actor) {
         }
     }
     const eui::MessageString message(text.calcLength(), text.cstr());
-    uking::ui::setWidgetString(_8, uking::ui::sUnk_71025eb9f8, message);
+    uking::ui::setWidgetString(_8, uking::ui::sPictureBookState._1a8, message);
 }
 
 namespace uking::ui {
