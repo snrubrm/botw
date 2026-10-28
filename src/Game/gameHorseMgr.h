@@ -152,7 +152,8 @@ public:
     // owned horse already exists, one of the two type records is present (setting / clearing the matching
     // Flag) or the saved last-ridden-horse flag is set.
     void initAndCreateHorseForStageGen(sead::Heap* heap, bool flag);
-    // 0x7100e82b10 (CSV x_4; declaration only): whether a record of `type` exists in buffer 0.
+    // 0x7100e82b10 (CSV x_4): whether one of the five horse records of `type` is complete and in range;
+    // the `dead` records are read with sub_7100E854EC, the others with x_8.
     bool x_4(RiddenAnimalType type, bool dead);
     // 0x7100e830cc (CSV x_6; declaration only): starts creating the stage-generator horse on `heap`.
     void x_6(sead::Heap* heap);

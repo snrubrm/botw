@@ -591,48 +591,42 @@ s32 HorseMgr::sub_7100E8612C(RiddenAnimalType* type) {
     return _d0;
 }
 
+// 0x7100e82b10: scans the five horse records for a complete, in-range one of `type` (the `dead`
+// path reads the Horse_* flags of buffer 1, the other one buffer 0 through x_8).
+// NON_MATCHING: the two loop copies are laid out differently (see x_5); the calls and checks match.
+bool HorseMgr::x_4(RiddenAnimalType type, bool dead) {
+    for (s32 i = 0; i < 5; ++i) {
+        HorseData data;
+        if ((dead ? sub_7100E854EC(&data, i) : x_8(&data, i)) &&
+            data.actorName[0] != sead::SafeString::cNullChar &&
+            data.userName[0] != sead::SafeString::cNullChar &&
+            data.reinsName[0] != sead::SafeString::cNullChar &&
+            data.saddleName[0] != sead::SafeString::cNullChar &&
+            data.maneName[0] != sead::SafeString::cNullChar &&
+            data.familiarity <= 1.0f && data.familiarity >= 0.0f &&
+            (data.collarType | data.footType) >= 0 &&
+            ksys::act::getHorseUnitRiddenAnimalType(ksys::act::InfoData::instance(),
+                                                    data.actorName) == int(type))
+            return true;
+    }
+    return false;
+}
+
 // 0x7100e82df8: scans the five horse records for a complete, in-range one of `type`.
-// NON_MATCHING: the two loop copies are laid out differently (ours evaluates the record checks in
-// a different block order and spills one extra register); the calls and checks match.
 bool HorseMgr::x_5(RiddenAnimalType type, bool dead) {
-    if (dead) {
-        for (s32 i = 0; i < 5; ++i) {
-            HorseData data;
-            if (!sub_7100E89B20(&data, i))
-                continue;
-            if (data.actorName[0] == sead::SafeString::cNullChar ||
-                data.userName[0] == sead::SafeString::cNullChar ||
-                data.reinsName[0] == sead::SafeString::cNullChar ||
-                data.saddleName[0] == sead::SafeString::cNullChar ||
-                data.maneName[0] == sead::SafeString::cNullChar)
-                continue;
-            if (!(data.familiarity <= 1.0f && data.familiarity >= 0.0f))
-                continue;
-            if ((data.footType | data.collarType) < 0)
-                continue;
-            if (ksys::act::getHorseUnitRiddenAnimalType(ksys::act::InfoData::instance(),
-                                                        data.actorName) == int(type))
-                return true;
-        }
-    } else {
-        for (s32 i = 0; i < 5; ++i) {
-            HorseData data;
-            if (!sub_7100E86F80(&data, i))
-                continue;
-            if (data.actorName[0] == sead::SafeString::cNullChar ||
-                data.userName[0] == sead::SafeString::cNullChar ||
-                data.reinsName[0] == sead::SafeString::cNullChar ||
-                data.saddleName[0] == sead::SafeString::cNullChar ||
-                data.maneName[0] == sead::SafeString::cNullChar)
-                continue;
-            if (!(data.familiarity <= 1.0f && data.familiarity >= 0.0f))
-                continue;
-            if ((data.footType | data.collarType) < 0)
-                continue;
-            if (ksys::act::getHorseUnitRiddenAnimalType(ksys::act::InfoData::instance(),
-                                                        data.actorName) == int(type))
-                return true;
-        }
+    for (s32 i = 0; i < 5; ++i) {
+        HorseData data;
+        if ((dead ? sub_7100E89B20(&data, i) : sub_7100E86F80(&data, i)) &&
+            data.actorName[0] != sead::SafeString::cNullChar &&
+            data.userName[0] != sead::SafeString::cNullChar &&
+            data.reinsName[0] != sead::SafeString::cNullChar &&
+            data.saddleName[0] != sead::SafeString::cNullChar &&
+            data.maneName[0] != sead::SafeString::cNullChar &&
+            data.familiarity <= 1.0f && data.familiarity >= 0.0f &&
+            (data.collarType | data.footType) >= 0 &&
+            ksys::act::getHorseUnitRiddenAnimalType(ksys::act::InfoData::instance(),
+                                                    data.actorName) == int(type))
+            return true;
     }
     return false;
 }
