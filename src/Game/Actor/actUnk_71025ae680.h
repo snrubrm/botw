@@ -164,6 +164,8 @@ public:
     bool sub_71006D1D7C();
     bool sub_71006D1DA0();
 
+    // 0x71006cf270 (slot 4): true. Shared with Unk_71008502cc's vtable, which does not override it.
+    bool m4(sead::Heap* heap) override;
     void m5() override;
     void m7() override;
     bool m8(const ksys::Message& message) override;
@@ -260,7 +262,7 @@ public:
     explicit Unk_71008502cc(ksys::act::Actor* actor);
     // 0x7100850314
     ~Unk_71008502cc() override;
-    bool m4(sead::Heap* heap) override { return true; }
+    // Slot 4 (m4) is not overridden: both this vtable and Unk_710244dd20's point at 0x71006cf270.
     // Slot 9 (0x7100850c58): whether the player (Player cast of the actor) is in an event.
     bool m9() override;
     // Slot 12 (0x710085062c): conditions 0 / 1 set their bit unless the player's 0x710084cf24 says otherwise, 5 also

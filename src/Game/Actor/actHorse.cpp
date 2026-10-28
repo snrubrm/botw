@@ -22,6 +22,37 @@ ksys::act::BaseProc* Horse::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Horse(arg);
 }
 
+// 0x7100080780
+// NON_MATCHING: register colour and scheduling in the callback buffer zero loop (one extra mBuffer load
+// in the prologue) and the two `return true` blocks are not tail-merged (the original shares one).
+bool Horse::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
+    if (!HorseBase::prepareInit_(heap, arg))
+        return false;
+    if (sub_7100E68270())
+        return true;
+    if (!_c58.init(heap))
+        return false;
+    if (!_cd8.m4(heap, nullptr))
+        return false;
+    if (!_f50.sub_71006ECC78(heap))
+        return false;
+
+    auto* mgr = static_cast<DamageManagerBase*>(&_d20);
+    const s32 num_callbacks = mgr->getNumCallbacks();
+    if (num_callbacks != 0) {
+        mgr->mCallbacks.tryAllocBuffer(num_callbacks, heap);
+        for (s32 i = 0, n = mgr->mCallbacks.size(); i < n; ++i)
+            mgr->mCallbacks(i) = nullptr;
+        if (!mgr->mCallbacks.isBufferReady())
+            return false;
+    }
+    if (!mgr->allocStruct20(heap))
+        return false;
+    if (mgr->initCallbacks(heap) && _1028.m4(heap))
+        return true;
+    return false;
+}
+
 // NON_MATCHING: member types incomplete (DamageManager, Unk_710244dd20)
 Horse::~Horse() = default;
 

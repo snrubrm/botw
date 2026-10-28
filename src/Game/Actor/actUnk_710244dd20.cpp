@@ -32,6 +32,10 @@ Unk_710244dd20::Unk_710244dd20(ksys::act::Actor* actor) : Unk_71025ae680(actor) 
 
 Unk_710244dd20::~Unk_710244dd20() = default;
 
+bool Unk_710244dd20::m4(sead::Heap* heap) {
+    return true;
+}
+
 f32 Unk_710244dd20::sub_71006D1D48() {
     f32 ratio = 1.0f;
     if (_8.isOn(8)) {
