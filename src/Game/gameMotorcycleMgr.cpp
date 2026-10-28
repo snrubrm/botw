@@ -243,6 +243,40 @@ bool MotorcycleMgr::spawnMotorcycleShapeCastStuff(sead::Vector3f* pos, sead::Vec
     return !(&cast)->executeQuery(ksys::phys::ShapeCast::WeldClosestPoints::Yes);
 }
 
+// 0x710067a5d8: a zero-length sphere cast of the capsule radius plus 0.5 at `pos` + `dir` * that
+// radius on the indoor sensor layers; false when a contact point is not on material mask bit 22.
+bool MotorcycleMgr::spawnMotorcycle_x_6(sead::Vector3f* pos, sead::Vector3f* dir,
+                                        ksys::phys::InstanceSet* instance) {
+    ksys::phys::SphereCast cast{ksys::phys::ContactLayer::SensorHitOnlyInDoor,
+                                ksys::phys::GroundHit::HitAll,
+                                instance ? instance->get188(1) : nullptr,
+                                0x10,
+                                ksys::phys::ShapeCast::Mode::_0,
+                                sead::Vector3f::zero,
+                                0.5f,
+                                sead::SafeString::cEmptyString,
+                                ksys::phys::LowPriority::No};
+    cast.getContactPointInfo()->subscribeLayer(ksys::phys::ContactLayer::SensorInDoor);
+
+    sead::Vector3f start = *pos;
+    const f32 radius = _d0->getRadius() + 0.5f;
+    start.x = dir->x * radius + start.x;
+    start.y = dir->y * radius + start.y;
+    start.z = dir->z * radius + start.z;
+    cast.setStartAndEnd(start, start);
+
+    // called through a pointer in the original (not devirtualised)
+    if ((&cast)->executeQuery(ksys::phys::ShapeCast::WeldClosestPoints::Yes)) {
+        auto it = cast.getContactPointInfo()->begin();
+        const auto end = cast.getContactPointInfo()->end();
+        for (; it != end; ++it) {
+            if ((it.getPoint()->material_mask_b.getRawData() & 0x400000) < 0x400000)
+                return false;
+        }
+    }
+    return true;
+}
+
 bool MotorcycleMgr::spawnMotorcycle_x_0(const sead::Vector3f& pos_, const sead::Vector3f& size,
                                         const sead::Vector3f& dir_,
                                         ksys::phys::RayCastBodyQuery* cast) {

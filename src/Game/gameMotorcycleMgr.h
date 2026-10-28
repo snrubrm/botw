@@ -105,6 +105,11 @@ public:
     // the last cast hit.
     bool spawnMotorcycle_x_0(const sead::Vector3f& pos, const sead::Vector3f& size,
                              const sead::Vector3f& dir, ksys::phys::RayCastBodyQuery* cast);
+    // 0x710067a5d8 (CSV MotorcycleMgr::spawnMotorcycle_x_6; parameter names are guesses): a zero-length
+    // sphere cast at `pos` + `dir` * (capsule radius + 0.5) on the indoor sensor layers; false when a
+    // contact point is not on material mask bit 22.
+    bool spawnMotorcycle_x_6(sead::Vector3f* pos, sead::Vector3f* dir,
+                             ksys::phys::InstanceSet* instance);
     // 0x710067a40c: a zero-length shape cast at `pos` + size/2 with the instance set's first system
     // group handler; returns whether the second query misses (ground hit type 0).
     bool spawnMotorcycleShapeCastStuff(sead::Vector3f* pos, sead::Vector3f* size,
