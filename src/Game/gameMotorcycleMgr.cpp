@@ -6,6 +6,7 @@
 #include "Game/Actor/aiXlinkHandle.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/gameSceneSubsys12.h"
+#include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
@@ -235,6 +236,38 @@ void MotorcycleMgr::clampMotorcycleEnergy() {
 }
 
 // NON_MATCHING: std::min uses stack temporaries and pointer selection instead of FMIN.
+// 0x710067a7e4: asks the carried-actor subsystem for the names around the player, hashes them and
+// turns the result into fuel (0 clears the spawn flag on the subsystem).
+bool MotorcycleMgr::sub_710067A7E4(s32* out_a, s32* out_b) {
+    auto* scene = GameSceneSubsys12::instance();
+    if (!scene)
+        return false;
+
+    sead::FixedSafeString<64> names[5];
+    sead::Buffer<sead::FixedSafeString<64>> buffer(5, names);
+
+    if (out_a && out_b) {
+        *out_b = scene->sub_7100664D64();
+        *out_a = scene->sub_710066358C() - *out_b;
+    }
+
+    scene->sub_7100664E0C(nullptr, &buffer);
+
+    EnergyCalculationArg arg;
+    const s32 num_names = buffer.size();
+    const auto* name = buffer.getBufferPtr();
+    for (s32 i = 0; i != num_names; ++i)
+        arg.hashes[i] = sead::HashCRC32::calcStringHash(name[i].cstr());
+
+    const f32 energy = sub_710067A9DC(&arg);
+    _c8 = energy;
+    if (energy <= 0.0f) {
+        scene->_a78.fetchAnd(0xfffffffeu);
+        return false;
+    }
+    return true;
+}
+
 // 0x710067a9dc: computes the fuel from up to five actor names (their "motorcycleEnergy" BYML
 // values) and caches the result with the hashes.
 // NON_MATCHING: our loop strength-reduces the array index to a byte cursor (the original keeps the

@@ -64,7 +64,8 @@ public:
     void sub_710067AB8C();
     // 0x710067a7e4 (declared by lane1 s95; placeholder name): MotorcycleRoot::handleMessage_ calls it with null
     // before the Demo649_0 event; when both are set it outputs two GameSceneSubsys12 counts.
-    void sub_710067A7E4(s32* out_a, s32* out_b);
+    // Returns whether the resulting fuel is positive.
+    bool sub_710067A7E4(s32* out_a, s32* out_b);
 
     // 0x7100679ad0: whether `actor` is the actor riding the motorcycle.
     bool checkIsActorRidingMotorcycle(ksys::act::Actor* actor);
