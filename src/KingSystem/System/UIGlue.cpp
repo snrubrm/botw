@@ -128,13 +128,13 @@ void sub_7100EDC424() {
         sSub_7100EDC424Handler();
 }
 
-using SCallFindDungeonNameForPositionHandlerFn = s32 (*)(void*, void*);
+using SCallFindDungeonNameForPositionHandlerFn = s32 (*)(void*, const sead::Vector3f*, f32);
 SCallFindDungeonNameForPositionHandlerFn sCallFindDungeonNameForPositionHandler;
 
 // 0x7100edc43c
-s32 callFindDungeonNameForPosition(void* a1, void* a2) {
+s32 callFindDungeonNameForPosition(void* a1, const sead::Vector3f* a2, f32 a3) {
     if (sCallFindDungeonNameForPositionHandler)
-        return sCallFindDungeonNameForPositionHandler(a1, a2);
+        return sCallFindDungeonNameForPositionHandler(a1, a2, a3);
     return 0;
 }
 

@@ -8,12 +8,98 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/System/MCMgr.h"
+#include "KingSystem/System/StageInfo.h"
 #include "KingSystem/System/SystemTimers.h"
+#include "KingSystem/System/UIGlue.h"
+
+// Existing profile classification utility; the original namespace is unknown.
+bool isAreaOrLinkTagOrOtherTag(const sead::SafeString& profile) {
+    if (profile == "Area")
+        return true;
+    if (profile.findIndex("AreaManagement") == -1) {
+        if (profile == "ComplexTag")
+            return true;
+        if (profile == "SoleTag")
+            return true;
+        if (profile == "EventTag")
+            return true;
+        if (profile == "SpotBgmTag")
+            return true;
+        return false;
+    }
+    return true;
+}
 
 namespace ksys::map {
 
 bool setS32ByIdxForLinkTag(gdt::Manager* mgr, s32 value, gdt::FlagHandle handle) {
     return mgr->setS32(value, handle, true, false);
+}
+
+// 0x7100d39b50: builds the save-flag name of the link tag object `obj` into `out` and returns the
+// string for the flag hash. Case 3 of "MakeSaveFlag" has no name; otherwise "SaveFlag" names it.
+bool getLinkTagSaveFlagName(sead::BufferedSafeString& out, const char** out_name, const Object* obj) {
+    s32 make_save_flag;
+    if (obj->getMubinIter().tryGetParamIntByKey(&make_save_flag, "MakeSaveFlag")) {
+        switch (make_save_flag) {
+        case 1: {
+            const sead::SafeString& map_name = StageInfo::getCurrentMapName();
+            out.format("Clear_%s", map_name.cstr());
+            *out_name = out.cstr();
+            return true;
+        }
+        case 2: {
+            sead::SafeString name;
+            const sead::Vector3f pos = obj->getTranslate();
+            ui::callFindDungeonNameForPosition(&name, &pos, 100.0f);
+            out.format("Open_%s", name.cstr());
+            *out_name = out.cstr();
+            return true;
+        }
+        case 3:
+            return false;
+        default:
+            break;
+        }
+    }
+    return obj->getMubinIter().tryGetParamStringByKey(out_name, "SaveFlag");
+}
+
+// NON_MATCHING: the original saves x28 and keeps its frame 0x10 larger; the flag-name buffer, the
+// out name and the temporary SafeStrings therefore sit at shifted stack slots, and four register
+// assignments differ. Instructions, calls and control flow otherwise agree.
+// 0x7100d39964: the revival game data flag of the object `obj`; `*increment` is set when the flag is
+// an S32 counter. Returns gdt::InvalidHandle unless the mubin has a usable "MakeSaveFlag".
+gdt::FlagHandle getLinkTagRevivalGameDataFlagHash(const sead::SafeString& object_name,
+                                                  const Object* obj, bool* increment) {
+    sead::FixedSafeString<128> save_flag_name;
+    const char* name = nullptr;
+    auto* mgr = gdt::Manager::instance();
+    if (getLinkTagSaveFlagName(save_flag_name, &name, obj)) {
+        bool is_increment = false;
+        if (!obj->getMubinIter().tryGetParamBoolByKey(&is_increment, "IncrementSave") ||
+            !is_increment) {
+            if (object_name != "LinkTagCount") {
+                *increment = false;
+                const u32 prefix = mgr->getCurrentFlagHandlePrefix();
+                const u32 hash = sead::HashCRC32::calcStringHash(name);
+                const s32 idx = mgr->getParam().get1().getBuffer()->getBoolIdx(hash);
+                return gdt::FlagHandle(u32(idx) | (prefix << 24));
+            }
+        }
+        *increment = true;
+        const u32 prefix = mgr->getCurrentFlagHandlePrefix();
+        const u32 hash = sead::HashCRC32::calcStringHash(name);
+        const s32 idx = mgr->getParam().get1().getBuffer()->getS32Idx(hash);
+        return gdt::FlagHandle(u32(idx) | (prefix << 24));
+    }
+
+    s32 make_save_flag;
+    if (!obj->getMubinIter().tryGetParamIntByKey(&make_save_flag, "MakeSaveFlag"))
+        return gdt::InvalidHandle;
+    if (make_save_flag != 3)
+        return gdt::InvalidHandle;
+    return mgr->getRevivalFlagHandle(object_name, obj->getMubinIter());
 }
 
 // NON_MATCHING: only the block order of the getS32 buffer 1 path (same instructions; the original tests the 0x8000 flag with the

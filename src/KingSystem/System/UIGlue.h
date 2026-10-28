@@ -1,5 +1,6 @@
 #pragma once
 
+#include <math/seadVector.h>
 #include <prim/seadSafeString.h>
 
 namespace ksys::ui {
@@ -28,7 +29,7 @@ s32 sub_7100EDC3D0(void* a1);
 s32 sub_7100EDC3EC(void* a1);
 s32 sub_7100EDC408(void* a1);
 void sub_7100EDC424();
-s32 callFindDungeonNameForPosition(void* a1, void* a2);
+s32 callFindDungeonNameForPosition(void* a1, const sead::Vector3f* a2, f32 a3);
 void sub_7100EDC458();
 void sub_7100EDC470();
 void sub_7100EDC488();
