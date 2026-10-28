@@ -10,6 +10,10 @@ namespace uking::frm {
 class SystemStruct1 {
 public:
     virtual ~SystemStruct1();
+    // 0x7100900d3c / 0x7100900e10 (declared only): System constructs the vector and the per-frame
+    // controller step copies the input into it.
+    SystemStruct1();
+    void calcController();
     static SystemStruct1* getInstance();
     // 0x7100897a94 (16 B): stores the instance pointer.
     static void setInstance(SystemStruct1* instance);

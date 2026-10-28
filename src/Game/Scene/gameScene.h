@@ -25,6 +25,10 @@ namespace ksys::res {
 class Resource;
 }
 
+namespace sead {
+class Framework;
+}
+
 // Placeholder singleton (instance at 0x71025d1740) used by the patch-error scene state.
 // Only the setter used here is declared; its owner subsystem is not established.
 class Unk_71025d1740 {
@@ -155,6 +159,11 @@ public:
     // 0x71007a8e94 (placeholder name; frm::System::isReady forwards to it): counts the calls and returns whether
     // the resources of the managers initGlobalParamE3TipsActorAndPlacement loads (and the title pack) are ready.
     bool areResourcesReadyMaybe();
+    // 0x71007a90c8 / 0x71007ae1d0 / 0x71007aed0c (declared only; the frm::System frame-step wrappers call them).
+    // The framework pointer is not read by preCalc / postCalc.
+    void preCalc(const sead::Framework* const& framework);
+    void calcAndRunStateMachine(const sead::Framework* const& framework);
+    void postCalc(const sead::Framework* const& framework);
     // 0x71002ca830: clears the pointers at 0x71025b6c50 .. 0x71025b6c88.
     static void initSomePointers();
 
@@ -365,6 +374,10 @@ private:
         mWork;
 };
 static_assert(sizeof(Unk_710245b4d8) == 0x90);
+
+// 0x71007a8f68 (placeholder name): switches the display on and loads the bootup resources. Reads the scene's
+// damage info manager at 0x280.
+void loadBootupResources(GameScene* scene);
 
 }  // namespace uking
 

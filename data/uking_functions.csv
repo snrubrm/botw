@@ -49762,11 +49762,11 @@ Address,Quality,Size,Name
 0x00000071007d1d5c,U,000004,nullsub_2461
 0x00000071007d1d60,U,000004,j__ZdlPv_362
 0x00000071007d1d64,U,000216,uking::frm::System::init
-0x00000071007d1e3c,U,000020,uking::frm::System::isReady
-0x00000071007d1e50,U,000016,uking::frm::System::finalizeBootup
-0x00000071007d1e60,U,000044,uking::frm::System::preCalc
-0x00000071007d1e8c,U,000084,uking::frm::System::calcAndRunStateMachine
-0x00000071007d1ee0,U,000044,uking::frm::System::postCalc
+0x00000071007d1e3c,O,000020,_ZN5uking3frm6System7isReadyEv
+0x00000071007d1e50,O,000016,_ZN5uking3frm6System14finalizeBootupEv
+0x00000071007d1e60,O,000044,_ZN5uking3frm6System7preCalcERKPN4sead9FrameworkE
+0x00000071007d1e8c,O,000084,_ZN5uking3frm6System22calcAndRunStateMachineERKPN4sead9FrameworkE
+0x00000071007d1ee0,O,000044,_ZN5uking3frm6System8postCalcERKPN4sead9FrameworkE
 0x00000071007d1f0c,O,000008,_ZNK4sead6hostio4Node16getNodeClassTypeEv
 0x00000071007d1f14,U,000112,
 0x00000071007d1f84,U,000092,
