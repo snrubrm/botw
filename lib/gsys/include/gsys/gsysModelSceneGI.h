@@ -50,6 +50,8 @@ public:
     bool isCubeMapReady() const;
     // 0x7100c309d0
     void setSceneMaterial(class ModelNW* model);
+    // 0x7100c3246c: builds the light map memory and resets this frame's object lists.
+    void calcFrame(int frame);
     // 0x7100c324e8
     void pushBack(const sead::Vector3f& position, agl::lght::LocalLightMapObj* obj);
     // 0x7100c3250c: copies this frame's objects and updates the per-frame light state.

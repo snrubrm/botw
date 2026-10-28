@@ -25,6 +25,8 @@ public:
 
     // 0x7100c7d950: sorts the two render queues.
     void update();
+    // 0x7100c7d404: ModelSceneGI::calcFrame draws the frame's cube maps.
+    void calc(int frame);
 
 private:
     u8 _0[0x348];

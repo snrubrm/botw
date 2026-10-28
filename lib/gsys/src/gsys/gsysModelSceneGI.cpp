@@ -186,6 +186,16 @@ void ModelSceneGI::setSceneMaterial(ModelNW* model) {
     mEnvCubeMap->mShaderContext->setSceneMaterial(model);
 }
 
+// 0x7100c3246c
+void ModelSceneGI::calcFrame(int frame) {
+    if (mLightMapMgr && _8->isFeatureEnabled(ModelSceneConfig::Feature::LightMap))
+        mLightMapMgr->constructMemory();
+    mObjects.clear();
+    mFrameObjects.clear();
+    if (mEnvCubeMap && _8->isFeatureEnabled(ModelSceneConfig::Feature::EnvCubeMap))
+        mEnvCubeMap->calc(frame);
+}
+
 // 0x7100c33a70
 void ModelSceneGI::free(PointLightRig* rig, Model* model, int index) {
     if (mPointLightResMgr)
