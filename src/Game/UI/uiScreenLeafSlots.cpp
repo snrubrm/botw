@@ -1028,6 +1028,26 @@ s32 ScreenAppMapDungeon::m165() {
 // ScreenAppPictureBook
 // 0x71009faecc
 void ScreenAppPictureBook::m164() {}
+// 0x71009fa6c8: stops the pair of animators, tells the home screen and, while the picture book page is
+// still open, forwards the selected picture to the per-picture update.
+void ScreenAppPictureBook::m154() {
+    uking::ui::getHeap();
+    if (_3638)
+        _3640->StopAtMin();
+    if (auto* home = sead::DynamicCast<ScreenAppHome>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome)))
+        home->sub_71009DD800(true);
+    if (getStateMachine().getPrevState()->getId() == (&sUnk_71025eb4f0)->getId()) {
+        if (_3628)
+            _3628->PlayAuto(-1.0f);
+        if (_3660) {
+            _3660->sub_710093DAE8(0);
+            if (_3658)
+                _3658->sub_710093EC3C(sPictureBookState._514[_3660->_2ec], 1);
+        }
+    }
+}
+
 // 0x71009faab0
 void ScreenAppPictureBook::m158() {
     if (auto* home = sead::DynamicCast<ScreenAppHome>(eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome)))

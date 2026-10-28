@@ -17,49 +17,6 @@
 
 namespace uking::ui {
 
-// The AppPictureBook screen's new-picture name lists (0x71025ea0880 / 0x71025ea0e00 /
-// 0x71025eb0380) and the screen's state block (0x71025eb850). The lists hold the names of pictures
-// taken but not yet registered; the block keeps the name counts, the widget names and the initial
-// weapon picture names. Every access in the original is relative to the block base (e.g.
-// getInitialWeaponPictureBookNames computes base + 0x2a0), so the block is one object. The screen
-// flag at +0 is a separate bool object (its load is an i1 load), modelled below.
-struct PictureBookState {
-    /* 0x000 */ u8 _0[0x1c];
-    /* 0x01c */ s32 _1c = 0;  // number of names registered so far
-    /* 0x020 */ s32 _20 = 0;
-    /* 0x024 */ u32 mNumNewEnemyPictures = 0;
-    /* 0x028 */ u32 mNumNewBossPictures = 0;
-    /* 0x02c */ u32 mNumNewWeaponPictures = 0;
-    /* 0x030 */ u8 _30[0x148];
-    /* 0x178 */ sead::SafeString _178 = "AppPictureBook_00Screen";
-    // The sensor target text widget name (read by sub_71009F9C30).
-    /* 0x188 */ sead::SafeString _188 = "T_Name_00";
-    /* 0x198 */ sead::SafeString _198 = "T_PhotoInfo_00";
-    /* 0x1a8 */ sead::SafeString _1a8 = "T_SubTextA_00";
-    /* 0x1b8 */ sead::SafeString _1b8 = "T_SubTextB_00";
-    /* 0x1c8 */ sead::SafeString _1c8 = "T_SubTextC_00";
-    /* 0x1d8 */ sead::SafeString _1d8 = "T_SubTextD_00";
-    /* 0x1e8 */ sead::SafeString _1e8 = "T_SubTextE_00";
-    /* 0x1f8 */ sead::SafeString _1f8 = "T_SubTextF_00";
-    /* 0x208 */ sead::SafeString _208 = "T_Param_00";
-    /* 0x218 */ sead::SafeString _218 = "T_SubTitleA_00";
-    /* 0x228 */ sead::SafeString _228 = "T_SubTitleF_00";
-    /* 0x238 */ sead::SafeString _238 = "WeaponShield";
-    /* 0x248 */ sead::SafeString _248 = "WeaponBow";
-    /* 0x258 */ sead::SafeString _258 = "Bullet";
-    /* 0x268 */ sead::SafeString _268 = "StaticMsg/Reference";
-    /* 0x278 */ sead::SafeString _278 = "LayoutMsg/AppPictureBook_00";
-    /* 0x288 */ s32 _288[5];
-    /* 0x29c */ u8 _29c[4];
-    // "Weapon_Bow_071" and "Weapon_Sword_070" (0x71009f8464).
-    /* 0x2a0 */ sead::SafeString _2a0[2] = {"Weapon_Bow_071", "Weapon_Sword_070"};
-    /* 0x2c0 */ sead::SafeString _2c0[6] = {"Obj_Photo_Animal", "Obj_Photo_Enemy", "Obj_Photo_Material",
-                                            "Obj_Photo_Weapon", "Obj_Photo_Other", "Obj_Photo_BossEnemy"};
-    /* 0x320 */ u8 _320[0x1f4];
-    // The registered-name index of each album picture (read by sub_71009F6A5C).
-    /* 0x514 */ sead::SafeArray<s32, 500> _514;
-};
-
 static sead::SafeArray<sead::FixedSafeString<64>, 16> sNewEnemyPictureBookNames;
 static sead::SafeArray<sead::FixedSafeString<64>, 16> sNewBossPictureBookNames;
 static sead::SafeArray<sead::FixedSafeString<64>, 2> sNewWeaponPictureBookNames;
@@ -3095,6 +3052,24 @@ void ScreenAppPictureBook::m101() {
         _3628->StopAtMin();
     sUnk_71025eb850 = false;
     sUnk_71025eb5b8 = 0;
+}
+
+// 0x71009fada8: when the system window closes, hands the selected picture's name to the sensor target
+// setup and moves to the waiting state.
+void ScreenAppPictureBook::m163() {
+    auto* screen = eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindow);
+    if (!sead::IsDerivedFrom<ScreenAppSystemWindow>(screen))
+        return;
+    if (!_3660)
+        return;
+    if (!screen->isClosedOrClosing())
+        return;
+    if (ksys::gdt::getFlag_IsGet_Obj_SheikSensorLv2(false) &&
+        ScreenAppSystemWindow::sub_71009FC4A0() == 0) {
+        const s32 page = sPictureBookState._514[_3660->_2d8];
+        sub_71009F9F30(sUnk_71025dfca0[page]);
+    }
+    getStateMachine().changeState(&sUnk_71025eb4f0);
 }
 
 // 0x71009f8dfc
