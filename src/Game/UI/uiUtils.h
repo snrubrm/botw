@@ -104,12 +104,16 @@ void sub_7100A94BAC();
 // 0x7100a944d8 (defined in uiScreenFacade.cpp; declared here for
 // SystemPauseMgr::waitForOnUiActorMgrAndBlockSaveMaybe / waitForOnUiActorMgr).
 void sub_7100A944D8();
+// 0x7100a945bc (placeholder name): clears the low-priority UI queue and the app screens' layout work.
+void sub_7100A945BC();
 // 0x7100a944b4 / 0x7100a946ac / 0x7100a94914 (defined in uiManagerFacade.cpp / uiScreenFacade.cpp).
 void sub_7100A944B4();
 void sub_7100A946AC();
 void sub_7100A94914(bool value);
 // 0x7100a6d3ec (CSV nullsub_3106; declaration only): empty; called by SystemPauseMgr::m2 / onSystemPauseResume.
 void sub_7100A6D3EC();
+// 0x7100a6d3f0 (placeholder name; empty in the original; called by SystemPauseMgr).
+void sub_7100A6D3F0();
 // 0x7100a9f55c: selects a nearby record name into the mutable output string.
 bool sub_7100A9F55C(sead::SafeString* out_name, const sead::Vector3f* position, f32 radius);
 

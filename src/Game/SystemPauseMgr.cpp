@@ -11,6 +11,9 @@
 #include "Game/Scene/gameScene.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/System/PlayReportMgr.h"
+#include "KingSystem/GameData/gdtSaveMgr.h"
+#include "Game/gameNFP.h"
+#include <nn/os.h>
 
 namespace uking {
 
@@ -53,6 +56,22 @@ void SystemPauseMgr::waitForOnUiActorMgr() {
             uking::ui::OnUiActorMgr::instance()->sub_710090941C();
             sead::Thread::sleep(sead::TickSpan::makeFromMilliSeconds(10));
         }
+    }
+}
+
+void SystemPauseMgr::stopNfpAndWaitForSaveMgr() {
+    uking::ui::sub_7100A945BC();
+    uking::ui::sub_7100A6D3F0();
+    if (auto* nfp = NFP::instance()) {
+        nfp->quitThread();
+        while (nfp->sub_F45BB8())
+            sead::Thread::sleep(sead::TickSpan::makeFromMilliSeconds(10));
+    }
+    nn::os::GetSystemTick();
+    if (ksys::SaveMgr::instance()) {
+        // The save thread state is re-read through the singleton every iteration.
+        while (ksys::SaveMgr::instance()->get38() != 0)
+            sead::Thread::sleep(sead::TickSpan::makeFromMilliSeconds(10));
     }
 }
 
