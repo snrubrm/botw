@@ -1564,7 +1564,8 @@ public:
     bool sub_7100963560(s32 value) const;
     // 0x710096357c / 0x7100963590 / 0x710096371c / 0x71009638e8 (placeholder names)
     sead::Vector2f* sub_710096357C() const;
-    s32 returnFF() const;
+    // the only call site (ScreenAppMap::sub_71009F1828) passes no receiver, so this is a static function
+    static s32 returnFF();
     u8 get12c() const;
     void set6e4(s64 value);
     // 0x71009638f0 / 0x7100963c70 (placeholder names): set / clear the quest at _3a0, then sub_71009638F8

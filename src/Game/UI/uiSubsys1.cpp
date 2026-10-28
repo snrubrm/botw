@@ -1342,7 +1342,7 @@ sead::Vector2f* UiSubsys1::sub_710096357C() const {
 }
 
 // 0x7100963590
-s32 UiSubsys1::returnFF() const {
+s32 UiSubsys1::returnFF() {
     return 0xff;
 }
 

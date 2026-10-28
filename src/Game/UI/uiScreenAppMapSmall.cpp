@@ -29,6 +29,7 @@
 #include "Game/AOC/aocHardModeManager.h"
 #include "KingSystem/GameData/gdtSaveMgr.h"
 #include "KingSystem/GameData/gdtSpecialFlags.h"
+#include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/Sound/sndSound.h"
 #include "KingSystem/XLink/xlinkManager.h"
 
@@ -39,6 +40,10 @@ KSYS_VISIBILITY_HIDDEN sead::FixedSafeString<64> sUnk_71025def40("T_Name_00");
 
 // 0x710099f668 (CSV unnamed): builds the hovered map marker's name message for `part`.
 extern "C" void appMapStringStuff(AppMapIconPart* part, eui::MessageString* message);
+
+// 0x71009f12c0 (CSV unnamed; not decompiled): maps a map area name to its region name through the tables of
+// sUnk_71025df330; the output is left empty when the area is not in the table.
+void sub_71009F12C0(const sead::SafeString& area, sead::FixedSafeString<64>* region);
 
 // 0x71009d9c40
 void ScreenAppCamera::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
@@ -404,6 +409,10 @@ static const sead::Buffer<const ChildControlCreatorEntry> sUnk_7102481758(sUnk_7
 
 // 0x71025de8b0: the AppMap layout message set used by sub_71009F08F8.
 KSYS_VISIBILITY_HIDDEN sead::SafeString sUnk_71025de8b0 = "LayoutMsg/AppMap_00";
+// 0x71025de680: the dungeon message set used by the dungeon marker entry helpers.
+KSYS_VISIBILITY_HIDDEN sead::FixedSafeString<256> sUnk_71025de680("StaticMsg/Dungeon");
+// 0x71025deff0: the "T_Hint_00" widget name of the dungeon marker's hint message.
+KSYS_VISIBILITY_HIDDEN sead::FixedSafeString<64> sUnk_71025deff0("T_Hint_00");
 // 0x71009e7f30
 const sead::Buffer<const ChildControlCreatorEntry>* Unk_7102481828::getEntries() const {
     return &sUnk_7102481758;
@@ -1170,6 +1179,37 @@ void ScreenAppMap::sub_71009F0BE4() {
         _3c08->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
 }
 
+// 0x71009f0ef8 (placeholder name): builds the dungeon hint label "<name>_sub" for the marker entry and shows it in
+// the hint pane, then plays the hint animator.
+void ScreenAppMap::sub_71009F0EF8(UiSubsys1Entry* icon) {
+    if (!icon)
+        return;
+    sead::FixedSafeString<256> message_set;
+    sead::FixedSafeString<256> label;
+    eui::MessageString message;
+    message_set = sUnk_71025de680;
+    label.format("%s%s", static_cast<Unk_71024755d8*>(icon)->_68.cstr(), "_sub");
+    getMessage(message_set, label, &message);
+    setWidgetString(_3bf8, sUnk_71025deff0, message);
+    if (_3c18)
+        _3c18->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+}
+
+// 0x71009f10dc (placeholder name): the same dungeon hint for the Unk_71024756f0 marker entry.
+void ScreenAppMap::sub_71009F10DC(UiSubsys1Entry* icon) {
+    if (!icon)
+        return;
+    sead::FixedSafeString<256> message_set;
+    sead::FixedSafeString<256> label;
+    eui::MessageString message;
+    message_set = sUnk_71025de680;
+    label.format("%s%s", static_cast<Unk_71024756f0*>(icon)->_68.cstr(), "_sub");
+    getMessage(message_set, label, &message);
+    setWidgetString(_3bf8, sUnk_71025deff0, message);
+    if (_3c18)
+        _3c18->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+}
+
 // 0x71009f1720 (placeholder name): plays the icon entry's name message and moves _3c28 to the entry's side.
 // NON_MATCHING: the original evaluates icon->_28.x before UiSubsys1::instance() (C++14 argument order) and
 // keeps `icon` in x22; we get the instance first and icon in x21 (same instruction count).
@@ -1192,6 +1232,51 @@ void ScreenAppMap::sub_71009F1720(UiSubsys1Entry* icon) {
         _3c08->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
     if (!UiSubsys1::instance()->is38e4Equal(1) && !UiSubsys1::instance()->is38e4Equal(0))
         invokeSoundLink2Event_("mc_CursorNameIn");
+}
+
+// 0x71009f1828 (placeholder name): shows the region name of the position of `icon` (or of the current map view
+// when there is no entry) in the area pane; unknown areas use the map's two static fallback labels.
+// NON_MATCHING: the original copies the region message into a second MessageString just before the shared
+// setWidgetString call (add x0, sp, #0x18; sub x1, x29, #0x40; bl eui::MessageString::MessageString(const&));
+// the natural code passes the message directly, so the row is 12 bytes short.
+void ScreenAppMap::sub_71009F1828(UiSubsys1Entry* icon) {
+    f32 x;
+    f32 z;
+    if (icon) {
+        x = icon->_28.x;
+        z = icon->_28.z;
+    } else {
+        const sead::Vector2f center = *UiSubsys1::instance()->getVec3868();
+        sead::Vector2f pos;
+        _3610->sub_71009A9F4C(center, &pos);
+        x = pos.x;
+        z = pos.y;
+    }
+
+    const s32 area = ksys::eco::Ecosystem::instance()->getMapTowerArea(x, z);
+    if (area == UiSubsys1::returnFF()) {
+        eui::MessageString message;
+        getMessage("LayoutMsg/AppMap_00", sUnk_71025df330._270, &message);
+        setWidgetString(_3bf8, "T_Area_00", message);
+    } else if (UiSubsys1::instance()->sub_7100956C10(area)) {
+        eui::MessageString message;
+        const s32 field_area = ksys::eco::Ecosystem::instance()->getFieldMapArea(x, z);
+        if (field_area != -1) {
+            const char* name = nullptr;
+            ksys::eco::Ecosystem::instance()->getAreaNameByNum(field_area, &name);
+            if (name) {
+                sead::FixedSafeString<64> region;
+                sub_71009F12C0(sead::SafeString(name), &region);
+                if (!region.isEmpty())
+                    getMapRegionLocationString(region, &message);
+            }
+        }
+        setWidgetString(_3bf8, "T_Area_00", message);
+    } else {
+        eui::MessageString message;
+        getMessage("LayoutMsg/AppMap_00", sUnk_71025df330._260, &message);
+        setWidgetString(_3bf8, "T_Area_00", message);
+    }
 }
 
 // 0x71009f0ce4: the AppMap message label for `mode` (-1 gives the empty string) from the map mode table.

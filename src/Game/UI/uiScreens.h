@@ -2866,7 +2866,10 @@ struct Unk_71025df330 {
     /* 0x200 */ sead::Buffer<sead::SafeString> mHintAnimatorNames;
     u8 _210[0x240 - 0x210];
     /* 0x240 */ sead::Buffer<sead::SafeString> mCursorAnimatorNames;
-    u8 _250[0x280 - 0x250];
+    // message labels initialised by the TU's static initializer
+    /* 0x250 */ sead::SafeString _250;
+    /* 0x260 */ sead::SafeString _260;
+    /* 0x270 */ sead::SafeString _270;
     // the map mode message labels (sub_71009F0CE4 indexes this with the mode)
     /* 0x280 */ sead::Buffer<sead::SafeString> mLabelNames;
     u8 _290[0x2d0 - 0x290];
