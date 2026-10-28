@@ -10,6 +10,25 @@
 
 namespace uking::act {
 
+// The gait helpers of S1's animation state entry sit between the S1 TU and this one in the original
+// (0x7100e7a4d8 / 0x7100e7a54c, followed by 0x7100e7a584), so they live here to keep the S1 callers'
+// calls out of line.
+const sead::SafeString& RideableBase::S1::Unk68::getGaitName(S1::UnkGear gait) const {
+    if (!_40)
+        return sead::SafeString::cEmptyString;
+    return (*_40)[gait];
+}
+
+bool RideableBase::S1::Unk68::getGaitSpeedRange(f32* range, S1::UnkGear gait) const {
+    if (!_40)
+        return false;
+    if ((*_40)[gait].isEmpty())
+        return false;
+    range[0] = _48;
+    range[1] = _48 + _4c;
+    return true;
+}
+
 Unk_71024ebb00::Unk_71024ebb00() : ActorBindSet(16, mStorage) {}
 
 Unk_71024ebb00::~Unk_71024ebb00() {

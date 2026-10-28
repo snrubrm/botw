@@ -151,10 +151,20 @@ public:
         // parameter to the stack; the values are 0..5).
         SEAD_ENUM(UnkGear, _0, _1, _2, _3, _4, _5)
 
-        // Placeholder: the animation state entry the AS list exposes to S1 (0x68 bytes; only the rate at
-        // +0x50 is known).
+        // Placeholder: the animation state entry the AS list exposes to S1 (0x68 bytes). The entry holds the
+        // five per-gait animation names (+0x40), the speed range around the gait value (+0x48 / +0x4c) and the
+        // rate the request compares against (+0x50).
         struct Unk68 {
-            u8 _0[0x50];
+            // 0x7100e7a54c: the animation name of `gait`, or the empty string when the entry has no names.
+            const sead::SafeString& getGaitName(S1::UnkGear gait) const;
+            // 0x7100e7a4d8: writes `gait`'s speed range (low, high) to `range`; false when the entry has no
+            // names or that gait's name is empty.
+            bool getGaitSpeedRange(f32* range, S1::UnkGear gait) const;
+
+            u8 _0[0x40];
+            const sead::SafeArray<sead::SafeString, 5>* _40;
+            f32 _48;
+            f32 _4c;
             f32 mRate;
             u8 _54[0x14];
         };
