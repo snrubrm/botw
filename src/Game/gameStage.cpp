@@ -24,9 +24,13 @@
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldEnvMgr.h"
+#include <environment/aglFog.h>
+#include <postfx/aglPfxSky.h>
 #include "KingSystem/ActorSystem/actActorCaptureMgr.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
 #include <gsys/gsysResourceEditor.h>
+#include <gsys/gsysViewer.h>
+#include "KingSystem/System/VFR.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 
 // 0x71007d102c: called with the stage heap on unload; empty in the original.
@@ -451,24 +455,6 @@ void MainFieldDungeonStage::getMapType(sead::BufferedSafeString* out) {
 
 int MainFieldDungeonStage::m0() {
     return 2;
-}
-
-ViewerStage::ViewerStage() = default;
-
-ViewerStage::~ViewerStage() {
-    mHeap->destroy();
-}
-
-void ViewerStage::draw3D(const agl::lyr::RenderInfo& info) {}
-
-void ViewerStage::draw2D(const agl::lyr::RenderInfo& info) {}
-
-s32 ViewerStage::getType() {
-    return 5;
-}
-
-void ViewerStage::initForStageGen() {
-    ksys::world::sub_71010D6094(ksys::world::Manager::instance()->getEnvMgr());
 }
 
 }  // namespace uking

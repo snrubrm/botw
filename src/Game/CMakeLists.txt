@@ -115,6 +115,7 @@ target_sources(uking PRIVATE
   gameScene320.cpp
   gameSystemStruct1.cpp
   gameSystem.cpp
+  gameViewerStage.cpp
   gameSceneMgr.cpp
   gameStageStateMaybe.cpp
   gameStageStateMaybe.h

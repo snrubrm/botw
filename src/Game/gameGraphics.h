@@ -845,6 +845,9 @@ public:
 
 namespace agl {
 class ShaderProgram;
+namespace env {
+class Fog;
+}  // namespace env
 }  // namespace agl
 
 namespace gfx {
@@ -1299,6 +1302,8 @@ public:
     // The sky object Graphics +0xaa8 points to (allocated as 0xe80 bytes by the initializer F2C140);
     // ksys::act::sub_7100EEAFDC reads its down direction at 0x7f8.
     agl::pfx::Sky* getUnk_aa8() const { return _aa8; }
+    // The environment fog at +0x120; ViewerStage::calc copies it into the adhoc fog parameters.
+    agl::env::Fog* getFogMaybe() const { return mFog; }
 
     // The object at 0xac0. Only SkyMgr::sub_71010E35D8 reads it: it copies the parameter block at
     // +0x18 through a temporary, writes the dusk/dawn blend factor at +0x30 and sets bit 1 of the
@@ -1378,7 +1383,10 @@ public:
     /* 0x118 */ Unk_118* _118;
 
 private:
-    u8 _120[0x150 - 0x120];
+    // The environment fog whose start / end / colour ViewerStage::calc copies into the adhoc fog
+    // parameters (its parameter values sit at +0x128, +0x148 and +0x188). Name is a guess.
+    agl::env::Fog* mFog;
+    u8 _128[0x150 - 0x128];
 
 public:
     // 0x150: the model scenes (lane5 s3: SystemApplyEnvSetAction::enter_).
