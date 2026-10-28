@@ -47,6 +47,8 @@ class WolfLink : public Enemy {
     SEAD_RTTI_OVERRIDE(WolfLink, Enemy)
 public:
     explicit WolfLink(const CreateArg& arg);
+    // CSV WolfLink::construct: the actor factory function (inlines the constructor).
+    static ksys::act::BaseProc* construct(const CreateArg& arg, sead::Heap* heap);
     ~WolfLink() override;
 
 protected:
@@ -110,7 +112,7 @@ public:
 
     // Fields are accessed directly by AI classes.
     /* 0x14c8 */ Unk_710071edf8 _14c8{this};
-    /* 0x14f8 */ sead::SafeArray<ksys::Timer, 19> _14f8;  // zero-initialised (memset)
+    /* 0x14f8 */ sead::SafeArray<ksys::Timer, 19> _14f8{};  // zero-initialised (memset)
     /* 0x15dc */ u32 _15dc;
     /* 0x15e0 */ Unk_71023d2f50 _15e0;
     // 2026-10-07: preDelete2_ destroys the link in each 0x28-byte array entry.
@@ -126,20 +128,22 @@ public:
         u8 _25[3];
     };
     /* 0x1608 */ sead::Buffer<Entry1608> _1608;
-    /* 0x1618 */ u32 _1618;
+    /* 0x1618 */ u32 _1618 = 0;
     /* 0x1620 */ Unk_71023d2f68 _1620{this, 0x80000af};
     /* 0x1638 */ Unk_71023d2f90 _1638{this, 0x80000b0};
-    /* 0x1650 */ void* _1650;  // StatisticsMgr "player_safety_restart" stat
-    /* 0x1658 */ u8 _1658[0x1668 - 0x1658];
-    /* 0x1668 */ sead::Vector3f _1668;  // home position
-    /* 0x1674 */ sead::Vector3f _1674;  // copy of the home position
-    /* 0x1680 */ const ksys::res::GParamListObjectWolfLink* _1680;  // the WolfLink GParam object
-    /* 0x1688 */ f32 _1688;  // 0-100 (WolfLinkChainAttack::leave_ lowers it per attack)
-    /* 0x168c */ s32 _168c;
-    /* 0x1690 */ s32 _1690;
-    /* 0x1694 */ s32 _1694;
-    /* 0x1698 */ u16 _1698;
-    /* 0x169a */ u8 _169a;
+    /* 0x1650 */ void* _1650 = nullptr;  // StatisticsMgr "player_safety_restart" stat
+    /* 0x1658 */ u64 _1658_ = 0;
+    /* 0x1660 */ u32 _1660_ = 0;
+    /* 0x1664 */ u32 _1664_;  // uninitialised in the constructor
+    /* 0x1668 */ sead::Vector3f _1668{0.0f, 0.0f, 0.0f};  // home position
+    /* 0x1674 */ sead::Vector3f _1674{0.0f, 0.0f, 0.0f};  // copy of the home position
+    /* 0x1680 */ const ksys::res::GParamListObjectWolfLink* _1680 = nullptr;  // the WolfLink GParam object
+    /* 0x1688 */ f32 _1688 = 0.0f;  // 0-100 (WolfLinkChainAttack::leave_ lowers it per attack)
+    /* 0x168c */ s32 _168c = -1;
+    /* 0x1690 */ s32 _1690 = 12;
+    /* 0x1694 */ s32 _1694 = 0;
+    /* 0x1698 */ u16 _1698 = 0;
+    /* 0x169a */ u8 _169a = 0;
 };
 KSYS_CHECK_SIZE_NX150(WolfLink, 0x16a0);
 

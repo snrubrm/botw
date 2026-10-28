@@ -14,6 +14,7 @@
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 #include "KingSystem/ActorSystem/actLodState.h"
+#include <basis/seadNew.h>
 #include <prim/seadScopedLock.h>
 #include <math/seadMathCalcCommon.h>
 #include <random/seadGlobalRandom.h>
@@ -25,6 +26,12 @@
 #include "Game/Actor/aiUnk_7100742478.h"
 
 namespace uking::act {
+
+WolfLink::WolfLink(const CreateArg& arg) : Enemy(arg) {}
+
+ksys::act::BaseProc* WolfLink::construct(const CreateArg& arg, sead::Heap* heap) {
+    return new (heap, std::nothrow) WolfLink(arg);
+}
 
 // The "AtkBody" havok body name, shared with sub_71002F581C in the original.
 static const sead::SafeString sAtkBody("AtkBody");
