@@ -21,6 +21,9 @@
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/System/StageInfo.h"
+#include "Game/gameRadarMgr.h"
+#include "KingSystem/Camera/CameraMgr.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldEnvMgr.h"
@@ -354,6 +357,41 @@ void IndoorStage::preCalc() {
     GearMgr::instance()->sub_7100669ED8();
 }
 
+void IndoorStage::calc() {
+    if (_160)
+        _160->calc();
+
+    if (_158 && ksys::world::Manager::instance()->getStageType() == ksys::StageType::Viewer) {
+        agl::pfx::Sky::AdhocFogParam param;
+
+        auto* fog = Graphics::instance()->getFogMaybe();
+        Graphics::instance()->getUnk_aa8()->getAdhocFogParam(&param);
+        if (fog) {
+            param.color = fog->getColor();
+            param.near = fog->getStart();
+            param.far = fog->getEnd();
+        }
+        Graphics::instance()->getUnk_aa8()->setAdhocFogParam(param);
+    }
+
+    if (ksys::map::PlacementMgr::instance() &&
+        !ksys::map::PlacementMgr::instance()->mFlags.isOn(ksys::map::PlacementMgr::MgrFlag::_2)) {
+        const auto* camera = ksys::CameraMgr::instance()->getLookAtCamera();
+        auto* mgr = ksys::map::PlacementMgr::instance();
+        if (camera) {
+            if (auto* navi = mgr->mPlacementNavi)
+                navi->_34 = camera->getAt() - camera->getPos();
+        }
+        const sead::Vector3f zero = sead::Vector3f(0, 0, 0);
+        if (mgr->isStaticCompoundReady(zero, false) && !_28)
+            _28 = true;
+    }
+
+    if (auto* mgr = RadarMgr::instance())
+        mgr->calc();
+    nullsub_2167(GearMgr::instance());
+}
+
 void IndoorStage::postCalc() {
     act::DamageInfoMgr::instance()->postCalc();
     GameSceneSubsys4::instance()->m6();
@@ -398,64 +436,6 @@ int IndoorStage::m0() {
     return 1;
 }
 
-MainFieldDungeonStage::MainFieldDungeonStage() = default;
-
-void MainFieldDungeonStage::initForStageGen() {
-    Graphics::instance()->sub_7100F32AC8(_150, _158);
-    ksys::world::sub_71010D6094(ksys::world::Manager::instance()->getEnvMgr());
-}
-
-void MainFieldDungeonStage::postInit(Unk_710245ac20* a, Unk_710245abf0* b) {
-    Graphics::instance()->getUnk_ab0()->_e48 &= ~2u;
-    a->_8 = true;
-    if (auto* mgr = GameSceneStatusMgr::instance())
-        mgr->unregisterStatus(&mDebugStatus);
-    GearMgr::instance()->sub_7100669C88();
-    mDebugStatus.clear();
-}
-
-void MainFieldDungeonStage::postCalc() {
-    sub_71007C33AC();
-    act::DamageInfoMgr::instance()->postCalc();
-    GameSceneSubsys4::instance()->m6();
-    GameSceneSubsys5::instance()->postCalc();
-    GameSceneSubsys14::instance()->postCalc();
-    GearMgr::instance()->postCalc();
-}
-
-void MainFieldDungeonStage::preCalc() {
-    ksys::phys::HavokAI::instance()->_48->x(&sead::Vector3f::zero);
-    GearMgr::instance()->sub_7100669ED8();
-}
-
-MainFieldDungeonStage::~MainFieldDungeonStage() {
-    mHeap->destroy();
-}
-
-bool MainFieldDungeonStage::m2(sead::BufferedSafeString* out) {
-    out->copy(mMapName);
-    return true;
-}
-
-bool MainFieldDungeonStage::getMapName(sead::BufferedSafeString* out, int x, int z) {
-    if (x != 5 || z != 4)
-        return false;
-    out->copy(mMapName);
-    return true;
-}
-
-void MainFieldDungeonStage::m4(int* x, int* z, const sead::SafeString& name) {
-    *x = 5;
-    *z = 4;
-}
-
-void MainFieldDungeonStage::getMapType(sead::BufferedSafeString* out) {
-    out->copy(uking::StageInfo::getCurrentMapType());
-}
-
-int MainFieldDungeonStage::m0() {
-    return 2;
-}
 
 }  // namespace uking
 

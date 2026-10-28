@@ -402,6 +402,8 @@ void GearMgr::sub_7100669C88() {}
 
 void GearMgr::sub_7100669ED8() {}
 
+void nullsub_2167(GearMgr*) {}
+
 void GearMgr::sub_7100669C8C() {
     const s32 idx = _2c;
     const u32 entry_flags = _10b0[idx];

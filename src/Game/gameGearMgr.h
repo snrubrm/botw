@@ -158,4 +158,8 @@ private:
 };
 KSYS_CHECK_SIZE_NX150(GearMgr, 0x1108);
 
+// 0x7100669edc (CSV nullsub_2167): empty; the Indoor and MainFieldDungeon calc steps pass the
+// GearMgr instance. The name is the CSV placeholder.
+void nullsub_2167(GearMgr* mgr);
+
 }  // namespace uking

@@ -209,7 +209,8 @@ public:
     bool isFireTrialDungeon() const {
         return mStageType == StageType::MainFieldDungeon && mRemainsType == RemainsType::Fire;
     }
-    bool isInFinalTrialBossBattleArea() const { return mInFinalTrialBossBattleArea; }
+    u8 isInFinalTrialBossBattleArea() const { return mInFinalTrialBossBattleArea; }
+    void setInFinalTrialBossBattleArea(bool value) { mInFinalTrialBossBattleArea = value; }
     StageType getStageType() const { return mStageType; }
     FieldType getFieldType() const { return mFieldType; }
     ScalingMode getScalingMode() const { return mScalingMode; }
@@ -388,7 +389,7 @@ private:
     bool mIsDemo = false;
     bool mIsMainField = false;
     bool mIsBattleCurseR = false;
-    bool mInFinalTrialBossBattleArea = false;
+    u8 mInFinalTrialBossBattleArea = false;
 };
 KSYS_CHECK_SIZE_NX150(Manager, 0x7e0);
 

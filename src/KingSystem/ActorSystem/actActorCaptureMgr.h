@@ -27,6 +27,8 @@ public:
 
     void init(const InitArg& arg);
     void setCamera(Actor* camera);
+    // 0x710089ded0 (CSV ActorCaptureMgr::calc).
+    void calc();
 
     void loadCaptureParam();
     const char* getCapturedActorName() const;
