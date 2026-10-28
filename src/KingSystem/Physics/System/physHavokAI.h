@@ -248,6 +248,15 @@ struct Unk_RequestQueue {
         return false;
     }
 
+    // Releases the ring buffer (the pool's dtor frees all six queues this way).
+    void freeBuffer() {
+        if (mBuffer) {
+            delete[] mBuffer;
+            mBuffer = nullptr;
+            mCapacity = 0;
+        }
+    }
+
     // Replaces the entries equal to `item` that are still queued by -1.
     void remove(T* item) {
         for (u32 i = mHead; i < u32(mTail.load()); ++i) {
@@ -350,6 +359,10 @@ KSYS_CHECK_SIZE_NX150(NavMeshObj2Maybe, 0x98);
 // TODO: incomplete.
 class NavMeshQueryRequestPool {
 public:
+    NavMeshQueryRequestPool() = default;
+    // 0x71012a94c8: destroys the heap the queries come from and frees the six request queues.
+    ~NavMeshQueryRequestPool();
+
     // 0x71012a9ee8: sets query->_9 and pushes it to the queue at +0x180.
     void sub_71012A9EE8(NavMeshQuery* query);
     // 0x71012a9f68: pushes the query to the queue at +0x180; false if it is null or the queue is full.

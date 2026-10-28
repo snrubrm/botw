@@ -54,4 +54,14 @@ void NavMeshQueryRequestPool::sub_71012AA2F0(NavMeshObj2Maybe* obj) {
     _168.erase(obj);
 }
 
+NavMeshQueryRequestPool::~NavMeshQueryRequestPool() {
+    mHeap->destroy();
+    _120.freeBuffer();
+    _108.freeBuffer();
+    _138.freeBuffer();
+    _150.freeBuffer();
+    _168.freeBuffer();
+    _180.freeBuffer();
+}
+
 }  // namespace ksys::phys
