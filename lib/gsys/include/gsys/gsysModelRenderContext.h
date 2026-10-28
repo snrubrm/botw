@@ -147,8 +147,10 @@ public:
 private:
     u8 _8[8];
     sead::Buffer<ViewData> mViewData;  // +0x10
-    const agl::TextureData* mPassTextures[43];       // +0x20
-    const agl::TextureData* mSavedPassTextures[43];  // +0x178
+    // Texture data for the pass textures, but the SSSS slot holds a TextureSampler and
+    // ModelRenderCache copies all of them into its sampler array, so the slots are untyped.
+    const void* mPassTextures[43];       // +0x20
+    const void* mSavedPassTextures[43];  // +0x178
     // initialize clears eight pairs. 0x7100c08334 sets two floats at the indexed
     // pair's +0/+4; their meanings are not known.
     struct FloatPair {

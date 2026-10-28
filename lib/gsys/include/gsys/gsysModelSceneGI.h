@@ -50,7 +50,8 @@ public:
     bool isCubeMapReady() const;
     // 0x7100c309d0
     void setSceneMaterial(class ModelNW* model);
-    // 0x7100c330c0 / 0x7100c341cc: the light map and planar reflection draws.
+    // 0x7100c33298 / 0x7100c330c0 / 0x7100c341cc: the SSSS, light map and planar reflection draws.
+    void drawSSSSS(agl::DrawContext* draw_context, ModelSceneContext* context) const;
     void drawLightMap(agl::DrawContext* draw_context, const ModelSceneContext& context) const;
     void drawPlanarReflection(agl::DrawContext* draw_context, ModelSceneContext* context) const;
     // 0x7100c33e7c / 0x7100c34040: the per-view planar and local reflection passes.
@@ -125,7 +126,7 @@ private:
     agl::utl::AtomicPtrArray<agl::lght::LocalLightMapObj> mFrameObjects;  // 670
     /// 0x7100c33298 / 0x7100c32288: the contexts of the views, sized by the view count in
     /// initialize and indexed by the current core in sssssCallback.
-    sead::Buffer<ModelSceneContext*> mContexts;  // 680
+    mutable sead::Buffer<ModelSceneContext*> mContexts;  // 680
     void* _690;
 };
 

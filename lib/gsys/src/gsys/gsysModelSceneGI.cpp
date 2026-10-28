@@ -188,6 +188,21 @@ void ModelSceneGI::setSceneMaterial(ModelNW* model) {
     mEnvCubeMap->mShaderContext->setSceneMaterial(model);
 }
 
+// 0x7100c33298
+void ModelSceneGI::drawSSSSS(agl::DrawContext* draw_context, ModelSceneContext* context) const {
+    if (!mSSSSS || !_8->isFeatureEnabled(ModelSceneConfig::Feature::SSSSS))
+        return;
+    if ((context->_3ca & 1) == 0)
+        return;
+    const int core = int(sead::CoreInfo::getCurrentCoreId());
+    ModelSceneContext** slot = &mContexts[core];
+    if (u32(core) >= u32(mContexts.size()))
+        slot = &mContexts[0];
+    *slot = context;
+    mSSSSS->draw(draw_context, context->getViewIndex(), *context->getViewport());
+    context->mPassTextures[16] = mSSSSS->getSSSBufferSampler(context->getViewIndex());
+}
+
 // 0x7100c330c0
 void ModelSceneGI::drawLightMap(agl::DrawContext* draw_context,
                                 const ModelSceneContext& context) const {

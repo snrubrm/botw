@@ -69,7 +69,7 @@ void ModelRenderContext::bind(sead::DrawContext* draw_context, bool) const {
 }
 
 void ModelRenderContext::pushPassTexture(PassTextureType type, const agl::TextureData* texture) {
-    const agl::TextureData* previous = mPassTextures[type];
+    const void* previous = mPassTextures[type];
     mPassTextures[type] = texture;
     mSavedPassTextures[type] = previous;
 }
