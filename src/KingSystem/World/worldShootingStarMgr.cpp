@@ -103,6 +103,32 @@ void ShootingStarMgr::calc_() {
     }
 }
 
+// 0x71010dd450: spawns the FldObj_ShootingStar 500 units above the look-at camera, offset along
+// the camera's right vector by a random -500..500. The look vector call result is discarded.
+void ShootingStarMgr::spawnShootingStar() {
+    act::InstParamPack pack;
+
+    auto* camera = CameraMgr::instance()->getLookAtCamera();
+    if (!camera)
+        return;
+
+    sead::Vector3f right;
+    camera->getRightVectorByMatrix(&right);
+    sead::Vector3f look;
+    camera->getLookVectorByMatrix(&look);
+    sead::Vector3f up;
+    camera->getUpVectorByMatrix(&up);
+
+    const sead::Vector3f star_base = camera->getPos() + up * 500.0f;
+    const f32 offset = sead::GlobalRandom::instance()->getF32Range(-500.0f, 500.0f);
+    const sead::Vector3f star_pos = star_base + right * offset;
+
+    pack.getBuffer().addPosition(star_pos);
+    act::ActorCreator::instance()->requestCreateActor(
+        "FldObj_ShootingStar", act::BaseProcHeapMgr::instance()->getHeap(), nullptr, &pack, nullptr,
+        1);
+}
+
 bool ShootingStarMgr::checkCamera() {
     act::InstParamPack pack;
 
