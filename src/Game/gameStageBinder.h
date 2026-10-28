@@ -4,11 +4,14 @@
 #include <heap/seadHeap.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
+#include "Game/gameStageArg.h"
 #include "KingSystem/Utils/Types.h"
 
 class Unk_710245a578;
 
 namespace uking {
+
+class StageFactory;
 
 void createTitleStageBinder(bool a1, bool a2);
 // 0x71007b8ce8 (CSV createViewerStageBinder): creates the viewer stage binder (unless there is one).
@@ -32,24 +35,7 @@ public:
     /* 0x08 */ bool _8 = false;  // set by the stages' postInit
 };
 
-// Base of the "arg" classes (RTTI base only; its typeinfo is checked by OpenWorldStageArg's checkDerived...;
-// the name is a guess after OpenWorldStageArg). The virtuals are the binder interface of the arg: slots 4 / 5
-// return 0 in OpenWorldStageArg.
-class StageArg {
-    SEAD_RTTI_BASE(StageArg)
-public:
-    virtual ~StageArg() = default;
-
-    virtual s32 m4() = 0;
-    virtual s32 m5() = 0;
-    virtual void setHeap(sead::Heap* heap) = 0;
-    virtual s32 m7() = 0;
-    virtual const sead::SafeString& m8() = 0;
-    virtual const sead::SafeString& m9() = 0;
-    virtual const sead::SafeString& m10() = 0;
-    virtual s32 m11() = 0;
-    virtual bool m12() = 0;
-};
+// Base of the "arg" classes: see gameStageArg.h.
 
 // A stage (OpenWorldStage, IndoorStage, MainFieldDungeonStage, TitleStage, StartupSaveCheckStage, ViewerStage)
 // created from a binder by StageFactory::create (0x71007cbeac), which calls init(binder arg) and then
@@ -256,28 +242,7 @@ public:
     /* 0x218 */ bool _218;
 };
 
-// The arg of the StartupSaveCheckStageBinder (0x20 bytes): its (non-inlined) methods are in the StartupSaveCheckStage
-// TU (0x71007d17d8-0x71007d182c).
-struct StartupSaveCheckStageArg {
-    // 0x71007d17d8 (out of line; empty)
-    ~StartupSaveCheckStageArg();
-    s32 sub_71007D17E0();
-    // 0x71007d17e8: the next slot after sub_71007D17E0, also 4 (like TitleStageArg's m4 / m5).
-    s32 sub_71007D17E8();
-    void sub_71007D17F0(sead::Heap* heap);
-    s32 sub_71007D17F8();
-    const sead::SafeString& sub_71007D1800();
-    const sead::SafeString& sub_71007D180C();
-    const sead::SafeString& sub_71007D1818();
-    s32 sub_71007D1824();
-    bool sub_71007D182C();
-
-    const void* _0;
-    void* mEnvArchive;
-    sead::Heap* mHeap;
-    s32 _18;
-    bool _1c;
-};
+// The arg of the StartupSaveCheckStageBinder (0x20 bytes): Unk_710245c368, defined in gameStageArg.h.
 
 class TitleStageBinder : public StageBinder {
     SEAD_RTTI_OVERRIDE(TitleStageBinder, StageBinder)
@@ -302,6 +267,7 @@ private:
     /* 0x38 */ Unk_710245ac20 _38;
 
     friend void createTitleStageBinder(bool a1, bool a2);
+    friend class StageFactory;
 };
 
 class ViewerStageBinder : public StageBinder {
@@ -327,6 +293,7 @@ private:
     /* 0x38 */ Unk_710245ac20 _38;
 
     friend void createViewerStageBinder();
+    friend class StageFactory;
 };
 
 class OpenWorldStageBinder : public StageBinder {
@@ -348,6 +315,7 @@ public:
 
 private:
     friend void sub_71007BE380(s32 a1, bool a2);
+    friend class StageFactory;
 
     /* 0x010 */ OpenWorldStageArg _10;
     /* 0x210 */ Unk_710245abf0 _210;
@@ -371,7 +339,11 @@ public:
     bool m12() override { return _10._218; }
 
 private:
+    friend class StageFactory;
+
     /* 0x10 */ IndoorStageArg _10;
+    /* 0x230 */ Unk_710245abf0 _230;
+    /* 0x238 */ Unk_710245ac20 _238;
 };
 
 class MainFieldDungeonStageBinder : public StageBinder {
@@ -390,7 +362,11 @@ public:
     bool m12() override { return _10._218; }
 
 private:
+    friend class StageFactory;
+
     /* 0x10 */ MainFieldDungeonStageArg _10;
+    /* 0x230 */ Unk_710245abf0 _230;
+    /* 0x238 */ Unk_710245ac20 _238;
 };
 
 class StartupSaveCheckStageBinder : public StageBinder {
@@ -398,18 +374,22 @@ class StartupSaveCheckStageBinder : public StageBinder {
 public:
     ~StartupSaveCheckStageBinder() override;
 
-    s32 getType() override { return _10.sub_71007D17E0(); }
-    void setHeap(sead::Heap* heap) override { _10.sub_71007D17F0(heap); }
-    s32 m6() override { return _10.sub_71007D17F8(); }
+    s32 getType() override { return _10.m4(); }
+    void setHeap(sead::Heap* heap) override { _10.setHeap(heap); }
+    s32 m6() override { return _10.m7(); }
     bool m7() override { return m6() != -99; }
-    const sead::SafeString& m8() override { return _10.sub_71007D1800(); }
-    const sead::SafeString& m9() override { return _10.sub_71007D180C(); }
-    const sead::SafeString& m10() override { return _10.sub_71007D1818(); }
-    s32 m11() override { return _10.sub_71007D1824(); }
-    bool m12() override { return _10.sub_71007D182C(); }
+    const sead::SafeString& m8() override { return _10.m8(); }
+    const sead::SafeString& m9() override { return _10.m9(); }
+    const sead::SafeString& m10() override { return _10.m10(); }
+    s32 m11() override { return _10.m11(); }
+    bool m12() override { return _10.m12(); }
 
 private:
-    /* 0x10 */ StartupSaveCheckStageArg _10;
+    friend class StageFactory;
+
+    /* 0x10 */ Unk_710245c368 _10;
+    /* 0x30 */ Unk_710245abf0 _30;
+    /* 0x38 */ Unk_710245ac20 _38;
 };
 
 }  // namespace uking

@@ -211,44 +211,6 @@ s32 MainFieldDungeonStageArg::m4() {
     return 2;
 }
 
-StartupSaveCheckStageArg::~StartupSaveCheckStageArg() {}
-
-s32 StartupSaveCheckStageArg::sub_71007D17E0() {
-    return 4;
-}
-
-s32 StartupSaveCheckStageArg::sub_71007D17E8() {
-    return 4;
-}
-
-void StartupSaveCheckStageArg::sub_71007D17F0(sead::Heap* heap) {
-    mHeap = heap;
-}
-
-s32 StartupSaveCheckStageArg::sub_71007D17F8() {
-    return _18;
-}
-
-const sead::SafeString& StartupSaveCheckStageArg::sub_71007D1800() {
-    return sead::SafeString::cEmptyString;
-}
-
-const sead::SafeString& StartupSaveCheckStageArg::sub_71007D180C() {
-    return sead::SafeString::cEmptyString;
-}
-
-const sead::SafeString& StartupSaveCheckStageArg::sub_71007D1818() {
-    return sead::SafeString::cEmptyString;
-}
-
-s32 StartupSaveCheckStageArg::sub_71007D1824() {
-    return -1;
-}
-
-bool StartupSaveCheckStageArg::sub_71007D182C() {
-    return _1c;
-}
-
 // 0x71025cb0e9: set while the title stage exists (its init stores true, its destructor false). Next to the
 // GameScene statics (0x71025cb0e0 / 0x71025cb0ea).
 bool sIsTitleStageActive;
@@ -335,3 +297,39 @@ bool isStageSelectState() {
 }
 
 Unk_710245c368::~Unk_710245c368() = default;
+
+s32 Unk_710245c368::m4() {
+    return 4;
+}
+
+s32 Unk_710245c368::m5() {
+    return 4;
+}
+
+void Unk_710245c368::setHeap(sead::Heap* heap) {
+    mHeap = heap;
+}
+
+s32 Unk_710245c368::m7() {
+    return _18;
+}
+
+const sead::SafeString& Unk_710245c368::m8() {
+    return sead::SafeString::cEmptyString;
+}
+
+const sead::SafeString& Unk_710245c368::m9() {
+    return sead::SafeString::cEmptyString;
+}
+
+const sead::SafeString& Unk_710245c368::m10() {
+    return sead::SafeString::cEmptyString;
+}
+
+s32 Unk_710245c368::m11() {
+    return -1;
+}
+
+bool Unk_710245c368::m12() {
+    return _1c;
+}

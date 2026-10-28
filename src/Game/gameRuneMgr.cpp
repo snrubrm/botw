@@ -4,6 +4,8 @@
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/AOC/aocManager.h"
+#include "Game/UI/uiUtils.h"
 
 namespace uking {
 
@@ -230,6 +232,33 @@ void RuneMgr::sub_710067623C(const sead::Vector2f& value) {
     _2a0 = value;
     _250._3c = _2a0.x;
     _250._40 = _2a0.y;
+}
+
+// 0x7100677470 (CSV name; the stage unload hook calls it): when the amiibo rune was re-equipped but the
+// save data still holds a rune selection, selects the first rune the player owns; then does the same for
+// the motorcycle when the Champion's Ballad data exists.
+void stageUnloadLoadSaveRuneInfo() {
+    if (!ksys::gdt::getFlag_AmiiboItemOnOff(false) &&
+        ksys::gdt::getFlag_PlayerEquipItemType(false) == 7) {
+        for (s32 i = 0; i < 7; ++i) {
+            if (ui::checkIsGetRune(i, 0)) {
+                ksys::gdt::setFlag_PlayerEquipItemType(i, false);
+                break;
+            }
+        }
+    }
+
+    if (ksys::aoc::Manager::instance()->hasAoc3() &&
+        ksys::gdt::getFlag_IsGet_Obj_Motorcycle(false))
+        return;
+    if (ksys::gdt::getFlag_PlayerEquipItemType(false) != 6)
+        return;
+    for (s32 i = 0; i < 6; ++i) {
+        if (ui::checkIsGetRune(i, 0)) {
+            ksys::gdt::setFlag_PlayerEquipItemType(i, false);
+            return;
+        }
+    }
 }
 
 }  // namespace uking
