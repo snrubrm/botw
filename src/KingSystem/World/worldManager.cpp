@@ -10,6 +10,7 @@
 #include "KingSystem/ActorSystem/actChemicalElementHolder.h"
 #include "Game/gameGraphics.h"
 #include "KingSystem/ActorSystem/actActorSystem.h"
+#include "KingSystem/ActorSystem/actActorX6A0.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
 #include "KingSystem/Event/evtManager.h"
@@ -866,6 +867,74 @@ void Manager::calc2(sead::WorkerMgr* worker_mgr) {
     }
 
     updateWindDirections();
+}
+
+void Manager::calc3(sead::WorkerMgr* worker_mgr) {
+    if (mStageType == StageType::Invalid)
+        return;
+    if (gsys::SystemTask::instance()->mFlags.isOnBit(0))
+        return;
+    auto* save_mgr = SaveMgr::instance();
+    if (save_mgr) {
+        auto* obj = save_mgr->get1030Maybe();
+        if (obj && obj->m0())
+            return;
+    }
+
+    for (auto& actor : mAtomicPtrArray)
+        actor.sub_71010F2248();
+
+    mCalcType = CalcType::_2;
+    calcManagers(worker_mgr);
+
+    if (auto* placement = map::PlacementMgr::instance()) {
+        const u32 time_type = u32(getTimeMgrUnchecked()->getTimeDivision());
+        placement->updateTimeDivisionFlags((time_type | 1) == 7);
+    }
+
+    auto* camera_mgr = CameraMgr::instance();
+    if (!camera_mgr)
+        return;
+    if (mWorldInfoLoadStatus != WorldInfoLoadStatus::Loaded)
+        return;
+
+    auto* camera = camera_mgr->getLookAtCamera();
+    act::ActorLinkConstDataAccess accessor;
+    act::ActorSystem::instance()->getPlayer(&accessor);
+    if (!camera)
+        return;
+
+    mPrevCameraPos = mCameraPos;
+    mCameraPos = camera->getPos();
+
+    if (accessor.hasProc()) {
+        mPrevPlayerPos = mPlayerPos;
+        mPlayerPos = accessor.getPreviousPos();
+    }
+
+    if (!(mClimateTransitionProgress >= 1.0f)) {
+        VFR::lerp(&mClimateTransitionProgress, 1.0f, 0.01f, 0.01f, 0.005f);
+        if (mTimer != 0)
+            mClimateTransitionProgress = 1.0f;
+    } else {
+        const sead::Vector3f* pos = accessor.hasProc() ? &mPlayerPos : &mCameraPos;
+        const Climate climate = getClimate(*pos);
+        if (climate != mCurrentClimate) {
+            mPrevClimate = mCurrentClimate;
+            mCurrentClimate = climate;
+            mClimateTransitionProgress = 0.0f;
+            if (climate == Climate::DarkWoodsClimat) {
+                EnvMgr* env_mgr = nullptr;
+                if (u32(mMgrs.size()) >= 7)
+                    env_mgr = static_cast<EnvMgr*>(mMgrs.unsafeAt(6));
+                const f32 darkness = env_mgr->getConcentrationDarkness();
+                if (darkness < 1.0f) {
+                    mTimer = 90;
+                    mClimateTransitionProgress = 1.0f;
+                }
+            }
+        }
+    }
 }
 
 void Manager::calcEntryJob() {
