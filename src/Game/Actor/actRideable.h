@@ -179,7 +179,7 @@ public:
         // 0x7100e761a4: resets animation requests and restores the AS rates.
         void sub_7100E761A4(bool a1, bool a2);
         void sub_7100E76900(s32 slot, s32 bank, bool force);
-        // 0x7100e7600c: clears / releases animation slot `slot` in `bank` (declared only; 408 B).
+        // 0x7100e7600c: clears / releases animation slot `slot` in `bank`.
         void sub_7100E7600C(s32 slot, s32 bank);
         // 0x7100e76aa4: requests the gear pair (`type`, `gear`) with the value the request starts from.
         void sub_7100E76AA4(UnkGear type, UnkGear gear, f32 value);
@@ -234,9 +234,8 @@ public:
         /* 0x50 */ u8 _50 = 0;
         /* 0x51 */ u8 _51 = 0;
         /* 0x52 */ u16 _52 = 2;
-        /* 0x58 */ sead::SafeString _58;
-        /* 0x68 */ sead::SafeString _68;
-        /* 0x78 */ sead::SafeString _78;
+        // The saved AS name of each bank (0x7100e7600c indexes it with the bank).
+        /* 0x58 */ sead::SafeArray<sead::SafeString, 3> mSavedNames;
     };
 
     // CSV RideableBase::S2 (ctor 0x7100e6fa10, empty out-of-line dtor 0x7100e6fab0, size 0x90)

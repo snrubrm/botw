@@ -16,7 +16,7 @@ void RideableBase::S1::sub_7100E76900(s32 slot, s32 bank, bool force) {
         _0->sub_710115B01C(slot, bank, force);
     if (slot != 0 || !(_52 & 0x40))
         return;
-    auto& saved = bank == 1 ? _68 : bank == 2 ? _78 : _58;
+    auto& saved = mSavedNames[bank];
     if (!(_52 & 0x80)) {
         const auto& name = _0->x_1(1, bank);
         if (!name.isEmpty() && name != saved)
@@ -25,6 +25,23 @@ void RideableBase::S1::sub_7100E76900(s32 slot, s32 bank, bool force) {
     if (_0->x_7(1, bank, &ksys::as::ASList::Unk2::sub_710002E82C))
         _0->sub_710115B01C(1, bank, force);
     saved = sead::SafeString::cEmptyString;
+}
+
+// 0x7100e7600c: clears / releases animation slot `slot` in `bank`. Releasing slot 0 with the saved-name
+// flag of _52 clears the bank's saved name, unless the bank's current AS name differs from it.
+void RideableBase::S1::sub_7100E7600C(s32 slot, s32 bank) {
+    if (_0->x_7(slot, bank, &ksys::as::ASList::Unk2::sub_710002E82C))
+        _0->sub_710115B01C(slot, bank, true);
+    if (slot != 0 || !(_52 & 0x40))
+        return;
+    if (!(_52 & 0x80)) {
+        const auto& name = _0->x_1(1, bank);
+        if (!name.isEmpty() && name != mSavedNames[bank])
+            return;
+    }
+    if (_0->x_7(1, bank, &ksys::as::ASList::Unk2::sub_710002E82C))
+        _0->sub_710115B01C(1, bank, true);
+    mSavedNames[bank] = sead::SafeString::cEmptyString;
 }
 
 void RideableBase::S1::sub_7100E761A4(bool clear_gear, bool force) {
@@ -126,9 +143,9 @@ void RideableBase::S1::sub_7100E747E8(ksys::as::ASList* list) {
         _52 &= ~0x40;
     else
         _52 |= 0x40;
-    _58 = sead::SafeString::cEmptyString;
-    _68 = sead::SafeString::cEmptyString;
-    _78 = sead::SafeString::cEmptyString;
+    mSavedNames[0] = sead::SafeString::cEmptyString;
+    mSavedNames[1] = sead::SafeString::cEmptyString;
+    mSavedNames[2] = sead::SafeString::cEmptyString;
 }
 
 void RideableBase::S1::sub_7100E770C4(bool force) {
