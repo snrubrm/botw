@@ -10,6 +10,10 @@
 #include "gsys/gsysModelCubeMapDrawer.h"
 #include "gsys/gsysModelSceneComponent.h"
 
+namespace agl::pfx {
+class GlareFilter;
+}
+
 namespace agl::lght {
 class LocalLightMapObj;
 class LightMapMgr;
@@ -58,6 +62,8 @@ public:
     void calcViewLightProbe(const ModelSceneContext& context);
     // 0x7100c32ccc: updates the light map and light pre-pass GPU state.
     void calcGPUDrawBackGround() const;
+    // 0x7100c33370: collects the point-light glare filters of the scene.
+    void setPointLightGlareFilter(int& index, agl::pfx::GlareFilter* filter) const;
     // 0x7100c32c1c / 0x7100c32c60 / 0x7100c33f60: pass the current view state to the light
     // pre-pass, the light map / SSSSS and SSII.
     void calcViewLightPrePass(const ModelSceneContext& context);
