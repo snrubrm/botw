@@ -5165,6 +5165,41 @@ void Unk_710247fbc0::m8() {
         sub_71009D2BB8(index);
 }
 
+// 0x71009d2bb8: resolves the selected picture's actor name; when it is a quest camera target it shows the
+// message on the entry's text widget and plays the State animation from its maximum.
+// NON_MATCHING: the two SafeString locals and the MessageString temporary take the same stack slots in the
+// original, but with the locals below 0x18 and the temporaries above; ours has them the other way round.
+void Unk_710247fbc0::sub_71009D2BB8(s32 index) {
+    bool is_target_picture;
+    {
+        const char* actor_name = &sead::SafeString::cNullChar;
+        sead::SafeString name;
+        ksys::gdt::getFlag_AlbumPictureActorName(
+            &actor_name, uking::SaveSystem::instance()->sub_7100915F58(index), false);
+        name = actor_name;
+        is_target_picture = ksys::qst::Manager::instance()->sub_7100FD7460(name) &&
+                            uking::ui::sub_71009D3E40(name) >= index;
+    }
+    if (is_target_picture) {
+        const char* picture_actor_name = &sead::SafeString::cNullChar;
+        sead::SafeString picture_name;
+        ksys::gdt::getFlag_AlbumPictureActorName(
+            &picture_actor_name, uking::SaveSystem::instance()->sub_7100915F58(index), false);
+        picture_name = picture_actor_name;
+        if (!picture_name.isEmpty()) {
+            eui::MessageString message;
+            uking::ui::sub_7100AA2BDC(picture_name, &message);
+            uking::ui::setWidgetString(_8, uking::ui::sUnk_71025DC890._198, message);
+            if (mState)
+                mState->StopAtMax();
+            return;
+        }
+    }
+    if (mState)
+        mState->StopAtMin();
+    uking::ui::setWidgetString(_8, uking::ui::sUnk_71025DC890._198, sead::SafeString::cEmptyString);
+}
+
 // 0x71009d2ab0: updates the entry's control and, while the picture book page is open (state 2 / 3), hides the
 // layout's root pane unless the entry is selected.
 void Unk_710247fbc0::m6() {
