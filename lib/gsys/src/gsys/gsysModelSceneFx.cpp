@@ -10,6 +10,7 @@
 #include <gsys/gsysParticleScene.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <common/aglDrawContext.h>
+#include <effect/aglFxOfxBase.h>
 #include <common/aglRenderBuffer.h>
 #include <effect/aglFxCloud.h>
 #include <effect/aglFxDecalAoMgr.h>
@@ -429,3 +430,10 @@ template void OfxRig<OfxLargeLensFlareImpl>::release_(Model*, int);
 template void OfxRig<OfxLargeLensFlareImpl>::OfxHook::updateFromModel(ModelUnit*, u32, f32);
 
 }  // namespace gsys
+
+namespace agl::fx {
+
+// 0x7100c2e900
+OccludedEffectMgr::CreateArg::~CreateArg() {}
+
+}  // namespace agl::fx

@@ -13,6 +13,12 @@ namespace gsys {
 // declared only so this file does not emit the class vtable.
 class ModelScenePfx : public ModelSceneComponent {
 public:
+    // Partial: only the default value at +0 is known (0x7100c35494).
+    struct CreateArg {
+        CreateArg();
+        u32 _0 = 1;
+    };
+
     ~ModelScenePfx() override;
     // 0x7100c36538: the component attaches no hostio node of its own.
     void attachHostIO(sead::hostio::Node* node) override;
