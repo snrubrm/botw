@@ -31,6 +31,7 @@ namespace uking::ui {
 class Screen;
 class ScreenChild;
 class ScreenChildEx;
+struct UiSubsys1Entry;
 }
 
 namespace ksys::qst {
@@ -93,6 +94,13 @@ int getPorchNum(const sead::SafeString& name);
 f32 sub_7100A9B6F0();
 // 0x71009661bc (defined in uiSubsys1.cpp)
 s32 sub_71009661BC(s32 value);
+// 0x710096608c (defined in uiSubsys1.cpp): the level of the map temperature `threshold`
+s32 sub_710096608C(f32 threshold);
+// 0x7100965e60 (defined in uiSubsys1.cpp): always false. The original is a free function: its two call sites do
+// not pass a receiver, so it cannot be the const member `UiSubsys1::returnFalse` it was modelled as before.
+s32 returnFalse();
+// 0x7100a9a5a0 (defined in uiMiscFacade.cpp): the map pin entry the MainScreen guide arrow points at
+UiSubsys1Entry* sub_7100A9A5A0();
 // 0x7100a9b6d0 / 0x7100a9b710 (defined in uiManagerFacade.cpp)
 f32 sub_7100A9B6D0();
 f32 sub_7100A9B710();

@@ -1610,6 +1610,54 @@ void ScreenAppMap::x_2() {
         _3628[6]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
 }
 
+// 0x71009efd24: the map's per-frame state update, run before x_1. Picks the map mode for the widget while the
+// UI subsystem is idle, or refreshes the temperature, the hovered pin and the map panes before x_1.
+void ScreenAppMap::x_0() {
+    if (UiSubsys1::instance()->is848Zero()) {
+        s32 mode;
+        if (ksys::Patrol::instance() && ksys::Patrol::instance()->mField0)
+            mode = 1;
+        else if (GameSceneSubsys14::instance() && GameSceneSubsys14::instance()->sub_7100904ED4())
+            mode = 1;
+        else if (_3c54)
+            mode = 2;
+        else
+            mode = 0;
+        _3610->sub_71009A9A9C(mode);
+        _3c50 = sub_71009661BC(mode);
+        sub_71009EFEEC();
+        return;
+    }
+    if (!UiSubsys1::instance()->is848EqualTo1())
+        return;
+    UiSubsys1::instance()->sub_7100962CC8();
+    s32 level;
+    if (UiSubsys1::instance()->get38b8()) {
+        level = returnFalse();
+    } else {
+        f32 temperature = 0.0f;
+        ksys::gdt::Manager::instance()->getParam().get().getF32(
+            &temperature, sUnk_71025df330.mWorldTemperatureFlag);
+        level = sub_710096608C(temperature);
+    }
+    _3610->sub_71009A9A38(level);
+    _3610->sub_71009A9B08(0.0f);
+    if (UiSubsys1::instance()->get38b8()) {
+        _3610->sub_71009A9B48();
+    } else if (UiSubsys1::instance()->returnTrue()) {
+        if (auto* entry = sub_7100A9A5A0()) {
+            _3610->sub_71009A9E74(&entry->_28);
+        } else {
+            _3610->_b350 = 2;
+            sead::Vector2f position;
+            UiSubsys1::instance()->sub_7100965EEC(UiSubsys1::instance()->_850.get28(), &position);
+            UiSubsys1::instance()->_850.set40(position);
+            UiSubsys1::instance()->set3884(false);
+        }
+    }
+    x_1();
+}
+
 // 0x71009efeec (placeholder name): the map's per-frame reset. Clears the home screen's pane slot, stops
 // the four mode animators and the map cursor's animator, then closes the message tips screen and changes
 // to the map's run state.

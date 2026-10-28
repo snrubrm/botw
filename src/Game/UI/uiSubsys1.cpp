@@ -1430,8 +1430,8 @@ s32 UiSubsys1::returnTrue2() const {
     return true;
 }
 
-// 0x7100965e60
-bool UiSubsys1::returnFalse() const {
+// 0x7100965e60 (free function in the original: the callers do not pass a receiver)
+s32 returnFalse() {
     return false;
 }
 

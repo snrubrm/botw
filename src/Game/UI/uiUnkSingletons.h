@@ -1604,8 +1604,6 @@ public:
     void set898(s32 value);
     // s32, not bool: the demo state's apply step tests the result without narrowing it to one bit.
     s32 returnTrue2() const;
-    // 0x7100965e60 (placeholder name): always false
-    bool returnFalse() const;
     s32 get7c4(s32 index) const;
     // 0x7100965864 (CSV unnamed): selects map entry `index` (_128), resets the view scale and the marker state
     void sub_7100965864(s32 index);
