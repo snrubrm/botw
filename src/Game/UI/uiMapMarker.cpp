@@ -1330,6 +1330,46 @@ bool UiSubsys1::sub_7100956C10(u32 index) const {
     return index == 0xff || (_120 & (1u << index));
 }
 
+// 0x7100956c34: whether the marker is shown in the current map mode and inside the map rectangle.
+// NON_MATCHING: the float half-size / centre computation is scheduled in a different order (ours loads
+// _28.z after the half-height multiply) and the early true / false returns are laid out in different
+// blocks.
+bool Unk_7102476350::sub_7100956C34() {
+    auto* subsys = UiSubsys1::instance();
+    if (subsys->_848 == 0)
+        return false;
+    if (_50) {
+        AppMapIconPart* part = sUnk_71025d6c70._58;
+        if (!part)
+            return false;
+        if (((1u << part->_344[0]) & _50->_8) == 0)
+            return false;
+    } else if (_58) {
+        if (_58->_34 < 1)
+            return false;
+        AppMapIconPart* part = sUnk_71025d6c70._58;
+        if (!part)
+            return false;
+        if (((1u << part->_344[0]) & _58->_8) == 0)
+            return false;
+    }
+    auto* part = sUnk_71025d6c70._58;
+    if (part->_350.x == part->_350.y)
+        return true;
+    if (part->_35c < 1)
+        return true;
+    const f32 scale = part->_358 + 0.0f;
+    const f32 center_x = (subsys->_6d4 + subsys->_6dc) * 0.5f;
+    const f32 center_y = (subsys->_6d8 + subsys->_6e0) * 0.5f;
+    const f32 half_w = scale * (subsys->_6dc - subsys->_6d4) * 0.5f;
+    const f32 half_h = scale * (subsys->_6e0 - subsys->_6d8) * 0.5f;
+    const bool in_x_min = center_x - half_w <= _28.x;
+    const bool in_x_max = _28.x <= center_x + half_w;
+    const bool in_y_min = center_y - half_h <= _28.z;
+    const bool in_y_max = _28.z <= center_y + half_h;
+    return in_x_min && in_x_max && in_y_min && in_y_max;
+}
+
 // NON_MATCHING: the bool branch precedes native virtual-target loads.
 void Unk_7102476350::m11() {
     if ((_44 == 0xff || (UiSubsys1::instance()->_120 & (1u << _44))) && sub_7100956C34())

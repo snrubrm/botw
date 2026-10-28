@@ -757,6 +757,7 @@ struct Unk_7100956bac {
     u8 _18[0x28 - 0x18];
     const char* _28;
     ksys::gdt::FlagHandle _30;
+    /* 0x34 */ s32 _34 = 0;
 };
 
 // The record behind Unk_7102476350::_50 (sub_7100956C34 tests the map-mode bit of `_8`; m26 looks up the location
