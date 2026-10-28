@@ -59,10 +59,11 @@ void Effect::initBeforeStageGen(sead::Heap* heap) {
     _9fe0.sub_7100DA2118();
     mAmbientEffectMgr->reset();
     mRainbow.start();
-    // NON_MATCHING: the original (C++14) constructs the CreateArg before evaluating instance(), so
-    // our C++17 build keeps the instance in a register and the body is one load longer.
-    mUserInstance = xlink2::SystemELink::instance()->createUserInstance(
-        xlink2::UserInstance::CreateArg("UI", &ksys::xlink::sUnk_7102652e70), heap, 0);
+    // C++14 evaluation order: the original constructs the CreateArg before evaluating instance().
+    {
+        xlink2::UserInstance::CreateArg arg("UI", &ksys::xlink::sUnk_7102652e70);
+        mUserInstance = xlink2::SystemELink::instance()->createUserInstance(arg, heap, 0);
+    }
     mUserInstance->setupResource(heap);
     mUserInstance->setIsActive(true);
     mWindStatsMaybe = uking::StatisticsMgr::instance()->getStatsPointer("terrain_is_in_door");
