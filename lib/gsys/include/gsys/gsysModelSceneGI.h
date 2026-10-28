@@ -50,6 +50,9 @@ public:
     bool isCubeMapReady() const;
     // 0x7100c309d0
     void setSceneMaterial(class ModelNW* model);
+    // 0x7100c330c0 / 0x7100c341cc: the light map and planar reflection draws.
+    void drawLightMap(agl::DrawContext* draw_context, const ModelSceneContext& context) const;
+    void drawPlanarReflection(agl::DrawContext* draw_context, ModelSceneContext* context) const;
     // 0x7100c33e7c / 0x7100c34040: the per-view planar and local reflection passes.
     void preCalcView(ModelSceneContext* context);
     void calcViewLocalReflection(ModelSceneContext* context);

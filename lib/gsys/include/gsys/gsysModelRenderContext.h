@@ -43,6 +43,8 @@ enum class ShaderAssignType : s32 {
 class ModelRenderContext {
     friend class ModelRenderCache;
     friend class ModelSceneContext;
+    // The GI component publishes its reflection and SSSS textures in mPassTextures.
+    friend class ModelSceneGI;
 public:
     // The argument of the render-context callback delegate. Constructor 0x7100c07fa4 stores the
     // timing word and zeroes the two following words; only that prefix is modelled.

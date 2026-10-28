@@ -6,6 +6,7 @@
 #include <gfx/seadCamera.h>
 #include <gfx/seadProjection.h>
 #include <lighting/aglLightMapMgr.h>
+#include <lighting/aglLocalLightMapObj.h>
 #include <lighting/aglLightPrePass.h>
 #include <lighting/aglPlanarReflection.h>
 #include <lighting/aglLocalReflection.h>
@@ -185,6 +186,32 @@ void ModelSceneGI::setSceneMaterial(ModelNW* model) {
     if (!_8->isFeatureEnabled(ModelSceneConfig::Feature::EnvCubeMap))
         return;
     mEnvCubeMap->mShaderContext->setSceneMaterial(model);
+}
+
+// 0x7100c330c0
+void ModelSceneGI::drawLightMap(agl::DrawContext* draw_context,
+                                const ModelSceneContext& context) const {
+    if (!mLightMapMgr || !_8->isFeatureEnabled(ModelSceneConfig::Feature::LightMap))
+        return;
+    mLightMapMgr->draw(draw_context, context.getViewIndex(), (context.mFlags >> 2) & 1);
+    if ((context.mFlags & 4) == 0)
+        return;
+    if (mFrameObjects.size() < 1)
+        return;
+    agl::lght::LocalLightMapObj::applyGraphicsContext(draw_context);
+    for (agl::lght::LocalLightMapObj& obj : mFrameObjects)
+        obj.draw(draw_context, *mLightMapMgr, context.getViewIndex());
+}
+
+// 0x7100c341cc
+void ModelSceneGI::drawPlanarReflection(agl::DrawContext* draw_context,
+                                        ModelSceneContext* context) const {
+    if (!mPlanarReflection || !_8->isFeatureEnabled(ModelSceneConfig::Feature::Reflection))
+        return;
+    if ((context->_3c9 & 0x20) == 0)
+        return;
+    mPlanarReflection->draw(draw_context, context->getViewIndex(), *context->getRenderBuffer());
+    context->mPassTextures[13] = &mPlanarReflection->getView(context->getViewIndex())._368;
 }
 
 // NON_MATCHING: same instructions; clang materialises the first view record's matrix address
