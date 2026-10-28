@@ -20,6 +20,10 @@
 #include "KingSystem/Map/mapPlacementAreaMgr.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
+#include "KingSystem/XLink/xlinkUser.h"
+#include "KingSystem/Resource/resLoadRequest.h"
+#include <resource/seadResource.h>
+#include <xlink2/xlink2SystemELink.h>
 #include <xlink2/xlink2UserInstanceELink.h>
 #include <xlink2/xlink2ResourceAccessor.h>
 #include <xlink2/xlink2ResourceAccessorELink.h>
@@ -36,8 +40,39 @@ void Effect::initBeforeStageGenB() {
         mUserInstance->reset();
 }
 
-void Effect::initParticleGroups(bool flag) {
-    Graphics::instance()->mModelScenes[0]->clearParticleGroup(-1);
+void Effect::loadELinkDatabase(const sead::SafeString& requester) {
+    res::LoadRequest req;
+    req.mRequester = requester;
+    auto* res = sead::DynamicCast<sead::DirectResource>(
+        mELinkDBHandle.load("ELink2/ELink2DB.belnk", &req, nullptr));
+    xlink2::SystemELink::instance()->loadResource(res->getRawData());
+}
+
+void Effect::initBeforeStageGen(sead::Heap* heap) {
+    _9b98 = true;
+    _9b9c = 0;
+    _2a42c = 0;
+    clearFlags(0x1180);
+    setFlags(0x180);
+    initParticleGroups(true);
+    _9fe0.sub_7100DA2118();
+    mAmbientEffectMgr->reset();
+    mRainbow.start();
+    // NON_MATCHING: the original (C++14) constructs the CreateArg before evaluating instance(), so
+    // our C++17 build keeps the instance in a register and the body is one load longer.
+    mUserInstance = xlink2::SystemELink::instance()->createUserInstance(
+        xlink2::UserInstance::CreateArg("UI", &ksys::xlink::sUnk_7102652e70), heap, 0);
+    mUserInstance->setupResource(heap);
+    mUserInstance->setIsActive(true);
+    mWindStatsMaybe = uking::StatisticsMgr::instance()->getStatsPointer("terrain_is_in_door");
+    mForestDensityStats = uking::StatisticsMgr::instance()->getStatsPointer("forest_density");
+    _9b8c = 0;
+    _9b8d = 0;
+    _9b90 = 4.0f;
+    _9b94 = 0.0f;
+}
+
+void Effect::initParticleGroups(bool flag) {    Graphics::instance()->mModelScenes[0]->clearParticleGroup(-1);
     if (flag) {
         Graphics::instance()->mModelScenes[0]->addParticleGroup(0, -1);
         Graphics::instance()->mModelScenes[0]->addParticleGroup(1, -1);
@@ -282,16 +317,6 @@ bool Effect::sub_71011B2A34(const sead::Vector3f* pos, f32* out_depth, f32* out_
         *submaterial = 0;
     }
     return has_water;
-}
-
-void Unk_EffectActorTable::sub_7100DA2118() {
-    // NON_MATCHING: SDK range iteration uses a different counter instead of the native paired loop.
-    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
-    mCount = 0;
-    for (auto& entry : _0) {
-        entry.actor = nullptr;
-        entry._28 = false;
-    }
 }
 
 // NON_MATCHING: iterator unrolling, handle-copy scheduling, and saturating count differ.

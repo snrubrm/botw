@@ -1,8 +1,20 @@
 #include "KingSystem/Effect/Actor/Action/actionOneTimeEffectLocaterAction.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/XLink/xlinkXLink.h"
+#include <prim/seadScopedLock.h>
 
 namespace ksys::eft {
+
+void Unk_EffectActorTable::sub_7100DA2118() {
+    // NON_MATCHING: SDK range iteration uses a different counter instead of the native paired loop.
+    sead::ScopedLock<sead::CriticalSection> lock(&mCS);
+    mCount = 0;
+    for (auto& entry : _0) {
+        entry.actor = nullptr;
+        entry._28 = false;
+    }
+}
 
 OneTimeEffectLocaterAction::OneTimeEffectLocaterAction(const InitArg& arg)
     : ksys::act::ai::Action(arg) {}

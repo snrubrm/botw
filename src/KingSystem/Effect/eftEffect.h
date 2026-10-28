@@ -8,6 +8,7 @@
 #include "KingSystem/Effect/eftEffectModelMgr.h"
 #include "KingSystem/Effect/eftRainbow.h"
 #include "KingSystem/Physics/physDefines.h"
+#include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/Utils/Types.h"
 
@@ -106,6 +107,9 @@ public:
     void initBeforeStageGenB();
     // 0x71011b5fe8 (CSV Effect::initBeforeStageGen; declaration only).
     void initBeforeStageGen(sead::Heap* heap);
+    // 0x71011b5ed4: loads the ELink2 database through the handle at +0x9a98 and hands its raw
+    // data to the xlink system.
+    void loadELinkDatabase(const sead::SafeString& requester);
     // 0x71011b88b0: adds a demo resource id to the fixed 32-entry table.
     void addDemoResourceId(u32 id);
     // 0x71011b8950: removes a demo resource id from the table (XLink::resolveDeleteVfxResource).
@@ -129,9 +133,19 @@ private:
     bool _96b0;
     // Set while the timeline is paused (sub_71011B8658).
     bool _96b1;
-    u8 _96b2[0x9b98 - 0x96b2];
+    u8 _96b2[0x9a98 - 0x96b2];
+    // Loads ELink2/ELink2DB.belnk (loadELinkDatabase).
+    ksys::res::Handle mELinkDBHandle;
+    u8 _9ae8[0x9b8c - 0x9ae8];
+    u8 _9b8c;
+    u8 _9b8d;
+    u8 _9b8e[2];
+    // Initialised to 4.0 / 0.0 by initBeforeStageGen; the two stores merge into one 64-bit store.
+    f32 _9b90;
+    f32 _9b94;
     bool _9b98;
-    u8 _9b99[0x9ba0 - 0x9b99];
+    u8 _9b99[3];
+    s32 _9b9c;
     // Read by initParticleGroups: skips the fourth particle group when set.
     u8 _9ba0;
     u8 _9ba1[0x9fb8 - 0x9ba1];
@@ -167,7 +181,9 @@ private:
     s32 _193e8;
     u8 _193ec[0x19c38 - 0x193ec];
     Unk_71012419b4 mFieldEnvEffect;
-    u8 _19c58[0x2a43c - 0x19c58];
+    u8 _19c58[0x2a42c - 0x19c58];
+    s32 _2a42c;
+    u8 _2a430[0x2a43c - 0x2a430];
     /// Demo resource ids (initialised to -1 by the constructor).
     /* 0x2a43c */ s32 mDemoResourceIds[32];
     u8 _2a4bc[4];
