@@ -444,8 +444,6 @@ void NavMeshFaceQuery::process(HavokAI* ai) {
     ai->sub_7100F87334(mCharacter, mPos.isNan() ? nullptr : &mPos, radius, mRadius, _30, this);
 }
 
-// NON_MATCHING: the ring-buffer store loads the buffer pointer before the capacity (the original loads
-// the capacity first); the rest of the function matches.
 void HavokAI::sub_7100F81A00(Unk_7102519a98* obj, const sead::Matrix34f& transform) {
     obj->_64 = transform;
     obj->_60.fetchOr(0x100);
@@ -503,9 +501,20 @@ bool HavokAI::submitQuery(NavMeshQuery* query) {
     return _40->sub_71012A9F68(query);
 }
 
+// 0x7100f81868: the same enqueue as sub_7100F81930 with the other request bit pair.
+void HavokAI::sub_7100F81868(Unk_7102519a98* entry) {
+    entry->_60 &= ~0xfcu;
+    if (entry->_60.load() & 0x3)
+        return;
+    entry->_60 |= 0x3;
+    HavokAI* pending = entry->_58.exchange(this);
+    if (pending && uintptr_t(pending) != (uintptr_t(this) | 1))
+        return;
+    _40->_108.push(entry);
+}
+
 // 0x7100f81930: clears the entry's request bits, marks bits 2/3 queued and pushes the entry to
 // the pool's entry queue unless another HavokAI already owns it.
-// NON_MATCHING: only the inlined queue push's two loads (capacity / buffer) are swapped.
 void HavokAI::sub_7100F81930(Unk_7102519a98* entry) {
     entry->_60 &= ~0xf3u;
     if (entry->_60.load() & 0xc)

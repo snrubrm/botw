@@ -35,8 +35,8 @@ void NavMeshQueryRequestPool::sub_71012AA118(NavMeshQuery* query) {
     auto lock = sead::makeScopedLock(_8);
     if (_198 == query)
         _198 = nullptr;
-    _108.remove(query);
-    _120.remove(query);
+    _108.erase(query);
+    _120.erase(query);
 }
 
 void NavMeshQueryRequestPool::sub_71012AA1F0(NavMeshCharacter* nav) {
