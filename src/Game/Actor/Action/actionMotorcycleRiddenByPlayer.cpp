@@ -1,5 +1,6 @@
 #include "Game/Actor/Action/actionMotorcycleRiddenByPlayer.h"
 #include "Game/Actor/actMotorcycle.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayer.h"
 #include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -105,6 +106,33 @@ void MotorcycleRiddenByPlayer::loadParams_() {
     getStaticParam(&mForbidSpinturnAngleRange_s, "ForbidSpinturnAngleRange");
     getStaticParam(&mPermitManualWheelieAngleRange_s, "PermitManualWheelieAngleRange");
     getStaticParam(&mAttackChargeBoneOffset_s, "AttackChargeBoneOffset");
+}
+
+// 0x71000610ec: tracks the ride-on / attack state of `motorcycle` and `player`. Bit 5 of _186 is the
+// attack state; bit 4 is set while `a4` is on.
+// NON_MATCHING: clang duplicates the `result = false` block and the bit-4 update into each failed
+// test of the attack condition (the original jumps to one shared block); the `and` operands of the
+// bit tests are also swapped.
+bool MotorcycleRiddenByPlayer::calc_x_1(act::Motorcycle* motorcycle, ksys::act::Player* player,
+                                        bool a3, bool a4) {
+    bool result = true;
+    if (a4 && isStatusOn(Status::_4) && a3 && !isStatusOn(Status::_2)) {
+        setStatusOn(Status::_5);
+        result = false;
+    } else if (isStatusOn(Status::_5)) {
+        if (motorcycle->_f88.isOnBit(13) &&
+            (a3 || player->m180() || (player->_c44.isOnBit(8) && player->_d11 == 0) ||
+             player->m292())) {
+            result = false;
+        } else {
+            setStatusOff(Status::_5);
+        }
+    }
+    if (a4)
+        setStatusOn(Status::_4);
+    else
+        setStatusOff(Status::_4);
+    return result;
 }
 
 void MotorcycleRiddenByPlayer::calcTerrorVelocityStuff(f32 speed, const sead::Vector3f* dir) {

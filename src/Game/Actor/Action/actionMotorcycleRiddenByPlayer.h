@@ -2,8 +2,17 @@
 
 #include <gsys/gsysModelAccessKey.h>
 #include <prim/seadBitFlag.h>
+#include <prim/seadEnum.h>
 #include "KingSystem/ActorSystem/Awareness/actAITerror.h"
 #include "KingSystem/ActorSystem/actAiAction.h"
+
+namespace ksys::act {
+class Player;
+}
+
+namespace uking::act {
+class Motorcycle;
+}
 
 namespace uking::action {
 
@@ -22,6 +31,8 @@ public:
 
 protected:
     void calc_() override;
+    // 0x71000610ec: the ride-on / attack state machine over _186.
+    bool calc_x_1(act::Motorcycle* motorcycle, ksys::act::Player* player, bool a3, bool a4);
     void calcTerrorVelocityStuff(f32 speed, const sead::Vector3f* dir);
 
     // static_param at offset 0x20
@@ -70,6 +81,14 @@ protected:
     /* 0x180 */ gsys::BoneAccessKey _180;
     /* 0x184 */ bool _184 = false;
     /* 0x186 */ sead::BitFlag16 _186;
+    // Placeholder SEAD_ENUM for the bits of _186 (bit 4 is on while the action's flag is on, bit 5 is
+    // the attack state).
+    SEAD_ENUM(Status, _0, _1, _2, _3, _4, _5)
+    // Inline-only in the original (names are guesses): the by-value Status parameter is what makes
+    // the original convert it through a stack slot before the shift.
+    bool isStatusOn(Status flag) const { return _186.isOnBit(int(flag)); }
+    void setStatusOn(Status flag) { _186.setBit(int(flag)); }
+    void setStatusOff(Status flag) { _186.resetBit(int(flag)); }
 };
 KSYS_CHECK_SIZE_NX150(MotorcycleRiddenByPlayer, 0x188);
 
