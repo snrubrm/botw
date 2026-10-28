@@ -259,8 +259,8 @@ bool NavMeshLoadMgr::TileHandle::sub_7100F8AF0C() {
     return true;
 }
 
-// NON_MATCHING: the per-case cast blocks, the null check on the case-0 resource and the tile-loop
-// induction variable are laid out differently; the state machine, calls and constants agree.
+// NON_MATCHING: the duplicate-tile scan keeps its trip count in a 32-bit register where the
+// original widens it to 64 bits (one mov/sub pair); the cast blocks, state arms and calls match.
 void NavMeshLoadMgr::x_3(TileHandle* handle, TileHandle* other) {
     if (handle->mHandle.isReadyOrNeedsParse())
         handle->mHandle.parseResource(nullptr);
@@ -269,11 +269,10 @@ void NavMeshLoadMgr::x_3(TileHandle* handle, TileHandle* other) {
 
     bool matched = false;
     if (handle == other) {
-        const u32 count = sead::Mathu::min(_8, 9u);
-        TileHandle* h = _10;
-        for (u64 i = count; i != 0; --i, ++h) {
-            if (h->mHandle.requestedLoad() && handle->_50 == h->_50 &&
-                handle->_54 == h->_54) {
+        const s32 count = s32(sead::Mathu::min(_8, 9u));
+        for (s32 i = 0; i != count; ++i) {
+            TileHandle& h = _10[i];
+            if (h.mHandle.requestedLoad() && handle->_50 == h._50 && handle->_54 == h._54) {
                 matched = true;
                 break;
             }
@@ -286,14 +285,14 @@ void NavMeshLoadMgr::x_3(TileHandle* handle, TileHandle* other) {
     if (!matched) {
         switch (handle->_58) {
         case 0: {
-            auto* entries = sead::DynamicCast<Unk_7102519b90>(handle->mHandle.getResource())
-                                ->getEntries().getBufferPtr();
-            const s32 count = sead::DynamicCast<Unk_7102519b90>(handle->mHandle.getResource())
-                                  ->getEntries().size();
-            for (s32 i = 0; i != count; ++i) {
-                if (entries[i]._58 || (entries[i]._60.load() & 0x3c00)) {
-                    handle->_58 = 1;
-                    break;
+            auto* resource =
+                sead::DynamicCast<Unk_7102519b90>(handle->mHandle.getResource());
+            if (resource) {
+                for (auto& entry : resource->getEntries()) {
+                    if (entry._58 || (entry._60.load() & 0x3c00)) {
+                        handle->_58 = 1;
+                        break;
+                    }
                 }
             }
             if (handle->_58 == 0)
