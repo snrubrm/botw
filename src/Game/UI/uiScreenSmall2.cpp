@@ -5044,8 +5044,43 @@ s32 sub_71009D227C(u32 index) {
     return 0;
 }
 
+// 0x71009d18fc: creates the page's "Type" / "Broken" animators, binds the capture texture to the layout's
+// "P_Capture_00" part and registers the controller for the album screen's texture wait.
+// NON_MATCHING: the inlined ObjArray::pushBack keeps the count in w9 and folds the index's sxtw into the store;
+// the original materialises it (`sxtw x10, w10`) before a second count/max load. Same instructions, one opcode
+// shorter; the free-list register colour follows from it.
+void uking::ui::PictureBookCaptureController::sub_71009D18FC(PictureBookCaptureController* self,
+                                                             sead::Heap* heap, eui::LayoutEx* layout, bool a3) {
+    if (!layout)
+        return;
+    self->mTypeAnimator = layout->tryCreateAnimatorAuto("Type", true);
+    self->mBrokenAnimator = layout->tryCreateAnimatorAuto("Broken", true);
+    self->_2f9 = a3;
+    self->sub_71009CBD48(heap, layout, "P_Capture_00");
+    self->sub_71009CBDE8(layout, "PicLoad");
+    if (self)
+        sUnk_71025dc5e0.pushBack(self);
+}
+
 // 0x71009d1d08
 Unk_710247faf0::~Unk_710247faf0() = default;
+
+// 0x71009d1d78: creates the capture page's seven animators and hands the capture layout to the controller.
+void Unk_710247faf0::m4(sead::Heap* heap) {
+    if (!_8)
+        return;
+    mBoxIn = _8->tryCreateAnimatorAuto("BoxIn", false);
+    if (mBoxIn)
+        mBoxIn->StopAtMin();
+    mBoxCheck = _8->tryCreateAnimatorAuto("BoxCheck", false);
+    mBorn = _8->tryCreateAnimatorAuto("Born", false);
+    mState = _8->tryCreateAnimatorAuto("State", false);
+    mMemory = _8->tryCreateAnimatorAuto("Memory", false);
+    mComplete = _8->tryCreateAnimatorAuto("Complete", false);
+    mCompleteOut = _8->tryCreateAnimatorAuto("CompleteOut", false);
+    eui::LayoutEx* parts = _8->findPartsLayout("Pa_Capture_00");
+    uking::ui::PictureBookCaptureController::sub_71009D18FC(&_48, heap, parts, true);
+}
 
 // 0x71009d23c8
 void Unk_710247faf0::m7() {
@@ -5066,10 +5101,10 @@ void Unk_710247fbc0::m4(sead::Heap* heap) {
         return;
     if (_8->mOpenAnimator)
         _8->mOpenAnimator->StopAtMax();
-    _348 = _8->tryCreateAnimatorAuto("State", false);
-    _350 = _8->tryCreateAnimatorAuto("Memory", false);
+    mState = _8->tryCreateAnimatorAuto("State", false);
+    mMemory = _8->tryCreateAnimatorAuto("Memory", false);
     eui::LayoutEx* parts = _8->findPartsLayout("Pa_Capture_00");
-    _48.sub_71009D18FC(heap, parts, false);
+    uking::ui::PictureBookCaptureController::sub_71009D18FC(&_48, heap, parts, false);
 }
 
 // 0x71009d2ab0: updates the entry's control and, while the picture book page is open (state 2 / 3), hides the

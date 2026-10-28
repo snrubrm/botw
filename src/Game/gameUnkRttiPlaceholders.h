@@ -107,23 +107,20 @@ class Unk_710247faf0 : public uking::ui::Unk_7102474e38 {
     SEAD_RTTI_OVERRIDE(Unk_710247faf0, uking::ui::Unk_7102474e38)
 public:
     ~Unk_710247faf0() override;
+    void m4(sead::Heap* heap) override;
     void m5() override {}
     void m7() override;
     void m14() override;
 
-    /* 0x48 */ uking::ui::Unk_71009cb0c8 _48;
+    /* 0x48 */ uking::ui::PictureBookCaptureController _48;
     // zeroed by the constructor (inlined in ScreenAppPictureBookEntry::createUnits, 0x71009d6d8c; 0x380 bytes)
-    /* 0x330 */ u64 _330 = 0;
-    /* 0x338 */ u64 _338 = 0;
-    /* 0x340 */ bool _340 = false;
-    /* 0x341 */ bool _341 = false;
-    /* 0x348 */ u64 _348 = 0;
-    /* 0x350 */ u64 _350 = 0;
-    /* 0x358 */ u64 _358 = 0;
-    /* 0x360 */ u64 _360 = 0;
-    /* 0x368 */ u64 _368 = 0;
-    /* 0x370 */ u64 _370 = 0;
-    /* 0x378 */ u64 _378 = 0;
+    /* 0x348 */ eui::Animator* mBoxIn = nullptr;
+    /* 0x350 */ eui::Animator* mBoxCheck = nullptr;
+    /* 0x358 */ eui::Animator* mBorn = nullptr;
+    /* 0x360 */ eui::Animator* mState = nullptr;
+    /* 0x368 */ eui::Animator* mMemory = nullptr;
+    /* 0x370 */ eui::Animator* mComplete = nullptr;
+    /* 0x378 */ eui::Animator* mCompleteOut = nullptr;
 };
 
 // vtable 0x710247fbc0 (23 slots); placeholder generated from the vtable (genskel.py).
@@ -136,14 +133,10 @@ public:
     void m6() override;
     void m7() override;
 
-    /* 0x48 */ uking::ui::Unk_71009cb0c8 _48;
+    /* 0x48 */ uking::ui::PictureBookCaptureController _48;
     // zeroed by the constructor (inlined in ScreenAppPictureBookEntry::createUnits, 0x71009d6f6c; 0x358 bytes)
-    /* 0x330 */ u64 _330 = 0;
-    /* 0x338 */ u64 _338 = 0;
-    /* 0x340 */ bool _340 = false;
-    /* 0x341 */ bool _341 = false;
-    /* 0x348 */ eui::Animator* _348 = nullptr;
-    /* 0x350 */ eui::Animator* _350 = nullptr;
+    /* 0x348 */ eui::Animator* mState = nullptr;
+    /* 0x350 */ eui::Animator* mMemory = nullptr;
 };
 
 // vtable 0x71024826c0 (23 slots); placeholder generated from the vtable (genskel.py).

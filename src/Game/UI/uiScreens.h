@@ -4253,8 +4253,9 @@ extern sead::PtrArray<Unk_71009cb0c8> sUnk_71025eb5c0;
 // 0x71025dc57c / 0x71025dc580 (placeholder names): the album position and page kind kept by ScreenAppAlbum::m100
 extern s32 sUnk_71025dc57c;
 extern bool sUnk_71025dc580;
-// 0x71025dc5e0 (placeholder name): the AppAlbum screen's texture controllers (stored as pointers to the controller pointers)
-extern sead::PtrArray<Unk_71009cb0c8*> sUnk_71025dc5e0;
+// 0x71025dc5e0 (placeholder name): the AppAlbum screen's texture controllers (an ObjArray of pointer cells; the
+// controllers register themselves with pushBack in PictureBookCaptureController::sub_71009D18FC)
+extern sead::ObjArray<Unk_71009cb0c8*> sUnk_71025dc5e0;
 
 // States of ScreenAppPictureBook (placeholder names; m158 / m159).
 extern const ksys::StateBase sUnk_71025eb490;
@@ -6727,9 +6728,6 @@ public:
     nn::ui2d::TextureInfo* sub_71009CBECC();
     void sub_71009CBD48(sead::Heap* heap, eui::LayoutEx* layout, const sead::SafeString& name);
     void sub_71009CBDE8(eui::LayoutEx* layout, const sead::SafeString& name);
-    // 0x71009d18fc (declared only; not decompiled): creates the capture layout's animators and registers the
-    // controller in the picture book's task list.
-    void sub_71009D18FC(sead::Heap* heap, eui::LayoutEx* layout, bool a3);
     // 0x71009cbfc4: queue a texture load using the existing resource context.
     void sub_71009CBFC4(const ::Unk_710247e960& request);
 
@@ -6752,6 +6750,23 @@ public:
     /* 0x2c8 */ ksys::TaskRemoveCallbackT<Unk_71009cb0c8> mRemoveCallback;
 };
 static_assert(sizeof(Unk_71009cb0c8) == 0x2e8);
+
+// The picture book capture / memory units (Unk_710247faf0, Unk_710247fbc0) embed this controller at +0x48; it
+// extends the texture controller with the page's two state animators. An inline constructor (base ctor 0x9cb0c8
+// followed by the four zero stores in the units' createUnits copies) adds the trailing fields.
+class PictureBookCaptureController : public Unk_71009cb0c8 {
+public:
+    // 0x71009d18fc: creates the "Type" / "Broken" animators, loads the capture texture parts and registers the
+    // controller in sUnk_71025dc5e0. A free-standing helper so the unit types can share it.
+    static void sub_71009D18FC(PictureBookCaptureController* self, sead::Heap* heap, eui::LayoutEx* layout,
+                               bool a3);
+
+    /* 0x2e8 */ eui::Animator* mTypeAnimator = nullptr;
+    /* 0x2f0 */ eui::Animator* mBrokenAnimator = nullptr;
+    /* 0x2f8 */ bool _2f8 = false;
+    /* 0x2f9 */ bool _2f9 = false;
+};
+static_assert(sizeof(PictureBookCaptureController) == 0x300);
 
 class ScreenSystemWindow01 : public ScreenEx {
 public:
