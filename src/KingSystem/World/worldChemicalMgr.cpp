@@ -777,6 +777,93 @@ void ChemicalMgr::sub_71010CC5B4() {
         ++_b10;
 }
 
+// 0x71010cc710: turns the contact points of _af0 into a chemical state change. The separating
+// distance against the body's box projected onto the contact normal gives a penetration ratio;
+// above 0.55 the element flags of the actor's chemicals are set.
+// NON_MATCHING: the constant pool offsets, the two-pointer null test (cbz pair instead of
+// cmp/ccmp) and the debug block's matrix store order differ.
+void ChemicalMgr::sub_71010CC710() {
+    auto* info = _af0;
+    if (!info || info->getNumContactPoints() == 0)
+        return;
+    if (info->begin().isEnd())
+        return;
+
+    for (auto it = _af0->begin(); it != _af0->end(); ++it) {
+        if (!it.getPoint()->body_a || !it.getPoint()->body_b)
+            continue;
+        if (!it.getPoint()->body_a->getUserTag())
+            continue;
+
+        const u32 material_type = (it.getPoint()->material_mask_b.getRawData() >> 20) & 7;
+        auto* chemicals = sub_71010CE968(it.getPoint()->body_a->getUserTag());
+        if (!chemicals)
+            continue;
+
+        const sead::Vector3f normal = it.getPoint()->separating_normal;
+        const f32 distance = sead::Mathf::abs(-it.getPoint()->separating_distance);
+        auto* chemical = chemicals->sub_7100E37788(0);
+        bool apply;
+        if (!chemical) {
+            apply = false;
+        } else if (distance > chemical->_34 * 3.0f) {
+            if (_b14.isOnBit(22))
+                chemical->sub_7100D9155C();
+            apply = true;
+        } else {
+            sead::BoundBox3f aabb;
+            it.getPoint()->body_a->getAabbInLocal(&aabb);
+            const f32 size_x = aabb.getSizeX();
+            const f32 size_y = aabb.getSizeY();
+            const f32 size_z = aabb.getSizeZ();
+
+            sead::Matrix34f mtx;
+            it.getPoint()->body_a->getTransform(&mtx);
+
+            f32 radius = 0.0f;
+            radius += sead::Mathf::abs(
+                size_x * (normal.x * mtx.m[0][0] + normal.y * mtx.m[1][0] + normal.z * mtx.m[2][0]));
+            radius += sead::Mathf::abs(
+                size_y * (normal.x * mtx.m[0][1] + normal.y * mtx.m[1][1] + normal.z * mtx.m[2][1]));
+            radius += sead::Mathf::abs(
+                size_z * (normal.x * mtx.m[0][2] + normal.y * mtx.m[1][2] + normal.z * mtx.m[2][2]));
+
+            const f32 depth = distance / radius;
+            f32 clamped = 0.0f;
+            if (depth >= 0.0f) {
+                if (depth > 1.0f)
+                    clamped = 1.0f;
+                else
+                    clamped = depth;
+            }
+            apply = clamped > 0.55f;
+
+            if (_b14.isOnBit(22)) {
+                chemical->sub_7100D9155C();
+                chemical->sub_7100D9155C();
+                chemical->sub_7100D9155C();
+                chemical->sub_7100D9155C();
+                mtx.setTranslation(chemical->sub_7100D9155C());
+                mtx.setBase(0, mtx.getBase(0) * size_x);
+                mtx.setBase(1, mtx.getBase(1) * size_y);
+                mtx.setBase(2, mtx.getBase(2) * size_z);
+                it.getPointPosition(phys::ContactPointInfo::Iterator::Point::BodyA);
+                it.getPointPosition(phys::ContactPointInfo::Iterator::Point::BodyB);
+                it.getPointPosition(phys::ContactPointInfo::Iterator::Point::Midpoint);
+            }
+        }
+
+        const s32 count = chemicals->_80 + chemicals->_58.size();
+        if (count > 0) {
+            const u16 flag = (material_type - 3 < 2) ? 0x80 : 0xc0;
+            if (apply) {
+                for (s32 i = 0; i < count; ++i)
+                    chemicals->sub_7100E37788(i)->_bc |= flag;
+            }
+        }
+    }
+}
+
 bool ChemicalMgr::x_4() const {
     return _b10 < 10;
 }

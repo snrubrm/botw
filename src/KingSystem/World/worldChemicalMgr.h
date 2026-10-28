@@ -466,4 +466,7 @@ struct Unk_ChemicalMgrM2Arg {
 };
 Unk_71025187d0* sub_71010CBF7C(act::Unk_71024dd490* holder, Unk_ChemicalMgrM2Arg* arg);
 
+// 0x71010ce968: the actor chemicals of a physics / chemical user tag, or null.
+act::ActorChemicals* sub_71010CE968(const phys::UserTag* tag);
+
 }  // namespace ksys::world
