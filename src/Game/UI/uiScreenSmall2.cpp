@@ -169,6 +169,35 @@ void ScreenAppAlbum::m100() {
     _3638->sub_710093F594(false);
 }
 
+// 0x71009d585c: the album page reset: releases both picture-book views, stops the page animator at
+// its first frame and clears the page state, the selected picture index and the picture name.
+void ScreenAppAlbum::m101() {
+    _3aa0 = 0;
+    if (_3638)
+        _3638->sub_710093FF88();
+    if (_3640)
+        _3640->sub_710093FF88();
+    if (_3630)
+        _3630->StopAtMin();
+    sUnk_71025DC890._c = 0;
+    sUnk_710247fc88 = -1;
+    sUnk_71025dc588.clear();
+}
+
+// 0x71009d59c4: refreshes the start / end picture-book views when the page animator sits at the
+// first / last frame.
+void ScreenAppAlbum::m129() {
+    if (!_3630 || !_3638 || !_3640)
+        return;
+    const f32 rate = _3630->mRate;
+    const bool at_start = rate < 0.0f ? true : _3630->mFrame == 0.0f;
+    const bool at_end = rate > 0.0f ? true : _3630->mFrame == f32(_3630->GetFrameSize());
+    if (at_start)
+        _3638->sub_710093FEAC();
+    if (at_end)
+        _3640->sub_710093FEAC();
+}
+
 // 0x71009d5b64
 void ScreenAppAlbum::m154() {
     _3a99 = true;

@@ -6054,9 +6054,11 @@ public:
     bool sub_71009D3B54();
     bool sub_71009D3C78();
     void m128() override;
+    void m129() override;
     void m89() override;
     void m94() override;
     void m100() override;
+    void m101() override;
     // 0x71009d5100 (CSV unnamed; not decompiled): called at the end of m94
     void sub_71009D5100();
     /* 0x3610 */ s32 _3610;  // the number of pictures in the album
