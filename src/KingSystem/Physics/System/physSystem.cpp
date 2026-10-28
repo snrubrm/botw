@@ -5,6 +5,7 @@
 #include <new>
 #include <math/seadMathCalcCommon.h>
 #include "KingSystem/Physics/Ragdoll/physRagdollInstanceMgr.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/System/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/System/physContactMgr.h"
 #include "KingSystem/Physics/System/physWorld.h"
@@ -448,6 +449,12 @@ void System::sub_71012153B4(CharacterController* controller) {
     const s32 index = _2b0.indexOf(controller);
     if (index >= 0)
         _2b0.erase(index);
+}
+
+void System::updateCharacterControllers() {
+    auto lock = sead::makeScopedLock(_270);
+    for (s32 i = 0; i < _2b0.size(); ++i)
+        _2b0[i]->sub_7100F60E98();
 }
 
 }  // namespace ksys::phys

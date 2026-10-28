@@ -103,6 +103,8 @@ public:
     // there is room) / remove it.
     void sub_7101215358(CharacterController* controller);
     void sub_71012153B4(CharacterController* controller);
+    // 0x71012166cc (placeholder name): updates every controller in `_2b0` under `_270`.
+    void updateCharacterControllers();
     // 0x71012165f8 / 0x7101216620 (CSV PhysicsMemSys::x / __auto6; placeholder names): lock / unlock the critical
     // section of the world of `type` directly.
     void sub_71012165F8(ContactLayerType type);
