@@ -596,6 +596,31 @@ bool Core::Grass::sub_7101151A14() {
     return _28->sub_710106A2C4();
 }
 
+// 0x71011502f4 (placeholder name): the per-view grass state update. Skipped while the grass is
+// disabled, the terrain debug bit 3 is set, or the second grass flag is clear.
+void Core::Grass::sub_71011502F4(u32 index) {
+    if (!(mFlags & 1))
+        return;
+    if (const auto* terrain = Terrain::instance()) {
+        if (const auto* debug = terrain->_a50) {
+            if ((debug->_18 & 8) != 0)
+                return;
+        }
+    }
+    if (!(mFlags & 2))
+        return;
+
+    auto& entry = mEntries[index];
+    _28->sub_7101066304(index);
+    entry._0->sub_7101073064(_58);
+    entry._8->uploadCellData(_58);
+    entry._10->sub_71010786F4();
+    sub_71011532D8(_38, index);
+    sub_7101154A38(_48, index);
+    sub_7101156DFC(_50, index);
+    sub_71012D24AC(_58, index, &entry);
+}
+
 // 0x71011503cc (placeholder name): draws the grass of system `index`. Skipped while the world
 // manager is absent, the terrain debug bit 3 is set, or the two grass flags are clear; the wind
 // manager update only runs for system 0.

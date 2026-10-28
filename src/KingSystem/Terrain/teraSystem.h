@@ -103,6 +103,13 @@ struct TreeTypeMaybe {
 };
 KSYS_CHECK_SIZE_NX150(TreeTypeMaybe, 0x2e8);
 
+// Per-view grass update helpers called by Core::Grass::sub_71011502F4. Their owner classes are not
+// modelled; the receivers are the objects at Core::Grass::_40 / _48 / _50 / _58.
+void sub_71011532D8(void* obj, u32 index);
+void sub_7101154A38(void* obj, u32 index);
+void sub_7101156DFC(void* obj, u32 index);
+void sub_71012D24AC(void* obj, u32 index, GrassEntry* entry);
+
 // 0x7102504450: the eight tune values 0x71010817c4 copies into a tree-type uniform block.
 KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_7102504450[8];
 
@@ -343,6 +350,9 @@ public:
 
             void resetCells();
             void setBufferIndex(u32 index);
+            // 0x7101073064 (declaration only; placeholder name): called by sub_71011502F4 with the
+            // grass object at +0x58.
+            void sub_7101073064(void* obj);
             void applyMaskBrush(f32 diameter, f32 blend, const sead::Vector2f* position,
                                 bool second_layer, bool spawn);
             // Native 10751C0 dispatches this after updating a cut mask.
@@ -404,7 +414,12 @@ public:
         u8 _34[4];
         // The area environment getter, built by the grass initialiser 0x710114eab0.
         AreaEnvGetter* _38;
-        u8 _40[0x17b0 - 0x40];
+        // Per-view update helpers used by sub_71011502F4; the owner classes are not modelled.
+        // (_38 above is at +0x40; the remaining three are here.)
+        void* _48;
+        void* _50;
+        void* _58;
+        u8 _60[0x17b0 - 0x60];
         // Grass scale used by the attribute table builder 0x710106bd54.
         f32 _17b0;
     };

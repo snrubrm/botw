@@ -150,6 +150,9 @@ public:
     // 0x7101066e14 (unnamed in the CSV): draws record `index` of mRecords. Core::Grass::sub_71011503CC
     // calls it with the draw context and the system index.
     void sub_7101066E14(agl::DrawContext* context, s32 index);
+    // 0x7101066304 (declaration only; placeholder name): called by Core::Grass::sub_71011502F4
+    // with the per-view index.
+    void sub_7101066304(u32 index);
 
     sead::Heap* mHeap = nullptr;                    // +8
     sead::Buffer<Record> mRecords;                  // +10

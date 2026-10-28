@@ -117,7 +117,8 @@ public:
     void sub_71012E7990(f32 diameter, f32 intensity, const sead::Vector2f* position);
     void resetCells();
     void setBufferIndex(u32 index);
-    void uploadCellData();
+    // 0x71012e6814: called by Core::Grass::sub_71011502F4 with the grass object at +0x58.
+    void uploadCellData(void* obj);
     void initialize(sead::Heap* heap, tera::GrassEntry* entry);
     f32 sub_71012E7864(s32 kind, const Cell* cell, u32 flags, u32* result) const;
 

@@ -289,7 +289,7 @@ void Unk_710251cea8::setBufferIndex(u32 index) {
 }
 
 // NON_MATCHING: color conversion loops remain compact; distance arithmetic and stores differ in scheduling.
-void Unk_710251cea8::uploadCellData() {
+void Unk_710251cea8::uploadCellData(void* obj) {
     sead::ScopedLock<sead::CriticalSection> lock(&_10);
     const f32 scale = mViewScale;
     f32 near = std::numeric_limits<f32>::max();
