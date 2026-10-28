@@ -9,7 +9,9 @@ namespace uking::frm {
 // Native controller state record: System owns it at +0x18; allocation proves its 0x98 extent.
 class SystemStruct1 {
 public:
-    virtual ~SystemStruct1();
+    // Vtable 0x7102473410: two dtor slots, the complete dtor is a bare ret and the deleting one
+    // calls operator delete, so the destructor body is empty and inline.
+    virtual ~SystemStruct1() = default;
     // 0x7100900d3c / 0x7100900e10 (declared only): System constructs the vector and the per-frame
     // controller step copies the input into it.
     SystemStruct1();

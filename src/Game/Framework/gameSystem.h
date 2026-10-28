@@ -21,6 +21,7 @@ namespace uking::frm {
 class System : public sead::hostio::Node {
 public:
     SEAD_RTTI_BASE(System)
+    System();
     virtual ~System();
 
     // 0x71007d1e3c: true while the scene does not exist yet, otherwise the scene's own check.
