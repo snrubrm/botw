@@ -11,6 +11,7 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actReaction.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "Game/gameGraphics.h"
 #include "Game/gameStage.h"
 #include "Game/gameStatisticsMgr.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
@@ -33,6 +34,21 @@ void Effect::initBeforeStageGenB() {
     _9fc8 = 0x1e;
     if (mUserInstance)
         mUserInstance->reset();
+}
+
+void Effect::initParticleGroups(bool flag) {
+    Graphics::instance()->mModelScenes[0]->clearParticleGroup(-1);
+    if (flag) {
+        Graphics::instance()->mModelScenes[0]->addParticleGroup(0, -1);
+        Graphics::instance()->mModelScenes[0]->addParticleGroup(1, -1);
+        Graphics::instance()->mModelScenes[0]->addParticleGroup(2, -1);
+        Graphics::instance()->mModelScenes[0]->addParticleGroup(0x3e, -1);
+        if (!_9ba0)
+            Graphics::instance()->mModelScenes[0]->addParticleGroup(3, -1);
+    }
+    gsys::ParticleMgr::instance()->get_68().setBit(2);
+    Graphics::instance()->mModelScenes[1]->clearParticleGroup(-1);
+    Graphics::instance()->mModelScenes[1]->addParticleGroup(0x3e, -1);
 }
 
 // NON_MATCHING: the compiler shrink-wraps the frame and selects the failed-query result.

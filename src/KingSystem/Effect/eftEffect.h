@@ -131,7 +131,10 @@ private:
     bool _96b1;
     u8 _96b2[0x9b98 - 0x96b2];
     bool _9b98;
-    u8 _9b99[0x9fb8 - 0x9b99];
+    u8 _9b99[0x9ba0 - 0x9b99];
+    // Read by initParticleGroups: skips the fourth particle group when set.
+    u8 _9ba0;
+    u8 _9ba1[0x9fb8 - 0x9ba1];
 
 public:
     // The player link (set by ksys::setPlayerLink) and the camera actor (set by ksys::sub_7100F40428).

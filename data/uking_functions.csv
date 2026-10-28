@@ -92206,7 +92206,7 @@ Address,Quality,Size,Name
 0x00000071011b5fe0,U,000004,nullsub_4629
 0x00000071011b5fe4,U,000004,nullsub_4630
 0x00000071011b5fe8,U,000364,Effect::initBeforeStageGen
-0x00000071011b6154,U,000404,_ZN4ksys3eft6Effect18initParticleGroupsEb
+0x00000071011b6154,O,000404,_ZN4ksys3eft6Effect18initParticleGroupsEb
 0x00000071011b62e8,O,000036,_ZN4ksys3eft6Effect19initBeforeStageGenBEv
 0x00000071011b630c,O,000160,_ZN4ksys3eft6Effect4calcEv
 0x00000071011b63ac,U,001284,_ZN4ksys3eft6Effect16calcMostProbablyEv
