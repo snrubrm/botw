@@ -289,6 +289,72 @@ bool ScreenAppMap::sub_71009EF8DC() {
     return false;
 }
 
+// 0x71009efad4 (placeholder name): applies the demo state's map mode (`UiSubsys1::sub_7100968B1C`): starts /
+// stops the mode animators, marks the widget's demo flags and forwards the mode to the map children.
+void ScreenAppMap::sub_71009EFAD4(s32 mode) {
+    UiSubsys1* subsys = UiSubsys1::instance();
+    if (!subsys)
+        return;
+    if (!_3610 || !_3c90)
+        return;
+    if (u32(mode) > 0xb)
+        return;
+    if (subsys->return0B())
+        UiSubsys1::instance()->sub_71009675EC();
+    if (UiSubsys1::instance()->return0A()) {
+        UiSubsys1::instance()->getVec3834();
+        UiSubsys1::instance()->sub_7100968900(1);
+    }
+    UiSubsys1::instance()->sub_7100968C2C(0);
+    if (mode == 0 || mode == 1)
+        return;
+    switch (mode) {
+    case 2:
+        _3b00->Stop(f32(subsys->_128));
+        _3af0->PlayAuto(1.0f);
+        eui::Screen::x_2();
+        break;
+    case 3:
+        _3628[6]->PlayAuto(1.0f);
+        if (UiSubsys1::instance()->get3820() == 0)
+            _3610->sub_71009AF364();
+        _3610->sub_71009AF344();
+        UiSubsys1::instance()->set3820(3);
+        break;
+    case 4:
+        _3b00->Stop(f32(subsys->_128));
+        _3af8->PlayAuto(1.0f);
+        break;
+    case 5: {
+        const s32 level = subsys->sub_7100965938(true);
+        _3610->sub_71009A99F0(level);
+        if (subsys->returnTrue2())
+            return;
+        _3610->_b33a = 1;
+        _3610->_b350 = 1;
+        _3610->sub_71009A9B8C();
+        break;
+    }
+    case 6:
+        UiSubsys1::instance()->_608 = true;
+        break;
+    case 7:
+        UiSubsys1::instance()->sub_7100964A60(subsys->_128);
+        break;
+    case 8:
+        if (Unk_71025d69f0::instance()->_36)
+            _3ad1 = 1;
+        break;
+    case 9:
+        if (!UiSubsys1::instance()->sub_7100960DAC(2))
+            _3c90->sub_71009C13D4(0);
+        break;
+    case 10:
+        _3c90->sub_71009C13D4(1);
+        break;
+    }
+}
+
 // 0x71009ef4ec (CSV unnamed)
 void ScreenAppMap::sub_71009EF4EC(s32 a1, s32 a2) {
     if (u32(a1 - 3) > 1)

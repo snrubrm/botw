@@ -1440,6 +1440,8 @@ public:
     void set3820(s32 value);
     void set3904(bool value);
     bool return0A() const;
+    // 0x71009675ec (placeholder name; declared only): the SafeString name writer for the map mode at _3830
+    void sub_71009675EC();
     // 0x7100967504 / 0x7100967524 / 0x7100967570 / 0x71009675a4 / 0x71009675c0 / 0x71009675d4 / 0x71009675dc (placeholder names)
     bool isValid38e0() const;
     bool is38e4Equal(s32 value) const;
@@ -1589,12 +1591,16 @@ public:
     s32 sub_71009641E4() const;
     void sub_71009645A0();
     void sub_7100964A40(const sead::Vector3f& pos);
+    // 0x7100964a60 (placeholder name; declared only): calls the entry getter on every marker and sets the flag at
+    // 0x64 of the entry whose index field is `index`
+    void sub_7100964A60(s32 index);
     s32 get614() const;
     // 0x7100965938 / 0x7100965994 / 0x710096599c / 0x7100965cf0 (placeholder names)
-    // `flag` is unused in the body; the map demo state's ready check is the only caller and passes true.
+    // `flag` is unused in the body; the map demo state's ready / apply checks are the only callers and pass true.
     s32 sub_7100965938(bool flag) const;
     void set898(s32 value);
-    bool returnTrue2() const;
+    // s32, not bool: the demo state's apply step tests the result without narrowing it to one bit.
+    s32 returnTrue2() const;
     // 0x7100965e60 (placeholder name): always false
     bool returnFalse() const;
     s32 get7c4(s32 index) const;

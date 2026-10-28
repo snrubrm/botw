@@ -1426,7 +1426,7 @@ void UiSubsys1::set898(s32 value) {
 }
 
 // 0x710096599c
-bool UiSubsys1::returnTrue2() const {
+s32 UiSubsys1::returnTrue2() const {
     return true;
 }
 
