@@ -503,6 +503,20 @@ bool HavokAI::submitQuery(NavMeshQuery* query) {
     return _40->sub_71012A9F68(query);
 }
 
+// 0x7100f81930: clears the entry's request bits, marks bits 2/3 queued and pushes the entry to
+// the pool's entry queue unless another HavokAI already owns it.
+// NON_MATCHING: only the inlined queue push's two loads (capacity / buffer) are swapped.
+void HavokAI::sub_7100F81930(Unk_7102519a98* entry) {
+    entry->_60 &= ~0xf3u;
+    if (entry->_60.load() & 0xc)
+        return;
+    entry->_60 |= 0xc;
+    HavokAI* pending = entry->_58.exchange(this);
+    if (pending && uintptr_t(pending) != (uintptr_t(this) | 1))
+        return;
+    _40->_108.push(entry);
+}
+
 void HavokAI::sub_7100F82BCC(NavMeshCharacter* nav) {
     nav->_220 &= ~2u;
     nav->_220 |= 1;
