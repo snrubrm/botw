@@ -49,6 +49,14 @@ void ScreenPauseMenu::sub_7100A34A28() {
     _3642 = false;
 }
 
+// 0x7100a34bac
+void ScreenPauseMenu::m86() {
+    for (s32 i = 0; i < 6; ++i) {
+        _3bd8[i].mItem = nullptr;
+        _3bd8[i].mChanged = 0;
+    }
+}
+
 // NON_MATCHING: register allocation (the category entry pointer and the layout-pair counters) and the
 // pane call / layouts pointer order differ; the logic matches.
 // 0x7100a38fe8

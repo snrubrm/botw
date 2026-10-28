@@ -3307,6 +3307,8 @@ public:
     void m101() override;
     // 0x7100a3693c (placeholder name): sets up the page layouts, tab controls, cursor and info screen on open
     void m98() override;
+    // 0x7100a34bac: clears the six equipment slots
+    void m86() override;
     void m106(eui::AnimButton* button) override;
     void m107(eui::AnimButton* button) override;
     // 0x7100a3840c (CSV unnamed, 1248 bytes; declared only; tail-called by m106)
@@ -5973,6 +5975,7 @@ public:
     bool sub_71009D3B54();
     bool sub_71009D3C78();
     void m128() override;
+    void m89() override;
     void m94() override;
     void m100() override;
     // 0x71009d5100 (CSV unnamed; not decompiled): called at the end of m94
@@ -5989,6 +5992,8 @@ public:
     /* 0x3a98 */ bool _3a98;  // select-all toggle (m163)
     /* 0x3a99 */ bool _3a99;  // set by the state callbacks that finish a page change
     /* 0x3a9c */ s32 _3a9c;
+    // Frames the album's texture controllers have had to report ready (m89).
+    /* 0x3aa0 */ u32 _3aa0 = 0;
 
 };
 

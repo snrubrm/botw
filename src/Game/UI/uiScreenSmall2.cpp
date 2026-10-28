@@ -314,6 +314,22 @@ void ScreenAppAlbum::m128() {
         controller->sub_71009CC970();
 }
 
+// 0x71009d58e0: waits a few frames for every album texture controller to load.
+void ScreenAppAlbum::m89() {
+    if (_3aa0 < 6)
+        ++_3aa0;
+    bool ready = _3aa0 > 5;
+    for (auto it = sUnk_71025dc5e0.begin(), end = sUnk_71025dc5e0.end(); it != end; ++it) {
+        if ((*it)->sub_71009CBEAC()) {
+            (*it)->sub_71009CC3A0();
+            ready = false;
+        }
+        ready &= (*it)->sub_71009CBFA4();
+    }
+    if (ready)
+        _292 |= 0x20;
+}
+
 // 0x71009d5db0
 void ScreenAppAlbum::m156() {
     if (_3638)
