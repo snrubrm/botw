@@ -661,6 +661,39 @@ void ScreenAppMapWidget::m24(sead::Heap* heap) {
 // 0x71009a8be4
 Unk_7102479fb0::~Unk_7102479fb0() = default;
 
+// 0x71009a8c20 (slot 17): re-initialises the footprint heap on the saved track data after a load, unless the save
+// system has bit 0x20 of _1a50 set, and selects the last saved cell.
+// NON_MATCHING: the last-cell clamp / add / index lowering is the same as m24 (sub/bic vs subs/csel, commutative
+// count + pending operand order, uxtw vs sxtw).
+void ScreenAppMapWidget::m17() {
+    if (ksys::aoc::Manager::instance()->getVersion() < 0x200)
+        return;
+    if (SaveSystem::instance()->_1a50 & 0x20)
+        return;
+
+    mFootPrint.initHeap();
+    do {
+        mFootPrint.step();
+    } while (!mFootPrint.isIdle());
+
+    _b4a0 = 0;
+    const s32 count = mFootPrint.mCount + mFootPrint.mPending;
+    const s32 last = count - 1 < 0 ? 0 : count - 1;
+    _b4ec = last;
+    _b4f0 = last;
+    if (last >= 0 && last < count) {
+        const u32 packed = mFootPrint.mCells[last];
+        s32 x = (packed >> 13) & 0x1fff;
+        if (packed & 0x4000000)
+            x = -x;
+        s32 y = packed & 0xfff;
+        if (packed & 0x1000)
+            y = -y;
+        _b4b8 = f32(x);
+        _b4bc = f32(y);
+    }
+}
+
 // 0x71009a8be8
 void ScreenAppMapWidget::m14() {
     for (s32 i = 120; i < 240; ++i)

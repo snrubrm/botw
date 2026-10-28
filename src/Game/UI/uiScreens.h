@@ -2803,6 +2803,8 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     void m14() override;
     // 0x71009a878c (slot 24): binds the map subsystem, creates the map animators and panes and the footprint data
     void m24(sead::Heap* heap) override;
+    // 0x71009a8c20 (slot 17): re-initialises the footprint heap on the saved track data after a load
+    void m17() override;
     // 0x71009a89c0 (declared only; 548 bytes): looks up the field pane and fills the map pane arrays
     void sub_71009A89C0();
     // 0x71009a9380 / 0x71009a9280 (slots 21 / 31)
