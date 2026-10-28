@@ -15,6 +15,9 @@
 #include <mc/seadCoreInfo.h>
 #include "gsys/gsysLightProbeMgr.h"
 #include "gsys/gsysLayer3D.h"
+#include "gsys/gsysMaskedSpotLight.h"
+#include "gsys/gsysPointLight.h"
+#include "gsys/gsysSpotLight.h"
 
 namespace gsys {
 
@@ -277,6 +280,39 @@ void ModelSceneGI::free(SpotLightRig* rig, Model* model, int index) {
 void ModelSceneGI::free(MaskedSpotLightRig* rig, Model* model, int index) {
     if (mMaskedSpotLightResMgr)
         mMaskedSpotLightResMgr->free(rig, model, index);
+}
+
+// Inline-only in the original; the three ModelSceneGI::alloc bodies contain it.
+template <typename T>
+LightRigObj<typename T::LightType>* LightResMgr<T>::alloc(T* rig) {
+    mCS.lock();
+    Obj* obj = mFree.popBack();
+    if (obj) {
+        mUsed.pushBack(obj);
+        obj->mRig = rig;
+        obj->setEnable(true);
+    }
+    mCS.unlock();
+    return obj;
+}
+
+// 0x7100c339cc
+LightRigObj<PointLight>* ModelSceneGI::alloc(PointLightRig* rig) {
+    if (!mPointLightResMgr)
+        return nullptr;
+    return mPointLightResMgr->alloc(rig);
+}
+
+// 0x7100c33b60
+LightRigObj<SpotLight>* ModelSceneGI::alloc(SpotLightRig* rig) {
+    if (!mSpotLightResMgr)
+        return nullptr;
+    return mSpotLightResMgr->alloc(rig);
+}
+
+// 0x7100c33cf4
+LightRigObj<MaskedSpotLight>* ModelSceneGI::alloc(MaskedSpotLightRig* rig) {
+    return mMaskedSpotLightResMgr->alloc(rig);
 }
 
 // 0x7100c3370c

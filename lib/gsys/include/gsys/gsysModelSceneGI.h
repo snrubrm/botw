@@ -98,6 +98,10 @@ public:
     void free(PointLightRig* rig, Model* model, int index);
     void free(SpotLightRig* rig, Model* model, int index);
     void free(MaskedSpotLightRig* rig, Model* model, int index);
+    // 0x7100c339cc / 0x7100c33b60 / 0x7100c33cf4: take an available rig object from its manager.
+    LightRigObj<PointLight>* alloc(PointLightRig* rig);
+    LightRigObj<SpotLight>* alloc(SpotLightRig* rig);
+    LightRigObj<MaskedSpotLight>* alloc(MaskedSpotLightRig* rig);
     // 0x7100c35194: the component attaches no hostio node of its own.
     void attachHostIO(sead::hostio::Node* node) override {}
 

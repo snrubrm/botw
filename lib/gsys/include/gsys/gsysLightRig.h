@@ -14,6 +14,8 @@ class Model;
 template <typename T>
 class LightRig {
 public:
+    using LightType = T;
+
     // 0x7100c58704 / 0x7100c633c8 / 0x7100c7cd00: the base update hook does nothing.
     virtual void updateObj_(T* obj, const sead::Matrix34f& view, const sead::Color4f& color_a,
                             const sead::Color4f& color_b, const sead::Vector3f& position, f32 a,
