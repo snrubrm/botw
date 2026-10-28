@@ -8,6 +8,84 @@
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Event/evtMetadata.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/Resource/Actor/resResourceActorLink.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
+#include <container/seadBuffer.h>
+#include <gfx/seadColor.h>
+#include <limits>
+#include <math/seadVector.h>
+
+// The TU's merged static block (0x71025c91e0), built by its initializer 0x710073e168. The prefix is
+// the same InitConstants / tick / FLT_MAX vector / 19 color block that the other UI-side TUs have
+// (uiTUStatics.h); this TU additionally has the tick pair and the InitTimeInfo before the vector.
+// The two 8-byte statics at +0x08 / +0x10 are only zeroed by the initializer; their type is a guess.
+// GlobalMerge keeps the declaration order, so the tag buffers land at +0x168 / +0x178 as in the
+// original.
+namespace {
+ksys::util::InitConstants sInitConstants;  // +0x00
+sead::TickSpan sUnk_71025C91E8;            // +0x08
+sead::TickSpan sUnk_71025C91F0;            // +0x10
+ksys::util::InitTimeInfo sInitTimeInfo;    // +0x18
+sead::Vector3f sMaxVector{std::numeric_limits<f32>::max(), std::numeric_limits<f32>::max(),
+                          std::numeric_limits<f32>::max()};  // +0x28
+sead::Color4f sColorBlack{0.0f, 0.0f, 0.0f, 1.0f};           // +0x34
+sead::Color4f sColorBlackHalf{0.0f, 0.0f, 0.0f, 0.5f};
+sead::Color4f sColorGray{0.5f, 0.5f, 0.5f, 1.0f};
+sead::Color4f sColorGrayHalf{0.5f, 0.5f, 0.5f, 0.5f};
+sead::Color4f sColorWhite{1.0f, 1.0f, 1.0f, 1.0f};
+sead::Color4f sColorWhiteHalf{1.0f, 1.0f, 1.0f, 0.5f};
+sead::Color4f sColorRed{1.0f, 0.0f, 0.0f, 1.0f};
+sead::Color4f sColorRedHalf{1.0f, 0.0f, 0.0f, 0.5f};
+sead::Color4f sColorGreen{0.0f, 1.0f, 0.0f, 1.0f};
+sead::Color4f sColorGreenHalf{0.0f, 1.0f, 0.0f, 0.5f};
+sead::Color4f sColorBlue{0.0f, 0.0f, 1.0f, 1.0f};
+sead::Color4f sColorBlueHalf{0.0f, 0.0f, 1.0f, 0.5f};
+sead::Color4f sColorYellow{1.0f, 1.0f, 0.0f, 1.0f};
+sead::Color4f sColorYellowHalf{1.0f, 1.0f, 0.0f, 0.5f};
+sead::Color4f sColorMagenta{1.0f, 0.0f, 1.0f, 1.0f};
+sead::Color4f sColorMagentaHalf{1.0f, 0.0f, 1.0f, 0.5f};
+sead::Color4f sColorCyan{0.0f, 1.0f, 1.0f, 1.0f};
+sead::Color4f sColorCyanHalf{0.0f, 1.0f, 1.0f, 0.5f};
+sead::Color4f sColorClear{0.0f, 0.0f, 0.0f, 0.0f};  // +0x154, block ends at +0x164
+
+// The two tags shared by the item get demos: the names at 0x71024512b0 and their crc32 hashes at
+// 0x7101e7b808.
+const char* sTagNames[] = {"CanGetPouch", "CanGetCollectSet"};
+sead::Buffer<const char*> sTagNameList(sTagNames);  // +0x168
+const u32 sTagHashes[] = {0xe0194f30, 0x17919f47};
+sead::Buffer<const u32> sTagHashList(sTagHashes);   // +0x178
+}  // namespace
+
+// 0x710073ba0c
+bool itemCanGetPouch(ksys::act::Actor* actor) {
+    auto* link = actor->getParam()->getRes().mActorLink;
+    if (link->hasTag(sTagHashList[0]))
+        return true;
+    // The call's result is discarded in the original.
+    link->hasTag(sTagHashList[1]);
+    return false;
+}
+
+// 0x710073ba74
+bool itemCanNotGetPouch(ksys::act::Actor* actor) {
+    auto* link = actor->getParam()->getRes().mActorLink;
+    if (link->hasTag(sTagHashList[0]))
+        return false;
+    return link->hasTag(sTagHashList[1]);
+}
+
+// 0x710073bb88
+bool actorHasTagCanGetPouch(const sead::SafeString& actor_name) {
+    if (ksys::act::InfoData::instance()->hasTag(actor_name.cstr(), sTagHashList[0]))
+        return !uking::ui::PauseMenuDataMgr::instance()->cannotGetItem(actor_name, 1);
+    // The result of this check is discarded in the original.
+    ksys::act::InfoData::instance()->hasTag(actor_name.cstr(), sTagHashList[1]);
+    if (ksys::act::InfoData::instance()->hasTag(actor_name.cstr(), sTagHashList[0]))
+        return false;
+    return ksys::act::InfoData::instance()->hasTag(actor_name.cstr(), sTagHashList[1]);
+}
 
 void sub_710073BB28(bool a, bool b) {
     uking::ui::sub_7100A94AC8();
