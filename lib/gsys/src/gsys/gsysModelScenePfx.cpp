@@ -3,6 +3,9 @@
 #include <postfx/aglAutoExposure.h>
 #include <postfx/aglBloom.h>
 #include <postfx/aglColorCorrection.h>
+#include <postfx/aglDepthOfField.h>
+
+#include <common/aglRenderBuffer.h>
 #include <postfx/aglFlareFilter.h>
 #include <postfx/aglGlareFilter.h>
 #include <postfx/aglHDRCompose.h>
@@ -39,6 +42,30 @@ bool ModelScenePfx::isBloomEnabled(int view) const {
     if (!mBloom)
         return false;
     return mBloom->isViewEnabled(view);
+}
+
+// NON_MATCHING: same size and instruction set; only the register colour of the view-mask test
+// differs.
+// 0x7100c35e9c
+void ModelScenePfx::drawDOF(agl::DrawContext* draw_context, ModelSceneContext* context,
+                            const agl::TextureData* texture) const {
+    if (!_8->isFeatureEnabled(ModelSceneConfig::Feature::DOF))
+        return;
+    if (!mDepthOfField)
+        return;
+    if (!mDepthOfField->isEnabled())
+        return;
+    const int view = context->getViewIndex();
+    if (!mDepthOfField->isViewEnabled(view))
+        return;
+    if (texture)
+        mDepthOfField->draw(draw_context, view, *context->getRenderBuffer(), *texture, true,
+                            context->getViewData()[0].frustum.getNear(),
+                            context->getViewData()[0].frustum.getFar());
+    else if (context->getRenderBuffer()->getRenderTargetDepth())
+        mDepthOfField->draw(draw_context, view, *context->getRenderBuffer(),
+                            context->getViewData()[0].frustum.getNear(),
+                            context->getViewData()[0].frustum.getFar());
 }
 
 // 0x7100c362e0

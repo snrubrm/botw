@@ -11,6 +11,7 @@ namespace agl::pfx {
 class AutoExposure;
 class Bloom;
 class ColorCorrection;
+class DepthOfField;
 class FlareFilter;
 class GlareFilter;
 class HDRCompose;
@@ -47,6 +48,9 @@ public:
     // 0x7100c35ae0: the bloom object must exist and its buffer cover the view (-1 for any).
     bool isBloomEnabled(int view) const;
 
+    // 0x7100c35e9c: the depth-of-field pass draws with the view's depth target.
+    void drawDOF(agl::DrawContext* draw_context, ModelSceneContext* context,
+                 const agl::TextureData* texture) const;
     // 0x7100c362e0 / 0x7100c3627c: the auto-exposure pass and the per-view buffer release.
     void drawAutoExposure(agl::DrawContext* draw_context, ModelSceneContext* context) const;
     void release(int view) const;
@@ -67,7 +71,8 @@ private:
     // The post effects the component releases in release(int); the rest of the member block stays
     // unmodelled.
     /* 0x288 */ agl::pfx::Bloom* mBloom;
-    /* 0x290 */ u8 _290[0x2a0 - 0x290];
+    /* 0x290 */ u8 _290[0x298 - 0x290];
+    /* 0x298 */ agl::pfx::DepthOfField* mDepthOfField;
     /* 0x2a0 */ agl::pfx::AutoExposure* mAutoExposure;
     /* 0x2a8 */ agl::pfx::ColorCorrection* mColorCorrection;
     /* 0x2b0 */ agl::pfx::GlareFilter* mGlareFilter;
