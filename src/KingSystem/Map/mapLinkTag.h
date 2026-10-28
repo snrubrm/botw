@@ -29,6 +29,11 @@ bool setS32ByIdxForLinkTag(gdt::Manager* mgr, s32 value, gdt::FlagHandle handle)
 // 0x7100d38070 (CSV isLinkTagNAndOrNOr): whether `name` is "LinkTagNAnd" or "LinkTagNOr".
 bool isLinkTagNAndOrNOr(const sead::SafeString& name);
 
+// 0x7100d39964: the revival game data flag of the object `obj`; `*flag` is set when the flag is an
+// S32 counter. Returns gdt::InvalidHandle unless the mubin has a usable "MakeSaveFlag".
+gdt::FlagHandle getLinkTagRevivalGameDataFlagHash(const sead::SafeString& object_name,
+                                                  const Object* obj, bool* flag);
+
 // 0x7100d38170 (declaration only): reads the game data flag of `obj`'s revival / signal into `out`; false if it has none.
 bool isFlagSet(bool* out, bool a, const Object* obj);
 

@@ -210,6 +210,9 @@ public:
 
     // TODO:
     void initRevivalGameDataFlagAndMiscFlags(ActorData* data, bool zero);
+    // 0x7100d4cd60 (CSV PlacementObj::initRevivalGameDataFlag): sets the link-tag flags and the
+    // revival flag handle, then copies the handle between CopyWaitRevival link partners.
+    void initRevivalGameDataFlag(bool a);
     f32 getLoadDistance(bool get_diameter) const;
     // 0x0000007100d4c3dc
     f32 getDispDistanceComplex() const;

@@ -23,6 +23,9 @@ namespace ksys::map {
 // first in that case); an IncrementSave object counts as set when the flag is >= 1.
 bool isFlagSet(bool* value, bool a2, const Object* obj);
 
+// 0x71024db060 (file-local): the profile name compared by Object::initRevivalGameDataFlag.
+static const sead::SafeString sLinkTag("LinkTag");
+
 // NON_MATCHING
 Object::Object() {
     mHardModeFlags.makeAllZero();
@@ -750,6 +753,51 @@ bool Object::checkRevivalMaybe(bool x) const {
             x = value ^ mFlags.isOn(Flag::IsLinkTagNAndOrNOr);
     }
     return x;
+}
+
+// NON_MATCHING: the "UnitConfigName" compare against the file-local "LinkTag" SafeString matches the
+// original byte for byte except that the original's isEqual is fully unrolled over the seven known
+// characters (fixed offsets 0..6); ours keeps the generic 2-byte-step isEqual loop. Everything from
+// the IsLinkTag flag store on (both revival-handle arms and the CopyWaitRevival partner sync) agrees
+// instruction for instruction.
+// 0x7100d4cd60 (an Object member; the CSV owner name is PlacementObj): sets the link-tag flags and
+// the revival flag handle from the "UnitConfigName" mubin string, then syncs the handle with the
+// CopyWaitRevival link partners.
+void Object::initRevivalGameDataFlag(bool a) {
+    const char* unit_config_name;
+    if (!mMubinIter.tryGetParamStringByKey(&unit_config_name, "UnitConfigName"))
+        unit_config_name = "";
+
+    if (sLinkTag == unit_config_name) {
+        mFlags.set(Flag::IsLinkTag);
+
+        bool increment = false;
+        mRevivalGameDataFlagHash =
+            getLinkTagRevivalGameDataFlagHash(unit_config_name, this, &increment);
+        if (increment)
+            mFlags.set(Flag::IncrementSave);
+        if (isLinkTagNAndOrNOr(unit_config_name))
+            mFlags.set(Flag::IsLinkTagNAndOrNOr);
+    } else {
+        mRevivalGameDataFlagHash = gdt::InvalidHandle;
+        if (act::hasAnyRevivalTag(unit_config_name))
+            mRevivalGameDataFlagHash =
+                gdt::Manager::instance()->getRevivalFlagHandle(unit_config_name, mMubinIter);
+    }
+
+    if (!a || !mLinkData || mFlags.isOn(Flag::IncrementSave))
+        return;
+
+    ObjectLink* link = mLinkData->findLinkWithType(MapLinkDefType::CopyWaitRevival);
+    if (!link || !link->other_obj || !mFlags.isOn(Flag::IsLinkTag)) {
+        link = mLinkData->mLinksToSelf.findLinkWithType(MapLinkDefType::CopyWaitRevival);
+        if (link && link->other_obj && link->other_obj->mFlags.isOn(Flag::IsLinkTag) &&
+            link->other_obj->mFlags.isOff(Flag::IncrementSave)) {
+            link->other_obj->mRevivalGameDataFlagHash = mRevivalGameDataFlagHash;
+        }
+    } else if (link->other_obj->mFlags.isOff(Flag::IncrementSave)) {
+        mRevivalGameDataFlagHash = link->other_obj->mRevivalGameDataFlagHash;
+    }
 }
 
 }  // namespace ksys::map
