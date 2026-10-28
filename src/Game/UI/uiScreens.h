@@ -6760,6 +6760,8 @@ public:
     // controller in sUnk_71025dc5e0. A free-standing helper so the unit types can share it.
     static void sub_71009D18FC(PictureBookCaptureController* self, sead::Heap* heap, eui::LayoutEx* layout,
                                bool a3);
+    // 0x71009d1a04 (declared only): the per-picture texture / page setup.
+    bool sub_71009D1A04(s32 index, bool a3);
 
     /* 0x2e8 */ eui::Animator* mTypeAnimator = nullptr;
     /* 0x2f0 */ eui::Animator* mBrokenAnimator = nullptr;

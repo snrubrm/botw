@@ -136,8 +136,11 @@ public:
     void m6() override;
     void m7() override;
     void m8() override;
-    // 0x71009d2bb8 (declared only): the per-picture widget update.
+    void m13() override;
+    // 0x71009d2bb8 (declared only; now decompiled): the per-picture widget update.
     void sub_71009D2BB8(s32 index);
+    // 0x71009d2e9c (declared only): sets the entry's picture panes / selection state.
+    void sub_71009D2E9C(s32 index, bool a3);
 
     /* 0x48 */ uking::ui::PictureBookCaptureController _48;
     // zeroed by the constructor (inlined in ScreenAppPictureBookEntry::createUnits, 0x71009d6f6c; 0x358 bytes)

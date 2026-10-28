@@ -5165,6 +5165,46 @@ void Unk_710247fbc0::m8() {
         sub_71009D2BB8(index);
 }
 
+// 0x7101e7e4ec: the demo numbers of the eleven picture-book demo entries, read by Unk_710247fbc0::m13.
+static const s32 sDemoNumbersMaybe[12] = {0x7e, 0x7f, 0x80, 0x81, 0x82, 0x83,
+                                          0x84, 0x85, 0x86, 0x87, 0x88, 0x89};
+
+// 0x71009d2d30: after resetting the controller and the two widget strings, shows the picture selected by the
+// album's list or, while no picture is selected yet, the demo picture's own state animation.
+// NON_MATCHING: clang puts the selected-picture path first (tbnz / b.ge layout), hoists the controller address
+// into a callee-saved register and inverts the clampMin csel; the original recomputes `this + 0x48` per call and
+// branches on the subs flags. Logic, call order and constants match.
+void Unk_710247fbc0::m13() {
+    _48.sub_71009CC3A0();
+    uking::ui::setWidgetString(_8, uking::ui::sUnk_71025DC890._188, sead::SafeString::cEmptyString);
+    uking::ui::setWidgetString(_8, uking::ui::sUnk_71025DC890._198, sead::SafeString::cEmptyString);
+    if (mState)
+        mState->StopAtMin();
+    if (mMemory)
+        mMemory->StopAtMin();
+    const s32 selected = sub_7100939C78();
+    const s32 index = selected - uking::ui::sUnk_71025DC890._14;
+    if (index < 0) {
+        const s32 picture = sub_71009D227C(u32(selected));
+        _48.sub_71009D1A04(picture, true);
+        sub_71009D2E9C(picture, true);
+        sead::FormatFixedSafeString<32> key(
+            "IsPlayed_Demo%03d_0",
+            sDemoNumbersMaybe[sead::Mathi::clampMin(sead::Mathi::clampMax(picture, 0xb), 0)]);
+        if (ksys::gdt::getBoolByKey(key, false)) {
+            if (mMemory)
+                mMemory->StopAtMax();
+        }
+    } else {
+        if (u32(index) > 0x2f)
+            return;
+        if (!_48.sub_71009D1A04(index, false))
+            return;
+        sub_71009D2E9C(index, false);
+        sub_71009D2BB8(index);
+    }
+}
+
 // 0x71009d2bb8: resolves the selected picture's actor name; when it is a quest camera target it shows the
 // message on the entry's text widget and plays the State animation from its maximum.
 // NON_MATCHING: the two SafeString locals and the MessageString temporary take the same stack slots in the
