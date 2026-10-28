@@ -182,6 +182,8 @@ public:
     void sub_71009F617C(const char* actor);
     // 0x71009f4f58: sets the sub-text panes from the picture book mode.
     void sub_71009F4F58(s32 mode);
+    // 0x71009f5abc (placeholder name): shows the reference page message and hides the parts' texture panes.
+    void sub_71009F5ABC();
 
     /* 0x48 */ uking::ui::Unk_71009cb0c8 _48;
     // zeroed by the constructor with two memsets (inlined in ScreenAppPictureBookEntry::createUnits, 0x71009fb6fc;
@@ -191,7 +193,7 @@ public:
     /* 0x340 */ u8 _340[0x38]{};
     // 0x378: the fifteen parts' materials (m4 finds each one's Pane and stores its material).
     /* 0x378 */ nn::ui2d::Material* _378[15]{};
-    /* 0x3f0 */ u8 _3f0[0x78]{};
+    /* 0x3f0 */ eui::LayoutEx* _3f0[15]{};
     // 0x468: one "needs texture" flag per part.
     /* 0x468 */ u8 _468[15]{};
     /* 0x478 */ ksys::res::Handle* _478[15]{};

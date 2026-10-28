@@ -3106,9 +3106,9 @@ PictureBookNameIterator newEnemyPictureBookNamesBegin() {
 
 // 0x71009f8484
 PictureBookNameIterator newEnemyPictureBookNamesEnd() {
-    // NON_MATCHING: the original selects the clamp with 64-bit registers (csel x1); ours uses w1.
-    return {sNewEnemyPictureBookNames.getBufferPtr(),
-            s32(sead::Mathu::min(sPictureBookState.mNumNewEnemyPictures, 16u))};
+    const u64 count = sPictureBookState.mNumNewEnemyPictures;
+    const u64 clamped = count < 16 ? count : 16;
+    return {sNewEnemyPictureBookNames.getBufferPtr(), s32(clamped)};
 }
 
 // 0x71009f84a8
@@ -3118,8 +3118,9 @@ PictureBookNameIterator newBossPictureBookNamesBegin() {
 
 // 0x71009f84b8
 PictureBookNameIterator newBossPictureBookNamesEnd() {
-    return {sNewBossPictureBookNames.getBufferPtr(),
-            s32(sead::Mathu::min(sPictureBookState.mNumNewBossPictures, 16u))};
+    const u64 count = sPictureBookState.mNumNewBossPictures;
+    const u64 clamped = count < 16 ? count : 16;
+    return {sNewBossPictureBookNames.getBufferPtr(), s32(clamped)};
 }
 
 // 0x71009f84dc
@@ -3129,8 +3130,8 @@ PictureBookNameIterator newWeaponPictureBookNamesBegin() {
 
 // 0x71009f84ec
 PictureBookNameIterator newWeaponPictureBookNamesEnd() {
-    return {sNewWeaponPictureBookNames.getBufferPtr(),
-            s32(sead::Mathu::min(sPictureBookState.mNumNewWeaponPictures, 2u))};
+    const u64 count = sPictureBookState.mNumNewWeaponPictures;
+    return {sNewWeaponPictureBookNames.getBufferPtr(), s32(count < 2 ? count : 2)};
 }
 
 // 0x71009f8464
@@ -3273,6 +3274,28 @@ void Unk_7102482790::m14() {
     }
     for (u8& flag : _468)
         flag = 0;
+}
+
+// 0x71009f5abc (placeholder name): shows the reference page message in T_SubTextC_00 and hides the
+// parts' texture panes.
+// NON_MATCHING: the label and the message swap stack slots; the original constructs the message
+// first although it is the lower local.
+void Unk_7102482790::sub_71009F5ABC() {
+    {
+        sead::FormatFixedSafeString<16> label("%04d", 10);
+        eui::MessageString message;
+        uking::ui::getMessage(uking::ui::sPictureBookState._278, label, &message);
+        uking::ui::setWidgetString(_8, uking::ui::sPictureBookState._1c8, message);
+    }
+    for (s32 i = 0; i < 15; ++i) {
+        if (_378[i])
+            _378[i]->GetTexMapArray()[0].ReplaceTextureInfo(&uking::ui::sUnk_71025eb478);
+        if (!_3f0[i])
+            continue;
+        if (_478[i] && _478[i]->requestedLoad())
+            _478[i]->requestUnload();
+        _3f0[i]->GetPane()->SetVisible(false);
+    }
 }
 
 // NON_MATCHING: the mode switch arms and the value / second initialisers are lowered in a different
