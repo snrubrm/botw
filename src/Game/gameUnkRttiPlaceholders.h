@@ -680,7 +680,8 @@ class Unk_71024993a0 {
     SEAD_RTTI_BASE(Unk_71024993a0)
 public:
     virtual ~Unk_71024993a0();
-    virtual void m4() {}
+    // The entry's text setter; multi-text entries pick the slot with `index`.
+    virtual void m4(const sead::SafeString& label, s32 index) {}
     virtual void m5() {}
 
     /* 0x08 */ s32 _8 = -1;  // text block group (0-4; -1 before the entry is used)
@@ -710,6 +711,8 @@ class Unk_7102499a28 : public Unk_71024993a0 {
     SEAD_RTTI_OVERRIDE(Unk_7102499a28, Unk_71024993a0)
 public:
     ~Unk_7102499a28() override;
+    // 0x7100a5aa30: stores the label in the entry's only string.
+    void m4(const sead::SafeString& label, s32 index) override;
     // 0x7100a580bc: applies the entry's label to the text block it owns.
     void m5() override;
 

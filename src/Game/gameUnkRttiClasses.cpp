@@ -478,6 +478,10 @@ void Unk_7102499a28::m5() {
         _20->m5(_28, 0);
 }
 
+void Unk_7102499a28::m4(const sead::SafeString& label, s32) {
+    _28.copy(label);
+}
+
 Unk_710249a160::~Unk_710249a160() = default;
 
 void Unk_710249a160::m4(const sead::SafeString& label) {
