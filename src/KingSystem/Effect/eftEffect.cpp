@@ -327,17 +327,21 @@ void Effect::kill() {
     _9fc0 = nullptr;
 }
 
-// NON_MATCHING: matrix copies use SIMD loads and stores and identity construction folds.
+// NON_MATCHING: the two matrix copies match (three 16-byte rows), but clang hoists the ParticleMgr
+// chain above the mFlags bit 3 test (the original keeps it in each arm) and colours registers
+// differently.
 void Effect::updatePlayerPos(const sead::Matrix34f& matrix, const sead::Matrix34f& alternate) {
-    auto& camera = gsys::ParticleMgr::instance()->getSystem()->getCameraMatrix();
-    if (mFlags & 8) {
-        sead::Matrix34f identity;
-        identity.makeIdentity();
-        std::memcpy(&camera, identity.a.data(), sizeof(camera));
-    } else {
-        const auto& source = mFlags & 0x10 ? alternate : matrix;
-        std::memcpy(&camera, source.a.data(), sizeof(camera));
+    const u32 flags = mFlags;
+    if (flags & 8) {
+        auto& camera = gsys::ParticleMgr::instance()->getSystem()->getCameraMatrix();
+        sead::Matrix34CalcCommon<f32>::copy(camera, sead::Matrix34f::ident);
+        return;
     }
+    auto& camera = gsys::ParticleMgr::instance()->getSystem()->getCameraMatrix();
+    if (flags & 0x10)
+        sead::Matrix34CalcCommon<f32>::copy(camera, alternate);
+    else
+        sead::Matrix34CalcCommon<f32>::copy(camera, matrix);
 }
 
 // NON_MATCHING: the setBit `orr` has its operands swapped (sead::LongBitFlag::setBit in lib).
