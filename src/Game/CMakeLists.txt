@@ -46,6 +46,7 @@ target_sources(uking PRIVATE
   gameHorseColorInfoMgr.cpp
   gameHorseColorInfoMgr.h
   gameHorseMgr.h
+  gameHorseMgrQuery.cpp
   gameWolfLinkMgr.h
   gameItemUtils.cpp
   gameItemUtils.h

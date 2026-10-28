@@ -30,7 +30,6 @@ void HorseMgr::onGameDataReinit(ksys::gdt::Manager::ReinitEvent* event) {
     initHorseGameDataIters();
 }
 
-// NON_MATCHING: clang inlines ~Unk_7100e8a080 (_270); the original calls it out of line.
 HorseMgr::~HorseMgr() {
     _80.deleteProc();
     if (auto* gdm = ksys::gdt::Manager::instance())
@@ -417,6 +416,36 @@ bool HorseMgr::isSelectedHorseFamiliarityChecked() {
     return result;
 }
 
+// NON_MATCHING: the two cross-call position locals land in the opposite FP callee-saved registers
+// (ours x in s10 / z in s9; the original x in s9 / z in s10).
+// 0x7100e87760 (placeholder name): whether the owned horse can be called by `actor`: true when the call
+// query accepts it or it stands within `radius` of the actor; otherwise sets Horse_UnreachableCause to 1.
+bool HorseMgr::x_1(f32 radius, ksys::act::Actor* actor) {
+    const f32 x = actor->getMtx().m[0][3];
+    const f32 z = actor->getMtx().m[2][3];
+    bool reachable = false;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
+        if (_270.sub_7100E8A100(this, actor)) {
+            reachable = true;
+        } else {
+            if (accessor.isStateCalc()) {
+                const sead::Matrix34f& mtx = accessor.getActorMtx();
+                const f32 dx = x - mtx.m[0][3];
+                const f32 dz = z - mtx.m[2][3];
+                if (dx * dx + dz * dz <= radius * radius) {
+                    actor->sendMessage(*accessor.getMessageTransceiverId(),
+                                       ksys::MessageType(0x3800001), actor, true);
+                    reachable = true;
+                }
+            }
+            if (!reachable)
+                ksys::gdt::Manager::instance()->setS32(1, "Horse_UnreachableCause");
+        }
+    }
+    return reachable;
+}
+
 // NON_MATCHING: only the operand order of the and / orr on the flags differs (the original has the flags first) and the
 // placement of the final `*type = ...` store.
 s32 HorseMgr::sub_7100E8612C(RiddenAnimalType* type) {
@@ -533,28 +562,6 @@ void HorseMgr::sub_7100E87584(const sead::SafeString& name, sead::Heap* heap) {
         act::sub_7100E6E98C(accessor, false);
         act::sub_7100E6E6C8(accessor, name, heap);
     }
-}
-
-Unk_7100e8a080::Unk_7100e8a080() = default;
-
-// 0x7100e8a0c4 (was sub_7100E8A0C4): ~HorseMgr calls it for HorseMgr::_270; the link reset is _8's destructor.
-Unk_7100e8a080::~Unk_7100e8a080() {
-    if (mQuery) {
-        ksys::phys::HavokAI::instance()->destroyQuery(mQuery);
-        mQuery = nullptr;
-    }
-}
-
-// NON_MATCHING: horseStuff ignores `this`, so the original does not re-set x0 for the call (same-TU dead argument).
-bool Unk_7100e8a080::sub_7100E8A100(HorseMgr* mgr, ksys::act::BaseProc* proc) {
-    if (!_4c && !mQuery && !(_48 > 0.0f)) {
-        if (!horseStuff(mgr))
-            return false;
-        _48 = 66.0f;
-        _4c = false;
-        _8.acquire(proc, false);
-    }
-    return true;
 }
 
 extern const sead::SafeString sUnk_7102603C98[4] = {

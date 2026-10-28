@@ -159,6 +159,10 @@ public:
     s32 getNumDeadHorsesRegistered();
     // 0x7100e87668 (name is a guess): the Horse_IsFamiliarityChecked flag of the selected horse.
     bool isSelectedHorseFamiliarityChecked();
+    // 0x7100e87760 (CSV name; name is a placeholder): whether the owned horse is reachable from `actor`
+    // (true when the call query accepts it, or it stands within `radius`); otherwise sets
+    // Horse_UnreachableCause to 1.
+    bool x_1(f32 radius, ksys::act::Actor* actor);
     // 0x7100e8612c (name is a guess): finds the selected / owned horse and returns its RiddenAnimalType in
     // `type` (1 if there is none); returns the selected index (-1 if none).
     s32 sub_7100E8612C(RiddenAnimalType* type);
