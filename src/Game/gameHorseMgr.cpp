@@ -18,6 +18,7 @@
 #include "KingSystem/AOC/aocManager.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "KingSystem/System/PlayReportMgr.h"
 
 namespace uking {
 
@@ -996,6 +997,41 @@ const sead::SafeString& getHorseSaddleName(HorseMgr::RiddenAnimalType type) {
 }
 
 }  // namespace uking
+
+// 0x7100e86d84 (CSV name): moves dead horse `index` back to the live records (at the end) and removes it
+// from the dead ones; returns its new index, or -1 when the record is incomplete or all five are in use.
+// NON_MATCHING: our clang merges the identical `return -1` blocks into one at the end; the original
+// materialises -1 and branches to the epilogue in each arm (10 more instructions, 127 vs 117).
+s32 resurrectHorseStuff(uking::HorseMgr* mgr, s32 index) {
+    uking::HorseMgr::HorseData data;
+    if (!uking::HorseMgr::sub_7100E86F80(&data, index))
+        return -1;
+    if (data.actorName[0] == sead::SafeString::cNullChar)
+        return -1;
+    if (data.userName[0] == sead::SafeString::cNullChar)
+        return -1;
+    if (data.reinsName[0] == sead::SafeString::cNullChar)
+        return -1;
+    if (data.saddleName[0] == sead::SafeString::cNullChar)
+        return -1;
+    if (data.maneName[0] == sead::SafeString::cNullChar)
+        return -1;
+    if (!(data.familiarity <= 1.0f))
+        return -1;
+    if (!(data.familiarity >= 0.0f))
+        return -1;
+    if ((data.collarType | data.footType) < 0)
+        return -1;
+
+    const s32 count = mgr->getNumRegisteredHorses();
+    if (u32(count) > 4)
+        return -1;
+
+    mgr->sub_7100E8533C(&data, count);
+    mgr->sub_7100E8720C(index);
+    ksys::PlayReportMgr::instance()->reportDebug("HorseResurrected", data.actorName);
+    return count;
+}
 
 namespace sead {
 // 0x7100e89e60 / 0x7100e89e90 (unnamed in the CSV): the invoke / clone of the ReinitEvent delegate that
