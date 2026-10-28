@@ -50,8 +50,18 @@ struct Unk_7100e8a080 {
     // 0x7100e8a100 (placeholder name): unless busy (_4c, a query, or the timer _48 running), checks horseStuff and
     // then links `proc` and restarts the timer (66); false if horseStuff fails.
     bool sub_7100E8A100(HorseMgr* mgr, ksys::act::BaseProc* proc);
-    // 0x7100e8a16c (CSV horseStuff; declaration only, 664 B; does not use `this`): game data checks on the owned horse
-    // of `mgr` (IsGet_PlayerStole2, IsInHyruleCastleArea, IsPlayed_Demo14x flags).
+    // 0x7100e8a404 (placeholder name): the link's per-frame state machine (runs the query step while _4c is set,
+    // tears a processed query down, and uses the _48 timer to start the call request).
+    void sub_7100E8A404(HorseMgr* mgr);
+    // 0x7100e8a5d4 (placeholder name): the query state step: sends the call request with the query matrix unless
+    // the linked actor is rejected / the horse is in the calc state.
+    bool sub_7100E8A5D4(HorseMgr* mgr);
+    // 0x7100e8a7a8 / 0x7100e8aa6c (declarations only; placeholder names): the query-side ground / climate checks
+    // the state machine runs before it sends the call request.
+    bool sub_7100E8A7A8(HorseMgr* mgr);
+    bool sub_7100E8AA6C(HorseMgr* mgr);
+    // 0x7100e8a16c (CSV horseStuff; does not use `this`): game data checks on the owned horse of `mgr`
+    // (IsGet_PlayerStole2, IsInHyruleCastleArea, IsPlayed_Demo14x, NakedIsland_ProhibitAmiibo).
     bool horseStuff(HorseMgr* mgr);
     // 0x7100e8aeec (placeholder name): casts a ray through `pos` from y + `up` down to y - `down` on the ground
     // layers and writes the hit position back into `pos`; true on a hit.
@@ -64,7 +74,8 @@ struct Unk_7100e8a080 {
     /* 0x08 */ ksys::act::BaseProcLink _8;
     /* 0x18 */ sead::Matrix34f _18 = sead::Matrix34f::ident;
     /* 0x48 */ f32 _48 = 0;
-    /* 0x4c */ bool _4c = false;
+    // 0: idle, 1: waiting for the call request, 2: an event paused the request.
+    /* 0x4c */ u8 _4c = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_7100e8a080, 0x50);
 
