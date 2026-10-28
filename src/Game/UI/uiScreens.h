@@ -4253,6 +4253,10 @@ extern sead::PtrArray<Unk_71009cb0c8> sUnk_71025eb5c0;
 // 0x71025dc57c / 0x71025dc580 (placeholder names): the album position and page kind kept by ScreenAppAlbum::m100
 extern s32 sUnk_71025dc57c;
 extern bool sUnk_71025dc580;
+// 0x71025dc588: the name of the album picture stored by sub_71009D3FB0
+extern sead::FixedSafeString<64> sUnk_71025dc588;
+// 0x710247fc88: the picture index stored by sub_71009D3FB0
+extern s32 sUnk_710247fc88;
 // 0x71025dc5e0 (placeholder name): the AppAlbum screen's texture controllers (an ObjArray of pointer cells; the
 // controllers register themselves with pushBack in PictureBookCaptureController::sub_71009D18FC)
 extern sead::ObjArray<Unk_71009cb0c8*> sUnk_71025dc5e0;

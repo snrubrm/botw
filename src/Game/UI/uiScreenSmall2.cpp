@@ -69,7 +69,7 @@ sead::SafeArray<bool, 0x30> sUnk_71025DC54C;
 // The original block is 16-byte aligned (0x71025dc890); the alignment keeps this object first in the
 // TU's merged statics, ahead of the 8-byte-aligned SafeString statics.
 struct alignas(16) AlbumState {
-    /* 0x00 */ u8 _0;    // bit 0 read by sub_71009D3B54 / sub_71009D3C78
+    /* 0x00 */ u8 _0;    // set by sub_71009D3FB0; bit 0 read by sub_71009D3B54 / sub_71009D3C78
     /* 0x01 */ u8 _1;    // bit 0 set by m162; m154 / m158 clear it, m163 / m167 / m175 test it
     /* 0x04 */ ScreenNameTableHeader _4;
     /* 0x0c */ s32 _c;   // 1: the picture book page is open
@@ -428,6 +428,15 @@ bool ScreenAppAlbum::sub_71009D3DC0() const {
 
 // NON_MATCHING: the loop counter and the result are swapped between w19/w21, and the empty-string and
 // SaveSystem singleton bases between x22/x24.
+// 0x71009d3e0c: whether the album is showing picture index 1 and its first flag is clear.
+// NON_MATCHING: the original's flag is in an i1 form (`eor #1; and #1`), so it is a file-local bool
+// rather than the AlbumState member; the AlbumState block model keeps it at +0 as a byte.
+bool sub_71009D3E0C() {
+    if (sUnk_71025DC890._c == 1)
+        return !sUnk_71025DC890._0;
+    return false;
+}
+
 // 0x71009d3e40: the picture index whose album picture actor name matches `name` (-1 if none)
 s32 sub_71009D3E40(const sead::SafeString& name) {
     s32 i = 0;
@@ -4966,6 +4975,64 @@ void ScreenShopInfo::hidePorchNum() {
 KSYS_VISIBILITY_HIDDEN u8 sUnk_71025dc540[12];
 
 namespace uking::ui {
+// 0x7101e7e51c: the album picture index of each picture category (mode 2 of sub_71009D3FB0)
+static const s32 sUnk_7101e7e51c[12] = {0, 1, 2, 3, 4, 5, 9, 6, 7, 8, 10, 11};
+
+// 0x71009d3fb0: sets the album state mode and picture index, copies `name` into the selected album
+// picture name and updates the album position for the mode; mode 3 also counts the obtained memory
+// photo flags of the matched picture.
+// NON_MATCHING: the actor name output and the SafeString / FormatFixedSafeString temporaries get
+// different stack slots (ours puts the key temp at +8 and actor_name at +0x38; the original the other
+// way round). Instructions and control flow agree.
+void sub_71009D3FB0(s32 mode, s32 index, const sead::SafeString* name) {
+    const char* actor_name;
+    sUnk_71025DC890._c = mode;
+    sUnk_710247fc88 = index;
+    sUnk_71025dc588 = *name;
+    sUnk_71025dc580 = false;
+    switch (mode) {
+    case 1:
+        sUnk_71025DC890._0 = 1;
+        return;
+    case 2:
+        if (u32(sUnk_710247fc88) <= 0xb) {
+            sUnk_71025dc57c = sUnk_7101e7e51c[sUnk_710247fc88];
+            sUnk_71025dc580 = true;
+        } else {
+            sUnk_71025dc57c = 0;
+        }
+        return;
+    case 3:
+        sUnk_71025dc580 = true;
+        {
+
+            if (sUnk_71025dc588.getStringTop()[0] != sead::SafeStringBase<char>::cNullChar) {
+                for (u32 i = 0; i < 0x30; ++i) {
+                    const s32 idx = SaveSystem::instance()->sub_7100915F58(i);
+                    if (idx < 0)
+                        continue;
+                    ksys::gdt::getFlag_AlbumPictureActorName(&actor_name, idx, false);
+                    if (!actor_name || sUnk_71025dc588 != actor_name)
+                        continue;
+                sUnk_71025DC890._14 = 0;
+                for (s32 j = 0; j < 12; ++j) {
+                    sead::FormatFixedSafeString<25> key("IsGet_MemoryPhoto_%03d", j);
+                    const bool got = ksys::gdt::getBoolByKey(key, false);
+                    ::sUnk_71025dc540[j] = got;
+                    if (got)
+                        ++sUnk_71025DC890._14;
+                }
+                sUnk_71025dc57c = sUnk_71025DC890._14 + s32(i);
+                return;
+            }
+        }
+        sUnk_71025dc57c = 0;
+        return;
+        }
+    }
+}
+
+
 // 0x71009d3aa0 (placeholder name): reads the twelve "already taken" memory photo flags, counts them into
 // the album's _14 and stores that count plus `arg` as the album position.
 void sub_71009D3AA0(u32 arg) {

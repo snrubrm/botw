@@ -26,6 +26,9 @@ sead::PtrArray<Unk_71009cb0c8> sUnk_71025eb5c0;
 sead::ObjArray<Unk_71009cb0c8*> sUnk_71025dc5e0;
 s32 sUnk_71025dc57c;
 bool sUnk_71025dc580;
+// 0x71025dc588 / 0x710247fc88: the album picture name and index stored by sub_71009D3FB0
+sead::FixedSafeString<64> sUnk_71025dc588;
+s32 sUnk_710247fc88;
 
 // 0x7102483490 (.data, initial value 6)
 s32 sUnk_7102483490 = 6;
