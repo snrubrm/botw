@@ -20,12 +20,17 @@
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/ActorSystem/actInfoData.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
 
 namespace uking {
 
 // 0x71025c5fb8: set to 6.0f by the TU's global initialiser (0x710067b7c8, still undecompiled): the
 // radius of the spawn nav mesh query and the squared-distance threshold.
 KSYS_VISIBILITY_HIDDEN f32 sHavokQueryRadius;
+// 0x71025c5fbc: set to 66.666664f by the same initialiser: the energy an actor without a
+// "motorcycleEnergy" add value contributes.
+KSYS_VISIBILITY_HIDDEN f32 sEnergyDefaultAdd;
 
 
 SEAD_SINGLETON_DISPOSER_IMPL(MotorcycleMgr)
@@ -230,6 +235,43 @@ void MotorcycleMgr::clampMotorcycleEnergy() {
 }
 
 // NON_MATCHING: std::min uses stack temporaries and pointer selection instead of FMIN.
+// 0x710067a9dc: computes the fuel from up to five actor names (their "motorcycleEnergy" BYML
+// values) and caches the result with the hashes.
+// NON_MATCHING: our loop strength-reduces the array index to a byte cursor (the original keeps the
+// s32 index with its SafeArray bound check), which also moves the ByamlIter stack slots.
+f32 MotorcycleMgr::sub_710067A9DC(EnergyCalculationArg* arg) {
+    if (arg->hashes[0] == mLastEnergyHashes[0] && arg->hashes[1] == mLastEnergyHashes[1] &&
+        arg->hashes[2] == mLastEnergyHashes[2] && arg->hashes[3] == mLastEnergyHashes[3] &&
+        arg->hashes[4] == mLastEnergyHashes[4]) {
+        arg->value = mLastEnergy;
+        return arg->value;
+    }
+
+    f32 multiply = 1.0f;
+    f32 add = 0.0f;
+    for (s32 i = 0; i != 5; ++i) {
+        if (arg->hashes(i) != 0) {
+            al::ByamlIter actor_iter;
+            al::ByamlIter energy_iter;
+            if (ksys::act::InfoData::instance()->getActorIter(&actor_iter, arg->hashes(i), true)) {
+                if (actor_iter.tryGetIterByKey(&energy_iter, "motorcycleEnergy")) {
+                    f32 value;
+                    if (energy_iter.tryGetFloatByKey(&value, "add"))
+                        add += value;
+                    if (energy_iter.tryGetFloatByKey(&value, "multiply"))
+                        multiply *= value;
+                } else {
+                    add += sEnergyDefaultAdd;
+                }
+            }
+        }
+        mLastEnergyHashes[i] = arg->hashes(i);
+    }
+    arg->value = multiply * add;
+    mLastEnergy = arg->value;
+    return arg->value;
+}
+
 void MotorcycleMgr::sub_710067AB8C() {
     if (_c8 > 0.0f) {
         if (auto* scene = GameSceneSubsys12::instance()) {

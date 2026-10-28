@@ -128,9 +128,8 @@ public:
     /* 0x38 */ f32 mEnergy = 1000.0f;
     /* 0x3c */ ksys::gdt::FlagHandle mEnergyHandle = ksys::gdt::InvalidHandle;
     /* 0x40 */ ksys::gdt::Manager::ReinitSignal::Slot mSlot{this, &MotorcycleMgr::setMotorcycleEnergyIter};
-    /* 0xb0 */ u64 _b0 = 0;
-    /* 0xb8 */ u64 _b8 = 0;
-    /* 0xc0 */ u64 _c0 = 0;
+    /* 0xb0 */ sead::SafeArray<u32, 5> mLastEnergyHashes{};
+    /* 0xc4 */ f32 mLastEnergy = 0.0f;  // cached result of sub_710067A9DC
     /* 0xc8 */ f32 _c8 = 0;
     /* 0xd0 */ ksys::phys::CapsuleRigidBody* _d0 = nullptr;  // "MotorcycleShapeCast" (init)
     /* 0xd8 */ ksys::phys::Unk_710239b220* _d8 = nullptr;  // the nav mesh query (HavokAI)
