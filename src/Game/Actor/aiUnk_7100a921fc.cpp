@@ -103,6 +103,12 @@ bool Unk_710249d608::setCurrentDirectoryImpl_(const sead::SafeString&) {
     return false;
 }
 
+// 0x7100a92ba0
+bool Unk_710249d608::closeDirectoryImpl_(sead::HandleBuffer* handle) const {
+    (*handle)[0] = 0;
+    return true;
+}
+
 Unk_710251d0e0::Unk_710251d0e0() = default;
 
 Unk_710251d0e0::~Unk_710251d0e0() = default;
