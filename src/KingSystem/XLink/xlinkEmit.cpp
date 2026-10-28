@@ -1,5 +1,6 @@
 #include <xlink2/xlink2UserInstanceELink.h>
 #include <xlink2/xlink2UserInstanceSLink.h>
+#include <xlink2/xlink2Locator.h>
 #include <xlink2/xlink2AssetExecutorSLink.h>
 #include <aal/aalSoundSource.h>
 #include "KingSystem/ActorSystem/actActor.h"
@@ -71,6 +72,30 @@ void sub_710105DDDC(act::Actor* actor, const char* name, xlink2::HandleSLink* ha
         }
     }
     handle->setPosition(position);
+}
+
+xlink2::UserInstanceSLink* sub_710105DE68(const char* name, act::Actor* actor1, act::Actor* actor2,
+                                          xlink2::Locator* locator) {
+    if (!actor1)
+        return nullptr;
+
+    xlink2::Locator default_locator;
+    auto* loc = locator ? locator : &default_locator;
+    if (auto* xlink = actor1->getXLink()) {
+        if (auto* user_instance = xlink->_50) {
+            if (user_instance->searchAsset(loc, name))
+                return user_instance;
+        }
+    }
+    if (actor2) {
+        if (auto* xlink = actor2->getXLink()) {
+            if (auto* user_instance = xlink->_50) {
+                if (user_instance->searchAsset(loc, name))
+                    return user_instance;
+            }
+        }
+    }
+    return nullptr;
 }
 
 void sub_710105DF88(act::Actor* actor, const char* name, bool a, bool b) {

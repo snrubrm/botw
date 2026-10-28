@@ -8,6 +8,7 @@
 
 namespace xlink2 {
 class UserInstanceSLink;
+class Locator;
 }
 
 namespace ksys::act {
@@ -80,6 +81,10 @@ void sub_710105DDB8(act::Actor* actor, const char* name, xlink2::HandleSLink* ha
 void sub_710105DDDC(act::Actor* actor, const char* name, xlink2::HandleSLink* handle,
                     const sead::Vector3f& position);
 void sub_710105DF88(act::Actor* actor, const char* name, bool a, bool b);
+/// 0x710105de68 (placeholder name): the SLink user instance of `actor1` or `actor2` (in that order)
+/// that has the asset `name` loaded, searched through `locator` or a default locator.
+xlink2::UserInstanceSLink* sub_710105DE68(const char* name, act::Actor* actor1, act::Actor* actor2,
+                                          xlink2::Locator* locator);
 // 0x710105dfa4: sub_710105DF6C with the name of voice kind `a` (snd::Unk_710105ec08).
 void sub_710105DFA4(act::Actor* actor, u8 a, bool b, bool c);
 bool sub_710105E000(act::Actor* actor, u32 idx, f32 value);

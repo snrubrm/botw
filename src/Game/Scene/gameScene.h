@@ -27,6 +27,7 @@ class Resource;
 
 namespace sead {
 class Framework;
+class Heap;
 }
 
 // Placeholder singleton (instance at 0x71025d1740) used by the patch-error scene state.
@@ -70,6 +71,17 @@ extern ksys::StateBase sUnk_71025cb150;
 // TODO
 class GameScene {
 public:
+    // The 16-byte init argument RootTask::calc builds from the task heap and
+    // TaskBase::getFramework(); System::init forwards it to initialize.
+    struct InitArg {
+        sead::Heap* heap;
+        sead::Framework* framework;
+    };
+
+    GameScene();
+    // 0x71007a8014 (CSV GameScene::initialize): the scene bootup; only the heap field is read.
+    bool initialize(const InitArg& arg);
+
     // FIXME: figure out names (the m0-m3 variants queue a map / stage change request: the stage name is copied to
     // _8 and the flags / position / second name describe the request)
     virtual bool m0(const sead::SafeString& name);
@@ -281,7 +293,10 @@ private:
     /* 0x948 */ sead::Atomic<u32> _948;
     u8 _94c[0x950 - 0x94c];
     /* 0x950 */ ksys::Event _950;
+    // The allocation in System::init (0x9e0 bytes) proves the tail extent.
+    u8 _990[0x9e0 - 0x990];
 };
+KSYS_CHECK_SIZE_NX150(GameScene, 0x9e0);
 
 // Free functions of the GameScene TU (CSV names; the namespace is a guess).
 // 0x71007b4e78 (declared only): writes the stage binder's initial position and angle for stage gen.

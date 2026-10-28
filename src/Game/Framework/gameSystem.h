@@ -4,14 +4,11 @@
 #include <heap/seadHeap.h>
 #include <hostio/seadHostIONode.h>
 #include "Game/Framework/gameSystemStruct1.h"
+#include "Game/Scene/gameScene.h"
 #include "KingSystem/Utils/Types.h"
 
 namespace sead {
 class Framework;
-}
-
-namespace uking {
-class GameScene;
 }
 
 namespace uking::frm {
@@ -23,6 +20,9 @@ public:
     SEAD_RTTI_BASE(System)
     System();
     virtual ~System();
+
+    // 0x71007d1d64: creates the "uking::frm::System" heap, constructs the scene and boots it.
+    bool init(const GameScene::InitArg& arg);
 
     // 0x71007d1e3c: true while the scene does not exist yet, otherwise the scene's own check.
     bool isReady();
