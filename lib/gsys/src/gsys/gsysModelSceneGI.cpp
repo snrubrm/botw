@@ -279,4 +279,15 @@ void ModelSceneGI::free(MaskedSpotLightRig* rig, Model* model, int index) {
         mMaskedSpotLightResMgr->free(rig, model, index);
 }
 
+// 0x7100c35248 / 0x7100c352d8 / 0x7100c35368
+template <typename T>
+LightResMgr<T>::~LightResMgr() {
+    mFree.freeBuffer();
+    mUsed.freeBuffer();
+}
+
+template class LightResMgr<PointLightRig>;
+template class LightResMgr<SpotLightRig>;
+template class LightResMgr<MaskedSpotLightRig>;
+
 }  // namespace gsys
