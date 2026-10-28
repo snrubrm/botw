@@ -89,6 +89,56 @@ bool MotorcycleMgr::checkAndStartQueryNavMesh(ksys::act::PlayerLink* player) {
     return sub_7100679B30(_12c, player);
 }
 
+// 0x7100679b30: the spawn-position navmesh query. False while the player passes PlayerLink::m211 or in
+// the desert / Eldin climates, when the query cannot be allocated or when it was already started; on
+// success it submits the query, stores the search position in _f0 and the player position in _120.
+bool MotorcycleMgr::sub_7100679B30(const sead::Vector3f& pos, ksys::act::PlayerLink* player) {
+    if (_17e == 1)
+        return false;
+
+    auto* link = player;
+    if (!link)
+        link = ksys::act::ActorSystem::instance()->getPlayerLink();
+    if (link && link->m211())
+        return false;
+
+    if (auto* mgr = ksys::world::Manager::instance()) {
+        switch (mgr->getClimate(pos)) {
+        case ksys::world::Climate::GerudoDesertClimate:
+        case ksys::world::Climate::EldinClimateLv1:
+        case ksys::world::Climate::EldinClimateLv2:
+        case ksys::world::Climate::GerudoDesertClimateLv2:
+            return false;
+        }
+    }
+
+    void* memory = ksys::phys::HavokAI::instance()->_40->mHeap->tryAlloc(
+        sizeof(ksys::phys::Unk_710239b220), 8);
+    if (!memory) {
+        _d8 = nullptr;
+        return false;
+    }
+    _d8 = new (memory) ksys::phys::Unk_710239b220;
+    _d8->_c = pos;
+    _d8->_20 = 2.0f;
+    _d8->_1c = 2.0f;
+    _d8->_18 = 1;
+    ksys::phys::HavokAI::instance()->submitQuery(_d8);
+
+    _f0.m[0][3] = pos.x;
+    _f0.m[1][3] = pos.y;
+    _f0.m[2][3] = pos.z;
+
+    ksys::act::ActorLinkConstDataAccess accessor;
+    player->getActorViaAccessor(&accessor);
+    const sead::Matrix34f& mtx = accessor.getActorMtx();
+    _120.x = mtx.m[0][3];
+    _120.y = mtx.m[1][3];
+    _120.z = mtx.m[2][3];
+    _17e = 1;
+    return true;
+}
+
 // 0x7100679dbc: whether the spawn query has a usable result. A pending query compares its position
 // with the last accepted one (within the radius); a finished query checks the nav mesh material.
 // NON_MATCHING: the bool result's false block stays at the fallthrough in our build (`b.le` instead

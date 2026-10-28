@@ -132,7 +132,7 @@ public:
     // 0x71001a2f2c: resolves the position and records its material.
     void process(HavokAI* ai) override;
     /* 0x0a */ u8 _a[2];
-    /* 0x0c */ sead::Vector3f _c{0, 0, 0};
+    /* 0x0c */ sead::Vector3f _c = sead::Vector3f::zero;
     /* 0x18 */ u32 _18 = 0;
     /* 0x1c */ f32 _1c = 0;
     /* 0x20 */ f32 _20 = 0;
