@@ -930,6 +930,57 @@ void Manager::updateTimers() {
         mTimer = 30;
 }
 
+void Manager::updateWeatherTimers() {
+    if (!getEnvMgr()->isFadeOrFadeDemoScreenOpened()) {
+        ++mTicks;
+        if (mTimer != 0) {
+            if (--mTimer == 0)
+                _6cc = false;
+        }
+    }
+
+    if (evt::Manager::instance()->sub_7100DB19DC() || !mWeatherSetForDemo) {
+        if (mWeatherTypeTimer <= 0) {
+            mWeatherType = WeatherType::Invalid;
+            _7d5 = false;
+            mWeatherSetForDemo = false;
+        } else {
+            --mWeatherTypeTimer;
+        }
+    }
+
+    if (_79c <= 0)
+        _798 = -1;
+    else
+        --_79c;
+
+    if (mTempDirectTimer <= 0) {
+        mTempDirectDayExtra = PlaceholderTemp;
+        mTempDirectNightExtra = PlaceholderTemp;
+    } else {
+        --mTempDirectTimer;
+    }
+
+    if (!getEnvMgr()->isFadeOrFadeDemoScreenOpened()) {
+        if (mTempDirectDayTimer <= 0)
+            mTempDirectDay = PlaceholderTemp;
+        else
+            --mTempDirectDayTimer;
+        if (mTempDirectNightTimer <= 0)
+            mTempDirectNight = PlaceholderTemp;
+        else
+            --mTempDirectNightTimer;
+    }
+
+    if (_7ac > 0)
+        --_7ac;
+    if (mIgnitedTimer > 0)
+        --mIgnitedTimer;
+
+    getWeatherMgr()->x_16();
+    getEnvMgr()->worldMgrCalc2();
+}
+
 bool Manager::hasCameraOrPlayerMoved(float distance_threshold) const {
     const auto camera_dist = (mCameraPos - mPrevCameraPos).length();
     const auto player_dist = (mPlayerPos - mPrevPlayerPos).length();

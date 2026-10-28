@@ -314,6 +314,8 @@ private:
     void calcManagers(sead::WorkerMgr* worker_mgr);
     void updateOverrides();
     void updateTimers();
+    // 0x71010f707c (CSV WorldMgr::x_10): the weather / temperature timer step WorldMgr::calc2 runs.
+    void updateWeatherTimers();
     void updateWindDirections();
     void updateFieldType();
 
@@ -372,7 +374,7 @@ private:
     int mTempDirectTimer = 0;
     int mTempDirectDayTimer = 0;
     int mTempDirectNightTimer = 0;
-    u32 _7ac = 0;
+    s32 _7ac = 0;
     int mIgnitedTimer = 0;
     int mIgnitedLevel = 0;
     s32 _7b8 = 0;

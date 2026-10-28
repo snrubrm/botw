@@ -90176,7 +90176,7 @@ Address,Quality,Size,Name
 0x00000071010f6cf4,O,000124,_ZN4ksys5world7Manager5calc1EPN4sead9WorkerMgrE
 0x00000071010f6d70,O,000276,_ZN4ksys5world7Manager12calcManagersEPN4sead9WorkerMgrE
 0x00000071010f6e84,U,000504,WorldMgr::calc2
-0x00000071010f707c,U,000460,WorldMgr::x_10
+0x00000071010f707c,O,000460,_ZN4ksys5world7Manager19updateWeatherTimersEv
 0x00000071010f7248,O,000212,_ZN4ksys5world7Manager12updateTimersEv
 0x00000071010f731c,m,000816,_ZN4ksys5world7Manager20updateWindDirectionsEv
 0x00000071010f764c,U,000600,WorldMgr::calc3
