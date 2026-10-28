@@ -1,7 +1,13 @@
 #include "KingSystem/Effect/eftEffect.h"
 #include "KingSystem/Effect/eftAmbientEffect.h"
 #include "Game/Actor/actCamera.h"
+#include "Game/Actor/Player/actPlayerBase.h"
 #include "Game/Scene/gameScene.h"
+#include "KingSystem/System/VFR.h"
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldWeatherMgr.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerLink.h"
+#include "KingSystem/XLink/xlinkManager.h"
 #include <xlink2/xlink2UserInstanceELink.h>
 #include <math/seadMathCalcCommon.h>
 #include <gsys/gsysParticleMgr.h>
@@ -216,6 +222,71 @@ void Effect::calc() {
     mAmbientEffectMgr->calc(this);
 }
 
+// 0x71011b68b0 (placeholder name; declared only): the camera-relative wind effect of the 0x40-byte
+// object at Effect +0x19330 (reads the camera actor at Effect +0x9fc0).
+void sub_71011B68B0(u8* self, Effect* effect);
+
+// 0x71011b7b0c: when the scene is not ready, step the parallel / camera effect state, then run the
+// player water grid and the xlink calculation.
+// NON_MATCHING: our clang deletes the PtrArray bounds check before mMgrs[3] (it loads from the null
+// the check returns, so the check counts as dead); the image keeps it. Same toolchain limitation as
+// the s161 PtrArray HARD entry. Everything else matches.
+void Effect::calcMostProbably2() {
+    if (!_9b98)
+        return;
+    if (!_96b0 && !getSceneStatus()) {
+        if (_192c8) {
+            calcGsysParallel();
+            x_0();
+            x_1();
+            sub_71011B68B0(_19330, this);
+            const f32 delta = VFR::instance()->getDeltaFrame();
+            auto* wm = world::Manager::instance();
+            if (wm) {
+                const f32 weather = static_cast<world::WeatherMgr*>(wm->getMgrMaybe(3))->mTransition._2dc;
+                const bool weather_zero = world::WeatherMgr::x_7();
+                // 1 / 1800 as a float.
+                const f32 rate = delta * 0.0005555556f;
+                f32 value = _192b4;
+                if (weather > 0.0f && !weather_zero) {
+                    value += rate;
+                    _192b4 = value;
+                    if (value > 1.0f)
+                        _192b4 = 1.0f;
+                } else {
+                    value -= rate;
+                    _192b4 = value;
+                    if (value < 0.0f)
+                        _192b4 = 0.0f;
+                }
+            }
+        } else {
+            _192b0 = 1.0f;
+            _192b4 = 0.0f;
+        }
+    }
+
+    if ((mFlags & cFlag_Unk2000000) && _9fb8) {
+        auto* player = _9fb8->getPlayer();
+        const sead::Vector3f pos = player->getMtx().getTranslation();
+        for (s32 x = -16; x < 16; ++x) {
+            for (s32 z = -16; z < 16; ++z) {
+                sead::Vector3f wind = pos + sead::Vector3f(x * 0.5f, 0.0f, z * 0.5f);
+                sub_71011B7DA0(&wind);
+                f32 height = 0.0f;
+                sub_71011B2A34(&wind, nullptr, &height, nullptr, nullptr, nullptr, true);
+            }
+        }
+    }
+
+    if (xlink2::SystemELink::instance()->isServerConnecting()) {
+        xlink::Manager::instance()->getResourceLock().lock();
+        xlink2::SystemELink::instance()->calc();
+        xlink::Manager::instance()->getResourceLock().unlock();
+    } else {
+        xlink2::SystemELink::instance()->calc();
+    }
+}
 
 // NON_MATCHING: the final bit test becomes cset instead of the original's orr/branch pair (4 bytes shorter).
 bool Effect::sub_71011B7DA0(const sead::Vector3f* wind) {

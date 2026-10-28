@@ -53,6 +53,8 @@ public:
     s32 getClimateMaybe() const { return _1c8; }
     // The property definition set at `index` of the 29-entry table (123E100 allocates it).
     XLinkPropDefinitions* getPropertyDefinitionSet(s32 index) const { return mPropertyDefinitionSets[index]; }
+    // The xlink calculation lock, taken around xlink2::System::calc in the effect calculation.
+    sead::CriticalSection& getResourceLock() { return mResourceLock; }
 
 private:
     friend class act::Reaction;

@@ -82,6 +82,9 @@ public:
     static constexpr u32 cFlag_Unk100 = 0x100;
     // Bit 13 (byte +0x192f5 bit 5) makes calc skip the ambient effect manager. Meaning unknown.
     static constexpr u32 cFlag_Unk2000 = 0x2000;
+    // Bit 25 (byte +0x192f7 bit 1) makes calcMostProbably2 run the 32x32 water-query grid around the
+    // player. Meaning unknown.
+    static constexpr u32 cFlag_Unk2000000 = 0x02000000;
 
     // 0x71011b7f60 (placeholder name): the placement effect step ksys::CalcPlacementMgr2 runs while
     // the terrain manager is not ready.
@@ -91,6 +94,11 @@ public:
     void calcMostProbably();
     void sub_71011B7930();
     void calcMostProbably2();
+    // 0x71011b6b48 / 0x71011b6ff8 / 0x71011b742c (placeholder names): the parallel particle group steps
+    // calcMostProbably2 runs before the water grid.
+    void calcGsysParallel();
+    void x_0();
+    void x_1();
     // 0x71011b8584 / 0x71011b8658 (CSV Effect::__auto4 / __auto5; declared only, placeholder names): called by
     // EventFlowTimeline::m8 with (on, true) when a timeline pauses / resumes
     void sub_71011B8584(bool on);
@@ -179,7 +187,8 @@ private:
     u8 _9fcc[0x9fe0 - 0x9fcc];
     Unk_EffectActorTable _9fe0;
     EffectModelMgr mModelMgr;
-    u8 _a628_end[0x192b4 - 0xa628 - sizeof(EffectModelMgr)];
+    u8 _a628_end[0x192b0 - 0xa628 - sizeof(EffectModelMgr)];
+    f32 _192b0;
     f32 _192b4;
     u8 _192b8[0x192c8 - 0x192b8];
     bool _192c8;
