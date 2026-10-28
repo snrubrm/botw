@@ -2734,7 +2734,7 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     bool sub_71009AF0FC() const;
     bool sub_71009AF110() const;
     void sub_71009AF124(sead::Vector2f* out) const;
-    u8 sub_71009AF178() const;
+    bool sub_71009AF178() const;
     bool sub_71009AF194() const;
     u8 sub_71009AF37C() const;
     // 0x71009af344 / 0x71009af364 (placeholder names): queue the current area's tiles (mode 0 / 1)

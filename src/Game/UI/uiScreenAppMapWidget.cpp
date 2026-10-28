@@ -245,8 +245,7 @@ void ScreenAppMapWidget::sub_71009AF124(sead::Vector2f* out) const {
 }
 
 // 0x71009af178
-// NON_MATCHING: same result; the original keeps the branch (`tbnz` / `ubfx`), ours selects with `csinc`
-u8 ScreenAppMapWidget::sub_71009AF178() const {
+bool ScreenAppMapWidget::sub_71009AF178() const {
     if (!(_b4ff & 1))
         return 1;
     return (_b4ff >> 1) & 1;

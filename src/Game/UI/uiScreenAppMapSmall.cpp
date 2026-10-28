@@ -653,6 +653,35 @@ void ScreenAppMap::sub_71009EB178() {
     animator->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
 }
 
+// 0x71009eb250 (placeholder name): drives the map cursor's movement sound and its two widget properties.
+// NON_MATCHING: the branch blocks are laid out in a different order and the property-2 calls do not tail-merge
+// into the original's single shared block (500 vs 588 bytes); the event start/fade and property-3 paths match.
+void ScreenAppMap::sub_71009EB250() {
+    const bool moving = UiSubsys1::instance()->has3864Bit0();
+    if (moving) {
+        if (!_3ca0.getEvent() || _3ca0.getEvent()->getCreateId() != _3ca0.getCreateId())
+            _3ca0 = static_cast<eui::SoundLink2User*>(_f0)->searchAndEmit("mc_CursorMove");
+    } else if (_3ca0.getEvent() && _3ca0.getEvent()->getCreateId() == _3ca0.getCreateId()) {
+        _3ca0.fade();
+    }
+
+    if (_3610->sub_71009AEF7C() == 2) {
+        if (_3610->sub_71009AF178()) {
+            if (_3610->_b4ff & 6)
+                static_cast<eui::SoundLink2User*>(_f0)->mUser->setPropertyValue(2, 0);
+            else
+                static_cast<eui::SoundLink2User*>(_f0)->mUser->setPropertyValue(2, 3);
+        } else if (_3610->sub_71009AF194()) {
+            static_cast<eui::SoundLink2User*>(_f0)->mUser->setPropertyValue(2, 1);
+        } else {
+            static_cast<eui::SoundLink2User*>(_f0)->mUser->setPropertyValue(2, 2);
+        }
+    } else {
+        static_cast<eui::SoundLink2User*>(_f0)->mUser->setPropertyValue(2, 2);
+    }
+    static_cast<eui::SoundLink2User*>(_f0)->mUser->setPropertyValue(3, _3610->_b4fa + 1);
+}
+
 // 0x71009eb0e0
 void ScreenAppMap::sub_71009EB0E0() {
     auto* subsys = UiSubsys1::instance();
