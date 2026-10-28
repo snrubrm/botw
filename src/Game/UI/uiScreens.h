@@ -2880,6 +2880,8 @@ KSYS_VISIBILITY_HIDDEN extern Unk_71025df330 sUnk_71025df330;
 // table (mode -1 gives the empty string).
 sead::FixedSafeString<256> sub_71009F0CE4(s32 mode);
 
+class Unk_7102477c30;
+
 class ScreenAppMap : public ScreenEx {
 public:
     // 0x71009eed18 (placeholder name): resets the map widget's footprint selection and mode, shows the map panes and
@@ -2990,6 +2992,8 @@ public:
     u64 sub_71009EDB4C();
     // 0x71009eda64 (CSV ScreenAppMap::x_2): the same animator change from get3900, called by x_1
     void x_2();
+    // 0x71009f0150 (CSV ScreenAppMap::x_1): the map's per-frame widget / label update, run after x_0
+    void x_1();
     // 0x71009f0be4 / 0x71009f2430 (CSV unnamed, declared only)
     void sub_71009F0BE4();
     void sub_71009F2430();
@@ -3050,7 +3054,8 @@ public:
 
     /* 0x3610 */ ScreenAppMapWidget* _3610;
     /* 0x3618 */ Unk_710247d8f8* _3618;
-    u8 _3620[0x3628 - 0x3620];
+    // The completion-count display child refreshed by x_1.
+    /* 0x3620 */ Unk_7102477c30* _3620;
     // Map-mode animators: [3] .. [6] are the four mode transitions.
     /* 0x3628 */ eui::Animator* _3628[11];
     /* 0x3680 */ u32 _3680;

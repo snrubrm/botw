@@ -295,6 +295,8 @@ public:
     ~Unk_7102477c30() override;
     void m24(sead::Heap* heap) override;
     void m25() override;
+    // 0x710098c424 (CSV: genCompletionCountStr): refreshes the completion-count text of mLayout
+    void sub_710098C424();
 };
 static_assert(sizeof(Unk_7102477c30) == 0x130);
 

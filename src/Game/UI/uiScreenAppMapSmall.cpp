@@ -1216,6 +1216,51 @@ void ScreenAppMap::x_2() {
         _3628[6]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
 }
 
+// 0x71009f0150: the map's per-frame widget / label update. Hands the home screen the map pane, refreshes
+// the completion count and the map widget's label, then shows the icon area / map panes when the widget
+// is in mode 2.
+void ScreenAppMap::x_1() {
+    if (auto* home = sead::DynamicCast<ScreenAppHome>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome)))
+        home->sub_71009DC77C(1, mLayout->mPane);
+
+    UiSubsys1::instance()->updateCompletionCount();
+    if (_3610)
+        _3610->sub_71009A93E0();
+    UiSubsys1::instance()->sub_710096023C();
+    if (auto* child = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0)))
+        child->sub_710099FD8C();
+    UiSubsys1::instance()->set38e4(0);
+    if (_3c90) {
+        if (UiSubsys1::instance()->get38ac())
+            _3c90->m5(false);
+        else
+            _3c90->m6(false);
+        _3c90->sub_71009C107C();
+    }
+    if (_3620)
+        _3620->sub_710098C424();
+    if (UiSubsys1::instance()->get38f8() == 1)
+        x_2();
+    _3c10->StopAtMin();
+    UiSubsys1::instance()->sub_7100966E2C();
+    if (!UiSubsys1::instance()->get38b8())
+        UiSubsys1::instance()->set38c8();
+    _3628[0]->StopAtMin();
+    if (_3c38) {
+        _3628[0]->AnimatePane(_3c38);
+        _3628[0]->AnimatePane(_3c40);
+    }
+    if (_3610 && _3610->sub_71009AEF7C() == 2) {
+        const sead::Vector3f position(_3610->_b4b8, 0.0f, _3610->_b4bc);
+        UiSubsys1::instance()->sub_7100966684(&position);
+        UiSubsys1::instance()->clear38c8();
+        _3c30->SetVisible(true);
+        _3750->SetVisible(true);
+    }
+    _3ad0 = 0;
+}
+
 // 0x71009ed97c
 void ScreenAppMap::sub_71009ED97C() {
     const s32 mode = UiSubsys1::instance()->get38fc();
