@@ -698,12 +698,12 @@ class Unk_71024993e0 : public Unk_71024993a0 {
     SEAD_RTTI_OVERRIDE(Unk_71024993e0, Unk_71024993a0)
 public:
     ~Unk_71024993e0() override;
+    // 0x7100a5ac64: stores the label in the entry's string for `index` (out-of-range goes to slot 0).
+    void m4(const sead::SafeString& label, s32 index) override;
     // 0x7100a580e0: applies the entry's three labels to the text block it owns.
     void m5() override;
 
-    /* 0x28 */ sead::FixedSafeString<32> _28;
-    /* 0x60 */ sead::FixedSafeString<32> _60;
-    /* 0x98 */ sead::FixedSafeString<32> _98;
+    /* 0x28 */ sead::SafeArray<sead::FixedSafeString<32>, 3> _28;
 };
 
 // vtable 0x7102499a28 (6 slots); placeholder generated from the vtable (genskel.py).
@@ -725,8 +725,8 @@ class Unk_7102499ad8 {
     SEAD_RTTI_BASE(Unk_7102499ad8)
 public:
     virtual ~Unk_7102499ad8();
-    // The ScreenStaffRoll entry's text setter (Unk_710249a160 overrides it).
-    virtual void m4(const sead::SafeString& label) {}
+    // The ScreenStaffRoll entry's text setter (Unk_710249a160 / Unk_7102499b18 override it).
+    virtual void m4(const sead::SafeString& label, s32 index) {}
     virtual void m5() {}
 
     /* 0x08 */ s32 _8 = -1;  // text block group (0-4; -1 before the entry is used)
@@ -743,12 +743,12 @@ class Unk_7102499b18 : public Unk_7102499ad8 {
     SEAD_RTTI_OVERRIDE(Unk_7102499b18, Unk_7102499ad8)
 public:
     ~Unk_7102499b18() override;
+    // 0x7100a5ff18: stores the label in the entry's string for `index` (out-of-range goes to slot 0).
+    void m4(const sead::SafeString& label, s32 index) override;
     // 0x7100a5d820: applies the entry's three labels to the text block it owns.
     void m5() override;
 
-    /* 0x28 */ sead::FixedSafeString<32> _28;
-    /* 0x60 */ sead::FixedSafeString<32> _60;
-    /* 0x98 */ sead::FixedSafeString<32> _98;
+    /* 0x28 */ sead::SafeArray<sead::FixedSafeString<32>, 3> _28;
 };
 
 // vtable 0x710249a160 (6 slots); placeholder generated from the vtable (genskel.py).
@@ -757,7 +757,7 @@ class Unk_710249a160 : public Unk_7102499ad8 {
 public:
     ~Unk_710249a160() override;
     // 0x7100a5fce4: stores the label in the entry's own string.
-    void m4(const sead::SafeString& label) override;
+    void m4(const sead::SafeString& label, s32 index) override;
     // 0x7100a5d7fc: applies the entry's label to the text block it owns.
     void m5() override;
 

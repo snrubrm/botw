@@ -457,20 +457,28 @@ Unk_7102499ad8::~Unk_7102499ad8() {
 
 Unk_7102499b18::~Unk_7102499b18() = default;
 
+void Unk_7102499b18::m4(const sead::SafeString& label, s32 index) {
+    _28[index].copy(label);
+}
+
 void Unk_7102499b18::m5() {
     if (!_20)
         return;
-    _20->m5(_28, 0);
-    _20->m5(_60, 1);
-    _20->m5(_98, 2);
+    _20->m5(_28[0], 0);
+    _20->m5(_28[1], 1);
+    _20->m5(_28[2], 2);
+}
+
+void Unk_71024993e0::m4(const sead::SafeString& label, s32 index) {
+    _28[index].copy(label);
 }
 
 void Unk_71024993e0::m5() {
     if (!_20)
         return;
-    _20->m5(_28, 0);
-    _20->m5(_60, 1);
-    _20->m5(_98, 2);
+    _20->m5(_28[0], 0);
+    _20->m5(_28[1], 1);
+    _20->m5(_28[2], 2);
 }
 
 void Unk_7102499a28::m5() {
@@ -484,7 +492,7 @@ void Unk_7102499a28::m4(const sead::SafeString& label, s32) {
 
 Unk_710249a160::~Unk_710249a160() = default;
 
-void Unk_710249a160::m4(const sead::SafeString& label) {
+void Unk_710249a160::m4(const sead::SafeString& label, s32) {
     _28.copy(label);
 }
 
