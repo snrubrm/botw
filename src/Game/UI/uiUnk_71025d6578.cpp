@@ -268,6 +268,12 @@ void Unk_71025d6578::sub_7100949D28() {
     _63 = (_63 & 0xf0) | 0xa;
 }
 
+// 0x7100949d40 (placeholder name): runs the gauge update and marks _62
+void Unk_71025d6578::sub_7100949D40() {
+    sub_7100949D68();
+    _62 = 1;
+}
+
 void Unk_71025d6578::sub_710094BE14() {
     if (_61 & 2)
         _61 = (_61 & ~6) | 4;

@@ -191,6 +191,8 @@ public:
     // 0x7100949d68 / 0x710094ac00 / 0x710094a210 (declaration only): the gauge update for the state _3c
     // 15 / 13 / any other
     void sub_7100949D68();
+    // 0x7100949d40 (placeholder name): runs the gauge update and marks _62
+    void sub_7100949D40();
     void sub_710094AC00();
     void sub_710094A210();
     // 0x710094ae7c / 0x710094b478 (declaration only): the gauge's screen and animator sync
