@@ -56,6 +56,9 @@ namespace ksys::res {
 class GParamListObjectGuardian;
 }
 
+// 0x710235ada0: 30 floats shared by the Guardian helpers (m34 reads [28] / [29]).
+KSYS_VISIBILITY_HIDDEN extern const f32 sUnk_710235ada0[30];
+
 namespace uking::act {
 
 class DamageCallbackInfo;
@@ -276,7 +279,7 @@ public:
     /* 0x15b0 */ Unk1* _15b0 = nullptr;
     /* 0x15b8 */ sead::Buffer<sead::Vector2f> _15b8;
     /* 0x15c8 */ u32 _15c8 = 0;
-    /* 0x15cc */ f32 _15cc;
+    /* 0x15cc */ f32 _15cc = sUnk_710235ada0[0];
     /* 0x15d0 */ void* _15d0 = nullptr;
     /* 0x15d8 */ u32 _15d8 = 0;
     /* 0x15e0 */ void* _15e0 = nullptr;

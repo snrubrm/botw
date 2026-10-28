@@ -99,6 +99,8 @@ void Guardian::Unk1::sub_71000499F0(s32 index) {
     sub_71000418B8()->applyPointImpulse(impulse, position);
 }
 
+Guardian::Guardian(const CreateArg& arg) : Enemy(arg) {}
+
 ksys::act::BaseProc* Guardian::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Guardian(arg);
 }
