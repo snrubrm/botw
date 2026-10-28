@@ -33,6 +33,17 @@ bool ModelSceneGI::isEnvCubeMapEnabled() const {
     return mEnvCubeMap && _8->isFeatureEnabled(ModelSceneConfig::Feature::EnvCubeMap);
 }
 
+// 0x7100c340ec
+void ModelSceneGI::drawEnvCubeMap(agl::DrawContext* draw_context,
+                                  const ModelSceneContext& context) const {
+    if (!mEnvCubeMap || !_8->isFeatureEnabled(ModelSceneConfig::Feature::EnvCubeMap))
+        return;
+    const sead::LookAtCamera* camera =
+        sead::DynamicCast<const sead::LookAtCamera>(context._398->sub_7100B60CE0());
+    mEnvCubeMap->draw(draw_context, context.getViewIndex(), camera,
+                      context._398->getClearColorMaybe());
+}
+
 // 0x7100c32bf8
 bool ModelSceneGI::isLightPrePassEnabled() const {
     return mLightPrePass && _8->isFeatureEnabled(ModelSceneConfig::Feature::LightPrePass);

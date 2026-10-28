@@ -77,6 +77,8 @@ public:
     void drawSSSSS(agl::DrawContext* draw_context, ModelSceneContext* context) const;
     void drawLightMap(agl::DrawContext* draw_context, const ModelSceneContext& context) const;
     void drawPlanarReflection(agl::DrawContext* draw_context, ModelSceneContext* context) const;
+    // 0x7100c340ec: draws the cube maps of the views whose env cube map is enabled.
+    void drawEnvCubeMap(agl::DrawContext* draw_context, const ModelSceneContext& context) const;
     // 0x7100c34580: installs this view's reprojection buffer and binds its render context.
     void copyForSSIIReprojection(agl::DrawContext* draw_context, ModelSceneContext* context,
                                  const RenderBufferContext& render_buffer) const;

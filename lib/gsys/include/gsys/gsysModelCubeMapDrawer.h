@@ -2,11 +2,17 @@
 
 #include <basis/seadTypes.h>
 #include <cstddef>
+#include <gfx/seadColor.h>
 #include <environment/aglEnvCubeMapMgr.h>
 #include "gsys/gsysModelRenderQueue.h"
 
 namespace sead {
 class Heap;
+class LookAtCamera;
+}
+
+namespace agl {
+class DrawContext;
 }
 
 namespace gsys {
@@ -27,6 +33,9 @@ public:
     void update();
     // 0x7100c7d404: ModelSceneGI::calcFrame draws the frame's cube maps.
     void calc(int frame);
+    // 0x7100c7d978: draws one face of a cube map; the colour is the layer's clear colour.
+    void draw(agl::DrawContext* draw_context, int view_index, const sead::LookAtCamera* camera,
+              const sead::Color4f& clear_color);
 
 private:
     u8 _0[0x348];
