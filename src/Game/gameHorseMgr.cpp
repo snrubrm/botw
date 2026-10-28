@@ -15,6 +15,9 @@
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/AOC/aocManager.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 
 namespace uking {
 
@@ -489,6 +492,88 @@ void HorseMgr::initAndCreateHorseForStageGen(sead::Heap* heap, bool flag) {
     createHorse(heap, flag);
 }
 
+// 0x7100e830cc (CSV x_6): creates the horse for the stage generator from the selected horse record
+// (Horse_ActiveIndex) at the saved last-ridden position and rotation.
+// NON_MATCHING: the only difference is where the shared void-return epilogue is laid out (ours puts it
+// after the fifth name check, the original after the final unlock), which costs one extra `b`.
+void HorseMgr::x_6(sead::Heap* heap) {
+    s32 index = -1;
+    const bool ok = ksys::gdt::Manager::instance()->getS32(_1a0, &index);
+    if (u32(index) > 4 || !ok)
+        return;
+
+    HorseData data;
+    if (!x_8(&data, index) || !isValid(data))
+        return;
+
+    sead::Vector3f pos;
+    if (!ksys::gdt::Manager::instance()->getVec3f(_180, &pos))
+        return;
+
+    f32 angle;
+    if (!ksys::gdt::Manager::instance()->getF32(_184, &angle))
+        angle = 0.0f;
+
+    ksys::aoc::Manager::instance()->x(&pos, nullptr, nullptr);
+
+    ksys::act::InstParamPack params;
+    params->addPosition(pos);
+    params->addRotation({0.0f, -angle, 0.0f});
+    params->add(sead::SafeString(data.maneName), "HorseManeName");
+    params->add(sead::SafeString(data.reinsName), "HorseReinsName");
+    params->add(sead::SafeString(data.saddleName), "HorseSaddleName");
+    params->add(true, "IsIncreaseSkeletalSlotNumLimit");
+
+    if (ksys::act::ActorCreator::instance()->requestCreateActor(data.actorName, heap, &_80, &params,
+                                                                nullptr, 1)) {
+        auto lock = sead::makeScopedLock(_230);
+        _d0 = index;
+    }
+}
+
+// The reins / saddle name strings createHorse adds (defined with the tack name tables below).
+extern const sead::SafeString sUnk_7102603D38;
+extern const sead::SafeString sUnk_7102603D68;
+
+// 0x7100e835c0 (CSV createHorse): creates the saved horse (record 5) at the last-ridden position. A
+// horse of type 9 is not created unless `flag` is set: its saved name is cleared instead.
+void HorseMgr::createHorse(sead::Heap* heap, bool flag) {
+    HorseData data;
+    if (!x_8(&data, 5) || data.actorName[0] == sead::SafeString::cNullChar)
+        return;
+
+    if (!flag && ksys::act::getHorseUnitRiddenAnimalType(ksys::act::InfoData::instance(),
+                                                        data.actorName) == 9) {
+        ksys::gdt::Manager::instance()->setStr64("", _1a4, 5);
+        return;
+    }
+
+    sead::Vector3f pos;
+    if (!ksys::gdt::Manager::instance()->getVec3f(_18c, &pos))
+        return;
+
+    f32 angle;
+    if (!ksys::gdt::Manager::instance()->getF32(_190, &angle))
+        angle = 0.0f;
+
+    bool demo;
+    if (!ksys::gdt::Manager::instance()->getParam().get().getBool(&demo, "IsPlayed_Demo146_0"))
+        demo = false;
+
+    ksys::aoc::Manager::instance()->x(&pos, nullptr, nullptr);
+
+    ksys::act::InstParamPack params;
+    params->addPosition(pos);
+    params->addRotation({0.0f, -angle, 0.0f});
+    if (demo) {
+        params->add(sUnk_7102603D38, "HorseReinsName");
+        params->add(sUnk_7102603D68, "HorseSaddleName");
+    }
+
+    ksys::act::ActorCreator::instance()->requestCreateActor(data.actorName, heap, &_90, &params,
+                                                            nullptr, 1);
+}
+
 act::HorseBase* HorseMgr::getOwnedHorseBase() const {
     return sead::DynamicCast<act::HorseBase>(mOwnedHorse.getProc(nullptr));
 }
@@ -732,10 +817,15 @@ const sead::SafeString sUnk_7102603CF8 = "Horse_Link_Mane_Grabbed";
 const sead::SafeString sUnk_7102603D08 = "Horse_Link_Mane_Grabbed_Large";
 const sead::SafeString sUnk_7102603D18 = "Horse_Link_Mane_Grabbed_Nushi";
 const sead::SafeString sUnk_7102603D28 = "Horse_Link_Mane_Grabbed_Bone";
-const sead::SafeString sUnk_7102603D38 = "GameRomHorseReins_00";
+}  // namespace
+// Referenced with external linkage by createHorse (the original loads them through the GOT).
+extern const sead::SafeString sUnk_7102603D38 = "GameRomHorseReins_00";
+namespace {
 const sead::SafeString sUnk_7102603D48 = "GameRomHorseReins_00L";
 const sead::SafeString sUnk_7102603D58 = "GameRomHorseReins_06";
-const sead::SafeString sUnk_7102603D68 = "GameRomHorseSaddle_00";
+}  // namespace
+extern const sead::SafeString sUnk_7102603D68 = "GameRomHorseSaddle_00";
+namespace {
 const sead::SafeString sUnk_7102603D78 = "GameRomHorseSaddle_00L";
 const sead::SafeString sUnk_7102603D88 = "GameRomHorseSaddle_00S";
 const sead::SafeString sUnk_7102603D98 = "GameRomHorseSaddle_06";
