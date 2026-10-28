@@ -2005,6 +2005,27 @@ bool AppMapIconPart::sub_710099EE8C() const {
     return _420 ? _420->is3888Equal(1) : false;
 }
 
+// inline-only in the original; name is a guess (the same by-value kind test repeats in
+// sub_710099EDC0 and UiSubsys1Entry::m13).
+static inline bool isIconKind(UiSubsys1Entry::Kind kind, UiSubsys1Entry::Kind other) {
+    return int(kind) == int(other);
+}
+
+// 0x710099eea0 (placeholder name): whether the hovered icon's kind is 21 or 22
+// NON_MATCHING: our clang stores the two Kind arguments of the first test with one stp and swaps their
+// stack slots ([sp,#8] / [sp,#0xc]); the original stores the constant at [sp,#0xc] and the member copy at
+// [sp,#8] separately.
+bool AppMapIconPart::sub_710099EEA0() const {
+    if (!_410)
+        return false;
+    UiSubsys1Entry* entry = _410->_18;
+    if (!entry)
+        return false;
+    if (isIconKind(entry->_20, UiSubsys1Entry::Kind(21)))
+        return true;
+    return isIconKind(entry->_20, UiSubsys1Entry::Kind(22));
+}
+
 // 0x710099ef78 (placeholder name): the map icon mode body of modes 0 and 1. Mode 0 drops the hovered
 // marker and parks both panes at its entry's position (or at the subsystem position when no marker is
 // hovered); mode 1 moves the panes to the entry and records its pin.

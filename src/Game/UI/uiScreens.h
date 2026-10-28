@@ -1219,6 +1219,7 @@ public:
     const char* getLayoutName_() const override;
     void m84() override;
     void m87() override;
+    void m130() override;
     s32 m141(const ksys::Message& message) override;
     s32 m142(const ksys::Message& message) override;
     void m82() override;
@@ -6720,6 +6721,9 @@ public:
     nn::ui2d::TextureInfo* sub_71009CBECC();
     void sub_71009CBD48(sead::Heap* heap, eui::LayoutEx* layout, const sead::SafeString& name);
     void sub_71009CBDE8(eui::LayoutEx* layout, const sead::SafeString& name);
+    // 0x71009d18fc (declared only; not decompiled): creates the capture layout's animators and registers the
+    // controller in the picture book's task list.
+    void sub_71009D18FC(sead::Heap* heap, eui::LayoutEx* layout, bool a3);
     // 0x71009cbfc4: queue a texture load using the existing resource context.
     void sub_71009CBFC4(const ::Unk_710247e960& request);
 

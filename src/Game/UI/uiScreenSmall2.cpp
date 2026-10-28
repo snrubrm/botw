@@ -695,6 +695,16 @@ void ScreenMainScreen3D::m87() {
     _3f34 = -1;
 }
 
+// 0x7100a16170
+void ScreenMainScreen3D::m130() {
+    if (!sub_7100AA8F50())
+        return;
+    if (_3f60._8 && _3f60._8->_91 == 3)
+        _3f60.sub_7100945C34();
+    if (_4090._8 && _4090._8->_91 == 3)
+        _4090.sub_7100945C34();
+}
+
 // 0x7100a28688
 void ScreenOPtext::m154(s32 index) {
     static const f32 frames[3] = {0.0f, 1.0f, 2.0f};
@@ -5033,6 +5043,18 @@ void Unk_710247faf0::m14() {
 
 // 0x71009d29a0
 Unk_710247fbc0::~Unk_710247fbc0() = default;
+
+// 0x71009d2a10: creates the entry's state / memory animators and hands the capture layout to the texture controller.
+void Unk_710247fbc0::m4(sead::Heap* heap) {
+    if (!_8)
+        return;
+    if (_8->mOpenAnimator)
+        _8->mOpenAnimator->StopAtMax();
+    _348 = _8->tryCreateAnimatorAuto("State", false);
+    _350 = _8->tryCreateAnimatorAuto("Memory", false);
+    eui::LayoutEx* parts = _8->findPartsLayout("Pa_Capture_00");
+    _48.sub_71009D18FC(heap, parts, false);
+}
 
 // 0x71009d2ab0: updates the entry's control and, while the picture book page is open (state 2 / 3), hides the
 // layout's root pane unless the entry is selected.

@@ -482,6 +482,8 @@ public:
     /* 0x428 */ ksys::StringBoard _428[5];
     // 0x710099ee8c (placeholder name): whether the map state's 0x3888 value is 1
     bool sub_710099EE8C() const;
+    // 0x710099eea0 (placeholder name): whether the hovered icon's kind is 21 or 22
+    bool sub_710099EEA0() const;
 };
 static_assert(sizeof(AppMapIconPart) == 0x450);
 
