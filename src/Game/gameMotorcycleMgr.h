@@ -51,6 +51,8 @@ public:
 
     // 0x7100678BD4: updates spawn state, energy and motorcycle effects.
     void sub_7100678BD4();
+    // 0x7100678e80 (CSV MotorcycleMgr::updateSpawnMotorcycle; declared only): the spawn state machine.
+    void updateSpawnMotorcycle();
 
     // 0x7100678954
     void init(sead::Heap* heap);

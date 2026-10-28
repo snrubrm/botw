@@ -22,6 +22,11 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
+#include "Game/gameRuneMgr.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/actMotorcycle.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "KingSystem/GameData/gdtCommonFlagsUtils.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 
 namespace uking {
@@ -266,6 +271,60 @@ bool MotorcycleMgr::sub_710067A7E4(s32* out_a, s32* out_b) {
         return false;
     }
     return true;
+}
+
+// 0x7100678bd4: per-frame spawn / energy update: the spawn state machine, the fuel flag, the
+// marker effect and the "no fuel" hints, then the tracked motorcycle's collision check.
+// NON_MATCHING: only the block layout differs (the gas-off / ride-info block is out of line in our
+// build and _178 is tested before the energy compare); calls, constants and effects match.
+void MotorcycleMgr::sub_7100678BD4() {
+    updateSpawnMotorcycle();
+    ksys::gdt::Manager::instance()->setF32(mEnergy, mEnergyHandle);
+
+    if (auto* rune_mgr = uking::RuneMgr::instance()) {
+        if ((rune_mgr->_90 & 0x10) && rune_mgr->isSelectedRune(6)) {
+            checkUsableForSoundEffectAndMarker();
+        } else if (_17e == 1) {
+            if (_17f != 2 && _148.sub_7101241B6C()) {
+                _148.fadeXLink();
+                playEffectMaybe("Bike_Sign", &_148);
+                sead::Matrix34f mtx = sead::Matrix34f::ident;
+                x_1(&mtx);
+                _148.sub_7101241A44(mtx);
+                _17f = 2;
+            }
+        } else if (_17f != 0xff) {
+            if (_148.sub_7101241B6C())
+                _148.fadeXLink();
+            _17f = 0xff;
+        }
+    }
+
+    if (!ksys::gdt::getFlag_GuideS_MotorcycleGasOff(false)) {
+        if (mEnergy <= 0.0f) {
+            if (mProcLink.hasProc()) {
+                auto* ride_info = act::PlayerInfo::instance()->getPlayer_()->getPlayerRideInfo();
+                if (!ride_info || !mProcLink.hasProc() || !(ride_info->_18 == mProcLink))
+                    ui::showRuntimeTip(0x16);
+            }
+        }
+    }
+
+    if (_178 == 0) {
+        if (mEnergy <= 0.0f) {
+            if (mProcLink.hasProc())
+                ui::showInfoOverlay(0x2c);
+            _178 = 1;
+        }
+    } else if (mEnergy > 0.0f) {
+        _178 = 0;
+    }
+
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(mProcLink.getProc(nullptr));
+    if (actor && actor->checkFlag(ksys::act::Actor::ActorFlag::_18)) {
+        if (auto* moto = sead::DynamicCast<act::Motorcycle>(actor))
+            moto->deleteIfColliding();
+    }
 }
 
 // 0x710067a9dc: computes the fuel from up to five actor names (their "motorcycleEnergy" BYML
