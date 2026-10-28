@@ -8,6 +8,11 @@
 #include "KingSystem/Physics/RigidBody/Shape/physCylinderShape.h"
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/ActorSystem/actActorCreator.h"
+#include "KingSystem/ActorSystem/actActorHeapUtil.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
+#include "Game/gameRoot38.h"
+#include "Game/UI/uiUtils.h"
 
 // Declarations of nn::time functions that lib/NintendoSDK lacks (PLT imports in the original).
 namespace nn::time {
@@ -129,6 +134,44 @@ bool AmiiboMgr::queryHistoryTodayWithWorldMgrCheck(const AmiiboInfo& info, u32 m
 
 int AmiiboMgr::queryHistoryTotal(const AmiiboInfo& info, u32 mode) {
     return queryHistory(info, "AmiiboTouchHistoryTotal", mode);
+}
+
+// 0x7100a981b0 (placeholder name; discarding the result is what the original does).
+namespace ui {
+bool sub_7100A981B0();
+}
+
+// 0x7100648ca4: called when an amiibo was read. Unless a flag is already set, takes the lock, marks
+// the read state and spawns the "Item_Amiibo" rune actor at _9c with the success sound and marker
+// effect; every other path plays the error sound.
+void AmiiboMgr::sub_7100648CA4() {
+    if (Root38::instance()->hasAnyFlag())
+        return;
+    if (_2c8 == 0) {
+        if (mCS.tryLock()) {
+            if (!(AmiiboMgr::instance()->_134 & 8)) {
+                _2cc = 3;
+                mCS.unlock();
+                return;
+            }
+            ui::sub_7100A981B0();
+            _2c8 = 1;
+            _2cc = 1;
+            _9c.set(_90);
+            ksys::act::InstParamPack pack;
+            pack->addPosition(_9c);
+            ksys::act::ActorCreator::instance()->requestCreateActor(
+                "Item_Amiibo", ksys::act::ActorHeapUtil::instance()->getBaseProcHeap(), nullptr, &pack,
+                nullptr, 2);
+            ui::playSound("AmiiboSuccess", nullptr);
+            playEffectMaybe("AmiiboMarker_Sign", &_d0);
+            _d0.sub_71012419B4(_9c);
+            _130 = 0;
+            mCS.unlock();
+            return;
+        }
+    }
+    ui::playSound("AmiiboError", nullptr);
 }
 
 bool AmiiboMgr::guaranteedBigHits() const {
