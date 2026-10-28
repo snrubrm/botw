@@ -501,6 +501,21 @@ bool HavokAI::submitQuery(NavMeshQuery* query) {
     return _40->sub_71012A9F68(query);
 }
 
+// 0x7100f81ee0: removes the entry from the request queues and, unless it is still queued, drops
+// its owner; releases both entry states when the request flags at 0x3c00 are set.
+void HavokAI::sub_7100F81EE0(Unk_7102519a98* entry, bool queued) {
+    auto lock = sead::makeScopedLock(_50);
+    _40->sub_71012AA118(entry);
+    if (!queued) {
+        entry->_58.exchange(nullptr);
+        entry->_60.fetchAnd(0xfffffe00);
+    }
+    if (entry->_60.load() & 0x3c00) {
+        sub_7100F81F84(entry, false);
+        sub_7100F8210C(entry, false);
+    }
+}
+
 // 0x7100f81868: the same enqueue as sub_7100F81930 with the other request bit pair.
 void HavokAI::sub_7100F81868(Unk_7102519a98* entry) {
     entry->_60 &= ~0xfcu;

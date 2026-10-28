@@ -31,12 +31,12 @@ bool NavMeshQueryRequestPool::sub_71012AA080(NavMeshQuery* query) {
     return false;
 }
 
-void NavMeshQueryRequestPool::sub_71012AA118(NavMeshQuery* query) {
+void NavMeshQueryRequestPool::sub_71012AA118(void* obj) {
     auto lock = sead::makeScopedLock(_8);
-    if (_198 == query)
+    if (static_cast<void*>(_198) == obj)
         _198 = nullptr;
-    _108.erase(query);
-    _120.erase(query);
+    _108.erase(obj);
+    _120.erase(obj);
 }
 
 void NavMeshQueryRequestPool::sub_71012AA1F0(NavMeshCharacter* nav) {

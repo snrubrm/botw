@@ -360,7 +360,8 @@ public:
     // 0x71012aa080 (same as sub_71012A9F68), 0x71012aa118 / 0x71012aa1f0: remove `query` / the character
     // from the queues (under the lock at +8 / +0x48).
     bool sub_71012AA080(NavMeshQuery* query);
-    void sub_71012AA118(NavMeshQuery* query);
+    // Called with both a NavMeshQuery* and an Unk_7102519a98* entry; the body compares pointers only.
+    void sub_71012AA118(void* obj);
     void sub_71012AA1F0(NavMeshCharacter* nav);
     // 0x71012aa270 / 0x71012aa2f0 (placeholder names): remove `obj` from the queue at +0x150 / +0x168.
     void sub_71012AA270(NavMeshObjMaybe* obj);
@@ -519,6 +520,9 @@ public:
     // 0x7100f81ee0 (declaration only; placeholder name): under the lock, removes `obj` from the query pool and
     // its pending requests (unless `queued`), then unregisters it if flags 0x3c00 are set.
     void sub_7100F81EE0(Unk_7102519a98* obj, bool queued);
+    // 0x7100f81f84 / 0x7100f8210c (placeholder names): release the entry's two states.
+    void sub_7100F81F84(Unk_7102519a98* obj, bool queued);
+    void sub_7100F8210C(Unk_7102519a98* obj, bool queued);
     // 0x7100f81a00 (declaration only; placeholder name): updates the transform of an added entry.
     void sub_7100F81A00(Unk_7102519a98* obj, const sead::Matrix34f& transform);
     // 0x7100f81868 (declaration only; placeholder name): queues a freshly loaded tile entry.
