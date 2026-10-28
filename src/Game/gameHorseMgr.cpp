@@ -1,5 +1,7 @@
 #include "Game/gameHorseMgr.h"
 #include <prim/seadScopedLock.h>
+#include <prim/seadStringUtil.h>
+#include "Game/UI/euiMessageMgr.h"
 #include "Game/Actor/actHorseBase.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -184,6 +186,65 @@ bool HorseMgr::sub_7100E84A04(ksys::act::Actor* actor, const sead::SafeString& n
         return false;
     sub_7100E84F0C(actor);
     _d4 = -1;
+    return true;
+}
+
+// The mane name groups sub_7100E84AE4 picks the record's mane from (definitions below).
+extern const sead::SafeString sUnk_7102603C98[4];
+extern const sead::SafeString sUnk_7102603CD8[2];
+
+// 0x7100e84ae4: the registration body sub_7100E84A04 runs with the acquired horse accessor: fills the
+// horse record of the next free slot from the horse, writes it, reports the registration and sets the
+// RiddenAnimalType flags. False when all five records are in use.
+// NON_MATCHING: the original converts the horse type through a SEAD_ENUM temporary for the mane group
+// select (an extra stack round trip) and colours the data base / name registers differently; same calls.
+bool HorseMgr::sub_7100E84AE4(const ksys::act::ActorLinkConstDataAccess& accessor,
+                              const sead::SafeString& name, bool flag) {
+    const s32 index = getNumRegisteredHorses();
+    if (u32(index) > 4)
+        return false;
+
+    HorseData data;
+    data.actorName = accessor.getName().cstr();
+    data.userName = name.cstr();
+    data.maneName =
+        (act::sub_7100E6ECC4(accessor) == 6 ? sUnk_7102603CD8[0] : sUnk_7102603C98[0]).cstr();
+    data.reinsName = getHorseReinsName(act::sub_7100E6ECC4(accessor)).cstr();
+    data.saddleName = getHorseSaddleName(act::sub_7100E6ECC4(accessor)).cstr();
+    data.amiiboUidHash = act::sub_7100E6EDFC(accessor).cstr();
+
+    if (act::sub_7100E6ECC4(accessor) == 4) {
+        sead::FormatFixedSafeString<256> set_name("ActorType/%s", accessor.getProfile().cstr());
+        eui::MessageSet* set = eui::MessageMgr::instance()->getMessageSet(set_name);
+        if (set) {
+            sead::FormatFixedSafeString<256> label("%s_Name", data.actorName);
+            eui::MessageString message = set->tryFindMessage(label.cstr());
+            if (message.getString()) {
+                sead::FixedSafeString<256> text;
+                sead::StringUtil::convertUtf16ToUtf8(text.getBuffer(), text.getBufferSize(),
+                                                    message.getString(), -1);
+                if (!text.isEmpty())
+                    data.userName = text.cstr();
+            }
+        }
+    }
+
+    sub_7100E8533C(&data, index);
+    ksys::PlayReportMgr::instance()->reportDebug("HorseRegistered", accessor.getName());
+    _d4 = index;
+    if (flag)
+        setFlagOn(Flag::_1);
+    else
+        setFlagOff(Flag::_1);
+
+    switch (RiddenAnimalType(act::sub_7100E6ECC4(accessor))) {
+    case RiddenAnimalType::_6:
+        setFlagOn(Flag::_5);
+        break;
+    case RiddenAnimalType::_3:
+        setFlagOn(Flag::_6);
+        break;
+    }
     return true;
 }
 
