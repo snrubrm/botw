@@ -1,7 +1,20 @@
+#include <heap/seadExpHeap.h>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/Physics/System/physHavokAI.h"
 
 namespace ksys::phys {
+
+NavMeshQueryRequestPool::NavMeshQueryRequestPool(HavokAI* havok_ai, sead::Heap* heap)
+    : mHavokAI(havok_ai) {
+    mHeap = sead::ExpHeap::create(0x10000, "NavMeshQueryRequestPool", heap, sizeof(void*),
+                                  sead::Heap::cHeapDirection_Forward, true);
+    _120.alloc(8, heap);
+    _108.alloc(0x20, heap);
+    _138.alloc(0x100, heap);
+    _150.alloc(0x100, heap);
+    _168.alloc(0x40, heap);
+    _180.alloc(0x100, heap);
+}
 
 void NavMeshQueryRequestPool::sub_71012A9EE8(NavMeshQuery* query) {
     query->_9 = true;

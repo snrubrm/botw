@@ -266,10 +266,21 @@ struct Unk_RequestQueue {
         }
     }
 
-    /* 0x00 */ s32 mCapacity;
-    /* 0x08 */ T** mBuffer;
+    // Allocates the ring (the pool's ctor sizes all six queues this way).
+    void alloc(int capacity, sead::Heap* heap) {
+        T** buffer = new (heap, sizeof(void*), std::nothrow) T*[capacity];
+        if (buffer) {
+            mCapacity = capacity;
+            mBuffer = buffer;
+        }
+        for (s32 i = 0, n = mCapacity; i < n; ++i)
+            mBuffer[i] = nullptr;
+    }
+
+    /* 0x00 */ s32 mCapacity = 0;
+    /* 0x08 */ T** mBuffer = nullptr;
     /* 0x10 */ sead::Atomic<s32> mTail;
-    /* 0x14 */ s32 mHead;
+    /* 0x14 */ s32 mHead = 0;
 };
 KSYS_CHECK_SIZE_NX150(Unk_RequestQueue<void>, 0x18);
 
@@ -359,7 +370,8 @@ KSYS_CHECK_SIZE_NX150(NavMeshObj2Maybe, 0x98);
 // TODO: incomplete.
 class NavMeshQueryRequestPool {
 public:
-    NavMeshQueryRequestPool() = default;
+    // 0x71012a8ffc: creates the 0x10000-byte query heap and allocates the six request queues.
+    NavMeshQueryRequestPool(HavokAI* havok_ai, sead::Heap* heap);
     // 0x71012a94c8: destroys the heap the queries come from and frees the six request queues.
     ~NavMeshQueryRequestPool();
 
@@ -380,7 +392,7 @@ public:
     void sub_71012AA270(NavMeshObjMaybe* obj);
     void sub_71012AA2F0(NavMeshObj2Maybe* obj);
 
-    /* 0x000 */ u8 _0[8];
+    /* 0x000 */ HavokAI* mHavokAI;
     /* 0x008 */ sead::CriticalSection _8;
     /* 0x048 */ sead::CriticalSection _48;
     /* 0x088 */ sead::CriticalSection _88;  // guards _150 (0x71012aa270)
@@ -395,10 +407,11 @@ public:
     /* 0x150 */ util::LockFreeQueue<NavMeshObjMaybe> _150;
     /* 0x168 */ util::LockFreeQueue<NavMeshObj2Maybe> _168;
     /* 0x180 */ Unk_RequestQueue<NavMeshQuery> _180;
-    /* 0x198 */ NavMeshQuery* _198;
+    /* 0x198 */ NavMeshQuery* _198 = nullptr;
     // The heap the query requests are allocated from (callers call tryAlloc on it directly).
     /* 0x1a0 */ sead::Heap* mHeap;
 };
+KSYS_CHECK_SIZE_NX150(NavMeshQueryRequestPool, 0x1a8);
 
 // Name from the CSV (HavokAI::createInstance 0x7100f80b20, init 0x7100f80f38, ...). A polymorphic sead
 // singleton (vtable 0x71024f6e88: D1 0x7100f80c60, D0 0x7100f80eb8; size 0x178; instance pointer at
