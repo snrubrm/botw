@@ -77,14 +77,15 @@ void ScreenAppSystemWindowNoBtn::m98() {
 }
 
 // 0x71009fbadc
-// NON_MATCHING: the sound name is picked with a csel (the original branches), and the text array sits at another
-// offset of the merged constant block (as in m98)
 void ScreenAppSystemWindowNoBtn::sub_71009FBADC() {
     const s32 state = UiSubsys1::instance()->get38a8();
     eui::MessageString message;
     if (u32(state) <= 2 &&
         !getMessage(sAppSystemWindowNoBtnText[0], *sSensorStateLabels[state], &message)) {
-        invokeSoundLink2Event_(state == 2 ? "mc_SensorOff" : "mc_SensorOn");
+        if (state == 2)
+            invokeSoundLink2Event_("mc_SensorOff");
+        else
+            invokeSoundLink2Event_("mc_SensorOn");
         setWidgetString(mLayout, sAppSystemWindowNoBtnText[2], message);
     } else {
         setWidgetString(mLayout, sAppSystemWindowNoBtnText[2], sead::SafeString::cEmptyString);
