@@ -238,6 +238,14 @@ bool WeatherMgr::x_7() {
     return temp <= -2.0f | temp2 <= -2.0f;
 }
 
+// 0x71010eb5e8 (CSV name): picks one wind direction type for every climate.
+void WeatherMgr::climateStuff() {
+    auto* wm = Manager::instance();
+    const u32 type = sead::GlobalRandom::instance()->getU32(7);
+    for (s32 i = 0; i < int(NumClimates); ++i)
+        wm->mWorldInfo.mClimates[i].WindDirectionType = type;
+}
+
 void WeatherMgr::setWeatherEffect(int effect) {
     switch (effect) {
     case 0:

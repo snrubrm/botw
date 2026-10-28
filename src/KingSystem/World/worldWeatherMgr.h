@@ -55,6 +55,8 @@ public:
     void rerollClimateWindPowers();
 
     static bool isExposureZero();
+    // 0x71010eb5e8 (CSV name): picks one wind direction type for every climate.
+    static void climateStuff();
     void loadInfo();
     WeatherType rollNewWeather(Climate climate);
     // 0x71010eab84: packs the nibbles of the climate weather table into the three GDT arrays.
