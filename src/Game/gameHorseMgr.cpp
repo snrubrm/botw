@@ -684,3 +684,9 @@ const sead::SafeString& getHorseSaddleName(HorseMgr::RiddenAnimalType type) {
 }
 
 }  // namespace uking
+
+namespace sead {
+// 0x7100e89e60 / 0x7100e89e90 (unnamed in the CSV): the invoke / clone of the ReinitEvent delegate that
+// mReinitSlot binds to HorseMgr::onGameDataReinit (the constructor's binding is not decompiled yet).
+template class Delegate1<uking::HorseMgr, ksys::gdt::Manager::ReinitEvent*>;
+}  // namespace sead
