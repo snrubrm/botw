@@ -66,6 +66,11 @@ namespace {
 // 0x71025dc54c: the picture slots selected for deletion (m163 fills / clears it, m175 walks it)
 sead::SafeArray<bool, 0x30> sUnk_71025DC54C;
 
+// 0x710247fbb8: the album page counter stepped by m155
+static s32 sUnk_710247fbb8;
+// 0x71025dc2e8: the album page timer (m155)
+static UiTimer sUnk_71025dc2e8;
+
 // The original block is 16-byte aligned (0x71025dc890); the alignment keeps this object first in the
 // TU's merged statics, ahead of the 8-byte-aligned SafeString statics.
 struct alignas(16) AlbumState {
@@ -168,6 +173,57 @@ void ScreenAppAlbum::m100() {
 void ScreenAppAlbum::m154() {
     _3a99 = true;
     sUnk_71025DC890._1 = 0;
+}
+
+// 0x71009d5b80: the album's main-run step: releases the captured picture book, steps the page timer and
+// counter, and while the picture book is open on the map screen adds the selected picture to the new
+// picture slots. Sets _3a99 while the picture book list has started or stopped moving.
+// NON_MATCHING: sub_71009FB970 is inlined here because its definition shares this TU; in the original it is
+// in the ScreenAppSystemWindowNoBtn TU (0x9fb828) and the call is out of line.
+void ScreenAppAlbum::m155() {
+    if (!_3630)
+        return;
+    if ((_3630->mFlags & 1) && _3640)
+        _3640->sub_710093FF88();
+    if (_3630 && _3630->mFrame == 0.0f) {
+        switch (sUnk_71025DC890._c) {
+        case 0:
+            if (_3638)
+                _3638->sub_710093F594(true);
+            if ((_292 & 0x40) && sub_71010AA9D0() && mUIController && mUIController->isTrig(8)) {
+                if (_3638) {
+                    if (!_3638->_2dc)
+                        break;
+                    s32 entry_index = -1;
+                    s32 local_index = -1;
+                    _3638->sub_710093F10C(_3638->_310, &local_index, &entry_index);
+                    if (entry_index == 1) {
+                        sUnk_71025DC54C[local_index] = true;
+                        ++sUnk_71025DC890._10;
+                    }
+                    _3638->sub_7100940288();
+                }
+                createAndLoadScreenIfNeededImpl(ScreenId::AppSystemWindowNoBtn, nullptr);
+                if (auto* window = sead::DynamicCast<ScreenAppSystemWindowNoBtn>(
+                        eui::ScreenMgr::instance()->getScreen(ScreenId::AppSystemWindowNoBtn)))
+                    window->sub_71009FB970();
+                getStateMachine().changeState(&sUnk_71025dc3c0);
+            }
+            break;
+        case 1:
+            if (sUnk_71025dc2e8.isDone()) {
+                ++sUnk_710247fbb8;
+                sUnk_71025dc2e8.reset();
+            }
+            sUnk_71025dc2e8.update();
+            break;
+        case 2:
+            sUnk_710247fbb8 = 0;
+            break;
+        }
+        if (_3638 && (_3638->_28 & 0x30))
+            _3a99 = true;
+    }
 }
 
 // 0x71009d5dc4
