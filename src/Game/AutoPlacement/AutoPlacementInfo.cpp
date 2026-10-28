@@ -2,6 +2,7 @@
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include "Game/gameMapStaticLoadMgr.h"
+#include "KingSystem/System/StageInfo.h"
 #include "KingSystem/Utils/Byaml/Byaml.h"
 #include <prim/seadRuntimeTypeInfo.h>
 
@@ -92,13 +93,18 @@ public:
     virtual bool m0() = 0;
     virtual bool m1() = 0;
     virtual bool m2(const al::ByamlIter& iter, void* arg) = 0;
-    // Placeholder name (unnamed CSV row).
+    // Placeholder names (unnamed CSV rows).
+    void sub_7100E8D638(void* arg);
     bool sub_7100E8D730(void* arg);
 
-    /* 0x08 */ sead::SafeString _8;
-    /* 0x18 */ u8 _18[0x38];
+    /* 0x08 */ sead::FixedSafeString<0x30> _8;
     /* 0x50 */ ksys::res::Handle* _50;
 };
+
+void Unk_7100E8D730::sub_7100E8D638(void* arg) {
+    _8.copy(ksys::StageInfo::getCurrentMapType());
+    sub_7100E8D730(arg);
+}
 
 bool Unk_7100E8D730::sub_7100E8D730(void* arg) {
     _50 = getMapStaticMubin(_8);
