@@ -451,7 +451,7 @@ f32 MotorcycleMgr::sub_710067A9DC(EnergyCalculationArg* arg) {
 void MotorcycleMgr::sub_710067AB8C() {
     if (_c8 > 0.0f) {
         if (auto* scene = GameSceneSubsys12::instance()) {
-            mEnergy = std::min(mEnergy + _c8, 1000.0f);
+            mEnergy = sead::Mathf::clampMax(mEnergy + _c8, 1000.0f);
             _c8 = 0.0f;
             scene->sub_7100665360();
         }
