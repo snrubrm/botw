@@ -482,6 +482,52 @@ s32 HorseMgr::sub_7100E8612C(RiddenAnimalType* type) {
     return _d0;
 }
 
+// 0x7100e82df8: scans the five horse records for a complete, in-range one of `type`.
+// NON_MATCHING: the two loop copies are laid out differently (ours evaluates the record checks in
+// a different block order and spills one extra register); the calls and checks match.
+bool HorseMgr::x_5(RiddenAnimalType type, bool dead) {
+    if (dead) {
+        for (s32 i = 0; i < 5; ++i) {
+            HorseData data;
+            if (!sub_7100E89B20(&data, i))
+                continue;
+            if (data.actorName[0] == sead::SafeString::cNullChar ||
+                data.userName[0] == sead::SafeString::cNullChar ||
+                data.reinsName[0] == sead::SafeString::cNullChar ||
+                data.saddleName[0] == sead::SafeString::cNullChar ||
+                data.maneName[0] == sead::SafeString::cNullChar)
+                continue;
+            if (!(data.familiarity <= 1.0f && data.familiarity >= 0.0f))
+                continue;
+            if ((data.footType | data.collarType) < 0)
+                continue;
+            if (ksys::act::getHorseUnitRiddenAnimalType(ksys::act::InfoData::instance(),
+                                                        data.actorName) == int(type))
+                return true;
+        }
+    } else {
+        for (s32 i = 0; i < 5; ++i) {
+            HorseData data;
+            if (!sub_7100E86F80(&data, i))
+                continue;
+            if (data.actorName[0] == sead::SafeString::cNullChar ||
+                data.userName[0] == sead::SafeString::cNullChar ||
+                data.reinsName[0] == sead::SafeString::cNullChar ||
+                data.saddleName[0] == sead::SafeString::cNullChar ||
+                data.maneName[0] == sead::SafeString::cNullChar)
+                continue;
+            if (!(data.familiarity <= 1.0f && data.familiarity >= 0.0f))
+                continue;
+            if ((data.footType | data.collarType) < 0)
+                continue;
+            if (ksys::act::getHorseUnitRiddenAnimalType(ksys::act::InfoData::instance(),
+                                                        data.actorName) == int(type))
+                return true;
+        }
+    }
+    return false;
+}
+
 bool HorseMgr::sub_7100E86CF4() {
     return _80.isAllocatedOrFailed() && !_80.isProcReady() && !_80.hasProcCreationFailed();
 }

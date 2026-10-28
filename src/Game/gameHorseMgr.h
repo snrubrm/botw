@@ -124,6 +124,11 @@ public:
     };
     static_assert(sizeof(HorseData) == 0x48);
 
+    // 0x7100e82df8 (CSV HorseMgr::x_5): whether one of the five horse records is a live / dead
+    // horse of the given ridden-animal type (the records must be complete and in range).
+    bool x_5(RiddenAnimalType type, bool dead);
+    // 0x7100e86f80 (declared only; placeholder name): reads the live horse `index` into `data`.
+    bool sub_7100E86F80(HorseData* data, s32 index);
     // 0x7100e83a08 (CSV x_8): the same as sub_7100E854EC on buffer 0 (the regular getters, no `_40000` check).
     bool x_8(HorseData* data, s32 index);
     // 0x7100e854ec: reads horse `index` (the Horse_* flags) into `data` from buffer 1.
