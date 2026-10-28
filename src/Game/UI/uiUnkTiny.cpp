@@ -21,6 +21,12 @@
 #include "Game/UI/uiUtils.h"
 #include <nn/ui2d/Pane.h>
 #include <nn/nn.h>
+#include <filedevice/seadFileDeviceMgr.h>
+#include <heap/seadExpHeap.h>
+#include <new>
+#include "KingSystem/GameData/gdtSaveMgr.h"
+#include "KingSystem/AOC/aocManager.h"
+#include "Game/AOC/aocHardModeManager.h"
 
 // 0x18005d0: the SDK import _ZN2nn2ec24ShowShopAddOnContentListENS_13ApplicationIdERKNS_7account10UserHandleE.
 namespace nn::ec {
@@ -483,9 +489,6 @@ Unk_7102477508::~Unk_7102477508() = default;
 
 // 0x71009a7fa0
 Unk_7102479f90::~Unk_7102479f90() = default;
-
-// 0x71009a8be4
-Unk_7102479fb0::~Unk_7102479fb0() = default;
 
 // 0x71009b14f0
 Unk_710247aa30::Unk_710247aa30() = default;
@@ -2044,3 +2047,288 @@ void Unk_710249c338::sub_7100A6C86C() {
         _208 = _210(0);
     _1fc = touched ? (_1fc | 1) : (_1fc & 0xfe);
 }
+
+namespace uking::ui {
+
+// 0x7100a8429c
+Unk_710249d330::Unk_710249d330() {}
+
+// 0x7100a842e4
+Unk_710249d330::~Unk_710249d330() {
+    mCells.freeBuffer();
+    mFlags.freeBuffer();
+    if (mHeap) {
+        mHeap->destroy();
+        mHeap = nullptr;
+    }
+    mCount = 0;
+}
+
+// 0x7100a862a4
+void Unk_710249d330::init(sead::Heap* heap) {
+    if (mState != 0)
+        return;
+    if (mHeap) {
+        mCells.freeBuffer();
+        mFlags.freeBuffer();
+        mHeap->destroy();
+        mHeap = nullptr;
+        mCount = 0;
+    }
+    if (auto* cells = new (heap, 4, std::nothrow) u32[0x38400])
+        mCells.setBuffer(0x38400, cells);
+    if (auto* flags = new (heap, 4, std::nothrow) u8[0x38400])
+        mFlags.setBuffer(0x38400, flags);
+    mHeap = sead::ExpHeap::create(0x227100, "FootPrintWorkHeap", heap, 8,
+                                  sead::Heap::cHeapDirection_Reverse, false);
+    mState = 1;
+}
+
+// 0x7100a863c4
+void Unk_710249d330::initHeap() {
+    if (mState != 0)
+        return;
+    if (mHeap) {
+        mHeap->destroy();
+        mHeap = nullptr;
+        mCount = 0;
+    }
+    if (mCells.getBufferPtr() && mFlags.getBufferPtr()) {
+        mHeap = sead::ExpHeap::create(0x227100, "FootPrintWorkHeap", getHeap(), 8,
+                                      sead::Heap::cHeapDirection_Reverse, false);
+        mState = 1;
+    }
+}
+
+// 0x7100a843c0
+void Unk_710249d330::step() {
+    switch (mState) {
+    case 1:
+        mState = 2;
+        break;
+    case 2:
+        sub_7100A843F4();
+        break;
+    case 3:
+        mState = 0;
+        break;
+    default:
+        break;
+    }
+}
+
+// 0x7100a86950
+bool Unk_710249d330::isIdle() const {
+    return mState == 0;
+}
+
+// NON_MATCHING: the original decodes both cell coordinates before the compare and folds them into a ccmp
+// pair (660 bytes); clang short-circuits the second decode (636 bytes).
+// NON_MATCHING: same size and instructions; only the register numbers of the loop counter, the write index and
+// the last cell differ.
+// NON_MATCHING: the loops and stores match; clang unswitches the y loop for the last column where the original
+// unswitches it for the first, and it drops the x term of the last-cell check into the peeled copy.
+// NON_MATCHING: the calls and the stored values match; clang folds the clamp to 0 into a bic where the original
+// keeps a subs / csel pair, and it drops the redundant sign test (544 bytes against 548).
+// 0x7100a85dc4
+void Unk_710249d330::sub_7100A85DC4(s32 x1, s32 y1, s32 t1, s32 x2, s32 y2, s32 t2) {
+    mCount = 0;
+    for (s32 x = x1; x <= x2; ++x) {
+        const s32 ys = (x == x1) ? y1 : 0;
+        const s32 ye = (x == x2) ? y2 : 0x2f;
+        if (ys > ye)
+            continue;
+        for (s32 y = ys; y <= ye; ++y) {
+            const s32 ts = (y == y1) ? t1 : 0;
+            const s32 te = (y == y2 && x == x2) ? t2 : 299;
+            if (ts > te)
+                continue;
+            for (s32 t = ts; t <= te; ++t) {
+                const u32 cell =
+                    mBlocks[u32(x) < 32 ? x : 0]->cells[u32(y) < 0x30 ? y : 0][u32(t) < 300 ? t : 0];
+                if (cell == 0xfbffdfff)
+                    continue;
+                if ((t & 1) == 0) {
+                    mCells[mCount++] = cell;
+                } else if ((cell & 0x20000000) && mCount > 0) {
+                    mCells[mCount - 1] = cell;
+                }
+            }
+        }
+    }
+}
+
+// 0x7100a85fac
+void Unk_710249d330::sub_7100A85FAC() {
+    s32 out = 0;
+    s32 last_y = 0;
+    s32 last_x = 0;
+    for (s32 i = 0; i < mCount; ++i) {
+        const u32 cell = mCells[i];
+        s32 x = (cell >> 13) & 0x1fff;
+        if (cell & 0x4000000)
+            x = -x;
+        s32 y = cell & 0xfff;
+        if (cell & 0x1000)
+            y = -y;
+        if (s32(cell) < 0 && (x != 0 || y != 0)) {
+            if (last_y == y && out > 0 && last_x == x) {
+                if (!(cell & 0x20000000))
+                    continue;
+                --out;
+            }
+            const s32 zone = ((x + 5000) / 0x96) * 0x36 + (y + 4000) / 0x96;
+            if (!(zone & 0xf000)) {
+                const u32 packed = (cell & 0x20000000) == 0 ? (cell & 0x7ffffff) : (cell | 0x8000000);
+                mFlags[out] = u8(zone >> 4);
+                mCells[out] = (packed & 0xfffffff) | (u32(zone) << 28);
+                ++out;
+                last_y = y;
+                last_x = x;
+            }
+        }
+    }
+    mCount = out;
+}
+
+// NON_MATCHING: same size; the original folds the two cell-coordinate comparisons into a ccmp pair and clang
+// short-circuits the second decode, which also moves the later blocks.
+// 0x7100a86468
+void Unk_710249d330::sub_7100A86468(f32 x, f32 y, bool flag) {
+    if (!ksys::aoc::Manager::instance()->hasAoc2())
+        return;
+
+    s32 count = mCount;
+    if (count > 0) {
+        const u32 last = mCells[count - 1];
+        s32 last_x = (last >> 13) & 0x1fff;
+        if (last & 0x4000000)
+            last_x = -last_x;
+        s32 last_y = last & 0xfff;
+        if (last & 0x1000)
+            last_y = -last_y;
+        if (s32(x) == s32(f32(last_x)) && s32(y) == s32(f32(last_y))) {
+            if (!flag)
+                return;
+            count -= 1;
+            mCount = count;
+        }
+    }
+
+    const s32 x_i = s32(x);
+    const s32 y_i = s32(y);
+    if (x_i == 0 && y_i == 0 && !flag)
+        return;
+    if (x_i == -0x60 && y_i == 0x140 && !flag)
+        return;
+
+    const s32 x_abs = sead::Mathi::abs(x_i);
+    const s32 y_abs = sead::Mathi::abs(y_i);
+    const u32 packed_x = (u32(x_abs) & 0x1fff) | (x < 0.0f ? 0x2000 : 0);
+    const u32 packed_y = (u32(y_abs) & 0xfff) | (y < 0.0f ? 0x1000 : 0);
+    const s32 zone = (y_i + 4000) / 0x96 + ((x_i + 5000) / 0x96) * 0x36;
+    if (zone & 0xf000)
+        return;
+    u32 packed = packed_y | (packed_x << 13);
+    if (flag)
+        packed |= 0x8000000;
+    packed |= u32(zone) << 28;
+
+    if ((u32(count) >> 10) > 0xe0) {
+        const s32 n = mCells.size() - 0x1c20;
+        if (n > 0) {
+            for (s32 i = 0; i < n; ++i) {
+                mCells[i] = mCells[i + 0x1c20];
+                mFlags[i] = mFlags[i + 0x1c20];
+            }
+        }
+        count -= 0x1c20;
+        mCount = count;
+    }
+    mFlags[count] = u8(u32(zone) >> 4);
+    count = mCount;
+    mCount = count + 1;
+    mCells[count] = packed;
+    if (mPending)
+        mPending = false;
+}
+
+// 0x7100a866bc
+void Unk_710249d330::sub_7100A866BC(f32 x, f32 y, bool flag) {
+    if (!ksys::aoc::Manager::instance()->hasAoc2())
+        return;
+
+    const s32 count = mCount;
+    if (count > 0) {
+        const u32 last = mCells[count - 1];
+        s32 last_x = (last >> 13) & 0x1fff;
+        if (last & 0x4000000)
+            last_x = -last_x;
+        s32 last_y = last & 0xfff;
+        if (last & 0x1000)
+            last_y = -last_y;
+        if (s32(x) == s32(f32(last_x)) && s32(y) == s32(f32(last_y)))
+            return;
+    }
+
+    const s32 x_i = s32(x);
+    const s32 y_i = s32(y);
+    if (x_i == 0 && y_i == 0)
+        return;
+    if (x_i == -0x60 && y_i == 0x140)
+        return;
+
+    const s32 x_abs = sead::Mathi::abs(x_i);
+    const s32 y_abs = sead::Mathi::abs(y_i);
+    const u32 packed_x = (u32(x_abs) & 0x1fff) | (x < 0.0f ? 0x2000 : 0);
+    const u32 packed_y = (u32(y_abs) & 0xfff) | (y < 0.0f ? 0x1000 : 0);
+    const s32 zone = (y_i + 4000) / 0x96 + ((x_i + 5000) / 0x96) * 0x36;
+    if (zone & 0xf000)
+        return;
+    u32 packed = packed_y | (packed_x << 13);
+    if (flag)
+        packed |= 0x8000000;
+    packed |= u32(zone) << 28;
+
+    if ((u32(count) >> 10) < 0xe1) {
+        mFlags[count] = u8(u32(zone) >> 4);
+        mCells[mCount] = packed;
+        if (mPending)
+            return;
+        mPending = true;
+        return;
+    }
+
+    const s32 n = mCells.size() - 0x1c20;
+    if (n > 0) {
+        for (s32 i = 0; i < n; ++i) {
+            mCells[i] = mCells[i + 0x1c20];
+            mFlags[i] = mFlags[i + 0x1c20];
+        }
+    }
+    mCount = count - 0x1c20;
+    mFlags[mCount] = u8(u32(zone) >> 4);
+    const s32 idx = mCount;
+    mCount = idx + 1;
+    mCells[idx] = packed;
+    if (!mPending)
+        return;
+    mPending = false;
+}
+
+// NON_MATCHING: the calls and the LoadArg contents match; clang lays the filename and the LoadArg out in the
+// opposite stack order and merges two of the LoadArg stores (284 bytes against 288).
+// 0x7100a86b40
+u8* trackerLoadFileStuff(Unk_710249d330* work, u32 index) {
+    auto* save_mgr = ksys::SaveMgr::instance();
+    sead::FormatFixedSafeString<64> path("%s://tracker/trackblock%02d.sav", save_mgr->getMountName().cstr(), index);
+    auto* hard_mode = uking::aoc::HardModeManager::instance();
+    if (hard_mode && hard_mode->checkFlag(uking::aoc::HardModeManager::Flag::EnableHardMode))
+        path.format("%s://tracker/trackblock_hard%02d.sav", save_mgr->getMountName().cstr(), index);
+    sead::FileDevice::LoadArg arg;
+    arg.heap = work->mHeap;
+    arg.path = path;
+    return sead::FileDeviceMgr::instance()->tryLoad(arg);
+}
+
+}  // namespace uking::ui

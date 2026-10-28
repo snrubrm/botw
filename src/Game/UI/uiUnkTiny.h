@@ -473,10 +473,18 @@ public:
     virtual ~Unk_7102479f90();
 };
 
+// The argument object of Unk_7102479c10::sub_71009A5CFC (0x71009a878c builds one on the stack): the old parent
+// pane whose children move, the two map panes that receive them and the widget's pane-pointer array.
 class Unk_7102479fb0 {
 public:
     virtual ~Unk_7102479fb0();
+
+    /* 0x08 */ nn::ui2d::Pane* _8 = nullptr;
+    /* 0x10 */ nn::ui2d::Pane* _10 = nullptr;
+    /* 0x18 */ nn::ui2d::Pane* _18 = nullptr;
+    /* 0x20 */ nn::ui2d::Pane** _20 = nullptr;
 };
+static_assert(sizeof(Unk_7102479fb0) == 0x28);
 
 class Unk_710247aa30 {
 public:

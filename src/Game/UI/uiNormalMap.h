@@ -83,6 +83,8 @@ public:
     bool sub_71009A82A8() const;
     // 0x71009a829c: the byte at 0xa8e9 (the demo state's normal map ready flag)
     bool sub_71009A829C() const;
+    // 0x71009a5cfc (declared only; 780 bytes): builds the map entries and tiles from the panes of `arg`
+    void sub_71009A5CFC(const Unk_7102479fb0& arg, sead::Heap* heap);
 
     /* 0x08 */ UiSubsys1* _8 = nullptr;  // the UI subsystem (its _128 is the current map area)
     /* 0x10 */ Unk_71024753a8* _10;

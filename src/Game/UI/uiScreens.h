@@ -2652,6 +2652,8 @@ public:
     void sub_7100A866BC(f32 x, f32 y, bool flag);
     // 0x7100a843f4 (not decompiled, 3184 bytes): the state-2 step that consumes the pending cell
     void sub_7100A843F4();
+    // 0x7100a86960 (declared only; 480 bytes): allocates the heap and loads the saved track cells
+    void sub_7100A86960(sead::Heap* heap);
     // 0x7100a85fac (placeholder name): drops the invalid cells and the repeated ones, rewriting each kept
     // cell's zone.
     void sub_7100A85FAC();
@@ -2687,6 +2689,9 @@ struct Unk_71025D9610 {
     u8 _24[0x198 - 0x24];
     // The "App_Map_Scale" game data flag (sub_71009A98A4 stores the map scale through it).
     /* 0x198 */ sead::SafeString mAppMapScale;
+    u8 _1a8[0x1b8 - 0x1a8];
+    // The names of the two animators 0x71009a878c creates (the static initializer fills them with two entries).
+    /* 0x1b8 */ sead::Buffer<sead::SafeString> mAnimatorNames;
 };
 // 0x71025d9610 (defined in uiScreenAppMapWidget.cpp)
 KSYS_VISIBILITY_HIDDEN extern Unk_71025D9610 sUnk_71025D9610;
@@ -2796,13 +2801,23 @@ struct ScreenAppMapWidget : public ScreenChildEx {
 
     // 0x71009a8be8 (slot 14): sets the second half of the map tiles' textures to state 1, resets the map timer
     void m14() override;
+    // 0x71009a878c (slot 24): binds the map subsystem, creates the map animators and panes and the footprint data
+    void m24(sead::Heap* heap) override;
+    // 0x71009a89c0 (declared only; 548 bytes): looks up the field pane and fills the map pane arrays
+    void sub_71009A89C0();
     // 0x71009a9380 / 0x71009a9280 (slots 21 / 31)
     void m21() override;
     void m31() override;
 
     // the owning screen (passed to sub_7100AA2350 by sub_71009A947C)
     /* 0x130 */ eui::Screen* _130;
-    u8 _138[0x8d8 - 0x138];
+    // the map pane of "N_MapT_00" / "N_MapSR_00" and the 240 "P_Map..." panes (0x71009a89c0 fills them)
+    /* 0x138 */ nn::ui2d::Pane* _138 = nullptr;
+    /* 0x140 */ nn::ui2d::Pane* _140 = nullptr;
+    /* 0x148 */ nn::ui2d::Pane* mMapPanes[0xf0];
+    // the two animators created by m24
+    /* 0x8c8 */ eui::Animator* _8c8 = nullptr;
+    /* 0x8d0 */ eui::Animator* _8d0 = nullptr;
     // the UI subsystem and the map position controller (sub_71009ADEF0)
     /* 0x8d8 */ UiSubsys1* mSubsys = nullptr;
     /* 0x8e0 */ Unk_7102475368* _8e0 = nullptr;
