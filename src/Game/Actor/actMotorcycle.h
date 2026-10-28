@@ -399,6 +399,12 @@ public:
     // 0x710007257c (CSV Motorcycle::x_15): damps the angular velocity of the main body around its x axis
     // (PitchDampingCoefficient).
     void applyPitchDamping();
+    // 0x7100075e4c (CSV Motorcycle::x_30; name is a guess): the posture limit check of the main body;
+    // tilts _e68 back while the up axis is past PostureLimitAngle.
+    void x_30();
+    // 0x710007a520 (placeholder name; declaration only): sets the posture flags of _f88 and starts the
+    // fall-over handling for `rise`.
+    void sub_710007A520(bool rise);
     // 0x710007c4d0 (CSV Motorcycle::x_35): torque that rights the main body when its x axis is tilted
     // 15 - 165 degrees from the world up (name is a guess).
     void x_35();

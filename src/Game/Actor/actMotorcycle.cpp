@@ -1569,6 +1569,35 @@ void Motorcycle::applyPitchDamping() {
     addAngularVelocity(_bb8, damping.x, damping.y, damping.z);
 }
 
+// 0x7100075e4c (CSV Motorcycle::x_30): posture limit. The angle between the body's up axis and the
+// world up is clamped: past PostureLimitAngle the timer _e68 is pulled toward
+// InvalidPostureLimitSec, otherwise it is set to its -256 floor.
+// NON_MATCHING: the original reloads the GParamList object pointer for the second field (ldr [x8]);
+// ours keeps it in a register, one instruction fewer.
+void Motorcycle::x_30() {
+    f32 angle;
+    {
+        const sead::Matrix34f mtx = _bb8->getTransform();
+        sead::Vector3f up;
+        mtx.getBase(up, 1);
+        const f32 dot = up.dot(sead::Vector3f::ey);
+        sead::Vector3f cross;
+        cross.setCross(up, sead::Vector3f::ey);
+        angle = std::atan2(cross.length(), dot) * (180.0f / sead::Mathf::pi());
+    }
+    const auto* param = getParam()->getRes().mGParamList->getMotorcycle();
+    if (angle > param->mPostureLimitAngle.ref()) {
+        if (_e68 <= -200.0f)
+            _e68 = param->mInvalidPostureLimitSec.ref();
+        _e68 -= ksys::VFR::instance()->getDeltaTime() /
+                ksys::VFR::instance()->getRawDeltaFrame();
+        if (_e68 < 0.0f)
+            sub_710007A520(true);
+    } else {
+        _e68 = -256.0f;
+    }
+}
+
 void Motorcycle::applyDragMaybe() {
     sead::Vector3f velocity = _bb8->getLinearVelocity();
     velocity += sead::Vector3f(0.010255f, -0.666032f, 0.09355f);
