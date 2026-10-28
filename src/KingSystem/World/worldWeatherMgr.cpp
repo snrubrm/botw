@@ -442,6 +442,16 @@ KSYS_VISIBILITY_HIDDEN bool sUnk_7102620128;
 // 0x710262012c (placeholder name): when set, new water elements get flag 2.
 KSYS_VISIBILITY_HIDDEN bool sUnk_710262012C;
 
+// 0x71010e8624 / 0x71010e8630 (unnamed in the CSV): accessors returning the addresses of the two
+// debug flags above.
+bool* sub_71010E8624() {
+    return &sUnk_7102620128;
+}
+
+bool* sub_71010E8630() {
+    return &sUnk_710262012C;
+}
+
 ElementWater* ElementWater::create(const ElementWaterCreateArg* arg) {
     auto* holder = ksys::world::Manager::instance()->getChemicalMgrUnchecked()->_ae8;
     if (holder)
