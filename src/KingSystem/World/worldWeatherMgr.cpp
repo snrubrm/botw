@@ -20,8 +20,14 @@
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/RigidBody/Shape/physSphereShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::world {
+
+namespace {
+ksys::util::InitConstants sInitConstants;
+ksys::util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 // NON_MATCHING: the camera origin x component stays in a register instead of spilling to the stack.
 sead::Vector3f sub_71010ED450(f32 distance, f32 angle) {
