@@ -35,6 +35,7 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include "Game/UI/uiManager.h"
 #include "Game/gameSaveSystem.h"
+#include "KingSystem/Quest/qstManager.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/System/PlayReportMgr.h"
 #include "KingSystem/System/PlayerTrackReporter.h"
@@ -5081,6 +5082,25 @@ void Unk_710247faf0::sub_71009D2168() {
     }
     if (mBoxIn->mFrame == f32(mBoxIn->GetFrameSize()))
         mBoxIn->PlayAuto(-1.0f);
+}
+
+// 0x71009d23d4: after the controller reset, plays the "State" animation from its maximum when the selected
+// picture's actor is a known quest camera target that comes before the current entry.
+// NON_MATCHING: the actor-name pointer is spilled before the SaveSystem lookup (ours) instead of staying in x22
+// across it, and the assignment temporary takes the lower stack slot. Semantics and the comparison match.
+void Unk_710247faf0::m8() {
+    _48.sub_71009CC3A0();
+    const s32 index = sub_7100939C78();
+    if (!mState)
+        return;
+    const char* actor_name = &sead::SafeString::cNullChar;
+    sead::SafeString name;
+    ksys::gdt::getFlag_AlbumPictureActorName(&actor_name,
+                                             uking::SaveSystem::instance()->sub_7100915F58(index), false);
+    name = actor_name;
+    if (ksys::qst::Manager::instance()->sub_7100FD7460(name) &&
+        uking::ui::sub_71009D3E40(name) >= index)
+        mState->StopAtMax();
 }
 
 // 0x71009d1d08

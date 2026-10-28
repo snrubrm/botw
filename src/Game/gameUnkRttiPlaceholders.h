@@ -110,6 +110,7 @@ public:
     void m4(sead::Heap* heap) override;
     void m5() override {}
     void m7() override;
+    void m8() override;
     void m14() override;
     // 0x71009d2168: advances the BoxIn / BoxCheck animators from the entry state and the selected picture.
     void sub_71009D2168();
