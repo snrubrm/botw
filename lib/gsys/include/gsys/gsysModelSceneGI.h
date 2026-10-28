@@ -44,6 +44,9 @@ public:
     struct CalcLightPrePassCallbackArg;
     // 0x7100c3370c: synchronizes the two env-object name indices of the component.
     void postRead_() override;
+    // 0x7100c30f2c / 0x7100c310f0: the destructor is not decompiled yet; declaring it keeps the
+    // second base's destructor thunks out of line.
+    ~ModelSceneGI() override;
     // 0x7100c309f0 / 0x7100c32bf8 / 0x7100c33f3c / 0x7100c33f90
     bool isEnvCubeMapEnabled() const;
     bool isLightPrePassEnabled() const;
