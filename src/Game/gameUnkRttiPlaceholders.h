@@ -697,6 +697,8 @@ class Unk_71024993e0 : public Unk_71024993a0 {
     SEAD_RTTI_OVERRIDE(Unk_71024993e0, Unk_71024993a0)
 public:
     ~Unk_71024993e0() override;
+    // 0x7100a580e0: applies the entry's three labels to the text block it owns.
+    void m5() override;
 
     /* 0x28 */ sead::FixedSafeString<32> _28;
     /* 0x60 */ sead::FixedSafeString<32> _60;
@@ -708,6 +710,8 @@ class Unk_7102499a28 : public Unk_71024993a0 {
     SEAD_RTTI_OVERRIDE(Unk_7102499a28, Unk_71024993a0)
 public:
     ~Unk_7102499a28() override;
+    // 0x7100a580bc: applies the entry's label to the text block it owns.
+    void m5() override;
 
     /* 0x28 */ sead::FixedSafeString<32> _28;
 };
@@ -736,6 +740,8 @@ class Unk_7102499b18 : public Unk_7102499ad8 {
     SEAD_RTTI_OVERRIDE(Unk_7102499b18, Unk_7102499ad8)
 public:
     ~Unk_7102499b18() override;
+    // 0x7100a5d820: applies the entry's three labels to the text block it owns.
+    void m5() override;
 
     /* 0x28 */ sead::FixedSafeString<32> _28;
     /* 0x60 */ sead::FixedSafeString<32> _60;
