@@ -136,6 +136,7 @@ target_sources(uking PRIVATE
   gameSceneTaskMgr.h
   gameStageBinder.cpp
   gameStage.cpp
+  gameIndoorStage.cpp
   gameMainFieldDungeonStage.cpp
   gameOpenWorldStage.cpp
   gameOpenWorldStageMessage.h
