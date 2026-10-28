@@ -20,17 +20,23 @@ public:
     // 0x7100897a94 (16 B): stores the instance pointer.
     static void setInstance(SystemStruct1* instance);
 
-    // Constructor zeroes the complete vector; calcController copies all three input components.
+    // Constructor: four direction vectors, two identity matrices and the controller-state tail.
     sead::Vector3f _8;
-
-    u8 _14[0x38 - 0x14];
-    // lane3 s84: copied by DungeonRotateGyro::enter_ (the gyro orientation, presumably).
+    sead::Vector3f _14;
+    sead::Vector3f _20;
+    sead::Vector3f _2c;
     sead::Matrix33f _38;
+    sead::Matrix33f _5c;
+    bool _80;
+    u8 _81[3];
+    s32 _84;
+    f32 _88;
+    f32 _8c;
+    s32 _90;
+    s32 _94;
 
 private:
     static SystemStruct1* sInstance;
-
-    u8 _5c[0x98 - 0x5c];
 };
 KSYS_CHECK_SIZE_NX150(SystemStruct1, 0x98);
 
