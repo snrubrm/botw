@@ -8,6 +8,7 @@ namespace gsys {
 // Constructor 0x7100c79f0c runs the MaskedLight constructor and stores the projection index at +0x2c0.
 // Partial: only the index is modelled.
 class MaskedProjLight : public MaskedLight {
+    SEAD_RTTI_OVERRIDE(MaskedProjLight, MaskedLight)
 public:
     static const agl::env::TypeInfo* sTypeInfo;
 
