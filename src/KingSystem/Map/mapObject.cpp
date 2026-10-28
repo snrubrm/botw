@@ -755,11 +755,10 @@ bool Object::checkRevivalMaybe(bool x) const {
     return x;
 }
 
-// NON_MATCHING: the "UnitConfigName" compare against the file-local "LinkTag" SafeString matches the
-// original byte for byte except that the original's isEqual is fully unrolled over the seven known
-// characters (fixed offsets 0..6); ours keeps the generic 2-byte-step isEqual loop. Everything from
-// the IsLinkTag flag store on (both revival-handle arms and the CopyWaitRevival partner sync) agrees
-// instruction for instruction.
+// NON_MATCHING: the original compares the seven "LinkTag" characters with comparen(..., 7) (now
+// inlined identically). The remaining difference is register colour and scheduling: the original
+// keeps the name in one callee-saved register and reuses its stack slot for the increment flag,
+// ours reloads the name from the slot for each call.
 // 0x7100d4cd60 (an Object member; the CSV owner name is PlacementObj): sets the link-tag flags and
 // the revival flag handle from the "UnitConfigName" mubin string, then syncs the handle with the
 // CopyWaitRevival link partners.
@@ -768,7 +767,7 @@ void Object::initRevivalGameDataFlag(bool a) {
     if (!mMubinIter.tryGetParamStringByKey(&unit_config_name, "UnitConfigName"))
         unit_config_name = "";
 
-    if (sLinkTag == unit_config_name) {
+    if (sLinkTag.comparen(unit_config_name, 7) == 0) {
         mFlags.set(Flag::IsLinkTag);
 
         bool increment = false;
