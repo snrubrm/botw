@@ -12,6 +12,7 @@
 #include <postfx/aglHDRCompose.h>
 
 #include "gsys/gsysModelSceneConfig.h"
+#include "gsys/gsysModelSceneGI.h"
 #include "gsys/gsysModelSceneContext.h"
 
 namespace gsys {
@@ -155,6 +156,40 @@ void ModelScenePfx::calcGPUDrawBackGround() const {
         mBloom->calcGPU();
     if (_8->isFeatureEnabled(ModelSceneConfig::Feature::HDR) && mHDRCompose)
         mHDRCompose->calcGPU();
+}
+
+// NON_MATCHING: same body; the bloom-buffer flag's set/reset is a branch where the original
+// if-converts it to orr/and/csel.
+// 0x7100c35904
+void ModelScenePfx::calc(const ModelSceneGI& gi, f32, bool flag) {
+    if (_8->isFeatureEnabled(ModelSceneConfig::Feature::HDR) && mHDRCompose) {
+        const bool color_correction =
+            mColorCorrection && _8->isFeatureEnabled(ModelSceneConfig::Feature::ColorCorrection) &&
+            mColorCorrection->getEnableMaybe() && mColorCorrection->getFlagsMaybe() != 0;
+        const bool bloom = _8->isFeatureEnabled(ModelSceneConfig::Feature::Bloom) && mBloom &&
+                           mBloom->_7a0 && mBloom->mViewMask != 0 && mBloom->_438 - 1 <= 1 &&
+                           (mFlags & 1) != 0;
+        mHDRCompose->mFlags.changeBit(1, color_correction);
+        mHDRCompose->mFlags.changeBit(0, bloom);
+        if (bloom)
+            mHDRCompose->_1c = mBloom->_438 == 2;
+        mHDRCompose->mFlags.changeBit(2, flag);
+        mHDRCompose->mFlags.resetBit(3);
+        mHDRCompose->calc();
+    }
+
+    if (mGlareFilter) {
+        s32 glare_count = 0;
+        gi.setPointLightGlareFilter(glare_count, mGlareFilter);
+        mGlareFilter->_3f8 = glare_count;
+        mGlareFilter->calc();
+    }
+
+    if (mFlareFilter && _8->isFeatureEnabled(ModelSceneConfig::Feature::FlareFilter))
+        mFlareFilter->calc();
+
+    if (mAutoExposure && _8->isFeatureEnabled(ModelSceneConfig::Feature::AutoExposure))
+        mAutoExposure->calc();
 }
 
 // NON_MATCHING: same size and instruction set; the view-mask `and` has its operands swapped.

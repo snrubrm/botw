@@ -24,6 +24,7 @@ class Node;
 namespace gsys {
 
 class ModelSceneContext;
+class ModelSceneGI;
 
 // Partial: the hostio hook, the post-effect enable tests and the passes that only forward to the
 // post effects are modelled. The rest of the component (D1 0x7100c35518, initialize 0x7100c3565c,
@@ -67,6 +68,8 @@ public:
     void calcGPUDrawBackGround() const;
     // 0x7100c364bc: the per-view background passes of bloom and HDR compose.
     void calcGPUDrawBackGround(ModelSceneContext* context) const;
+    // 0x7100c35904: updates the HDR compose flags and calculates the enabled post effects.
+    void calc(const ModelSceneGI& gi, f32, bool flag);
     // 0x7100c3600c: the bloom pass with the view's depth texture.
     void drawBloom(agl::DrawContext* draw_context, ModelSceneContext* context,
                    const agl::TextureData* texture) const;
