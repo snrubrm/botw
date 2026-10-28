@@ -30,6 +30,7 @@ class Viewport;
 
 namespace agl {
 class DrawContext;
+class RenderBuffer;
 }
 
 namespace xlink2 {
@@ -118,7 +119,9 @@ struct DrawInfoEx : public nn::ui2d::DrawInfo {
     // The screen passes this record to DrawInfoEx and pane drawing; the
     // original copies all five pointers when changing the scissor viewport.
     struct RenderBufferInfo {
-        const sead::FrameBuffer* mFrameBuffer;
+        // The screen manager passes its own agl::RenderBuffer (the doDraw_ overrides read the
+        // render target out of it).
+        const agl::RenderBuffer* mFrameBuffer;
         const sead::GraphicsContext* mGraphicsContext;
         const sead::Viewport* mViewport;
         const sead::Viewport* mScissor;

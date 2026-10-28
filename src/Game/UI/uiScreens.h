@@ -38,7 +38,9 @@
 #include "Game/UI/uiUnkTiny.h"
 #include "Game/UI/uiNormalMap.h"
 #include <common/aglRenderBuffer.h>
+#include <common/aglRenderTarget.h>
 #include <common/aglTextureData.h>
+#include <common/aglTextureSampler.h>
 #include <xlink2/xlink2HandleSLink.h>
 #include <driver/aglNVNsampler.h>
 #include <driver/aglNVNtexture.h>
@@ -2892,6 +2894,19 @@ KSYS_VISIBILITY_HIDDEN extern Unk_71025df330 sUnk_71025df330;
 // 0x71025df240: the state ScreenAppMap::sub_71009EACC0 changes to (bss, defined by the map TU's initializer)
 extern const ksys::StateBase sUnk_71025df240;
 
+// 0x710260b150: the map footprint pass (the object at Graphics::init's vtable 0x71024f4cc0, declared there
+// as Unk_71024f4cc0), reached through this GOT pointer. The footprint bookkeeping fields the map widget
+// writes are modelled here; the pass itself is owned by the graphics TU.
+struct Unk_710260b150 {
+    // 0x7100f379b8: renders the map footprint pass into `context` (not decompiled)
+    void sub_7100F379B8(agl::DrawContext* context);
+
+    u8 _0[0x19c];
+    /* 0x19c */ u32 _19c;
+    /* 0x1a0 */ s32 _1a0;
+};
+extern Unk_710260b150* sUnk_710260b150;
+
 // 0x71009f0ce4 (placeholder name; declared only): the AppMap message label for `mode` from the map mode
 // table (mode -1 gives the empty string).
 sead::FixedSafeString<256> sub_71009F0CE4(s32 mode);
@@ -2946,6 +2961,9 @@ public:
     // 0x71009f1ca4 (placeholder name): plays the animator at 0x3638 and shows the time in `layout`
     void sub_71009F1CA4(eui::LayoutEx* layout);
     void doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) override;
+    // 0x71009ef1ac (CSV: m33): draws the map into the "VisitMarkPane_NX64" texture and binds it to the
+    // screen's map picture material
+    void doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) override;
     // 0x71009f05c0 (placeholder name): positions the map pane (_3c30) at the map view position plus the view
     // offsets, scaled by the map scale
     void sub_71009F05C0();
@@ -3113,16 +3131,17 @@ public:
     /* 0x3740 */ nn::ui2d::Pane* _3740 = nullptr;
     /* 0x3748 */ eui::LayoutEx* _3748 = nullptr;
     /* 0x3750 */ nn::ui2d::Pane* _3750 = nullptr;
-    u8 _3758[0x3778 - 0x3758];
+    // The dynamic "VisitMarkPane_NX64" texture that doDraw_ allocates and fills (m33).
+    /* 0x3758 */ agl::TextureData* _3758 = nullptr;
+    /* 0x3760 */ nn::ui2d::ExternalTextureInfo _3760;
+    // The offscreen buffer doDraw_ fills; its first colour target is _37e0.
     /* 0x3778 */ agl::RenderBuffer _3778;
-    u8 _3778pad[0x37e0 - 0x3778 - sizeof(agl::RenderBuffer)];
-    /* 0x37e0 */ agl::TextureData _37e0;
-    u8 _37e0pad[0x3958 - 0x37e0 - sizeof(agl::TextureData)];
+    /* 0x37e0 */ agl::RenderTargetColor _37e0;
     /* 0x3958 */ eui::PictureEx* _3958 = nullptr;
-    /* 0x3960 */ agl::driver::NVNsampler_ _3960;
-    u8 _3960pad[0x39c8 - 0x3960 - sizeof(agl::driver::NVNsampler_)];
-    /* 0x39c8 */ agl::driver::NVNtexture_ _39c8;
-    u8 _39c8pad[0x3ad0 - 0x39c8 - sizeof(agl::driver::NVNtexture_)];
+    // Sampler bound to _3758 while doDraw_ fills the texture; its embedded texture data at +0x10
+    // supplies the material's texture info.
+    /* 0x3960 */ agl::TextureSampler _3960;
+    u8 _3960pad[0x3ad0 - 0x3960 - sizeof(agl::TextureSampler)];
     // Frames since the hero path became active; the pause-menu message-tips screen opens at the limit.
     /* 0x3ad0 */ u8 _3ad0;
     /* 0x3ad1 */ u8 _3ad1;

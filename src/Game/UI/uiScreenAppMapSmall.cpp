@@ -21,6 +21,8 @@
 #include "Game/UI/uiUnkSingletons.h"
 #include "Game/UI/euiAnimator.h"
 #include "Game/UI/euiScreenSoundLinkUser.h"
+#include <utility/aglDynamicTextureAllocator.h>
+#include <utility/aglPrimitiveTexture.h>
 #include <layer/aglLayer.h>
 #include <layer/aglRenderer.h>
 #include <nn/font/font_Util.h>
@@ -34,6 +36,7 @@
 #include "KingSystem/XLink/xlinkManager.h"
 
 namespace uking::ui {
+
 
 // 0x71025def40: the "T_Name_00" widget name used for the map marker's name message.
 KSYS_VISIBILITY_HIDDEN sead::FixedSafeString<64> sUnk_71025def40("T_Name_00");
@@ -195,6 +198,44 @@ bool ScreenAppMapDungeon::sub_71009E0DF8() const {
     return true;
 }
 
+
+// 0x71009ef1ac (CSV: m33): draws the map into a dynamic "VisitMarkPane_NX64" texture each frame and
+// binds that texture to the map picture's material.
+// NON_MATCHING: same instruction set and size; only the store order of the setPhysicalArea /
+// setVirtualSize inlining (one store position) and the context / colour temporary loads around the
+// Viewport construction differ (scheduling).
+void ScreenAppMap::doDraw_(const eui::DrawInfoEx::RenderBufferInfo* info) {
+    _3778.setRenderTargetColor(&_37e0, 0);
+    info->mDrawContext->invalidateShaderMode();
+    auto* allocator = agl::utl::DynamicTextureAllocator::instance();
+    _3758 = allocator->alloc(info->mDrawContext, "VisitMarkPane_NX64",
+                              agl::TextureFormat::cTextureFormat_R8_uNorm, 2400, 1140, 1, nullptr,
+                              agl::utl::DynamicTextureAllocator::AllocateType(0), true, false);
+    _37e0.applyTextureData(*_3758, _37e0.getMipLevel(), _37e0.getLayer());
+    _3778.setVirtualSize(sead::Vector2f(2400.0f, 1140.0f));
+    _3778.setPhysicalArea(0.0f, 0.0f, 2400.0f, 1140.0f);
+    _3778.bind(info->mDrawContext);
+    sead::Viewport viewport(_3778);
+    _3778.fastClear(info->mDrawContext, 0, 1, sead::Color4f(0.0f, 0.0f, 0.0f, 0.0f), 0.0f, 0,
+                      viewport, true);
+    _3758->setCompSel(agl::TextureCompSel::cTextureCompSel_One,
+                      agl::TextureCompSel::cTextureCompSel_One,
+                      agl::TextureCompSel::cTextureCompSel_One,
+                      agl::TextureCompSel::cTextureCompSel_Red);
+    if (sUnk_710260b150 && _3610->_b4ac == 3)
+        sUnk_710260b150->sub_7100F379B8(info->mDrawContext);
+    _3960.applyTextureData(*_3758);
+    info->mFrameBuffer->getRenderTargetColor(0)->invalidateGPUCache(info->mDrawContext);
+    eui::SetupTextureInfoByAglTextureData(&_3760, _3960.getTextureData(), nullptr);
+    _3958->GetMaterial(0)->GetTexMapArray()[0].ReplaceTextureInfo(&_3760);
+    Screen::doDraw_(info);
+    info->mFrameBuffer->bind(info->mDrawContext);
+    info->mViewport->apply(info->mDrawContext, *info->mFrameBuffer);
+    info->mGraphicsContext->apply(info->mDrawContext);
+    allocator->free(_3758);
+    _3960.applyTextureData(
+        agl::utl::PrimitiveTexture::instance()->getBlack2DSampler()->getTextureData());
+}
 
 // 0x71009ef488
 // NON_MATCHING: position load and negation order.

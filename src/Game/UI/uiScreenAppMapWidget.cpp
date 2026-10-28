@@ -23,16 +23,11 @@ inline void ScreenAppMapWidget::refreshHomePage() {
     }
 }
 
-// 0x710260b150: the save tracker's progress object (block count at +0x19c, block total at +0x1a0)
-struct Unk_710260b150 {
-    u8 _0[0x19c];
-    /* 0x19c */ u32 _19c;
-    /* 0x1a0 */ s32 _1a0;
-};
-KSYS_VISIBILITY_HIDDEN Unk_710260b150* sUnk_710260b150;
+// 0x710260b150: the map footprint pass (see uiScreens.h); the tracker block count / total are at 0x19c / 0x1a0
+Unk_710260b150* sUnk_710260b150;
 
 // 0x71009af058
-// NON_MATCHING: the original loads the tracker global through its GOT entry (one extra indirection)
+// NON_MATCHING: the only difference is the operand order of the commutative count + pending add.
 void ScreenAppMapWidget::sub_71009AF058(s8 count) {
     if (count <= 0)
         return;
