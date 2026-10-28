@@ -179,6 +179,9 @@ public:
     ksys::act::Actor* getRegisteringHorseActor() const;
     // 0x7100e88edc (CSV name): whether one of the ten Horse_UsedAmiiboUidHash entries is `uid_hash`.
     bool isAmiiboUsed(const sead::SafeString& uid_hash);
+    // 0x7100e89040 (CSV name): whether `name` matches none of the five Horse_AmiiboUidHash entries nor the hash of
+    // an awake horse linked in _e0.
+    bool isUnregisteredHorseAmiibo(const sead::SafeString& name);
     // 0x7100e84984 (CSV name; static): copies the Horse_Pos game data flag to Horse_Pos_For_Map.
     static void setHorsePosForMap();
     // 0x7100e824a0 (CSV name): sets flag _0 to `on`, initialises the game data handles (initHorseGameDataIters,

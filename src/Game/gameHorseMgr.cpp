@@ -26,6 +26,27 @@ HorseMgr::HorseMgr() : _e0(), mReinitSlot(this, &HorseMgr::onGameDataReinit) {
 
 SEAD_SINGLETON_DISPOSER_IMPL(HorseMgr)
 
+// 0x7100e89040: whether no owned horse or registered amiibo hash matches `name`.
+bool HorseMgr::isUnregisteredHorseAmiibo(const sead::SafeString& name) {
+    if (name.isEmpty())
+        return false;
+    for (s32 i = 0; i < 5; ++i) {
+        const char* hash = nullptr;
+        if (ksys::gdt::Manager::instance()->getParam().get().getStr64(&hash, "Horse_AmiiboUidHash", i)) {
+            if (name == hash)
+                return false;
+        }
+    }
+    for (auto& link : _e0) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&link, &accessor)) {
+            if (act::sub_7100E6EDFC(accessor) == name && !accessor.isStateSleep())
+                return false;
+        }
+    }
+    return true;
+}
+
 // NON_MATCHING: The compiler tail-calls hasProcById rather than normalizing its bool result.
 void HorseMgr::setHorsePosForMap() {
     sead::Vector3f pos;
