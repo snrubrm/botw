@@ -200,6 +200,143 @@ static bool isValid(const HorseMgr::HorseData& data) {
            data.familiarity >= 0.0f && (data.collarType | data.footType) >= 0;
 }
 
+// 0x7100e84f0c: the post-registration step sub_7100E84A04 runs on the new horse: copies the live horse's
+// mane name, familiarity and collar / foot type into record _d4 and writes the record back, then links it as
+// the owned horse, writes Horse_ActiveIndex and creates its reins / saddle actors.
+// NON_MATCHING: both isFlagOn tests order the `and` operands flags-first (commutative; see isFlagOn).
+void HorseMgr::sub_7100E84F0C(ksys::act::Actor* actor) {
+    if (!actor) {
+        sub_7100E857CC(_d4, true, false, -1);
+    } else {
+        HorseData data;
+        if (sub_7100E854EC(&data, _d4) && isValid(data)) {
+            auto* horse = static_cast<act::HorseBase*>(actor);
+            const sead::SafeString* mane_name;
+            {
+                auto lock = sead::makeScopedLock(horse->_890);
+                mane_name = &horse->_8d0._40;
+            }
+            data.maneName = mane_name->cstr();
+            data.familiarity = horse->sub_7100E6AD4C();
+            data.collarType = horse->_b78;
+            data.footType = horse->_b7c;
+            sub_7100E8533C(&data, _d4);
+
+            if (isFlagOn(Flag::_1)) {
+                actor->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+            } else {
+                ksys::act::BaseProc* proc = mOwnedHorse.getProc(nullptr, nullptr);
+                if (sead::IsDerivedFrom<act::HorseBase>(proc))
+                    proc->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+                mOwnedHorse.acquire(actor, false);
+
+                {
+                    const sead::SafeString name(data.actorName);
+                    if (ksys::map::PlacementMgr::instance() &&
+                        ksys::map::PlacementMgr::instance()->mPlacementActors) {
+                        const f32 distance = ksys::map::getActorTraverseDist(name, 1.0f);
+                        _d8 = distance * distance;
+                    }
+                }
+
+                _d0 = _d4;
+                if (isFlagOn(Flag::_0))
+                    ksys::gdt::Manager::instance()->setS32(_d4, _1a0);
+
+                horse->sub_7100E6E518(data.reinsName, _c8);
+                horse->sub_7100E6E7DC(data.saddleName, _c8);
+            }
+        }
+    }
+    setFlagOff(Flag::_1);
+}
+
+// 0x7100e83cd4: polls the two creation handles: _80 (the selected horse, record _d0) and _90 (the
+// last-ridden horse, record 5). A ready actor that is not a horse is deleted; otherwise it is linked and
+// its record is applied. True while one of the handles is not ready yet.
+// NON_MATCHING: same instructions and block count; the isValid chain's last compare branches to the valid
+// body, so the invalid-record block is laid out inline and the body out of line (target: the reverse).
+bool HorseMgr::isGenerating() {
+    if (_80.isAllocatedOrFailed() && !_80.hasProcCreationFailed()) {
+        if (!_80.isProcReady())
+            return true;
+
+        HorseData data;
+        if (x_8(&data, _d0) && isValid(data)) {
+            auto* proc = _80.releaseAndWakeProc();
+            if (!sead::IsDerivedFrom<act::HorseBase>(proc)) {
+                auto lock = sead::makeScopedLock(_230);
+                _d0 = -1;
+                proc->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+            } else {
+                auto* horse = static_cast<act::HorseBase*>(proc);
+                mOwnedHorse.acquire(horse, false);
+                sub_7100E842F8(horse, horse->getHorseOptionsMaybe(), &data, true);
+
+                bool is_ride = false;
+                bool last_ridden = false;
+                ksys::gdt::Manager::instance()->getParam().get().getBool(&is_ride, "Horse_IsRide");
+                ksys::gdt::Manager::instance()->getBool(_1a8, &last_ridden);
+                if (!is_ride || !last_ridden)
+                    horse->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+
+                {
+                    const sead::SafeString name(data.actorName);
+                    if (ksys::map::PlacementMgr::instance() &&
+                        ksys::map::PlacementMgr::instance()->mPlacementActors) {
+                        const f32 distance = ksys::map::getActorTraverseDist(name, 1.0f);
+                        _d8 = distance * distance;
+                    }
+                }
+
+                if (last_ridden)
+                    _30.acquire(horse, false);
+            }
+        } else {
+            auto lock = sead::makeScopedLock(_230);
+            _d0 = -1;
+            _80.deleteProc();
+        }
+    }
+
+    if (_90.isAllocatedOrFailed() && !_90.hasProcCreationFailed()) {
+        if (!_90.isProcReady())
+            return true;
+
+        HorseData data;
+        if (x_8(&data, 5) && data.actorName[0] != sead::SafeString::cNullChar) {
+            auto* proc = _90.releaseAndWakeProc();
+            if (!sead::IsDerivedFrom<ksys::act::Actor>(proc)) {
+                proc->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+                return false;
+            }
+            auto* actor = static_cast<ksys::act::Actor*>(proc);
+
+            _30.acquire(actor, false);
+            auto* horse = sead::DynamicCast<act::HorseBase>(actor);
+            sub_7100E842F8(horse, actor->getHorseOptionsMaybe(), &data, false);
+
+            bool is_ride = false;
+            ksys::gdt::Manager::instance()->getParam().get().getBool(&is_ride, "Horse_IsRide");
+            if (!is_ride)
+                actor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+
+            {
+                const sead::SafeString name(data.actorName);
+                if (ksys::map::PlacementMgr::instance() &&
+                    ksys::map::PlacementMgr::instance()->mPlacementActors) {
+                    const f32 distance = ksys::map::getActorTraverseDist(name, 1.0f);
+                    _dc = distance * distance;
+                }
+            }
+        } else {
+            _90.deleteProc();
+        }
+    }
+
+    return false;
+}
+
 // 0x7100e83a08 (CSV x_8): the Horse_* flags of horse `index` through the regular getters.
 // NON_MATCHING: register allocation (this / result registers swapped) and the placement of the first `and`.
 bool HorseMgr::x_8(HorseData* data, s32 index) {

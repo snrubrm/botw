@@ -33,6 +33,7 @@ namespace uking {
 
 namespace act {
 class HorseBase;
+class Rideable;
 // 0x7100e6eaac (declaration only; CreateObjectsOfOwnedHorse::calc_): a check of the horse actor.
 bool sub_7100E6EAAC(const ksys::act::ActorLinkConstDataAccess& accessor);
 }  // namespace act
@@ -255,6 +256,11 @@ public:
     // 0x7100e85cac (declaration only; NPCDeliverHorse::oneShot_): creates horse `index` at `pos` (1152 B).
     void sub_7100E85CAC(sead::Heap* heap, s32 index, const sead::Vector3f& pos, ksys::act::Actor* actor,
                         bool flag);
+    // 0x7100e83cd4: whether a horse creation request the manager started is still in progress (see the .cpp).
+    bool isGenerating();
+    // 0x7100e842f8 (declaration only; 868 B): applies a horse record to the horse being created and writes
+    // the record back.
+    void sub_7100E842F8(act::HorseBase* horse, act::Rideable* options, HorseData* data, bool owned);
 
     /* 0x20 */ ksys::act::BaseProcLink mOwnedHorse;
     /* 0x30 */ ksys::act::BaseProcLink _30;  // the horse being registered / received (NPCRegisterHorse)
@@ -268,7 +274,7 @@ public:
     /* 0x90 */ ksys::act::BaseProcHandle _90;
     /* 0xa0 */ ksys::act::BaseProcLink _a0;
     /* 0xb0 */ ksys::MesTransceiverId _b0;  // NPCHorseResurrect::oneShot_ messages the horse manager's receiver
-    u8 _c8[0xd0 - 0xc8] = {};
+    /* 0x0c8 */ sead::Heap* _c8 = nullptr;  // the heap the owned horse's reins / saddle actors are created on
     /* 0x0d0 */ s32 _d0 = -1;  // the selected horse (-1: none)
     /* 0x0d4 */ s32 _d4 = -1;
     /* 0x0d8 */ f32 _d8 = 40000.0f;
