@@ -279,6 +279,12 @@ void ModelSceneGI::free(MaskedSpotLightRig* rig, Model* model, int index) {
         mMaskedSpotLightResMgr->free(rig, model, index);
 }
 
+// 0x7100c3370c
+void ModelSceneGI::postRead_() {
+    mEnvObjectIndex0.syncNameToIndex();
+    mEnvObjectIndex1.syncNameToIndex();
+}
+
 // 0x7100c35248 / 0x7100c352d8 / 0x7100c35368
 template <typename T>
 LightResMgr<T>::~LightResMgr() {

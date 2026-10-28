@@ -2,9 +2,11 @@
 
 #include <basis/seadTypes.h>
 #include <container/seadBuffer.h>
+#include <environment/aglEnvObj.h>
 #include <math/seadVector.h>
 #include <thread/seadAtomic.h>
 #include <utility/aglAtomicPtrArray.h>
+#include <utility/aglParameterIO.h>
 #include <lighting/aglSSSSS.h>
 #include "gsys/gsysLightResMgr.h"
 #include "gsys/gsysModelCubeMapDrawer.h"
@@ -36,10 +38,12 @@ class SpotLightRig;
 // The GI component of a ModelScene (ModelScene +0x3a90). Partial: only the feature
 // flags read by the is*Enabled getters are modelled, as pointers to the component's
 // unmodelled sub-objects.
-class ModelSceneGI : public ModelSceneComponent {
+class ModelSceneGI : public ModelSceneComponent, public agl::utl::IParameterIO {
 public:
     // The argument of the light pre-pass calc delegate; the type itself is not modelled.
     struct CalcLightPrePassCallbackArg;
+    // 0x7100c3370c: synchronizes the two env-object name indices of the component.
+    void postRead_() override;
     // 0x7100c309f0 / 0x7100c32bf8 / 0x7100c33f3c / 0x7100c33f90
     bool isEnvCubeMapEnabled() const;
     bool isLightPrePassEnabled() const;
@@ -95,7 +99,6 @@ public:
     void attachHostIO(sead::hostio::Node* node) override {}
 
 private:
-    u8 _250[0x420 - 0x250];
     /// 0x7100c348dc reads the ready pointer at +0xec0 and 0x7100c348c8 returns +0x458.
     ModelCubeMapDrawer* mEnvCubeMap;  // 420
     /// 0x7100c33f3c (planar reflection).
@@ -119,7 +122,11 @@ private:
     LightResMgr<PointLightRig>* mPointLightResMgr;  // 478
     LightResMgr<SpotLightRig>* mSpotLightResMgr;    // 480
     LightResMgr<MaskedSpotLightRig>* mMaskedSpotLightResMgr;  // 488
-    u8 _490[0x660 - 0x490];
+    u8 _490[0x520 - 0x490];
+    /// The env-object name indices synchronized by postRead_ (both 0x80-byte EnvObj::Index).
+    agl::env::EnvObj::Index mEnvObjectIndex0;  // 520
+    agl::env::EnvObj::Index mEnvObjectIndex1;  // 5a0
+    u8 _620[0x660 - 0x620];
     /// 0x7100c324e8: the light map objects registered for the next calcWorld.
     agl::utl::AtomicPtrArray<agl::lght::LocalLightMapObj> mObjects;  // 660
     /// 0x7100c3250c: the objects of the current frame, drawn by drawLightMap.
