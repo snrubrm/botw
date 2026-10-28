@@ -33,6 +33,9 @@ public:
     const char* getNullStr(HashUnused* u);
     // 0x7100d29da0: clears the pointer at +0x28.
     void sub_7100D29DA0();
+    // 0x7100d29bd4 (placeholder name; declared only): resets the debug object at +0x288. Called from
+    // the stage unload (ksys::prepareStageUnload__).
+    void sub_7100D29BD4();
     bool hasFlag(Flag flag) const { return mFlags.isOn(flag); }
 
     void* _28;

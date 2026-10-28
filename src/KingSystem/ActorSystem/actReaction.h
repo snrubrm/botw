@@ -200,6 +200,9 @@ class Reaction {
 public:
     // 0x7100ec0d1c (placeholder name; CSV nullsub_4046): empty in this build.
     void initBeforeStageGenB();
+    // 0x7100ec0d20 (placeholder name; declared only): deletes the reaction actors and their proc
+    // handles and clears the queued state. Called from the stage unload (ksys::prepareStageUnload__).
+    void sub_7100EC0D20();
     // 0x7100ec07b4 (declared only): requests the reaction actors; `creator` creates them on `create_heap`.
     void initBeforeStageGen(sead::Heap* heap, sead::Heap* debug_heap, ActorCreator* creator,
                             void* param);
@@ -390,7 +393,7 @@ public:
     Actor* _28;
     Actor* _30;
     Actor* _38;
-    u8 _40[8];
+    Actor* _40;
     /* 0x48 */ Actor* _48 = nullptr;
     // The five reaction actors, in creation order (initBeforeStageGen requests them by name).
     /* 0x50 */ BaseProcHandle mReactionFieldHandle;

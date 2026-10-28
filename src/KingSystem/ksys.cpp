@@ -31,6 +31,8 @@
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Physics/System/physSystem.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
+#include "KingSystem/Resource/resResourceMgrTask.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/Utils/HeapUtil.h"
 #include "KingSystem/ActorSystem/LOD/actLODMgr.h"
@@ -355,6 +357,30 @@ void initBeforeStageGenB() {
     }
     sub_7100E9CF78(true);
     sInitBeforeStageGenDone = true;
+}
+
+// 0x7100f3dea0: the subsystem teardown half of the stage unload. Every subsystem that exists is
+// reset and released; the UI manager's stage-unload hook runs in the caller (prepareStageUnload).
+void prepareStageUnload__() {
+    if (Graphics::instance())
+        Graphics::instance()->sub_7100F2DDA0();
+    if (act::Reaction::instance())
+        act::Reaction::instance()->sub_7100EC0D20();
+    if (xlink::Manager::instance())
+        xlink::Manager::instance()->sub_71012404CC();
+    if (SystemTimers::instance()) {
+        SystemTimers::instance()->prepareStageUnload();
+        SystemTimers::deleteInstance();
+    }
+    if (phys::System::instance()) {
+        res::ResourceMgrTask::instance()->pauseThreads();
+        phys::System::instance()->x_0();
+        res::ResourceMgrTask::instance()->resumeThreads();
+    }
+    if (phys::HavokAI::instance())
+        phys::HavokAI::instance()->sendStepMessageToNavMeshSysThread(1.0f / 30.0f);
+    if (act::ActorDebug::instance())
+        act::ActorDebug::instance()->sub_7100D29BD4();
 }
 
 }  // namespace ksys

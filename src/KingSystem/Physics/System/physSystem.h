@@ -84,6 +84,9 @@ public:
     void setPauseState(bool paused);
     // 0x7101214aac: ContactMgr::initContactPointPool(heap, indoor stage flag at +0x268).
     void initBeforeStageGen(sead::Heap* heap);
+    // 0x7101214b14 (placeholder name; declared only): clears the contacts and the collision
+    // collectors. Called from the stage unload (ksys::prepareStageUnload__).
+    void x_0();
     // 0x71012157b4 (CSV PhysicsMemSys::__auto0; declaration only; placeholder name): called by the placement managers
     // after they asked their worker thread to quit.
     void sub_71012157B4(sead::Thread* thread, bool a);

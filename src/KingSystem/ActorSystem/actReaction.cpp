@@ -77,6 +77,69 @@ Reaction::~Reaction() {
 void sub_7101284954(Unk_7101286868* receiver, ::DamageReactionRequest* request);
 SEAD_SINGLETON_DISPOSER_IMPL(Reaction)
 
+// 0x7100ec0d20 (placeholder name): deletes the five reaction actors with their not-ready proc
+// handles, then frees the contact point managers, the item list and the two receivers. Called from
+// the stage unload.
+void Reaction::sub_7100EC0D20() {
+    _b0 = false;
+
+    if (!mReactionFieldHandle.isProcReady())
+        mReactionFieldHandle.deleteProc();
+    if (_28) {
+        _28->deleteAndEmit(0);
+        _28 = nullptr;
+    }
+
+    if (!mReactionHitHandle.isProcReady())
+        mReactionHitHandle.deleteProc();
+    if (_30) {
+        _30->deleteAndEmit(0);
+        _30 = nullptr;
+    }
+
+    if (!mChemicalHandle.isProcReady())
+        mChemicalHandle.deleteProc();
+    if (_38) {
+        _38->deleteAndEmit(0);
+        _38 = nullptr;
+    }
+
+    if (!mLocatorEffectHandle.isProcReady())
+        mLocatorEffectHandle.deleteProc();
+    if (_40) {
+        _40->deleteAndEmit(0);
+        _40 = nullptr;
+    }
+
+    if (!mPlayerFootStepHandle.isProcReady())
+        mPlayerFootStepHandle.deleteProc();
+    if (_48) {
+        _48->deleteAndEmit(0);
+        _48 = nullptr;
+    }
+
+    if (_c0) {
+        phys::LayerContactPointInfo::free(_c0);
+        _c0 = nullptr;
+    }
+    if (_c8) {
+        phys::LayerContactPointInfo::free(_c8);
+        _c8 = nullptr;
+    }
+    if (_d0) {
+        sub_7100F70A20(_d0);
+        _d0 = nullptr;
+    }
+    if (_a0) {
+        delete _a0;
+        _a0 = nullptr;
+    }
+    if (_a8) {
+        delete _a8;
+        _a8 = nullptr;
+    }
+}
+
 xlink::XLink* Unk_7100ebf9e4::getXLink() const {
     if (mActor)
         return mActor->getXLink();

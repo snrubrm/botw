@@ -29,6 +29,9 @@ class Manager {
 public:
     // 0x710123eb04 (placeholder name; CSV XLink::initBeforeStageGenB).
     void initBeforeStageGenB();
+    // 0x71012404cc (placeholder name; declared only): resets the faders and the queued XLinks.
+    // Called from the stage unload (ksys::prepareStageUnload__).
+    void sub_71012404CC();
     // Native 90B81C selects values 1, 2 or 3; 90BD3C restores 0. Semantic names are unknown.
     // The by-value spill/reload in 12408F8 identifies the same enum-wrapper ABI as XLink::MaskBit.
     SEAD_ENUM(PauseState, _0, _1, _2, _3)
