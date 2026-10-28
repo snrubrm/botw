@@ -231,6 +231,9 @@ public:
     // getWeatherMgr() / getShootingStarMgr() have.
     WeatherMgr* getWeatherMgrUnchecked() const { return static_cast<WeatherMgr*>(mMgrs.unsafeAt(3)); }
     TempMgr* getTempMgr() const { return static_cast<TempMgr*>(mMgrs[4]); }
+    // Inline-only in the original; name is a guess. Evidence: WeatherMgr::x_7 (0x71010ec850) reads
+    // mMgrs[4] (+0x5c8 -> +0x20) without the bounds check after a checked getTempMgr() call.
+    TempMgr* getTempMgrUnchecked() const { return static_cast<TempMgr*>(mMgrs.unsafeAt(4)); }
     WindMgr* getWindMgr() const { return static_cast<WindMgr*>(mMgrs[5]); }
     EnvMgr* getEnvMgr() const { return static_cast<EnvMgr*>(mMgrs[6]); }
     // Inline-only in the original; name is a guess. Evidence: GerudoQueenBattle::sub_71003F4648 reads `mMgrs[6]`

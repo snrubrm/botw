@@ -1,6 +1,12 @@
 #include "KingSystem/Effect/eftEffectUnkHelpers.h"
+#include "KingSystem/Utils/InitTimeInfo.h"
 
 namespace ksys::eft {
+
+namespace {
+ksys::util::InitConstants sInitConstants;
+ksys::util::InitTimeInfo sInitTimeInfo;
+}  // namespace
 
 u32 Unk_71025125c8::getVertexCountMaybe() const {
     return _10;

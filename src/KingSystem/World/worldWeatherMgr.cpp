@@ -234,7 +234,8 @@ bool WeatherMgr::x_8() const {
 bool WeatherMgr::x_7() {
     auto* wm = Manager::instance();
     const f32 temp = wm->getTempMgr()->calcTemperature();
-    return temp <= -2.0f || wm->getTempMgr()->_60 <= -2.0f;
+    const f32 temp2 = wm->getTempMgrUnchecked()->_60;
+    return temp <= -2.0f | temp2 <= -2.0f;
 }
 
 void WeatherMgr::setWeatherEffect(int effect) {
