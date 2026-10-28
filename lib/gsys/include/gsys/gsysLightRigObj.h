@@ -16,6 +16,7 @@ namespace gsys {
 // MaskedSpotLight).
 template <typename T>
 class LightRigObj : public T, public IModelRigObj {
+    SEAD_RTTI_OVERRIDE(LightRigObj, agl::env::EnvObj)
 public:
     template <typename U>
     friend class LightResMgr;
