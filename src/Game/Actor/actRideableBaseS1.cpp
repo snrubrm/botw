@@ -136,6 +136,80 @@ bool RideableBase::S1::sub_7100E76B40(const Unk68* entry, f32 value, f32 rate, f
     return true;
 }
 
+// 0x7100e76260: requests AS `name` with the slot / bank pair. When the list already shows `name` (or the
+// pair is the current one) it only restarts the animation; otherwise the request is queued and, for
+// slot 0, the bank's saved name is updated.
+void RideableBase::S1::sub_7100E76260(const sead::SafeString& name, int slot, int slot2, int bank,
+                                     int bank2) {
+    const sead::SafeString& shown = _0->x_1(u32(slot2), u32(bank2));
+    if (shown.isEmpty() || (slot == slot2 && bank == bank2)) {
+        sub_7100E76774(name, slot, bank);
+        return;
+    }
+    _0->sub_710115B140(name, slot, slot2, bank, bank2);
+    if (slot != 0 || slot2 != 0)
+        return;
+    if (!(_52 & 0x40))
+        return;
+    if (!(_52 & 0x80)) {
+        const sead::SafeString& current = _0->x_1(1, u32(bank));
+        if (!current.isEmpty() && current != mSavedNames[bank])
+            return;
+    }
+    _0->sub_710115B140(name, 1, 1, bank, bank2);
+    _0->sub_710115C1D0(1, 0, bank, bank);
+    mSavedNames[bank] = name;
+}
+
+// 0x7100e76774: starts AS `name` and, for slot 0, keeps the bank's saved name in sync: the saved name is
+// updated when the bank's current AS name still matches it (or is empty).
+void RideableBase::S1::sub_7100E76774(const sead::SafeString& name, int slot, int bank) {
+    _0->startAnimationMaybe(-1.0f, -1.0f, name, slot, bank, true);
+    if (slot != 0 || !(_52 & 0x40))
+        return;
+    if (!(_52 & 0x80)) {
+        const sead::SafeString& current = _0->x_1(1, u32(bank));
+        if (!current.isEmpty() && current != mSavedNames[bank])
+            return;
+    }
+    _0->startAnimationMaybe(-1.0f, -1.0f, name, 1, bank, true);
+    _0->sub_710115C1D0(1, 0, bank, bank);
+    mSavedNames[bank] = name;
+}
+
+// NON_MATCHING: the final `if (a2) set; else clear` pair is if-converted to tst/csel; the original
+// keeps the branch. Two complementary `if`s reproduce it (borderline, not applied).
+// 0x7100e76e74: requests the AS state `name`. "Wait" resets the current request (unless bit 10 of _52 is
+// set); "Courbette" is rejected below gear 3. A name with at least the current priority replaces the
+// request name and priority; `a2` sets or clears bit 9 of _52. Always accepted otherwise.
+bool RideableBase::S1::sub_7100E76E74(const sead::SafeString& name, bool a2) {
+    const bool is_courbette = name == sUnk_7102603180;
+    if (name == sUnk_7102603110) {
+        if (!(_52 & 0x400)) {
+            _52 = (_52 & ~0x610) | 0x10;
+            if (!_40.isEmpty()) {
+                _40 = sead::SafeString::cEmptyString;
+                _51 = 0;
+            }
+        }
+        return true;
+    }
+    if (is_courbette && _9 < 3)
+        return false;
+    const s8 priority = sub_7100E7712C(name);
+    if (priority >= _51) {
+        _40 = name;
+        _51 = priority;
+        if (is_courbette)
+            _2f = _9;
+    }
+    if (a2)
+        _52 |= 0x200;
+    else
+        _52 &= ~0x200;
+    return true;
+}
+
 // NON_MATCHING: bank-count checks are reordered and SafeString assignment is devirtualized.
 // 0x7100e74604 (in actRideable.cpp): the AS name of one animal move.
 void formatAnimalMoveString(sead::BufferedSafeString* out, int move_type, u32 gear);

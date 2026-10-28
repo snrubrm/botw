@@ -191,16 +191,23 @@ public:
 
         void sub_7100E74890(bool a1, bool a2, f32 a3, f32 a4);
 
-        // 0x7100e76260: plays AS `name` (slot / bank arguments; placeholder signature).
-        void sub_7100E76260(const sead::SafeString& name, int a2, int slot, int a4, int bank);
+        // 0x7100e76260: requests AS `name` with the slot / bank pair, keeping the bank's saved name in
+        // sync; the pair (slot2, bank2) is the AS the list currently shows.
+        void sub_7100E76260(const sead::SafeString& name, int slot, int slot2, int bank, int bank2);
+        // 0x7100e76774 (placeholder name; declared only, 396 B): starts AS `name` and, for slot 0, keeps
+        // the bank's saved name in sync (the same block sub_7100E76260 ends with).
+        void sub_7100E76774(const sead::SafeString& name, int slot, int bank);
         // 0x7100e770c4: clears flag bits 0x600 (sets 0x10) and _40 unless 0x400 is set (or `force`).
         void sub_7100E770C4(bool force);
         // 0x7100e786f0: sub_7100E76260(name, 0, 0, 0, bank) with the bank picked from _2e.
         void sub_7100E786F0(const sead::SafeString& name);
         // 0x7100e76e74: requests AS `name` (compared with two global SafeStrings at 0x7102603110 /
         // 0x7102603180; priority from 0x7100e7712c kept in _51, name in _40); `a2` sets / clears bit 9
-        // of _52. Returns false only when the request is rejected. Not decompiled yet.
+        // of _52. Returns false only when the request is rejected.
         bool sub_7100E76E74(const sead::SafeString& name, bool a2);
+        // 0x7100e7712c (placeholder name; declared only, 5572 B): the priority of the AS state `name`
+        // (20 when unknown; the callers keep the result in _51).
+        static s8 sub_7100E7712C(const sead::SafeString& name);
         // 0x7100e76cec: the AS bank (_2e or 0) the animation requests use (0 if bit 1 of _52 is set).
         int sub_7100E76CEC();
         // 0x7100e787a0 / 0x7100e78e00: set bit 0x20 / 0x80 of _52.
@@ -234,7 +241,7 @@ public:
         /* 0x30 */ sead::SafeString _30;
         /* 0x40 */ sead::SafeString _40;
         /* 0x50 */ u8 _50 = 0;
-        /* 0x51 */ u8 _51 = 0;
+        /* 0x51 */ s8 _51 = 0;
         /* 0x52 */ u16 _52 = 2;
         // The saved AS name of each bank (0x7100e7600c indexes it with the bank).
         /* 0x58 */ sead::SafeArray<sead::SafeString, 3> mSavedNames;
