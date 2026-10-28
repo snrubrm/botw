@@ -5062,6 +5062,27 @@ void uking::ui::PictureBookCaptureController::sub_71009D18FC(PictureBookCaptureC
         sUnk_71025dc5e0.pushBack(self);
 }
 
+// 0x71009d2168: stops the box-in animation for the first entry; otherwise the album state decides whether the
+// BoxIn / BoxCheck pair plays or rewinds.
+// NON_MATCHING: clang hoists the else arm's mFrame load above the state test and reuses it for the 1.0f test; the
+// original loads mFrame separately in each arm. Same instruction set, one load scheduled differently.
+void Unk_710247faf0::sub_71009D2168() {
+    if (!mBoxIn || !mBoxCheck)
+        return;
+    if (sub_7100939C68() == 0) {
+        mBoxIn->StopAtMin();
+        return;
+    }
+    if (uking::ui::sUnk_71025DC890._1 == 1) {
+        if (mBoxIn->mFrame == 0.0f)
+            mBoxIn->PlayAuto(1.0f);
+        mBoxCheck->Stop(uking::ui::sUnk_71025DC54C[sub_7100939C78()] ? 1.0f : 0.0f);
+        return;
+    }
+    if (mBoxIn->mFrame == f32(mBoxIn->GetFrameSize()))
+        mBoxIn->PlayAuto(-1.0f);
+}
+
 // 0x71009d1d08
 Unk_710247faf0::~Unk_710247faf0() = default;
 
