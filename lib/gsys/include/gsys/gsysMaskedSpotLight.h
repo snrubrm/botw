@@ -11,6 +11,8 @@ namespace gsys {
 class MaskedSpotLight : public MaskedLight {
     SEAD_RTTI_OVERRIDE(MaskedSpotLight, MaskedLight)
 public:
+    MaskedSpotLight();
+
     static const agl::env::TypeInfo* sTypeInfo;
 
     s32 getTypeID() const override;
@@ -31,6 +33,7 @@ private:
     // +0x470 member and the 0x488-byte allocation at 0x7100c7c600.
     u8 _2c8[0x448 - 0x2c8];
 };
+static_assert(sizeof(MaskedSpotLight) == 0x448);
 
 // TODO
 class MaskedSpotLightRig : public LightRig<MaskedSpotLight> {

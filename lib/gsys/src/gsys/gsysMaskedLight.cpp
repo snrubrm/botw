@@ -160,3 +160,5 @@ void MaskedProjLight::listenPropertyEventMaskedLight(const sead::hostio::Propert
 }  // namespace gsys
 
 template struct agl::env::EnvObj::TypeToID<gsys::MaskedLight>;
+template struct agl::env::EnvObj::TypeToID<gsys::MaskedSpotLight>;
+template struct agl::env::EnvObj::TypeToID<gsys::MaskedProjLight>;

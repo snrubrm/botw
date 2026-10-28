@@ -10,6 +10,8 @@ namespace gsys {
 class MaskedProjLight : public MaskedLight {
     SEAD_RTTI_OVERRIDE(MaskedProjLight, MaskedLight)
 public:
+    MaskedProjLight();
+
     static const agl::env::TypeInfo* sTypeInfo;
 
     s32 getTypeID() const override;
@@ -29,7 +31,11 @@ private:
     /* 0x2c0 */ s32 mIndex = -1;
     u8 _2c4[0x558 - 0x2c4];
     /* 0x558 */ bool mTempTextureDisabledMaybe;
+    // The constructor 0x7100c79f0c is still U; the type factory 0x7100c7b5b0 allocates 0x800
+    // bytes and the modelled fields are only its prefix.
+    u8 _559[0x800 - 0x559];
 };
+static_assert(sizeof(MaskedProjLight) == 0x800);
 
 // TODO
 class MaskedProjLightRig {
