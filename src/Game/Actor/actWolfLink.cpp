@@ -61,7 +61,7 @@ WolfLink::InitResult WolfLink::init_() {
     _1650 = StatisticsMgr::instance()->getStatsPointer("player_safety_restart");
 
     for (auto& entry : _1608) {
-        entry._8 = -1.0f;
+        entry.timer.rate = -1.0f;
         entry.mActorId = -1;
         entry._20 = State::_0;
         entry._24 = 0;
@@ -225,9 +225,9 @@ void WolfLink::sub_71002F4008(ksys::act::BaseProcLink* link, State state) {
 
     entry->_24 = 1;
     entry->mActorId = accessor.getId();
-    entry->_0 = time;
-    entry->_4 = time;
-    entry->_8 = -1.0f;
+    entry->timer.value = time;
+    entry->timer.previous_value = time;
+    entry->timer.rate = -1.0f;
     entry->_20 = state;
     entry->_10 = *link;
 
@@ -442,6 +442,78 @@ void WolfLink::sub_71002F4A40(const sead::Vector3f* pos, f32 a, f32 b) {
                 _1698 |= 8;
             }
         }
+    }
+}
+
+// 0x71002f4d54: per-frame step of the _1608 target table. Counts down the restricted-target time of
+// each linked actor and drops the entry when its actor is gone, or when the time ran out and the
+// actor can no longer be reached on the navmesh. Drops all reset entries and re-sorts the table.
+void WolfLink::sub_71002F4D54() {
+    s32 num_reset = 0;
+    for (auto& entry : _1608) {
+        if (!entry._24)
+            break;
+
+        ksys::act::ActorLinkConstDataAccess accessor;
+        bool reset = false;
+        if (!entry._10.hasProc() || !ksys::act::acquireActor(&entry._10, &accessor)) {
+            reset = true;
+        } else {
+            switch (entry._20) {
+            case State::_1:
+            case State::_3:
+                entry.timer.update();
+                if (entry.timer.value <= sead::Mathf::epsilon()) {
+                    if (accessor.sub_7100D0F57C() == nullptr &&
+                        accessor.getProfile() == "Guardian") {
+                        reset = true;
+                    } else {
+                        sead::Vector3f pos;
+                        accessor.getActorMtx().getTranslation(pos);
+                        if (sub_7100742588(nullptr, m45(), &pos, 10.0f)) {
+                            reset = true;
+                        } else {
+                            entry.timer.value = 90.0f;
+                            entry.timer.previous_value = 90.0f;
+                        }
+                    }
+                }
+                break;
+            case State::_5:
+            case State::_7:
+                entry.timer.update();
+                if (entry.timer.value <= sead::Mathf::epsilon()) {
+                    sead::Vector3f pos;
+                    accessor.getActorMtx().getTranslation(pos);
+                    if (sub_7100742278(3.0f, nullptr, m45(), &pos)) {
+                        reset = true;
+                    } else {
+                        entry.timer.value = 90.0f;
+                        entry.timer.previous_value = 90.0f;
+                    }
+                }
+                break;
+            default:
+                entry.timer.update();
+                if (entry.timer.value <= sead::Mathf::epsilon())
+                    reset = true;
+                break;
+            }
+        }
+
+        if (reset) {
+            entry._24 = 0;
+            entry.timer.rate = -1.0f;
+            entry._20 = State::_0;
+            entry.mActorId = -1;
+            entry._10.reset();
+            ++num_reset;
+        }
+    }
+
+    if (num_reset > 0) {
+        sub_71002F5DA8(&_1608, sub_71002F612C, 0, sead::Mathi::clampMax(_1694, 15));
+        _1694 = sead::Mathi::clamp(_1694 - num_reset, 0, 15);
     }
 }
 
