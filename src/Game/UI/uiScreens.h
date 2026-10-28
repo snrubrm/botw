@@ -2888,6 +2888,11 @@ struct Unk_71025df330 {
     u8 _290[0x2d0 - 0x290];
     // the world temperature game data flag (demoRun stores the temperature through it)
     /* 0x2d0 */ sead::SafeString mWorldTemperatureFlag;
+    // the area -> region name table sub_71009F12C0 searches: 24 area names, the region index of each area and
+    // the region names those indices select
+    /* 0x2e0 */ sead::Buffer<sead::SafeString> mRegionNames;
+    /* 0x2f0 */ sead::Buffer<sead::SafeString> mAreaNames;
+    /* 0x300 */ sead::Buffer<s32> mRegionIndices;
 };
 // 0x71025df330 (defined in uiScreenAppMapSmall.cpp)
 KSYS_VISIBILITY_HIDDEN extern Unk_71025df330 sUnk_71025df330;

@@ -44,9 +44,18 @@ KSYS_VISIBILITY_HIDDEN sead::FixedSafeString<64> sUnk_71025def40("T_Name_00");
 // 0x710099f668 (CSV unnamed): builds the hovered map marker's name message for `part`.
 extern "C" void appMapStringStuff(AppMapIconPart* part, eui::MessageString* message);
 
-// 0x71009f12c0 (CSV unnamed; not decompiled): maps a map area name to its region name through the tables of
+// 0x71009f12c0: copies the region name of the map area `area` into `region` through the tables of
 // sUnk_71025df330; the output is left empty when the area is not in the table.
-void sub_71009F12C0(const sead::SafeString& area, sead::FixedSafeString<64>* region);
+// NON_MATCHING: the empty-area arm zero-fills the whole output buffer (memset of size-1 bytes, then the
+// terminator); the natural `region->clear()` stores only the first character, so the row is 48 bytes short.
+void sub_71009F12C0(const sead::SafeString& area, sead::FixedSafeString<64>* region) {
+    if (area.isEmpty())
+        region->clear();
+    for (u32 i = 0; i < 24; ++i) {
+        if (area.isEqual(sUnk_71025df330.mAreaNames[i]))
+            region->copy(sead::SafeString(sUnk_71025df330.mRegionNames[sUnk_71025df330.mRegionIndices[i]]));
+    }
+}
 
 // 0x71009d9c40
 void ScreenAppCamera::doBuildLayout_(const sead::SafeString& name, nn::ui2d::ResourceAccessor* accessor) {
