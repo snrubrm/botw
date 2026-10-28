@@ -314,8 +314,63 @@ void RideableBase::S1::sub_7100E786F0(const sead::SafeString& name) {
     sub_7100E76260(name, 0, 0, 0, bank);
 }
 
-Unk_7100e7941c::Unk_7100e7941c() = default;
+// 0x7100e787b0 (placeholder name): for every AS name in the variadic list, whether it is the name the AS list
+// currently shows (bit 0x10 of _52) or the saved name of the rider (which is cleared when it matches).
+void RideableBase::S1::sub_7100E787B0(const char* name, va_list args) {
+    if (_52 & 0x400)
+        return;
+    const sead::SafeString& current = _0->x_1(0, 0);
+    while (name) {
+        if (current == name)
+            _52 |= 0x10;
+        if (_40 == name) {
+            _40 = sead::SafeString::cEmptyString;
+            _51 = 0;
+        }
+        name = va_arg(args, const char*);
+    }
+}
 
+// NON_MATCHING: the same comparisons and effects; this build hoists the SafeString temporary's vtable address point
+// into a register and places the flag blocks differently, adding a few instructions.
+// 0x7100e78a04 (placeholder name): the AS-name request behind RideableBase::sub_7100E534A0: sets bit 0x10 of _52
+// when the AS the list currently shows is not one of the names, and clears the rider's saved AS name when it is not
+// one of them either (both unconditionally for an empty list).
+void RideableBase::S1::sub_7100E78A04(const char* name, va_list args) {
+    if (_52 & 0x400)
+        return;
+    const sead::SafeString& current = _0->x_1(0, 0);
+    if (!name) {
+        _52 |= 0x10;
+        _40 = sead::SafeString::cEmptyString;
+        _51 = 0;
+        return;
+    }
+
+    bool found_current = false;
+    bool found_saved = false;
+    while (name) {
+        if (!found_current && current == name) {
+            found_current = true;
+            if (found_saved)
+                return;
+        }
+        if (!found_saved && _40 == name) {
+            if (found_current)
+                return;
+            found_saved = true;
+        }
+        name = va_arg(args, const char*);
+    }
+    if (!found_current)
+        _52 |= 0x10;
+    if (!found_saved) {
+        _40 = sead::SafeString::cEmptyString;
+        _51 = 0;
+    }
+}
+
+Unk_7100e7941c::Unk_7100e7941c() = default;
 Unk_7100e7941c::~Unk_7100e7941c() {
     if (_0)
         delete _0;
