@@ -126,6 +126,9 @@ public:
     void updatePlayerPos(const sead::Matrix34f& matrix, const sead::Matrix34f& alternate);
     // 0x71011b87ac: queries the forest_density table selected during stage initialization.
     f32 queryForestDensity(const sead::Vector3f* position);
+    // 0x71011b3e84 (placeholder name): interpolates the effect-level scale curve at `level`
+    // (0 outside 0..15, the last sample from 15 up).
+    f32 getLevelScaleMaybe(f32 level) const;
 
 private:
     u8 _38[0x96b0 - 0x38];
@@ -181,7 +184,10 @@ private:
     s32 _193e8;
     u8 _193ec[0x19c38 - 0x193ec];
     Unk_71012419b4 mFieldEnvEffect;
-    u8 _19c58[0x2a42c - 0x19c58];
+    u8 _19c58[0x2a3e0 - 0x19c58];
+    // 0x2a3e0 (Effect::init): the sixteen samples of the effect-level scale curve.
+    f32 mLevelScaleTable[16];
+    u8 _2a420[0x2a42c - 0x2a420];
     s32 _2a42c;
     u8 _2a430[0x2a43c - 0x2a430];
     /// Demo resource ids (initialised to -1 by the constructor).

@@ -88,11 +88,25 @@ void Effect::initParticleGroups(bool flag) {    Graphics::instance()->mModelScen
 
 // NON_MATCHING: the compiler shrink-wraps the frame and selects the failed-query result.
 f32 Effect::queryForestDensity(const sead::Vector3f* position) {
-    f32 value;
+    // The zero initialiser is what keeps the frame live across the manager null check in the
+    // original (its prologue is not shrink-wrapped).
+    f32 value = 0.0f;
     auto* mgr = uking::StatisticsMgr::instance();
     if (mgr && mgr->query(&value, 1, mForestDensityStats, position))
         return value;
     return 0.0f;
+}
+// 0x71011b3e84 (placeholder name): the effect-level scale curve Effect::init fills at +0x2a3e0.
+f32 Effect::getLevelScaleMaybe(f32 level) const {
+    const s32 index = s32(level);
+    if (index < 0)
+        return 0.0f;
+    if (index >= 15)
+        return mLevelScaleTable[15];
+    const f32 t = level - static_cast<f32>(index);
+    const f32 lo = mLevelScaleTable[index];
+    const f32 hi = mLevelScaleTable[index + 1];
+    return lo + t * (hi - lo);
 }
 
 // NON_MATCHING: Camera basis calculations use different floating-point register allocation.

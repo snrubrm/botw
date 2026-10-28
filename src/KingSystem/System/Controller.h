@@ -49,9 +49,9 @@ public:
     // uking::ui::sub_71010B6558.
     bool sub_7100D9EFD4();
     // 0x7100d9f7c8 (declared only): forwards `id` to mFlags (0x7101266ea4).
-    bool sub_7100D9F7C8(u32 id);
+    bool sub_7100D9F7C8(Unk_7102517d58::Id id);
     // 0x7100d9f7b0: sets / clears bit `index` of the flags object at Controller +0x90.
-    void __auto0(u64 index, bool value);
+    void __auto0(Unk_7102517d58::Id index, bool value);
     bool sub_7100D9F7D4() const;
     Unk_71024dd5c8* sub_7100D9F7DC();
     void sub_7100D9F7E4(ksys::SeadController* controller);
