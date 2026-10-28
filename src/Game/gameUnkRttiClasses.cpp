@@ -459,6 +459,15 @@ Unk_7102499b18::~Unk_7102499b18() = default;
 
 Unk_710249a160::~Unk_710249a160() = default;
 
+void Unk_710249a160::m4(const sead::SafeString& label) {
+    _28.copy(label);
+}
+
+void Unk_710249a160::m5() {
+    if (_20)
+        _20->m5(_28, 0);
+}
+
 // NON_MATCHING: placeholder destructor; the original (0x7101148888) also destroys members or bases
 // this class does not declare yet.
 Unk_710250f758::~Unk_710250f758() = default;

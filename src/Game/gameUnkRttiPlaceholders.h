@@ -718,7 +718,8 @@ class Unk_7102499ad8 {
     SEAD_RTTI_BASE(Unk_7102499ad8)
 public:
     virtual ~Unk_7102499ad8();
-    virtual void m4() {}
+    // The ScreenStaffRoll entry's text setter (Unk_710249a160 overrides it).
+    virtual void m4(const sead::SafeString& label) {}
     virtual void m5() {}
 
     /* 0x08 */ s32 _8 = -1;  // text block group (0-4; -1 before the entry is used)
@@ -746,6 +747,10 @@ class Unk_710249a160 : public Unk_7102499ad8 {
     SEAD_RTTI_OVERRIDE(Unk_710249a160, Unk_7102499ad8)
 public:
     ~Unk_710249a160() override;
+    // 0x7100a5fce4: stores the label in the entry's own string.
+    void m4(const sead::SafeString& label) override;
+    // 0x7100a5d7fc: applies the entry's label to the text block it owns.
+    void m5() override;
 
     /* 0x28 */ sead::FixedSafeString<32> _28;
 };
