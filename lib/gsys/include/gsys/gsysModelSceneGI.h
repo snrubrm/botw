@@ -8,6 +8,7 @@
 #include <utility/aglAtomicPtrArray.h>
 #include <utility/aglParameterIO.h>
 #include <lighting/aglSSSSS.h>
+#include <lighting/aglLightMapMgr.h>
 #include "gsys/gsysLightResMgr.h"
 #include "gsys/gsysModelCubeMapDrawer.h"
 #include "gsys/gsysModelSceneComponent.h"
@@ -44,8 +45,18 @@ public:
     struct CalcLightPrePassCallbackArg;
     // 0x7100c3370c: synchronizes the two env-object name indices of the component.
     void postRead_() override;
-    // 0x7100c30f2c / 0x7100c310f0: the destructor is not decompiled yet; declaring it keeps the
-    // second base's destructor thunks out of line.
+    // 0x7100c30a14: one, the light map manager's argument and three null pointers (0x40 bytes).
+    struct CreateArg {
+        CreateArg();
+        /* 0x00 */ u32 _0;
+        /* 0x08 */ agl::lght::LightMapMgr::CreateArg mLightMapArg;
+        /* 0x28 */ void* _28;
+        /* 0x30 */ void* _30;
+        /* 0x38 */ void* _38;
+    };
+    static_assert(sizeof(CreateArg) == 0x40);
+    // 0x7100c30a48 / 0x7100c30f2c / 0x7100c310f0: the constructor and destructors are declared only.
+    ModelSceneGI();
     ~ModelSceneGI() override;
     // 0x7100c309f0 / 0x7100c32bf8 / 0x7100c33f3c / 0x7100c33f90
     bool isEnvCubeMapEnabled() const;

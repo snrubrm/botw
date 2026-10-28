@@ -21,6 +21,10 @@
 
 namespace gsys {
 
+// 0x7100c30a14
+ModelSceneGI::CreateArg::CreateArg() : _0(1), _28(nullptr), _30(nullptr), _38(nullptr) {
+}
+
 // 0x7100c309f0
 bool ModelSceneGI::isEnvCubeMapEnabled() const {
     return mEnvCubeMap && _8->isFeatureEnabled(ModelSceneConfig::Feature::EnvCubeMap);
