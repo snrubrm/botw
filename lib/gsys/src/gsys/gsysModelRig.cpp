@@ -96,3 +96,5 @@ s32 ModelRig::getTypeID() const {
 }
 
 }  // namespace gsys
+
+template struct agl::env::EnvObj::TypeToID<gsys::ModelRig>;
