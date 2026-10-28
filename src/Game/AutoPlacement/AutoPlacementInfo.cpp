@@ -1,6 +1,9 @@
 #include "Game/AutoPlacement/AutoPlacementMgr.h"
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
+#include "Game/gameMapStaticLoadMgr.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
+#include <prim/seadRuntimeTypeInfo.h>
 
 namespace uking {
 
@@ -79,6 +82,46 @@ int AutoPlacementInfo::x_0(f32 scale, int cell_x, int cell_z, const sead::Vector
         ++results->count;
     }
     return -1;
+}
+
+// 0x7100e8d730: looks the mubin of _8 up, checks it loaded and hands its byaml root to the
+// class's virtual at slot 2. Called from 0x7100e8d638 (the caller copies the current map type
+// name into _8 first). The class's other members are not modelled.
+class Unk_7100E8D730 {
+public:
+    virtual bool m0() = 0;
+    virtual bool m1() = 0;
+    virtual bool m2(const al::ByamlIter& iter, void* arg) = 0;
+    // Placeholder name (unnamed CSV row).
+    bool sub_7100E8D730(void* arg);
+
+    /* 0x08 */ sead::SafeString _8;
+    /* 0x18 */ u8 _18[0x38];
+    /* 0x50 */ ksys::res::Handle* _50;
+};
+
+bool Unk_7100E8D730::sub_7100E8D730(void* arg) {
+    _50 = getMapStaticMubin(_8);
+    if (!_50)
+        return false;
+
+    if (!_50->requestedLoad() || !_50->isSuccess())
+        return false;
+
+    if (!_50)
+        return false;
+    if (!_50->requestedLoad() || !_50->isSuccess())
+        return false;
+
+    auto* resource = _50->getResource();
+    if (!sead::IsDerivedFrom<sead::DirectResource>(resource))
+        return false;
+
+    al::ByamlIter root(static_cast<sead::DirectResource*>(resource)->getRawData());
+    if (!root.isValid())
+        return false;
+
+    return m2(root, arg);
 }
 
 }  // namespace uking

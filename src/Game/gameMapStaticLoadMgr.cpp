@@ -3,6 +3,8 @@
 #include <new>
 #include <resource/seadResource.h>
 #include "KingSystem/AOC/aocManager.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
+#include <prim/seadRuntimeTypeInfo.h>
 
 namespace ksys::map {
 

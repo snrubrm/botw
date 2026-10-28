@@ -38,6 +38,35 @@
 #include "Game/gameStageBinder.h"
 #include "Game/gameStruct30.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
+#include "KingSystem/Utils/Byaml/Byaml.h"
+#include "Game/gameMapStaticLoadMgr.h"
+#include <prim/seadRuntimeTypeInfo.h>
+
+// 0x71007c5724: reads the "Translate" and "Scale" vectors of the object `object_name` from the
+// static mubin of `name`. No caller in the binary.
+// NON_MATCHING: the original also calls objects.getSize() (discarded) in the size != 1 arm;
+// every other instruction agrees.
+bool getMapStaticMubinTranslateAndScale(sead::Vector3f* translate, sead::Vector3f* scale,
+                                        const sead::SafeString& name,
+                                        const sead::SafeString& object_name) {
+    auto* handle = getMapStaticMubin(name);
+    if (!handle || !handle->isSuccess())
+        return false;
+
+    auto* resource = handle->getResource();
+    if (!sead::IsDerivedFrom<sead::DirectResource>(resource))
+        return false;
+
+    al::ByamlIter root(static_cast<sead::DirectResource*>(resource)->getRawData());
+    al::ByamlIter objects;
+    al::ByamlIter object;
+    root.tryGetIterByKey(&objects, object_name.cstr());
+    if (objects.getSize() == 1 && objects.tryGetIterByIndex(&object, 0) &&
+        al::tryGetByamlV3f(translate, object, "Translate") &&
+        al::tryGetByamlV3f(scale, object, "Scale"))
+        return true;
+    return false;
+}
 
 namespace uking {
 
