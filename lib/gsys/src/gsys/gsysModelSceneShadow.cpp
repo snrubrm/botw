@@ -74,6 +74,16 @@ void ModelSceneShadow::releaseSSAO(ModelSceneContext* context) const {
     mSSAO->release(context->getViewIndex());
 }
 
+// 0x7100c3a8bc
+void ModelSceneShadow::releaseShadowPrePass(ModelSceneContext* context) const {
+    if (!mShadowPrePass || !mConfig->isFeatureEnabled(ModelSceneConfig::Feature::ShadowPrePass))
+        return;
+    if (!mShadowPrePass->_478)
+        return;
+    mShadowPrePass->release(context->getViewIndex());
+    context->popPassTexture(ModelRenderContext::PassTextureType(4));
+}
+
 // 0x7100c3ab74
 void ModelSceneShadow::drawDebug(agl::DrawContext* draw_context,
                                  const ModelSceneContext& context) const {

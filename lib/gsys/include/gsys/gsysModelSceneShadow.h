@@ -32,6 +32,8 @@ public:
     bool isSSAOEnabled() const;
     bool isDepthShadowEnabled() const;
     bool isShadowPrePassEnabled() const;
+    // 0x7100c3a8bc: releases the view's shadow pre-pass and pops its pass texture.
+    void releaseShadowPrePass(ModelSceneContext* context) const;
     // 0x7100c3ad18: puts the light in the first free masked-light shadow slot; false if none.
     bool enableMaskedLightShadow(const MaskedLight* light);
     // 0x7100c3ad58: clears the slot that holds the light; false if there is none.
