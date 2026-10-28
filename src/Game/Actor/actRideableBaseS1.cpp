@@ -90,6 +90,27 @@ void RideableBase::S1::sub_7100E76AA4(UnkGear type, UnkGear gear, f32 value) {
     sub_7100E7600C(0, other_bank);
 }
 
+// 0x7100e76bd8 (placeholder name; names inside are guesses): whether the current AS state entry keeps the
+// rider's AS inside that entry's gait range. The frame and the rate come from the other bank (3 - _2e); an
+// out-of-range frame below the range asks the AS list to move to the range's high value.
+bool RideableBase::S1::sub_7100E76BD8(const Unk68* entry, f32 speed) {
+    if (_2c != 2)
+        return false;
+    if (_18 != entry || !_18)
+        return false;
+    f32 range[2];
+    entry->getGaitSpeedRange(range, _9);
+    range[0] -= speed;
+    range[1] += speed;
+    const f32 rate = _0->x_5(0, s8(3 - _2e), &ksys::as::ASList::Unk2::sub_7101163564);
+    const f32 frame = _0->x_5(0, s8(3 - _2e), &ksys::as::ASList::Unk2::sub_71011632F8);
+    if (range[0] <= frame && frame <= range[1])
+        return true;
+    if (rate < range[0])
+        return _0->sub_710115F0BC(0, s8(3 - _2e), range[1]);
+    return false;
+}
+
 // NON_MATCHING: the guard is the same fused `fcmp / ccmp / b.eq` but the original branches to its false block
 // and falls through to the state test where ours falls through to the false block (ccmp #4 + b.ne).
 // 0x7100e76b40: takes an AS state entry as the current animation state when its rate beats `rate`; returns

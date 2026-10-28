@@ -186,6 +186,8 @@ public:
         // 0x7100e76b40: takes an AS state entry as the current animation state when its rate beats `rate`;
         // false while another entry is still running, and `out` reports whether the request is over half way.
         bool sub_7100E76B40(const Unk68* entry, f32 value, f32 rate, f32 speed, bool* out);
+        // 0x7100e76bd8 (placeholder name): whether the entry's gait range holds the other bank's frame.
+        bool sub_7100E76BD8(const Unk68* entry, f32 speed);
 
         void sub_7100E74890(bool a1, bool a2, f32 a3, f32 a4);
 
