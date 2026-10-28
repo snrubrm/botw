@@ -92,6 +92,10 @@ bool Quest::x_6(act::Actor* actor) const {
     return mSteps[_140]->sub_7100FDB89C(actor);
 }
 
+bool Quest::x_4() {
+    return x_5(-1, true, false, false);
+}
+
 bool Quest::x_7() const {
     if (!isStepUnderSize())
         return false;

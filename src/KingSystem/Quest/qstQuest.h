@@ -27,6 +27,10 @@ public:
 
     bool x_1() const;
     void x_3();
+    // 0x7100fd9754: returns x_5(-1, true, false, false).
+    bool x_4();
+    // 0x7100fd9768 (declaration only): moves to the step at `step_index`.
+    bool x_5(s32 step_index, bool a, bool b, bool c);
     bool x_7() const;
     bool x_8(act::Actor* actor);
     void x_9(act::Actor* actor);
