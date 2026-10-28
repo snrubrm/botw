@@ -26,7 +26,10 @@ public:
         // Pass flags of the view's draw record: drawModelSceneCalcRenderView writes bits 7 / 8 / 11,
         // 12 (the record's analyze flag) and 19 (Graphics' _284 bit 0).
         /* 0x4 */ u32 mPassFlagsMaybe;
-        u8 _8[0xc98 - 0x8];
+        u8 _8[0xb28 - 0x8];
+        // 0x7100c34580 passes this view record as the SSII reprojection source.
+        /* 0xb28 */ agl::TextureData _b28;
+        u8 _c50[0xc98 - 0xc50];
         // ModelSceneBuffer::selectBloomDepth 0x7100c19ae0 returns one of these four depth
         // textures depending on mPassFlagsMaybe.
         agl::TextureData _c98;

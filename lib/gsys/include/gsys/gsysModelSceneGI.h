@@ -17,6 +17,10 @@ namespace agl::pfx {
 class GlareFilter;
 }
 
+namespace agl {
+class TextureData;
+}
+
 namespace agl::lght {
 class LocalLightMapObj;
 class LightMapMgr;
@@ -34,6 +38,7 @@ class MaskedSpotLightRig;
 class Model;
 class ModelSceneContext;
 class PointLightRig;
+class RenderBufferContext;
 class SpotLightRig;
 
 // The GI component of a ModelScene (ModelScene +0x3a90). Partial: only the feature
@@ -72,6 +77,12 @@ public:
     void drawSSSSS(agl::DrawContext* draw_context, ModelSceneContext* context) const;
     void drawLightMap(agl::DrawContext* draw_context, const ModelSceneContext& context) const;
     void drawPlanarReflection(agl::DrawContext* draw_context, ModelSceneContext* context) const;
+    // 0x7100c34580: installs this view's reprojection buffer and binds its render context.
+    void copyForSSIIReprojection(agl::DrawContext* draw_context, ModelSceneContext* context,
+                                 const RenderBufferContext& render_buffer) const;
+    // 0x7100c346e4: copies the local reflection buffer or releases the previous one.
+    void copyForLocalReflection(agl::DrawContext* draw_context, ModelSceneContext* context,
+                                const agl::TextureData& texture) const;
     // 0x7100c33e7c / 0x7100c34040: the per-view planar and local reflection passes.
     void preCalcView(ModelSceneContext* context);
     void calcViewLocalReflection(ModelSceneContext* context);
@@ -127,7 +138,9 @@ private:
     LightProbeMgr* mLightProbeMgr;  // 438
     /// 0x7100c340b8 (local reflection).
     agl::lght::LocalReflection* mLocalReflection;  // 440
-    void* _448;
+    // 0x7100c346e4 reads bit 3 when choosing the copy path.
+    u8 _448;
+    u8 _449[7];
     /// 0x7100c32bf8 (light pre-pass).
     agl::lght::LightPrePass* mLightPrePass;  // 450
     u8 _458[0x458 - 0x458];

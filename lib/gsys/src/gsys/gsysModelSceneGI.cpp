@@ -3,7 +3,10 @@
 #include "gsys/gsysModelSceneConfig.h"
 #include "gsys/gsysShaderContext.h"
 #include "gsys/gsysModelSceneContext.h"
+#include "gsys/gsysRenderBufferContext.h"
+#include <common/aglDrawContext.h>
 #include <gfx/seadCamera.h>
+#include <gfx/seadDrawContext.h>
 #include <gfx/seadProjection.h>
 #include <lighting/aglLightMapMgr.h>
 #include <lighting/aglLocalLightMapObj.h>
@@ -234,6 +237,50 @@ void ModelSceneGI::drawPlanarReflection(agl::DrawContext* draw_context,
         return;
     mPlanarReflection->draw(draw_context, context->getViewIndex(), *context->getRenderBuffer());
     context->mPassTextures[13] = &mPlanarReflection->getView(context->getViewIndex())._368;
+}
+
+// 0x7100c34580
+void ModelSceneGI::copyForSSIIReprojection(agl::DrawContext* draw_context,
+                                           ModelSceneContext* context,
+                                           const RenderBufferContext& render_buffer) const {
+    if (!mSSII)
+        return;
+    if (!_8->isFeatureEnabled(ModelSceneConfig::Feature::SSII))
+        return;
+    if (!mSSII->isReprojectionEnabled())
+        return;
+    const int view = context->getViewIndex();
+    mSSII->setReprojectionBuffer(draw_context, view, render_buffer.getContext(view)->_b28);
+    context->bind(draw_context, false);
+}
+
+// NON_MATCHING: same instructions; the original repeats the enabled check at the release block,
+// where clang reuses the first check's value.
+// 0x7100c346e4
+void ModelSceneGI::copyForLocalReflection(agl::DrawContext* draw_context,
+                                          ModelSceneContext* context,
+                                          const agl::TextureData& texture) const {
+    if (!mLocalReflection)
+        return;
+    if (_8->isFeatureEnabled(ModelSceneConfig::Feature::LocalReflection)) {
+        if (mLocalReflection->mEnabled) {
+            if ((_448 & 8) == 0 && (context->_3c9 & 0x40)) {
+                mLocalReflection->copyColorBuffer(draw_context, context->getViewIndex(), texture);
+                context->bind(draw_context, false);
+                return;
+            }
+        }
+        if (mLocalReflection->mEnabled) {
+            mLocalReflection->releaseReflectionBuffer(context->getViewIndex());
+            if (!mLocalReflection)
+                return;
+        }
+    }
+    if (!_8->isFeatureEnabled(ModelSceneConfig::Feature::LocalReflection))
+        return;
+    if (!mLocalReflection->mEnabled)
+        return;
+    mLocalReflection->releasePreviousColorBuffer(context->getViewIndex());
 }
 
 // NON_MATCHING: same instructions; clang materialises the first view record's matrix address
