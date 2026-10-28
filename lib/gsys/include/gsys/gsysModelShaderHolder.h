@@ -70,7 +70,8 @@ private:
         nn::util::ResDic* mDic;
     };
 
-    u8 _8[0x30 - 0x8];
+    u8 _8[0x28 - 0x8];
+    void* mBinary;                  // 28
     ShaderArchive* mShaderArchive;  // 30
     u32 _38;
     u8 _3c[0x40 - 0x3c];
