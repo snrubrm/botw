@@ -53,6 +53,12 @@ struct Unk_7100e8a080 {
     // 0x7100e8a16c (CSV horseStuff; declaration only, 664 B; does not use `this`): game data checks on the owned horse
     // of `mgr` (IsGet_PlayerStole2, IsInHyruleCastleArea, IsPlayed_Demo14x flags).
     bool horseStuff(HorseMgr* mgr);
+    // 0x7100e8aeec (placeholder name): casts a ray through `pos` from y + `up` down to y - `down` on the ground
+    // layers and writes the hit position back into `pos`; true on a hit.
+    bool sub_7100E8AEEC(sead::Vector3f* pos, f32 up, f32 down);
+    // 0x7100e8ae80 (placeholder name): true when that ground query misses or its hit is at most 0.1 above the
+    // matrix's translation.
+    bool sub_7100E8AE80(const sead::Matrix34f& mtx);
 
     /* 0x00 */ ksys::phys::NavMeshQuery* mQuery = nullptr;
     /* 0x08 */ ksys::act::BaseProcLink _8;

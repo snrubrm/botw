@@ -177,8 +177,6 @@ void RideableBase::S1::sub_7100E76774(const sead::SafeString& name, int slot, in
     mSavedNames[bank] = name;
 }
 
-// NON_MATCHING: the final `if (a2) set; else clear` pair is if-converted to tst/csel; the original
-// keeps the branch. Two complementary `if`s reproduce it (borderline, not applied).
 // 0x7100e76e74: requests the AS state `name`. "Wait" resets the current request (unless bit 10 of _52 is
 // set); "Courbette" is rejected below gear 3. A name with at least the current priority replaces the
 // request name and priority; `a2` sets or clears bit 9 of _52. Always accepted otherwise.
@@ -205,7 +203,7 @@ bool RideableBase::S1::sub_7100E76E74(const sead::SafeString& name, bool a2) {
     }
     if (a2)
         _52 |= 0x200;
-    else
+    if (!a2)
         _52 &= ~0x200;
     return true;
 }
