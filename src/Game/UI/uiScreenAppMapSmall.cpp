@@ -1261,6 +1261,54 @@ void ScreenAppMap::x_1() {
     _3ad0 = 0;
 }
 
+// 0x71009ecea4: samples the map move input: the pad mask, and the left stick (cleared below the
+// 0.8 dead zone) unless the map widget is in mode 1.
+void ScreenAppMap::sub_71009ECEA4() {
+    _3680 = 0;
+    _3684 = 0.0f;
+    _3688 = 0.0f;
+    if (UiSubsys1::instance()->get38b8())
+        return;
+    _3680 = u32(sub_71009EDB4C());
+    const sead::Vector2f& stick =
+        ((_292 & 0x40) && sub_71010AA9D0())
+            ? (mUIController ? mUIController->getLeftStick() : sead::Vector2f::zero)
+            : sead::Vector2f::zero;
+    _3684 = stick.x;
+    _3688 = stick.y;
+    if (_3610->_b350 != 1) {
+        if (auto* child = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0))) {
+            if (child->sub_7100994E88()) {
+                const f32 length = sead::Mathf::sqrt(_3684 * _3684 + _3688 * _3688);
+                if (length < 0.8f) {
+                    _3684 = 0.0f;
+                    _3688 = 0.0f;
+                }
+            }
+        }
+    }
+}
+
+// 0x71009ecfa4: closes the map layouts for the map widget's mode 3: sets the widget's mode and zoom
+// level, closes the two layouts, places the icon pane at the widget's view position and hides the map
+// icon panes.
+void ScreenAppMap::sub_71009ECFA4() {
+    if (!_3610)
+        return;
+    _3610->setMode(3);
+    _3610->_b4a4 = 2;
+    if (_36c8->_91 == 3 || _36c8->_91 == 0)
+        _36c8->sub_7100BDDE7C(false, 0, true);
+    if (_3730->_91 == 3 || _3730->_91 == 0)
+        _3730->sub_7100BDDE7C(false, 0, true);
+    sead::Vector2f position{0.0f, 0.0f};
+    _3610->sub_71009AF124(&position);
+    _3740->SetPosition(nn::util::Float3{position.x, position.y, 0.0f});
+    _3698->StopAtMin();
+    _3c30->SetVisible(false);
+    _3750->SetVisible(false);
+}
+
 // 0x71009ed97c
 void ScreenAppMap::sub_71009ED97C() {
     const s32 mode = UiSubsys1::instance()->get38fc();

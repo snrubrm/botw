@@ -2994,6 +2994,10 @@ public:
     void x_2();
     // 0x71009f0150 (CSV ScreenAppMap::x_1): the map's per-frame widget / label update, run after x_0
     void x_1();
+    // 0x71009ecea4: samples the map move input (pad mask and left stick with a dead zone)
+    void sub_71009ECEA4();
+    // 0x71009ecfa4: closes the map layouts for the map widget's mode 3
+    void sub_71009ECFA4();
     // 0x71009f0be4 / 0x71009f2430 (CSV unnamed, declared only)
     void sub_71009F0BE4();
     void sub_71009F2430();
@@ -3059,7 +3063,9 @@ public:
     // Map-mode animators: [3] .. [6] are the four mode transitions.
     /* 0x3628 */ eui::Animator* _3628[11];
     /* 0x3680 */ u32 _3680;
-    u8 _3684[0x3690 - 0x3684];
+    /* 0x3684 */ f32 _3684;  // the map move input's x (sub_71009ECEA4)
+    /* 0x3688 */ f32 _3688;  // the map move input's y
+    u8 _368c[0x3690 - 0x368c];
     // The DLC map layout parts and their animators (created by sub_71009EEE04 / sub_71009EEF98).
     /* 0x3690 */ eui::LayoutEx* _3690 = nullptr;
     /* 0x3698 */ eui::Animator* _3698 = nullptr;
