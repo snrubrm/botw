@@ -1504,6 +1504,15 @@ s32 sub_7100966174(s32 value) {
     return value % 120;
 }
 
+// 0x710096608c: index of `threshold` in the four-entry table, or -1
+s32 sub_710096608C(f32 threshold) {
+    for (s32 i = 0; i < 4; ++i) {
+        if (sUnk_71025d6c70._1e8[i] == threshold)
+            return i;
+    }
+    return -1;
+}
+
 // 0x710096619c: value / 120
 s32 sub_710096619C(s32 value) {
     return value / 120;
