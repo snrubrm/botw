@@ -75,6 +75,10 @@ struct alignas(16) AlbumState {
     /* 0x0c */ s32 _c;   // 1: the picture book page is open
     /* 0x10 */ s32 _10;  // the picture count recorded when the selection started
     /* 0x14 */ s32 _14;  // the number of pictures added by the current selection
+    /* 0x18 */ u8 _18[0x188 - 0x18];
+    // The two widget names written by Unk_710247fbc0::m8 (their initialisers are not modelled).
+    /* 0x188 */ sead::SafeString _188;
+    /* 0x198 */ sead::SafeString _198;
 };
 }  // namespace
 // Hidden (not file-local) so the address is materialised as the block base plus the field offset.
@@ -5146,6 +5150,19 @@ void Unk_710247fbc0::m4(sead::Heap* heap) {
     mMemory = _8->tryCreateAnimatorAuto("Memory", false);
     eui::LayoutEx* parts = _8->findPartsLayout("Pa_Capture_00");
     uking::ui::PictureBookCaptureController::sub_71009D18FC(&_48, heap, parts, false);
+}
+
+// 0x71009d2b1c: clears the entry's two widget strings, stops the State animation and forwards the selected
+// picture's index to the per-picture update.
+void Unk_710247fbc0::m8() {
+    _48.sub_71009CC3A0();
+    uking::ui::setWidgetString(_8, uking::ui::sUnk_71025DC890._188, sead::SafeString::cEmptyString);
+    uking::ui::setWidgetString(_8, uking::ui::sUnk_71025DC890._198, sead::SafeString::cEmptyString);
+    if (mState)
+        mState->StopAtMin();
+    const s32 index = sub_7100939C78() - uking::ui::sUnk_71025DC890._14;
+    if (u32(index) <= 0x2f)
+        sub_71009D2BB8(index);
 }
 
 // 0x71009d2ab0: updates the entry's control and, while the picture book page is open (state 2 / 3), hides the

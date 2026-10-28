@@ -135,6 +135,9 @@ public:
     void m5() override {}
     void m6() override;
     void m7() override;
+    void m8() override;
+    // 0x71009d2bb8 (declared only): the per-picture widget update.
+    void sub_71009D2BB8(s32 index);
 
     /* 0x48 */ uking::ui::PictureBookCaptureController _48;
     // zeroed by the constructor (inlined in ScreenAppPictureBookEntry::createUnits, 0x71009d6f6c; 0x358 bytes)
