@@ -4357,17 +4357,21 @@ public:
     void m92(sead::Heap* heap) override;
     // 0x71009f9bb8: keeps the two panes at the negated root pane position, then updates the screen and its states
     void m94() override;
+    // 0x71009fa028: refills the new-picture flags and switches the picture-book state for the mode
+    void m98() override;
     // 0x71009fa33c: copies the active list controller's pane value and stops the frame animator
     void m101() override;
     // 0x71009f8e28 (declared only; 1948 bytes): second layout setup step of m92
     void sub_71009F8E28(sead::Heap* heap);
     // 0x71009f9c30 (declared only; 308 bytes): called by m94 before the state machine runs
     void sub_71009F9C30();
+    // 0x71009f9d64 (declared only; 460 bytes): called by m98 after it refills the new-picture flags
+    void sub_71009F9D64();
 
     // state callbacks (slots 154-165, trivial ones defined in uiScreenLeafSlots.cpp)
     /* 0x3610 */ nn::ui2d::Pane* _3610;
     /* 0x3618 */ nn::ui2d::Pane* _3618;
-    u8 _pad_3620[0x3628 - 0x3620];
+    /* 0x3620 */ eui::Animator* _3620 = nullptr;  // the page animator m98 stops
     /* 0x3628 */ eui::Animator* _3628;
     /* 0x3630 */ eui::Animator* _3630 = nullptr;  // the frame animator m155 plays with PlayAuto
     /* 0x3638 */ eui::Animator* _3638;

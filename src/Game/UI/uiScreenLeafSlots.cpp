@@ -1028,6 +1028,69 @@ s32 ScreenAppMapDungeon::m165() {
 // ScreenAppPictureBook
 // 0x71009faecc
 void ScreenAppPictureBook::m164() {}
+// 0x71009fa028: refills the new-picture flags of the registered pictures and the selected index
+// table, then switches the picture-book state for the current mode.
+void ScreenAppPictureBook::m98() {
+    sUnk_7102482788 = -1;
+    if (_3620) {
+        bool stopAtMin = sUnk_71025eb5b8 == 1;
+        if (!stopAtMin)
+            stopAtMin = Unk_71025d69f0::instance()->sub_710094F7AC(3);
+        if (stopAtMin) {
+            _3620->StopAtMin();
+        } else {
+            _3620->StopAtMax();
+            if (_3658)
+                _3658->sub_710093E42C(0, 1);
+            return;
+        }
+    }
+
+    sPictureBookState._20 = 0;
+    memset(&sPictureBookState._514, 0xff, sizeof(sPictureBookState._514));
+    memset(&sPictureBookState._320, 0, sizeof(sPictureBookState._320));
+    for (u32 i = 0; i < u32(sPictureBookState._1c); ++i) {
+        sead::FormatFixedSafeString<128> name("IsRegisteredPictureBook_%s",
+                                              sUnk_71025dfca0[i].cstr());
+        const bool registered = ksys::gdt::getBoolByKey(name, false);
+        sPictureBookState._320[i] = registered;
+        if (registered) {
+            sPictureBookState._514[sPictureBookState._20] = s32(i);
+            ++sPictureBookState._20;
+        }
+    }
+    sub_71009F9D64();
+    if (sUnk_71025eb5b4) {
+        if (_3660) {
+            _3660->sub_710093DAD4(5);
+            _3660->sub_710093F278(sPictureBookState._20, 0);
+            _3660->sub_710093EC3C(sUnk_71025eb5b0, 1);
+        }
+        if (_3628)
+            _3628->StopAtMax();
+        getStateMachine().changeState(&sUnk_71025eb4f0);
+    } else {
+        if (_3658)
+            _3658->sub_710093EC3C(sUnk_71025eb5b0, 1);
+        if (_3660)
+            _3660->sub_710093DAE8(2);
+        if (_3628)
+            _3628->StopAtMin();
+        getStateMachine().changeState(&sUnk_71025eb490);
+    }
+    if (sUnk_71025eb5b8 == 1) {
+        sUnk_71025eb430.init(0.2777777910232544f);
+        sUnk_71025eb430.setToEnd();
+        if (_3658)
+            _3658->sub_710093E42C(0, 1);
+    }
+    if (sUnk_71025eb5b8 == 2) {
+        sUnk_71025eb430.init(0.5f);
+        if (sPictureBookState._1 == 1)
+            sUnk_71025eb430.setToEnd();
+    }
+}
+
 // 0x71009fa6c8: stops the pair of animators, tells the home screen and, while the picture book page is
 // still open, forwards the selected picture to the per-picture update.
 void ScreenAppPictureBook::m154() {
