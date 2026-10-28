@@ -1503,6 +1503,8 @@ public:
     // 0x7100966894 (480 bytes) / 0x71009666c0 (424 bytes): declared only
     void sub_7100966894();
     void sub_71009666C0(const sead::Vector2f* pos);
+    // 0x71009664b8 (460 bytes): the cursor clamp when the map is scaled (the other branch of get3884)
+    void sub_71009664B8(const sead::Vector2f* pos);
     // 0x7100966684 (CSV uiSubsys1::__auto10; placeholder name): scales the (x, z) of `pos` into the map view and forwards it
     void sub_7100966684(const sead::Vector3f* pos);
     // 0x7100966b7c (placeholder name): recomputes the map cursor (_3868) and the clamped view position (_3870)

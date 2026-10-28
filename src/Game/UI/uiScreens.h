@@ -3014,6 +3014,8 @@ public:
     void x_1();
     // 0x71009ecea4: samples the map move input (pad mask and left stick with a dead zone)
     void sub_71009ECEA4();
+    // 0x71009ed310: applies the sampled move input to the map cursor and marks the cursor as moving
+    void sub_71009ED310();
     // 0x71009ecfa4: closes the map layouts for the map widget's mode 3
     void sub_71009ECFA4();
     // 0x71009f0be4 / 0x71009f2430 (CSV unnamed, declared only)

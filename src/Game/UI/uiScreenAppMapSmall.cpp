@@ -760,6 +760,29 @@ void ScreenAppMap::sub_71009ED1E4() {
         _3628[6]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
 }
 
+// 0x71009ed310: applies the sampled move input to the map cursor.
+// NON_MATCHING: the view / cursor movement maths agree; the original schedules the two member loads and the
+// static / instance loads of the last call differently (register and load order only).
+void ScreenAppMap::sub_71009ED310() {
+    if (_3684 == 0.0f && _3688 == 0.0f)
+        return;
+    _3610->_b350 = 0;
+    const f32 speed = UiSubsys1::instance()->sub_7100965FEC();
+    const f32 view_x = speed * _3684;
+    const f32 view_y = speed * _3688;
+    const sead::Vector2f view_move(view_x, view_y);
+    const sead::Vector2f cursor_move(-view_x, -view_y);
+    sead::Vector2f pos(0, 0);
+    const sead::Vector2f base = *UiSubsys1::instance()->getVec3868();
+    const f32 inv_scale = 1.0f / UiSubsys1::instance()->_850.get28();
+    pos.set(base.x + view_move.x * inv_scale, base.y + view_move.y * inv_scale);
+    if (UiSubsys1::instance()->get3884())
+        UiSubsys1::instance()->sub_71009666C0(&pos);
+    else
+        UiSubsys1::instance()->sub_71009664B8(&pos);
+    UiSubsys1::instance()->sub_7100968D10(cursor_move != sead::Vector2f::zero);
+}
+
 // 0x71009ed860
 // NON_MATCHING: clang merges the state 7 check into the 1/3/5 set test here; the original keeps them apart
 bool ScreenAppMap::sub_71009ED860() {
