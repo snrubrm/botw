@@ -9,6 +9,7 @@ namespace gsys {
 // Constructor 0x7100c79538 runs the MaskedLight constructor and stores the spot index at +0x2c0.
 // Partial: only the index is modelled.
 class MaskedSpotLight : public MaskedLight {
+    SEAD_RTTI_OVERRIDE(MaskedSpotLight, MaskedLight)
 public:
     static const agl::env::TypeInfo* sTypeInfo;
 
