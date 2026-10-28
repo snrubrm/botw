@@ -50,6 +50,9 @@ public:
     bool isCubeMapReady() const;
     // 0x7100c309d0
     void setSceneMaterial(class ModelNW* model);
+    // 0x7100c33e7c / 0x7100c34040: the per-view planar and local reflection passes.
+    void preCalcView(ModelSceneContext* context);
+    void calcViewLocalReflection(ModelSceneContext* context);
     // 0x7100c3246c: builds the light map memory and resets this frame's object lists.
     void calcFrame(int frame);
     // 0x7100c324e8

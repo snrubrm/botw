@@ -13,6 +13,7 @@
 #include <lighting/aglSSSSS.h>
 #include <mc/seadCoreInfo.h>
 #include "gsys/gsysLightProbeMgr.h"
+#include "gsys/gsysLayer3D.h"
 
 namespace gsys {
 
@@ -184,6 +185,28 @@ void ModelSceneGI::setSceneMaterial(ModelNW* model) {
     if (!_8->isFeatureEnabled(ModelSceneConfig::Feature::EnvCubeMap))
         return;
     mEnvCubeMap->mShaderContext->setSceneMaterial(model);
+}
+
+// NON_MATCHING: same instructions; clang materialises the first view record's matrix address
+// before the projection call where the original keeps the record pointer.
+// 0x7100c33e7c
+void ModelSceneGI::preCalcView(ModelSceneContext* context) {
+    if (!mPlanarReflection || !_8->isFeatureEnabled(ModelSceneConfig::Feature::Reflection))
+        return;
+    mPlanarReflection->calcView(context->getViewIndex(), *context->_398->sub_7100B60CE0());
+    context->calcView(1, mPlanarReflection->getView(context->getViewIndex())._510,
+                      *context->_398->getRenderProjection(),
+                      mPlanarReflection->getView(context->getViewIndex())._510);
+}
+
+// 0x7100c34040
+void ModelSceneGI::calcViewLocalReflection(ModelSceneContext* context) {
+    if (!mLocalReflection || !_8->isFeatureEnabled(ModelSceneConfig::Feature::LocalReflection))
+        return;
+    if (!mLocalReflection->mEnabled)
+        return;
+    mLocalReflection->calcView(context->getViewIndex(), *context->_398->sub_7100B60CE0(),
+                               *context->_398->getRenderProjection());
 }
 
 // 0x7100c3246c
