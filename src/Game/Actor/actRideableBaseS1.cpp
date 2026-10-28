@@ -111,13 +111,11 @@ bool RideableBase::S1::sub_7100E76BD8(const Unk68* entry, f32 speed) {
     return false;
 }
 
-// NON_MATCHING: the guard is the same fused `fcmp / ccmp / b.eq` but the original branches to its false block
-// and falls through to the state test where ours falls through to the false block (ccmp #4 + b.ne).
 // 0x7100e76b40: takes an AS state entry as the current animation state when its rate beats `rate`; returns
 // false while another entry is still running, and reports through `out` whether the request is over half way.
 bool RideableBase::S1::sub_7100E76B40(const Unk68* entry, f32 value, f32 rate, f32 speed, bool* out) {
     const f32 entry_rate = entry->mRate;
-    if (_2c == 0 || !(entry_rate > rate))
+    if (entry_rate > rate && _2c == 0)
         return false;
     if (_2c == 2) {
         if (_18 != entry)
