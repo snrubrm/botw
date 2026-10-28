@@ -574,6 +574,73 @@ void HorseMgr::createHorse(sead::Heap* heap, bool flag) {
                                                             nullptr, 1);
 }
 
+// 0x7100e857cc: removes horse `index` from the live records (see the header).
+// NON_MATCHING: three residues: the original hoists the Flag temporary's stack spill above the index
+// check, keeps a loop entry guard that our build folds away (index is already known to be <= 4), and
+// orders the `and` of the flag test with the flags first (commutative; see TIPS). Same instruction
+// count (253).
+void HorseMgr::sub_7100E857CC(s32 index, bool a2, bool a3, s32 a4) {
+    if (u32(index) > 4)
+        return;
+    if (!isFlagOn(Flag::_0))
+        return;
+
+    auto lock = sead::makeScopedLock(_230);
+    u32 overflow = 0;
+    if (a3) {
+        s32 dead = getNumDeadHorsesRegistered();
+        if (dead >= 5) {
+            sub_7100E8720C(0);
+            dead = 4;
+            overflow = 1;
+        }
+        HorseData data;
+        x_8(&data, index);
+        data.deadCause = a4;
+        sub_7100E88A08(&data, dead);
+    }
+
+    for (s32 i = index; i < 5; ++i) {
+        HorseData data;
+        if (i + 1 < 5)
+            sub_7100E854EC(&data, i + 1);
+        sub_7100E8533C(&data, i);
+    }
+
+    s32 selected = _d0;
+    if (selected == index) {
+        _d0 = -1;
+        _80.deleteProc();
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&mOwnedHorse, &accessor)) {
+            if (a3) {
+                _b0 = *accessor.getMessageTransceiverId();
+            } else if (a2) {
+                accessor.deleteEx(ksys::act::BaseProc::DeleteReason::_0);
+            }
+        }
+        mOwnedHorse.reset();
+        selected = _d0;
+    } else if (selected > index) {
+        --selected;
+        _d0 = selected;
+    }
+
+    ksys::gdt::Manager::instance()->setS32(selected, _1a0);
+
+    bool found = x_4(RiddenAnimalType::_6, true) || x_5(RiddenAnimalType::_6, overflow | a3);
+    if (found)
+        setFlagOn(Flag::_5);
+    else
+        setFlagOff(Flag::_5);
+
+    found = x_4(RiddenAnimalType::_3, true) || x_5(RiddenAnimalType::_3, overflow | a3);
+    if (found)
+        setFlagOn(Flag::_6);
+    else
+        setFlagOff(Flag::_6);
+}
+
 act::HorseBase* HorseMgr::getOwnedHorseBase() const {
     return sead::DynamicCast<act::HorseBase>(mOwnedHorse.getProc(nullptr));
 }

@@ -225,9 +225,13 @@ public:
     bool sub_7100E84AE4(const ksys::act::ActorLinkConstDataAccess& accessor,
                         const sead::SafeString& name, bool flag);
 
-    // 0x7100e857cc (declaration only, placeholder signature): used by NPCReleaseHorse with
-    // (Horse_SelectedIndex, true, false, -1).
+    // 0x7100e857cc: NPCReleaseHorse / the horse registration call it with (Horse_SelectedIndex,
+    // true, false, -1). Removes horse `index` from the live records, moves the following records up,
+    // moves the record to the dead horses when `a3`, and fixes the selected index / owned horse.
     void sub_7100E857CC(s32 index, bool a2, bool a3, s32 a4);
+    // 0x7100e8720c (declaration only, placeholder signature): moves the dead horse records from `index`
+    // up one slot.
+    void sub_7100E8720C(s32 index);
     // 0x7100e86cf4 / 0x7100e86d44 (declaration only; WaitWhileCreatingOwnedHorse): whether the horse
     // is still being created / marks it done.
     bool sub_7100E86CF4();
