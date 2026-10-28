@@ -77,6 +77,10 @@ public:
     bool isFlag4SetMaybe() const;
     // 0xf45de8 (placeholder name): thread word 0x190 is not 2.
     bool isNot2Maybe() const;
+    // 0x7100f45bf4 (placeholder name; declared only, 244 B): stops the scan / preview sounds and clears
+    // flag +0x38. AmiiboMgr::sub_710064978C tests the same flag before calling it (inline-only getter).
+    void sub_7100F45BF4();
+    bool isScanningMaybe() const { return _38; }
 
 private:
     u64 _28 = 0;

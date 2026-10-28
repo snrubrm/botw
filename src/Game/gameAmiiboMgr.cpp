@@ -12,6 +12,7 @@
 #include "KingSystem/ActorSystem/actActorHeapUtil.h"
 #include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "Game/gameRoot38.h"
+#include "Game/gameRuneMgr.h"
 #include "Game/UI/uiUtils.h"
 
 // Declarations of nn::time functions that lib/NintendoSDK lacks (PLT imports in the original).
@@ -134,6 +135,54 @@ bool AmiiboMgr::queryHistoryTodayWithWorldMgrCheck(const AmiiboInfo& info, u32 m
 
 int AmiiboMgr::queryHistoryTotal(const AmiiboInfo& info, u32 mode) {
     return queryHistory(info, "AmiiboTouchHistoryTotal", mode);
+}
+
+
+// 0x710064978c: per-frame amiibo marker update (called from Player::calcMaybe): advances the marker
+// timer, registers / unregisters the NFP listener for the selected rune, updates the effects and plays
+// the preview sound when the read state changes.
+void AmiiboMgr::sub_710064978C(ksys::act::Player* player) {
+    if (NFP::instance()->isScanningMaybe())
+        NFP::instance()->sub_7100F45BF4();
+    const u32 state = _2cc;
+    s32 timer = _130;
+    _2c8 = state;
+    if (state == 1) {
+        timer += 1;
+        _130 = timer;
+    }
+    if (timer >= 0x385) {
+        _2cc = 3;
+        _130 = 0;
+    }
+    if (state >= 2) {
+        _2cc = 0;
+        _d0.fadeXLink();
+    }
+    const bool was_read = (_134 & 8) != 0;
+    if (RuneMgr::instance()->isSelectedRune(7)) {
+        if (!(_134 & 4)) {
+            NFP::instance()->insertFunctions(&_148);
+            _134 |= 4;
+        }
+        sub_710064999C(player);
+    } else {
+        if (_134 & 4) {
+            NFP::instance()->eraseFunctions(&_148);
+            _134 &= ~4u;
+        }
+        _134 &= ~1u;
+        sub_7100649F94();
+    }
+    sub_710064A0A0();
+    if (!was_read) {
+        if (_134 & 8)
+            ui::playSound("AmiiboPreview", &_2b8);
+    } else if (!(_134 & 8)) {
+        xlink::fade(_2b8, -1);
+    }
+    if (_2c8 == 2)
+        RuneMgr::instance()->setHandled();
 }
 
 // 0x7100a981b0 (placeholder name; discarding the result is what the original does).
