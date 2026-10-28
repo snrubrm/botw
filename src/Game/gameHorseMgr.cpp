@@ -13,6 +13,7 @@
 #include "KingSystem/ActorSystem/actActorSystem.h"
 #include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Map/mapPlacementMgr.h"
 
 namespace uking {
@@ -91,6 +92,43 @@ bool HorseMgr::sub_7100E84AB8(ksys::act::Actor* actor) {
     if (actor && mOwnedHorse.hasProcById(actor))
         return true;
     return false;
+}
+
+// 0x7100e88bcc: registers `actor` as the horse being received: writes its data to the Horse_* flags of
+// record 5 and squares its traverse distance into _dc.
+void HorseMgr::setRiddenHorseMaybe(ksys::act::Actor* actor) {
+    if (!actor) {
+        _30.reset();
+        return;
+    }
+    if (!actor->getHorseOptionsMaybe())
+        return;
+    if (_30.hasProcById(actor))
+        return;
+    _30.acquire(actor, false);
+
+    HorseData data;
+    data.actorName = actor->getName().cstr();
+    if (sead::IsDerivedFrom<act::HorseBase>(actor)) {
+        auto* horse = static_cast<act::HorseBase*>(actor);
+        const sead::SafeString* mane_name;
+        {
+            auto lock = sead::makeScopedLock(horse->_890);
+            mane_name = &horse->_8d0._40;
+        }
+        data.maneName = mane_name->cstr();
+        data.amiiboUidHash = horse->_c00.cstr();
+        data.familiarity = horse->sub_7100E6AD4C();
+        data.collarType = horse->_b78;
+        data.footType = horse->_b7c;
+    }
+    sub_7100E8533C(&data, 5);
+
+    const sead::SafeString name(data.actorName);
+    if (!ksys::map::PlacementMgr::instance() || !ksys::map::PlacementMgr::instance()->mPlacementActors)
+        return;
+    const f32 distance = ksys::map::getActorTraverseDist(name, 1.0f);
+    _dc = distance * distance;
 }
 
 bool HorseMgr::sub_7100E8527C(ksys::act::BaseProcLink* link, const sead::SafeString& name,

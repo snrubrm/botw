@@ -201,8 +201,8 @@ public:
     // `type` (1 if there is none); returns the selected index (-1 if none).
     s32 sub_7100E8612C(RiddenAnimalType* type);
 
-    // 0x7100e88e18 (CSV HorseMgr::isLinkedToActor) / 0x7100e88bcc (CSV HorseMgr::setRiddenHorseMaybe; declared
-    // only; RideableHorse::m42 / m43 pass null).
+    // 0x7100e88bcc (CSV HorseMgr::setRiddenHorseMaybe; RideableHorse::m42 / m43 pass null): registers `actor`
+    // as the horse being received (the Horse_* flags of record 5) and squares its traverse distance into _dc.
     bool isLinkedToActor(ksys::act::Actor* actor);
     // 0x7100e84ab8 (CSV HorseMgr::__auto2; declared only): whether the link at +0x20 (the owned horse) is `actor`.
     bool sub_7100E84AB8(ksys::act::Actor* actor);
