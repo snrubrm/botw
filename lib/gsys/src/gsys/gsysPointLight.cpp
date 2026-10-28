@@ -1,4 +1,6 @@
 #include "gsys/gsysPointLight.h"
+#include "gsys/gsysSpotLight.h"
+#include "gsys/gsysMaskedSpotLight.h"
 
 namespace gsys {
 
@@ -17,5 +19,10 @@ PointLight::~PointLight() = default;
 s32 PointLightRig::getTypeID() const {
     return sTypeInfo->id;
 }
+
+// 0x7100c578c0 / 0x7100c62588 / 0x7100c7c224
+template class LightRig<PointLight>;
+template class LightRig<SpotLight>;
+template class LightRig<MaskedSpotLight>;
 
 }  // namespace gsys

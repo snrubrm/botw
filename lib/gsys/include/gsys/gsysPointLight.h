@@ -1,5 +1,6 @@
 #pragma once
 
+#include "gsys/gsysLightRig.h"
 #include <environment/aglEnvObj.h>
 #include <environment/aglLight.h>
 
@@ -34,7 +35,7 @@ private:
 static_assert(sizeof(PointLight) == 0x300);
 
 // TODO
-class PointLightRig {
+class PointLightRig : public LightRig<PointLight> {
 public:
     static const agl::env::TypeInfo* sTypeInfo;
     s32 getTypeID() const;

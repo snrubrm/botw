@@ -1,5 +1,6 @@
 #pragma once
 
+#include "gsys/gsysLightRig.h"
 #include <environment/aglEnvObj.h>
 
 namespace gsys {
@@ -8,7 +9,7 @@ namespace gsys {
 class SpotLight {};
 
 // TODO
-class SpotLightRig {
+class SpotLightRig : public LightRig<SpotLight> {
 public:
     static const agl::env::TypeInfo* sTypeInfo;
     s32 getTypeID() const;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "gsys/gsysLightRig.h"
 #include <environment/aglEnvObj.h>
 #include "gsys/gsysMaskedLight.h"
 
@@ -28,7 +29,7 @@ private:
 };
 
 // TODO
-class MaskedSpotLightRig {
+class MaskedSpotLightRig : public LightRig<MaskedSpotLight> {
 public:
     static const agl::env::TypeInfo* sTypeInfo;
     s32 getTypeID() const;
