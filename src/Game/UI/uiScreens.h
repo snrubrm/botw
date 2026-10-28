@@ -3033,6 +3033,8 @@ public:
     void x_2();
     // 0x71009efd24 (CSV ScreenAppMap::x_0): the map's per-frame widget / label update, run before x_1
     void x_0();
+    // 0x71009efeec (placeholder name): the map's per-frame reset, run at the end of x_0
+    void sub_71009EFEEC();
     // 0x71009f0150 (CSV ScreenAppMap::x_1): the map's per-frame widget / label update, run after x_0
     void x_1();
     // 0x71009ecea4: samples the map move input (pad mask and left stick with a dead zone)

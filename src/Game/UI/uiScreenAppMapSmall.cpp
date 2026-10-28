@@ -1610,6 +1610,48 @@ void ScreenAppMap::x_2() {
         _3628[6]->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
 }
 
+// 0x71009efeec (placeholder name): the map's per-frame reset. Clears the home screen's pane slot, stops
+// the four mode animators and the map cursor's animator, then closes the message tips screen and changes
+// to the map's run state.
+void ScreenAppMap::sub_71009EFEEC() {
+    if (!_3610)
+        return;
+    if (auto* home = sead::DynamicCast<ScreenAppHome>(
+            eui::ScreenMgr::instance()->getScreen(ScreenId::AppHome))) {
+        home->sub_71009DC77C(1, nullptr);
+        const auto& position = sead::Vector2f::zero;
+        mLayout->mPane->SetPosition(nn::util::Float3{position.x, position.y, 0.0f});
+    }
+    UiSubsys1::instance()->sub_7100962534();
+    _3610->sub_71009A9388();
+    if (auto* child = static_cast<AppMapIconPart*>(getChildExMaybe(1, 0)))
+        child->sub_710099FD3C();
+    if (_3c90)
+        _3c90->sub_71009C117C();
+    if (_3620)
+        _3620->sub_710098C420();
+    _3628[3]->StopAtMin();
+    _3628[4]->StopAtMin();
+    _3628[5]->StopAtMin();
+    _3628[6]->StopAtMin();
+    if (UiSubsys1::instance()->get38f8() == 1)
+        sub_71009ED97C();
+    UiSubsys1::instance()->sub_7100966A74();
+    _3610->sub_71009A9B7C();
+    if (ksys::Patrol::instance() && ksys::Patrol::instance()->mField0)
+        _3610->sub_71009A9B48();
+    _3c08->PlayFromCurrent(eui::Animator::PlayType(0), -1.0f);
+    UiSubsys1::instance()->clear38c8();
+    _3628[0]->StopAtMax();
+    if (_3c38) {
+        _3628[0]->AnimatePane(_3c38);
+        _3628[0]->AnimatePane(_3c40);
+    }
+    if (auto* tips = eui::ScreenMgr::instance()->getScreen(ScreenId::MessageTipsPauseMenu))
+        tips->close(-1);
+    getStateMachine().changeState(&sUnk_71025df180);
+}
+
 // 0x71009f0150: the map's per-frame widget / label update. Hands the home screen the map pane, refreshes
 // the completion count and the map widget's label, then shows the icon area / map panes when the widget
 // is in mode 2.
