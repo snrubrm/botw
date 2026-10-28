@@ -100,6 +100,12 @@ public:
     // below 50 degrees), returns the hit position and normal.
     bool spawnMotorcycle_x(sead::Vector3f* out_pos, sead::Vector3f* out_normal,
                            ksys::phys::RayCastBodyQuery* cast);
+    // 0x710067a080 (CSV name; parameter names are guesses): rotates `query_dir` by 2*pi/13 around Y into
+    // `dir` (y = 0), then builds the spawn frame from the ground normal `up`: `up` becomes the component
+    // of the normal along `dir` with the vertical part of its unit length, and `right` is
+    // `dir - up * dot`, normalised (equal to `dir` when that is zero).
+    bool spawnMotorcycle_x_1(sead::Vector3f* dir, sead::Vector3f* right, sead::Vector3f* up,
+                             const sead::Vector3f& query_dir);
     // 0x710067a290 (CSV MotorcycleMgr::spawnMotorcycle_x_0; parameter names are guesses): casts a ray across a box of
     // `size` placed 1.3 units along `dir` from `pos`; if it hits, casts again 1.1 units behind `pos`. Returns whether
     // the last cast hit.

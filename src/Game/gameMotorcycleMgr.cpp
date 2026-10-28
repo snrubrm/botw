@@ -207,6 +207,42 @@ bool MotorcycleMgr::spawnMotorcycle_x(sead::Vector3f* out_pos, sead::Vector3f* o
     return true;
 }
 
+// 0x710067a080: rotates the query direction by 2*pi/13 around Y into `dir`, then builds the spawn frame
+// from the ground normal `up` (see the header).
+// NON_MATCHING: only the scheduling of the three right-vector components differs (ours hoists the first
+// `up->x` load above the `up->y` store and pairs the two loads before the multiply; the original loads
+// each `up` component, multiplies, then loads the `dir` component). The instruction multiset and size
+// are the same (132); the `fmul` operands are also commutative-swapped. See the lane log for the
+// single-use-locals variant that fixes the order.
+bool MotorcycleMgr::spawnMotorcycle_x_1(sead::Vector3f* dir, sead::Vector3f* right,
+                                        sead::Vector3f* up, const sead::Vector3f& query_dir) {
+    f32 sin;
+    f32 cos;
+    // 2*pi/13 in sead's index angle units (0x100000000 / 13).
+    sead::Mathf::sinCosIdx(&sin, &cos, 0x13b13b13);
+
+    dir->set(query_dir.x * cos + query_dir.z * sin, 0.0f,
+             query_dir.z * cos - query_dir.x * sin);
+
+    const f32 len = dir->normalize();
+    if (len != 0.0f) {
+        const f32 dot = dir->dot(*up);
+        up->x = dir->x * dot;
+        up->y = dir->y * dot;
+        up->z = dir->z * dot;
+        up->y = sead::Mathf::sqrt(sead::Mathf::clampMin(1.0f - dot * dot, 0.0f));
+
+        right->x = dir->x - up->x * dot;
+        right->y = dir->y - up->y * dot;
+        right->z = dir->z - up->z * dot;
+
+        if (right->normalize() == 0.0f)
+            right->set(*dir);
+        return true;
+    }
+    return false;
+}
+
 // NON_MATCHING: scheduling / register allocation of the corner computations (the original keeps the first
 // two corners' components in callee-saved registers and stores `end` with a pair store)
 // 0x710067a40c: a zero-length shape cast with the player's system group handler at the spawn
