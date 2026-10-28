@@ -121,4 +121,7 @@ const sead::RuntimeTypeInfo::Interface* SystemTask::getRuntimeTypeInfo() const {
     return getRuntimeTypeInfoStatic();
 }
 
+// 0x7100c64de0
+SystemTask::CreateArg::~CreateArg() {}
+
 }  // namespace gsys

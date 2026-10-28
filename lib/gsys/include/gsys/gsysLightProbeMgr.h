@@ -25,6 +25,8 @@ public:
 
         // 0x7100c7663c: empty in this build.
         void postWrite_() const;
+        // 0x7100c76634: the original body returns 1.
+        bool preWrite_() const;
     };
 
     // 0x7100c76c3c: allocates the two interpolation uniform blocks. Constructor 0x7100c76c68

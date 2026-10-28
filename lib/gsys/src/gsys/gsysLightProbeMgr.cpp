@@ -22,6 +22,11 @@ void LightProbeMgr::drawDebug(agl::DrawContext*, int) const {}
 // 0x7100c7663c
 void LightProbeMgr::ProbeVolumeMgr::postWrite_() const {}
 
+// 0x7100c76634
+bool LightProbeMgr::ProbeVolumeMgr::preWrite_() const {
+    return true;
+}
+
 // 0x7100c76c3c
 void LightProbeMgr::DebugProbeInterp::initialize(sead::Heap* heap) {
     if (!heap)

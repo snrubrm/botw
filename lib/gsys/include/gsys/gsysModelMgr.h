@@ -40,6 +40,12 @@ class ModelMgr : public sead::hostio::Node
     SEAD_SINGLETON_DISPOSER(ModelMgr)
 
 public:
+    // Partial: only the empty destructor is modelled (0x7100c030b0); the node's layout is not.
+    class ModelNameNode {
+    public:
+        ~ModelNameNode();
+    };
+
     // Inlined into createInstance (0x7100c01ce8); declared only.
     ModelMgr();
     virtual ~ModelMgr();

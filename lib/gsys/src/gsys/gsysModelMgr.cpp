@@ -124,4 +124,7 @@ void ModelMgr::calcGPU(sead::WorkerMgr* wm) {
         it->calcGPU_(work);
 }
 
+// 0x7100c030b0
+ModelMgr::ModelNameNode::~ModelNameNode() {}
+
 }  // namespace gsys

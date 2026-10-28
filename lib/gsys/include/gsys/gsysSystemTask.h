@@ -17,6 +17,11 @@ namespace gsys {
 // build) and the first own byte at +0xd8, which is why the bases are ordered this way.
 class SystemTask : public sead::TaskBase, public sead::hostio::Node {
 public:
+    // Partial: only the empty destructor is modelled (0x7100c64de0).
+    struct CreateArg {
+        ~CreateArg();
+    };
+
     // 0x7100c64ca4 (296 bytes): not modelled yet, so the destructor stays undefined.
     virtual ~SystemTask();
 
