@@ -1,4 +1,5 @@
 #include "KingSystem/World/worldManager.h"
+#include <algorithm>
 #include <cmath>
 #include "KingSystem/System/VFR.h"
 #include <container/seadSafeArray.h>
@@ -798,6 +799,73 @@ void Manager::calc1(sead::WorkerMgr* worker_mgr) {
     }
     mCalcType = CalcType::_0;
     calcManagers(worker_mgr);
+}
+
+void Manager::calc2(sead::WorkerMgr* worker_mgr) {
+    if (mStageType == StageType::Invalid)
+        return;
+    if (gsys::SystemTask::instance()->mFlags.isOnBit(0))
+        return;
+    auto* save_mgr = SaveMgr::instance();
+    if (save_mgr) {
+        auto* obj = save_mgr->get1030Maybe();
+        if (obj && obj->m0())
+            return;
+    }
+
+    mCalcType = CalcType::_1;
+    calcManagers(worker_mgr);
+
+    if (mEnableAutoWind) {
+        if (mManualWindTimer >= 2)
+            --mManualWindTimer;
+        if (mManualWindTimer == 1) {
+            if (mWindChangeFinalTimer++ >= 150)
+                mManualWindTimer = 0;
+        } else {
+            mWindChangeFinalTimer = 0;
+        }
+    } else {
+        if (mManualWindTimer != 0)
+            --mManualWindTimer;
+    }
+    if (mDirectionalLightTimer)
+        --mDirectionalLightTimer;
+
+    if (!evt::Manager::instance()->hasActiveEvent() || mTimer != 0)
+        updateWeatherTimers();
+
+    updateTimers();
+
+    const f32 x = mPlayerPos.x;
+    f32 speed = 0.0f;
+    bool enabled = false;
+    if (x > 4920.0f) {
+        mMapEdgeWindDirectionType = 2;
+        speed = (x - 4920.0f) / 30.0f;
+        enabled = true;
+    } else if (x < -4920.0f) {
+        mMapEdgeWindDirectionType = 6;
+        speed = (x + 4920.0f) / -30.0f;
+        enabled = true;
+    }
+    const f32 z = mPlayerPos.z;
+    if (z > 3920.0f) {
+        mMapEdgeWindDirectionType = 4;
+        speed = (z - 3920.0f) / 30.0f;
+        enabled = true;
+    } else if (z < -3920.0f) {
+        mMapEdgeWindDirectionType = 0;
+        speed = (z + 3920.0f) / -30.0f;
+        enabled = true;
+    }
+    mMapEdgeWindEnabled = false;
+    if (enabled) {
+        mMapEdgeWindEnabled = true;
+        mMapEdgeWindSpeed = std::min(speed, 1.0f) * 24.0f + 1.0f;
+    }
+
+    updateWindDirections();
 }
 
 void Manager::calcEntryJob() {
