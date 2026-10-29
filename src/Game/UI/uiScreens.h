@@ -2810,6 +2810,8 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     // 0x71009a9380 / 0x71009a9280 (slots 21 / 31)
     void m21() override;
     void m31() override;
+    // 0x71009a92c0 (slot 34): removes the child panes of every visible map entry and marks the widget ready
+    void m34() override;
 
     // the owning screen (passed to sub_7100AA2350 by sub_71009A947C)
     /* 0x130 */ eui::Screen* _130;

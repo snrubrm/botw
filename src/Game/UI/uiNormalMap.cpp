@@ -1,5 +1,8 @@
 #include "Game/UI/uiNormalMap.h"
 #include "Game/UI/uiManager.h"
+#include "Game/UI/uiScreens.h"
+#include "Game/UI/uiUtils.h"
+#include "Game/UI/euiScreen.h"
 #include <math/seadMathCalcCommon.h>
 #include <nn/ui2d/Pane.h>
 #include <nn/ui2d/Material.h>
@@ -220,6 +223,37 @@ void Unk_7102479c10::sub_71009A80D0(s32 mode, s32 area_index) {
         }
         _a9a0.reset();
     }
+}
+
+// 0x71009a82b4 (placeholder name): draws `bounds` on the map screen, insetting the box by one unit
+// after each of `count` draws. The coordinates are clamped to the map extent and scaled to UI units.
+// NON_MATCHING: ours scales max.y before storing the min pair; the original stores min first and
+// scales max.y after (same instructions and size, only that pair is scheduled the other way round).
+void Unk_7102479c10::sub_71009A82B4(const sead::BoundBox2f& bounds, const sead::Color4f& color,
+                                    s32 count, bool a4, bool a5, bool a6) {
+    sead::BoundBox2f box;
+    box.set(clampMapPosition(bounds.getMin()), clampMapPosition(bounds.getMax()));
+    for (s32 i = count; i != 0; --i) {
+        sub_7100AA9A40(box, eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap), color, a4, a5,
+                       a6);
+        box.set(box.getMin().x + 1.0f, box.getMin().y + 1.0f, box.getMax().x - 1.0f,
+                box.getMax().y - 1.0f);
+    }
+}
+
+// 0x71009a8460 (placeholder name): draws a quad's four corners on the map screen after clamping and
+// scaling them like sub_71009A82B4. `a7` is never read (see the header).
+void Unk_7102479c10::sub_71009A8460(f32 size, const sead::Vector2f& corner0,
+                                    const sead::Vector2f& corner1, const sead::Vector2f& corner2,
+                                    const sead::Vector2f& corner3, const sead::Color4f& color,
+                                    bool a7, bool show_corners, bool show_center, bool flag,
+                                    const sead::Vector2f& offset) {
+    const sead::Vector2f p0 = clampMapPosition(corner0);
+    const sead::Vector2f p1 = clampMapPosition(corner1);
+    const sead::Vector2f p2 = clampMapPosition(corner2);
+    const sead::Vector2f p3 = clampMapPosition(corner3);
+    sub_7100AA9878(size, p0, p1, p2, p3, eui::ScreenMgr::instance()->getScreen(ScreenId::AppMap),
+                   color, show_corners, show_center, flag, offset);
 }
 
 }  // namespace uking::ui

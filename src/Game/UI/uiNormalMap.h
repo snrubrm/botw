@@ -3,9 +3,14 @@
 #include <basis/seadTypes.h>
 #include <container/seadSafeArray.h>
 #include <nn/ui2d/TextureInfo.h>
+#include <math/seadMathCalcCommon.h>
 #include <prim/seadSafeString.h>
 #include "Game/UI/uiTimer.h"
 #include "Game/UI/uiUnkTiny.h"
+
+namespace sead {
+class Color4f;
+}
 
 namespace ksys::res {
 class Handle;
@@ -21,6 +26,16 @@ class LayoutEx;
 namespace uking::ui {
 
 class UiSubsys1;
+
+// Clamps a map-space position to the map extent and scales it to UI units (the sequence repeated by
+// the debug drawing helpers 9A82B4 / 9A8460). Inline-only in the original; name is a guess.
+inline sead::Vector2f clampMapPosition(sead::Vector2f position) {
+    position.x = sead::Mathf::clamp(position.x, -50000.0f, 50000.0f);
+    position.y = sead::Mathf::clamp(position.y, -50000.0f, 50000.0f);
+    position.x *= 0.03448276f;
+    position.y *= 0.03448276f;
+    return position;
+}
 
 // Texture loader embedded at +0x10 of each 0xa0-byte map tile (9A5930 / 9A62C0).
 class Unk_7102479bd0 {
@@ -85,6 +100,15 @@ public:
     bool sub_71009A829C() const;
     // 0x71009a5cfc (declared only; 780 bytes): builds the map entries and tiles from the panes of `arg`
     void sub_71009A5CFC(const Unk_7102479fb0& arg, sead::Heap* heap);
+    // 0x71009a82b4 (placeholder name): draws `bounds` on the map screen, inset by one unit per repeat
+    void sub_71009A82B4(const sead::BoundBox2f& bounds, const sead::Color4f& color, s32 count, bool a4,
+                        bool a5, bool a6);
+    // 0x71009a8460 (placeholder name): draws a quad's clamped corners on the map screen; the parameter
+    // before the flags is never read (a guess, the original's caller passes it as an undef register)
+    void sub_71009A8460(f32 size, const sead::Vector2f& corner0, const sead::Vector2f& corner1,
+                        const sead::Vector2f& corner2, const sead::Vector2f& corner3,
+                        const sead::Color4f& color, bool a7, bool show_corners, bool show_center,
+                        bool flag, const sead::Vector2f& offset);
 
     /* 0x08 */ UiSubsys1* _8 = nullptr;  // the UI subsystem (its _128 is the current map area)
     /* 0x10 */ Unk_71024753a8* _10;

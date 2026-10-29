@@ -164,6 +164,21 @@ void ScreenAppMapWidget::sub_71009A995C() {
     _b34c = 1;
 }
 
+// 0x71009a92c0 (slot 34): removes the child panes of every visible map entry and marks the widget ready.
+void ScreenAppMapWidget::m34() {
+    for (s32 i = 0; i < 120; ++i) {
+        if (!mNormalMap.mEntries[i]._20)
+            continue;
+        nn::ui2d::Pane* pane = mNormalMap._a9f0 ? mNormalMap._a9f0[i] : nullptr;
+        if (mNormalMap._a9e0)
+            mNormalMap._a9e0->RemoveChild(pane);
+        pane = mNormalMap._a9f0 ? mNormalMap._a9f0[i + 120] : nullptr;
+        if (mNormalMap._a9e8)
+            mNormalMap._a9e8->RemoveChild(pane);
+    }
+    _8e8 = true;
+}
+
 // 0x71009a99f0: applies the map widget's scale level to the map view parameters
 void ScreenAppMapWidget::sub_71009A99F0(s32 level) {
     mSubsys->_850.get28();
