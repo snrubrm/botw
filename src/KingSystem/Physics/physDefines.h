@@ -406,7 +406,8 @@ WallCode wallCodeFromText(const sead::SafeString& text);
 // RigidBody::getContactLayer().
 bool xxx_2(int layer);
 // 0x7100e94768: contact-layer classifier (true for layers 0, 2, 8, 9, 12).
-// Placeholder name; the exact meaning is unknown.
-bool xxx_3(int layer);
+// Placeholder name; the exact meaning is unknown. Callers zero-extend the
+// contact-layer value into the 64-bit argument.
+bool xxx_3(u64 layer);
 
 }  // namespace ksys::phys

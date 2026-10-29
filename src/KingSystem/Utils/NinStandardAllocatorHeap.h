@@ -8,6 +8,7 @@
 // at +E0 and initializes its storage immediately after this 0x128 owner.
 class NinStandardAllocatorHeap : public sead::Heap {
     // NON_MATCHING: native RTTI addresses the owner-local statics directly; this form uses the GOT.
+    // Hiding the class does reproduce it, but then the vtable needs dumpYAML (still U).
     SEAD_RTTI_OVERRIDE(NinStandardAllocatorHeap, sead::Heap)
 public:
     ~NinStandardAllocatorHeap() override;

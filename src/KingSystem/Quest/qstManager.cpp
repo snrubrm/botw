@@ -38,11 +38,10 @@ bool Manager::sub_7100FD7820() {
     return false;
 }
 
-// NON_MATCHING: the two final u32 stores merge to an unaligned u64 store rather than stp.
 void Manager::prepareFirstTimeGenStage() {
     _28 = _2c;
-    _2c = 1;
     mFlags = 0;
+    _2c = 1;
     _30 = 0;
 }
 
