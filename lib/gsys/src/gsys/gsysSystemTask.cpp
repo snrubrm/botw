@@ -5,6 +5,9 @@
 
 namespace gsys {
 
+// 0x7100c64dcc
+SystemTask::DetailNode::~DetailNode() { ; }
+
 SystemTask* SystemTask::sInstance = nullptr;
 
 void SystemTask::setInstance(SystemTask* task) {

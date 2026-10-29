@@ -143,4 +143,20 @@ protected:
 };
 static_assert(sizeof(ModelRenderUnitNW) == 0x238);
 
+// 0x7100c4b8ec / 0x7100c4b900: only the destructor is emitted for this subclass.
+class ModelRenderUnitNWArray : public ModelRenderUnitNW {
+public:
+    ~ModelRenderUnitNWArray() override;
+};
+
+// The procedural-shape override unit (0x7101409bd4). Only the destructor is defined here.
+class ModelRenderUnitNWOverride : public ModelRenderUnitNW {
+public:
+    ~ModelRenderUnitNWOverride() override;
+
+    bool resetShader(sead::Heap* heap) override;
+    void draw(ModelRenderCache* cache, int index, u32 value) const override;
+    sead::SafeString getName() const override;
+};
+
 }  // namespace gsys

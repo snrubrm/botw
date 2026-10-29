@@ -46,6 +46,12 @@ public:
         ~ModelNameNode();
     };
 
+    // 0x7100c01f24: an independently polymorphic node.
+    class ModelNode : public sead::hostio::Node {
+    public:
+        virtual ~ModelNode();
+    };
+
     // Inlined into createInstance (0x7100c01ce8); declared only.
     ModelMgr();
     virtual ~ModelMgr();

@@ -14,6 +14,11 @@
 #include <nn/util/util_ResDic.h>
 
 namespace gsys {
+
+// Defined here, away from the base destructor, so the derived D2 tail-calls it.
+// The body keeps the derived vtable store that a defaulted destructor drops.
+ModelRenderUnitNWArray::~ModelRenderUnitNWArray() { ; }
+ModelRenderUnitNWOverride::~ModelRenderUnitNWOverride() { ; }
 ModelNW::CreateArg::CreateArg() : model(nullptr), buffer_num(1), _c(-1), _10(nullptr), _18(true), _19(true) {}
 bool ModelNW::initialize(nn::g3d::ResModel* model, s32 buffer_num, sead::Heap* heap) {
     CreateArg arg;

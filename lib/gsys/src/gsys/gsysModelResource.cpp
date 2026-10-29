@@ -7,6 +7,9 @@
 
 namespace gsys {
 
+// 0x7100c0c56c
+ModelResource::NameNode::~NameNode() { ; }
+
 void ModelResource::CreateArg::pushBack(ModelShaderArchive* archive) {
     shader_archives.pushBack(archive);
 }

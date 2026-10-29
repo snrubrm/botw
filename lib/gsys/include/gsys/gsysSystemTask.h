@@ -22,6 +22,11 @@ public:
         ~CreateArg();
     };
 
+    // 0x7100c64dcc: an independently polymorphic detail node.
+    struct DetailNode : public sead::hostio::Node {
+        virtual ~DetailNode();
+    };
+
     // 0x7100c64ca4 (296 bytes): not modelled yet, so the destructor stays undefined.
     virtual ~SystemTask();
 

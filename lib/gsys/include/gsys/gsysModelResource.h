@@ -70,6 +70,12 @@ public:
 // Only the independently recovered resource prefix is modeled here.
 class ModelResource : public sead::IDisposer, public sead::hostio::Node {
 public:
+    // 0x7100c0c56c: an independently polymorphic name node.
+    class NameNode : public sead::hostio::Node {
+    public:
+        virtual ~NameNode();
+    };
+
     struct CreateArg {
         explicit CreateArg(void* file);
         void* file;
