@@ -700,10 +700,10 @@ void EnvMgr::updateBloodMoon() {
             }
         }
     } else {
-        if (wm->_7ac == 0)
-            VFR::lerp(&mBloodMoonProgress, 1.0f, 0.01f, 0.0025f, 0.001f);
-        else
+        if (wm->_7ac != 0)
             VFR::lerp(&mBloodMoonProgress, 1.0f, 0.1f, 0.01f, 0.01f);
+        else
+            VFR::lerp(&mBloodMoonProgress, 1.0f, 0.01f, 0.0025f, 0.001f);
 
         if (wm->mTimer != 0 ||
             (wm->mStageType == StageType::OpenWorld && wm->mFieldType == FieldType::AocField &&
