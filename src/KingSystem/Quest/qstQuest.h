@@ -10,6 +10,14 @@ namespace ksys::qst {
 struct Step;
 struct CameraTarget;
 
+// The object at +0x150 of a Quest: two counts, only read by the picture book's record check. Placeholder.
+struct QuestUnk150 {
+    u8 _0[8];
+    s32 _8;
+    u8 _c[0x28 - 0xc];
+    s32 _28;
+};
+
 struct Quest {
 public:
     Quest(const sead::SafeString& name, sead::Heap* heap);
@@ -82,7 +90,7 @@ public:
     u8 _144 = 0;
     u32 _148 = 0;
     u32 _14c;
-    void* _150 = nullptr;
+    QuestUnk150* _150 = nullptr;
 };
 
 }  // namespace ksys::qst

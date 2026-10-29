@@ -573,6 +573,8 @@ public:
     void sub_71009B61D0();
     // 0x71009b6ec0 (declared only; 1364 bytes)
     void sub_71009B6EC0();
+    // 0x71009b67d4 (declared only; 888 bytes): stores the selection mode and applies it to the picture book object
+    void sub_71009B67D4(s32 mode);
     // 0x71009b8a78 (declared only; 244 bytes): opens the system window screen and switches it to `mode`
     void sub_71009B8A78(s32 mode);
     void sub_71009B7A1C(Unk_710247ae28* record);
@@ -615,7 +617,14 @@ public:
     u8 _150[0x160 - 0x150];
     // Found by 9b5238 via 9b53f4's LetterAnimControl RTTI lookup.
     /* 0x160 */ eui::LetterAnimControl* mQuestCaption;
-    u8 _168[0x188 - 0x168];
+    u8 _168[0x170 - 0x168];
+    // The selection mode passed to sub_71009B67D4 (group * 2 | posted flag; 6 / 7 for a demo group).
+    /* 0x170 */ s32 _170;
+    // Whether the selected record can be chosen (0 / 1, 2 for a demo group).
+    /* 0x174 */ s32 _174;
+    // The selected record's progress value (bits 1 and 2 of the quest's version flags -> 0 / 1 / 2).
+    /* 0x178 */ s32 _178;
+    u8 _17c[0x188 - 0x17c];
     // per picture book group flags; sub_71009B61D0 resets the groups whose value is 0
     /* 0x188 */ s32 _188;
     /* 0x18c */ s32 _18c;
@@ -640,12 +649,12 @@ public:
     /* 0x300 */ ScreenAppPictureBookUnk* _300;
     // Native reset uses -1; 9b6ec0 consumes this as the selected group index.
     /* 0x308 */ s32 _308;
-    /* 0x30c */ sead::Vector2f _30c{0, 0};
-    /* 0x314 */ sead::Vector2f _314{0, 0};
-    /* 0x31c */ sead::Vector2f _31c{0, 0};
-    /* 0x324 */ sead::Vector2f _324{0, 0};
-    /* 0x32c */ s32 _32c;
-    u8 _330[4];
+    // Per group (0-2 and the demo group 3): the record index selected in the group and its previous index.
+    /* 0x30c */ s32 _30c[4];
+    /* 0x31c */ s32 _31c[4];
+    // Per group: whether the group has a selection.
+    /* 0x32c */ bool _32c[4];
+    /* 0x330 */ u8 _330[4];
     // The quest index of the selected record (0x71009b8010 keeps it in step with the record's guide flag).
     /* 0x334 */ s32 mSelectedQuestIndex;
     /* 0x338 */ u8 _338[0x340 - 0x338];

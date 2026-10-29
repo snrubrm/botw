@@ -726,6 +726,127 @@ bool Unk_710247af10::sub_71009B6B4C(s32 index) const {
     return ksys::gdt::getBoolByKey(flag_name, false);
 }
 
+namespace {
+// inline-only in the original; name is a guess
+bool isRecordPosted(Unk_710247ae28* record) {
+    return record && record->mQuest && record->mQuest->mNotPostNote && record->mQuest->_c == 2;
+}
+
+bool isRecordSelectable(Unk_710247ae28* record) {
+    if (!record || !record->mQuest)
+        return false;
+    const ksys::qst::Quest* quest = record->mQuest;
+    if (!quest->_150 || (quest->_150->_8 == 0 && quest->_150->_28 == 0))
+        return false;
+    if (!quest->mNotPostNote)
+        return true;
+    return quest->_c != 2;
+}
+
+s32 getRecordProgress(Unk_710247ae28* record) {
+    if (!record || !record->mQuest)
+        return 0;
+    const u32 flags = record->mQuest->mAocVersionFlags;
+    return (flags & 4) ? 2 : ((flags >> 1) & 1);
+}
+
+// 0x71009b6ec0 (inlined into it): looks `quest` up in the three picture book groups and makes the matching
+// record the selection, then derives the group's posted flag and the record's progress value from it.
+// NON_MATCHING: clang duplicates the selection block into each group's match arm; the original keeps one copy
+// that all three arms jump to, and emits the two leading zero stores in the other order.
+void updateSelectionFromRequest(Unk_710247af10* self, ksys::qst::Quest* quest) {
+    self->_32c[0] = self->_32c[1] = self->_32c[2] = self->_32c[3] = false;
+    self->_174 = 0;
+    if (!quest)
+        return;
+
+    s32 group = -1;
+    s32 index = -1;
+    for (s32 i = 0; i < self->_2b0.size(); ++i) {
+        Unk_710247ae28* record = self->_2b0[i];
+        if (!record)
+            return;
+        if (record->mQuest == quest) {
+            group = 0;
+            index = i;
+            break;
+        }
+    }
+    if (index == -1) {
+        for (s32 i = 0; i < self->_2c0.size(); ++i) {
+            Unk_710247ae28* record = self->_2c0[i];
+            if (!record)
+                return;
+            if (record->mQuest == quest) {
+                group = 1;
+                index = i;
+                break;
+            }
+        }
+        if (index == -1) {
+            for (s32 i = 0; i < self->_2d0.size(); ++i) {
+                Unk_710247ae28* record = self->_2d0[i];
+                if (!record)
+                    return;
+                if (record->mQuest == quest) {
+                    group = 2;
+                    index = i;
+                    break;
+                }
+            }
+        }
+    }
+    if (index != -1) {
+        self->_308 = group;
+        self->_30c[group] = index;
+        self->_31c[group] = 0;
+        self->_32c[group] = true;
+        self->_1a8 = nullptr;
+
+        sead::PtrArray<Unk_710247ae28>* entries;
+        switch (group) {
+        case 0:
+            entries = &self->_2b0;
+            break;
+        case 1:
+            entries = &self->_2c0;
+            break;
+        case 2:
+            entries = &self->_2d0;
+            break;
+        default:
+            self->_170 = self->sub_71009B6B4C(index) ? 7 : 6;
+            self->_178 = 0;
+            return;
+        }
+
+        bool posted = false;
+        if (index >= 0 && index < entries->size())
+            posted = isRecordPosted((*entries)[index]);
+        self->_170 = (group << 1) | posted;
+
+        s32 progress = 0;
+        switch (group) {
+        case 0:
+            entries = &self->_2b0;
+            break;
+        case 1:
+            entries = &self->_2c0;
+            break;
+        case 2:
+            entries = &self->_2d0;
+            break;
+        default:
+            self->_178 = 0;
+            return;
+        }
+        if (index >= 0 && index < entries->size())
+            progress = getRecordProgress((*entries)[index]);
+        self->_178 = progress;
+    }
+}
+}  // namespace
+
 // 0x71009b88ac (placeholder name): plays the picture book memory `index` by starting its Timeline event.
 // The event name is built from the demo number pair of the same table sub_71009B6B4C reads.
 // NON_MATCHING: our clang gives the named FixedSafeString and the FormatFixedSafeString temporary the
@@ -878,15 +999,105 @@ void Unk_710247af10::sub_71009B87C8(Unk_710247ae28* record, eui::MessageString* 
     getMessage(file, label, out);
 }
 
+// 0x71009b6ec0: refreshes the picture book selection from the requested quest, or from the group flags when no
+// request is pending, then applies the selection mode to the picture book object.
+void Unk_710247af10::sub_71009B6EC0() {
+    updateSelectionFromRequest(this, static_cast<ksys::qst::Quest*>(_1a8));
+
+    s32 group = -1;
+    sead::PtrArray<Unk_710247ae28>* entries = nullptr;
+    if (_308 != -1) {
+        _300->sub_710093E42C(_308, 1);
+        const s32 selected = _308;
+        const s32 index = _30c[u32(selected) < 4 ? selected : 0];
+        const s32 validGroup = u32(selected) <= 3 ? selected : -1;
+        if (validGroup == 3) {
+            _174 = sub_71009B6B4C(index) ? 2 : 0;
+        } else if (validGroup < 3 && selected < 4) {
+            if (selected == 0)
+                entries = &_2b0;
+            else if (selected == 1)
+                entries = &_2c0;
+            else if (selected == 2)
+                entries = &_2d0;
+
+            s32 selectable = 0;
+            if (entries && index >= 0 && index < entries->size())
+                selectable = isRecordSelectable((*entries)[index]);
+            _174 = selectable;
+        } else {
+            _174 = 0;
+        }
+    } else if (_188 != 0) {
+        _300->sub_710093E42C(0, 1);
+        group = 0;
+        entries = &_2b0;
+    } else if (_18c != 0) {
+        _300->sub_710093E42C(1, 1);
+        group = 1;
+        entries = &_2c0;
+    } else {
+        _300->sub_710093E42C(_190 == 0 ? 3 : 2, 1);
+        if (_190 == 0) {
+            _170 = sub_71009B6B4C(0) ? 7 : 6;
+            _174 = sub_71009B6B4C(0) ? 2 : 0;
+            _178 = 0;
+        } else {
+            group = 2;
+            entries = &_2d0;
+        }
+    }
+
+    if (group != -1) {
+        bool posted = false;
+        if (entries->size() > 0)
+            posted = isRecordPosted((*entries)[0]);
+        _170 = (group << 1) | posted;
+
+        switch (group) {
+        case 0:
+            entries = &_2b0;
+            break;
+        case 1:
+            entries = &_2c0;
+            break;
+        case 2:
+            entries = &_2d0;
+            break;
+        }
+        s32 selectable = 0;
+        if (entries->size() > 0)
+            selectable = isRecordSelectable((*entries)[0]);
+        _174 = selectable;
+
+        switch (group) {
+        case 0:
+            entries = &_2b0;
+            break;
+        case 1:
+            entries = &_2c0;
+            break;
+        case 2:
+            entries = &_2d0;
+            break;
+        }
+        s32 progress = 0;
+        if (entries->size() > 0)
+            progress = getRecordProgress((*entries)[0]);
+        _178 = progress;
+    }
+
+    sub_71009B67D4(_170);
+}
+
 // 0x71009b5234
 void Unk_710247af10::m23(void*) {}
-
 // 0x71009b8d58
 void Unk_710247af10::m105() {
     if (_300)
         _300->sub_710093F594(true);
     _148->StopAtMin();
-    _32c = 0;
+    _32c[0] = _32c[1] = _32c[2] = _32c[3] = false;
 }
 
 // 0x71009b8d98
@@ -2380,10 +2591,14 @@ void Unk_710247af10::sub_71009B61D0() {
 void Unk_710247af10::sub_71009B5E1C() {
     _1a8 = nullptr;
     _308 = -1;
-    _30c = sead::Vector2f(0, 0);
-    _314 = sead::Vector2f(0, 0);
-    _31c = sead::Vector2f(0, 0);
-    _324 = sead::Vector2f(0, 0);
+    _30c[0] = 0;
+    _30c[1] = 0;
+    _30c[2] = 0;
+    _30c[3] = 0;
+    _31c[0] = 0;
+    _31c[1] = 0;
+    _31c[2] = 0;
+    _31c[3] = 0;
 }
 
 // 0x71009c83c0 (placeholder name): stores the two gauges and applies `flag` to their +0x6c byte
