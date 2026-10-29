@@ -34,6 +34,14 @@ bool Manager::sub_71010F3A94() {
 }
 
 
+bool Manager::sub_71010F3AB8() {
+    auto* player = act::ActorSystem::instance()->getPlayerLink();
+    if (player)
+        return player->m210();
+    return false;
+}
+
+
 namespace {
 
 util::InitConstants sInitConsts;

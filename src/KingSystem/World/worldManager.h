@@ -294,6 +294,9 @@ public:
     // 0x71010f3308 (placeholder name): maps `_798` (0 / 1 / 2) to 7 / 0 / 5 (0 otherwise).
     u8 sub_71010F3308() const;
     bool sub_71010F3A94();
+    // 0x71010f3ab8 (placeholder name): same form, forwarding to PlayerLink::m210 (bit 4 of the player's
+    // state flags).
+    bool sub_71010F3AB8();
     // 0x71010f7960 (CSV WorldMgr::getChemicalMgrFieldAE8): same body as getElementHolderMaybe.
     act::Unk_71024dd490* getChemicalMgrFieldAE8() const;
 
