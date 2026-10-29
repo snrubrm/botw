@@ -1613,6 +1613,32 @@ bool sub_71006E3AB0(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3) {
     return sub_71006E37D4(accessor, a2, a3) > 0x1b;
 }
 
+// 0x71006e425c / 0x71006e4310 / 0x71006e43c4 (placeholder names): whether the accessor's actor's AS list
+// has the state selected by `sub_71011638DC` (ids 0x21 / 3 / 5, slot 0, bank 0).
+bool sub_71006E425C(ksys::act::BaseProcAccessor* accessor) {
+    auto* proc = accessor->getProc();
+    if (!proc || !sead::IsDerivedFrom<ksys::act::Actor>(proc))
+        return false;
+    auto* as_list = static_cast<ksys::act::Actor*>(proc)->getASList();
+    return as_list->x(0x21, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true);
+}
+
+bool sub_71006E4310(ksys::act::BaseProcAccessor* accessor) {
+    auto* proc = accessor->getProc();
+    if (!proc || !sead::IsDerivedFrom<ksys::act::Actor>(proc))
+        return false;
+    auto* as_list = static_cast<ksys::act::Actor*>(proc)->getASList();
+    return as_list->x(3, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true);
+}
+
+bool sub_71006E43C4(ksys::act::BaseProcAccessor* accessor) {
+    auto* proc = accessor->getProc();
+    if (!proc || !sead::IsDerivedFrom<ksys::act::Actor>(proc))
+        return false;
+    auto* as_list = static_cast<ksys::act::Actor*>(proc)->getASList();
+    return as_list->x(5, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC, true);
+}
+
 // 0x71006e3580 (CSV name; declaration only in the header until now): whether the accessor's actor has an
 // ActorAtk with the 0x48 entry list.
 bool sub_71006E3580(const ksys::act::BaseProcAccessor& accessor) {
