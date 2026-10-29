@@ -815,6 +815,32 @@ void Unk_710247af10::m50() {
     getStateMachine().run();
 }
 
+// NON_MATCHING: the original compares the record count with `index` twice (signed `b.le` and the pointer
+// array's unsigned `b.ls`); clang folds the second test into a `ccmp` on the same compare.
+// 0x71009b8580 (placeholder name): fills _348 with the caption of entry `index` of `group`'s quest records.
+void Unk_710247af10::sub_71009B8580(s32 group, s32 index) {
+    const s32 groupIndex = u32(group) > 3 ? -1 : group;
+    const s32 validGroup = u32(groupIndex) < 3 ? groupIndex : -1;
+    sead::PtrArray<Unk_710247ae28>* entries;
+    if (validGroup == 0)
+        entries = &_2b0;
+    else if (validGroup == 1)
+        entries = &_2c0;
+    else if (validGroup == 2)
+        entries = &_2d0;
+    else
+        return;
+
+    if (index < entries->size()) {
+        if (Unk_710247ae28* entry = (*entries)[index]) {
+            sub_7100AA33BC(entry->mQuest, &_348);
+            return;
+        }
+    }
+    eui::MessageString empty;
+    _348.assign(empty);
+}
+
 // 0x71009b9198
 s32 Unk_710247af10::m108() { return 0; }
 

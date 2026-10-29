@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Game/UI/uiScreens.h"
+#include "Game/UI/euiMessageString.h"
 #include <container/seadSafeArray.h>
 #include "Game/UI/uiControlCreator.h"
 #include <thread/seadCriticalSection.h>
@@ -566,6 +567,8 @@ public:
     void sub_71009B5F80();
     // 0x71009b62cc (`_1a8 = a1`)
     void sub_71009B62CC(void* a1);
+    // 0x71009b8580 (placeholder name): fills _348 with the caption of entry `index` of `group`'s quest records
+    void sub_71009B8580(s32 group, s32 index);
     // 0x71009b61d0 (placeholder name): refreshes the picture book object _300 (resets groups 0-2 whose flag is 0)
     void sub_71009B61D0();
     // 0x71009b6ec0 (declared only; 1364 bytes)
@@ -618,7 +621,12 @@ public:
     /* 0x1b0 */ UiTexSlots _1b0;
     /* 0x280 */ u64 _280 = 0;
     /* 0x288 */ s32 _288 = 0;
-    u8 _28c[0x300 - 0x28c];
+    u8 _28c[0x2b0 - 0x28c];
+    // The quest records of the three picture book groups (0x71009b8580 looks one up; the dtor frees them).
+    /* 0x2b0 */ sead::PtrArray<Unk_710247ae28> _2b0;
+    /* 0x2c0 */ sead::PtrArray<Unk_710247ae28> _2c0;
+    /* 0x2d0 */ sead::PtrArray<Unk_710247ae28> _2d0;
+    u8 _2e0[0x300 - 0x2e0];
     /* 0x300 */ ScreenAppPictureBookUnk* _300;
     // Native reset uses -1; 9b6ec0 consumes this as the selected group index.
     /* 0x308 */ s32 _308;
@@ -630,8 +638,10 @@ public:
     u8 _330[0x340 - 0x330];
     // The picture book state record (0x71009b8b6c releases it through sub_71009B88AC).
     /* 0x340 */ Unk_7102474e38* _340 = nullptr;
+    // The caption of the selected quest (0x71009b8580 fills it; the ctor builds three of these at 0x348/0x358/0x368).
+    /* 0x348 */ eui::MessageString _348;
     // The original factory sub_7100A33038 allocates 0x388 bytes.
-    u8 _348[0x388 - 0x348];
+    u8 _358[0x388 - 0x358];
 };
 static_assert(sizeof(Unk_710247af10) == 0x388);
 
