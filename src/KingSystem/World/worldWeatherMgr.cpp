@@ -430,7 +430,7 @@ bool WeatherMgr::isSnowing() {
     return false;
 }
 
-bool isGetPlayerStole2() {
+bool isGetPlayerStole2([[maybe_unused]] WeatherMgr* weather_mgr) {
     bool value = false;
     const auto handle = Manager::instance()->getTimeMgr()->isGetPlayerStole2Flag();
     if (handle == gdt::InvalidHandle)

@@ -168,8 +168,9 @@ static_assert(offsetof(WeatherMgr, mTransition) == 0x2c4);
 static_assert(offsetof(WeatherTransition, _2e4) == 0x20);
 static_assert(offsetof(WeatherTransition, _2fc) == 0x38);
 
-// 0x71010eb430 (CSV wm::isGetPlayerStole2): the TimeMgr's "plateau done" flag.
-bool isGetPlayerStole2();
+// 0x71010eb430 (CSV wm::isGetPlayerStole2): the TimeMgr's "plateau done" flag. The manager argument
+// is unused (the body reads TimeMgr through Manager::instance()); the caller passes the WeatherMgr.
+bool isGetPlayerStole2(WeatherMgr* weather_mgr);
 
 }  // namespace ksys::world
 

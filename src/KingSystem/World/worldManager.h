@@ -231,6 +231,12 @@ public:
     // WarpPlayerToAnchorGimmickReset::calc_ read `mMgrs[3]` (+0x5c8 -> +0x18) without the bounds check that
     // getWeatherMgr() / getShootingStarMgr() have.
     WeatherMgr* getWeatherMgrUnchecked() const { return static_cast<WeatherMgr*>(mMgrs.unsafeAt(3)); }
+    // Inline-only in the original; name is a guess. Evidence: someWeatherStuff_0 reads slot 3 seven
+    // times with the ternary shape (b.lo, null arm out of line).
+    WeatherMgr* getWeatherMgrMaybe() const {
+        return static_cast<u32>(mMgrs.size()) >= 4 ? static_cast<WeatherMgr*>(mMgrs.unsafeAt(3))
+                                                   : nullptr;
+    }
     TempMgr* getTempMgr() const { return static_cast<TempMgr*>(mMgrs[4]); }
     // Inline-only in the original; name is a guess. Evidence: WeatherMgr::x_7 (0x71010ec850) reads
     // mMgrs[4] (+0x5c8 -> +0x20) without the bounds check after a checked getTempMgr() call.
