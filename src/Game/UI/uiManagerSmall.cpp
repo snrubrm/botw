@@ -1590,6 +1590,48 @@ void Unk_7102474fd8Gauge::sub_71009461B8() {
     }
 }
 
+// 0x7100946318
+void Unk_7102474fd8Gauge::sub_7100946318() {
+    auto* player = uking::act::PlayerInfo::instance()->getPlayer();
+    if (player) {
+        const bool max50 = player->m373();
+        if (_50) {
+            if (max50)
+                _50->StopAtMax();
+            else
+                _50->StopAtMin();
+        }
+        const bool max40 = player->m306();
+        if (_40) {
+            if (max40)
+                _40->StopAtMax();
+            else
+                _40->StopAtMin();
+        }
+        const s32 state = player->sub_710084ACF0(-1.0f);
+        if (_20) {
+            switch (state) {
+            case 2:
+                _20->StopAtMax();
+                break;
+            case 1:
+                _20->Stop(1.0f);
+                break;
+            default:
+                _20->StopAtMin();
+                break;
+            }
+        }
+        return;
+    }
+    if (_50)
+        _50->StopAtMin();
+    if (_40)
+        _40->StopAtMin();
+    if (_20)
+        _20->StopAtMin();
+}
+
 // 0x7100946740
 void Unk_7102474fd8Gauge::sub_7100946740(bool a1, bool update) {
     if (!_8)

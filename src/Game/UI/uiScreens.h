@@ -5101,12 +5101,14 @@ public:
     // 0x7100a64634 / 0x7100a646b0
     void m98() override;
     void m99() override;
+    // 0x7100a64750: plays the decide / cancel sound for the pressed button
+    void m106(eui::AnimButton* button) override;
 
     /* 0x3610 */ eui::Animator* _3610 = nullptr;
-    u64 _3618{};
-    u64 _3620{};
-    u64 _3628{};
-    u64 _3630{};
+    /* 0x3618 */ eui::Animator* _3618{};
+    /* 0x3620 */ eui::Animator* _3620{};
+    /* 0x3628 */ eui::Animator* _3628{};
+    /* 0x3630 */ eui::Animator* _3630{};
     /* 0x3638 */ eui::LayoutEx* _3638;
     /* 0x3640 */ eui::LayoutEx* _3640;
     /* 0x3648 */ eui::LayoutEx* _3648;
@@ -5126,6 +5128,9 @@ public:
     // own virtual slots (state callbacks; groups of four: void, void, void, s32 -- the types are guesses from the trivial ones)
     // 0x7100a60918 (declared only): opens the window; ScreenGameOver::m158 passes (1, its draw target, nullptr)
     virtual void m154(s32 type, s32 draw_target, void* arg);
+    // 0x7100a64274 (placeholder name): sets the window type animator and selects the layout's open / close
+    // animator pair from the type (0 / 1 / 2 or the other types)
+    void sub_7100A64274(f32 type);
     // 0x7100a61c40 / 0x7100a61d94 (placeholder names): one / two button window text and button state
     void sub_7100A61C40(const eui::MessageString& text, const eui::MessageString& button);
     void sub_7100A61D94(const eui::MessageString& text, const eui::MessageString& button1,

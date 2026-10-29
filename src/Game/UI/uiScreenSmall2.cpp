@@ -3887,6 +3887,49 @@ void ScreenSystemWindow00::sub_7100A61D94(const eui::MessageString& text,
     }
 }
 
+// 0x7100a64750
+// NON_MATCHING: the original materialises the address of _36b0 in both paths before the sound call and
+// reads it back through it afterwards; ours folds the later read into a direct member load (7 fewer
+// instructions, no x21).
+void ScreenSystemWindow00::m106(eui::AnimButton* button) {
+    mButtonGroup->_38 &= ~2;
+    const s32 tag = button->mTag;
+    const s32& type = _36b0;
+    if (tag == _36c8) {
+        if (type == 0xa || type == 0xc)
+            invokeSoundLink2Event_("mc_Decide");
+        else
+            invokeSoundLink2Event_("mc_Cancel");
+    } else if (tag == 0x5c && type == 6) {
+        invokeSoundLink2Event_("mc_DecideOnlyKioku");
+        return;
+    } else if (tag == 0x5d && type == 3) {
+        invokeSoundLink2Event_("mc_DecideOnlyTaberu");
+        return;
+    } else {
+        invokeSoundLink2Event_("mc_Decide");
+    }
+    if (tag == 0x5a && type == 7)
+        invokeSoundLink2Event_("mc_GameStart");
+}
+
+// 0x7100a64274 (placeholder name): stops the type animator at `type` and selects the layout's open / close
+// animator pair from the type.
+// NON_MATCHING: only the order of the three float equality compares differs (ours tests 1.0f / 2.0f / 0.0f,
+// the original 2.0f / 0.0f / 1.0f); instruction set and size match.
+void ScreenSystemWindow00::sub_7100A64274(f32 type) {
+    if (!_3610)
+        return;
+    _3610->Stop(type);
+    if (type == 2.0f || type == 0.0f || type == 1.0f) {
+        mLayout->setOpenAnimator(_3628);
+        mLayout->setCloseAnimator(_3630);
+    } else {
+        mLayout->setOpenAnimator(_3618);
+        mLayout->setCloseAnimator(_3620);
+    }
+}
+
 // 0x7100a02ca0
 void ScreenControllerWindow::m99() {
     if (_3851) {
