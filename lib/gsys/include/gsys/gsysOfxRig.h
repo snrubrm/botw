@@ -60,6 +60,10 @@ public:
     };
     static_assert(sizeof(OfxHook) == 0x50);
 
+    // 0x7100c4c03c / 0x7100c4c26c in the concrete rigs (declared only; bodies U).
+    virtual void updateObj_(OfxObj* obj, const sead::Matrix34f& matrix, const sead::Vector3f& a,
+                            const sead::Vector3f& b) const = 0;
+
     // Empty overrides of ModelRig's m24 / m25 / m26 (slots 205-207). The base still carries the
     // lane1 placeholder names (LocationalLightRig overrides them), so these real names are plain
     // members for now; the bodies and symbols are the original ones.
@@ -70,7 +74,11 @@ public:
 
     // 0x260
     sead::OffsetList<OfxHook> mHooks;
-    /* 0x278 */ u8 _278[0x2f0 - 0x278];
+    // The constructor 0x7100c4da3c / 0x7100c4dc34 registers these three parameters.
+    /* 0x278 */ agl::utl::Parameter<int> mPresetIdx;
+    /* 0x298 */ agl::utl::Parameter<sead::Vector3f> mOffset;
+    /* 0x2c0 */ agl::utl::Parameter<sead::Vector3f> mDirection;
+    /* 0x2e8 */ void* _2e8 = nullptr;
 };
 
 }  // namespace gsys
