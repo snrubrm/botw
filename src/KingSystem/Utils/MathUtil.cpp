@@ -42,6 +42,45 @@ bool sub_71011EE4EC(Unk_7101EC6BAC* angle, u32 target, u32 step) {
     return false;
 }
 
+// NON_MATCHING: sub_71011EE4B8 is defined in this unit, so its calls are inlined and the
+// sUnk_7101EC6BA0 mask folds to -1 here; the original keeps four out-of-line calls and a GOT load of the
+// mask (the same same-unit constants problem as sub_71011EE4EC).
+bool sub_71011EE5A8(Unk_7101EC6BAC* angle, u32 target, s32 max_step, s32 snap_step, f32 ratio) {
+    const s32 remaining = sub_71011EE4B8(angleDiff(target, *angle));
+    if (remaining == 0)
+        return true;
+
+    if (ratio <= 0.0f)
+        ratio = 1.0f;
+    const s32 delta = s32(ratio * static_cast<f32>(remaining));
+
+    const s32 snap = snap_step > 0 ? snap_step : 0;
+    if (delta <= snap && -snap <= delta) {
+        if (remaining < 0) {
+            angle->value -= u32(snap);
+            if (sub_71011EE4B8(angleDiff(target, *angle)) < 0)
+                return false;
+        } else {
+            angle->value += u32(snap);
+            if (sub_71011EE4B8(angleDiff(target, *angle)) > 0)
+                return false;
+        }
+        angle->value = target;
+        return true;
+    }
+
+    const s32 step = max_step > 0 ? max_step : 0;
+    if (delta > step) {
+        angle->value += u32(step);
+    } else if (delta >= -step) {
+        angle->value += u32(delta);
+        return angle->value == target;
+    } else {
+        angle->value -= u32(step);
+    }
+    return false;
+}
+
 bool sub_71011EE6FC(sead::Vector3f* a, sead::Vector3f* b, f32 ratio) {
     return sub_71011EE70C(a, b, ratio, sead::Mathf::pi2(), 0.0f);
 }
@@ -70,6 +109,24 @@ void sub_71011EEB08(sead::Vector3f* axis, float* angle, const sead::Vector3f& fr
     }
     const float sin = axis->normalize();
     *angle = sead::Mathf::abs(sub_71011EF0CC(std::atan2(sin, from.dot(to))));
+}
+
+bool sub_71011EECAC(sead::Vector3f* out, const sead::Vector3f& from, const sead::Vector3f& to,
+                    f32 max_angle) {
+    sead::Vector3f axis;
+    f32 angle;
+    sub_71011EEB08(&axis, &angle, from, to, sead::Vector3f::ey);
+    if (angle <= max_angle) {
+        *out = to;
+        return true;
+    }
+    sead::Quatf quaternion;
+    quaternion.setAxisRadian(axis, max_angle);
+    sead::Matrix33f mtx;
+    mtx.fromQuat(quaternion);
+    *out = from;
+    out->mul(mtx);
+    return false;
 }
 
 void sub_71011EF168(sead::Vector3f* out, const sead::Matrix33f& from,
