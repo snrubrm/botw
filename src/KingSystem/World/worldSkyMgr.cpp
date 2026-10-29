@@ -634,6 +634,97 @@ void SkyMgr::sub_71010E35D8() {
     sky->mParams = params;
 }
 
+// NON_MATCHING: the projection shadow product (distance * _3f6c) is scheduled after the weather
+// dimming here; the original computes it before the branch. A named intermediate reproduces the
+// original's schedule, but it would only steer scheduling.
+void SkyMgr::sub_71010E386C() {
+    gsys::ModelScene* scene = Graphics::instance()->mModelScenes.front();
+    if (gsys::ModelSceneShadow::ProjectionShadowInfo* info =
+            scene->mShadow.getProjectionShadowInfo()) {
+    Manager* wm = Manager::instance();
+
+    // Wrap the projection shadow angles into [-1, 1].
+    f32 x = _3f20.x;
+    if (x > 1.0f) {
+        x -= 1.0f;
+        _3f20.x = x;
+    }
+    if (x < -1.0f) {
+        x += 1.0f;
+        _3f20.x = x;
+    }
+    if (_3f20.y > 1.0f)
+        _3f20.y -= 1.0f;
+    if (_3f20.y < -1.0f)
+        _3f20.y += 1.0f;
+    info->_488 = x;
+    info->_48c = _3f20.y;
+    info->_408 = 0;
+
+    const f32 distance = _3f68;
+    f32 ratio = 1.0f;
+    if (wm->sub_71010F3A94())
+        ratio = 0.0f;
+    VFR::lerp(&_3f6c, ratio, 0.2f, 0.01f, 0.01f);
+
+    f32 amount = _3f50;
+    WeatherMgr* weather = Manager::instance()->getWeatherMgrUnchecked();
+    if (weather->_35c != 0)
+        amount *= 1.0f - weather->mTransition._300;
+    _3f58 = distance * _3f6c * amount;
+    Graphics::instance()->sub_7100F2FB6C(_3f58);
+
+    f32 base = 1.0f;
+    weather = Manager::instance()->getWeatherMgrUnchecked();
+    if (weather->_35c == 3)
+        base = 1.0f - weather->mTransition._300;
+
+    f32 level = 0.0f;
+    switch (wm->sub_71010F3374()) {
+    case WeatherType::Bluesky:
+    case WeatherType::Cloudy:
+    case WeatherType::BlueskyRain:
+        level = _3f78;
+        break;
+    case WeatherType::Rain:
+        level = _3f7c;
+        break;
+    case WeatherType::HeavyRain:
+        level = _3f80;
+        break;
+    case WeatherType::Snow:
+        level = _3f88;
+        break;
+    case WeatherType::HeavySnow:
+        level = _3f8c;
+        break;
+    case WeatherType::ThunderRain:
+        level = _3f84;
+        break;
+    default:
+        break;
+    }
+    level = _3f3c * level;
+    VFR::lerp(&_3f90, level, 0.01f, 0.001f, 0.0001f);
+    f32 value;
+    if (wm->mTimer == 0) {
+        value = _3f90;
+    } else {
+        _3f90 = level;
+        value = level;
+    }
+    level = value * (1.0f - Manager::instance()->getWeatherMgrUnchecked()->mTransition._300);
+    _3f5c = base;
+    Graphics::instance()->sub_7100F2FF08(base, level);
+    }
+
+    if (_3f9c != 0) {
+        Graphics::instance()->sub_7100F2FB6C(0.0f);
+        _3f58 = 0.0f;
+        --_3f9c;
+    }
+}
+
 void SkyMgr::sub_71010E2AAC() {
     sub_71010E2B44();
     switch (Manager::instance()->getStageType()) {

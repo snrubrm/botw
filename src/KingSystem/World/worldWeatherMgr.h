@@ -37,7 +37,8 @@ struct WeatherTransition {
     f32 _2f4;
     f32 _2f8;
     f32 _2fc;
-    u8 _300[0xc];
+    f32 _300;
+    u8 _304[8];
 };
 KSYS_CHECK_SIZE_NX150(WeatherTransition, 0x48);
 

@@ -35,7 +35,9 @@ public:
         // 0x7100c3a06c
         f32 getDensity(int view) const;
 
-    private:
+    public:
+        // Written directly by ksys::world::SkyMgr::sub_71010E386C (0x71010e386c); the class is a
+        // plain record, so the fields are public.
         // One of the two per-view density records getDensity picks.
         struct ViewInfo {
             u8 _0[0x18];
@@ -48,7 +50,7 @@ public:
         /* 0x408 */ u64 _408;
         u8 _410[0x488 - 0x410];
         /* 0x488 */ f32 _488;
-        /* 0x48c */ u32 _48c;
+        /* 0x48c */ f32 _48c;
         u8 _490[0x558 - 0x490];
         /* 0x558 */ ViewInfo mViewInfo0;
         /* 0x578 */ ViewInfo mViewInfo1;
