@@ -1,4 +1,5 @@
 #include "Game/gameVillagerMgr.h"
+#include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/System/GameConfig.h"
 #include "KingSystem/Physics/System/physRayCastForRequest.h"
 
@@ -34,6 +35,29 @@ void VillagerMgr::init(sead::Heap* heap) {
     mLayerMasks.addLayer(ContactLayer::EntityRagdoll);
     mLayerMasks.addLayer(ContactLayer::EntityTree);
     mLayerMasks.removeLayer(ContactLayer::EntityWater);
+}
+
+// 0x7100d5f80c (CSV VillagerMgr::x_4): releases the raycast request of `actor`'s villager entry and
+// updates the actor's villager state through x_5. `a2` is unused.
+// NON_MATCHING: the tail call moves the actor to x1 in the original, i.e. its x_5 takes an unused first
+// argument; ours passes it in x0 (x_5's body never reads x0). Everything else is instruction-identical.
+void VillagerMgr::x_4(ksys::act::Actor* actor, s32 a2) {
+    if (!actor->mVillagerListNode.isLinked() ||
+        (actor->isCalc() && actor->mStateFlags.isZero()))
+        return;
+
+    for (auto& entry : mEntries) {
+        if (entry._0 == actor->getId()) {
+            if (entry.mRayCast) {
+                entry.mRayCast->release();
+                entry.mRayCast = nullptr;
+            }
+            entry._0 = -1;
+            break;
+        }
+    }
+
+    x_5(actor);
 }
 
 VillagerMgr::~VillagerMgr() {

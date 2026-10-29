@@ -32,6 +32,9 @@ public:
     // 0x7100d5f80c (CSV VillagerMgr::x_4; declared only): called by evt::ActorBase::m12 with 5 for an actor in the
     // villager list.
     void x_4(ksys::act::Actor* actor, s32 a2);
+    // 0x7100d5f8a4 (CSV VillagerMgr::x_5; declared only): updates the raycast entry of `actor` (the
+    // path x_4 reaches after releasing it; also does the preset flag work).
+    static void x_5(ksys::act::Actor* actor);
     // 0x7100d5eb2c (unnamed in the CSV; declaration only; lane5 s8): called by ksys::map::PlacementMgr::sub_71011E6E8C.
     void sub_7100D5EB2C();
 

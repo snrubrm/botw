@@ -937,6 +937,7 @@ protected:
     friend class uking::act::Unk_710235b5e8;  // Guardian broken leg bind: copies its body transform to mMtx (m13)
     friend class ::Unk_710244ecf0;  // model / actor bind: copies the bound transform to mMtx (m4)
     friend class uking::act::Unk_710235b4f8;  // Guardian tibia bind: copies its body transform to mMtx (m13)
+    friend class uking::VillagerMgr;  // x_4 / x_5 read mVillagerListNode
     friend class uking::action::KokkoCreateDrop;  // checks ActorX6A0 flags
     friend class uking::action::NPCTargetMove;  // checks ActorX6A0 flags.
     friend class uking::ai::KokkoRoot;  // checks ActorX6A0 flags

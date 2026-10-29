@@ -15,6 +15,10 @@
 #include "KingSystem/Utils/Container/StrTreeMap.h"
 #include "KingSystem/Utils/Types.h"
 
+namespace uking {
+class VillagerMgr;
+}
+
 namespace ksys::act {
 
 class BaseProcAccessor;
@@ -158,6 +162,8 @@ protected:
     friend class BaseProcMgr;
     // The LOD manager's per-state helper toggles mSpecialJobTypesMask bits 1 / 4.
     friend class LODMgr;
+    // VillagerMgr::x_4 / x_5 read the raw state flags word (mState == Calc && mStateFlags == 0).
+    friend class uking::VillagerMgr;
 
     enum class Flags : u32 {
         Initialized = 1,
