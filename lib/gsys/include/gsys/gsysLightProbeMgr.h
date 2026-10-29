@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <common/aglUniformBlock.h>
+#include <hostio/seadHostIONode.h>
 #include <math/seadMatrix.h>
 
 namespace agl {
@@ -31,12 +32,14 @@ public:
 
     // 0x7100c76c3c: allocates the two interpolation uniform blocks. Constructor 0x7100c76c68
     // is not modelled; the class is 0x110 bytes with the blocks at +0x20 and +0x98.
-    class DebugProbeInterp {
+    class DebugProbeInterp : public sead::hostio::Node {
     public:
+        virtual ~DebugProbeInterp();
         void initialize(sead::Heap* heap);
 
     private:
-        u8 _0[0x20];
+        // The vptr occupies the first 8 bytes; the blocks themselves start at 0x20/0x98.
+        u8 _0[0x18];
         // Block names are guesses; initialize declares 1 and 7 entries of type 6.
         agl::UniformBlock mBlock0;  // 20
         agl::UniformBlock mBlock1;  // 98

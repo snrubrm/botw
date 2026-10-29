@@ -28,6 +28,9 @@ bool LightProbeMgr::ProbeVolumeMgr::preWrite_() const {
 }
 
 // 0x7100c76c3c
+// 0x7100c76bc0
+LightProbeMgr::DebugProbeInterp::~DebugProbeInterp() = default;
+
 void LightProbeMgr::DebugProbeInterp::initialize(sead::Heap* heap) {
     if (!heap)
         return;
