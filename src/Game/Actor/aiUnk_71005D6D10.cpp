@@ -1611,6 +1611,36 @@ bool sub_71006E3AB0(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3) {
     return sub_71006E37D4(accessor, a2, a3) > 0x1b;
 }
 
+// 0x71006e368c (placeholder name): whether the actor's "Tgt" rigid body set has no body with a contact
+// layer other than SensorQueryOnly (`a2` selects hasNoRigidBodyWithFlag8's mode).
+bool sub_71006E368C(ksys::act::BaseProcAccessor* accessor, bool a2) {
+    auto* proc = accessor->getProc();
+    if (!proc || !sead::IsDerivedFrom<ksys::act::Actor>(proc))
+        return false;
+
+    auto* physics = static_cast<ksys::act::Actor*>(proc)->getPhysics();
+    if (!physics)
+        return false;
+
+    auto* set = physics->findBodyGroupByName(sub_71007A24D0()->cstr());
+    if (!set)
+        return false;
+
+    if (set->hasNoRigidBodyWithFlag8(a2))
+        return true;
+
+    auto& bodies = set->getRigidBodies();
+    const s32 n = bodies.size();
+    for (s32 i = 0; i < n; ++i) {
+        if (auto* body = bodies[i]) {
+            if (int(body->getContactLayer()) != ksys::phys::ContactLayer::SensorQueryOnly)
+                return false;
+        }
+    }
+
+    return true;
+}
+
 // 0x71006e3cec (placeholder name): whether the actor is not a plain DamageManager target (true for a
 // non-actor or for a damage manager that is not a DamageManager, and when sub_71006E0DE8(2) is false).
 bool sub_71006E3CEC(ksys::act::BaseProcAccessor* accessor) {
