@@ -1287,11 +1287,9 @@ void Manager::updateGraphicsMap(StageType type) {
     }
 }
 
-// NON_MATCHING: the original reloads mWeatherType in each of the two non-AOC paths and keeps it in a
-// callee-saved register (frame 0x50, x23/x24); our build loads it once in the tail block (frame 0x40).
-// Same instruction set; the function is 8 bytes shorter.
 WeatherType Manager::someWeatherStuff_0(Climate climate) const {
     WeatherType result = WeatherType(0);
+    WeatherType weather;
 
     if (mStageType == StageType::OpenWorld) {
         if (mFieldType == FieldType::AocField && mScalingMode == ScalingMode::Disabled) {
@@ -1302,6 +1300,7 @@ WeatherType Manager::someWeatherStuff_0(Climate climate) const {
             return getWeatherMgrMaybe()->getWeather();
         }
 
+        weather = mWeatherType;
         if (mWorldInfoLoadStatus != WorldInfoLoadStatus::NotLoaded) {
             const f32 time = getTimeMgrUnchecked()->getTime();
             if (time >= 60.0f && time < 120.0f)
@@ -1341,9 +1340,10 @@ WeatherType Manager::someWeatherStuff_0(Climate climate) const {
                 getEnvMgrMaybe()->getConcentrationBM() > 0.0f)
                 result = WeatherType(0);
         }
+    } else {
+        weather = mWeatherType;
     }
 
-    const WeatherType weather = mWeatherType;
     if (u8(weather) < NumWeatherTypes)
         result = weather;
     if (_798 >= 0)
