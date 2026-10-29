@@ -81,6 +81,55 @@ bool sub_71011EE5A8(Unk_7101EC6BAC* angle, u32 target, s32 max_step, s32 snap_st
     return false;
 }
 
+// NON_MATCHING: the epsilon comparison loads a rodata constant in the original (a hidden-visibility
+// object in another unit); we compare against Mathf::epsilon() instead, which folds to an immediate.
+bool sub_71011EE70C(sead::Vector3f* a, sead::Vector3f* b, f32 ratio, f32 max_step, f32 min_step) {
+    if (ratio < 0.0f || ratio > 1.0f)
+        return false;
+
+    sead::Vector3f a_dir = *a;
+    const f32 a_length = a_dir.normalize();
+    sead::Vector3f b_dir = *b;
+    const f32 b_length = b_dir.normalize();
+
+    sead::Vector3f axis;
+    f32 angle;
+    sub_71011EEB08(&axis, &angle, *a, *b, sead::Vector3f::ey);
+
+    f32 blend = ratio;
+    if (angle < sead::Mathf::epsilon()) {
+        const sead::Vector3f diff = *b - *a;
+        if (diff.length() > min_step) {
+            f32 step = ratio;
+            if (diff.length() * ratio > max_step)
+                step = max_step / diff.length();
+            else if (diff.length() * ratio < min_step)
+                step = min_step / diff.length();
+            *a += diff * step;
+            return false;
+        }
+    } else if (angle * ratio >= min_step) {
+        f32 radian = angle * ratio;
+        if (radian > max_step) {
+            radian = max_step;
+            blend = max_step / angle;
+        }
+
+        sead::Quatf quaternion;
+        quaternion.setAxisRadian(axis, radian);
+        sead::Matrix33f mtx;
+        mtx.fromQuat(quaternion);
+        *a = a_dir;
+        a->mul(mtx);
+        a->normalize();
+        *a *= b_length * blend + a_length * (1.0f - blend);
+        return false;
+    }
+
+    *a = *b;
+    return true;
+}
+
 bool sub_71011EE6FC(sead::Vector3f* a, sead::Vector3f* b, f32 ratio) {
     return sub_71011EE70C(a, b, ratio, sead::Mathf::pi2(), 0.0f);
 }
