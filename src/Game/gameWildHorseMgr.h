@@ -47,13 +47,14 @@ public:
         return false;
     }
 
-    // 0x7100e8c2c4 (not decompiled)
+    // 0x7100e8c2c4: refreshes the slots of the wild horses that requested one this frame (or ages the slots that were
+    // not refreshed), then hands the free slots to the queued clients from the highest priority down.
     void postCalc(u32 flags);
 
     /* 0x20 */ sead::Atomic<s32> mBusy = 0;  // atomically set by the AI that may use the horse loop target (HorseLoopTargetAndWaitAI)
-    /* 0x24 */ sead::Atomic<s32> mNumPending = 0;  // incremented with ldxr / stxr (WildHorseDefWanderAI::calc_)
+    /* 0x24 */ sead::Atomic<u32> mNumPending = 0;  // incremented with ldxr / stxr (WildHorseDefWanderAI::calc_); postCalc clamps it to 32 through Mathf, so it is unsigned
     /* 0x28 */ sead::SafeArray<Slot, 4> mSlots;  // indexed by Client::slot (the original clamps the index like SafeArray)
-    /* 0x68 */ Client* mPending[32];
+    /* 0x68 */ sead::SafeArray<Client*, 32> mPending;
 };
 static_assert(sizeof(WildHorseMgr) == 0x168);
 

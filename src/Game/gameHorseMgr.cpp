@@ -53,6 +53,69 @@ bool HorseMgr::isUnregisteredHorseAmiibo(const sead::SafeString& name) {
     return true;
 }
 
+// 0x7100e892d0: stores the amiibo uid hash on the new horse, replaces the horse linked in _e0 that carried the
+// same hash, moves a dead horse carrying the hash up the dead-horse records and records the hash in the ten
+// Horse_UsedAmiiboUidHash slots.
+// NON_MATCHING: the link loop keeps a 32-bit counter and sign-extends it into the _e0 index (we widen the counter to
+// 64 bits); the used-hash loop's compare block is laid out before the loop body in the original.
+void HorseMgr::registerAmiiboMaybe(act::HorseBase* horse, const sead::SafeString& uid_hash) {
+    using ksys::gdt::Manager;
+    if (!horse || uid_hash.isEmpty())
+        return;
+
+    horse->_c00.copy(uid_hash);
+
+    bool registered = false;
+    for (u32 i = 0; i < 10; ++i) {
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&_e0[i], &accessor)) {
+            if (act::sub_7100E6EDFC(accessor) == uid_hash) {
+                // The original checks the sleep state and drops the result.
+                accessor.isStateSleep();
+                accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+                _e0[i].reset();
+            }
+        }
+        if (!registered && !_e0[i].hasProc()) {
+            _e0[i].acquire(horse, false);
+            registered = true;
+        }
+    }
+    if (!registered)
+        _e0[0].acquire(horse, false);
+
+    for (s32 i = 0; i < 5; ++i) {
+        const char* hash = nullptr;
+        if (Manager::instance()->getParam().get1().getStr64(&hash, "DeadHorse_AmiiboUidHash", i)) {
+            if (uid_hash == hash) {
+                sub_7100E8720C(i);
+                --i;
+            }
+        }
+    }
+
+    if (!isFlagOn(Flag::_0))
+        return;
+
+    for (s32 i = 0; i < 10; ++i) {
+        const char* hash = nullptr;
+        if (Manager::instance()->getParam().get().getStr64(&hash, "Horse_UsedAmiiboUidHash", i) &&
+            hash[0] != '\0') {
+            if (uid_hash == hash)
+                return;
+        } else if (Manager::instance()->setStr64(uid_hash.cstr(), "Horse_UsedAmiiboUidHash", i)) {
+            return;
+        }
+    }
+
+    for (s32 i = 1; i < 10; ++i) {
+        const char* hash = nullptr;
+        if (Manager::instance()->getParam().get().getStr64(&hash, "Horse_UsedAmiiboUidHash", i))
+            Manager::instance()->setStr64(hash, "Horse_UsedAmiiboUidHash", i - 1);
+    }
+    Manager::instance()->setStr64(uid_hash.cstr(), "Horse_UsedAmiiboUidHash", 9);
+}
+
 // NON_MATCHING: The compiler tail-calls hasProcById rather than normalizing its bool result.
 void HorseMgr::setHorsePosForMap() {
     sead::Vector3f pos;
@@ -593,6 +656,18 @@ void HorseMgr::sub_7100E88A08(HorseData* data, s32 index) {
     Manager::instance()->setStr64(data->amiiboUidHash, "DeadHorse_AmiiboUidHash", index);
     Manager::instance()->setS32(data->rideTimeSec, "DeadHorse_RideTimeSec", index);
     Manager::instance()->setS32(data->deadCause, "DeadHorse_DeadCause", index);
+}
+
+// 0x7100e8720c: moves the dead horse records up one slot from `index` (the last one is cleared).
+void HorseMgr::sub_7100E8720C(s32 index) {
+    if (!isFlagOn(Flag::_0) || u32(index) >= 5)
+        return;
+    for (s32 i = index; i < 5; ++i) {
+        HorseData data;
+        if (i + 1 < 5)
+            sub_7100E89B20(&data, i + 1);
+        sub_7100E88A08(&data, i);
+    }
 }
 
 // 0x7100e86340: picks the horse with the highest familiarity out of the five records (ties: the one with the highest

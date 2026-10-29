@@ -181,6 +181,10 @@ public:
     ksys::act::Actor* getRegisteringHorseActor() const;
     // 0x7100e88edc (CSV name): whether one of the ten Horse_UsedAmiiboUidHash entries is `uid_hash`.
     bool isAmiiboUsed(const sead::SafeString& uid_hash);
+    // 0x7100e892d0 (CSV name): stores the amiibo uid hash the horse was created with into the horse, replaces the
+    // horse linked in _e0 that carried the same hash, moves a dead horse carrying the hash up the dead-horse records
+    // and records the hash in the ten Horse_UsedAmiiboUidHash slots.
+    void registerAmiiboMaybe(act::HorseBase* horse, const sead::SafeString& uid_hash);
     // 0x7100e89040 (CSV name): whether `name` matches none of the five Horse_AmiiboUidHash entries nor the hash of
     // an awake horse linked in _e0.
     bool isUnregisteredHorseAmiibo(const sead::SafeString& name);

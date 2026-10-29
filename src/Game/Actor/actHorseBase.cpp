@@ -1122,6 +1122,43 @@ void HorseBase::sub_7100E6B764() {
     get68c() = 0;
 }
 
+// 0x7100e6d2d4: forwards the visibility change to the two horse objects and the three reins actors.
+// NON_MATCHING: the original re-tests the link's proc after the RTTI call and negates the result (eor / tbnz); our
+// clang folds the null test into the check result (the same residue as sub_7100E6B4A8).
+void HorseBase::m118(bool on) {
+    Actor::m118(on);
+    {
+        auto* proc = _840.getProc(nullptr, nullptr);
+        const auto* type_info = HorseObject::getRuntimeTypeInfoStatic();
+        if (proc != nullptr && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseObject*>(proc)->m118(on);
+    }
+    {
+        auto* proc = _850.getProc(nullptr, nullptr);
+        const auto* type_info = HorseObject::getRuntimeTypeInfoStatic();
+        if (proc != nullptr && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseObject*>(proc)->m118(on);
+    }
+    {
+        auto* proc = _860.getProc(nullptr, nullptr);
+        const auto* type_info = HorseReins::getRuntimeTypeInfoStatic();
+        if (proc != nullptr && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseReins*>(proc)->m118(on);
+    }
+    {
+        auto* proc = _870.getProc(nullptr, nullptr);
+        const auto* type_info = HorseReins::getRuntimeTypeInfoStatic();
+        if (proc != nullptr && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseReins*>(proc)->m118(on);
+    }
+    {
+        auto* proc = _880.getProc(nullptr, nullptr);
+        const auto* type_info = HorseReins::getRuntimeTypeInfoStatic();
+        if (proc != nullptr && proc->checkDerivedRuntimeTypeInfo(type_info))
+            static_cast<HorseReins*>(proc)->m118(on);
+    }
+}
+
 // NON_MATCHING: row selection uses registers instead of a stack enum; vector additions are scheduled differently.
 void HorseBase::m88() {
     Actor::m88();
