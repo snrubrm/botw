@@ -68,6 +68,8 @@ add_library(gsys OBJECT
   include/gsys/gsysModelUnit.h
   include/gsys/gsysModelUnitGroup.h
   include/gsys/gsysModelWorkBuffer.h
+  include/gsys/gsysOutline.h
+  include/gsys/gsysModelSharedResource.h
   include/gsys/gsysModelUnitDrawArray.h
   include/gsys/gsysOfxLensFlareRig.h
   include/gsys/gsysResourceEditor.h
@@ -137,6 +139,8 @@ add_library(gsys OBJECT
   src/gsys/gsysModelJobQueue.cpp
   src/gsys/gsysXluZPrePass.cpp
   src/gsys/gsysModelShaderHolder.cpp
+  src/gsys/gsysOutline.cpp
+  src/gsys/gsysModelSharedResource.cpp
   src/gsys/gsysModelShaderArchive.cpp
   src/gsys/gsysViewer.cpp
   src/gsys/gsysDebugCtrl.cpp

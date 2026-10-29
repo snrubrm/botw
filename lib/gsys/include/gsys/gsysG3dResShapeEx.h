@@ -42,6 +42,8 @@ public:
     void setResShape(nn::g3d::ResShape* res_shape);
 
     friend class ModelRenderCache;
+    // ModelRenderUnitNWOverride::draw 0x7101409c70 passes the selected record's shader program.
+    friend class ModelRenderUnitNWOverride;
 
     // One 0x40-byte record per shader assignment and variation, four per pass. The constructor
     // 0x7100c6ee78 clears the first byte of each and constructs the ModelShaderProgram at +0x10;

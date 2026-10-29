@@ -1,27 +1,31 @@
 #pragma once
 
+#include <effect/aglFxOfxLensFlare.h>
 #include <environment/aglEnvObj.h>
 #include "gsys/gsysModelRig.h"
 #include "gsys/gsysOfxRig.h"
 
 namespace gsys {
 
-// TODO
-class OfxLensFlareImpl {
+// The vtable (0x71024ce420 / 0x71024ce5a8) holds OfxLensFlare's destructor and effect hooks;
+// checkDerivedRuntimeTypeInfo tests only this class and agl::fx::OfxBase, so the RTTI parent is
+// OfxBase although the C++ base is OfxLensFlare.
+class OfxLensFlareImpl : public agl::fx::OfxLensFlare {
+    SEAD_RTTI_OVERRIDE(OfxLensFlareImpl, agl::fx::OfxBase)
 public:
-    // TODO
-    class Preset {
+    class Preset : public agl::fx::OfxLensFlare::Preset {
+        SEAD_RTTI_OVERRIDE(Preset, agl::fx::OfxLensFlare::Preset)
     public:
         static const agl::env::TypeInfo* sTypeInfo;
-        s32 getTypeID() const;
+        s32 getTypeID() const override;
         // 0x7100c4d5fc: the original body returns 5.
-        s32 getMaxElementNum() const;
+        s32 getMaxElementNum() const override;
     };
 
     static const agl::env::TypeInfo* sTypeInfo;
-    s32 getTypeID() const;
+    s32 getTypeID() const override;
     // 0x7100c4cde0: the original body returns 5.
-    s32 getMaxElementNum() const;
+    s32 getMaxElementNum() const override;
 };
 
 // TODO
@@ -39,22 +43,25 @@ public:
 };
 static_assert(sizeof(OfxLensFlareRig) == 0x2f0);
 
-// TODO
-class OfxLargeLensFlareImpl {
+// The vtable (0x71024ce420 / 0x71024ce5a8) holds OfxLensFlare's destructor and effect hooks;
+// checkDerivedRuntimeTypeInfo tests only this class and agl::fx::OfxBase, so the RTTI parent is
+// OfxBase although the C++ base is OfxLensFlare.
+class OfxLargeLensFlareImpl : public agl::fx::OfxLensFlare {
+    SEAD_RTTI_OVERRIDE(OfxLargeLensFlareImpl, agl::fx::OfxBase)
 public:
-    // TODO
-    class Preset {
+    class Preset : public agl::fx::OfxLensFlare::Preset {
+        SEAD_RTTI_OVERRIDE(Preset, agl::fx::OfxLensFlare::Preset)
     public:
         static const agl::env::TypeInfo* sTypeInfo;
-        s32 getTypeID() const;
+        s32 getTypeID() const override;
         // 0x7100c4d9b4: the original body returns 20.
-        s32 getMaxElementNum() const;
+        s32 getMaxElementNum() const override;
     };
 
     static const agl::env::TypeInfo* sTypeInfo;
-    s32 getTypeID() const;
+    s32 getTypeID() const override;
     // 0x7100c4cf78: the original body returns 20.
-    s32 getMaxElementNum() const;
+    s32 getMaxElementNum() const override;
 };
 
 // TODO

@@ -58,6 +58,9 @@ public:
     u32 getViewIndex() const { return mViewIndex; }
 
 private:
+    // ModelRenderUnitNWOverride::draw 0x7101409c70 reads the assignment type at +0x21.
+    friend class ModelRenderUnitNWOverride;
+
     u32 _0;
     u32 _4;
     u32 _8;

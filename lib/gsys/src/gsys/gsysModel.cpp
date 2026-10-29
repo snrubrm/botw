@@ -19,6 +19,9 @@
 
 namespace gsys {
 
+// 0x7100c009c0
+ModelDebugInfo::~ModelDebugInfo() = default;
+
 Model::CreateArg::CreateArg() : _0(64), _4(1), _8(true), _9(true), _a(true), _b(true), _10(0) {}
 
 // 0x7100bf9b88

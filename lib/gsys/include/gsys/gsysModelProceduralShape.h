@@ -11,6 +11,8 @@ namespace gsys {
 
 class ModelUnit;
 class ModelRenderUnitNWOverride;
+class ModelRenderCache;
+class ModelShaderProgram;
 
 // The 0x48-byte shape override GrudgeRenderer holds three of (ctor 0x71014099f8, which the
 // GrudgeRenderer constructor 0x710128d348 calls at + 0x290 / + 0x2d8 / + 0x320). Its vtable
@@ -19,8 +21,19 @@ class ModelRenderUnitNWOverride;
 // UnbindDummy vtables).
 class ModelProceduralShape {
 public:
-    struct Arg;
-    struct ResetArg;
+    // The draw delegate's argument (ModelRenderUnitNWOverride::draw 0x7101409c70 builds it on
+    // the stack).
+    struct Arg {
+        ModelRenderCache* cache;
+        const ModelRenderUnitNWOverride* unit;
+        const ModelShaderProgram* program;
+        int index;
+    };
+    // The reset delegate's argument (ModelRenderUnitNWOverride::resetShader 0x7101409c1c).
+    struct ResetArg {
+        sead::Heap* heap;
+        ModelRenderUnitNWOverride* unit;
+    };
 
     ModelProceduralShape();
     virtual ~ModelProceduralShape();
@@ -29,6 +42,8 @@ public:
     ModelRenderUnitNWOverride* overrideShapeDraw(ModelUnit* unit, int index, sead::Heap* heap);
 
 private:
+    friend class ModelRenderUnitNWOverride;
+
     sead::AnyDelegate1<const Arg&> mDrawDelegate;      // 0x08
     sead::AnyDelegate1<const ResetArg&> mResetDelegate;  // 0x28
 };

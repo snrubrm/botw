@@ -60,6 +60,9 @@ public:
     };
     static_assert(sizeof(OfxHook) == 0x50);
 
+    // 0x7100c4c534 / 0x7100c4c95c: the ModelRig setup, then the hook list's node offset.
+    void initialize(int index, sead::Heap* heap) override;
+
     // 0x7100c4c03c / 0x7100c4c26c in the concrete rigs (declared only; bodies U).
     virtual void updateObj_(OfxObj* obj, const sead::Matrix34f& matrix, const sead::Vector3f& a,
                             const sead::Vector3f& b) const = 0;

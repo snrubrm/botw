@@ -14,6 +14,9 @@
 #include <nn/g3d/ResMaterial.h>
 #include <nn/util/util_ResDic.h>
 
+#include "gsys/gsysModelProceduralShape.h"
+#include "gsys/gsysModelRenderCache.h"
+
 namespace gsys {
 
 // 0x7100c66fb8
@@ -23,6 +26,37 @@ VfxDrawProcedural::~VfxDrawProcedural() { mRenderUnits.freeBuffer(); }
 // The body keeps the derived vtable store that a defaulted destructor drops.
 ModelRenderUnitNWArray::~ModelRenderUnitNWArray() { ; }
 ModelRenderUnitNWOverride::~ModelRenderUnitNWOverride() { ; }
+
+// 0x7101409c1c
+bool ModelRenderUnitNWOverride::resetShader(sead::Heap* heap) {
+    if (!ModelRenderUnitNW::resetShader(heap))
+        return false;
+
+    ModelProceduralShape::ResetArg arg{heap, this};
+    mShape->mResetDelegate(arg);
+    return true;
+}
+
+// 0x7101409c70
+// NON_MATCHING: register colour only (this and index swap x19/x20).
+void ModelRenderUnitNWOverride::draw(ModelRenderCache* cache, int index, u32) const {
+    if (!cache->loadResource(this))
+        return;
+
+    ModelProceduralShape::Arg arg;
+    arg.cache = cache;
+    const u8 assign_type = cache->mShaderAssignType;
+    arg.program = &mResShapeEx->mShaderRecords[getShaderVariation(assign_type) + assign_type * 4]
+                       .mShaderProgram;
+    arg.index = index;
+    arg.unit = this;
+    mShape->mDrawDelegate(arg);
+}
+
+// 0x7101409d04
+sead::SafeString ModelRenderUnitNWOverride::getName() const {
+    return mName;
+}
 ModelNW::CreateArg::CreateArg() : model(nullptr), buffer_num(1), _c(-1), _10(nullptr), _18(true), _19(true) {}
 bool ModelNW::initialize(nn::g3d::ResModel* model, s32 buffer_num, sead::Heap* heap) {
     CreateArg arg;

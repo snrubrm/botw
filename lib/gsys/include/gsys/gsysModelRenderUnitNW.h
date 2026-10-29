@@ -29,6 +29,7 @@ enum class PriorityHintType : int;
 }
 
 class ModelAssignRenderInfo;
+class ModelProceduralShape;
 class G3dResShapeEx;
 class G3dResMaterialEx;
 
@@ -157,6 +158,13 @@ public:
     bool resetShader(sead::Heap* heap) override;
     void draw(ModelRenderCache* cache, int index, u32 value) const override;
     sead::SafeString getName() const override;
+
+private:
+    // The game-side constructor 0x7101409a30 allocates 0x298 bytes.
+    /* 0x238 */ ModelProceduralShape* mShape;
+    /* 0x240 */ sead::SafeString mName;
+    u8 _250[0x298 - 0x250];
 };
+static_assert(sizeof(ModelRenderUnitNWOverride) == 0x298);
 
 }  // namespace gsys

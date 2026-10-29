@@ -1,11 +1,18 @@
 #include "gsys/gsysMemBuffer.h"
 #include "gsys/gsysMemAllocator.h"
+#include "gsys/gsysModelDebugInfo.h"
 
 #include <basis/seadNew.h>
 #include <heap/seadHeapMgr.h>
 #include <math/seadMathCalcCommon.h>
 
 namespace gsys {
+
+// 0x7100c7cfb0
+ModelAnimationDebugInfo::~ModelAnimationDebugInfo() {
+    delete[] _70;
+    delete[] _110;
+}
 
 void* MemAllocator::tryAlloc(size_t size, u32 alignment) {
     void* buffer = mHeap->tryAlloc(size, static_cast<s32>(alignment));
