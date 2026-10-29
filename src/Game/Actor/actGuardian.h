@@ -121,6 +121,7 @@ public:
     bool sub_710003B2A8() const;
     // 0x710003b098 (placeholder name): index of the first sleeping actor among _1538[0..4], or -1.
     s32 sub_710003B098() const;
+    bool sub_710003B314(s32 index);
     void sub_710003B3FC();
     // 0x710003b41c: like sub_710003B3FC, but the call on `_15b0` is the empty Unk1::sub_7100042B48.
     void sub_710003B41C();

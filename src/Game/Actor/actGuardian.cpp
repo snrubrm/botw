@@ -1,4 +1,5 @@
 #include "Game/Actor/actGuardian.h"
+#include "Game/Actor/actGuardianComponent.h"
 #include "Game/Actor/aiAwarenessFilters.h"
 #include <basis/seadNew.h>
 #include "Game/Actor/Damage/dmgDamageCallback.h"
@@ -369,6 +370,13 @@ void Guardian::sub_7100035A90(s32 state) {
     _14dc = 0.0f;
     _14f0 = s32(sead::GlobalRandom::instance()->getU32() & 2) - 1;
     _14d8 = state;
+}
+
+bool Guardian::sub_710003B314(s32 index) {
+    if (!_1518[index].hasProc())
+        return false;
+    auto* component = sead::DynamicCast<GuardianComponent>(_1518[index].getProc(nullptr, nullptr));
+    return component && (component->_ba0 == 2 || component->_ba0 == 4);
 }
 
 void Guardian::sub_710003B3FC() {
