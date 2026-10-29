@@ -99,4 +99,27 @@ void ModelSceneShadow::drawDebug(agl::DrawContext* draw_context,
 // 0x7100c3adf0
 void ModelSceneShadow::attachHostIO(sead::hostio::Node*) {}
 
+namespace {
+
+// inline-only in the original; name is a guess.
+f32 clamp01(f32 value) {
+    f32 result = 0.0f;
+    if (!(value < 0.0f)) {
+        result = value;
+        if (value > 1.0f)
+            result = 1.0f;
+    }
+    return result;
+}
+
+}  // namespace
+
+// 0x7100c3a06c
+f32 ModelSceneShadow::ProjectionShadowInfo::getDensity(int view) const {
+    const ViewInfo& info = (view == 1 && _5b0) ? mViewInfo1 : mViewInfo0;
+    const f32 density = clamp01(info.mDensity);
+    const f32 scale = (view == 1) ? _638 : _634;
+    return density * clamp01(scale);
+}
+
 }

@@ -36,15 +36,26 @@ public:
         f32 getDensity(int view) const;
 
     private:
+        // One of the two per-view density records getDensity picks.
+        struct ViewInfo {
+            u8 _0[0x18];
+            /* 0x18 */ f32 mDensity;
+            u8 _1c[4];
+        };
+        static_assert(sizeof(ViewInfo) == 0x20);
+
         u8 _0[0x408];
         /* 0x408 */ u64 _408;
         u8 _410[0x488 - 0x410];
         /* 0x488 */ f32 _488;
         /* 0x48c */ u32 _48c;
         u8 _490[0x558 - 0x490];
-        u8 _558[0x20];
-        u8 _578[0x38];
-        u8 _5b0[0x634 - 0x5b0];
+        /* 0x558 */ ViewInfo mViewInfo0;
+        /* 0x578 */ ViewInfo mViewInfo1;
+        u8 _598[0x5b0 - 0x598];
+        // Non-zero: view 1 uses the second record.
+        /* 0x5b0 */ u8 _5b0;
+        u8 _5b1[0x634 - 0x5b1];
         /* 0x634 */ f32 _634;
         /* 0x638 */ f32 _638;
         u8 _63c[4];
