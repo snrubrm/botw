@@ -151,7 +151,7 @@ void sub_71011EF1C4(sead::Vector3f* axis, f32* angle, const sead::Matrix33f& fro
     axis->set(quat.x, quat.y, quat.z);
     axis->normalize();
     if (quat.w < 0.0f)
-        *axis = -*axis;
+        axis->set(-axis->x, -axis->y, -axis->z);
 
     const f32 length = axis->normalize();
     if (length > 0.001f) {
@@ -167,6 +167,57 @@ void sub_71011EF4C0(sead::Vector3f* out, const sead::Matrix34f& from,
     f32 angle;
     sub_71011EF51C(out, &angle, from, to, default_axis);
     *out *= angle;
+}
+
+// NON_MATCHING: the negate at the w < 0 sign flip stores z before x/y here (register colouring only);
+// all other instructions match.
+void sub_71011EF51C(sead::Vector3f* axis, f32* angle, const sead::Matrix34f& from,
+                    const sead::Matrix34f& to, const sead::Vector3f& default_axis) {
+    sead::Matrix34f mtx;
+    mtx.setInverse(from);
+    mtx.setMul(mtx, to);
+
+    sead::Quatf quat;
+    mtx.toQuat(quat);
+    quat.normalize();
+
+    axis->set(quat.x, quat.y, quat.z);
+    axis->normalize();
+    if (quat.w < 0.0f)
+        axis->set(-axis->x, -axis->y, -axis->z);
+
+    const f32 length = axis->normalize();
+    if (length > 0.001f) {
+        *angle = 2.0f * std::acos(std::min(sead::Mathf::abs(quat.w), 1.0f));
+    } else {
+        *axis = default_axis;
+        *angle = 0.0f;
+    }
+}
+
+// NON_MATCHING: same as sub_71011EF51C, the sign-flip store order differs (register colouring only).
+void sub_71011EF78C(sead::Vector3f* axis, f32* angle, const sead::Matrix34f& from,
+                    const sead::Matrix34f& to, const sead::Vector3f& default_axis) {
+    sead::Matrix34f mtx;
+    mtx.setInverse(from);
+    mtx.setMul(to, mtx);
+
+    sead::Quatf quat;
+    mtx.toQuat(quat);
+    quat.normalize();
+
+    axis->set(quat.x, quat.y, quat.z);
+    axis->normalize();
+    if (quat.w < 0.0f)
+        axis->set(-axis->x, -axis->y, -axis->z);
+
+    const f32 length = axis->normalize();
+    if (length > 0.001f) {
+        *angle = 2.0f * std::acos(std::min(sead::Mathf::abs(quat.w), 1.0f));
+    } else {
+        *axis = default_axis;
+        *angle = 0.0f;
+    }
 }
 
 void sub_71011EFA00(sead::Vector3f* out, const sead::Vector3f& vec, const sead::Vector3f& axis) {
