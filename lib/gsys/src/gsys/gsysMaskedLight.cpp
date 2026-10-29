@@ -6,6 +6,9 @@
 
 namespace gsys {
 
+MaskedLight::~MaskedLight() = default;
+MaskedSpotLight::~MaskedSpotLight() = default;
+
 // 0x7100c7c460
 s32 MaskedSpotLightRig::getTypeID() const {
     return sTypeInfo->id;
@@ -26,8 +29,6 @@ MaskedLight::MaskedLight()
       mLightProjFar(10.0f, "LightProjFar", "Far", this),
       mLightProjAspect(1.0f, "LightProjAspect", "Aspect", this),
       mLightProjFovy(0.6f, "LightProjFovy", "Fovy", this) {}
-
-MaskedLight::~MaskedLight() = default;
 
 void MaskedLight::initialize(int count, sead::Heap* heap) {
     mViewNum = count;

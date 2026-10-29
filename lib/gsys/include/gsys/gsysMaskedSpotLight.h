@@ -12,6 +12,7 @@ class MaskedSpotLight : public MaskedLight {
     SEAD_RTTI_OVERRIDE(MaskedSpotLight, MaskedLight)
 public:
     MaskedSpotLight();
+    ~MaskedSpotLight() override;
 
     static const agl::env::TypeInfo* sTypeInfo;
 
@@ -29,9 +30,18 @@ protected:
 
 private:
     /* 0x2c0 */ s32 mIndex = -1;
-    // TODO: the derived glare parameters are not modelled. The size comes from the rig object's
-    // +0x470 member and the 0x488-byte allocation at 0x7100c7c600.
-    u8 _2c8[0x448 - 0x2c8];
+    // The constructor 0x7100c79538 registers these eleven spot parameters.
+    /* 0x2c8 */ agl::utl::Parameter<sead::Vector3f> mPosition;
+    /* 0x2f0 */ agl::utl::Parameter<sead::Vector3f> mDirection;
+    /* 0x318 */ agl::utl::Parameter<f32> mAngle;
+    /* 0x338 */ agl::utl::Parameter<f32> mLength;
+    /* 0x358 */ agl::utl::Parameter<sead::Color4f> mColor;
+    /* 0x380 */ agl::utl::Parameter<sead::Color4f> mSpecularColor;
+    /* 0x3a8 */ agl::utl::Parameter<f32> mIntensity;
+    /* 0x3c8 */ agl::utl::Parameter<f32> mDistDamp;
+    /* 0x3e8 */ agl::utl::Parameter<f32> mAngleDamp;
+    /* 0x408 */ agl::utl::Parameter<bool> mIsEnableSpecular;
+    /* 0x428 */ agl::utl::Parameter<bool> mIsSpecColIsDiffCol;
 };
 static_assert(sizeof(MaskedSpotLight) == 0x448);
 
