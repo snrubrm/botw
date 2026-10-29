@@ -1,4 +1,5 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
 #include "Game/Actor/Damage/dmgDamageMgrNPC.h"
 #include "Game/Actor/aiAwarenessFilters.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
@@ -1608,6 +1609,20 @@ bool sub_71006E3AB0(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3) {
     if (!proc || !sead::IsDerivedFrom<ksys::act::Actor>(proc))
         return false;
     return sub_71006E37D4(accessor, a2, a3) > 0x1b;
+}
+
+// 0x71006e3cec (placeholder name): whether the actor is not a plain DamageManager target (true for a
+// non-actor or for a damage manager that is not a DamageManager, and when sub_71006E0DE8(2) is false).
+bool sub_71006E3CEC(ksys::act::BaseProcAccessor* accessor) {
+    auto* proc = accessor->getProc();
+    if (!proc || !sead::IsDerivedFrom<ksys::act::Actor>(proc))
+        return true;
+
+    auto* damage_mgr = static_cast<ksys::act::Actor*>(proc)->getDamageMgr();
+    if (sead::IsDerivedFrom<uking::act::DamageManager>(damage_mgr))
+        return !damage_mgr->sub_71006E0DE8(2);
+
+    return true;
 }
 }  // namespace uking::act
 

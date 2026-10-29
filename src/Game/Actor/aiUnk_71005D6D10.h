@@ -224,6 +224,9 @@ s32 sub_71006E37D4(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3);
 /// 0x71006e3974 (placeholder name): whether the actor is a valid target: its damage manager is not a
 /// DamageMgrNPC, `a3` bit 0x10000000 is clear and sub_71006E37D4 is negative.
 bool sub_71006E3974(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3);
+/// 0x71006e3cec (placeholder name): whether the actor is not a plain DamageManager target (true for a
+/// non-actor or for a damage manager that is not a DamageManager, and when sub_71006E0DE8(2) is false).
+bool sub_71006E3CEC(ksys::act::BaseProcAccessor* accessor);
 }  // namespace uking::act
 /// 0x71005e2ad4 (unnamed in the CSV): resolves the accessor's link and calls sub_71006E3580.
 bool sub_71005E2AD4(const ksys::act::BaseProcAccessor& accessor);
