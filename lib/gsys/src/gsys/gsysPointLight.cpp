@@ -1,4 +1,5 @@
 #include "gsys/gsysPointLight.h"
+#include "gsys/gsysLightRigObj.h"
 #include "gsys/gsysSpotLight.h"
 #include "gsys/gsysMaskedSpotLight.h"
 
@@ -13,8 +14,6 @@ PointLight::PointLight()
       mGlareIntensity(1.0f, "GlareIntensity", "グレア強度", this),
       mGlareDepthOfs(0.0f, "GlareDepthOfs", "グレア深度オフセット", this) {}
 
-PointLight::~PointLight() = default;
-
 // 0x7100c57d4c
 s32 PointLightRig::getTypeID() const {
     return sTypeInfo->id;
@@ -28,3 +27,4 @@ template class LightRig<MaskedSpotLight>;
 }  // namespace gsys
 
 template struct agl::env::EnvObj::TypeToID<gsys::PointLightRig>;
+template struct agl::env::EnvObj::TypeToID<gsys::LightRigObj<gsys::PointLight>>;

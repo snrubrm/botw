@@ -20,6 +20,10 @@ class ModelUnit;
 template <typename Impl>
 class OfxRig : public ModelRig {
 public:
+    // 0x7100c4da3c / 0x7100c4dc34 (declared only). The type factories allocate
+    // 0x2f0 bytes and call this constructor.
+    OfxRig();
+
     class OfxHook;
 
     // One effect object of the manager (0x28 bytes). The manager first builds an array
@@ -66,6 +70,7 @@ public:
 
     // 0x260
     sead::OffsetList<OfxHook> mHooks;
+    /* 0x278 */ u8 _278[0x2f0 - 0x278];
 };
 
 }  // namespace gsys

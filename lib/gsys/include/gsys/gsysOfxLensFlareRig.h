@@ -32,7 +32,13 @@ class OfxLensFlareRig : public OfxRig<OfxLensFlareImpl> {
 public:
     static const agl::env::TypeInfo* sTypeInfo;
     s32 getTypeID() const override;
+
+    // 0x7100c4c03c (declared only; body U).
+    virtual void updateObj_(OfxRig<OfxLensFlareImpl>::OfxObj* obj,
+                            const sead::Matrix34f& matrix, const sead::Vector3f& a,
+                            const sead::Vector3f& b) const;
 };
+static_assert(sizeof(OfxLensFlareRig) == 0x2f0);
 
 // TODO
 class OfxLargeLensFlareImpl {
@@ -58,6 +64,12 @@ class OfxLargeLensFlareRig : public OfxRig<OfxLargeLensFlareImpl> {
 public:
     static const agl::env::TypeInfo* sTypeInfo;
     s32 getTypeID() const override;
+
+    // 0x7100c4c26c (declared only; body U).
+    virtual void updateObj_(OfxRig<OfxLargeLensFlareImpl>::OfxObj* obj,
+                            const sead::Matrix34f& matrix, const sead::Vector3f& a,
+                            const sead::Vector3f& b) const;
 };
+static_assert(sizeof(OfxLargeLensFlareRig) == 0x2f0);
 
 }  // namespace gsys

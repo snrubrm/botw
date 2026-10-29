@@ -55,3 +55,6 @@ s32 OfxLargeLensFlareImpl::getMaxElementNum() const {
 }
 
 }  // namespace gsys
+
+template struct agl::env::EnvObj::TypeToID<gsys::OfxLensFlareRig>;
+template struct agl::env::EnvObj::TypeToID<gsys::OfxLargeLensFlareRig>;

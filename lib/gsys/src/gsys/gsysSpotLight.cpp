@@ -1,4 +1,5 @@
 #include "gsys/gsysSpotLight.h"
+#include "gsys/gsysLightRigObj.h"
 
 namespace gsys {
 
@@ -10,3 +11,4 @@ s32 SpotLightRig::getTypeID() const {
 }  // namespace gsys
 
 template struct agl::env::EnvObj::TypeToID<gsys::SpotLightRig>;
+template struct agl::env::EnvObj::TypeToID<gsys::LightRigObj<gsys::SpotLight>>;

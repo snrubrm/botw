@@ -27,8 +27,8 @@ public:
 
 private:
     // Zeroed by the allocate function; meaning not established yet.
-    u64 _18;
-    u64 _20;
+    u64 _18 = 0;
+    u64 _20 = 0;
     LightRig<T>* mRig;  // +0x28
     // The type-to-id allocate functions store -1 here, zero at +0x34, -1 at +0x3c and zero at
     // +0x3e (0x7100c57f48, 0x7100c62c2c and 0x7100c7c65c).
@@ -36,7 +36,7 @@ private:
     s32 _34 = 0;
     u8 _38[4];
     u16 _3c = 0xffff;
-    u16 _3e = 0;
+    u8 _3e[2] = {};
 };
 
 extern template class LightRigObj<MaskedSpotLight>;
