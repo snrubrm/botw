@@ -892,6 +892,18 @@ void Unk_710247af10::m105() {
 // 0x71009b8d98
 void Unk_710247af10::m106() {}
 
+// 0x71009b8a78 (placeholder name): loads the system window screen and opens it with `mode`, then switches the
+// picture book state machine to its system window state.
+void Unk_710247af10::sub_71009B8A78(s32 mode) {
+    createAndLoadScreenIfNeededImpl(ScreenId::SystemWindow00, nullptr);
+    auto* window = sead::DynamicCast<ScreenSystemWindow00>(
+        eui::ScreenMgr::instance()->getScreen(ScreenId::SystemWindow00));
+    if (!window)
+        return;
+    window->m154(mode, 0, nullptr);
+    getStateMachine().changeState(&sUnk_71025d9900);
+}
+
 // 0x71009b8b6c: when the system window screen is closed or closing, leaves the picture book state and releases the
 // state record.
 // NON_MATCHING: clang 4 tests the switch's 1 / 3 arms with two compares instead of the original's `orr #2; cmp #3`,
