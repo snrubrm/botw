@@ -1287,6 +1287,78 @@ void Manager::updateGraphicsMap(StageType type) {
     }
 }
 
+// NON_MATCHING: the palette-set select is a switch here (branches); the original lowers it to the
+// shift/csel the sibling sub_71010F3308 has, and the mWeatherType load moves to the entry block.
+WeatherType Manager::someWeatherStuff_0(Climate climate) const {
+    const WeatherType weather = mWeatherType;
+    WeatherType result = WeatherType(0);
+
+    if (mStageType == StageType::OpenWorld) {
+        if (mFieldType == FieldType::AocField && mScalingMode == ScalingMode::Disabled) {
+            if (_798 >= 0) {
+                switch (_798) {
+                case 0:
+                    return WeatherType(7);
+                case 1:
+                    return WeatherType(0);
+                case 2:
+                    return WeatherType(5);
+                default:
+                    return WeatherType(0);
+                }
+            }
+            if (mWeatherType != WeatherType::Invalid)
+                return mWeatherType;
+            return static_cast<WeatherMgr*>(getMgrMaybe(3))->getWeather();
+        }
+
+        if (mWorldInfoLoadStatus != WorldInfoLoadStatus::NotLoaded) {
+            const f32 time = getTimeMgrUnchecked()->getTime();
+            if (time >= 60.0f && time < 120.0f)
+                result = static_cast<WeatherMgr*>(getMgrMaybe(3))->x_1(int(climate));
+            else if (time >= 120.0f && time < 180.0f)
+                result = static_cast<WeatherMgr*>(getMgrMaybe(3))->x_2(int(climate));
+            else if (time >= 180.0f && time < 240.0f)
+                result = static_cast<WeatherMgr*>(getMgrMaybe(3))->x_3(int(climate));
+            else if (time >= 240.0f && time < 300.0f)
+                result = static_cast<WeatherMgr*>(getMgrMaybe(3))->x_4(int(climate));
+            else if (time >= 300.0f && time < 360.0f)
+                result = static_cast<WeatherMgr*>(getMgrMaybe(3))->x_5(int(climate));
+            else
+                result = static_cast<WeatherMgr*>(getMgrMaybe(3))->x_18(int(climate));
+
+            const auto& info = mWorldInfo.mClimates[int(climate)];
+            if (info.DayLockBlueSky.ref() && time >= 90.0f && time <= 270.0f)
+                result = WeatherType(0);
+            if (info.NightLockBlueSky.ref() && !(time >= 90.0f && time <= 270.0f))
+                result = WeatherType(0);
+
+            if (isGetPlayerStole2()) {
+                const bool raining = getEnvMgrMaybe()->isWaterRelicRainOn(climate);
+                WeatherType value = raining ? WeatherType(8) : result;
+                if (info.BlueSkyRainPat.ref() == 2 && u8(value) == 2)
+                    value = WeatherType(8);
+                if (info.BlueSkyRainPat.ref() == 1 &&
+                    static_cast<WeatherMgr*>(getMgrMaybe(3))->_393)
+                    value = WeatherType(8);
+                result = value;
+            }
+
+            if (mCurrentClimate == Climate::HyrulePlainClimate &&
+                getEnvMgrMaybe()->getConcentrationBM() > 0.0f)
+                result = WeatherType(0);
+        }
+    }
+
+    if (u8(weather) < NumWeatherTypes)
+        result = weather;
+    if (_798 >= 0)
+        result = WeatherType(u32(0x50007) >> (u32(_798) * 8));
+
+    const u8 value = u8(result);
+    return value != u8(WeatherType::Invalid) && value < NumWeatherTypes ? result : WeatherType(0);
+}
+
 WeatherType Manager::sub_71010F3374() const {
     return someWeatherStuff_0(mCurrentClimate);
 }
