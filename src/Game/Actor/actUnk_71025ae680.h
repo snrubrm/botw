@@ -342,6 +342,7 @@ public:
     // listener; only declared.
     void sub_71006EE838();
     void sub_71006EED1C();
+    void sub_71006EF314(s32 chemical_idx);
 
     // 2026-10-07: factories of sibling controllers reuse the common prefix's tail padding
     // for different types; the swarm's three condition indices start here.

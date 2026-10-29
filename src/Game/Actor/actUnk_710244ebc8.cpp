@@ -135,6 +135,26 @@ void Unk_710244ff68::m12(int index) {
     }
 }
 
+// NON_MATCHING: actor pointer load is scheduled after the damage parameter check.
+void Unk_710244ff68::sub_71006EF314(s32 chemical_idx) {
+    auto* param = sub_71006DF5A4();
+    if (!param || !param->mElectricable.ref())
+        return;
+    if (chemical_idx > 0) {
+        if (auto* chemicals = _10->getChemicalContainer()) {
+            if (auto* chemical = chemicals->sub_7100E380FC(chemical_idx))
+                chemical->sub_7100D945BC(chemical->sub_7100D945AC(), 1.0f, 1.0f);
+        }
+    }
+    ConditionDamageInfo info{};
+    info.mKind = 4;
+    param = sub_71006DF5A4();
+    info.mDamage = param ? param->mElectricDamage.ref() : 0;
+    _24 = chemical_idx;
+    sub_71006DF5CC(info);
+    _8.setBit(4);
+}
+
 // Keep each original own D1, following upstream GameDataFlagSelector's user-provided
 // destructor form (commit 96101229).
 Unk_710244ebc8::~Unk_710244ebc8() { ; }
