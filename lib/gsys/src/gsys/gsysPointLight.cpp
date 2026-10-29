@@ -26,3 +26,5 @@ template class LightRig<SpotLight>;
 template class LightRig<MaskedSpotLight>;
 
 }  // namespace gsys
+
+template struct agl::env::EnvObj::TypeToID<gsys::PointLightRig>;

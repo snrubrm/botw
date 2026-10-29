@@ -16,8 +16,14 @@ private:
 // TODO
 class SpotLightRig : public LightRig<SpotLight> {
 public:
+    // 0x7100c6181c (declared only): the factory 0x7100c62b98 allocates 0x5f0 bytes.
+    SpotLightRig();
     static const agl::env::TypeInfo* sTypeInfo;
     s32 getTypeID() const;
+
+private:
+    // The rest of the factory's allocation; the members are not modelled.
+    u8 _4a0[0x5f0 - 0x4a0];
 };
 
 }  // namespace gsys

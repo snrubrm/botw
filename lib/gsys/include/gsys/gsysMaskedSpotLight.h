@@ -38,8 +38,14 @@ static_assert(sizeof(MaskedSpotLight) == 0x448);
 // TODO
 class MaskedSpotLightRig : public LightRig<MaskedSpotLight> {
 public:
+    // 0x7100c7b6dc (declared only): the factory 0x7100c7c5c8 allocates 0x538 bytes.
+    MaskedSpotLightRig();
     static const agl::env::TypeInfo* sTypeInfo;
     s32 getTypeID() const;
+
+private:
+    // The rest of the factory's allocation; the members are not modelled.
+    u8 _4a0[0x538 - 0x4a0];
 };
 
 }  // namespace gsys

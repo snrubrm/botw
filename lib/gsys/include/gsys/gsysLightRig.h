@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <environment/aglEnvObj.h>
 #include <gfx/seadColor.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
@@ -9,10 +10,11 @@ namespace gsys {
 
 class Model;
 
-// The base of the light rigs. release_ 0x7100c578c0 / 0x7100c62588 / 0x7100c7c224 only clears the
+// The base of the light rigs. The rigs are EnvObj types (their factory rows allocate one through
+// agl::env::EnvObj::TypeToID). release_ 0x7100c578c0 / 0x7100c62588 / 0x7100c7c224 only clears the
 // pointer at +0x498; the rest of the rig record is not modelled.
 template <typename T>
-class LightRig {
+class LightRig : public agl::env::EnvObj {
 public:
     using LightType = T;
 
@@ -24,7 +26,7 @@ public:
     void release_(Model*, int) { mScene = nullptr; }
 
 private:
-    u8 _0[0x490];
+    u8 _0[0x388];
     /* 0x498 */ void* mScene;
 };
 

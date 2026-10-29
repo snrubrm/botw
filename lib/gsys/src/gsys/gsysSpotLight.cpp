@@ -8,3 +8,5 @@ s32 SpotLightRig::getTypeID() const {
 }
 
 }  // namespace gsys
+
+template struct agl::env::EnvObj::TypeToID<gsys::SpotLightRig>;

@@ -37,8 +37,14 @@ static_assert(sizeof(PointLight) == 0x300);
 // TODO
 class PointLightRig : public LightRig<PointLight> {
 public:
+    // 0x7100c56b98 (declared only): the factory 0x7100c57eb4 allocates 0x5b0 bytes.
+    PointLightRig();
     static const agl::env::TypeInfo* sTypeInfo;
     s32 getTypeID() const;
+
+private:
+    // The rest of the factory's allocation; the members are not modelled.
+    u8 _4a0[0x5b0 - 0x4a0];
 };
 
 }  // namespace gsys
