@@ -1,6 +1,7 @@
 #pragma once
 
 #include <container/seadBuffer.h>
+#include <container/seadPtrArray.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include <prim/seadSafeString.h>
 #include "gsys/gsysModelRenderUnit.h"
@@ -83,5 +84,17 @@ private:
 };
 
 static_assert(sizeof(IModelProcedural) == 0xe0);
+
+// The draw-only procedural unit (vtable 0x71024d1af8 region). The destructor
+// 0x7100c66fb8 frees its pass array at +0xe8 before the base teardown.
+class VfxDrawProcedural : public IModelProcedural {
+public:
+    ~VfxDrawProcedural() override;
+
+private:
+    u64 _e0 = 0;
+    sead::PtrArrayImpl mRenderUnits;  // 0xe8
+};
+static_assert(sizeof(VfxDrawProcedural) == 0xf8);
 
 }  // namespace gsys

@@ -1,4 +1,5 @@
 #include "gsys/gsysModelNW.h"
+#include "gsys/gsysIModelProcedural.h"
 #include "gsys/gsysModelRenderUnitNW.h"
 #include "gsys/gsysModelDynamicEnvInfo.h"
 #include "gsys/gsysG3dResModelEx.h"
@@ -14,6 +15,9 @@
 #include <nn/util/util_ResDic.h>
 
 namespace gsys {
+
+// 0x7100c66fb8
+VfxDrawProcedural::~VfxDrawProcedural() { mRenderUnits.freeBuffer(); }
 
 // Defined here, away from the base destructor, so the derived D2 tail-calls it.
 // The body keeps the derived vtable store that a defaulted destructor drops.
