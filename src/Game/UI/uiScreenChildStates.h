@@ -575,6 +575,8 @@ public:
     void sub_71009B6EC0();
     void sub_71009B7A1C(Unk_710247ae28* record);
     void sub_71009B7D88();
+    // 0x71009b8010 (placeholder name): selects record `index` of picture book group `group` as the guide target
+    void sub_71009B8010(s32 group, s32 index);
     void sub_71009B87C8(Unk_710247ae28* record, eui::MessageString* out);
 
     // 0x71009b5e4c: resets the texture slots and runs the state machine
@@ -621,7 +623,13 @@ public:
     /* 0x1b0 */ UiTexSlots _1b0;
     /* 0x280 */ u64 _280 = 0;
     /* 0x288 */ s32 _288 = 0;
-    u8 _28c[0x2b0 - 0x28c];
+    // The quest records in guide order (0x71009b8010 clears the guide flag of the previous selection here);
+    // the ctor zeroes the count and the array pointer.
+    u8 _28c[4];
+    /* 0x290 */ s32 _290;
+    u8 _294[0x298 - 0x294];
+    /* 0x298 */ Unk_710247ae28** _298;
+    u8 _2a0[0x2b0 - 0x2a0];
     // The quest records of the three picture book groups (0x71009b8580 looks one up; the dtor frees them).
     /* 0x2b0 */ sead::PtrArray<Unk_710247ae28> _2b0;
     /* 0x2c0 */ sead::PtrArray<Unk_710247ae28> _2c0;
@@ -635,7 +643,10 @@ public:
     /* 0x31c */ sead::Vector2f _31c{0, 0};
     /* 0x324 */ sead::Vector2f _324{0, 0};
     /* 0x32c */ s32 _32c;
-    u8 _330[0x340 - 0x330];
+    u8 _330[4];
+    // The quest index of the selected record (0x71009b8010 keeps it in step with the record's guide flag).
+    /* 0x334 */ s32 mSelectedQuestIndex;
+    /* 0x338 */ u8 _338[0x340 - 0x338];
     // The picture book state record (0x71009b8b6c releases it through sub_71009B88AC).
     /* 0x340 */ Unk_7102474e38* _340 = nullptr;
     // The caption of the selected quest (0x71009b8580 fills it; the ctor builds three of these at 0x348/0x358/0x368).

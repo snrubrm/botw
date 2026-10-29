@@ -746,6 +746,44 @@ void Unk_710247af10::sub_71009B7D88() {
         _308 = _300->_2e4;
 }
 
+// 0x71009b8010 (placeholder name): selects record `index` of picture book group `group` as the guide target.
+// It moves the record's guide flag: the previously selected record's flag is cleared and the selected one is
+// set, then the guide index is written to the game data and the picture book is refreshed.
+void Unk_710247af10::sub_71009B8010(s32 group, s32 index) {
+    const s32 groupIndex = u32(group) > 3 ? -1 : group;
+    const s32 validGroup = u32(groupIndex) < 3 ? groupIndex : -1;
+    sead::PtrArray<Unk_710247ae28>* entries;
+    if (validGroup == 0)
+        entries = &_2b0;
+    else if (validGroup == 1)
+        entries = &_2c0;
+    else if (validGroup == 2)
+        entries = &_2d0;
+    else
+        return;
+
+    if (index < 0 || index >= entries->size())
+        return;
+    Unk_710247ae28* record = (*entries)[index];
+    if (!record)
+        return;
+
+    UiSubsys1::instance()->sub_71009638F0(record->mQuest);
+    if (_290 > 0) {
+        const u32 count = _290;
+        u64 i = 0;
+        do {
+            Unk_710247ae28* other = _298[i];
+            if (other->mQuestIndex == mSelectedQuestIndex)
+                other->mGuide = false;
+        } while (++i != count);
+    }
+    record->mGuide = true;
+    mSelectedQuestIndex = record->mQuestIndex;
+    ksys::gdt::setFlag_QuestIndexSetPointGuide(record->mQuestIndex, false);
+    _300->sub_710093FEAC();
+}
+
 // 0x71009b87c8
 void Unk_710247af10::sub_71009B87C8(Unk_710247ae28* record, eui::MessageString* out) {
     sead::FixedSafeString<256> file;
