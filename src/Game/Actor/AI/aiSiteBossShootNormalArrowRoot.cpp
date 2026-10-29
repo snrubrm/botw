@@ -16,7 +16,7 @@ const sead::Vector3f sUnk_7102421fd0{-1.0f, 0.0f, 0.3f};
 }  // namespace
 
 // TU-level variable in .data right after the class vtable (only read in this TU).
-static f32 sUnk_7102422198 = 0.05f;
+KSYS_VISIBILITY_HIDDEN f32 sUnk_7102422198 = 0.05f;
 
 SiteBossShootNormalArrowRoot::SiteBossShootNormalArrowRoot(const InitArg& arg)
     : ksys::act::ai::Ai(arg) {}
@@ -118,7 +118,7 @@ void SiteBossShootNormalArrowRoot::m36(bool a1, f32 a2) {
     pack.addVec3(target, "TargetPos", -1);
     _120 = ksys::Timer(a2, a2);
     _12c = ksys::Timer(*mTrigEventAtHold_s, *mTrigEventAtHold_s);
-    changeChild("子機発射", &pack);
+    changeChild("溜め", &pack);
 }
 
 void SiteBossShootNormalArrowRoot::m37() {

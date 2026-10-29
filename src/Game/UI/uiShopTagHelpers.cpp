@@ -538,12 +538,14 @@ KSYS_VISIBILITY_HIDDEN ShopCookInfo sUnk_71025F6960{
 // NON_MATCHING: the value test uses an equivalent compare immediate and register allocation differs.
 // 0x7100aa4354
 void sub_7100AA4354(const PouchItem* item, sead::BufferedSafeString* out) {
-    if (item->getValue() < 1) {
+    if (item->getValue() >= 1) {
+        if (act::DamageInfoMgr::instance()->isTrueFormMasterSword()) {
+            if (const char* icon = ksys::act::getMasterSwordTrueFormActorName(
+                    ksys::act::InfoData::instance(), item->getName().cstr()))
+                out->copy(icon);
+        }
+    } else {
         if (const char* icon = ksys::act::getMasterSwordSleepActorName(
-                ksys::act::InfoData::instance(), item->getName().cstr()))
-            out->copy(icon);
-    } else if (act::DamageInfoMgr::instance()->isTrueFormMasterSword()) {
-        if (const char* icon = ksys::act::getMasterSwordTrueFormActorName(
                 ksys::act::InfoData::instance(), item->getName().cstr()))
             out->copy(icon);
     }

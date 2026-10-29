@@ -12,9 +12,11 @@ namespace eui {
 ScalableFontTextBoxEx::ScalableFontTextBoxEx(
     const nn::ui2d::ResTextBox* resource, const nn::ui2d::ResTextBox* replacement,
     const nn::ui2d::BuildArgSet& args, nn::ui2d::TextBox::InitializeStringParam* string_param)
-    : TextBoxEx(resource, replacement, args, string_param),
-      mFontMgr(static_cast<const TextSearcher*>(args.mTextSearcher)->getTagProcessor()->mFontMgr),
-      _168(0), _16c(0) {}
+    : TextBoxEx(resource, replacement, args, string_param) {
+    _168 = 0;
+    _16c = 0;
+    mFontMgr = static_cast<const TextSearcher*>(args.mTextSearcher)->getTagProcessor()->mFontMgr;
+}
 
 // 0x7100be1ae0
 ScalableFontTextBoxEx::ScalableFontTextBoxEx(const ScalableFontTextBoxEx& other, LayoutEx* layout)

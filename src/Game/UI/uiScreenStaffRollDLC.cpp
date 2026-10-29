@@ -8,7 +8,11 @@ namespace uking::ui {
 
 // The TU's statics (static initializer 0x7100a56e60), merged into the block at 0x71025f4030 after
 // the uiTUStatics.h objects. sub_7100A58480 passes the 5400 duration to ksys::Timer::hasEnded.
-static f32 sUnk_71025F4048 = 5399.9995f;
+struct StaffRollDlcStatics {
+    u8 _0[0x18];
+    f32 mDuration;
+};
+KSYS_VISIBILITY_HIDDEN StaffRollDlcStatics sUnk_71025F4030 = {{}, 5399.9995f};
 static sead::SafeString sMessageSet = "LayoutMsg/StaffRollDLC_00";
 static sead::SafeString sStaticSet = "StaticMsg/StaffRollDLC";
 
@@ -54,7 +58,7 @@ ScreenStaffRollDLC::~ScreenStaffRollDLC() {
 void ScreenStaffRollDLC::m94() {
     if (!isOpened() || _270 > 0.0f)
         return;
-    if (!_3610.hasEnded(sUnk_71025F4048))
+    if (!_3610.hasEnded(sUnk_71025F4030.mDuration))
         _3610.update();
     sub_7100A58508(_3700, -_3688.y);
     sub_7100A58778(_3704);
