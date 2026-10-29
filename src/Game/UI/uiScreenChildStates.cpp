@@ -701,6 +701,8 @@ namespace uking::ui {
 
 // 0x71025d9d08 (set up by the TU initialiser 0x71009b27b4)
 static sead::SafeString sUnk_71025d9d08 = "IsPlayed_Demo";
+// 0x71025d9d18: the demo name prefix (the same block, 0x10 after sUnk_71025d9d08)
+static sead::SafeString sUnk_71025d9d18 = "Demo";
 
 // 0x71009b9144
 const nn::font::detail::RuntimeTypeInfo* Unk_710247af10::GetRuntimeTypeInfo() const {
@@ -722,6 +724,87 @@ bool Unk_710247af10::sub_71009B6B4C(s32 index) const {
     // the original evaluates this check a second time and drops the result
     ksys::aoc::Manager::instance()->hasAoc3() && ksys::gdt::getFlag_BalladOfHeroes_Activated(false);
     return ksys::gdt::getBoolByKey(flag_name, false);
+}
+
+// 0x71009b88ac (placeholder name): plays the picture book memory `index` by starting its Timeline event.
+// The event name is built from the demo number pair of the same table sub_71009B6B4C reads.
+// NON_MATCHING: our clang gives the named FixedSafeString and the FormatFixedSafeString temporary the
+// opposite stack slots (same as sub_71009B6B4C) and sinks the table row address below the name's cstr call.
+void Unk_710247af10::sub_71009B88AC(s32 index) {
+    if (index > 22 || !_148)
+        return;
+
+    _148->PlayAuto(1.0f);
+    sead::FixedSafeString<16> demo_name;
+    const bool ballad =
+        ksys::aoc::Manager::instance()->hasAoc3() && ksys::gdt::getFlag_BalladOfHeroes_Activated(false);
+    const auto& row = sUnk_7101e7ddcc[ballad ? index : index + 5];
+    demo_name = sead::FormatFixedSafeString<128>("%s%3d_%1d", sUnk_71025d9d18.cstr(), row.mDemoNumber,
+                                                 row.mDemoSubNumber);
+    sub_71008BACB8(demo_name);
+}
+
+// 0x71009b4188 (placeholder name): selects the picture book record of `state` in its group, either as the
+// new guide target or, when it already is the selected one, clears the guide flag. Then plays the decide sound
+// on the pause menu.
+void Unk_710247af10::sub_71009B4188(Unk_7102474e38* state) {
+    if (!state)
+        return;
+
+    const s32 group = state->sub_7100939C68();
+    const s32 index = state->sub_7100939C78();
+    const s32 validGroup = u32(group) > 3 ? -1 : group;
+
+    bool ok = false;
+    if (validGroup == 3) {
+        _340 = state;
+        sub_71009B8A78(6);
+    } else if (u32(validGroup) < 3) {
+        sead::PtrArray<Unk_710247ae28>* entries;
+        if (validGroup == 0)
+            entries = &_2b0;
+        else if (validGroup == 1)
+            entries = &_2c0;
+        else if (validGroup == 2)
+            entries = &_2d0;
+        else
+            return;
+
+        if (index < 0 || entries->size() <= index)
+            return;
+        Unk_710247ae28* record = (*entries)[index];
+        if (!record)
+            return;
+        if (record->mQuest && record->mQuest->mNotPostNote && record->mQuest->_c == 2)
+            return;
+
+        _340 = state;
+        if (record->mQuestIndex != mSelectedQuestIndex) {
+            sub_71009B8010(group, index);
+        } else if (_300) {
+            UiSubsys1::instance()->sub_7100963C70();
+            if (_290 > 0) {
+                const u32 count = _290;
+                u64 i = 0;
+                do {
+                    Unk_710247ae28* other = _298[i];
+                    if (other->mQuestIndex == mSelectedQuestIndex)
+                        other->mGuide = false;
+                } while (++i != count);
+            }
+            mSelectedQuestIndex = -1;
+            ksys::gdt::setFlag_QuestIndexSetPointGuide(-1, false);
+            _300->sub_710093FEAC();
+        }
+        ok = true;
+    }
+
+    if (_300)
+        _308 = _300->_2e4;
+    if (!ok)
+        return;
+    if (auto* screen = sead::DynamicCast<ScreenPauseMenu>(_128))
+        screen->invokeSoundLink2Event_("mc_QuestDecide");
 }
 
 // 0x71009b7a1c

@@ -573,6 +573,8 @@ public:
     void sub_71009B61D0();
     // 0x71009b6ec0 (declared only; 1364 bytes)
     void sub_71009B6EC0();
+    // 0x71009b8a78 (declared only; 244 bytes): opens the system window screen and switches it to `mode`
+    void sub_71009B8A78(s32 mode);
     void sub_71009B7A1C(Unk_710247ae28* record);
     void sub_71009B7D88();
     // 0x71009b8010 (placeholder name): selects record `index` of picture book group `group` as the guide target
