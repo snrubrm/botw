@@ -16,8 +16,8 @@ public:
                const nn::ui2d::BuildArgSet& arg);
     // 0x7100bf11b0
     BoundingEx(const BoundingEx& other);
-    // 0x7100bf11e0
-    ~BoundingEx() override;
+    // The original shares Bounding's complete destructor; this class adds no members.
+    ~BoundingEx() override = default;
 };
 
 }  // namespace eui
