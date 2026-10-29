@@ -1103,6 +1103,58 @@ bool HorseMgr::x_5(RiddenAnimalType type, bool dead) {
     return false;
 }
 
+// 0x7100e864e4 (placeholder name): the actor name of the selected horse record when the record is
+// complete, after adding its mane name and the skeletal slot limit to the creation parameter pack
+// (OwnedHorseOrCreate_ForEvent). The validity checks are inlined here in a different order from isValid.
+// NON_MATCHING: the flag `and` operand order (see isFlagOn), the collar/foot branch joins the shared
+// null block instead of the epilogue, and the key temporary is stored before the buffer address.
+const char* HorseMgr::sub_7100E864E4(ksys::act::InstParamPack* pack) {
+    if (isFlagOn(Flag::_10) || !isFlagOn(Flag::_9))
+        return nullptr;
+    HorseData data;
+    if (!x_8(&data, _d0))
+        return nullptr;
+    if (sead::SafeString(data.actorName).isEmpty() || sead::SafeString(data.userName).isEmpty() ||
+        sead::SafeString(data.reinsName).isEmpty() || sead::SafeString(data.saddleName).isEmpty() ||
+        sead::SafeString(data.maneName).isEmpty())
+        return nullptr;
+    if (!(data.familiarity <= 1.0f && data.familiarity >= 0.0f &&
+          (data.collarType | data.footType) >= 0))
+        return nullptr;
+    pack->getBuffer().add(sead::SafeString(data.maneName), "HorseManeName");
+    pack->getBuffer().add(true, "IsIncreaseSkeletalSlotNumLimit");
+    return data.actorName;
+}
+
+// 0x7100e86a6c (placeholder name): applies the selected horse record to `horse` when the record is
+// complete (its amiibo uid hash, familiarity and collar / foot type) and links it as the owned horse.
+// NON_MATCHING: the isFlagOn `and` operands are swapped and the enum spill is scheduled after the shift.
+void HorseMgr::sub_7100E86A6C(act::HorseBase* horse) {
+    if (isFlagOn(Flag::_9)) {
+        HorseData data;
+        if (x_8(&data, _d0) && !sead::SafeString(data.actorName).isEmpty() &&
+            !sead::SafeString(data.userName).isEmpty() &&
+            !sead::SafeString(data.reinsName).isEmpty() &&
+            !sead::SafeString(data.saddleName).isEmpty() &&
+            !sead::SafeString(data.maneName).isEmpty() && data.familiarity <= 1.0f &&
+            data.familiarity >= 0.0f && (data.collarType | data.footType) >= 0) {
+            horse->_c00.copy(data.amiiboUidHash);
+            horse->sub_7100E6AD3C(data.familiarity);
+            horse->_b78 = data.collarType;
+            horse->_b7c = data.footType;
+        }
+    }
+
+    if (ksys::map::PlacementMgr::instance() && ksys::map::PlacementMgr::instance()->mPlacementActors) {
+        const f32 distance = ksys::map::getActorTraverseDist(horse->getName(), 1.0f);
+        _d8 = distance * distance;
+    }
+
+    mOwnedHorse.acquire(horse, false);
+    _228.reset(0x600);
+    _60.acquire(horse, false);
+}
+
 // 0x7100e86744: the reins name of the selected horse record when the record is complete; null otherwise.
 // NON_MATCHING: the five name tests and the isValid condition are the same; the last name load and the
 // familiarity / collar compares are scheduled differently.

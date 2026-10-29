@@ -27,6 +27,7 @@ namespace ksys::act {
 class Actor;
 class BaseProc;
 class ActorLinkConstDataAccess;
+class InstParamPack;
 }
 
 namespace uking {
@@ -101,7 +102,7 @@ public:
     // Inline-only in the original (names are guesses): a by-value Flag parameter reproduces the shared stack slot of
     // the temporaries and the ldr/str round trip; `(1 << flag) | bits` (mask first) gives the original's operand order
     // for the orr (sub_7100E86D44 matches), isOnBit still has the `and` operands swapped.
-    bool isFlagOn(Flag flag) const { return _228.isOnBit(flag); }
+    bool isFlagOn(Flag flag) const { return (_228.getDirect() & (1 << int(flag))) != 0; }
     void setFlagOn(Flag flag) { _228.setDirect((1 << flag) | _228.getDirect()); }
     // Counterpart of setFlagOn (0x7100e89a44 clears _4 this way).
     void setFlagOff(Flag flag) { _228.setDirect(~(1 << flag) & _228.getDirect()); }
@@ -148,6 +149,13 @@ public:
     // complete and a horse was found; null otherwise. Called by the "ReinsOfOwnedHorseOrCreate_ForEvent" action.
     const char* getOwnedHorseReinsNameMaybe();
     const char* getOwnedHorseSaddleNameMaybe();
+    // 0x7100e864e4 (placeholder name): the actor name of the selected horse record when the record is
+    // complete, after adding its mane name and the skeletal slot limit to `pack`
+    // (OwnedHorseOrCreate_ForEvent).
+    const char* sub_7100E864E4(ksys::act::InstParamPack* pack);
+    // 0x7100e86a6c (placeholder name): applies the selected horse record to `horse` when the record is
+    // complete (its amiibo uid hash, familiarity and collar / foot type) and links it as the owned horse.
+    void sub_7100E86A6C(act::HorseBase* horse);
 
     // 0x7100e828d8 (CSV x_3; lane4 s45, name is a guess): removes the invalid horse records from the game
     // data (moving the valid ones up, fixing the selected index) and returns the number of valid ones
