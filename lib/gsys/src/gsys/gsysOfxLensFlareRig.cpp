@@ -9,6 +9,7 @@ void OfxBase::PresetBase::initialize(int, sead::Heap*) {}
 // 0x7100c4cddc
 void OfxLensFlare::drawDebugImpl_(agl::DrawContext*, int, const OfxBase::Context&) const {}
 
+
 }  // namespace agl::fx
 
 namespace gsys {

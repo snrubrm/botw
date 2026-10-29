@@ -40,6 +40,8 @@ class MaskedSpotLightRig : public LightRig<MaskedSpotLight> {
 public:
     // 0x7100c7b6dc (declared only): the factory 0x7100c7c5c8 allocates 0x538 bytes.
     MaskedSpotLightRig();
+    // Declared only: the rig teardown is not modelled.
+    ~MaskedSpotLightRig();
     static const agl::env::TypeInfo* sTypeInfo;
     s32 getTypeID() const;
 

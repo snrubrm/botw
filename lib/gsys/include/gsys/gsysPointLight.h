@@ -39,6 +39,8 @@ class PointLightRig : public LightRig<PointLight> {
 public:
     // 0x7100c56b98 (declared only): the factory 0x7100c57eb4 allocates 0x5b0 bytes.
     PointLightRig();
+    // Declared only: the rig teardown is not modelled.
+    ~PointLightRig();
     static const agl::env::TypeInfo* sTypeInfo;
     s32 getTypeID() const;
 
