@@ -47,12 +47,17 @@ private:
 };
 static_assert(sizeof(ModelDrawObjStream) == 0x20);
 
-// Partial: the environment info bound to a draw object stream. Only the empty destructor
-// 0x7100c7e270 is modelled; the constructor 0x7100c7e24c and bind 0x7100c7e278 are still
-// undecompiled.
+// Partial: the environment info bound to a draw object stream. The constructor 0x7100c7e24c
+// stores a vtable at +0 (the destructor is the only virtual), -1 at +8 and 0xffff at +0xc;
+// bind 0x7100c7e278 is still undecompiled.
 class ModelEnvInfo {
 public:
-    ~ModelEnvInfo();
+    ModelEnvInfo();
+    virtual ~ModelEnvInfo();
+
+    s32 _8;        // 0x7100c7e278 stores a lookup index here; set by the constructor
+    u16 _c = 0xffff;
 };
+static_assert(sizeof(ModelEnvInfo) == 0x10);
 
 }  // namespace gsys

@@ -512,6 +512,11 @@ void ModelRenderCache::reset() {
         _14c[i] = agl::ShaderLocation(-1);
 }
 
+// 0x7100c81184
+// NON_MATCHING: same instructions in a different order (the vtable store and the +0x10 zero
+// store swap places, and the member address is rematerialised); register/schedule only.
+ModelRenderState::ModelRenderState() {}
+
 // 0x7100c811b8
 ModelRenderState::~ModelRenderState() {}
 

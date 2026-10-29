@@ -8,6 +8,9 @@ void ModelCubeMapDrawer::update() {
     mQueue1.sort();
 }
 
+// 0x7100c7d178
+ModelCubeMapDrawer::CreateArg::CreateArg() {}
+
 // 0x7100c7dcc8
 ModelCubeMapDrawer::CreateArg::~CreateArg() {}
 

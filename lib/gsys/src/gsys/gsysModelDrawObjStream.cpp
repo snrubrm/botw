@@ -8,6 +8,14 @@ ModelDrawObjStream::ModelDrawObjStream() : mCount(0), mObjs(nullptr), mFlags(0) 
 
 ModelDrawObjStream::~ModelDrawObjStream() = default;
 
+// 0x7100c7e24c
+ModelEnvInfo::ModelEnvInfo() {
+    _8 = -1;
+}
+
+// 0x7100c7e270
+ModelEnvInfo::~ModelEnvInfo() = default;
+
 // NON_MATCHING: the original keeps both pointer stores in each branch (one paired store).
 void ModelDrawObjStream::begin(bool use_entries, bool flag, s32 core) {
     mFlags.changeBit(1, use_entries);
@@ -50,8 +58,5 @@ void ModelDrawObjStream::end(s32 core) {
 const ModelDrawObjStream::Entry* ModelDrawObjStream::mount() const {
     return mEntries;
 }
-
-// 0x7100c7e270
-ModelEnvInfo::~ModelEnvInfo() {}
 
 }  // namespace gsys

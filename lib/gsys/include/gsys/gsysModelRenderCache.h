@@ -111,11 +111,21 @@ private:
 };
 static_assert(sizeof(ModelRenderCache) == 0x258);
 
-// Partial: only the empty destructor 0x7100c811b8 is modelled. The constructor 0x7100c81184 and
-// update 0x7100c811c0 are still undecompiled.
+// Partial: the constructor 0x7100c81184 stores a vtable at +0 (the destructor is the only
+// virtual), zeroes the words at +8..+0x14 and constructs the sead::GraphicsContext at +0x14;
+// update 0x7100c811c0 is still undecompiled.
 class ModelRenderState {
 public:
-    ~ModelRenderState();
+    ModelRenderState();
+    virtual ~ModelRenderState();
+
+private:
+    u16 _8 = 0;
+    u8 _a = 1;
+    u8 _b = 0;
+    u16 _c = 0;
+    u32 _10 = 0;
+    sead::GraphicsContext mGraphicsContext;  // 0x14
 };
 
 }  // namespace gsys

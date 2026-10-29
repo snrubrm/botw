@@ -24,10 +24,17 @@ class ShaderContext;
 // and setter read are modelled.
 class ModelCubeMapDrawer {
 public:
-    // 0x7100c7dcc8: the argument record's empty destructor.
+    // 0x7100c7d178 stores a vtable at +0 (the destructor is the only virtual), zeroes +8
+    // and writes the word pair 0x400 / 0x1000 at +0x10, so the record is 0x18 bytes.
     struct CreateArg {
-        ~CreateArg();
+        CreateArg();
+        virtual ~CreateArg();
+
+        u64 _8 = 0;
+        u32 _10 = 0x400;
+        u32 _14 = 0x1000;
     };
+    static_assert(sizeof(CreateArg) == 0x18);
 
     // 0x7100c7d950: sorts the two render queues.
     void update();

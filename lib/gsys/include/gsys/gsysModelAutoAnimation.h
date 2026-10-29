@@ -34,8 +34,17 @@ private:
     friend class Model;
 
     ModelNW* mModel;
-    u8 _10[0x30 - 0x10];
-    f32 mFrameRate;
+    u64 _10 = 0;
+    u64 _18 = 0;
+    u64 _20 = 0;
+    u64 _28 = 0;
+    f32 mFrameRate = 1.0f;
+    u8 _34 = 8;
+
+public:
+    // 0x7100bfffd8
+    ModelAutoAnimation();
+    virtual ~ModelAutoAnimation();
 };
 
 }  // namespace gsys

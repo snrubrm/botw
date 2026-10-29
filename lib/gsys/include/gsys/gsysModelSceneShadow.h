@@ -22,9 +22,35 @@ class ModelSceneConfig;
 class ModelSceneContext;
 
 // The shadow component of a ModelScene. Only the masked-light shadow interface that
-// MaskedLight::assignModelSceneShadow (0x7100c794c0) uses is declared; the layout is not modelled.
+// MaskedLight::assignModelSceneShadow (0x7100c794c0) uses and the projection shadow record
+// are declared; the rest of the layout is not modelled.
 class ModelSceneShadow {
 public:
+    // The per-view projection shadow record the scene owns at +0x17a0 (ModelScene +0x3168):
+    // ksys::world::SkyMgr::sub_71010E386C stores 0 at +0x408 and two floats at +0x488 / +0x48c,
+    // and getDensity reads the per-view densities at +0x558 / +0x578 and +0x634 / +0x638.
+    // Only the offsets the two callers use are modelled.
+    class ProjectionShadowInfo {
+    public:
+        // 0x7100c3a06c
+        f32 getDensity(int view) const;
+
+    private:
+        u8 _0[0x408];
+        /* 0x408 */ u64 _408;
+        u8 _410[0x488 - 0x410];
+        /* 0x488 */ f32 _488;
+        /* 0x48c */ u32 _48c;
+        u8 _490[0x558 - 0x490];
+        u8 _558[0x20];
+        u8 _578[0x38];
+        u8 _5b0[0x634 - 0x5b0];
+        /* 0x634 */ f32 _634;
+        /* 0x638 */ f32 _638;
+        u8 _63c[4];
+        /* 0x640 */ u8 _640;
+    };
+
     // 0x7100c382c8 (declared only)
     void calc(sead::WorkerMgr* wm);
 
@@ -47,6 +73,9 @@ public:
     // 0x7100c3ab74: draws the static depth shadow of the first view.
     void drawDebug(agl::DrawContext* draw_context, const ModelSceneContext& context) const;
 
+    // Inline in the original; ModelScene +0x3168 is the same pointer.
+    ProjectionShadowInfo* getProjectionShadowInfo() const { return mProjectionShadowInfo; }
+
 private:
     u8 _0[8];
     /* 0x8 */ ModelSceneConfig* mConfig;
@@ -59,6 +88,9 @@ private:
     /* 0x444 */ u8 _444;
     u8 _445[0x570 - 0x445];
     /* 0x570 */ agl::sdw::StaticDepthShadow mStaticDepthShadow;
+    // The projection shadow record the scene allocates; ModelScene +0x3168 is this pointer
+    // (ksys::world::SkyMgr::sub_71010E386C and ProjectionShadowInfo::getDensity's caller).
+    /* 0x17a0 */ ProjectionShadowInfo* mProjectionShadowInfo;
     // Masked-light shadow slots; enable / disable / isEnable 0xc3ad18 .. 0xc3ad9c walk this array
     // with a 0x68 stride and the MaskedLight pointer at +0x30.
     struct MaskedLightShadow {
