@@ -78,6 +78,61 @@ void Unk_710244ff68::m10() {
     sub_71006EED1C();
 }
 
+void Unk_710244ff68::m12(int index) {
+    switch (index) {
+    case 3: {
+        auto* param = sub_71006DF5A4();
+        if (!param || !param->mIceable.ref())
+            break;
+        param = sub_71006DF5A4();
+        if (!param || !param->mIceable.ref())
+            break;
+        ConditionDamageInfo info{};
+        info.mKind = 3;
+        param = sub_71006DF5A4();
+        info.mDamage = param ? param->mIceDamage.ref() : 0;
+        _1c = -1;
+        sub_71006DF5CC(info);
+        _8.set(8);
+        break;
+    }
+    case 4: {
+        auto* param = sub_71006DF5A4();
+        if (!param || !param->mElectricable.ref())
+            break;
+        param = sub_71006DF5A4();
+        if (!param || !param->mElectricable.ref())
+            break;
+        ConditionDamageInfo info{};
+        info.mKind = 4;
+        param = sub_71006DF5A4();
+        info.mDamage = param ? param->mElectricDamage.ref() : 0;
+        _24 = -1;
+        sub_71006DF5CC(info);
+        _8.set(0x10);
+        break;
+    }
+    case 2: {
+        auto* param = sub_71006DF5A4();
+        if (!param || !param->mBurnable.ref())
+            break;
+        param = sub_71006DF5A4();
+        if (!param || !param->mBurnable.ref())
+            break;
+        ConditionDamageInfo info{};
+        info.mKind = 2;
+        param = sub_71006DF5A4();
+        info.mDamage = param ? param->mBurnDamage.ref() : 0;
+        _20 = -1;
+        sub_71006DF5CC(info);
+        _8.set(4);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 // Keep each original own D1, following upstream GameDataFlagSelector's user-provided
 // destructor form (commit 96101229).
 Unk_710244ebc8::~Unk_710244ebc8() { ; }
