@@ -1,4 +1,5 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/Damage/dmgDamageMgrNPC.h"
 #include "Game/Actor/aiAwarenessFilters.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
@@ -1581,6 +1582,25 @@ bool sub_71005E2AD4(const ksys::act::BaseProcAccessor& accessor) {
 }
 
 namespace uking::act {
+// 0x71006e3974 (placeholder name): whether the actor is a valid target: its damage manager is not a
+// DamageMgrNPC, `a3` bit 0x10000000 is clear and sub_71006E37D4 is negative.
+// NON_MATCHING: same instructions and test order; the null arm keeps the shared is_npc test block and
+// the bit test is laid out as tbz+b instead of the original's tbnz to the tail (8 bytes larger).
+bool sub_71006E3974(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3) {
+    auto* proc = accessor->getProc();
+    if (!proc || !sead::IsDerivedFrom<ksys::act::Actor>(proc))
+        return false;
+
+    auto* damage_mgr = static_cast<ksys::act::Actor*>(proc)->getDamageMgr();
+    const bool is_npc = sead::IsDerivedFrom<uking::act::DamageMgrNPC>(damage_mgr);
+    if (a3 & 0x10000000)
+        return false;
+    if (is_npc)
+        return false;
+
+    return sub_71006E37D4(accessor, a2, a3) < 0;
+}
+
 // 0x71006e3ab0 (placeholder name): whether the accessor's proc is an Actor and sub_71006E37D4 (the
 // target-kind score) is above 0x1b.
 bool sub_71006E3AB0(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3) {
