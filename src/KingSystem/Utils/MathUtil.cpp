@@ -270,6 +270,45 @@ void sub_71011F0260(sead::Matrix34f* mtx, const sead::Vector3f& front, const sea
     mtx->setBase(3, pos);
 }
 
+// NON_MATCHING: the translation clamp and the rotation block agree operation for operation; the
+// residue is register allocation in the 4x4 multiply and the stack slots of the axis/angle/rotation
+// temporaries (our frame is 0x10 smaller).
+bool sub_71011F03C8(sead::Matrix34f* out, const sead::Matrix34f& from, const sead::Matrix34f& to,
+                    f32 t, f32 max_angle, f32 min_angle, f32 max_step, f32 min_step) {
+    const sead::Vector3f from_pos = from.getTranslation();
+    sead::Vector3f translation = from_pos;
+    const sead::Vector3f diff = to.getTranslation() - from_pos;
+    if (diff.length() > min_step) {
+        f32 step = t;
+        if (diff.length() * t > max_step)
+            step = max_step / diff.length();
+        else if (diff.length() * t < min_step)
+            step = min_step / diff.length();
+        translation = from_pos + diff * step;
+    } else {
+        translation = to.getTranslation();
+    }
+
+    sead::Vector3f axis = sead::Vector3f::zero;
+    f32 angle;
+    sub_71011EF51C(&axis, &angle, from, to, sead::Vector3f::ey);
+    axis *= angle;
+    const f32 length = axis.normalize();
+    if (length < min_angle) {
+        *out = to;
+        return true;
+    }
+
+    const f32 radian = sead::Mathf::clamp(sead::Mathf::abs(length * t), min_angle, max_angle);
+    sead::Quatf quaternion;
+    quaternion.setAxisRadian(axis, sead::Mathf::sign(length) * radian);
+    sead::Matrix34f rotation;
+    rotation.fromQuat(quaternion);
+    out->setMul(from, rotation);
+    out->setTranslation(translation);
+    return false;
+}
+
 bool sub_71011F0F88(const float& value) {
     if (std::isnan(value))
         return true;
