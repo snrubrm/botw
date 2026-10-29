@@ -4,6 +4,9 @@
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
+#include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 
 namespace uking::act {
@@ -132,6 +135,78 @@ void Unk_710244edc0::sub_71006E916C() {
         sub_71006DF5CC(info);
         _8.setBit(3);
     }
+}
+
+bool Unk_710244edc0::sub_71006E9780() {
+    if (_10->get68f().load() != 0 && _10->get6fc() == ksys::phys::Material::Grudge)
+        return true;
+    if (auto* controller = _10->getCharacterController()) {
+        if (auto* contacts = controller->sub_7100F635E4()) {
+            for (auto it = contacts->begin(), end = contacts->end(); it != end; ++it) {
+                if ((*it)->material_mask_b.getMaterial() == ksys::phys::Material::Grudge)
+                    return true;
+            }
+        }
+    }
+    return _30._30 && (_30._34 == 0 || _30._34 == 1);
+}
+
+void Unk_710244edc0::sub_71006E8F20() {
+    if (!_8.isOn(0x780))
+        return;
+    if (_1c < 0.0f)
+        return;
+    ksys::Timer::update(&_1c, -1.0f);
+    if (_1c <= 0.0f) {
+        if (_8.isOnBit(8)) {
+            auto* param = sub_71006DF5A4();
+            if (param && (param->mIsDeadIce.ref() || param->mIsMetamorIce.ref())) {
+                ConditionDamageInfo info{};
+                info.mKind = 3;
+                info.mDamage = _10->getMaxLife();
+                if (auto* metamor = sub_71006DF5A4()) {
+                    if (metamor->mIsMetamorIce.ref())
+                        info.mFlags = 0x20;
+                }
+                sub_71006DF5CC(info);
+                _8.setBit(3);
+            }
+        } else if (_8.isOnBit(9)) {
+            ConditionDamageInfo info{};
+            info.mKind = 9;
+            info.mDamage = _10->getMaxLife();
+            info.mFlags = 0x20;
+            sub_71006DF5CC(info);
+        } else if (_8.isOnBit(10)) {
+            auto* param = sub_71006DF5A4();
+            if (param && param->mLavaDamage.ref() >= 1) {
+                ConditionDamageInfo info{};
+                info.mKind = 10;
+                info.mDamage = param->mLavaDamage.ref();
+                info.mFlags = 1;
+                sub_71006DF5CC(info);
+            }
+            param = sub_71006DF5A4();
+            _1c = param ? static_cast<f32>(param->mLavaDamageInterval.ref()) : 0.0f;
+        }
+    }
+}
+void Unk_710244edc0::sub_71006E9578() {
+    auto* actor = _10;
+    auto* param = sub_71006DF5A4();
+    if (!param || !(param->mIsDeadElectric.ref() || param->mIsMetamorElectric.ref()))
+        return;
+    if (auto* chemical = actor->getChemicalStuff())
+        chemical->sub_7100D945BC(chemical->sub_7100D945AC(), 1.0f, 1.0f);
+    ConditionDamageInfo info{};
+    info.mKind = 4;
+    info.mDamage = _10->getMaxLife();
+    if (auto* p = sub_71006DF5A4()) {
+        if (p->mIsMetamorElectric.ref())
+            info.mFlags = 0x20;
+    }
+    sub_71006DF5CC(info);
+    _8.setBit(4);
 }
 
 }  // namespace uking::act

@@ -112,19 +112,20 @@ public:
     void m10() override;
     void m11(bool enable) override;
     void m13(int index) override;
-    // 0x71006e8770 .. 0x71006e916c (declared only; placeholder names): the condition updates m10 runs in order.
+    // 0x71006e8770 .. 0x71006e916c: the condition updates m10 runs in order.
     void sub_71006E8770();
     void sub_71006E8AD0();
     void sub_71006E8D00();
-    // 0x71006e9780 (not decompiled): whether the actor touches curse ground or has a curse contact
+    // 0x71006e9780: whether the actor touches curse ground or has a curse contact
     // (twin of Unk_710244dd20::sub_71006D1C34).
     bool sub_71006E9780();
     void sub_71006E8E04();
     void sub_71006E8F20();
     void sub_71006E90A0();
     void sub_71006E916C();
+    void sub_71006E9578();
 
-    /* 0x1c */ u32 _1c = 0;
+    /* 0x1c */ f32 _1c = 0;
     /* 0x20 */ f32 _20 = 0;
     /* 0x24 */ f32 _24 = 0;
     /* 0x28 */ f32 _28 = 0;
