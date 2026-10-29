@@ -1103,6 +1103,29 @@ bool HorseMgr::x_5(RiddenAnimalType type, bool dead) {
     return false;
 }
 
+// 0x7100e86744: the reins name of the selected horse record when the record is complete; null otherwise.
+// NON_MATCHING: the five name tests and the isValid condition are the same; the last name load and the
+// familiarity / collar compares are scheduled differently.
+const char* HorseMgr::getOwnedHorseReinsNameMaybe() {
+    if (isFlagOn(Flag::_10) || !isFlagOn(Flag::_9))
+        return nullptr;
+    HorseData data;
+    if (!x_8(&data, _d0))
+        return nullptr;
+    return isValid(data) ? data.reinsName : nullptr;
+}
+
+// 0x7100e868d8: the saddle name of the selected horse record (same checks as the reins getter).
+// NON_MATCHING: see getOwnedHorseReinsNameMaybe; the string initialisers are scheduled differently.
+const char* HorseMgr::getOwnedHorseSaddleNameMaybe() {
+    if (isFlagOn(Flag::_10) || !isFlagOn(Flag::_9))
+        return nullptr;
+    HorseData data;
+    if (!x_8(&data, _d0))
+        return nullptr;
+    return isValid(data) ? data.saddleName : nullptr;
+}
+
 bool HorseMgr::sub_7100E86CF4() {
     return _80.isAllocatedOrFailed() && !_80.isProcReady() && !_80.hasProcCreationFailed();
 }

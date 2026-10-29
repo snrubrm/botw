@@ -144,6 +144,10 @@ public:
     void sub_7100E88A08(HorseData* data, s32 index);
     // 0x7100e86340 (declaration only): picks the horse to use out of the five records `data` (writes its index).
     bool sub_7100E86340(HorseData* data, s32* index);
+    // 0x7100e86744 / 0x7100e868d8: the reins / saddle name of the selected horse record (_d0) when the record is
+    // complete and a horse was found; null otherwise. Called by the "ReinsOfOwnedHorseOrCreate_ForEvent" action.
+    const char* getOwnedHorseReinsNameMaybe();
+    const char* getOwnedHorseSaddleNameMaybe();
 
     // 0x7100e828d8 (CSV x_3; lane4 s45, name is a guess): removes the invalid horse records from the game
     // data (moving the valid ones up, fixing the selected index) and returns the number of valid ones
