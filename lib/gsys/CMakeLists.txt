@@ -148,6 +148,7 @@ add_library(gsys OBJECT
   src/gsys/gsysSystemTask.cpp
   src/gsys/gsysModelAssignRenderInfo.cpp
   src/gsys/gsysModelSceneBuffer.cpp
+  src/gsys/gsysRenderBufferContext.cpp
   include/gsys/gsysGPUStressAnalyzer.h
   src/gsys/gsysGPUStressAnalyzer.cpp
   include/gsys/gsysSnapshotTextureMgr.h

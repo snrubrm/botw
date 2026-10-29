@@ -4,6 +4,7 @@
 #include <framework/seadMethodTree.h>
 #include <hostio/seadHostIONode.h>
 #include <math/seadVector.h>
+#include <mc/seadJob.h>
 #include <prim/seadBitFlag.h>
 #include <prim/seadSafeString.h>
 
@@ -96,6 +97,8 @@ public:
     static void waitDrawDoneCallback(bool flag);
     // 0x7100c65d90 (declared only): submits the GPU work of the task.
     void updateGPU_();
+    // 0x7100c65914 (declared only): the calc job's frame update.
+    void invokeCalcFrame_();
 
 private:
     u8 _57c[0x5b8 - 0x57c];
@@ -106,5 +109,15 @@ private:
 static_assert(sizeof(SystemTask) == 0x6a8);
 // The constructor zeroes the word at +0x578; every reader loads that address.
 static_assert(offsetof(SystemTask, mFlags) == 0x578);
+
+// 0x7100c66d30: the calc job's invoke hook. The job is created with a zero word at +0x18 and
+// invokes the system task's frame calc while that word is still zero.
+class SystemJob : public sead::Job {
+public:
+    void invoke() override;
+
+private:
+    s32 _18;
+};
 
 }  // namespace gsys

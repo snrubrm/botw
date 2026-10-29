@@ -1,8 +1,12 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <common/aglRenderBuffer.h>
+#include <common/aglRenderTarget.h>
 #include <common/aglTextureData.h>
+#include <common/aglTextureSampler.h>
 #include <container/seadBuffer.h>
+#include <gfx/seadViewport.h>
 #include <hostio/seadHostIONode.h>
 #include <cstddef>
 
@@ -53,6 +57,32 @@ public:
     };
     static_assert(sizeof(Context) == 0x3878);
     static_assert(offsetof(Context, mGBuffer) == 0x3210);
+
+    // The per-view GPU buffers. Constructed in Context's constructor and destroyed with it.
+    class BufferData {
+    public:
+        ~BufferData();
+
+        // 0x7100c5b800: points the depth target's HiZ storage at the cached address, or clears it.
+        void enableHiZ(bool enable);
+
+    private:
+        agl::RenderBuffer mRenderBuffer;       // +0x00
+        agl::RenderTargetColor mColorTarget0;  // +0x68
+        agl::RenderTargetColor mColorTarget1;  // +0x1e0
+        agl::RenderTargetColor mColorTarget2;  // +0x358
+        agl::RenderTargetDepth mDepthTarget;   // +0x4d0
+        agl::TextureData* mTexture0;           // +0x648
+        // The HiZ texture; its cached address is mHiZAddr.
+        agl::TextureData* mHiZTexture;         // +0x650
+        agl::TextureData* mTexture2;           // +0x658
+        agl::TextureSampler mSampler0;         // +0x660
+        agl::TextureSampler mSampler1;         // +0x7d0
+        agl::TextureSampler mSampler2;         // +0x940
+        agl::TextureSampler mSampler3;         // +0xab0
+        agl::GPUMemVoidAddr mHiZAddr;          // +0xc20
+        sead::Viewport mViewport;              // +0xc38
+    };
 
     RenderBufferContext();
     virtual ~RenderBufferContext();

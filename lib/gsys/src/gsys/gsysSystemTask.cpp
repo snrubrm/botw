@@ -8,6 +8,13 @@ namespace gsys {
 // 0x7100c64dcc
 SystemTask::DetailNode::~DetailNode() { ; }
 
+// 0x7100c66d30
+void SystemJob::invoke() {
+    if (_18 != 0)
+        return;
+    SystemTask::instance()->invokeCalcFrame_();
+}
+
 SystemTask* SystemTask::sInstance = nullptr;
 
 void SystemTask::setInstance(SystemTask* task) {
