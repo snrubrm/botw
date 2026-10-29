@@ -368,8 +368,10 @@ public:
 
     void sub_71006E2BAC();
     void sub_71006E3060();
-    // 0x71006e2a3c / 0x71006e2ca0 / 0x71006e2e38 (declared only): m10's per-frame step and the two checks run
-    // when the _1c timer runs out (bit 2 / bit 4 of _8).
+    // 0x71006e2a3c: m10's per-frame step: starts the burn condition (bit 2) when one of the four
+    // GiantArmor links has weak-point bit 2 set, then the electric one (bit 4) via sub_71006E2BAC.
+    // 0x71006e2ca0 / 0x71006e2e38: whether one of the giant's four linked armors is a GiantArmor with
+    // weak-point bit 2 / bit 4 set (the checks m10 runs when the _1c timer runs out).
     void sub_71006E2A3C();
     bool sub_71006E2CA0();
     bool sub_71006E2E38();

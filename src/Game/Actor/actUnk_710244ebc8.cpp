@@ -2,6 +2,8 @@
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "Game/Actor/actLastBoss.h"
 #include "Game/Actor/actSiteBoss.h"
+#include "Game/Actor/actGiantEnemy.h"
+#include "Game/Actor/actGiantArmor.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/System/Timer.h"
 #include "KingSystem/ActorSystem/actActor.h"
@@ -171,6 +173,50 @@ void Unk_710244ebc8::m13(int index) {
     if (index == 4)
         _20.fadeXLink();
     _8.resetBit(index);
+}
+
+void Unk_710244ebc8::sub_71006E2A3C() {
+    if (!_8.isOnBit(2) && sub_71006E2CA0()) {
+        auto* param = sub_71006DF5A4();
+        if (param && param->mBurnable.ref()) {
+            param = sub_71006DF5A4();
+            if (param) {
+                ConditionDamageInfo info{};
+                info.mKind = 2;
+                info.mDamage = param->mBurnDamage.ref();
+                sub_71006DF5CC(info);
+            }
+            _8.setBit(2);
+        }
+    }
+    if (!_8.isOnBit(4) && sub_71006E2E38())
+        sub_71006E2BAC();
+}
+
+bool Unk_710244ebc8::sub_71006E2CA0() {
+    auto* giant = static_cast<GiantEnemy*>(_10);
+    if (!sead::IsDerivedFrom<GiantEnemy>(giant))
+        return false;
+    for (s32 i = 0; i < 4; ++i) {
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(giant->_14c8._8[i].getProc(nullptr, nullptr));
+        if (sead::IsDerivedFrom<GiantArmor>(actor) &&
+            (static_cast<GiantArmor*>(actor)->_c00._8 & 4))
+            return true;
+    }
+    return false;
+}
+
+bool Unk_710244ebc8::sub_71006E2E38() {
+    auto* giant = static_cast<GiantEnemy*>(_10);
+    if (!sead::IsDerivedFrom<GiantEnemy>(giant))
+        return false;
+    for (s32 i = 0; i < 4; ++i) {
+        auto* actor = sead::DynamicCast<ksys::act::Actor>(giant->_14c8._8[i].getProc(nullptr, nullptr));
+        if (sead::IsDerivedFrom<GiantArmor>(actor) &&
+            (static_cast<GiantArmor*>(actor)->_c00._8 & 0x10))
+            return true;
+    }
+    return false;
 }
 
 // NON_MATCHING: same-TU parameter and electric helpers inline into the condition branches.
