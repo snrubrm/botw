@@ -298,7 +298,7 @@ public:
     void m25() override;
     // 0x710098c424 (CSV: genCompletionCountStr): refreshes the completion-count text of mLayout
     void sub_710098C424();
-    // 0x710098c420 (placeholder name; declared only): an empty out-of-line method the map screen calls
+    // 0x710098c420 (placeholder name): an empty out-of-line method the map screen's reset calls
     void sub_710098C420();
 };
 static_assert(sizeof(Unk_7102477c30) == 0x130);

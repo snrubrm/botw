@@ -566,6 +566,9 @@ Unk_7102477c30::Unk_7102477c30(eui::LayoutEx* layout) : ScreenChildEx(layout) {}
 void Unk_7102477c30::m24(sead::Heap*) {}
 void Unk_7102477c30::m25() {}
 
+// 0x710098c420: the map screen's per-frame reset calls this empty hook.
+void Unk_7102477c30::sub_710098C420() {}
+
 // NON_MATCHING: the inlined ScreenChild member teardown differs in register allocation / scheduling only.
 Unk_7102477c30::~Unk_7102477c30() = default;
 
