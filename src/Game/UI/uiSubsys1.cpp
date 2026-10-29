@@ -913,6 +913,11 @@ u8 UiSubsys1::get3905() const {
     return _3905;
 }
 
+// 0x71009578e4 (placeholder name)
+u32 UiSubsys1::sub_71009578E4() const {
+    return _120;
+}
+
 // 0x71009675d4
 bool UiSubsys1::return0C() const {
     return false;

@@ -1944,6 +1944,11 @@ s32 Unk_710247d8d8::sub_71009C5368() const {
     return _8;
 }
 
+// 0x71009c5370 (placeholder name)
+void Unk_710247d8d8::sub_71009C5370(s32 index) {
+    _8 = index;
+}
+
 // 0x71009c531c: opens the stamp button entry's layout animation
 void startMapStampButtonEntryOpenAnim(Unk_710247d8d8* entry) {
     if (entry->_10)

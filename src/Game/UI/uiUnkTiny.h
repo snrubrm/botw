@@ -597,6 +597,8 @@ public:
     bool sub_71009C5338() const;
     bool sub_71009C5350() const;
     s32 sub_71009C5368() const;
+    // 0x71009c5370 (placeholder name): stores the record's index
+    void sub_71009C5370(s32 index);
 
     /* 0x08 */ s32 _8 = -1;
     /* 0x10 */ eui::LayoutEx* _10 = nullptr;

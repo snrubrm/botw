@@ -1340,6 +1340,8 @@ public:
     bool sub_71009635DC();
     // 0x7100963598: the mask at 0x120 without the bit selected at 0x128 when sub_71009635DC allows it
     u32 sub_7100963598();
+    // 0x71009578e4 (placeholder name): the available-map-mode mask at 0x120
+    u32 sub_71009578E4() const;
     bool sub_7100958D18() const;
     void sub_71009637D4();
     // 0x710096023c (CSV uiSubsys1::__auto3; placeholder name): ends the timer at 0x6f0 and clears the flag at 0x6ec
