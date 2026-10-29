@@ -1581,7 +1581,7 @@ bool sub_71005E116C(ksys::act::BaseProcLink* link) {
 bool sub_71005E2AD4(const ksys::act::BaseProcAccessor& accessor) {
     ksys::act::ActorLinkConstDataAccess link;
     link.acquireActor(accessor);
-    return sub_71006E3580(link);
+    return uking::act::sub_71006E3580(link);
 }
 
 namespace uking::act {
@@ -1611,6 +1611,18 @@ bool sub_71006E3AB0(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3) {
     if (!proc || !sead::IsDerivedFrom<ksys::act::Actor>(proc))
         return false;
     return sub_71006E37D4(accessor, a2, a3) > 0x1b;
+}
+
+// 0x71006e3580 (CSV name; declaration only in the header until now): whether the accessor's actor has an
+// ActorAtk with the 0x48 entry list.
+bool sub_71006E3580(const ksys::act::BaseProcAccessor& accessor) {
+    auto* proc = accessor.getProc();
+    if (!proc || !sead::IsDerivedFrom<ksys::act::Actor>(proc))
+        return false;
+    auto* atk = static_cast<ksys::act::Actor*>(proc)->getAtk();
+    if (!sead::IsDerivedFrom<ksys::act::ActorAtk>(atk))
+        return false;
+    return static_cast<ksys::act::ActorAtk*>(atk)->_48 != nullptr;
 }
 
 // 0x71006e3b64 (placeholder name): copies the attack sensor's `_20` value from the accessor's actor's
