@@ -230,6 +230,9 @@ bool sub_71006E3CEC(ksys::act::BaseProcAccessor* accessor);
 /// 0x71006e368c (placeholder name): whether the actor's "Tgt" rigid body set has no body with a contact
 /// layer other than SensorQueryOnly (`a2` selects hasNoRigidBodyWithFlag8's mode).
 bool sub_71006E368C(ksys::act::BaseProcAccessor* accessor, bool a2);
+/// 0x71006e3b64 (placeholder name): copies the attack sensor's `_20` value from the accessor's actor's
+/// ActorAtk to `actor`'s ActorAtk (both must be actors with an ActorAtk and an attack sensor).
+void sub_71006E3B64(ksys::act::BaseProcAccessor* accessor, ksys::act::Actor* actor);
 }  // namespace uking::act
 /// 0x71005e2ad4 (unnamed in the CSV): resolves the accessor's link and calls sub_71006E3580.
 bool sub_71005E2AD4(const ksys::act::BaseProcAccessor& accessor);

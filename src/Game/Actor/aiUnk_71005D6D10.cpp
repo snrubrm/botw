@@ -1,4 +1,6 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include <KingSystem/ActorSystem/actActorAtk.h>
+#include <KingSystem/ActorSystem/actAttackSensor.h>
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "Game/Actor/Damage/dmgDamageMgrNPC.h"
 #include "Game/Actor/aiAwarenessFilters.h"
@@ -1609,6 +1611,28 @@ bool sub_71006E3AB0(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3) {
     if (!proc || !sead::IsDerivedFrom<ksys::act::Actor>(proc))
         return false;
     return sub_71006E37D4(accessor, a2, a3) > 0x1b;
+}
+
+// 0x71006e3b64 (placeholder name): copies the attack sensor's `_20` value from the accessor's actor's
+// ActorAtk to `actor`'s ActorAtk (both must be actors with an ActorAtk and an attack sensor).
+void sub_71006E3B64(ksys::act::BaseProcAccessor* accessor, ksys::act::Actor* actor) {
+    auto* proc = accessor->getProc();
+    if (!proc || !sead::IsDerivedFrom<ksys::act::Actor>(proc))
+        return;
+
+    auto* atk = static_cast<ksys::act::Actor*>(proc)->getAtk();
+    if (!sead::IsDerivedFrom<ksys::act::ActorAtk>(atk))
+        return;
+
+    auto* other_atk = actor->getAtk();
+    if (!sead::IsDerivedFrom<ksys::act::ActorAtk>(other_atk))
+        return;
+
+    auto* source = static_cast<ksys::act::ActorAtk*>(atk);
+    auto* dest = static_cast<ksys::act::ActorAtk*>(other_atk);
+    if (!source->_40 || !dest->_40)
+        return;
+    dest->_40->_20 = source->_40->_20;
 }
 
 // 0x71006e368c (placeholder name): whether the actor's "Tgt" rigid body set has no body with a contact
