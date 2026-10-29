@@ -98,14 +98,18 @@ void* DualHeap::tryRealloc(void* ptr, size_t size, s32 alignment) {
 size_t DualHeap::getFreeSize() const {
     const size_t own_size = sead::ExpHeap::getFreeSize();
     const size_t other_size = mHeap2 ? mHeap2->getFreeSize() : 0;
-    return sead::MathCalcCommon<size_t>::min(own_size + other_size, getSize());
+    // called through a pointer in the original (not devirtualised)
+    const sead::Heap* heap = this;
+    return sead::MathCalcCommon<size_t>::min(own_size + other_size, heap->getSize());
 }
 
-// NON_MATCHING: the inherited getSize call is devirtualized.
 size_t DualHeap::getMaxAllocatableSize(int alignment) const {
     const size_t own_size = sead::ExpHeap::getMaxAllocatableSize(alignment);
     const size_t other_size = mHeap2 ? mHeap2->getMaxAllocatableSize(alignment) : 0;
-    return sead::MathCalcCommon<size_t>::min(sead::MathCalcCommon<size_t>::max(own_size, other_size), getSize());
+    // called through a pointer in the original (not devirtualised)
+    const sead::Heap* heap = this;
+    return sead::MathCalcCommon<size_t>::min(sead::MathCalcCommon<size_t>::max(own_size, other_size),
+                                             heap->getSize());
 }
 
 bool DualHeap::isResizable() const {
@@ -189,18 +193,21 @@ void* DualFrameHeap::tryAlloc(size_t size, s32 alignment) {
     return ptr;
 }
 
-// NON_MATCHING: the inherited getSize call is devirtualized.
 size_t DualFrameHeap::getFreeSize() const {
     const size_t own_size = sead::FrameHeap::getFreeSize();
     const size_t other_size = mHeap2 ? mHeap2->getFreeSize() : 0;
-    return sead::MathCalcCommon<size_t>::min(own_size + other_size, getSize());
+    // called through a pointer in the original (not devirtualised)
+    const sead::Heap* heap = this;
+    return sead::MathCalcCommon<size_t>::min(own_size + other_size, heap->getSize());
 }
 
-// NON_MATCHING: the inherited getSize call is devirtualized.
 size_t DualFrameHeap::getMaxAllocatableSize(int alignment) const {
     const size_t own_size = sead::FrameHeap::getMaxAllocatableSize(alignment);
     const size_t other_size = mHeap2 ? mHeap2->getMaxAllocatableSize(alignment) : 0;
-    return sead::MathCalcCommon<size_t>::min(sead::MathCalcCommon<size_t>::max(own_size, other_size), getSize());
+    // called through a pointer in the original (not devirtualised)
+    const sead::Heap* heap = this;
+    return sead::MathCalcCommon<size_t>::min(sead::MathCalcCommon<size_t>::max(own_size, other_size),
+                                             heap->getSize());
 }
 
 void DualFrameHeap::free(void* ptr) {
