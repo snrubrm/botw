@@ -4468,7 +4468,8 @@ public:
     /* 0x3630 */ eui::Animator* _3630 = nullptr;  // the frame animator m155 plays with PlayAuto
     /* 0x3638 */ eui::Animator* _3638;
     /* 0x3640 */ eui::Animator* _3640;
-    u8 _pad_3648[0x3650 - 0x3648];
+    // m93 stores mLayout->findPartsLayout("Pa_PhotoSensor_00") here; sub_71009F9D64 removes its pane.
+    /* 0x3648 */ eui::LayoutEx* mSensorLayout;
     /* 0x3650 */ eui::Animator* _3650 = nullptr;
     /* 0x3658 */ ScreenAppPictureBookUnk* _3658;
     /* 0x3660 */ ScreenAppPictureBookUnk* _3660;

@@ -3033,6 +3033,52 @@ void ScreenAppPictureBook::sub_71009F9C30() {
     _3ab8 = false;
 }
 
+// 0x71009f9d64: detaches the sensor target layout's pane, then either closes the sensor target widget
+// or fills it with the target's message and sets the sensor animator to the matching speed.
+void ScreenAppPictureBook::sub_71009F9D64() {
+    _3ab8 = false;
+    nn::ui2d::Pane* pane = mSensorLayout->GetPane();
+    if (pane && pane->GetParent())
+        pane->GetParent()->RemoveChild(pane);
+
+    const bool sensor_obtained = ksys::gdt::getFlag_IsGet_Obj_SheikSensorLv2(false);
+    if (sUnk_71025eb5b8 == 1 || !sensor_obtained) {
+        _3ac0->startAnimCloseImpl_(false, true);
+        if (_3650)
+            _3650->StopAtMin();
+        return;
+    }
+
+    _3ac0->sub_7100BDDE7C(false, 1, true);
+    eui::MessageString message;
+    bool has_message = false;
+    f32 stop;
+    const s32 state = UiSubsys1::instance()->get38a8();
+    if (state == 0) {
+        has_message = uking::ui::getMessage(sPictureBookState._268, "Shline", &message) == 0;
+        if (has_message)
+            stop = 0.0f;
+    } else if (state == 1) {
+        const char* actor_name;
+        ksys::gdt::getFlag_ActorName_SeakSensor_Slot0(&actor_name, false);
+        has_message = sub_7100AA2BDC(actor_name, &message) == 0;
+        if (has_message) {
+            if (_3650)
+                _3650->StopAtMax();
+            stop = 1.0f;
+        }
+    }
+    if (has_message) {
+        uking::ui::setWidgetString(_3ac0, sPictureBookState._188, message);
+    } else {
+        uking::ui::setWidgetString(_3ac0, sPictureBookState._188, sead::SafeString::cEmptyString);
+        stop = 2.0f;
+    }
+
+    if (_3ac8)
+        _3ac8->Stop(stop);
+}
+
 // 0x71009fa33c
 void ScreenAppPictureBook::m101() {
     if (_3658 && _3660) {
