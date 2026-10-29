@@ -888,10 +888,19 @@ bool UiSubsys1::is38e4Equal(s32 value) const {
     return _38e4 == value;
 }
 
+// 0x710096754c: copies the selected pin state out and marks it invalid again.
+// NON_MATCHING: the invalid pair is materialized with one movn instead of the original's movz + movk.
+void UiSubsys1::sub_710096754C(Unk_710096754C* out) {
+    out->_8 = _38f4;
+    out->_0 = _38ec_38f0;
+    _38ec_38f0._0 = -1;
+    _38ec_38f0._4 = 0x5ffff;
+}
+
 // 0x7100967570
 void UiSubsys1::set38ec(s32 a, s32 b) {
-    _38ec = a;
-    _38f0 = b;
+    _38ec_38f0._0 = a;
+    _38ec_38f0._4 = b;
 }
 
 // 0x71009675a4

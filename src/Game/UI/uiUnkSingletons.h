@@ -1270,6 +1270,19 @@ static_assert(sizeof(MapModeEntry) == 0xa8);
 static_assert(sizeof(MapModeSelected) == 0xa8);
 static_assert(sizeof(MapModeGroup) == 0x888);
 
+// 0x710096754c (placeholder name): the 12-byte pin state copied out by UiSubsys1::sub_710096754C.
+// Its first 8 bytes are reset together (the invalid value is {-1, 0x5ffff}), so they are one pair.
+struct Unk_710096754C0 {
+    /* 0x0 */ s32 _0;
+    /* 0x4 */ s32 _4;
+};
+static_assert(sizeof(Unk_710096754C0) == 0x8);
+struct Unk_710096754C {
+    /* 0x0 */ Unk_710096754C0 _0;
+    /* 0x8 */ s32 _8;
+};
+static_assert(sizeof(Unk_710096754C) == 0xc);
+
 class UiSubsys1 {
     // Native singleton forwarders 96828C / 9682B4 / 9682CC read these UI fields directly.
     friend class Unk_71025d6ac0;
@@ -1442,6 +1455,8 @@ public:
     bool return0A() const;
     // 0x71009675ec (placeholder name; declared only): the SafeString name writer for the map mode at _3830
     void sub_71009675EC();
+    // 0x710096754c (placeholder name; CSV row unnamed): copies the pin state out and resets it
+    void sub_710096754C(Unk_710096754C* out);
     // 0x7100967504 / 0x7100967524 / 0x7100967570 / 0x71009675a4 / 0x71009675c0 / 0x71009675d4 / 0x71009675dc (placeholder names)
     bool isValid38e0() const;
     bool is38e4Equal(s32 value) const;
@@ -1757,8 +1772,7 @@ private:
     /* 0x38e0 */ s32 _38e0;
     /* 0x38e4 */ s32 _38e4;
     /* 0x38e8 */ s32 _38e8;
-    /* 0x38ec */ s32 _38ec;
-    /* 0x38f0 */ s32 _38f0;
+    /* 0x38ec */ Unk_710096754C0 _38ec_38f0;
     /* 0x38f4 */ s32 _38f4;
     /* 0x38f8 */ s32 _38f8;
     /* 0x38fc */ s32 _38fc;
