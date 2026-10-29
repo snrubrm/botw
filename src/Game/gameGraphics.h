@@ -611,6 +611,9 @@ public:
     void sub_710128F9E0(gsys::Model* model);
     // 0x710128f888 (declaration only; placeholder name): draws the renderer's debug geometry.
     void sub_710128F888(agl::DrawContext* context, gsys::ModelRenderContext* render_context);
+    // 0x710128e0f8 (declaration only; placeholder name): the draw callback loadX binds to each
+    // procedural shape (Delegate1 vtable at 0x7102519178).
+    void sub_710128E0F8(const gsys::ModelProceduralShape::Arg& arg);
 
     // The scalar block, the model pointers and the three procedural shapes the renderer builds,
     // value-initialised as one aggregate (the original zeroes all 0x110 bytes, then constructs

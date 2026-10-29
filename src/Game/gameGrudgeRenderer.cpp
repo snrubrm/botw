@@ -89,6 +89,7 @@ void GrudgeRenderer::sub_710128F4BC(const sead::Camera* camera) {
 }
 
 template class sead::Delegate1<GrudgeRenderer, ksys::res::TextureHandleList::Entry*>;
+template class sead::Delegate1<GrudgeRenderer, const gsys::ModelProceduralShape::Arg&>;
 
 // 0x710128f9a4: sorts the grudge unit arrays by address (the compare callback of their sort).
 s32 sub_710128F9A4(const void* a, const void* b) {
