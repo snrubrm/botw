@@ -136,6 +136,32 @@ void sub_71011EF168(sead::Vector3f* out, const sead::Matrix33f& from,
     *out *= angle;
 }
 
+// NON_MATCHING: the in-place setInverse/setMul chain and the negate stores are scheduled differently
+// (register allocation in the 3x3 multiply, one extra store); the operations match.
+void sub_71011EF1C4(sead::Vector3f* axis, f32* angle, const sead::Matrix33f& from,
+                    const sead::Matrix33f& to, const sead::Vector3f& default_axis) {
+    sead::Matrix33f mtx;
+    mtx.setInverse(from);
+    mtx.setMul(mtx, to);
+
+    sead::Quatf quat;
+    mtx.toQuat(quat);
+    quat.normalize();
+
+    axis->set(quat.x, quat.y, quat.z);
+    axis->normalize();
+    if (quat.w < 0.0f)
+        *axis = -*axis;
+
+    const f32 length = axis->normalize();
+    if (length > 0.001f) {
+        *angle = 2.0f * std::acos(std::min(sead::Mathf::abs(quat.w), 1.0f));
+    } else {
+        *axis = default_axis;
+        *angle = 0.0f;
+    }
+}
+
 void sub_71011EF4C0(sead::Vector3f* out, const sead::Matrix34f& from,
                     const sead::Matrix34f& to, const sead::Vector3f& default_axis) {
     f32 angle;
