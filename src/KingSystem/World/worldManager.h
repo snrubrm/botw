@@ -248,7 +248,10 @@ public:
         return mMgrs.unsafeAt(static_cast<s32>(index));
     }
     // The environment manager of slot 6, or null when the world manager has too few managers.
-    EnvMgr* getEnvMgrMaybe() const { return static_cast<EnvMgr*>(getMgrMaybe(6)); }
+    EnvMgr* getEnvMgrMaybe() const {
+        return static_cast<u32>(mMgrs.size()) >= 7 ? static_cast<EnvMgr*>(mMgrs.unsafeAt(6))
+                                                   : nullptr;
+    }
     // The wind manager of slot 5, or null when the world manager has too few managers.
     // Evidence: Core::Grass::sub_71011503CC compares the count against 6 with an unsigned
     // `b.lo` and keeps the null arm out of line (the ternary shape).

@@ -11,6 +11,92 @@
 
 namespace ksys::world {
 
+// NON_MATCHING: the destination address of the fourth VFR::lerp is formed after the wind speed call
+// instead of before it (five-instruction schedule difference in that block).
+void SkyMgr::sub_71010E2468() {
+    Manager* wm = Manager::instance();
+
+    f32 moon;
+    const f32 angle = sead::Mathf::atan2(wm->getWindDirection().x, wm->getWindDirection().z);
+    const f32 time_scale = wm->getTimeMgrUnchecked()->_d0;
+    f32 wind_factor = 0.0f;
+    const f32 delta_frame = VFR::instance()->getDeltaFrame();
+    const f32 time = wm->getTimeMgr()->getTimeForSkyEnv();
+    moon = 0.0f;
+
+    if (wm->getEnvMgrMaybe()->getPaletteSet() == 16) {
+        _3e00 = 0;
+        moon = wm->getEnvMgrMaybe()->getPaletteSetTransition();
+    } else if (wm->getEnvMgrMaybe()->getPaletteSet() == 17) {
+        _3e00 = 1;
+        moon = wm->getEnvMgrMaybe()->getPaletteSetTransition();
+    } else if (wm->getEnvMgrMaybe()->getBloodMoonProgress() > 0.0f) {
+        _3e00 = 2;
+        moon = wm->getEnvMgrMaybe()->getBloodMoonProgress();
+    }
+
+    VFR::lerp(&_3e04, moon, 0.05f, 0.005f, 0.005f);
+    if (_3e04 <= 0.0f)
+        _3e00 = -1;
+
+    f32 fade = 1.0f;
+    if (time > 330.0f && moon <= 0.0f && wm->getTimeMgr()->willBloodMoonHappenTonight())
+        fade = 0.0f;
+
+    VFR::lerp(&_3f94, fade, 0.1f, 0.01f, 0.001f);
+    VFR::lerp(&_3f48, angle, 0.5f, 0.05f, 0.01f);
+    fade = wm->getWindSpeed();
+    VFR::lerp(&_3f4c, fade, 1.0f, 0.1f, 0.1f);
+    if (wm->mTimer != 0) {
+        _3f48 = angle;
+        _3f4c = wm->getWindSpeed();
+    }
+
+    _3ee4.x = sead::Mathf::sin(_3f48);
+    const f32 cos_angle = sead::Mathf::cos(_3f48);
+    _3ee4.z = cos_angle;
+    const f32 wind = std::min(_3f4c / 10.0f, 1.0f);
+    const f32 speed = time_scale * (wind * 0.3f);
+
+    f32 noise;
+    f32 pat;
+    if (_3e04 > 0.0f) {
+        const CloudSpd& spd = mCloudSpd[_3e00];
+        const f32 delta = speed * 0.001f;
+        noise = speed + _3e04 * (*spd.mCloudPatNoisePow - delta);
+        pat = speed + _3e04 * (*spd.mCloudPatWindPow - delta);
+    } else {
+        noise = speed;
+        pat = speed;
+    }
+    _3f64 = noise;
+    _3f60 = pat * 0.001f;
+
+    f32 cos_offset;
+    if (_3fa0 < 1) {
+        const f32 v = pat * 1.75f;
+        _3f20.x += delta_frame * (v * _3ee4.x);
+        cos_offset = v * cos_angle;
+    } else {
+        _3f20.x += delta_frame * _3f28.x;
+        cos_offset = _3f28.y;
+    }
+    _3f20.y += delta_frame * cos_offset;
+
+    if ((u8(wm->mTicks) & 0x1f) == 0)
+        _3f40 = sead::GlobalRandom::instance()->getF32();
+
+    if (wm->sub_71010F3374() != WeatherType::Bluesky &&
+        wm->sub_71010F3374() != WeatherType::BlueskyRain)
+        wind_factor = 1.0f;
+
+    const f32 rate = wm->_798 != -1 ? 0.01f : 0.0015f;
+    if ((wm->mWeatherType != WeatherType::Invalid && !wm->_7d5) || wm->mTimer != 0)
+        _3f3c = wind_factor;
+
+    VFR::lerp(&_3f3c, wind_factor, 1.0f, time_scale * rate, time_scale * (rate * 0.2f));
+}
+
 // NON_MATCHING: the rotated direction uses a different floating-point expression order.
 void SkyMgr::sub_71010E2908() {
     Manager* manager = Manager::instance();

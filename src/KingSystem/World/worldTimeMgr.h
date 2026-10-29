@@ -117,6 +117,8 @@ protected:
     void calcType2_() override;
 
 private:
+    friend class SkyMgr;  // SkyMgr::sub_71010E2468 reads the time-step scale directly (0x71010e24c4).
+
     enum class TimeUpdateMode {
         Normal = 0,
 
