@@ -16,6 +16,7 @@
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "Game/UI/uiUnkSingletons.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "Game/UI/uiUtils.h"
 #include "Game/UI/uiShopCookInfo.h"
 #include "Game/Actor/Player/actPlayerBase.h"
@@ -609,6 +610,66 @@ void sub_7100A9CE08(s32 mode, sead::BufferedSafeString& key) {
         key.copy("Obj_RemoteBombLv2");
     else
         key.copy("Obj_RemoteBomb");
+}
+
+// The four flag-name strings of one rune in the static rune table.
+struct RuneInfoFlagSet {
+    sead::SafeString _0;
+    u8 _10[0x10];
+};
+
+// One record of the rune list: the rune id, a flag word and four strings.
+struct RuneInfoRecord {
+    s32 mRune;
+    s32 mFlags;
+    sead::SafeString mName;
+    u8 _18[0x10];
+};
+
+// The static rune table at 0x71025f6520 (built by sinitRuneInfo at 0x7100a93d3c).
+struct RuneInfoData {
+    u8 _0[0x160];
+    sead::Buffer<RuneInfoFlagSet> mFlagSets;
+    sead::Buffer<RuneInfoRecord> mRecords;
+    u8 _180[0x3e0 - 0x180];
+};
+KSYS_VISIBILITY_HIDDEN RuneInfoData sRuneInfo;
+
+// 0x7100a9cf44: whether rune `rune` is obtained. Mode 1 searches the rune list, other modes read the
+// flag table entry for the rune's item id and, for the last rune, require the Champion's Ballad DLC.
+// NON_MATCHING: the zero-count return and the list's not-found return are one block in the original,
+// placed after the loop; ours merges them into the earlier range-check return and inverts that branch.
+// The loop latch also steps the counter before the record pointer (ours: the other way round).
+bool checkIsGetRune(s32 rune, s32 mode) {
+    if (u32(rune + 1) > 9)
+        return false;
+
+    s32 id;
+    if (u32(rune) <= 7) {
+        static const s32 sRuneIds[] = {10, 11, 0, 1, 2, 3, 12, 13, 4, 5};
+        id = sRuneIds[rune];
+    } else {
+        id = -1;
+    }
+
+    if (mode == 1) {
+        s32 count = sRuneInfo.mRecords.size();
+        const RuneInfoRecord* record = sRuneInfo.mRecords.getBufferPtr();
+        while (count != 0) {
+            if (record->mRune == id)
+                return ksys::gdt::getBoolByKey(record->mName, false);
+            ++record;
+            --count;
+        }
+        return false;
+    }
+
+    const bool owned = ksys::gdt::getBoolByKey(sRuneInfo.mFlagSets[id]._0, false);
+    if (rune != 6 && owned)
+        return true;
+    if (!owned)
+        return false;
+    return ksys::aoc::Manager::instance()->getVersion() > 0x2ff;
 }
 
 // 0x7100a9d244 (placeholder name)
