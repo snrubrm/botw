@@ -215,6 +215,13 @@ void sub_71005D6D48(ksys::act::Actor* actor);
 bool sub_71005D6E28(ksys::act::Actor* actor);
 /// 0x71006e3580 (unnamed in the CSV): target-kind predicate on an accessor's actor.
 bool sub_71006E3580(const ksys::act::BaseProcAccessor& accessor);
+namespace uking::act {
+/// 0x71006e3ab0 (placeholder name): whether the accessor's proc is an Actor and sub_71006E37D4 (the
+/// target-kind score) is above 0x1b.
+bool sub_71006E3AB0(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3);
+/// 0x71006e37d4 (placeholder name; declared only): the target-kind score sub_71006E3AB0 compares.
+s32 sub_71006E37D4(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3);
+}  // namespace uking::act
 /// 0x71005e2ad4 (unnamed in the CSV): resolves the accessor's link and calls sub_71006E3580.
 bool sub_71005E2AD4(const ksys::act::BaseProcAccessor& accessor);
 /// Whether the actor's map object has rails.
