@@ -29,6 +29,7 @@ class Unk_7102459cc0;
 namespace ksys::eft {
 
 class AmbientEffectMgr;
+class Effect;
 
 // Placeholder for the two u16 ids xlink2 writes back through the ResEset out parameter. lib/xlink2
 // models ResEset as an empty struct; this is the layout the game code stores into.
@@ -40,6 +41,8 @@ struct Unk_ResEset {
 // Effect + 0x9fe0 (placeholder name): a locked table of 32 actor slots (0x30 bytes each, the actor
 // pointer first), a count at +0x600 and the lock at +0x608.
 class Unk_EffectActorTable {
+    friend class Effect;
+
 public:
     void sub_7100DA2118();
     bool sub_7100DA216C(act::Actor* actor, const sead::Vector3f& position);

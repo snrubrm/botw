@@ -441,6 +441,83 @@ void Effect::x_1() {
     }
 }
 
+// 0x71011b6b48: kills the pending effect handles, samples the forest_density statistics at four
+// points along the camera direction (5, 25, 35 and -5 units), clamps the density by the effect
+// level and the terrain under the camera, then keeps Effect +0x192b0 in 0..1.
+// NON_MATCHING: the probe vector gets a different stack slot (the frame is 0x10 larger) and the
+// query argument setup is scheduled around the call differently; the arithmetic and branches match.
+void Effect::calcGsysParallel() {
+    for (s32 i = 0; i < 32; ++i) {
+        auto& entry = _9fe0._0[i];
+        if (!entry.actor && entry._28) {
+            entry._28 = false;
+            entry.handle.kill();
+        }
+    }
+
+    auto* statistics = uking::StatisticsMgr::instance();
+    if (!statistics)
+        return;
+    auto* camera = CameraMgr::instance()->getLookAtCamera();
+    if (!camera)
+        return;
+
+    const sead::Vector3f pos = camera->getPos();
+    const sead::Vector3f at = camera->getAt();
+    sead::Vector3f dir{at.x - pos.x, at.y - pos.y, at.z - pos.z};
+    dir.normalize();
+
+    f32 height5;
+    f32 height25;
+    f32 height35;
+    f32 heightNeg5;
+    sead::Vector3f probe = pos + dir * 5.0f;
+    f32 count = u32(statistics->query(&height5, 1, mForestDensityStats, &probe));
+    probe = pos + dir * 25.0f;
+    count += u32(statistics->query(&height25, 1, mForestDensityStats, &probe));
+    probe = pos + dir * 15.0f + dir * 20.0f;
+    count += u32(statistics->query(&height35, 1, mForestDensityStats, &probe));
+    probe = pos + dir * 15.0f - dir * 20.0f;
+    count += u32(statistics->query(&heightNeg5, 1, mForestDensityStats, &probe));
+
+    if (count == 4.0f) {
+        const f32 sum = height5 + height25 + height35 + heightNeg5;
+        if (sead::Mathf::isNan(sum)) {
+            sead::FormatFixedSafeString<128> message("EFT_ERR[System::calcGsysParallel]");
+        } else {
+            f32 value = sum;
+            const s32 level = _9fe0.mCount;
+            if (level == 2) {
+                if (value > 0.6f)
+                    value = 0.6f;
+            } else if (level == 1) {
+                if (value > 0.5f)
+                    value = 0.5f;
+            } else if (level == 0 && value > 0.4f) {
+                value = 0.4f;
+            }
+            _192b0 += (value - _192b0) * 0.1f;
+        }
+    }
+
+    auto* placement_mgr = map::PlacementMgr::instance();
+    if (placement_mgr && placement_mgr->mTeraSystem) {
+        f32 height = -9999.0f;
+        if (Graphics::instance()->getMapStateMaybe() < 2) {
+            const sead::Vector2f xz(pos.x, pos.z);
+            tera::sub_71011094A0(&height, &xz, placement_mgr->mTeraSystem, -1, 0);
+        }
+        const f32 diff = pos.y - height;
+        if (diff > 10.0f)
+            _192b0 = ((diff - 10.0f) / -7.0f + 1.0f) * _192b0;
+    }
+
+    if (_192b0 < 0.0f)
+        _192b0 = 0.0f;
+    else if (_192b0 > 1.0f)
+        _192b0 = 1.0f;
+}
+
 // 0x71011b7b0c: when the scene is not ready, step the parallel / camera effect state, then run the
 // player water grid and the xlink calculation.
 // NON_MATCHING: our clang deletes the PtrArray bounds check before mMgrs[3] (it loads from the null
