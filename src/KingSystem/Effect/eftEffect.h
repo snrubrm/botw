@@ -219,7 +219,13 @@ private:
     s32 _193e8;
     u8 _193ec[0x19c38 - 0x193ec];
     Unk_71012419b4 mFieldEnvEffect;
-    u8 _19c58[0x2a3e0 - 0x19c58];
+    // The camera water distance the effect uses (x_1): the running distance, the per-direction
+    // distances, the direction index and the player distance.
+    f32 mWaterDistanceMaybe;
+    f32 mWaterDirDistances[3];
+    s32 mWaterDirIndex;
+    f32 mPlayerWaterDistance;
+    u8 _19c70[0x2a3e0 - 0x19c70];
     // 0x2a3e0 (Effect::init): the sixteen samples of the effect-level scale curve.
     f32 mLevelScaleTable[16];
     u8 _2a420[0x2a42c - 0x2a420];

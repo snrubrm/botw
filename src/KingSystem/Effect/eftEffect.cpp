@@ -337,6 +337,110 @@ void Effect::x_0() {
         query.getHitPosition(&position);
 }
 
+// 0x71011b742c: probes the terrain / height-map heights along the camera's horizontal direction
+// (rotated left or right on alternating frames) and at the player, and keeps the distance at
+// which the water effect can start.
+// NON_MATCHING: the vector / height temporaries get different stack slots (frame 0x10 larger) and
+// the rotated direction and index live in different registers; the height probes themselves match.
+void Effect::x_1() {
+    mWaterDistanceMaybe = 25.0f;
+    if (hasFlags(0x4000))
+        return;
+    auto* placement_mgr = map::PlacementMgr::instance();
+    if (!placement_mgr)
+        return;
+    tera::System* system = placement_mgr->mTeraSystem;
+    if (!system)
+        return;
+    auto* camera = CameraMgr::instance()->getLookAtCamera();
+    if (!camera)
+        return;
+
+    const sead::Vector3f pos = camera->getPos();
+    const sead::Vector3f at = camera->getAt();
+    sead::Vector3f dir{at.x - pos.x, 0.0f, at.z - pos.z};
+    dir.normalize();
+
+    if (hasFlags(0x8000))
+        return;
+
+    const sead::Vector3f up = camera->getUp();
+    const sead::Vector3f cross = dir.cross(up);
+    const u32 index = mWaterDirIndex;
+    mWaterDirIndex = index > 1 ? 0 : index + 1;
+
+    sead::Vector3f rotated = dir;
+    if (index == 2)
+        rotated = dir * 2.0503037f - cross;
+    else if (index == 1)
+        rotated = dir * 2.0503037f + cross;
+    rotated.normalize();
+
+    const s32 dir_index = s32(index);
+    f32& dist = mWaterDirDistances[dir_index];
+    const sead::Vector3f full(pos.x + rotated.x * dist, pos.y + rotated.y * dist - 1.5f,
+                              pos.z + rotated.z * dist);
+    const sead::Vector3f half = pos + (full - pos) * 0.5f;
+    const sead::Vector2f full_xz(full.x, full.z);
+    const sead::Vector2f half_xz(half.x, half.z);
+
+    f32 graphics_full = 0.0f;
+    f32 graphics_half = 0.0f;
+    Graphics::instance()->getUnk_ab0()->sub_7100F29EB4(&graphics_full, full_xz);
+    Graphics::instance()->getUnk_ab0()->sub_7100F29EB4(&graphics_half, half_xz);
+
+    f32 terrain_full;
+    f32 terrain_half;
+    tera::sub_71011094A0(&terrain_full, &full_xz, system, -1, 0);
+    tera::sub_71011094A0(&terrain_half, &half_xz, system, -1, 0);
+
+    f32 target = 32.0f;
+    if (graphics_full > (terrain_full > full.y ? terrain_full : full.y) + 2.5f ||
+        graphics_half > (terrain_half > half.y ? terrain_half : half.y) + 2.5f)
+        target = 5.0f;
+
+    dist += (target - dist) * 0.2f;
+
+    f32 value = mWaterDistanceMaybe;
+    for (s32 i = 0; i < 3; ++i) {
+        const f32 limit = mWaterDirDistances[i] - 7.0f;
+        if (value > limit) {
+            mWaterDistanceMaybe = limit;
+            value = limit;
+        }
+        if (value > 25.0f) {
+            value = 25.0f;
+            mWaterDistanceMaybe = 25.0f;
+        }
+    }
+
+    if (_9fb8) {
+        auto* player = _9fb8->getPlayer();
+        const sead::Vector3f player_pos = player->getMtx().getTranslation();
+        const f32 t = mPlayerWaterDistance;
+        const sead::Vector3f point(player_pos.x + rotated.x * t,
+                                   player_pos.y + rotated.y * t + 1.0f,
+                                   player_pos.z + rotated.z * t);
+        const sead::Vector2f point_xz(point.x, point.z);
+
+        f32 graphics_height = 0.0f;
+        f32 terrain_height;
+        Graphics::instance()->getUnk_ab0()->sub_7100F29EB4(&graphics_height, point_xz);
+        tera::sub_71011094A0(&terrain_height, &point_xz, system, -1, 0);
+
+        const f32 height = point.y > terrain_height + 0.5f ? point.y : terrain_height + 0.5f;
+        const f32 new_dist = graphics_height > height ? 1.0f : 10.0f;
+        mPlayerWaterDistance += (new_dist - mPlayerWaterDistance) * 0.2f;
+
+        if (mPlayerWaterDistance < 9.5f) {
+            const sead::Vector3f probe(point.x, height, point.z);
+            const f32 limit = (probe - pos).length() * 0.9f - 5.0f;
+            if (limit < mWaterDistanceMaybe)
+                mWaterDistanceMaybe = limit;
+        }
+    }
+}
+
 // 0x71011b7b0c: when the scene is not ready, step the parallel / camera effect state, then run the
 // player water grid and the xlink calculation.
 // NON_MATCHING: our clang deletes the PtrArray bounds check before mMgrs[3] (it loads from the null
