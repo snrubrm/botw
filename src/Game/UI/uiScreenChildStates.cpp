@@ -726,6 +726,40 @@ bool Unk_710247af10::sub_71009B6B4C(s32 index) const {
     return ksys::gdt::getBoolByKey(flag_name, false);
 }
 
+// 0x71009b6d30 (placeholder name): sorts the picture book quest records: by category order (0, 1, other), then
+// by descending progress (bits 1 and 2 of the quest's version flags), then by ascending quest index.
+// NON_MATCHING: clang if-converts the category and progress checks into cset / csinv / cneg where the original
+// keeps separate branches (same instruction set, different control flow and register assignment).
+s32 sub_71009B6D30(const Unk_710247ae28* a, const Unk_710247ae28* b) {
+    const s32 a_order = a->mCategory == 0 ? 0 : (a->mCategory == 1 ? 1 : 2);
+    const s32 b_order = b->mCategory == 0 ? 0 : (b->mCategory == 1 ? 1 : 2);
+    if (a_order != b_order)
+        return a_order > b_order ? 1 : -1;
+
+    s32 a_progress = 0;
+    if (a->mQuest) {
+        if (a->mQuest->mAocVersionFlags & 4)
+            a_progress = 2;
+        else
+            a_progress = (a->mQuest->mAocVersionFlags >> 1) & 1;
+    }
+    s32 b_progress = 0;
+    if (b->mQuest) {
+        if (b->mQuest->mAocVersionFlags & 4)
+            b_progress = 2;
+        else
+            b_progress = (b->mQuest->mAocVersionFlags >> 1) & 1;
+    }
+    if (a_progress > b_progress)
+        return -1;
+    if (a_progress < b_progress)
+        return 1;
+
+    if (a->mQuestIndex < b->mQuestIndex)
+        return -1;
+    return a->mQuestIndex > b->mQuestIndex;
+}
+
 namespace {
 // inline-only in the original; name is a guess
 bool isRecordPosted(Unk_710247ae28* record) {
