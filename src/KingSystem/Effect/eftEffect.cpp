@@ -471,14 +471,23 @@ void Effect::calcGsysParallel() {
     f32 height25;
     f32 height35;
     f32 heightNeg5;
-    sead::Vector3f probe = pos + dir * 5.0f;
-    f32 count = u32(statistics->query(&height5, 1, mForestDensityStats, &probe));
-    probe = pos + dir * 25.0f;
-    count += u32(statistics->query(&height25, 1, mForestDensityStats, &probe));
-    probe = pos + dir * 15.0f + dir * 20.0f;
-    count += u32(statistics->query(&height35, 1, mForestDensityStats, &probe));
-    probe = pos + dir * 15.0f - dir * 20.0f;
-    count += u32(statistics->query(&heightNeg5, 1, mForestDensityStats, &probe));
+    f32 count;
+    {
+        const sead::Vector3f probe = camera->getPos() + dir * 5.0f;
+        count = u32(statistics->query(&height5, 1, mForestDensityStats, &probe));
+    }
+    {
+        const sead::Vector3f probe = camera->getPos() + dir * 25.0f;
+        count += u32(statistics->query(&height25, 1, mForestDensityStats, &probe));
+    }
+    {
+        const sead::Vector3f probe = camera->getPos() + dir * 15.0f + dir * 20.0f;
+        count += u32(statistics->query(&height35, 1, mForestDensityStats, &probe));
+    }
+    {
+        const sead::Vector3f probe = camera->getPos() + dir * 15.0f - dir * 20.0f;
+        count += u32(statistics->query(&heightNeg5, 1, mForestDensityStats, &probe));
+    }
 
     if (count == 4.0f) {
         const f32 sum = height5 + height25 + height35 + heightNeg5;
