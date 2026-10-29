@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <math/seadVector.h>
+#include <prim/seadDelegate.h>
 #include <prim/seadSafeString.h>
 #include "Game/Actor/actSwarm.h"
 
@@ -50,10 +51,20 @@ void sub_710072ABB4(ksys::act::Actor* actor);
 // SwarmDamaged::m33.
 uking::act::Swarm::Unit* sub_710072A6DC(uking::act::Swarm* swarm, const sead::Vector3f& pos);
 
-// 0x7100729d5c (declared only; 68 B): sibling of sub_7100729D18 (same body 0x7100729568 with a different local helper object);
+// 0x7100729d5c (68 B): sibling of sub_7100729D18 (same body 0x7100729568 with a different local helper object);
 // the swarm movement step of the SwarmDamaged family's m32 (`speed`, the swarm, three optional arguments: the third is
 // a position, flag). The result is discarded by its callers.
-bool sub_7100729D5C(f32 speed, uking::act::Swarm* swarm, void* a, const sead::Vector3f* pos, void* b, bool flag);
+using SwarmUnitVectorGetter = sead::Delegate1RFunc<uking::act::Swarm::Unit*, sead::Vector3f*>;
+// 0x7100729558 / 0x7100729560 (8 B each, still U): unit position getters used through the delegate.
+sead::Vector3f* sub_7100729558(uking::act::Swarm::Unit* unit);
+sead::Vector3f* sub_7100729560(uking::act::Swarm::Unit* unit);
+// 0x7100729568 (1968 B, still U): the shared movement step.
+bool sub_7100729568(ksys::act::Actor* actor, sead::Vector3f* out, const sead::Vector3f* pos,
+                    s32* flag, const SwarmUnitVectorGetter& getter, bool b, f32 speed);
+bool sub_7100729D18(ksys::act::Actor* actor, sead::Vector3f* out, const sead::Vector3f& dir,
+                    f32 speed, s32* b, bool flag);
+bool sub_7100729D5C(f32 speed, uking::act::Swarm* swarm, void* a, const sead::Vector3f* pos, void* b,
+                    bool flag);
 // 0x7100729fac (348 B): SwarmAreaDamaged::m32.
 void sub_7100729FAC(uking::act::Swarm* swarm, const sead::Vector3f& dir);
 // 0x710072a108 (348 B): SwarmDamagedBase::m32.

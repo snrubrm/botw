@@ -77,6 +77,19 @@ void sub_710072A778(uking::act::Swarm* swarm, const sead::SafeString& name, f32 
     }
 }
 
+bool sub_7100729D18(ksys::act::Actor* actor, sead::Vector3f* out, const sead::Vector3f& dir,
+                    f32 speed, s32* b, bool flag) {
+    SwarmUnitVectorGetter getter(sub_7100729558);
+    return sub_7100729568(actor, out, &dir, b, getter, flag, speed);
+}
+
+bool sub_7100729D5C(f32 speed, uking::act::Swarm* swarm, void* a, const sead::Vector3f* pos,
+                    void* b, bool flag) {
+    SwarmUnitVectorGetter getter(sub_7100729560);
+    return sub_7100729568(swarm, static_cast<sead::Vector3f*>(a), pos, static_cast<s32*>(b), getter,
+                          flag, speed);
+}
+
 void sub_710072ABB4(ksys::act::Actor* actor) {
     if (auto* swarm = sead::DynamicCast<uking::act::Swarm>(actor)) {
         for (s32 i = 0; i < swarm->_15f8.size(); ++i) {
