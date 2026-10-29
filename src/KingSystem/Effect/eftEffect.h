@@ -38,6 +38,39 @@ struct Unk_ResEset {
     u16 _2;
 };
 
+// One stage of the wind material sampler at Effect +0x19330. Keeps the last three samples and
+// accepts the newest one once the two newest agree, otherwise keeps the oldest (debounce).
+struct MaterialSampleHistory {
+    // Returns true when the third sample of a round was stored.
+    bool push(const s32& value) {
+        mValues[mIndex] = value;
+        if (++mIndex != 3)
+            return false;
+        mIndex = 0;
+        const s32* accepted = &mValues[0];
+        if (mValues[1] == mValues[2])
+            accepted = &mValues[1];
+        mResult = *accepted;
+        return true;
+    }
+
+    s32 mIndex;
+    s32 mValues[3];
+    s32 mResult;
+};
+KSYS_CHECK_SIZE_NX150(MaterialSampleHistory, 0x14);
+
+// The wind's terrain-material sampler (Effect +0x19330): three debounce stages and the angle
+// the samples are taken at around the camera. The first stage takes every sample, the second
+// every third and the third every ninth.
+struct WindMaterialSampler {
+    MaterialSampleHistory mSlow;
+    MaterialSampleHistory mMedium;
+    MaterialSampleHistory mFast;
+    f32 mAngle;
+};
+KSYS_CHECK_SIZE_NX150(WindMaterialSampler, 0x40);
+
 // Effect + 0x9fe0 (placeholder name): a locked table of 32 actor slots (0x30 bytes each, the actor
 // pointer first), a count at +0x600 and the lock at +0x608.
 class Unk_EffectActorTable {
@@ -217,7 +250,7 @@ private:
     f32 mWaterRingDistance;
     s32 mWaterRingState;
     AmbientEffectMgr* mAmbientEffectMgr;
-    u8 _19330[0x19370 - 0x19330];
+    /* 0x19330 */ WindMaterialSampler mWindMaterialSampler;
     Rainbow mRainbow;
     s32 _193e0;
     u8 _193e4[4];

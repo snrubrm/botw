@@ -228,9 +228,54 @@ void Effect::calc() {
     mAmbientEffectMgr->calc(this);
 }
 
-// 0x71011b68b0 (placeholder name; declared only): the camera-relative wind effect of the 0x40-byte
-// object at Effect +0x19330 (reads the camera actor at Effect +0x9fc0).
-void sub_71011B68B0(u8* self, Effect* effect);
+// 0x71011b68b0: the camera-relative wind material sampler. It steps the sample angle, picks a
+// random distance around the camera (a twentieth of it on map kind 1), looks the terrain material
+// up on the circle and feeds it into the three debounce stages of WindMaterialSampler.
+// NON_MATCHING: the zero of `submaterial` in the second terrain query arm and the last debounce
+// stage's index load are scheduled differently (same instruction set, 3 instructions moved).
+void sub_71011B68B0(WindMaterialSampler* sampler, Effect* effect) {
+    if (!effect->_9fc0)
+        return;
+    if (!effect->_9fc0->m148())
+        return;
+
+    sampler->mAngle += 0.20943952f;
+    if (sampler->mAngle > 6.2831855f)
+        sampler->mAngle = 0.0f;
+
+    const f32 distance = sead::GlobalRandom::instance()->getF32() * 60.0f;
+    const f32 radius = Graphics::instance()->getMapStateMaybe() == 1 ? distance * 0.05f : distance;
+
+    sead::Vector3f point = effect->_9fc0->m148()->getMtx().getTranslation();
+    point.x += radius * std::sin(sampler->mAngle);
+    point.z += radius * std::cos(sampler->mAngle);
+
+    phys::Material material(-1);
+    s32 submaterial;
+
+    if (!map::PlacementMgr::instance() || !map::PlacementMgr::instance()->mTeraSystem)
+        return;
+
+    if (effect->sub_71011B2A34(&point, nullptr, nullptr, nullptr, nullptr, nullptr, false)) {
+        const sead::Vector2f xz(point.x, point.z);
+        if (!tera::sub_710110B6A4(&material, &submaterial, &xz,
+                                  map::PlacementMgr::instance()->mTeraSystem))
+            return;
+    } else {
+        const sead::Vector2f xz(point.x, point.z);
+        submaterial = 0;
+        if (!tera::sub_710110C02C(&material, &submaterial, &xz,
+                                  map::PlacementMgr::instance()->mTeraSystem, false))
+            return;
+    }
+
+    phys::MaterialMask mask{u32(material.value() & 0xff)};
+    const s32 value = mask.getData().raw & 0x3f;
+    if (sampler->mFast.push(value)) {
+        if (sampler->mMedium.push(sampler->mFast.mResult))
+            sampler->mSlow.push(sampler->mFast.mResult);
+    }
+}
 
 // 0x71011b6ff8: steps the water-effect placement ring around the camera. It samples the
 // water_distance statistics at the camera, checks the terrain material on a circle around the
@@ -543,7 +588,7 @@ void Effect::calcMostProbably2() {
             calcGsysParallel();
             x_0();
             x_1();
-            sub_71011B68B0(_19330, this);
+            sub_71011B68B0(&mWindMaterialSampler, this);
             const f32 delta = VFR::instance()->getDeltaFrame();
             auto* wm = world::Manager::instance();
             if (wm) {
