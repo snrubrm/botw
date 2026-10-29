@@ -895,7 +895,7 @@ void UiSubsys1::set38ec(s32 a, s32 b) {
 }
 
 // 0x71009675a4
-u8 UiSubsys1::get3904() const {
+bool UiSubsys1::get3904() const {
     return _3904;
 }
 

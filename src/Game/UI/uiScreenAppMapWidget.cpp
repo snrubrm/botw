@@ -179,6 +179,37 @@ void ScreenAppMapWidget::m34() {
     _8e8 = true;
 }
 
+// 0x71009a8d20 (slot 25): tracks whether the map is at its minimum scale and steps the field pane's alpha.
+void ScreenAppMapWidget::m25() {
+    if (_b528) {
+        const f32 scale = mSubsys->_850.get28();
+        const s32 index = mSubsys->_850.get48();
+        const f32 level = returnFalse();
+        const bool scale_changed =
+            scale != sub_7100965960(s32(level)) && f32(index) == level;
+        if (!scale_changed)
+            _b528 = false;
+    }
+    mNormalMap._a8e8 = !_b528;
+    sub_71009A8E54();
+    mNormalMap.sub_71009A6774();
+    dlcHeroPathStuff(this);
+    if (mNormalMap._a8ea)
+        UiSubsys1::instance()->set3904(true);
+    if (UiSubsys1::instance()->get3904()) {
+        if (mFieldPane) {
+            const u8 alpha = mFieldPane->GetAlpha();
+            if (alpha != 0xff) {
+                const u32 value = alpha + UiSubsys1::instance()->get3905();
+                const u8 new_alpha = u8(value < 0xff ? value : 0xff);
+                mFieldPane->SetAlpha(new_alpha);
+            }
+        }
+    }
+    _b33c = 0;
+    _b34c = 0;
+}
+
 // 0x71009a99f0: applies the map widget's scale level to the map view parameters
 void ScreenAppMapWidget::sub_71009A99F0(s32 level) {
     mSubsys->_850.get28();

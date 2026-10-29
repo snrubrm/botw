@@ -2812,6 +2812,10 @@ struct ScreenAppMapWidget : public ScreenChildEx {
     void m31() override;
     // 0x71009a92c0 (slot 34): removes the child panes of every visible map entry and marks the widget ready
     void m34() override;
+    // 0x71009a8d20 (slot 25): tracks whether the map is at its minimum scale and steps the field pane's alpha
+    void m25() override;
+    // 0x71009a8e54 (declared only; 536 bytes): picks the map view mode for the current scale
+    void sub_71009A8E54();
 
     // the owning screen (passed to sub_7100AA2350 by sub_71009A947C)
     /* 0x130 */ eui::Screen* _130;
@@ -2873,6 +2877,9 @@ struct ScreenAppMapWidget : public ScreenChildEx {
 };
 static_assert(sizeof(ScreenAppMapWidget) == 0xb538);
 static_assert(offsetof(ScreenAppMapWidget, mNormalMap) == 0x8f0);
+
+// 0x71009a906c (declared only; 532 bytes): the DLC hero path markers of the map widget
+void dlcHeroPathStuff(ScreenAppMapWidget* widget);
 
 // Element of the map texture-slot table at Unk_71025df330 +0x230: a texture map index and a pane name.
 struct Unk_71025df330TexEntry {

@@ -103,6 +103,8 @@ public:
     // 0x71009a82b4 (placeholder name): draws `bounds` on the map screen, inset by one unit per repeat
     void sub_71009A82B4(const sead::BoundBox2f& bounds, const sead::Color4f& color, s32 count, bool a4,
                         bool a5, bool a6);
+    // 0x71009a6774 (declared only; 284 bytes): refreshes the tiles of the current map area
+    void sub_71009A6774();
     // 0x71009a8460 (placeholder name): draws a quad's clamped corners on the map screen; the parameter
     // before the flags is never read (a guess, the original's caller passes it as an undef register)
     void sub_71009A8460(f32 size, const sead::Vector2f& corner0, const sead::Vector2f& corner1,

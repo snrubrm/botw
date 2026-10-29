@@ -1446,7 +1446,7 @@ public:
     bool isValid38e0() const;
     bool is38e4Equal(s32 value) const;
     void set38ec(s32 a, s32 b);
-    u8 get3904() const;
+    bool get3904() const;
     u8 get3905() const;
     bool return0C() const;
     // 0x7100961114 (CSV uiSubsys1::__auto26, declared only): the per-frame map hint step; 0x7100968900
