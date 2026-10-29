@@ -320,8 +320,8 @@ bool HorseMgr::sub_7100E85334(const ksys::act::BaseProcLink& link) const {
 static bool isValid(const HorseMgr::HorseData& data) {
     return !sead::SafeString(data.actorName).isEmpty() && !sead::SafeString(data.userName).isEmpty() &&
            !sead::SafeString(data.reinsName).isEmpty() && !sead::SafeString(data.saddleName).isEmpty() &&
-           !sead::SafeString(data.maneName).isEmpty() && data.familiarity <= 1.0f &&
-           data.familiarity >= 0.0f && (data.collarType | data.footType) >= 0;
+           !sead::SafeString(data.maneName).isEmpty() && (data.collarType | data.footType) >= 0 &&
+           data.familiarity >= 0.0f && data.familiarity <= 1.0f;
 }
 
 // 0x7100e84f0c: the post-registration step sub_7100E84A04 runs on the new horse: copies the live horse's
