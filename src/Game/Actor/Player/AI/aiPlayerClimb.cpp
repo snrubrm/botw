@@ -28,8 +28,9 @@ void PlayerClimb::enter_(ksys::act::ai::InlineParamPack* params) {
     static_cast<Player*>(mActor)->_c40.reset(2);
     static_cast<Player*>(mActor)->_c40.reset(0x400000);
     static_cast<Player*>(mActor)->x_8(false, false);
-    static_cast<Player*>(mActor)->_20bc.value = 0.0f;
-    static_cast<Player*>(mActor)->_20bc.prev_value = 0.0f;
+    Player* player = static_cast<Player*>(mActor);
+    player->_20bc.value = 0.0f;
+    player->_20bc.prev_value = 0.0f;
     if (hasPendingChildChange())
         changeChild(mPendingChildIdx, nullptr);
     else

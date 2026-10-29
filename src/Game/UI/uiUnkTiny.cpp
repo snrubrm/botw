@@ -860,7 +860,12 @@ static sead::SafeString sUnk_71025d8228[] = {
     "RecoverEndCursor",
     "DemoOut",
 };
-static sead::Buffer<sead::SafeString> sUnk_71025d8218(sUnk_71025d8228);
+// The TU's merged static block at 0x71025d80d0; the name buffer sits at +0x148.
+struct UnkTinyStatics {
+    u8 _0[0x148];
+    sead::Buffer<sead::SafeString> mNames{sUnk_71025d8228};
+};
+KSYS_VISIBILITY_HIDDEN UnkTinyStatics sUnk_71025d80d0;
 
 // 0x71009884b0
 // NON_MATCHING: the original addresses the name buffer from the TU's merged-static base (+0x148).
@@ -868,7 +873,7 @@ void Unk_71024774a8::sub_71009884B0() {
     if (!mLayout)
         return;
     for (s32 i = 0; i < 9; ++i)
-        mAnimators[i] = mLayout->createAnimatorAuto(sUnk_71025d8218[i].cstr(), true);
+        mAnimators[i] = mLayout->createAnimatorAuto(sUnk_71025d80d0.mNames[i].cstr(), true);
     if (mAnimators[0])
         mAnimators[0]->StopAtMax();
     if (mAnimators[1])
