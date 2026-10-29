@@ -1613,6 +1613,41 @@ bool sub_71006E3AB0(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3) {
     return sub_71006E37D4(accessor, a2, a3) > 0x1b;
 }
 
+// 0x71006e37d4 (placeholder name): the target-kind score. Rejects the `a3` 0x10000000 hint, non-actors and
+// actors whose damage manager is not a DamageManager; then maps the two masks to strings and asks
+// sub_71006D7A58 (returns -1 on a failed query, 0 when a mask is unknown).
+// NON_MATCHING: same calls and constants; our mask/out stack pair sits 4 bytes higher and the final
+// `if (!query) return -1; return out;` is if-converted to tst/csinv instead of the original's branches
+// (4 bytes larger).
+s32 sub_71006E37D4(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3) {
+    auto* proc = accessor->getProc();
+    if (!proc)
+        return -1;
+
+    const bool derived = sead::IsDerivedFrom<ksys::act::Actor>(proc);
+    if ((a3 & 0x10000000) || !derived)
+        return -1;
+
+    auto* damage_mgr = static_cast<ksys::act::Actor*>(proc)->getDamageMgr();
+    if (!sead::IsDerivedFrom<uking::act::DamageManager>(damage_mgr))
+        return -1;
+
+    sead::SafeString group;
+    sead::SafeString type;
+    u32 mask = a2;
+    if (!sub_7100736C18(&mask, &group))
+        return 0;
+    mask = a3;
+    if (!sub_7100736EFC(&mask, &type))
+        return 0;
+
+    mask = 0;
+    s32 out = -1;
+    if (!sub_71006D7A58(&mask, &out, proc, &group, &type))
+        return -1;
+    return out;
+}
+
 // 0x71006e425c / 0x71006e4310 / 0x71006e43c4 (placeholder names): whether the accessor's actor's AS list
 // has the state selected by `sub_71011638DC` (ids 0x21 / 3 / 5, slot 0, bank 0).
 bool sub_71006E425C(ksys::act::BaseProcAccessor* accessor) {

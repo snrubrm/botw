@@ -219,8 +219,12 @@ bool sub_71006E3580(const ksys::act::BaseProcAccessor& accessor);
 /// 0x71006e3ab0 (placeholder name): whether the accessor's proc is an Actor and sub_71006E37D4 (the
 /// target-kind score) is above 0x1b.
 bool sub_71006E3AB0(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3);
-/// 0x71006e37d4 (placeholder name; declared only): the target-kind score sub_71006E3AB0 compares.
+/// 0x71006e37d4 (placeholder name): the target-kind score sub_71006E3AB0 compares: the AiGroupKind /
+/// AiType masks are turned into their SafeStrings and looked up by the damage query below.
 s32 sub_71006E37D4(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3);
+/// 0x71006d7a58 (placeholder name; declared only): the damage query sub_71006E37D4 wraps.
+bool sub_71006D7A58(u32* mask, s32* out, ksys::act::BaseProc* proc, sead::SafeString* group,
+                    sead::SafeString* type);
 /// 0x71006e3974 (placeholder name): whether the actor is a valid target: its damage manager is not a
 /// DamageMgrNPC, `a3` bit 0x10000000 is clear and sub_71006E37D4 is negative.
 bool sub_71006E3974(ksys::act::BaseProcAccessor* accessor, u32 a2, u32 a3);
