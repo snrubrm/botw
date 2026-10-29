@@ -471,6 +471,51 @@ bool Effect::sub_71011B2A34(const sead::Vector3f* pos, f32* out_depth, f32* out_
     return has_water;
 }
 
+// NON_MATCHING: the material local spills before the bit test instead of after it and the shift uses
+// different registers (w10 / w11 vs the original w9 / w10).
+bool Effect::sub_71011B2D34(const sead::Vector3f* pos, f32* out_height,
+                            phys::Material* out_material, s32* out_submaterial,
+                            sead::Vector3f* out_normal) {
+    if (out_height)
+        *out_height = -99999.0f;
+
+    sead::Vector3f hit;
+    sead::Vector3f normal;
+
+    phys::RayCastBodyQuery query(nullptr, phys::GroundHit::HitAll);
+    query.enableLayer(phys::ContactLayer::EntityGround);
+    query.enableLayer(phys::ContactLayer::EntityWater);
+    query.enableLayer(phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(phys::ContactLayer::EntityGroundObject);
+    query.setStart(*pos + sead::Vector3f(0.0f, 1.0f, 0.0f));
+    query.setEnd(*pos + sead::Vector3f(0.0f, -600.0f, 0.0f));
+    if (!query.worldRayCast(phys::ContactLayerType::Entity))
+        return false;
+
+    query.getHitPosition(&hit);
+    query.getHitNormal(&normal);
+
+    const phys::Material material = query.getMaterialMask().getMaterial();
+    switch (material) {
+    case phys::Material::Water:
+    case phys::Material::Lava:
+    case phys::Material::Bog:
+        break;
+    default:
+        return false;
+    }
+
+    if (out_height)
+        *out_height = hit.y;
+    if (out_material && out_submaterial) {
+        *out_material = material;
+        *out_submaterial = query.getMaterialMask().getSubMaterialIdx();
+    }
+    if (out_normal)
+        *out_normal = query.getHitNormalInline();
+    return true;
+}
+
 // NON_MATCHING: iterator unrolling, handle-copy scheduling, and saturating count differ.
 bool Unk_EffectActorTable::sub_7100DA216C(act::Actor* actor, const sead::Vector3f& position) {
     static const char* const names[] = {"FallLeaves_A", "FallLeaves_B", "FallLeaves_C", "FallLeaves_D",

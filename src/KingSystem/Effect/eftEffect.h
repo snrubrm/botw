@@ -112,6 +112,11 @@ public:
     bool sub_71011B2A34(const sead::Vector3f* pos, f32* out_depth, f32* out_height,
                         phys::Material* material, s32* submaterial, sead::Vector3f* out_normal,
                         bool use_raycast);
+    // 0x71011b2d34 (placeholder name; `this` is not read): the ground ray cast below `pos`; true when
+    // the hit material is Water, Lava or Bog. Writes the hit height and, when the corresponding out
+    // pointers are given, the material, the sub-material index and the hit normal.
+    bool sub_71011B2D34(const sead::Vector3f* pos, f32* out_height, phys::Material* out_material,
+                        s32* out_submaterial, sead::Vector3f* out_normal);
 
     void setFlags(u32 mask) { mFlags |= mask; }
     void clearFlags(u32 mask) { mFlags &= ~mask; }
