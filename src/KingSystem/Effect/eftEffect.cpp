@@ -10,9 +10,11 @@
 #include "KingSystem/XLink/xlinkManager.h"
 #include <xlink2/xlink2UserInstanceELink.h>
 #include <math/seadMathCalcCommon.h>
+#include <random/seadGlobalRandom.h>
 #include <gsys/gsysParticleMgr.h>
 #include <nn/vfx/Resource.h>
 #include <ptcl/seadPtclSystem.h>
+#include <cmath>
 #include <cstring>
 #include <prim/seadScopedLock.h>
 #include "KingSystem/ActorSystem/actActor.h"
@@ -22,6 +24,7 @@
 #include "Game/gameStage.h"
 #include "Game/gameStatisticsMgr.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Map/mapPlacementAreaMgr.h"
@@ -225,6 +228,114 @@ void Effect::calc() {
 // 0x71011b68b0 (placeholder name; declared only): the camera-relative wind effect of the 0x40-byte
 // object at Effect +0x19330 (reads the camera actor at Effect +0x9fc0).
 void sub_71011B68B0(u8* self, Effect* effect);
+
+// 0x71011b6ff8: steps the water-effect placement ring around the camera. It samples the
+// water_distance statistics at the camera, checks the terrain material on a circle around the
+// camera and ray casts down to find the water surface; the state selects the effect.
+// NON_MATCHING: the Material out local's constructor store and the temporary stack slots differ;
+// the distance limit also stays a compare against 60 rather than the original's 59 / b.hi.
+void Effect::x_0() {
+    auto* statistics = uking::StatisticsMgr::instance();
+    if (!statistics)
+        return;
+    auto* camera = CameraMgr::instance()->getLookAtCamera();
+    if (!camera)
+        return;
+    if (!_192c8)
+        return;
+    if (!map::PlacementMgr::instance())
+        return;
+
+    void* water_distance = statistics->getStatsPointer("water_distance");
+    const sead::Vector3f camera_pos = camera->getPos();
+    mWaterRingDistance = 9999.0f;
+    f32 depth;
+    bool valid = statistics->query(&depth, 1, water_distance, &camera_pos);
+    s32 scaled = 0;
+    if (valid) {
+        scaled = s32(depth * -0.9f);
+        mWaterRingDistance = f32(u32(scaled));
+        valid = u32(scaled) <= 59;
+    }
+    if (!valid) {
+        mWaterRingState = 0;
+        mWaterRingTimer = 0.0f;
+        return;
+    }
+
+    if (mWaterRingTimer >= 0.0f)
+        mWaterRingTimer -= 0.04f;
+    else
+        mWaterRingState = 0;
+
+    tera::System* system = map::PlacementMgr::instance()->mTeraSystem;
+    if (!system || !system->_8)
+        return;
+
+    f32 angle = mWaterRingAngle + 0.20943952f;
+    if (angle > 6.2831855f)
+        angle = 0.0f;
+    mWaterRingAngle = angle;
+
+    const f32 radius =
+        f32(u32(scaled)) + 15.0f + sead::GlobalRandom::instance()->getF32() * 35.0f;
+    sead::Vector2f xz;
+    xz.x = camera_pos.x + std::sin(mWaterRingAngle) * radius;
+    xz.y = camera_pos.z + std::cos(mWaterRingAngle) * radius;
+
+    phys::Material material;
+    s32 submaterial;
+    if (!tera::sub_710110B6A4(&material, &submaterial, &xz, system))
+        return;
+
+    const bool special = (material == phys::Material::Water && submaterial >= 1 &&
+                          submaterial <= 3) ||
+                         material == phys::Material::Lava || material == phys::Material::Bog;
+    if (!special) {
+        if (material != phys::Material::Water)
+            return;
+        if (mWaterRingTimer >= 0.0f)
+            return;
+        mWaterRingState = 5;
+        return;
+    }
+
+    phys::RayCastBodyQuery query(nullptr, phys::GroundHit::HitAll);
+    query.enableLayer(phys::ContactLayer::EntityGround);
+    query.enableLayer(phys::ContactLayer::EntityWater);
+    query.enableLayer(phys::ContactLayer::EntityGroundRough);
+    query.enableLayer(phys::ContactLayer::EntityGroundObject);
+    const sead::Vector3f base(xz.x, camera_pos.y, xz.y);
+    sead::Vector3f position = base + sead::Vector3f(0.0f, 600.0f, 0.0f);
+    query.setStart(position);
+    position = base + sead::Vector3f(0.0f, -600.0f, 0.0f);
+    query.setEnd(position);
+    if (!query.worldRayCast(phys::ContactLayerType::Entity))
+        return;
+
+    const phys::Material hit_material = query.getMaterialMask().getMaterial();
+    if (hit_material == material) {
+        bool hit = true;
+        if (hit_material == phys::Material::Water && submaterial == 3)
+            mWaterRingState = 2;
+        else if (hit_material == phys::Material::Water && submaterial == 2)
+            mWaterRingState = 6;
+        else if (hit_material == phys::Material::Water && submaterial == 1)
+            mWaterRingState = 4;
+        else if (hit_material == phys::Material::Lava)
+            mWaterRingState = 3;
+        else if (hit_material == phys::Material::Bog)
+            mWaterRingState = 1;
+        else
+            hit = false;
+        if (hit)
+            mWaterRingTimer = 15.0f;
+    }
+
+    // The hit position is only evaluated for the debug flag; the result is not used.
+    if (hasFlags(0x4))
+        query.getHitPosition(&position);
+}
 
 // 0x71011b7b0c: when the scene is not ready, step the parallel / camera effect state, then run the
 // player water grid and the xlink calculation.

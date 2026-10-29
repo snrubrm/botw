@@ -204,7 +204,12 @@ private:
     // Stats table of the wind mask queried by sub_71011B7DA0.
     /* 0x19308 */ void* mWindStatsMaybe = nullptr;
     void* mForestDensityStats;
-    u8 _19318[0x19328 - 0x19318];
+    // The water-effect placement ring x_0 steps around the camera: an angle advanced 12 degrees
+    // per frame, a countdown timer, the sampled water distance and the effect state.
+    f32 mWaterRingAngle;
+    f32 mWaterRingTimer;
+    f32 mWaterRingDistance;
+    s32 mWaterRingState;
     AmbientEffectMgr* mAmbientEffectMgr;
     u8 _19330[0x19370 - 0x19330];
     Rainbow mRainbow;
