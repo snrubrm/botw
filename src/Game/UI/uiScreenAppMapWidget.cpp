@@ -704,6 +704,34 @@ void ScreenAppMapWidget::m24(sead::Heap* heap) {
     }
 }
 
+// 0x71009a89c0: binds the field pane and the two map panes and fills the 240 "P_Map" picture panes.
+// NON_MATCHING (m): the mLayout load of each lookup is scheduled after the name's cstr() call instead of before it
+// (C++14 evaluation order in the original), so clang keeps it in a caller-saved register and the function saves one
+// callee-saved pair fewer than the original.
+void ScreenAppMapWidget::sub_71009A89C0() {
+    mFieldPane = mLayout->GetPane()->FindPaneByName("N_Field_00", true);
+    const char* mapName = sUnk_71025D9610.mMapPaneNames[0].cstr();
+    _138 = mLayout->GetPane()->FindPaneByName(mapName, true);
+    const char* minimapName = sUnk_71025D9610.mMapPaneNames[1].cstr();
+    _140 = mLayout->GetPane()->FindPaneByName(minimapName, true);
+
+    sead::SafeString prefix[2];
+    prefix[0] = "";
+    prefix[1] = "BG";
+    for (s32 i = 0; i < 120; ++i) {
+        sead::FormatFixedSafeString<64> name("P_Map%s_%02d", prefix[0].cstr(), i);
+        const char* paneName = name.cstr();
+        mMapPanes[i] = nn::font::DynamicCast<eui::PictureEx>(
+            mLayout->GetPane()->FindPaneByName(paneName, true));
+    }
+    for (s32 i = 0; i < 120; ++i) {
+        sead::FormatFixedSafeString<64> name("P_Map%s_%02d", prefix[1].cstr(), i);
+        const char* paneName = name.cstr();
+        mMapPanes[i + 120] = nn::font::DynamicCast<eui::PictureEx>(
+            mLayout->GetPane()->FindPaneByName(paneName, true));
+    }
+}
+
 // 0x71009a8be4
 Unk_7102479fb0::~Unk_7102479fb0() = default;
 

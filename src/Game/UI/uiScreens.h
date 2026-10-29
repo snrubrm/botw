@@ -2689,7 +2689,8 @@ struct Unk_71025D9610 {
     u8 _24[0x198 - 0x24];
     // The "App_Map_Scale" game data flag (sub_71009A98A4 stores the map scale through it).
     /* 0x198 */ sead::SafeString mAppMapScale;
-    u8 _1a8[0x1b8 - 0x1a8];
+    // "N_MapT_00" / "N_MapSR_00", the two map panes sub_71009A89C0 binds to _138 / _140.
+    /* 0x1a8 */ sead::Buffer<sead::SafeString> mMapPaneNames;
     // The names of the two animators 0x71009a878c creates (the static initializer fills them with two entries).
     /* 0x1b8 */ sead::Buffer<sead::SafeString> mAnimatorNames;
 };
