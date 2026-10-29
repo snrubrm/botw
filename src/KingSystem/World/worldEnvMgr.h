@@ -240,6 +240,7 @@ protected:
 private:
     friend class Manager;
     friend class TempMgr;
+    friend void sub_71010D6094(EnvMgr* mgr);
 
     static constexpr int NumEnvPalettes = 207;
     static constexpr int NumCdanAddFog = 4;

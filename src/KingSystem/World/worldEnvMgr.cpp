@@ -1,11 +1,15 @@
 #include "KingSystem/World/worldEnvMgr.h"
+#include <environment/aglFog.h>
 #include <postfx/aglColorCorrection.h>
+#include <postfx/aglPfxSky.h>
 #include "Game/UI/uiScreens.h"
+#include "Game/Actor/AI/aiChangeWeatherTagRoot.h"
 #include "Game/gameGraphics.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldSkyMgr.h"
 
 namespace ksys::world {
 
@@ -342,6 +346,73 @@ void EnvMgr::sub_71010DB0B0(u32 mode) {
 
 void EnvMgr::calc_() {}
 
+// 0x71010d6094 (CSV wm::SkyMgr::initForStageGen): the environment setup every stage's
+// initForStageGen runs before the first world update.
+void sub_71010D6094(EnvMgr* mgr) {
+    Manager* wm = Manager::instance();
+    agl::pfx::Sky* sky = Graphics::instance()->getUnk_aa8();
+
+    switch (wm->getStageType()) {
+    case StageType::Indoor:
+        Graphics::instance()->sub_7100F2AF70(2);
+        break;
+    case StageType::MainFieldDungeon:
+        if (wm->isInFinalTrialBossBattleArea())
+            Graphics::instance()->sub_7100F2AF70(6);
+        else if (wm->getRemainsType() == RemainsType::FinalTrial)
+            Graphics::instance()->sub_7100F2AF70(7);
+        else
+            Graphics::instance()->sub_7100F2AF70(3);
+        break;
+    case StageType::Viewer:
+        break;
+    default:
+        if (wm->getFieldType() == FieldType::AocField)
+            Graphics::instance()->sub_7100F2AF70(1);
+        else
+            Graphics::instance()->sub_7100F2AF70(0);
+        break;
+    }
+
+    if (sky) {
+        sky->setRenderingParameterStatic({mgr->mEnvPaletteStatic.rayleigh_baseHeigh.ref(),
+                                          mgr->mEnvPaletteStatic.mie_baseHeight.ref(),
+                                          mgr->mEnvPaletteStatic.mie_scatteringCoeff.ref(),
+                                          mgr->mEnvPaletteStatic.mie_symmetricalPropert.ref()},
+                                         false);
+    }
+
+    if (agl::env::Fog* fog = Graphics::instance()->getEnvFogMaybe())
+        fog->getEndRef() = mgr->mEnvPaletteStatic.YFogEnd.ref();
+
+    for (int i = 0; i < EnvMgr::NumEnvPalettes; ++i) {
+        auto& pal = mgr->mEnvPalettes[i];
+        if (pal.Cloud2NoUse.ref() != 1)
+            continue;
+        pal.cloud.Cloud0_ColorBase.ref() = pal.cloud.Cloud2_ColorBase.ref();
+        pal.cloud.Cloud0_IntencityBase.ref() = pal.cloud.Cloud2_IntencityBase.ref();
+        pal.cloud.Cloud0_ColorHilight.ref() = pal.cloud.Cloud2_ColorHilight.ref();
+        pal.cloud.Cloud0_IntencityHilight.ref() = pal.cloud.Cloud2_IntencityHilight.ref();
+        pal.cloud.Cloud0_ColorShadow.ref() = pal.cloud.Cloud2_ColorShadow.ref();
+        pal.cloud.Cloud0_IntencityShadow.ref() = pal.cloud.Cloud2_IntencityShadow.ref();
+        pal.cloud.Cloud0_ColorBackLight.ref() = pal.cloud.Cloud2_ColorBackLight.ref();
+        pal.Cloud0_BacklightPower.ref() = pal.Cloud2_BacklightPower.ref();
+    }
+
+    wm->getSkyMgr()->sub_71010E2B44();
+    wm->getSkyMgr()->sub_71010E37C8();
+    wm->getSkyMgr()->sub_71010E2468();
+
+    sub_71010D62C0(mgr, true);
+
+    mgr->_6b5b0 = 1.0f;
+    auto* color_correction = Graphics::instance()->mModelScenes.front()->getColorCorrection();
+    if (color_correction && color_correction->getEnableMaybe() &&
+        color_correction->getFlagsMaybe() != 0) {
+        mgr->_6b5b0 = color_correction->getBrightnessMaybe();
+    }
+}
+
 void EnvMgr::calcEntryJob() {
     sub_71010D62C0(this, true);
 
@@ -549,6 +620,96 @@ void EnvMgr::updateForcedBloodMoon() {
             mBloodMoonEndState = 2;
         }
         mBloodMoonProgress = progress;
+    }
+}
+
+// NON_MATCHING: clang tail-merges the two lerp arms (one `mov x0, x20` fewer than the original) and
+// schedules the end-state stores and the _770 load differently.
+void EnvMgr::updateBloodMoon() {
+    Manager* wm = Manager::instance();
+
+    if (mForcedBloodMoonRequested) {
+        updateForcedBloodMoon();
+        return;
+    }
+
+    if (mBloodMoonTimeRangeProgress > 0.001f) {
+        const f32 time = wm->getTimeMgr()->getTimeForSkyEnv();
+        f32 factor;
+        if (time > timeToFloat(23, 50)) {
+            const f32 t = (time - timeToFloat(23, 50)) / durationToFloat(0, 10);
+            factor = t > 0.5f ? 1.0f : t + t;
+            factor *= mConcentrationBM;
+            if (mBloodMoonStartState != 2) {
+                mBloodMoonEndState = mBloodMoonStartState;
+                mBloodMoonStartState = 2;
+            }
+        } else if (time <= timeToFloat(0, 5)) {
+            factor = (timeToFloat(0, 5) - time) / timeToFloat(0, 5) * mConcentrationBM;
+        } else {
+            factor = 1.0f;
+        }
+
+        int start = mBloodMoonStartState;
+        const int end = mBloodMoonEndState;
+        float progress;
+        if (!(factor <= 0.01f) || start != 2) {
+            progress = end == 2 ? 1.0f : factor;
+        } else {
+            mBloodMoonStartState = end;
+            mBloodMoonEndState = 2;
+            start = end;
+            progress = 1.0f;
+        }
+        mBloodMoonProgress = progress;
+
+        if (wm->getTimeMgr()->getBloodMoonForceMode() ==
+            TimeMgr::BloodMoonForceMode::Immediate) {
+            mBloodMoonEndState = start;
+            mBloodMoonStartState = 2;
+            mBloodMoonProgress = 1.0f;
+        }
+    } else if (mBloodMoonProgress >= 0.999f) {
+        mBloodMoonProgress = 1.0f;
+        if (wm->_7ac == 0 || mActivePaletteSet != 8) {
+            const WeatherType weather = wm->getWeatherMgr()->getWeather();
+            if ((u8(weather) | 8) == 8) {
+                if (mBloodMoonStartState != 0) {
+                    mBloodMoonEndState = mBloodMoonStartState;
+                    mBloodMoonStartState = 0;
+                    mBloodMoonProgress = 0.0f;
+                }
+            } else if (wm->getSkyMgrUnchecked()->_3f3c > 0.2f && mBloodMoonStartState != 1) {
+                mBloodMoonEndState = mBloodMoonStartState;
+                mBloodMoonStartState = 1;
+                mBloodMoonProgress = 0.0f;
+            }
+        } else {
+            auto* bgm = getRemainsElecBattleBgmMaybe();
+            mBloodMoonEndState = mBloodMoonStartState;
+            if (wm->_770 > _6b548) {
+                mBloodMoonStartState = 0;
+                mBloodMoonProgress = 0.0f;
+                if (bgm)
+                    bgm->_1e9 = 0;
+            } else {
+                mBloodMoonStartState = 1;
+                mBloodMoonProgress = 0.0f;
+                if (bgm)
+                    bgm->_1e9 = 1;
+            }
+        }
+    } else {
+        if (wm->_7ac == 0)
+            VFR::lerp(&mBloodMoonProgress, 1.0f, 0.01f, 0.0025f, 0.001f);
+        else
+            VFR::lerp(&mBloodMoonProgress, 1.0f, 0.1f, 0.01f, 0.01f);
+
+        if (wm->mTimer != 0 ||
+            (wm->mStageType == StageType::OpenWorld && wm->mFieldType == FieldType::AocField &&
+             wm->mScalingMode == ScalingMode::Disabled)) {
+            mBloodMoonProgress = 1.0f;
+        }
     }
 }
 

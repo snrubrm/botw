@@ -213,6 +213,7 @@ public:
     void setInFinalTrialBossBattleArea(bool value) { mInFinalTrialBossBattleArea = value; }
     StageType getStageType() const { return mStageType; }
     FieldType getFieldType() const { return mFieldType; }
+    RemainsType getRemainsType() const { return mRemainsType; }
     ScalingMode getScalingMode() const { return mScalingMode; }
     CalcType getCalcType() const { return mCalcType; }
 

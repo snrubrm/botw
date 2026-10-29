@@ -1304,6 +1304,9 @@ public:
     agl::pfx::Sky* getUnk_aa8() const { return _aa8; }
     // The environment fog at +0x120; ViewerStage::calc copies it into the adhoc fog parameters.
     agl::env::Fog* getFogMaybe() const { return mFog; }
+    // The second fog object at +0x128. sub_71010D62C0 (0x71010d62c0) blends its colour, near and far
+    // from the env palettes every frame; sub_71010D6094 sets only its far distance. Name is a guess.
+    agl::env::Fog* getEnvFogMaybe() const { return mEnvFogMaybe; }
 
     // The object at 0xac0. Only SkyMgr::sub_71010E35D8 reads it: it copies the parameter block at
     // +0x18 through a temporary, writes the dusk/dawn blend factor at +0x30 and sets bit 1 of the
@@ -1386,7 +1389,9 @@ private:
     // The environment fog whose start / end / colour ViewerStage::calc copies into the adhoc fog
     // parameters (its parameter values sit at +0x128, +0x148 and +0x188). Name is a guess.
     agl::env::Fog* mFog;
-    u8 _128[0x150 - 0x128];
+    // The fog object whose colour / near / far the env update 0x71010d62c0 blends from the palettes.
+    agl::env::Fog* mEnvFogMaybe;
+    u8 _130[0x150 - 0x130];
 
 public:
     // 0x150: the model scenes (lane5 s3: SystemApplyEnvSetAction::enter_).

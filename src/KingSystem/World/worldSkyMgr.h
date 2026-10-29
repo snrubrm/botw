@@ -170,6 +170,7 @@ public:
 
 private:
     friend class Manager;
+    friend class EnvMgr;
 
     struct StructA {
         sead::Vector3f _0;
