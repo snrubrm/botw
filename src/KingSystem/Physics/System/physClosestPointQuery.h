@@ -6,6 +6,7 @@
 
 namespace ksys::snd { class Unk_SoundMgr38_48; class OcclusionMgr; }
 namespace ksys::xlink { class ChemicalEventState; }
+namespace ksys::eft { class Effect; }
 
 namespace ksys::phys {
 
@@ -36,6 +37,8 @@ protected:
     friend class ksys::xlink::ChemicalEventState;
     // The sound occlusion query checks the same execution status.
     friend class ksys::snd::OcclusionMgr;
+    // The effect "eftSysten InDoor" query checks the same execution status.
+    friend class ksys::eft::Effect;
 
     void reset();
 

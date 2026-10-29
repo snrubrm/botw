@@ -24,6 +24,9 @@
 #include "Game/gameStage.h"
 #include "Game/gameStatisticsMgr.h"
 #include "KingSystem/Physics/System/physRayCastBodyQuery.h"
+#include "KingSystem/Physics/System/physClosestPointQueryWithInfo.h"
+#include "KingSystem/Physics/System/physEntityGroupFilter.h"
+#include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 #include "KingSystem/Camera/CameraMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
 #include "KingSystem/Map/mapPlacementActors.h"
@@ -643,6 +646,35 @@ void Effect::updatePlayerPos(const sead::Matrix34f& matrix, const sead::Matrix34
         sead::Matrix34CalcCommon<f32>::copy(camera, alternate);
     else
         sead::Matrix34CalcCommon<f32>::copy(camera, matrix);
+}
+
+// NON_MATCHING: same instructions; the query / contact-point iterator temporaries get different
+// stack slots (our frame is 0x10 larger, x24 / x25 are not needed).
+bool Effect::sub_71011B8398(bool* indoor, const sead::Vector3f& position,
+                            bool* material_flag) const {
+    phys::SensorCollisionMask mask(phys::SensorCollisionMask::CustomReceiverTag{});
+    phys::receiverMaskEnableLayer(&mask, phys::ContactLayer::SensorInDoor);
+    phys::SphereBasedClosestPointQuery query(position, 0.000001f, mask, nullptr, 1,
+                                            "eftSysten InDoor", 0, phys::LowPriority::No);
+    query.getContactPointInfo()->subscribeLayer(phys::ContactLayer::SensorInDoor);
+    const bool hit = query.execute(false);
+    if (query._18 == 1) {
+        *indoor = hit;
+        const bool has_material = material_flag && hit;
+        if (has_material) {
+            *material_flag = true;
+            if (const auto* info = query.getContactPointInfo()) {
+                for (const auto* point : *info) {
+                    const u32 type = (point->material_mask_b.getRawData() >> 20) & 7;
+                    if (type == 3 || type == 4) {
+                        *material_flag = false;
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    return query._18 == 1;
 }
 
 // NON_MATCHING: the setBit `orr` has its operands swapped (sead::LongBitFlag::setBit in lib).

@@ -102,6 +102,9 @@ public:
     void calcGsysParallel();
     void x_0();
     void x_1();
+    // 0x71011b8398 (placeholder name): the "eftSysten InDoor" sphere query; reports whether the point
+    // is indoors and, when `material_flag` is given, whether it is not inside a material of type 3 / 4.
+    bool sub_71011B8398(bool* indoor, const sead::Vector3f& position, bool* material_flag) const;
     // 0x71011b8584 / 0x71011b8658 (CSV Effect::__auto4 / __auto5; declared only, placeholder names): called by
     // EventFlowTimeline::m8 with (on, true) when a timeline pauses / resumes
     void sub_71011B8584(bool on);
