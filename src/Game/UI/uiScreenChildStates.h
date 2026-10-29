@@ -824,6 +824,8 @@ struct WeatherAnimationFrame {
     f32 frame;
 };
 static_assert(sizeof(WeatherAnimationFrame) == 8);
-extern sead::Buffer<WeatherAnimationFrame> sUnk_71025dbcc8;
+KSYS_VISIBILITY_HIDDEN extern sead::Buffer<WeatherAnimationFrame> sUnk_71025dbcc8;
+// 0x71009ca36c (CSV: getWeatherTypeEnumText): the text for weather type `weather` (null above 7)
+const char* getWeatherTypeEnumText(s32 weather);
 
 }  // namespace uking::ui

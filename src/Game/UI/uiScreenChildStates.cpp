@@ -33,6 +33,7 @@
 #include "Game/UI/uiManager.h"
 
 namespace uking::ui {
+KSYS_VISIBILITY_HIDDEN sead::Buffer<WeatherAnimationFrame> sUnk_71025dbcc8;
 
 // 0x71009a4330
 Unk_7102479838::Unk_7102479838(eui::LayoutEx* layout) : Unk_71024746d0(layout) {}
@@ -1702,6 +1703,52 @@ void Unk_710247e468::m31() {
     sub_71009C9A88();
 }
 
+// 0x71009c9d5c
+// Closes or opens the pattern animator, then sets each of the five weather texture pattern
+// animators to the frame of the current weather (falling back to the first record's frame).
+// NON_MATCHING: clang if-converts the table search into a full scan with cset/fcsel where the
+// original keeps the early exit, which also costs an extra callee-saved register (frame 0x70 vs 0x60).
+void Unk_710247e468::sub_71009C9D5C(bool update) {
+    if (update) {
+        if (mTexPatterns[0] && _150) {
+            const f32 frame = mTexPatterns[0]->mFrame;
+            _150->Stop(frame);
+        }
+        if (_148)
+            _148->StopAtMin();
+    } else if (_148) {
+        _148->PlayFromCurrent(eui::Animator::PlayType(0), 1.0f);
+    }
+
+    for (s32 i = 0; i < 5; ++i) {
+        const u8 weather = ksys::world::Manager::instance()->getWeatherMgr()->x_6(i);
+        bool found = false;
+        f32 frame;
+        for (s32 j = 0; j < sUnk_71025dbcc8.size(); ++j) {
+            const auto& record = sUnk_71025dbcc8[j];
+            if (record.weather != weather)
+                continue;
+            frame = record.frame;
+            found = true;
+            break;
+        }
+        if (!found) {
+            if (weather <= 7)
+                getWeatherTypeEnumText(weather);
+            frame = sUnk_71025dbcc8[0].frame;
+        } else if (sead::Mathf::equalsEpsilon(frame, 2.0f) &&
+                   ksys::world::Manager::instance()->getWeatherMgr()->x_7()) {
+            frame = 4.0f;
+        } else if (frame < 0.0f) {
+            if (weather <= 7)
+                getWeatherTypeEnumText(weather);
+            frame = sUnk_71025dbcc8[0].frame;
+        }
+        if (mTexPatterns[i])
+            mTexPatterns[i]->Stop(frame);
+    }
+}
+
 // 0x71009c9a88
 // NON_MATCHING: bool spill normalization, call scheduling and static x_7 receiver elision.
 void Unk_710247e468::sub_71009C9A88() {
@@ -1745,11 +1792,11 @@ bool Unk_710247e468::sub_71009C9BEC() {
         f32 frame = 0.0f;
         for (s32 j = 0; j < sUnk_71025dbcc8.size(); ++j) {
             const auto& record = sUnk_71025dbcc8[j];
-            if (record.weather == weather) {
-                frame = record.frame;
-                found = true;
-                break;
-            }
+            if (record.weather != weather)
+                continue;
+            frame = record.frame;
+            found = true;
+            break;
         }
         if (!found)
             return false;
