@@ -28,10 +28,10 @@ namespace ksys::res {
 // Complete FE126C produces the 0x20-byte native settings; FE04D0 reads only the span.
 struct Unk_710260E880 {
     u8 _0[0x18];
-    sead::TickSpan sleep;
+    s64 sleep;
 };
 KSYS_CHECK_SIZE_NX150(Unk_710260E880, 0x20);
-extern Unk_710260E880 sUnk_710260E880;
+KSYS_VISIBILITY_HIDDEN Unk_710260E880 sUnk_710260E880;
 
 Unk_71024f9a08::~Unk_71024f9a08() = default;
 
@@ -127,7 +127,6 @@ bool Unk_71024f9a08::sub_7100FE0C38(const LoadArg& arg) {
 }
 
 
-// NON_MATCHING: structured event and allocation wait loops differ.
 void Unk_71024f9a08::sub_7100FE04D0() {
     if (!mEvent.wait(sead::TickSpan::makeFromSeconds(10)))
         return;
