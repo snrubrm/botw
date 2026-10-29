@@ -5,6 +5,10 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace sead {
+class DrawContext;
+}
+
 namespace ksys::world {
 
 enum class JobType {
@@ -34,7 +38,7 @@ protected:
     virtual void calcType1_() {}
     virtual void calcType2_() {}
     virtual void m9() {}
-    virtual void drawDebug() {}
+    virtual void drawDebug(sead::DrawContext* context) {}
     virtual void m11() {}
 
     virtual JobType getType() const = 0;

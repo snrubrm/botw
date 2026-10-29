@@ -12,6 +12,8 @@
 #include "KingSystem/World/worldElementDirectionalWind.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldTempMgr.h"
+#include "KingSystem/Map/mapPlacementMgr.h"
+#include "KingSystem/Terrain/teraSystem.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include "KingSystem/Physics/RigidBody/Shape/physCapsuleShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
@@ -25,6 +27,7 @@
 #include <layer/aglRenderer.h>
 #include <layer/aglLayer.h>
 #include <random/seadGlobalRandom.h>
+#include <gfx/seadGraphicsContext.h>
 
 namespace ksys::world {
 
@@ -102,6 +105,47 @@ WindMgr::WindMgr()
 }
 
 WindMgr::~WindMgr() = default;
+
+// NON_MATCHING: the two inlined direction-normalization paths merge, and stack placement differs.
+void WindMgr::drawDebug(sead::DrawContext* context) {
+    if (!(_28 & 1) || !map::PlacementMgr::instance() || !agl::lyr::Renderer::instance() ||
+        !agl::lyr::Renderer::instance()->mLayers[1])
+        return;
+
+    auto* system = map::PlacementMgr::instance()->mTeraSystem;
+    const sead::Vector3f center = _88;
+    {
+        sead::GraphicsContext graphics_context;
+        graphics_context.setDepthTestEnable(true);
+        graphics_context.setDepthWriteEnable(0);
+        graphics_context.apply(context);
+    }
+    for (int x = 0; x < 10; ++x) {
+        for (int z = 0; z < 10; ++z) {
+            sead::Vector2f xz(center.x + static_cast<f32>(x) - 5.5f,
+                              center.z + static_cast<f32>(z) - 5.5f);
+            f32 height = center.y;
+            if (system)
+                tera::sub_71011094A0(&height, &xz, system, -1, 0);
+            height = sead::Mathf::max(center.y, height + 1.0f);
+            sead::Vector3f pos(xz.x, height, xz.y);
+            sead::Vector3f wind;
+            sub_71010EEBE4(&wind, &pos);
+            sub_71010EECE8(&pos, 0.0f);
+        }
+    }
+
+    sead::Vector3f pos(0.0f, 0.0f, 0.0f);
+    if (auto* renderer = agl::lyr::Renderer::instance()) {
+        if (auto* layer = renderer->mLayers[1]) {
+            if (auto* camera = layer->sub_7100B60CE0())
+                camera->getWorldPosByMatrix(&pos);
+        }
+    }
+    const f32 speed = sub_71010EECE8(&pos, 0.0f);
+    const f32 max_speed = sub_71010EEC04();
+    sead::FormatFixedSafeString<128> text("風速:%5.2f[m/s] (最大:%5.2f[m/s])", speed, max_speed);
+}
 
 void WindMgr::init_(sead::Heap* heap) {
     _20 = new (heap, 8) Unk_710251F868;

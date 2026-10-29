@@ -374,7 +374,7 @@ public:
     void calcType1_() override {}
     void calcType2_() override {}
     void m9() override {}
-    void drawDebug() override {}
+    void drawDebug(sead::DrawContext* context) override {}
     void m11() override {}
 
     void initBeforeStageGen();
