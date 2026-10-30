@@ -83,6 +83,22 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h"
 #include <math/seadMathCalcCommon.h>
 
+void sub_7100738AA8(ksys::act::Actor* actor, f32 ratio) {
+    if (ratio == 1.0f)
+        return;
+    if (auto* controller = actor->getCharacterController()) {
+        sead::Vector3f velocity;
+        controller->sub_7100F635BC(&velocity);
+        ksys::VFR::multiply(&velocity, ratio);
+        controller->sub_7100F5FB24(velocity);
+    } else if (auto* body = actor->getMainBody()) {
+        sead::Vector3f velocity;
+        body->getAngularVelocity(&velocity);
+        ksys::VFR::multiply(&velocity, ratio);
+        body->setAngularVelocity(velocity);
+    }
+}
+
 // Free scope is inferred from the PriestBossActorNormalMode caller.
 s32 sub_710071E288(ksys::act::Actor* actor) {
     auto* enemy = sead::DynamicCast<uking::act::Enemy>(actor);
