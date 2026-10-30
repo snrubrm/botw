@@ -1,15 +1,20 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadBuffer.h>
+#include <math/seadMatrix.h>
+#include <common/aglUniformBlock.h>
+#include <gsys/gsysModelDrawObjStream.h>
 #include <hostio/seadHostIONode.h>
 
 namespace gsys {
 
 class ModelUnit;
+class ModelDrawObj;
 
 // ModelUnit::createDrawArray c3e524 allocates 0x88 bytes, constructs with
 // c49050 and retains the result at ModelUnit+28. Destructor c490c8 releases
-// the remaining owned arrays, which are not modelled yet.
+// the owned draw objects and per-render-unit records.
 class ModelUnitDrawArray : public sead::hostio::Node {
     friend class EffectModelDrawUnit;
 
@@ -58,7 +63,17 @@ public:
 
 private:
     s32 mSize;
-    u8 _20[0x68 - 0x20];
+    // initialize_ c49194 constructs these objects in 0xa0-byte records.
+    struct DrawRecord {
+        void* _0;
+        agl::UniformBlock mUniformBlock;
+        ModelDrawObjStream mStream;
+    };
+    static_assert(sizeof(DrawRecord) == 0xa0);
+
+    ModelDrawObj* mDrawObjs;
+    sead::Buffer<DrawRecord> mDrawRecords;
+    sead::Matrix34f mLocalMatrix;
     // Bit 1 is the z-sort flag (isZSortEnabled 0x7100c49a48).
     u8 _68;
     u8 _69[0x88 - 0x69];

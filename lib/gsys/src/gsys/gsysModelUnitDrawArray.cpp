@@ -6,6 +6,17 @@
 
 namespace gsys {
 
+// 0x7100c490c8
+ModelUnitDrawArray::~ModelUnitDrawArray() {
+    if (mDrawObjs) {
+        ModelDrawObj::freeBuffer(mDrawObjs, _18);
+        if ((_68 & 0x10) && mDrawObjs)
+            ::operator delete(mDrawObjs);
+    }
+    mDrawRecords.freeBuffer();
+}
+
+
 ModelUnitDrawArray::CreateArg::CreateArg() {
     _0 = 1;
     _4 = 0x101;
