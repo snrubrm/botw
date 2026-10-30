@@ -4,6 +4,8 @@
 #include <common/aglUniformBlock.h>
 #include <hostio/seadHostIONode.h>
 #include <math/seadMatrix.h>
+#include <utility/aglParameter.h>
+#include <utility/aglParameterObj.h>
 
 namespace agl {
 class DrawContext;
@@ -16,6 +18,33 @@ namespace gsys {
 // modelled.
 class LightProbeMgr {
 public:
+    class SHIndexBuffer : public agl::utl::IParameterObj {
+    public:
+        SHIndexBuffer();
+        ~SHIndexBuffer() override;
+
+    private:
+        agl::utl::Parameter<u32> mType;
+        agl::utl::Parameter<u32> mUsedIndexNum;
+        agl::utl::Parameter<u32> mMaxIndexNum;
+        agl::utl::ParameterBuffer<u32> mIndexBuffer;
+    };
+    static_assert(sizeof(SHIndexBuffer) == 0xb8);
+
+    class SHDataBuffer : public agl::utl::IParameterObj {
+    public:
+        SHDataBuffer();
+        ~SHDataBuffer() override;
+
+    private:
+        agl::utl::Parameter<u32> mType;
+        agl::utl::Parameter<u32> mMaxSHDataNum;
+        agl::utl::Parameter<u32> mUsedDataNum;
+        agl::utl::Parameter<u32> mPerProbeFloatNum;
+        agl::utl::ParameterBuffer<f32> mDataBuffer;
+    };
+    static_assert(sizeof(SHDataBuffer) == 0xd8);
+
     // Partial model: only the empty write hook is known. The manager's layout is not modelled.
     class ProbeVolumeMgr {
     public:

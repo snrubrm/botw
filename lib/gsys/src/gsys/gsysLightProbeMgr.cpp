@@ -2,6 +2,39 @@
 
 namespace gsys {
 
+// 0x7100c74a9c
+LightProbeMgr::SHIndexBuffer::SHIndexBuffer()
+    : mType(0, "type", this), mUsedIndexNum(0, "used_index_num", this),
+      mMaxIndexNum(0, "max_index_num", this), mIndexBuffer("index_buffer", this) {}
+
+// NON_MATCHING: freeBuffer checks the allocation flag again after the virtual ownership check;
+// the original uses the result of the virtual call directly. The deleting destructor also differs.
+// 0x7100c74c18
+LightProbeMgr::SHIndexBuffer::~SHIndexBuffer() {
+    mType = 0;
+    // called through a pointer in the original (not devirtualised)
+    if ((&mIndexBuffer)->isBinaryInternalBuffer())
+        mIndexBuffer.freeBuffer();
+    mUsedIndexNum = 0;
+    mMaxIndexNum = 0;
+}
+
+// 0x7100c74d90
+LightProbeMgr::SHDataBuffer::SHDataBuffer()
+    : mType(0, "type", this), mMaxSHDataNum(0, "max_sh_data_num", this),
+      mUsedDataNum(0, "used_data_num", this), mPerProbeFloatNum(27, "per_probe_float_num", this),
+      mDataBuffer("data_buffer", this) {}
+
+// NON_MATCHING: freeBuffer checks the allocation flag again after the virtual ownership check;
+// the original uses the result of the virtual call directly. The deleting destructor also differs.
+// 0x7100c74f4c
+LightProbeMgr::SHDataBuffer::~SHDataBuffer() {
+    // called through a pointer in the original (not devirtualised)
+    if ((&mDataBuffer)->isBinaryInternalBuffer())
+        mDataBuffer.freeBuffer();
+    mUsedDataNum = 0;
+}
+
 // 0x7100c76ba8
 void LightProbeMgr::calc() {
     _248 = 0;
