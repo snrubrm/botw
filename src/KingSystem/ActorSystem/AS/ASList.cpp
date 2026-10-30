@@ -216,7 +216,7 @@ void ASList::sub_710115C7A8(bool enable_partial) {
         animation->sub_7100BFD598(i);
     _10 = num_skeletal;
     for (s32 i = state._0; i < _11; ++i)
-        animation->sub_7100BFDD10(i);
+        animation->resetMaterialAnmBind(i);
     _11 = state._0;
 }
 

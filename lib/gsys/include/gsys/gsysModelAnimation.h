@@ -142,7 +142,7 @@ public:
     void sub_7100BFDBF4(bool enabled);
     // 0x7100bfd598 clears a skeletal slot; 0x7100bfdd10 clears material bindings.
     void sub_7100BFD598(s32 slot);
-    void sub_7100BFDD10(s32 slot);
+    void resetMaterialAnmBind(s32 slot);
     void setSkeletalAnmByKey(int slot, AnimationAccessKey<SkeletalAnmType> key,
                              const PartialSkeletalAnmBase* partial);
     /// Frees the object through its virtual destructor (0x7100bfa52c); null is ignored.

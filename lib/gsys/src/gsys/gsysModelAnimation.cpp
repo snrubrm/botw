@@ -5,6 +5,15 @@
 
 namespace gsys {
 
+// NON_MATCHING: the compiler combines the two invalid-key halfword stores into one word.
+void ModelAnimation::resetMaterialAnmBind(s32 slot) {
+    MaterialAnm& animation = mMaterialAnms[slot];
+    if (animation.flags & 2)
+        return;
+    for (auto& linked : animation.linkedAnms)
+        linked.key = {};
+}
+
 f32 ModelAnimation::setMaterialAnmFrame(int slot, f32 frame) {
     for (auto& animation : mMaterialAnms[slot].linkedAnms)
         animation.animObj->GetFrameCtrl()->SetFrame(frame);

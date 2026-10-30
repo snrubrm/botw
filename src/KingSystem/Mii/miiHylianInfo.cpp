@@ -26,7 +26,7 @@ void HylianInfo::sub_71012A5304(gsys::ModelAnimation* animation, res::Unk_71024f
     if (!key.isValid())
         return;
     if (key.type != 3 || !slot.animObj) {
-        animation->sub_7100BFDD10(mMaterialAnmSlot);
+        animation->resetMaterialAnmBind(mMaterialAnmSlot);
         mMaterialAnmSlot = -1;
         return;
     }
