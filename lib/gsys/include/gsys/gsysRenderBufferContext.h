@@ -5,6 +5,7 @@
 #include <common/aglRenderTarget.h>
 #include <common/aglTextureData.h>
 #include <common/aglTextureSampler.h>
+#include <common/aglUniformBlock.h>
 #include <container/seadBuffer.h>
 #include <gfx/seadViewport.h>
 #include <hostio/seadHostIONode.h>
@@ -23,66 +24,73 @@ class GBuffer;
 // followed by the C590D4/C59274 destructors.
 class RenderBufferContext : public sead::hostio::Node {
 public:
+    // The per-view GPU buffers, constructed and destroyed as 0xc60-byte records.
+    class BufferData {
+    public:
+        BufferData();
+        ~BufferData();
+        void enableHiZ(bool enable);
+
+        agl::RenderBuffer mRenderBuffer;
+        agl::RenderTargetColor mColorTarget0;
+        agl::RenderTargetColor mColorTarget1;
+        agl::RenderTargetColor mColorTarget2;
+        agl::RenderTargetDepth mDepthTarget;
+        agl::TextureData* mTexture0 = nullptr;
+        agl::TextureData* mHiZTexture = nullptr;
+        agl::TextureData* mTexture2 = nullptr;
+        agl::TextureSampler mSampler0;
+        agl::TextureSampler mSampler1;
+        agl::TextureSampler mSampler2;
+        agl::TextureSampler mSampler3;
+        agl::GPUMemVoidAddr mHiZAddr;
+        sead::Viewport mViewport;
+    };
+    static_assert(sizeof(BufferData) == 0xc60);
+
     struct Context {
         Context();
         ~Context();
-        u32 _0;
-        // Pass flags of the view's draw record: drawModelSceneCalcRenderView writes bits 7 / 8 / 11,
-        // 12 (the record's analyze flag) and 19 (Graphics' _284 bit 0).
-        /* 0x4 */ u32 mPassFlagsMaybe;
-        u8 _8[0xb28 - 0x8];
-        // 0x7100c34580 passes this view record as the SSII reprojection source.
-        /* 0xb28 */ agl::TextureData _b28;
-        u8 _c50[0xc98 - 0xc50];
-        // ModelSceneBuffer::selectBloomDepth 0x7100c19ae0 returns one of these four depth
-        // textures depending on mPassFlagsMaybe.
-        agl::TextureData _c98;
-        u8 _dc0[0xe08 - 0xdc0];
-        agl::TextureData _e08;
-        u8 _f30[0x18f8 - 0xf30];
-        agl::TextureData _18f8;
-        u8 _1a20[0x1a68 - 0x1a20];
-        agl::TextureData _1a68;
-        u8 _1b90[0x3208 - 0x1b90];
-        // Per-axis render scale. The Context constructor path 0x7100c5934c copies the two words
-        // of the global pair at 0x7101e9ff10 into both this pair and 0x4b0/0x4b4; update
-        // 0x7100c59684 loads them as f32, multiplies them by the viewport scale, and Graphics
-        // calcModelSceneFrame 0x7100f30178 stores one f32 into both. DofMgr 0x71010d19b4 reads
-        // +0x3208 as f32.
+        u32 _0 = 0;
+        // Pass flags written by the view's draw record.
+        u32 mPassFlagsMaybe = 0;
+        u32 _8 = 0;
+        sead::Viewport _10;
+        agl::RenderBuffer _38;
+        agl::RenderTargetColor _a0;
+        agl::TextureData _218;
+        agl::TextureSampler _340;
+        u8 _4b0[8];
+        BufferData _4b8;
+        BufferData _1118;
+        BufferData _1d78;
+        agl::RenderBuffer _29d8;
+        agl::RenderTargetColor _2a40;
+        u8 _2bb8[8];
+        agl::TextureSampler _2bc0;
+        sead::Viewport _2d30;
+        agl::RenderBuffer _2d58;
+        agl::RenderTargetColor _2dc0;
+        u8 _2f38[8];
+        agl::TextureSampler _2f40;
+        sead::Viewport _30b0;
+        u8 _30d8[8];
+        agl::TextureData _30e0;
+        // Per-axis render scale, written by C5934C and read by update C59684.
         f32 _3208;
         f32 _320c;
-        // C5934C constructs a GBuffer and retains it here; C590D4 destroys it.
         GBuffer* mGBuffer;
-        u8 _3218[0x3878 - 0x3218];
+        agl::UniformBlock _3218;
+        u8 _3290[8];
+        agl::RenderTargetColor _3298;
+        agl::TextureSampler _3410;
+        u8 _3580[8];
+        agl::RenderTargetColor _3588;
+        agl::TextureSampler _3700;
+        u8 _3870[8];
     };
     static_assert(sizeof(Context) == 0x3878);
     static_assert(offsetof(Context, mGBuffer) == 0x3210);
-
-    // The per-view GPU buffers. Constructed in Context's constructor and destroyed with it.
-    class BufferData {
-    public:
-        ~BufferData();
-
-        // 0x7100c5b800: points the depth target's HiZ storage at the cached address, or clears it.
-        void enableHiZ(bool enable);
-
-    private:
-        agl::RenderBuffer mRenderBuffer;       // +0x00
-        agl::RenderTargetColor mColorTarget0;  // +0x68
-        agl::RenderTargetColor mColorTarget1;  // +0x1e0
-        agl::RenderTargetColor mColorTarget2;  // +0x358
-        agl::RenderTargetDepth mDepthTarget;   // +0x4d0
-        agl::TextureData* mTexture0;           // +0x648
-        // The HiZ texture; its cached address is mHiZAddr.
-        agl::TextureData* mHiZTexture;         // +0x650
-        agl::TextureData* mTexture2;           // +0x658
-        agl::TextureSampler mSampler0;         // +0x660
-        agl::TextureSampler mSampler1;         // +0x7d0
-        agl::TextureSampler mSampler2;         // +0x940
-        agl::TextureSampler mSampler3;         // +0xab0
-        agl::GPUMemVoidAddr mHiZAddr;          // +0xc20
-        sead::Viewport mViewport;              // +0xc38
-    };
 
     RenderBufferContext();
     virtual ~RenderBufferContext();

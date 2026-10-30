@@ -3,6 +3,20 @@
 
 namespace gsys {
 
+RenderBufferContext::Context::Context() = default;
+// NON_MATCHING: the compiler schedules member addresses using different saved registers.
+RenderBufferContext::Context::~Context() = default;
+
+// 0x7100c5ccb8
+RenderBufferContext::BufferData::BufferData() {
+    mRenderBuffer.setRenderTargetColor(&mColorTarget0, 0);
+    mRenderBuffer.setRenderTargetDepth(&mDepthTarget);
+    mSampler0.setFilter(1, 1, 0);
+    mSampler1.setFilter(0, 0, 0);
+    mSampler3.setFilter(0, 0, 0);
+}
+
+
 // 0x7100c5b800
 // NON_MATCHING: RenderTargetDepth::setStorage (GPUMemAddrBase::operator=) stores the 4-byte
 // offset with its padding as one 8-byte store here; the target stores 4 bytes. Same residue as

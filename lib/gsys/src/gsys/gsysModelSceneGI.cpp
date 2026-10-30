@@ -261,7 +261,7 @@ void ModelSceneGI::copyForSSIIReprojection(agl::DrawContext* draw_context,
     if (!mSSII->isReprojectionEnabled())
         return;
     const int view = context->getViewIndex();
-    mSSII->setReprojectionBuffer(draw_context, view, render_buffer.getContext(view)->_b28);
+    mSSII->setReprojectionBuffer(draw_context, view, render_buffer.getContext(view)->_4b8.mSampler0.getTextureData());
     context->bind(draw_context, false);
 }
 

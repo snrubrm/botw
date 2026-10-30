@@ -110,15 +110,15 @@ void ModelSceneBuffer::invalidateGBufferPreShading(ModelSceneContext* context,
 // 0x7100c19ae0
 const agl::TextureData* ModelSceneBuffer::selectBloomDepth(int view) const {
     const RenderBufferContext::Context* context = mRenderBufferContext->getContext(view);
-    const agl::TextureData* depth = &context->_c98;
+    const agl::TextureData* depth = &context->_4b8.mSampler1.getTextureData();
     if ((_1710 & 8) == 0)
         return depth;
     const u32 flags = context->mPassFlagsMaybe;
     if ((flags & 0x800) != 0)
-        return &context->_1a68;
+        return &context->_1118.mSampler2.getTextureData();
     if ((flags & 1) != 0)
-        return &context->_e08;
-    return (flags & 0x1000) != 0 ? depth : &context->_18f8;
+        return &context->_4b8.mSampler2.getTextureData();
+    return (flags & 0x1000) != 0 ? depth : &context->_1118.mSampler1.getTextureData();
 }
 
 // 0x7100c191a8
