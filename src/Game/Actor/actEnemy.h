@@ -106,6 +106,7 @@ public:
 
     // Resets the target and initializes the query distance from the owning actor's parameters.
     void sub_71002DBC2C();
+    bool sub_71002DC2C8(const ksys::Message& message);
 
     // Sets the target link, matrix (or the target actor's matrix) and position (or the target
     // actor's position) and sets _7c to 2.
@@ -121,7 +122,8 @@ public:
     /* 0x070 */ sead::Vector3f _70;
     /* 0x07c */ s32 _7c;
     /* 0x080 */ Unk_710070ef50 _80;
-    /* 0x0a0 */ void* _a0;
+    /* 0x0a0 */ f32 _a0;
+    /* 0x0a4 */ f32 _a4;
     /* 0x0a8 */ Unk_7102450528 _a8;
     /* 0x120 */ u8 _120;
 };
