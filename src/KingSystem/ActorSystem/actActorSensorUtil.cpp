@@ -323,6 +323,32 @@ void sub_71007A3140(Actor* actor, ksys::phys::SystemGroupHandler* handler) {
     set->setSystemGroupHandler(handler);
 }
 
+int sub_71007A3A8C(const sead::SafeString* name) {
+    if (!name || name->isEmpty())
+        return -1;
+    if (*name == "ShakeOff")
+        return 8;
+    if (*name == "Stab")
+        return 4;
+    if (*name == "Toss")
+        return 5;
+    if (*name == "Clap")
+        return 6;
+    if (*name == "Rush")
+        return 7;
+    if (*name == "Upper")
+        return 0;
+    if (*name == "Lower")
+        return 1;
+    if (*name == "Left")
+        return 2;
+    if (*name == "Right")
+        return 3;
+    if (*name == "Dive")
+        return 9;
+    return -1;
+}
+
 ActorAtk::Unk_710079e64c::Unk1* sub_71007A255C(Actor* actor, int idx) {
     auto* atk = sead::DynamicCast<ActorAtk>(actor->getAtk());
     if (!atk)
