@@ -5,15 +5,45 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/actEnemy.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
+#include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldWeatherMgr.h"
 #include <limits>
+
+// NON_MATCHING: the normalized direction uses additional stack stores and reloads.
+void sub_710071EBA4(ksys::act::Actor* actor) {
+    if (!actor)
+        return;
+    auto* enemy = sead::DynamicCast<uking::act::Enemy>(actor);
+    if (enemy->_868 && enemy->_868->sub_71006ED9EC()) {
+        enemy->sub_71006DD92C(false);
+        if (auto* controller = enemy->getCharacterController()) {
+            sead::Vector3f up = -controller->get70();
+            if (up.normalize() < std::numeric_limits<f32>::epsilon())
+                up = sead::Vector3f::ey;
+            controller->sub_7100F5FFE8(&up, false);
+        }
+    }
+    actor->getActorFlags2().set(ksys::act::Actor::ActorFlag2::_20);
+    actor->m135()->_4 = 1;
+    actor->emitDisappearEffect();
+    actor->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+    if (enemy->getWeapons()->getEquippedWeapon(0) &&
+        enemy->getWeapons()->getEquippedWeapon(0)) {
+        enemy->getWeapons()->getEquippedWeapon(0)->sleep(ksys::act::BaseProc::SleepWakeReason::_0);
+        enemy->sub_7100007ADC(0, sUnk_71025c8d04, nullptr);
+    }
+}
 
 // NON_MATCHING: the flag temporary is scheduled later and the final result is normalized.
 bool sub_710071E64C(ksys::act::Actor* actor, Unk_7102450fa8* unit) {
