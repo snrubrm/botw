@@ -314,9 +314,27 @@ MotorcycleStruct0::MotorcycleStruct0(ksys::act::Actor* actor) {
     _1a0 = 0;
     _1a8 = actor;
     _0._58._8 = _0._18;
-    _0._54 = 0.0f;
+    _0._4c._8 = 0.0f;
     _0._4 = -1.0f;
     _150.setCurveType(aal::FadeCurveType::Sqrt);
+}
+
+// NON_MATCHING: register allocation and branch scheduling differ.
+void MotorcycleStruct0::sub_710006C168(bool accelerating, f32 speed) {
+    sub_710006C270();
+    _194 = accelerating;
+    _0._64.sub_7100E729C4(_0._48 == 0.0f ? 1.0f : 0.0f);
+    _19c = speed < 0.0f;
+    f32 target;
+    const f32 abs_speed = sead::Mathf::abs(speed);
+    if (!_197 && abs_speed > sead::Mathf::epsilon())
+        target = _0._0 * _0._48 / (abs_speed * 30.0f);
+    else
+        target = _0._8 * _0._48;
+    if (!(MotorcycleMgr::instance()->mEnergy > 0.0f && accelerating))
+        target = 0.0f;
+    _0._4c.motorcycleStickControlStuff(sead::Mathf::clamp(target, 0.0f, _0._8));
+    updateEngineSoundMaybe(speed, accelerating);
 }
 
 void MotorcycleStruct0::sub_710006C270() {

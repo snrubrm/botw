@@ -320,7 +320,7 @@ public:
     // 0x710071ba04: whether any member is in `state`
     bool sub_710071BA04(Step state) const;
     // 0x710071bab0: probes the navmesh from the player towards `in` and writes the hit point to `out`;
-    // false when the probe fails. (Placeholder name; the body is still undecompiled.)
+    // false when the probe fails. (Placeholder name.)
     bool sub_710071BAB0(sead::Vector3f* out, ksys::phys::NavMeshCharacter* nav,
                         const sead::Vector3f& in);
 

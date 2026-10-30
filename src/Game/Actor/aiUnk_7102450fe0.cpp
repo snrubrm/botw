@@ -1,9 +1,11 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/aiUnk_7102450fa8.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
+#include "KingSystem/Physics/System/physHavokAI.h"
 
 // Own TU (0x710071a92c .. 0x710071bd38): Unk_7102450fa8's functions are called, not inlined, and the
 // Unk_7102450fa8 TU ends with its static initialiser at 0x710071a7b4.
@@ -17,6 +19,25 @@ Unk_7102450fe0::Unk_7102450fe0() {
 }
 
 Unk_7102450fe0::~Unk_7102450fe0() = default;
+
+// NON_MATCHING: query/result stack placement and initialization scheduling differ.
+bool Unk_7102450fe0::sub_710071BAB0(sead::Vector3f* out,
+                                     ksys::phys::NavMeshCharacter* nav,
+                                     const sead::Vector3f& in) {
+    ksys::phys::HavokAI::Unk1 result;
+    ksys::phys::HavokAI::Unk2 query;
+    const auto& player = getPlayerPosition();
+    query.from.set(player.x, _160.y, player.z);
+    query.tolerance = _98;
+    query.dir = in - query.from;
+    query.distance = query.dir.normalize();
+    query.radius = 10.0f;
+    query._30 = 0xff;
+    auto* ai = nav->_18 ? nav->_18 : ksys::phys::HavokAI::instance();
+    const bool hit = ai->sub_7100F86324(nav, query, &result);
+    *out = result._18;
+    return hit;
+}
 
 void Unk_7102450fe0::m5(s32 a8, f32 x, f32 y) {
     _a8 = a8;

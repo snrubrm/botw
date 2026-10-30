@@ -14,6 +14,7 @@
 #include "Game/Actor/actMotorcycleStickControl.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actPhysicsUserTag.h"
+#include "KingSystem/Utils/Unk_7100e7277c.h"
 
 namespace ksys::act {
 class Actor;
@@ -129,6 +130,9 @@ KSYS_CHECK_SIZE_NX150(Unk_710006ba9c, 0x1c);
 struct MotorcycleStruct0 {
     explicit MotorcycleStruct0(ksys::act::Actor* actor);
 
+    // 0x710006c168: updates the engine controls for acceleration and speed.
+    void sub_710006C168(bool accelerating, f32 speed);
+
     // 0x710006c270: converts the energy cost rate on the first call and drains the global motorcycle
     // energy; sets _19e when it is used up.
     void sub_710006C270();
@@ -143,10 +147,6 @@ struct MotorcycleStruct0 {
 
     // The speeds / forces; has no constructor of its own in the original (inlined into the one below).
     struct Unk0 {
-        Unk0() {
-            _68 = {1.0f, 0.0f};
-        }
-
         /* 0x000 */ f32 _0 = 1950.0f;
         /* 0x004 */ f32 _4 = -1.0f;
         /* 0x008 */ f32 _8 = 867.0f;
@@ -164,12 +164,9 @@ struct MotorcycleStruct0 {
         /* 0x040 */ f32 _40 = 2000.0f;
         /* 0x044 */ f32 _44 = 9500.0f;
         /* 0x048 */ f32 _48 = 0.0f;
-        /* 0x04c */ f32 _4c = 1500.0f;
-        /* 0x050 */ f32 _50 = 300.0f;
-        /* 0x054 */ f32 _54 = 0.0f;
+        /* 0x04c */ Unk_7100e72ac0 _4c{1500.0f, 300.0f, 0.0f};
         /* 0x058 */ Unk_71002c8b5c _58{{500.0f, 130.0f}, 0.0f};
-        /* 0x064 */ f32 _64 = 0.0065f;
-        /* 0x68 */ sead::Vector2f _68;
+        /* 0x064 */ Unk_7100e729c4 _64{0.0065f, 1.0f, 0.0f};
     };
     KSYS_CHECK_SIZE_NX150(Unk0, 0x70);
 
