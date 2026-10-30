@@ -27,6 +27,13 @@
 bool sub_7100EE7168(const ksys::map::Object* obj, sead::Matrix34f* out);
 bool sub_7100EE9CE8();
 
+// NON_MATCHING: the compiler schedules the matrix multiply loads and stores differently.
+void sub_71009238F8(sead::Matrix33f* matrix, const sead::Matrix33f& basis) {
+    sead::Matrix33f inverse = sead::Matrix33f::ident;
+    inverse.setInverse(basis);
+    matrix->setMul(inverse, *matrix);
+}
+
 // NON_MATCHING: the value and VFRValue occupy different stack slots.
 f32 sub_7100923E2C() {
     auto* controller = uking::frm::SystemStruct1::getInstance();
