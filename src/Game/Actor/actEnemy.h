@@ -104,6 +104,9 @@ class Unk_7100013308 {
 public:
     explicit Unk_7100013308(ksys::act::Actor* actor);
 
+    // Resets the target and initializes the query distance from the owning actor's parameters.
+    void sub_71002DBC2C();
+
     // Sets the target link, matrix (or the target actor's matrix) and position (or the target
     // actor's position) and sets _7c to 2.
     void sub_71002DBC8C(const ksys::act::BaseProcLink& link, const sead::Matrix34f* mtx,

@@ -808,6 +808,14 @@ void Unk_710070ef50::sub_710070F228() {
     _1e = 1;
 }
 
+void Unk_7100013308::sub_71002DBC2C() {
+    _8.reset();
+    _7c = 0;
+    _120 = 0;
+    _80._14 = mActor->getParam()->getRes().mGParamList->getEnemy()->mLostRayLength.ref();
+    _80._1e = 1;
+}
+
 void Unk_7100013308::sub_71002DBC8C(const ksys::act::BaseProcLink& link, const sead::Matrix34f* mtx,
                                     const sead::Vector3f* pos) {
     _8 = link;
