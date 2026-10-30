@@ -843,6 +843,21 @@ public:
     Unk_710244e760_Payload _38;
 };
 
+// DynamicActor constructs these listeners at +0xae0 and +0xb18 respectively.
+class Unk_710244e790 : public Unk_7102357210 {
+public:
+    ~Unk_710244e790() override = default;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+};
+
+class Unk_710244e7c0 : public Unk_7102357210 {
+public:
+    ~Unk_710244e7c0() override = default;
+    bool m2(const ksys::Message& message) override;
+    void m3() override {}
+};
+
 // vtable 0x71024056a8 (message 0x80000ac)
 class Unk_71024056a8 : public Unk_7102357210 {
 public:

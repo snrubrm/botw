@@ -768,6 +768,22 @@ bool Unk_710244e760::m2(const ksys::Message& message) {
     return true;
 }
 
+bool Unk_710244e790::m2(const ksys::Message& message) {
+    if (message.getType() != 0x80000cd)
+        return false;
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
+bool Unk_710244e7c0::m2(const ksys::Message& message) {
+    if (message.getType() != 0x80000ce)
+        return false;
+    _30 = true;
+    _18 = message.getSource();
+    return true;
+}
+
 Unk_710244e7f0::~Unk_710244e7f0() = default;
 
 bool Unk_710244e7f0::m2(const ksys::Message& message) {
