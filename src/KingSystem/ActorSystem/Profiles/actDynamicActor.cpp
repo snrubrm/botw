@@ -254,6 +254,14 @@ bool ActorLinkConstDataAccess::sub_71006DE338(const sead::SafeString& name) cons
     return getBoolParam(actor, name, false);
 }
 
+bool ActorLinkConstDataAccess::sub_71006DE73C(s32 type) const {
+    auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
+    if (!actor)
+        return false;
+    auto* manager = sead::DynamicCast<uking::act::DamageManagerBase>(actor->getDamageMgr());
+    return manager && manager->sub_71006E1050(type);
+}
+
 bool ActorLinkConstDataAccess::sub_71006E3E00() const {
     auto* actor = static_cast<Actor*>(getProcIfActor(mProc));
     if (!actor)
