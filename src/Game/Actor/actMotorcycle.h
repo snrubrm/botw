@@ -245,6 +245,7 @@ struct MotorcycleStruct3 {
 
     // 0x710006fbf8 (not decompiled): `flag` is whether the boost is active.
     void sub_710006FBF8(bool flag);
+    void sub_710006FD04(bool flag);
     // 0x710006f97c (not decompiled)
     void sub_710006F97C(f32 speed, bool flag);
 

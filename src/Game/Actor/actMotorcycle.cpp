@@ -1183,6 +1183,16 @@ void MotorcycleStruct3::sub_710006FBF8(bool flag) {
     _22 = flag;
 }
 
+void MotorcycleStruct3::sub_710006FD04(bool flag) {
+    if (_23 && !flag) {
+        const auto* param = _28->getParam()->getRes().mGParamList->getMotorcycle();
+        _14 = 2.0f * sead::Mathf::asin(
+                         sead::Mathf::clamp(param->mWeaponThrowModeSpeedKPH2.ref() / _0, -1.0f, 1.0f)) /
+              sead::Mathf::pi();
+    }
+    _23 = flag;
+}
+
 // NON_MATCHING: the original selects between the value addresses of the two target speeds; we select
 // between the parameter objects (+0x18 folded into the load) and schedule the `_14 * pi` product later
 void MotorcycleStruct3::sub_710006F97C(f32 speed, bool flag) {
