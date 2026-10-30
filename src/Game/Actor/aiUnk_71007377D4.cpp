@@ -83,6 +83,22 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h"
 #include <math/seadMathCalcCommon.h>
 
+// Free scope is inferred from the PriestBossActorNormalMode caller.
+s32 sub_710071E288(ksys::act::Actor* actor) {
+    auto* enemy = sead::DynamicCast<uking::act::Enemy>(actor);
+    if (!enemy)
+        return -1;
+    auto* weapon = sead::DynamicCast<ksys::act::WeaponBase>(
+        enemy->getWeapons()->mWeapons[0].link.getProc(nullptr, nullptr));
+    if (!weapon)
+        return -1;
+    if (enemy->_c38[0].hasProcById(weapon))
+        return 0;
+    if (enemy->_c38[1].hasProcById(weapon))
+        return 1;
+    return -1;
+}
+
 // Free scope is inferred from the MotorcycleRoot caller.
 bool sub_71006F10A8(uking::act::PlayerBase* player) {
     if (player->m202())
