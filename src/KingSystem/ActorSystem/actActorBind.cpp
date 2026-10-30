@@ -5,6 +5,17 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 
+// 0x710072cbd4: the ActorBind caller uses this in place. Free scope and reference form inferred.
+// NON_MATCHING: the compiler uses floating-point registers for the basis values and a smaller frame.
+void sub_710072CBD4(sead::Matrix34f* out, const sead::Matrix34f& source) {
+    for (s32 i = 0; i < 3; ++i) {
+        auto axis = source.getBase(i);
+        axis.normalize();
+        out->setBase(i, axis);
+    }
+    out->setTranslation(source.getTranslation());
+}
+
 // Source owner unknown; these global helpers are adjacent to ActorBind in the original.
 bool sub_71006E8610(ksys::act::Actor* actor) {
     if (!actor)
