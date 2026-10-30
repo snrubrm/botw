@@ -37,6 +37,7 @@
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
+#include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/XLink/xlinkActorUtil.h"
 #include "KingSystem/XLink/xlinkInfoData.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
@@ -67,6 +68,8 @@
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectWeaponCommon.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmorSlot.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpcEquipment.h"
@@ -77,6 +80,55 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectBow.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h"
 #include <math/seadMathCalcCommon.h>
+
+f32 sub_71007320F0(ksys::act::Actor* actor, int weapon_idx) {
+    if (weapon_idx < 0)
+        return 0.0f;
+    auto* owner = sead::DynamicCast<ksys::act::PlayerOrEnemy>(actor);
+    if (!owner)
+        return 0.0f;
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(owner->getWeapons()->getEquippedWeapon(weapon_idx));
+    if (!weapon) {
+        if (actor->getParam() && actor->getParam()->getRes().mGParamList) {
+            const auto* attack = actor->getParam()->getRes().mGParamList->getAttack();
+            if (attack)
+                return attack->mRange.ref();
+        }
+        return 0.0f;
+    }
+    if (!ksys::act::hasTag(actor, ksys::act::tags::TeamLynel))
+        return owner->sub_7100007B4C(weapon_idx);
+    if (weapon->isWeaponType3())
+        return weapon->getParam()->getRes().mGParamList->getAttack()->mRange.ref();
+    const auto* params = weapon->getParam()->getRes().mGParamList;
+    const f32 equip_scale = params->getWeaponCommon()->mEnemyEqScale.ref();
+    const f32 scaled_range = params->getAttack()->mRange.ref() * weapon->getScale().z;
+    return equip_scale > 0.0f ? scaled_range / equip_scale : scaled_range;
+}
+
+f32 sub_71007322E8(ksys::act::Actor* actor, int weapon_idx) {
+    if (weapon_idx < 0)
+        return 0.0f;
+    auto* owner = sead::DynamicCast<ksys::act::PlayerOrEnemy>(actor);
+    if (!owner)
+        return 0.0f;
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(owner->getWeapons()->getEquippedWeapon(weapon_idx));
+    if (!weapon) {
+        if (actor->getParam() && actor->getParam()->getRes().mGParamList) {
+            const auto* attack = actor->getParam()->getRes().mGParamList->getAttack();
+            if (attack)
+                return attack->mRange.ref();
+        }
+        return 0.0f;
+    }
+    if (!ksys::act::hasTag(actor, ksys::act::tags::TeamLynel))
+        return owner->sub_7100007BF8(weapon_idx);
+    if (weapon->isWeaponType3())
+        return weapon->sub_71002ED730(true);
+    const f32 equip_scale = weapon->getParam()->getRes().mGParamList->getWeaponCommon()->mEnemyEqScale.ref();
+    const f32 scaled_range = weapon->sub_71002ED730(true) * weapon->getScale().z;
+    return equip_scale > 0.0f ? scaled_range / equip_scale : scaled_range;
+}
 
 // Signature and placement are inferred from the actor chemical interaction caller.
 void sub_71007324E0(ksys::act::ActorLinkConstDataAccess* out, ksys::act::Actor* actor) {
