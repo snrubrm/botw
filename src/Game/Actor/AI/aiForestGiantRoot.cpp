@@ -3,6 +3,7 @@
 #include <cmath>
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/aiUnk_7102357d20.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actActorOption.h"
@@ -332,6 +333,16 @@ void Unk_7102450390::sub_71007062D4() {
                             nullptr, false);
     }
     _2f8.reset(30.0f);
+}
+
+void Unk_7102450390::sub_7100707544(s32 slot) {
+    const auto& necklace = mNecklaceSlots[slot];
+    if (sub_71005DA374(mActor, *necklace.weapon_index)) {
+        const sead::Vector3f velocity(0.0f, -0.1f, 0.0f);
+        playerOrEnemyDropWeapon(mActor, &velocity, *necklace.weapon_index, true, false, nullptr, false);
+    } else if (auto* actor = sub_7100706D0C(slot)) {
+        mNecklaceSenders[slot]->sub_710070DC38(actor, true);
+    }
 }
 
 // NON_MATCHING: the formatter and string occupy different stack slots.

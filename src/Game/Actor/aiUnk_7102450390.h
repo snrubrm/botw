@@ -1,6 +1,8 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadSafeArray.h>
+#include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/System/Timer.h"
@@ -17,6 +19,7 @@ namespace ai {
 class Ai;
 }
 }  // namespace ksys::act
+class Unk_71023d4bb0;
 
 // Placeholder (vtable 0x7102450390: shared AI-tree RTTI subtype, D1 0x7100705978 (664 B), D0 0x7100705cac) for the 0x308-byte message
 // handling composite embedded in ForestGiantRoot at +0x230 (ctor 0x7100705834; the object at +0x150 has its own
@@ -53,9 +56,21 @@ public:
     void sub_7100707444(u32 slot);
 
 private:
+    // Three entries loaded by sub_7100706E98 from static AI parameters.
+    struct NecklaceSlot {
+        sead::SafeString name;
+        const s32* weapon_index;
+        const s32* _18;
+        const s32* _20;
+        const s32* _28;
+    };
     // Constructor 705834 and helpers 7062D4 / 706C3C prove the actor and timer/link tail.
     /* 0x008 */ ksys::act::Actor* mActor;
-    u8 _10[0x2c0 - 0x10];
+    u8 _10[8];
+    /* 0x018 */ sead::SafeArray<NecklaceSlot, 3> mNecklaceSlots;
+    u8 _a8[0xe8 - 0xa8];
+    /* 0x0e8 */ sead::SafeArray<Unk_71023d4bb0*, 3> mNecklaceSenders;
+    u8 _100[0x2c0 - 0x100];
     /* 0x2c0 */ bool _2c0;
     u8 _2c1[3];
     /* 0x2c4 */ s32 _2c4;
