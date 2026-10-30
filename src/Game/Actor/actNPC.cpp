@@ -8,6 +8,8 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/ActorSystem/actSchedule.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
@@ -322,6 +324,19 @@ static BaseProc* getProcIfActor(BaseProc* proc) {
 static inline uking::act::NPC* getNPC(BaseProc* proc) {
     auto* actor = static_cast<Actor*>(getProcIfActor(proc));
     return sead::DynamicCast<uking::act::NPC>(actor);
+}
+
+bool ActorLinkConstDataAccess::sub_71000230C8() const {
+    auto* npc = getNPC(mProc);
+    if (!npc || !(npc->_fe8 & 4) || !npc->sub_71000228F8())
+        return false;
+    if (auto* awareness = npc->getAwareness()) {
+        auto* sensor = awareness->_260[2];
+        if (!sensor || !sensor->_50)
+            return false;
+    }
+    return sead::SafeString(npc->getASList()->sub_710115ECF4(59, 1)) != "SitOnObject" &&
+           !(npc->_fe8 & 0x10000);
 }
 
 bool ActorLinkConstDataAccess::sub_7100022ED8() const {

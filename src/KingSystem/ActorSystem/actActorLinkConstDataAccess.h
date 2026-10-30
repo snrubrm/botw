@@ -314,6 +314,8 @@ public:
 
     // NPC accessors (placeholder names; defined in Game/Actor/actNPC.cpp, the NPC TU):
     // each casts the actor to uking::act::NPC and reads an NPC field (false / zero if not an NPC).
+    // Receiver inferred from the typed Struct8Base accessor caller.
+    bool sub_71000230C8() const;
     bool sub_7100022ED8() const;
     bool sub_7100022FD0() const;
     bool sub_7100023358() const;
