@@ -332,6 +332,9 @@ public:
     // _718 when the actor leaves stasis.
     void setField718(f32 value) { _718 = value; }
     const map::MubinIter& getMapObjIter() const { return mMapObjIter; }
+    // Inline-only accessor; name inferred from the field offset. The actor update decrements this
+    // timer and Reaction::__auto0 also reads and writes it.
+    f32 get6e0() const { return _6e0; }
     f32 get6f4() const { return _6f4; }
     as::ASList* getASList() const { return mASList; }
     void swordBlurStuff();
