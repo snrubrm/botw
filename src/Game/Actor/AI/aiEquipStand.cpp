@@ -1,4 +1,5 @@
 #include "Game/Actor/AI/aiEquipStand.h"
+#include "Game/Actor/aiEquipDisplayUtil.h"
 #include <cstdarg>
 #include <gfx/seadColor.h>
 #include <math/seadVector.h>
@@ -11,8 +12,6 @@
 
 // The original helper's source namespace is unknown.
 bool sub_7100700A78(s32 slot);
-// 0x7100701774 (placeholder name; declared only): whether `weapon` can be put on the stand slot `slot`.
-bool sub_7100701774(ksys::act::Actor* weapon, s32 slot);
 
 namespace uking::ai {
 

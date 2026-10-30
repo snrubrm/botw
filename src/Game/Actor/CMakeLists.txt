@@ -15,6 +15,8 @@ target_sources(uking PRIVATE
   aiActionFactories.cpp
   aiActionFactories.h
   aiActorLink.h
+  aiEquipDisplayUtil.cpp
+  aiEquipDisplayUtil.h
   aiAiFactories.cpp
   aiAiFactories.h
   aiBehaviorFactories.cpp
