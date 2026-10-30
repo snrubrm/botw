@@ -4,6 +4,42 @@
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/GameData/gdtCommonFlagsUtils.h"
+#include "KingSystem/GameData/gdtManager.h"
+#include "KingSystem/GameData/gdtSpecialFlags.h"
+#include "KingSystem/GameData/gdtTriggerParam.h"
+
+// NON_MATCHING: the compiler combines the bounds checks and schedules the slot arithmetic differently.
+bool sub_7100700A78(s32 slot) {
+    if (slot < 0 || slot >= 300)
+        return false;
+
+    sead::FixedSafeString<64> prefix;
+    switch (slot / 100) {
+    case 0:
+        prefix = "EquipStandSword";
+        break;
+    case 1:
+        prefix = "EquipStandBow";
+        break;
+    case 2:
+        prefix = "EquipStandShield";
+        break;
+    default:
+        prefix.clear();
+        break;
+    }
+    sead::FixedSafeString<64> flag;
+    flag.format("%s_Slot", prefix.cstr());
+    const s32 index = slot % 100;
+    s32 size = -1;
+    if (auto* manager = ksys::gdt::Manager::instance())
+        manager->getParam().get().getBuffer1()->getStr64ArraySize(&size, flag);
+    if (index > size)
+        return false;
+    const char* value = nullptr;
+    ksys::gdt::getStr64ByKey(&value, flag, index, false);
+    return value[0] != '\0';
+}
 
 // NON_MATCHING: the compiler combines the lower and upper bound checks.
 bool sub_7100700F1C(s32 slot) {

@@ -10,9 +10,6 @@
 #include "Game/Actor/Player/actPlayerBase.h"
 #include "KingSystem/Utils/Thread/Message.h"
 
-// The original helper's source namespace is unknown.
-bool sub_7100700A78(s32 slot);
-
 namespace uking::ai {
 
 EquipStand::EquipStand(const InitArg& arg) : ksys::act::ai::Ai(arg) {}

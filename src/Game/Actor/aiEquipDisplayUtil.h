@@ -9,6 +9,7 @@ class Actor;
 
 // Shared EquipDisplay helpers; source placement and the bone helper's reference argument are inferred
 // from their native callers and neighboring functions.
+bool sub_7100700A78(s32 slot);
 bool sub_7100700F1C(s32 slot);
 bool sub_7100701774(ksys::act::Actor* weapon, s32 slot);
 bool sub_710070181C(ksys::act::Actor* actor, const sead::SafeString& bone_name);
