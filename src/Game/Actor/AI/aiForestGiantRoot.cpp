@@ -97,7 +97,7 @@ bool ForestGiantRoot::init_(sead::Heap* heap) {
     if (auto* controller = mActor->getCharacterController())
         controller->enableContactLayer(ksys::phys::ContactLayer::EntityGroundObject);
     _230.sub_7100705CD0(heap, mActor);
-    *static_cast<Unk_7102450390**>(mGiantNecklaceUnit_a) = &_230;
+    *static_cast<void**>(mGiantNecklaceUnit_a) = static_cast<Unk_71025afb58*>(&_230);
     if (auto* giant = sead::DynamicCast<act::GiantEnemy>(mActor))
         giant->_1560 = mActor->findPhysicsBodyByName(sub_71007A24D0()->cstr(), "TgtBody");
     return true;

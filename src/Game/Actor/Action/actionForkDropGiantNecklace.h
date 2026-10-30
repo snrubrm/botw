@@ -21,7 +21,7 @@ protected:
     void calc_() override;
 
     // aitree_variable at offset 0x20
-    Unk_71025afb58** mGiantNecklaceUnit_a{};
+    void* mGiantNecklaceUnit_a{};
 };
 
 }  // namespace uking::action

@@ -13,7 +13,8 @@ bool ForkDropGiantNecklace::init_(sead::Heap* heap) {
 
 void ForkDropGiantNecklace::enter_(ksys::act::ai::InlineParamPack* params) {
     mFlags.set(Flag::Changeable);
-    if (auto* unit = sead::DynamicCast<Unk_7102450390>(*mGiantNecklaceUnit_a)) {
+    if (auto* unit = sead::DynamicCast<Unk_7102450390>(
+            static_cast<Unk_71025afb58*>(*static_cast<void**>(mGiantNecklaceUnit_a)))) {
         unit->sub_7100707544(0);
         unit->sub_7100707544(1);
         unit->sub_7100707544(2);
