@@ -16,6 +16,9 @@ static inline uking::act::Enemy* getEnemy(const ksys::act::ActorLinkConstDataAcc
     return sead::DynamicCast<uking::act::Enemy>(actor);
 }
 
+// 0x710001a0ec: reads the Enemy's condition-damage object. Free scope inferred.
+bool sub_710001A0EC(uking::act::Enemy* enemy);
+
 // 0x710001a79c: `other` has the enemy's target link (`_c48._8`) as its proc.
 bool sub_710001A79C(const ksys::act::ActorLinkConstDataAccess& accessor, const ksys::act::ActorLinkConstDataAccess& other) {
     auto* enemy = getEnemy(accessor);
@@ -38,6 +41,11 @@ bool sub_710001A9A4(const ksys::act::ActorLinkConstDataAccess& accessor, ksys::a
 bool sub_710001AAA8(const ksys::act::ActorLinkConstDataAccess& accessor, const sead::SafeString& name) {
     auto* enemy = getEnemy(accessor);
     return enemy ? enemy->_1128.getActorPartsActor(name).hasProc() : false;
+}
+
+bool sub_710001ABB4(const ksys::act::ActorLinkConstDataAccess& accessor) {
+    auto* enemy = getEnemy(accessor);
+    return enemy ? sub_710001A0EC(enemy) : false;
 }
 
 void sub_71002D36C8(uking::act::Enemy* enemy, const sead::SafeString& name) {
