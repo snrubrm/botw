@@ -49,6 +49,8 @@ public:
     bool sub_7100707224(const ksys::Message* message);
     // 0x71007073d0: called by handleAck_.
     bool sub_71007073D0(const ksys::MessageAck* ack);
+    // Receiver inferred from the direct call; slot is formatted as unsigned by the native helper.
+    void sub_7100707444(u32 slot);
 
 private:
     // Constructor 705834 and helpers 7062D4 / 706C3C prove the actor and timer/link tail.

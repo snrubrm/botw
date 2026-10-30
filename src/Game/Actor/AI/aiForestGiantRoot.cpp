@@ -335,6 +335,16 @@ void Unk_7102450390::sub_71007062D4() {
 }
 
 // NON_MATCHING: the formatter and string occupy different stack slots.
+void Unk_7102450390::sub_7100707444(u32 slot) {
+    auto* parts = mActor->m101();
+    if (!parts)
+        return;
+    sead::FixedSafeString<64> name;
+    (sead::StringCutOffPrintFormatter(&name) << "Necklace%d", slot) << sead::flush;
+    parts->sub_7100D3D2B4(name);
+}
+
+// NON_MATCHING: the formatter and string occupy different stack slots.
 ksys::act::Actor* Unk_7102450390::sub_7100706D0C(u32 slot) {
     auto* parts = mActor->m101();
     if (!parts)
