@@ -1,4 +1,5 @@
 #include <limits>
+#include <cmath>
 #include "Game/Actor/aiUnk_710001A69C.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
@@ -7,6 +8,8 @@
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actGlobalParameter.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/System/VFR.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "KingSystem/Chemical/chmSystemConfig.h"
 #include "Game/gameUnk_71024739d0.h"
@@ -2078,6 +2081,21 @@ bool sub_7100735BF8(const ksys::act::ActorLinkConstDataAccess& accessor,
         return false;
     const f32 angle = sead::Mathf::deg2rad(global->getGlobalParam()->mSilentAttackAng.ref());
     return attacker_mtx.getBase(2).dot(target_mtx.getBase(2)) >= sead::Mathf::cos(angle);
+}
+
+// NON_MATCHING: the compiler shares the frame-delta lookup between the two sign branches.
+void sub_710073852C(ksys::phys::CharacterController* controller, f32 ratio) {
+    if (!controller || !(ratio < 1.0f) ||
+        controller->sub_7100F5F0E4() != ksys::act::MotionType::_1)
+        return;
+    sead::Vector3f velocity;
+    controller->sub_7100F5F598(&velocity);
+    if (!(velocity.y > 0.0f))
+        return;
+    const f32 delta = ksys::VFR::instance()->getDeltaFrame();
+    const f32 factor = ratio < 0.0f ? -std::pow(-ratio, delta) : std::pow(ratio, delta);
+    velocity.y *= factor;
+    controller->sub_7100F5F6FC(velocity);
 }
 
 // NON_MATCHING: the two accessor stack slots are reversed.
