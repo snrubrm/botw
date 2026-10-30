@@ -29,6 +29,10 @@ class Resource;
 class WorkerMgr;
 }
 
+namespace uking::act {
+class DamageInfoMgr;
+}
+
 namespace uking::ai {
 class ChangeWeatherTagRoot;
 }
@@ -307,6 +311,8 @@ public:
     act::Unk_71024dd490* getChemicalMgrFieldAE8() const;
 
 private:
+    // Unk790::sub_7100672578 writes the existing weather request fields.
+    friend class uking::act::DamageInfoMgr;
     friend class uking::ai::ChangeWeatherTagRoot;
     friend class SkyMgr;  // SkyMgr::sub_71010E4FFC reads mTimer directly (0x71010e5068).
     friend class EnvMgr;  // EnvMgr::calcEntryJob reads mTimer directly (0x71010db0d4).

@@ -9,6 +9,38 @@
 
 namespace uking::act {
 
+void DamageInfoMgr::Unk790::sub_7100672578() {
+    if (mStatus == 0)
+        return;
+    if (!mLink.hasProc() || !sub_71006726DC(_4)) {
+        mLink.reset();
+        mStatus = 0;
+        _4 = -1;
+        _20.sub_7100710DE4();
+        mParams.mActorName = "";
+        mParams.mIgniteRotSpd = 0.0f;
+        mParams.mOffsetY = 6.0f;
+        mParams.mCenterOffsetXZ = 5.0f;
+        mParams.mRandRadius = 12.0f;
+        mParams.mIntervalMax = 20.0f;
+        mParams.mIntervalMin = 15.0f;
+        _20.sub_7100710890(s32(mParams.mIntervalMin), s32(mParams.mIntervalMax));
+        return;
+    }
+    if (mStatus != 2)
+        return;
+    auto* wm = ksys::world::Manager::instance();
+    if (!wm)
+        return;
+    wm->_798 = _4;
+    wm->_79c = 4;
+    wm->_7d5 = false;
+    if (mParams.mActorName.isEmpty())
+        _20.sub_7100710E3C();
+    else
+        _20.sub_7100710938();
+}
+
 bool DamageInfoMgr::Unk790::sub_71006726DC(s32 weather) {
     auto* wm = ksys::world::Manager::instance();
     if (!wm)
