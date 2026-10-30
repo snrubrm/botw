@@ -69,7 +69,10 @@ public:
         // here. Type 3 binds a MaterialAnimObj (0x7100bfe96c), while type 4 binds
         // a BoneVisibilityAnimObj (0x7100bfeb28), so retain their true common base.
         nn::g3d::ModelAnimObj* animObj;
-        u8 _18[0x30 - 0x18];
+        u8 _18[2];
+        // forceRebindMaterialAnm sets bit 0; applyMaterialAnm clears it after binding.
+        u16 flags;
+        u8 _1c[0x30 - 0x1c];
 
         AnimationAccessKey<MaterialAnmType> getKey() const { return key; }
     };
@@ -85,7 +88,10 @@ public:
         f32 weight;
         u8 _14[0x20 - 0x14];
         nn::g3d::AnimFrameCtrl* frameCtrl;
-        u8 _28[0xa8 - 0x28];
+        u8 _28[0xa0 - 0x28];
+        // forceRebindSkeletalAnm sets bit 1 on each skeletal slot.
+        u32 flags;
+        u8 _a4[4];
     };
 
     // initializeSkeletalAnm_ allocates 0x28-byte resource records at +0x60/+0x68.
@@ -141,10 +147,11 @@ public:
     static void destroy(ModelAnimation* animation);
     /// Number of material animations of `type` (the table at +0x80 holds the running end index per type).
     s32 getMaterialAnmNum(MaterialAnmType type) const;
-    /// 0x7100bfd768 (CSV name) / 0x7100bfddcc (unnamed): apply the skeletal / (probably) the material animations to a
-    /// model.
+    /// Apply the skeletal / material animations to a model.
     void applySkeletalAnm(Model* model);
-    void sub_7100BFDDCC(Model* model);
+    void applyMaterialAnm(Model* model);
+    void forceRebindSkeletalAnm();
+    void forceRebindMaterialAnm();
 
     /// 0x7100bfe384 (declared only): sets the frame of the animation set on slot `slot`.
     void setMaterialAnmFrame(int slot, f32 frame);

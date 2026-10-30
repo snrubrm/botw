@@ -4,6 +4,16 @@
 
 namespace gsys {
 
+void ModelAnimation::forceRebindSkeletalAnm() {
+    for (auto& animation : mSkeletalAnms)
+        animation.flags |= 2;
+}
+
+void ModelAnimation::forceRebindMaterialAnm() {
+    for (auto& animation : mMaterialAnms)
+        animation.flags |= 1;
+}
+
 nn::g3d::ResFile* ModelAnimation::searchResFile(AnimationAccessKey<SkeletalAnmType> key) const {
     if (!key.isValid())
         return nullptr;

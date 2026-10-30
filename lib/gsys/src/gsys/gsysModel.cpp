@@ -400,7 +400,7 @@ void Model::applyAnimationTo(Model* target, u32 flags) {
         if (flags & 1)
             mAnimation->applySkeletalAnm(target);
         if (flags & 2)
-            mAnimation->sub_7100BFDDCC(target);
+            mAnimation->applyMaterialAnm(target);
     }
 }
 
@@ -412,7 +412,7 @@ void Model::safeApplyAnimation(u32 flags) {
         if (flags & 1)
             mAnimation->applySkeletalAnm(this);
         if (flags & 2)
-            mAnimation->sub_7100BFDDCC(this);
+            mAnimation->applyMaterialAnm(this);
     }
 }
 
