@@ -249,6 +249,17 @@ bool NPC::sub_7100020E78() {
     return false;
 }
 
+bool NPC::sub_7100021178() {
+    for (s32 i = 0; i < 6; ++i) {
+        if (auto* weapon = getWeapons()->getEquippedWeapon(i)) {
+            const f32 value = weapon->m139();
+            if (value > 0.0f && value < 1.0f)
+                return true;
+        }
+    }
+    return false;
+}
+
 bool NPC::sub_71000228F8() {
     for (const auto& weapon : mWeapons.mWeapons) {
         ksys::act::acc::Weapon accessor;
