@@ -2025,7 +2025,6 @@ const sead::SafeString& sub_710072D6D4(ksys::act::Actor* actor, s32 index) {
     }
 }
 
-// NON_MATCHING: Parameter::ref emits separate object/value address additions.
 // NON_MATCHING: parameter value addresses use separate additions instead of the original offsets.
 f32 sub_710072D86C(ksys::act::Actor* actor, const s32& type) {
     switch (type) {
@@ -2044,6 +2043,7 @@ f32 sub_710072D86C(ksys::act::Actor* actor, const s32& type) {
     }
 }
 
+// NON_MATCHING: Parameter::ref emits separate object/value address additions.
 const sead::SafeString& sub_710072D7A0(ksys::act::Actor* actor, s32 index) {
     switch (index) {
     case 0:
