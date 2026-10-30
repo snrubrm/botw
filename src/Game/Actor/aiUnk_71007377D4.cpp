@@ -6,6 +6,8 @@
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actChemical.h"
+#include "KingSystem/ActorSystem/actGlobalParameter.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectGlobal.h"
 #include "KingSystem/Chemical/chmSystemConfig.h"
 #include "Game/gameUnk_71024739d0.h"
 #include "Game/gameSceneSubsys12.h"
@@ -2054,6 +2056,28 @@ f32 sub_710072D0D8(const sead::Vector3f& vector, f32 value) {
     if (sead::Mathf::equalsEpsilon(length, 0.0f))
         return sead::Mathf::infinity();
     return sead::Mathf::sqrt(value * 8.0f / length);
+}
+
+bool sub_710001A79C(const ksys::act::ActorLinkConstDataAccess& accessor,
+                    const ksys::act::ActorLinkConstDataAccess& other);
+
+// NON_MATCHING: the compiler schedules the angle and matrix loads in a different order.
+bool sub_7100735BF8(const ksys::act::ActorLinkConstDataAccess& accessor,
+                    const ksys::act::ActorLinkConstDataAccess& target) {
+    if (!target.hasTag(ksys::act::tags::AcceptSilentKill))
+        return false;
+    ksys::act::ActorLinkConstDataAccess target_access;
+    target_access.acquireActor(target);
+    if (target_access.sub_7100D10FB8() || target.sub_7100D10E6C(24) ||
+        (target.sub_7100D10E6C(25) && sub_710001A79C(target_access, accessor)))
+        return false;
+    const auto& attacker_mtx = accessor.getActorMtx();
+    const auto& target_mtx = target.getActorMtx();
+    auto* global = ksys::act::GlobalParameter::instance();
+    if (!global || !global->getGlobalParam())
+        return false;
+    const f32 angle = sead::Mathf::deg2rad(global->getGlobalParam()->mSilentAttackAng.ref());
+    return attacker_mtx.getBase(2).dot(target_mtx.getBase(2)) >= sead::Mathf::cos(angle);
 }
 
 // NON_MATCHING: the two accessor stack slots are reversed.
