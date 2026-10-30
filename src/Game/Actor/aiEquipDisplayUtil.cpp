@@ -41,6 +41,37 @@ bool sub_7100700A78(s32 slot) {
     return value[0] != '\0';
 }
 
+// NON_MATCHING: the original clamps the slot category before dispatch; this switch checks it directly.
+bool sub_7100700D5C(const sead::SafeString& name, s32 life,
+                    const uking::act::WeaponModifierInfo* modifier, s32 slot) {
+    if (slot < 0)
+        return false;
+    const s32 index = slot % 100;
+    switch (slot / 100) {
+    case 0:
+        ksys::gdt::setFlag_EquipStandSword_Slot(name, index);
+        ksys::gdt::setFlag_EquipStandSword_Life_Slot(life, index);
+        if (modifier)
+            modifier->saveEquipStandSwordFlag(index);
+        break;
+    case 1:
+        ksys::gdt::setFlag_EquipStandBow_Slot(name, index);
+        ksys::gdt::setFlag_EquipStandBow_Life_Slot(life, index);
+        if (modifier)
+            modifier->saveEquipStandBowFlag(index);
+        break;
+    case 2:
+        ksys::gdt::setFlag_EquipStandShield_Slot(name, index);
+        ksys::gdt::setFlag_EquipStandShield_Life_Slot(life, index);
+        if (modifier)
+            modifier->saveEquipStandShieldFlag(index);
+        break;
+    default:
+        return false;
+    }
+    return true;
+}
+
 // NON_MATCHING: the compiler combines the lower and upper bound checks.
 bool sub_7100700F1C(s32 slot) {
     if (slot < 0 || slot >= 300)
