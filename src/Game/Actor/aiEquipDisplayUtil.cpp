@@ -72,6 +72,15 @@ bool sub_7100700D5C(const sead::SafeString& name, s32 life,
     return true;
 }
 
+// NON_MATCHING: the compiler keeps the actor-name address in an extra saved register.
+bool sub_7100700E5C(ksys::act::Actor* actor, s32 slot) {
+    auto* weapon = sead::DynamicCast<uking::act::Weapon>(actor);
+    if (!weapon)
+        return false;
+    const s32* life = weapon->getLife();
+    return sub_7100700D5C(weapon->getName(), life ? *life : 1, &weapon->_f98, slot);
+}
+
 // NON_MATCHING: the compiler combines the lower and upper bound checks.
 bool sub_7100700F1C(s32 slot) {
     if (slot < 0 || slot >= 300)
