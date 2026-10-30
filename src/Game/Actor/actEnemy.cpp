@@ -766,6 +766,37 @@ Unk_710070ef50::Unk_710070ef50(ksys::act::Actor* actor)
       _10(ksys::phys::RayCast::NormalCheckingMode::_0), _14(-1.0f),
       _18(sead::GlobalRandom::instance()->getU32(0xffffffffu)), _1c(0), _1d(0), _1e(1) {}
 
+// NON_MATCHING: the compiler combines the final flag store and schedules the mask address differently.
+void Unk_710070ef50::sub_710070F228() {
+    using namespace ksys::phys;
+    if (_c != ContactLayerType::Entity) {
+        _c = ContactLayerType::Entity;
+        _8.makeAllZero();
+        _1e = 1;
+    } else if (_8.getDirect() == 1) {
+        return;
+    }
+    u32 bit = 1u << getContactLayerBaseRelativeValue(ContactLayer::EntityGround);
+    if (!_8.isOn(bit)) {
+        _8.set(bit);
+        _1e = 1;
+    }
+    bit = 1u << getContactLayerBaseRelativeValue(ContactLayer::EntityGroundRough);
+    if (!_8.isOn(bit)) {
+        _8.set(bit);
+        _1e = 1;
+    }
+    bit = 1u << getContactLayerBaseRelativeValue(ContactLayer::EntityGroundObject);
+    if (!_8.isOn(bit)) {
+        _8.set(bit);
+        _1e = 1;
+    }
+    bit = 1u << getContactLayerBaseRelativeValue(ContactLayer::EntityTree);
+    if (!_8.isOn(bit))
+        _8.set(bit);
+    _1e = 1;
+}
+
 void Unk_7100013308::sub_71002DBC8C(const ksys::act::BaseProcLink& link, const sead::Matrix34f* mtx,
                                     const sead::Vector3f* pos) {
     _8 = link;

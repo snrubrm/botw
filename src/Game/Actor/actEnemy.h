@@ -79,6 +79,8 @@ class Unk_710070ef50 {
 public:
     explicit Unk_710070ef50(ksys::act::Actor* actor);
     ~Unk_710070ef50();
+    // 0x710070f228: configure the entity contact layers used by this query.
+    void sub_710070F228();
 
     /* 0x00 */ ksys::act::Actor* mActor;
     /* 0x08 */ sead::BitFlag32 _8;
