@@ -57,6 +57,7 @@
 #include "KingSystem/ActorSystem/actBaseProcHandle.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectGiantArmorSlot.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpcEquipment.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectItem.h"
@@ -2025,6 +2026,24 @@ const sead::SafeString& sub_710072D6D4(ksys::act::Actor* actor, s32 index) {
 }
 
 // NON_MATCHING: Parameter::ref emits separate object/value address additions.
+// NON_MATCHING: parameter value addresses use separate additions instead of the original offsets.
+f32 sub_710072D86C(ksys::act::Actor* actor, const s32& type) {
+    switch (type) {
+    case 0:
+        return actor->getParam()->getRes().mGParamList->getEnemyRace()->mWeaponScaleSmallSword.ref();
+    case 1:
+        return actor->getParam()->getRes().mGParamList->getEnemyRace()->mWeaponScaleLargeSword.ref();
+    case 2:
+        return actor->getParam()->getRes().mGParamList->getEnemyRace()->mWeaponScaleSpear.ref();
+    case 3:
+        return actor->getParam()->getRes().mGParamList->getEnemyRace()->mWeaponScaleBow.ref();
+    case 4:
+        return actor->getParam()->getRes().mGParamList->getEnemyRace()->mWeaponScaleShield.ref();
+    default:
+        return 1.0f;
+    }
+}
+
 const sead::SafeString& sub_710072D7A0(ksys::act::Actor* actor, s32 index) {
     switch (index) {
     case 0:
