@@ -336,6 +336,13 @@ uking::act::LastBoss* sub_71002C6B30(const ksys::act::ActorLinkConstDataAccess& 
     return sead::DynamicCast<uking::act::LastBoss>(actor);
 }
 
+bool sub_71002C55F8(ksys::act::Actor* actor, f32 distance_squared) {
+    sead::Vector3f home;
+    actor->getHomePos(&home);
+    const sead::Vector3f diff = actor->getMtx().getTranslation() - home;
+    return diff.squaredLength() >= distance_squared;
+}
+
 bool sub_71002C6B0C(const ksys::act::ActorLinkConstDataAccess& accessor) {
     auto* boss = sub_71002C6B30(accessor);
     return boss ? boss->_14e4 == 1 : false;
