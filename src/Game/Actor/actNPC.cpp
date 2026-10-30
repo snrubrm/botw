@@ -260,6 +260,22 @@ bool NPC::sub_7100021178() {
     return false;
 }
 
+// NON_MATCHING: the compiler shares the failure paths and uses fewer saved registers.
+bool NPC::sub_71000212F4() {
+    bool has_weapon = false;
+    for (s32 i = 0; i < 6; ++i) {
+        ksys::act::ActorLinkConstDataAccess weapon;
+        auto& link = getWeapons()->mWeapons[i].link;
+        if (link.hasProc()) {
+            has_weapon = true;
+            ksys::act::acquireActor(&link, &weapon);
+            if (!weapon.sub_7100D0EFA4(1))
+                return false;
+        }
+    }
+    return has_weapon;
+}
+
 bool NPC::sub_71000228F8() {
     for (const auto& weapon : mWeapons.mWeapons) {
         ksys::act::acc::Weapon accessor;
