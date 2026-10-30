@@ -98,6 +98,35 @@ void sub_71007324E0(ksys::act::ActorLinkConstDataAccess* out, ksys::act::Actor* 
     out->acquire(actor);
 }
 
+// NON_MATCHING: accessor and body-name temporaries occupy different stack slots.
+void sub_7100732664(ksys::act::Actor* actor, ksys::act::BaseProcLink* link,
+                    ksys::phys::RigidBody* body, u32 mask, s32 value) {
+    ksys::act::ActorLinkConstDataAccess target;
+    if (!link->hasProc())
+        return;
+    ksys::act::acquireActor(link, &target);
+    if (target.sub_7100D12F08(-1))
+        return;
+
+    ksys::act::ActorLinkConstDataAccess source;
+    sub_71007324E0(&source, actor);
+    if (!source.hasProc())
+        return;
+    ksys::act::Chemical* chemical;
+    if (source.hasProc(actor)) {
+        chemical = body ? actor->sub_71011D8A54(body->getHkBodyName()) : nullptr;
+        if (!chemical)
+            chemical = actor->getChemicalStuff();
+        if (!chemical || chemical->sub_7100D91080())
+            return;
+    } else {
+        chemical = source.sub_7100D14E0C();
+        if (!chemical)
+            return;
+    }
+    target.sub_7100D12758(chemical, mask, value);
+}
+
 // Placement is inferred from the neighboring actor navigation helpers.
 // NON_MATCHING: vector and segment temporaries use different stack slots and scheduling.
 bool sub_710072C7A0(sead::Vector3f* out, ksys::act::Actor* actor) {

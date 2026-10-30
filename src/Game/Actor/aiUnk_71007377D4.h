@@ -690,7 +690,7 @@ bool sub_710073068C(ksys::act::Actor* actor, f32 min_height, f32 max_height, f32
 // Actor; original free/member/static scope is unresolved.
 void sub_71007324E0(ksys::act::ActorLinkConstDataAccess* out, ksys::act::Actor* actor);
 // Original owner is unknown; this existing free declaration represents the native call ABI only.
-/// 0x7100732664 (declaration only; called by PlayerOrEnemy::m73): the damage reaction event for one damage
+/// 0x7100732664 (called by PlayerOrEnemy::m73): the damage reaction event for one damage
 /// type; `mask` selects the event bits (0x1020202 >> ((type - 9) * 8)).
 void sub_7100732664(ksys::act::Actor* actor, ksys::act::BaseProcLink* link,
                     ksys::phys::RigidBody* body, u32 mask, s32 value);
