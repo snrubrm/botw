@@ -1,5 +1,9 @@
 #pragma once
 
+namespace sead {
+template <typename T> class Vector3;
+}
+
 namespace ksys::phys {
 class RigidBody;
 }
@@ -9,6 +13,9 @@ class Actor;
 }
 
 // GanonBeast helper TU at 0x71007028xx (lane1 s21). Placeholder name.
+
+// Writes the named weak point body position when found.
+void sub_7100702B20(sead::Vector3<float>* out, ksys::act::Actor* actor, int index);
 
 // 0x710070284c: the GanonBeast stage (0 - 3) of the actor, from its life (getLife(); 1 without a
 // life pointer): lookup table {3, 3, 2, 1, 1, 1, 0, 0, 0}, 0 when above 8.

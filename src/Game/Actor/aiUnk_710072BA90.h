@@ -24,4 +24,5 @@ void sub_710072BB28(ksys::act::Actor* actor);
 void sub_7100728B38(ksys::act::Actor* actor);
 
 // 0x7100728c40: forwards the real vector argument to actor motion/weapon helpers.
-void sub_7100728C40(ksys::act::Actor* actor, const sead::Vector3f& vector);
+// Bool return inferred from native result normalization; known callers discard it.
+bool sub_7100728C40(ksys::act::Actor* actor, const sead::Vector3f& vector);

@@ -2,10 +2,18 @@
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
 #include "Game/Actor/AI/aiStalEnemyRoot.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/actEnemy.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
+#include "Game/Actor/Damage/dmgInfoManager.h"
+#include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/aiUnk_710072BA90.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actTag.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -209,14 +217,64 @@ uking::ai::Unk_71024241a8* sub_7100726628(ksys::act::Actor* actor) {
     void* unit = nullptr;
     actor->getRootAi()->getAITreeVariable(&unit, "StalEnemyUnit");
     return sead::DynamicCast<uking::ai::Unk_71024241a8>(
-        *static_cast<Unk_71025afb58**>(unit));
+        static_cast<Unk_71025afb58*>(*static_cast<void**>(unit)));
 }
 
 uking::ai::Unk_71024241a8* sub_7100726FF4(ksys::act::Actor* actor) {
     void* unit = nullptr;
     actor->getRootAi()->getAITreeVariable(&unit, "StalEnemyUnit");
     return sead::DynamicCast<uking::ai::Unk_71024241a8>(
-        *static_cast<Unk_71025afb58**>(unit));
+        static_cast<Unk_71025afb58*>(*static_cast<void**>(unit)));
+}
+
+// NON_MATCHING: floating-point register allocation and operation scheduling differ.
+bool sub_7100726C64(ksys::act::Actor* actor, const ksys::act::BaseProcLink* link) {
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(link, &accessor);
+    if (!accessor.isStateCalc() || accessor.getLife() == 0)
+        return false;
+
+    auto* unit = sub_7100726FF4(actor);
+    const f32 range = unit ? unit->_c : 80.0f;
+    const f32 home_range = unit ? unit->_10 : 160.0f;
+    const f32 height = unit ? unit->_14 : 60.0f;
+    const auto pos = actor->getMtx().getTranslation();
+    const auto target = accessor.getActorMtx().getTranslation();
+    sead::Vector3f home;
+    actor->getHomePos(&home);
+    if (!(sead::Mathf::abs(target.y - pos.y) <= height))
+        return false;
+    const f32 dx = target.x - pos.x;
+    const f32 dz = target.z - pos.z;
+    if (!(dx * dx + dz * dz <= range * range))
+        return false;
+    const f32 home_dx = target.x - home.x;
+    const f32 home_dz = target.z - home.z;
+    return home_dx * home_dx + home_dz * home_dz <= home_range * home_range;
+}
+
+// NON_MATCHING: stack slots for the part name and AI tree variable are swapped.
+void sub_71007270BC(uking::act::Enemy* enemy) {
+    if (!enemy)
+        return;
+    if (enemy->getActorPartsActor("StalLeftArm").hasProc()) {
+        enemy->sub_710001692C();
+        return;
+    }
+    enemy->_f54.reset(0x18);
+    void* unit = nullptr;
+    enemy->getRootAi()->getAITreeVariable(&unit, "StalEnemyUnit");
+    auto* stal_unit =
+        sead::DynamicCast<uking::ai::Unk_71024241a8>(static_cast<Unk_71025afb58*>(*static_cast<void**>(unit)));
+    if (stal_unit && stal_unit->_8.isOnBit(1))
+        enemy->_f54.resetBit(2);
+}
+
+void sub_71007272A0(ksys::act::Actor* actor) {
+    const bool has_head = sub_7100726004(actor, 0);
+    auto* manager = actor->getDamageMgr();
+    if (sead::IsDerivedFrom<uking::act::DamageManager>(manager))
+        static_cast<uking::act::DamageManager*>(manager)->_216.change(8, has_head);
 }
 
 bool sub_7100726E54(ksys::act::Actor* actor) {
@@ -241,10 +299,37 @@ bool sub_71007271D4(ksys::act::Actor* actor) {
     void* unit = nullptr;
     actor->getRootAi()->getAITreeVariable(&unit, "StalEnemyUnit");
     auto* stal_unit =
-        sead::DynamicCast<uking::ai::Unk_71024241a8>(*static_cast<Unk_71025afb58**>(unit));
+        sead::DynamicCast<uking::ai::Unk_71024241a8>(static_cast<Unk_71025afb58*>(*static_cast<void**>(unit)));
     if (!stal_unit)
         return false;
     return stal_unit->_8.isOnBit(1);
+}
+
+// NON_MATCHING: the zero integer argument is materialized with a 32-bit register.
+void sub_7100728B38(ksys::act::Actor* actor) {
+    if (sub_71007271D4(actor))
+        uking::act::DamageInfoMgr::instance()->get450().sub_710065D674(actor, 1, true, true, 0);
+    sub_710073DE08(actor);
+    if (auto* awareness = actor->get548())
+        awareness->_18._50 = true;
+}
+
+bool sub_7100728C40(ksys::act::Actor* actor, const sead::Vector3f& velocity) {
+    if (!sub_71007271D4(actor))
+        return sub_71005D8748(actor, velocity, false, false, nullptr, false);
+
+    sead::Matrix34f matrix = actor->getMtx();
+    if (auto* controller = actor->getCharacterController())
+        controller->physicsXXXGetMtx_1(&matrix);
+    sead::Vector3f target;
+    target.setMul(matrix, sead::Vector3f::ey);
+    return sub_71005D88AC(actor, target, velocity, false, false, nullptr, false);
+}
+
+bool sub_7100728E00(ksys::act::Actor* actor, const sead::Vector3f& velocity) {
+    if (sub_71007271D4(actor))
+        return playerOrEnemyDropWeapon(actor, &velocity, 0, false, false, nullptr, false);
+    return sub_71005D8748(actor, velocity, false, false, nullptr, false);
 }
 
 void sub_71007282F8(ksys::act::Actor* actor,

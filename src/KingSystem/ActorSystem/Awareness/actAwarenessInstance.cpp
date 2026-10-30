@@ -187,6 +187,21 @@ bool AwarenessInstance::sub_7100D7E7E8() {
     return result;
 }
 
+void AwarenessInstance::sub_7100D7E5C4() {
+    _300 = 0;
+    _304 = -1;
+    for (s32 i = 0; i < 4; ++i) {
+        auto* sensor = _260[i];
+        if (!sensor || !sensor->_8.isBufferReady() || sensor->_8.size() < 1)
+            continue;
+        const u32 kind = u32(sub_7100D78E30(&sensor->_8, 0)->_a0);
+        if (u32(_300) < kind) {
+            _300 = s32(kind);
+            _304 = i;
+        }
+    }
+}
+
 bool AwarenessInstance::sub_7100D7E6F4(Unk_71023e2708* request, int idx) {
     if (auto* sensor = _260[idx]) {
         if (!sensor->m6(request))

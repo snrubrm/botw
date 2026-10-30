@@ -87,6 +87,8 @@ void sub_71007266F0(ksys::act::Actor* actor, ksys::act::BaseProcLink* out, bool 
 // Whether the Stalfos part `part` still has its parts actor (true if the actor isn't a Stalfos-parts
 // Enemy). CSV aiStalEnemyRootStuff_1.
 bool sub_7100726004(ksys::act::Actor* actor, u32 part);
+void sub_71007272A0(ksys::act::Actor* actor);
+void sub_71007270BC(uking::act::Enemy* enemy);
 // 0x71007260f4: clear/set flag 0x1000000 on the actor's ragdoll bone bodies.
 void sub_71007260F4(ksys::act::Actor* actor, bool clear);
 // sub_7100726004(actor, 0) (StalHead).
@@ -99,6 +101,7 @@ uking::ai::Unk_71024241a8* sub_7100726FF4(ksys::act::Actor* actor);
 
 // Whether the Stalfos left arm (part 1) is present: true if the actor isn't a Stalfos-parts Enemy
 // or has the TeamMoriblin tag. CSV aiLandHumEnemyUnarmedStuff.
+bool sub_7100726C64(ksys::act::Actor* actor, const ksys::act::BaseProcLink* link);
 bool sub_7100726E54(ksys::act::Actor* actor);
 // sub_7100726004(actor, 1) (StalLeftArm).
 bool sub_7100726F20(ksys::act::Actor* actor);
@@ -107,6 +110,7 @@ bool sub_7100726F20(ksys::act::Actor* actor);
 bool sub_7100726F28(ksys::act::Actor* actor);
 // Bit 1 of the "StalEnemyUnit" object's flags (false without the object).
 bool sub_71007271D4(ksys::act::Actor* actor);
+bool sub_7100728E00(ksys::act::Actor* actor, const sead::Vector3f& velocity);
 
 // 0x7100728640 (CSV aiStalPartStuff): whether the StalEnemyUnit has flag bit 1 and any of the parts
 // StalLeftArm..StalRib4 (table entries 1-6) of the Stalfos actor is present.

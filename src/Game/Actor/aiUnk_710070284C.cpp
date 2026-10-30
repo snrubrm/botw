@@ -4,6 +4,14 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Actor/aiUnk_71025b2d88.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+
+void sub_7100702B20(sead::Vector3f* out, ksys::act::Actor* actor, int index) {
+    sead::FixedSafeString<32> name;
+    name.format("WeakPoint%02d", index);
+    if (auto* body = actor->findPhysicsBodyByName(ksys::act::getStr_Tgt().cstr(), name.cstr()))
+        *out = body->getPosition();
+}
 
 int sub_710070284C(ksys::act::Actor* actor) {
     static const int sTable[] = {3, 3, 2, 1, 1, 1, 0, 0, 0};

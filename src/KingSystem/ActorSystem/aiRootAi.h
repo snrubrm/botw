@@ -111,6 +111,7 @@ public:
 
     // 0x7100d64ec8 (CSV RootAi::behaviorStuff): Behavior::x() of every behavior in the six update lists.
     void behaviorStuff();
+    void sub_7100D64F74(s32 timing, bool stopped);
     // 0x7100d66b48 (CSV RootAi::x): stores the two vectors and the value, sets RootAiFlag 9.
     void sub_7100D66B48(const sead::Vector3f& a, const sead::Vector3f& b, f32 value);
     void setBehavior(Behavior* behavior);

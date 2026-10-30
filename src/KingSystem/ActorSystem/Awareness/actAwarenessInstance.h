@@ -543,6 +543,7 @@ public:
     bool sub_7100D7E7E8();
     // 0x7100d7e6f4: passes `request` to the m6 of the sensor `_260[idx]`; on success recomputes the interest level.
     bool sub_7100D7E6F4(Unk_71023e2708* request, int idx);
+    void sub_7100D7E5C4();
     void sub_7100D7EAE4(int idx);
     // 0x7100d7e964: whether a sensor is active (else whether the instance is registered).
     bool sub_7100D7E964() const;

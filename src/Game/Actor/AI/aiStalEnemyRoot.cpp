@@ -17,8 +17,8 @@ StalEnemyRoot::~StalEnemyRoot() {
     auto* actor = mActor;
     sub_71007253C0(actor);
     sub_71007254A4(actor);
-    if (mStalEnemyUnit_a && *static_cast<Unk_71024241a8**>(mStalEnemyUnit_a) == &_2e8)
-        *static_cast<Unk_71024241a8**>(mStalEnemyUnit_a) = nullptr;
+    if (mStalEnemyUnit_a && *static_cast<void**>(mStalEnemyUnit_a) == &_2e8)
+        *static_cast<void**>(mStalEnemyUnit_a) = nullptr;
     if (_60) {
         delete _60;
         _60 = nullptr;

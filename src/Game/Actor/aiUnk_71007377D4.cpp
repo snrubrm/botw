@@ -784,6 +784,16 @@ void sub_710073DCB4(ksys::act::Actor* actor, int condition) {
     }
 }
 
+// NON_MATCHING: the transceiver call is devirtualized and payload selection / stack layout differ.
+void sub_710073D1A4(ksys::act::Actor* actor, ksys::act::Actor* item) {
+    ksys::act::BaseProcAccessor accessor;
+    sub_7100EE2800(&accessor, actor);
+    if (accessor.hasProc())
+        actor->getMessageTransceiver().sendMessage(*accessor.getMessageTransceiverId(),
+                                                   ksys::MessageType(0x8000070),
+                                                   item ? item : actor, true);
+}
+
 void sub_710073DE08(ksys::act::Actor* actor) {
     actor->sub_71011D0228(0x10);
     actor->sub_71011D0228(4);

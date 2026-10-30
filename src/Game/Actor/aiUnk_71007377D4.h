@@ -690,3 +690,6 @@ void sub_7100732664(ksys::act::Actor* actor, ksys::act::BaseProcLink* link,
                     ksys::phys::RigidBody* body, u32 mask, s32 value);
 void sub_710073278C(ksys::act::Actor* actor, ksys::act::BaseProcLink* link,
                    ksys::phys::RigidBody* body, int flags, int index);
+
+// Notifies the actor linked by ForSale; the second actor is an optional payload.
+void sub_710073D1A4(ksys::act::Actor* actor, ksys::act::Actor* item);

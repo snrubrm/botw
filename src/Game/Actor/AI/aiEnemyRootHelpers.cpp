@@ -2,9 +2,16 @@
 #include <prim/seadRuntimeTypeInfo.h>
 #include "KingSystem/ActorSystem/Profiles/actDynamicActor.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "Game/Actor/actHorseRideInfo.h"
 #include "KingSystem/ActorSystem/actUnk_71006ecc78.h"
+
+void sub_71007007E0(void* payload, ksys::act::Actor* actor,
+                    const ksys::act::ActorLinkConstDataAccess* accessor) {
+    actor->sendMessage(*accessor->getMessageTransceiverId(), ksys::MessageType(0x80000ca), payload,
+                       true);
+}
 
 Unk_7100700834::Unk_7100700834() : _0(0), _4(0), _8(0) {}
 

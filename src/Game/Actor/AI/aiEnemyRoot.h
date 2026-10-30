@@ -4,6 +4,14 @@
 #include "Game/Actor/aiUnk_7102357d20.h"
 #include "KingSystem/ActorSystem/actAiAi.h"
 
+namespace ksys::act {
+class ActorLinkConstDataAccess;
+}
+
+// Native caller passes a message payload, its actor, and an acquired actor accessor.
+void sub_71007007E0(void* payload, ksys::act::Actor* actor,
+                    const ksys::act::ActorLinkConstDataAccess* accessor);
+
 // Unnamed 12-byte object embedded in EnemyRoot (ctor 0x7100700834, dtor 0x7100700840; both in another
 // translation unit). Placeholder name is the ctor address.
 class Unk_7100700834 {

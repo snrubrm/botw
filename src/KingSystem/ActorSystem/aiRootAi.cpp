@@ -344,6 +344,17 @@ bool RootAi::getAITreeVariable2(bool** value, const sead::SafeString& key) const
     return getAITreeVariable(value, key);
 }
 
+void RootAi::sub_7100D64F74(s32 timing, bool stopped) {
+    for (auto* behavior = mBehaviorsByStopAndCalcTiming[1][timing]; behavior;
+         behavior = behavior->_18)
+        behavior->calc();
+    if (!stopped) {
+        for (auto* behavior = mBehaviorsByStopAndCalcTiming[0][timing]; behavior;
+             behavior = behavior->_18)
+            behavior->calc();
+    }
+}
+
 void RootAi::behaviorStuff() {
     for (auto& list : mBehaviorsByStopAndCalcTiming) {
         for (auto* head : list) {
