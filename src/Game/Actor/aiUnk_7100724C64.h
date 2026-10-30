@@ -60,6 +60,8 @@ bool sub_71007250E4(ksys::act::Actor* actor, u32 part);
 void sub_710072735C(ksys::act::Actor* actor, bool a1, bool a2);
 // 0x7100727aa0 (declared only; called by ForkStalEnemyGrabOwnPart::calc_).
 void sub_7100727AA0(ksys::act::Actor* actor, u32 part);
+// 0x7100727cfc: applies a named body-part operation; free scope and void return inferred.
+void sub_7100727CFC(ksys::act::Actor* actor, const char* name, bool present);
 
 const char* sub_71007251D0();
 const char* sub_71007251DC();

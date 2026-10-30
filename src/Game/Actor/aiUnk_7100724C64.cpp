@@ -219,6 +219,39 @@ bool sub_7100726620(ksys::act::Actor* actor) {
     return sub_7100726004(actor, 0);
 }
 
+// NON_MATCHING: the compiler shares the part-link lookup among the switch cases.
+void sub_7100727AA0(ksys::act::Actor* actor, u32 part) {
+    auto* enemy = sub_7100724D7C(actor);
+    if (!enemy)
+        return;
+    auto* unit = sub_7100726FF4(enemy);
+    if (!unit || !unit->_8.isOnBit(1))
+        return;
+    const char* part_name;
+    const char* body_name;
+    switch (part) {
+    case 1:
+        part_name = "StalLeftArm";
+        body_name = "ArmL";
+        break;
+    case 3:
+        part_name = "StalRib1";
+        body_name = "Rib1";
+        break;
+    case 4:
+        part_name = "StalRib2";
+        body_name = "Rib2";
+        break;
+    case 5:
+        part_name = "StalRib3";
+        body_name = "Rib3";
+        break;
+    default:
+        return;
+    }
+    sub_7100727CFC(enemy, body_name, enemy->getActorPartsActor(part_name).hasProc());
+}
+
 uking::ai::Unk_71024241a8* sub_7100726628(ksys::act::Actor* actor) {
     void* unit = nullptr;
     actor->getRootAi()->getAITreeVariable(&unit, "StalEnemyUnit");
