@@ -4,6 +4,11 @@
 #include <container/seadPtrArray.h>
 #include <hostio/seadHostIONode.h>
 
+namespace nn::g3d {
+class SkeletalAnimObj;
+class ModelAnimObj;
+}
+
 namespace gsys {
 
 class Model;
@@ -23,8 +28,10 @@ public:
     };
     static_assert(sizeof(InitArg) == 0x3b8);
 
-    // 0x7100c00724 (declared only): sets the current frame (Model::forceAutoAnimationFrame).
+    // 0x7100c00724: sets the current frame (Model::forceAutoAnimationFrame).
     void forceFrame(f32 frame);
+    // 0x7100c00900: copies the frames of corresponding animation objects.
+    void copyFrameTo(ModelAutoAnimation* other) const;
     // 0x7100c00718: updates the animation right away (Model::forceUpdateAutoAnimation).
     void forceUpdate();
     // 0x7100c00784 (CSV name; declared only)
@@ -34,10 +41,10 @@ private:
     friend class Model;
 
     ModelNW* mModel;
-    u64 _10 = 0;
-    u64 _18 = 0;
-    u64 _20 = 0;
-    u64 _28 = 0;
+    // initialize_ c000ec allocates these arrays and constructs skeletal objects
+    // for the first, and material or bone-visibility objects for the second.
+    sead::PtrArray<nn::g3d::SkeletalAnimObj> mSkeletalAnims;
+    sead::PtrArray<nn::g3d::ModelAnimObj> mMaterialAnims;
     f32 mFrameRate = 1.0f;
     u8 _34 = 8;
 
