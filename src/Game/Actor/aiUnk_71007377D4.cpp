@@ -83,6 +83,14 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h"
 #include <math/seadMathCalcCommon.h>
 
+// Free scope is inferred from the MotorcycleRoot caller.
+bool sub_71006F10A8(uking::act::PlayerBase* player) {
+    if (player->m202())
+        return true;
+    return player->_c44.isOnBit(17) && !player->m359() && player->m179() &&
+           !player->_c40.isOnBit(30);
+}
+
 // Free scope and reference form are inferred from the MotorcycleRoot caller.
 // NON_MATCHING: the original calls a forwarder to sub_7100923E74.
 bool sub_71006F1120(const sead::Vector3f& position) {
