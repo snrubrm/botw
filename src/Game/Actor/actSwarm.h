@@ -105,6 +105,8 @@ public:
         };
         KSYS_CHECK_SIZE_NX150(BodyState, 0x20);
 
+        bool sub_71002D7900(sead::Heap* heap, Actor* actor, ksys::phys::InstanceSet* instance,
+                            ksys::phys::RigidBodyFromShape* shape);
         void sub_71002D79BC(ksys::phys::InstanceSet* instance);
         void sub_71002D79D8(Unit* unit);
         void sub_71002D7A54();

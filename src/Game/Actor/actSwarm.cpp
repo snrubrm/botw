@@ -70,6 +70,23 @@ void Swarm::UnitBody::BodyState::sub_71002D782C() {
         _18->changePositionAndRotation(_10 ? _10->_8 : _8 ? _8->getMtx() : sead::Matrix34f::ident);
 }
 
+bool Swarm::UnitBody::sub_71002D7900(sead::Heap* heap, Actor* actor,
+                                     ksys::phys::InstanceSet* instance,
+                                     ksys::phys::RigidBodyFromShape* shape) {
+    _8._8 = actor;
+    auto* body = instance->sub_7100FC0580(shape, heap);
+    if (!body)
+        return false;
+    body->setCollisionInfo(shape->getCollisionInfo());
+    body->setContactPointInfo(shape->getContactPointInfo());
+    body->setUserTag(shape->getUserTag());
+    body->setSystemGroupHandler(instance->get188(int(body->getLayerType())));
+    _8._10 = nullptr;
+    _8._18 = body;
+    body->setTransform(_8._8 ? _8._8->getMtx() : sead::Matrix34f::ident);
+    return true;
+}
+
 void Swarm::UnitBody::sub_71002D79BC(ksys::phys::InstanceSet* instance) {
     auto* body = _8._18;
     _8._10 = nullptr;
