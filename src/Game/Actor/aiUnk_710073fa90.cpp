@@ -158,6 +158,20 @@ bool sub_7100740200(sead::Matrix33f* mtx, const sead::Vector3f& front, f32 a, f3
     return sub_710073FC58(mtx, target, axis, angle, a, b, c);
 }
 
+// NON_MATCHING: the normalized vector uses a different stack slot and branch layout.
+bool sub_71007402F4(sead::Matrix33f* mtx, const sead::Matrix33f& target,
+                   const sead::Vector3f& axis, s32 direction, f32 a, f32 b, f32 c) {
+    sead::Vector3f rotation = sead::Vector3f::zero;
+    ksys::util::sub_71011EF168(&rotation, *mtx, target, sead::Vector3f::ey);
+    f32 angle = rotation.normalize();
+    const f32 dot = rotation.dot(axis);
+    if ((direction == 1 && dot > 0.0f) || (direction != 1 && dot < 0.0f)) {
+        rotation = -rotation;
+        angle = sead::Mathf::pi2() - angle;
+    }
+    return sub_710073FC58(mtx, target, rotation, angle, a, b, c);
+}
+
 // NON_MATCHING: the builder-choice boolean uses a bit test rather than a zero comparison.
 bool sub_7100740464(sead::Matrix33f* mtx, const sead::Vector3f& front,
                    const sead::Vector3f& up, const sead::Vector3f& axis, s32 direction,
