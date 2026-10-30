@@ -686,8 +686,8 @@ bool sub_71007304CC(ksys::act::Actor* actor, const sead::Vector3f& target, f32 m
 bool sub_710073068C(ksys::act::Actor* actor, f32 min_height, f32 max_height, f32 max_distance,
                     f32 angle, f32 ray_height);
 
-// Declaration only: 0x71007324e0 selects the shield or source actor. Native argument order is
-// output accessor, Actor; original free/member/static scope is unresolved.
+// 0x71007324e0 selects the shield or source actor. Native argument order is output accessor,
+// Actor; original free/member/static scope is unresolved.
 void sub_71007324E0(ksys::act::ActorLinkConstDataAccess* out, ksys::act::Actor* actor);
 // Original owner is unknown; this existing free declaration represents the native call ABI only.
 /// 0x7100732664 (declaration only; called by PlayerOrEnemy::m73): the damage reaction event for one damage

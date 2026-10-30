@@ -78,6 +78,26 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h"
 #include <math/seadMathCalcCommon.h>
 
+// Signature and placement are inferred from the actor chemical interaction caller.
+void sub_71007324E0(ksys::act::ActorLinkConstDataAccess* out, ksys::act::Actor* actor) {
+    auto* weapons = actor->getWeapons();
+    if (!weapons) {
+        out->acquire(actor);
+        return;
+    }
+    ksys::act::acc::Weapon weapon;
+    for (auto& slot : weapons->mWeapons) {
+        if (!slot.link.hasProc())
+            continue;
+        ksys::act::acquireActor(&slot.link, &weapon);
+        if (weapon.isShield()) {
+            out->acquireActor(weapon);
+            return;
+        }
+    }
+    out->acquire(actor);
+}
+
 // Placement is inferred from the neighboring actor navigation helpers.
 // NON_MATCHING: vector and segment temporaries use different stack slots and scheduling.
 bool sub_710072C7A0(sead::Vector3f* out, ksys::act::Actor* actor) {
