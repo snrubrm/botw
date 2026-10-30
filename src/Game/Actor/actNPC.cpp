@@ -223,6 +223,18 @@ bool NPC::sub_71000228F8() {
     return false;
 }
 
+bool NPC::sub_7100022AA4() {
+    if (!(_fe8 & 4) || !sub_71000228F8())
+        return false;
+    if (auto* awareness = getAwareness()) {
+        auto* sensor = awareness->_260[2];
+        if (!sensor || !sensor->_50)
+            return false;
+    }
+    return sead::SafeString(getASList()->sub_710115ECF4(59, 1)) != "SitOnObject" &&
+           !(_fe8 & 0x10000);
+}
+
 bool NPC::sub_7100022B54() {
     if (!(_fe8 & 4))
         return false;

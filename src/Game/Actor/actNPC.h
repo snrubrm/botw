@@ -106,6 +106,8 @@ public:
 
     // Placeholder names (called by NPC AI code).
     bool sub_71000228F8();
+    // Receiver and member scope are inferred from the RTTI-checked NPC caller.
+    bool sub_7100022AA4();
     bool sub_7100022B54();
     // 0x7100022b9c: looks up the animation's scalar in the NPC's existing records.
     f32 sub_7100022B9C(const sead::SafeString& name) const;
