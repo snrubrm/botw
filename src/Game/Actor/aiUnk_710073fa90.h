@@ -78,7 +78,7 @@ void sub_71007447CC(ksys::act::BoneHandle* handle, const sead::Matrix34f& target
 // 0x71007448c0: moves the transform of the bone handle `handle` towards `target` by
 // `ratio` (BoneHandle::_68 / _98 blend). Placeholder name.
 void sub_71007448C0(ksys::act::BoneHandle* handle, const sead::Matrix34f& target, f32 ratio);
-// 0x7100744a54 (declaration only): the same with a target translation (Ragdoll::sub_7100226B04); the
+// 0x7100744a54: the same with a target translation (Ragdoll::sub_7100226B04); the
 // two last floats are ratios of the blend. Placeholder name.
 void sub_7100744A54(ksys::act::BoneHandle* handle, const sead::Vector3f& target, f32 ratio, f32 a,
                     f32 b);

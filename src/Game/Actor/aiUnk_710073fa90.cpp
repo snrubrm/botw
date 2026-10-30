@@ -33,6 +33,18 @@ void sub_71007448C0(ksys::act::BoneHandle* handle, const sead::Matrix34f& target
     handle->_68 = matrix;
 }
 
+// NON_MATCHING: matrix copies and frame-delta loads are scheduled differently.
+void sub_7100744A54(ksys::act::BoneHandle* handle, const sead::Vector3f& target, f32 ratio,
+                    f32 max_delta, f32 min_delta) {
+    sead::Matrix34f matrix = handle->_68;
+    sead::Vector3f translation = matrix.getTranslation();
+    const f32 delta = ksys::VFR::instance()->getDeltaFrame();
+    const f32 blend = ksys::VFR::getLerpFactor(ratio);
+    ksys::VFR::lerp(&translation, target, blend, delta * max_delta, delta * min_delta);
+    matrix.setTranslation(translation);
+    handle->_68 = matrix;
+}
+
 void sub_710073FA90(sead::Matrix33f* mtx, ksys::act::Actor* actor) {
     sub_710073FA94(mtx, actor);
 }
