@@ -7,6 +7,28 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/System/Timer.h"
+
+// 0x71007a0eb4: the ActorAtk contact history ring; free scope and void return inferred.
+// NON_MATCHING: the original removes all expired entries with one head/size update.
+void sub_71007A0EB4(
+    sead::RingBuffer<ksys::act::ActorAtk::Unk_710079e64c::HistoryEntry>* history) {
+    const s32 count = history->size();
+    bool all_expired = true;
+    for (s32 i = 0; i < count; ++i) {
+        auto& entry = (*history)(i);
+        if (entry._10 > 0.0f) {
+            ksys::Timer::update(&entry._10, -1.0f);
+            all_expired = false;
+        } else {
+            entry.actor_id = u32(-1);
+        }
+    }
+    if (all_expired) {
+        for (s32 i = 0; i < count; ++i)
+            history->dropFront();
+    }
+}
 
 namespace ksys::act {
 
