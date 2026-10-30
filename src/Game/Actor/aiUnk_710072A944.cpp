@@ -1,4 +1,5 @@
 #include "Game/Actor/aiUnk_710072A944.h"
+#include "Game/Actor/aiUnk_71007292A0.h"
 #include <random/seadGlobalRandom.h>
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actSwarm.h"
@@ -11,6 +12,16 @@
 #include "KingSystem/Resource/Actor/resResourceDrop.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+
+// 0x7100728f14: inferred free scope; operates on the Swarm's animation lists.
+void sub_7100728F14(uking::act::Swarm* swarm, const sead::SafeString& name, bool a3, bool a4,
+                    int slot, int bank);
+
+void sub_71007292A0(ksys::act::Actor* actor, const sead::SafeString& name, bool a3, bool a4,
+                    int slot, int bank) {
+    if (auto* swarm = sead::DynamicCast<uking::act::Swarm>(actor))
+        sub_7100728F14(swarm, name, a3, a4, slot, bank);
+}
 
 // NON_MATCHING: normalized direction components stay in FP registers instead of GP registers.
 void sub_7100729370(uking::act::Swarm* swarm, sead::Vector3f* direction, s32* count) {
