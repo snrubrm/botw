@@ -761,6 +761,17 @@ bool Enemy::m165(sead::BufferedSafeString* out) {
     return true;
 }
 
+// NON_MATCHING: the compiler inlines the nested Unk_710070ef50 constructor.
+Unk_7100013308::Unk_7100013308(ksys::act::Actor* actor)
+    : mActor(actor), _18(sead::Vector3f::zero), _24(sead::Matrix34f::ident),
+      _54(sead::Vector3f::zero), _7c(0), _80(actor), _a0(nullptr), _120(0) {
+    _80.sub_710070F228();
+    if (_80._1d != 1) {
+        _80._1d = 1;
+        _80._1e = 1;
+    }
+}
+
 Unk_710070ef50::Unk_710070ef50(ksys::act::Actor* actor)
     : mActor(actor), _c(ksys::phys::ContactLayerType::Entity),
       _10(ksys::phys::RayCast::NormalCheckingMode::_0), _14(-1.0f),
