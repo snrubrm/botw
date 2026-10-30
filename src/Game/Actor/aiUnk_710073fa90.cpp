@@ -1,13 +1,37 @@
 #include "Game/Actor/aiUnk_710073fa90.h"
+#include <cmath>
+#include <math/seadMatrixCalcCommon.h>
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/System/VFR.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actBoneHandle.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
 // The forwarding wrappers are kept apart from the functions they call (in aiUnk_710073fa94.cpp), as in the
 // original, where they are not inlined.
+
+// NON_MATCHING: the compiler copies the matrix through memcpy instead of paired vector loads.
+void sub_71007447CC(ksys::act::BoneHandle* handle, const sead::Matrix34f& target, f32 ratio) {
+    sead::Matrix34f matrix = handle->_68;
+    const sead::Vector3f translation = matrix.getTranslation();
+    const f32 blend = 1.0f - std::pow(1.0f - ratio, ksys::VFR::instance()->getDeltaFrame());
+    sead::Matrix34CalcCommon<f32>::slerpTo(matrix, matrix, target, blend);
+    matrix.setTranslation(translation);
+    handle->_68 = matrix;
+}
+
+// NON_MATCHING: the compiler copies the matrix through memcpy and uses a smaller stack frame.
+void sub_71007448C0(ksys::act::BoneHandle* handle, const sead::Matrix34f& target, f32 ratio) {
+    sead::Matrix34f matrix = handle->_68;
+    sead::Vector3f translation = matrix.getTranslation();
+    const f32 blend = ksys::VFR::getLerpFactor(ratio);
+    sead::Matrix34CalcCommon<f32>::slerpTo(matrix, matrix, target, blend);
+    ksys::VFR::lerp(&translation, target.getTranslation(), ratio);
+    matrix.setTranslation(translation);
+    handle->_68 = matrix;
+}
 
 void sub_710073FA90(sead::Matrix33f* mtx, ksys::act::Actor* actor) {
     sub_710073FA94(mtx, actor);

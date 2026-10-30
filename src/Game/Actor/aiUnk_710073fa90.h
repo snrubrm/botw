@@ -71,7 +71,11 @@ void sub_7100740E04(const sead::Matrix33f& mtx, ksys::phys::CharacterController*
 void sub_7100740E8C(const sead::Matrix33f& mtx, ksys::phys::RigidBody* body);
 void sub_7100740F1C(const sead::Matrix33f& mtx, ksys::act::Actor* actor);
 
-// 0x71007448c0 (declaration only): moves the transform of the bone handle `handle` towards `target` by
+// 0x71007447cc: blends the bone's rotation towards target, retaining its translation.
+// Source placement and the reference argument are inferred from the native caller and neighboring utilities.
+void sub_71007447CC(ksys::act::BoneHandle* handle, const sead::Matrix34f& target, f32 ratio);
+
+// 0x71007448c0: moves the transform of the bone handle `handle` towards `target` by
 // `ratio` (BoneHandle::_68 / _98 blend). Placeholder name.
 void sub_71007448C0(ksys::act::BoneHandle* handle, const sead::Matrix34f& target, f32 ratio);
 // 0x7100744a54 (declaration only): the same with a target translation (Ragdoll::sub_7100226B04); the
