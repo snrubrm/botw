@@ -1,4 +1,5 @@
 #include "Game/Actor/actNPC.h"
+#include <limits>
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resLoadRequest.h"
@@ -26,6 +27,21 @@ bool sub_7100713524(const ksys::act::Actor* actor, const ksys::act::BaseProcLink
     if (!DamageInfoMgr::instance())
         return true;
     return !DamageInfoMgr::sub_71006741E4(link, actor);
+}
+
+// NON_MATCHING: the loop reloads its bound and the substring result uses a different comparison.
+f32 NPC::sub_7100022B9C(const sead::SafeString& name) const {
+    if (mCurveSpeeds.isBufferReady()) {
+        for (s32 i = 0; i < mCurveSpeeds.size(); ++i) {
+            if (mCurveSpeeds[i].name == name) {
+                const f32 speed = mCurveSpeeds[i].speed;
+                if (!(speed < std::numeric_limits<f32>::epsilon()))
+                    return speed;
+                break;
+            }
+        }
+    }
+    return name.findIndex("Walk") >= 0 ? 1.309f : 2.356f;
 }
 
 bool NPC::isGoron(ksys::act::Actor* actor) {
@@ -134,11 +150,7 @@ void NPC::preDelete2_(const PreDeleteArg& arg) {
     (&_da0)->preDelete1();
     (&_da0)->preDelete2();
     _f88.sub_710091BA3C();
-    if (_10b8) {
-        operator delete[](static_cast<u8*>(_10b8) - 8);
-        _10b8 = nullptr;
-        _10b0 = 0;
-    }
+    mCurveSpeeds.freeBuffer();
     if (_10e0) {
         sub_7100E97D8C(_10e0);
         _10e0 = nullptr;

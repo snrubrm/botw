@@ -1,5 +1,6 @@
 #pragma once
 
+#include <container/seadBuffer.h>
 #include <math/seadMatrix.h>
 #include <math/seadVector.h>
 #include <prim/seadSafeString.h>
@@ -33,6 +34,12 @@ public:
         sead::Vector3f _0;
         sead::Vector3f _c;
     };
+
+    struct CurveSpeed {
+        sead::SafeString name;
+        f32 speed;
+    };
+    static_assert(sizeof(CurveSpeed) == 0x18);
 
     explicit NPC(const CreateArg& arg);
     // CSV NPC::construct: the actor factory function.
@@ -147,8 +154,7 @@ public:
     /* 0x10a4 */ f32 _10a4 = 0;  // WarpToAnchor::oneShot_ stores the warp target height here (bit copy)
     /* 0x10a8 */ f32 _10a8;  // read by NPCWait::calc_ (bit copy)
     /* 0x10ac */ u8 _10ac[0x10b0 - 0x10ac];
-    /* 0x10b0 */ u32 _10b0 = 0;
-    /* 0x10b8 */ void* _10b8 = nullptr;
+    /* 0x10b0 */ sead::Buffer<CurveSpeed> mCurveSpeeds;
     /* 0x10c0 */ void* _10c0 = nullptr;
     /* 0x10c8 */ u32 _10c8 = 0;
     /* 0x10d0 */ void* _10d0 = nullptr;
