@@ -247,7 +247,7 @@ void ModelSceneGI::drawPlanarReflection(agl::DrawContext* draw_context,
     if ((context->_3c9 & 0x20) == 0)
         return;
     mPlanarReflection->draw(draw_context, context->getViewIndex(), *context->getRenderBuffer());
-    context->mPassTextures[13] = &mPlanarReflection->getView(context->getViewIndex())._368;
+    context->mPassTextures[13] = &mPlanarReflection->getView(context->getViewIndex()).mSampler;
 }
 
 // 0x7100c34580
@@ -294,16 +294,16 @@ void ModelSceneGI::copyForLocalReflection(agl::DrawContext* draw_context,
     mLocalReflection->releasePreviousColorBuffer(context->getViewIndex());
 }
 
-// NON_MATCHING: same instructions; clang materialises the first view record's matrix address
-// before the projection call where the original keeps the record pointer.
+// NON_MATCHING: clang materialises the first camera matrix address before the projection call
+// where the original keeps the record pointer, and emits an extra move for the argument.
 // 0x7100c33e7c
 void ModelSceneGI::preCalcView(ModelSceneContext* context) {
     if (!mPlanarReflection || !_8->isFeatureEnabled(ModelSceneConfig::Feature::Reflection))
         return;
     mPlanarReflection->calcView(context->getViewIndex(), *context->_398->sub_7100B60CE0());
-    context->calcView(1, mPlanarReflection->getView(context->getViewIndex())._510,
+    context->calcView(1, mPlanarReflection->getView(context->getViewIndex()).mCamera.getMatrix(),
                       *context->_398->getRenderProjection(),
-                      mPlanarReflection->getView(context->getViewIndex())._510);
+                      mPlanarReflection->getView(context->getViewIndex()).mCamera.getMatrix());
 }
 
 // 0x7100c34040
