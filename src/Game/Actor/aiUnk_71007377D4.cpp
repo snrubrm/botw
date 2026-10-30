@@ -17,6 +17,7 @@
 #include "Game/gameUnk_71024739d0.h"
 #include "Game/gameSceneSubsys12.h"
 #include "Game/Actor/actDragon.h"
+#include "Game/Actor/actCameraUtil.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
@@ -42,6 +43,7 @@
 #include "KingSystem/XLink/xlinkInfoData.h"
 #include "KingSystem/ActorSystem/actInfoData.h"
 #include "KingSystem/ActorSystem/actReaction.h"
+#include "KingSystem/System/CameraS1.h"
 
 #include "KingSystem/Map/mapPlacementMgr.h"
 #include "KingSystem/Terrain/teraSystem.h"
@@ -80,6 +82,13 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectBow.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h"
 #include <math/seadMathCalcCommon.h>
+
+// Free scope and reference form are inferred from the MotorcycleRoot caller.
+// NON_MATCHING: the original calls a forwarder to sub_7100923E74.
+bool sub_71006F1120(const sead::Vector3f& position) {
+    auto* camera = sub_7100923E74();
+    return camera && (camera->getPos() - position).squaredLength() < 16.0f;
+}
 
 f32 sub_71007320F0(ksys::act::Actor* actor, int weapon_idx) {
     if (weapon_idx < 0)
