@@ -2,18 +2,6 @@
 
 namespace gsys {
 
-void SnapshotTexture::initialize() {
-    _28 = false;
-    mNode.erase();
-}
-
-void SnapshotTexture::retake() {
-    mManager->entry(this);
-    mCamera.setPos(mPosition);
-    mCamera.setAt(mTarget);
-    mCamera.updateViewMatrix();
-}
-
 // 0x7100c60824
 SnapshotTextureMgr::SnapshotTextureMgr() {}
 
@@ -26,9 +14,13 @@ void SnapshotTextureMgr::setRenderQueue(ModelRenderQueue* queue0, ModelRenderQue
     mRenderQueues[1] = queue1;
 }
 
-// 0x7100c84618
-bool SnapshotTexture::checkEnableToDraw() {
-    return true;
+void SnapshotTextureMgr::entry(SnapshotTexture* texture) {
+    texture->initialize();
+    mTextures.pushBack(&texture->mNode);
+    if (!texture->mManager) {
+        mUnk38.pushBack(&texture->mOtherNode);
+        texture->mManager = this;
+    }
 }
 
 // 0x7100c60c94

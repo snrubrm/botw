@@ -27,6 +27,7 @@ public:
     bool checkEnableToDraw();
 
 private:
+    friend class SnapshotTextureMgr;
     u8 _0[0x28];
     /* 0x028 */ bool _28;
     u8 _29[0x50 - 0x29];
