@@ -3,6 +3,7 @@
 #include "Game/Actor/aiUnk_710001A69C.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/aiUnk_71024f15c0.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
@@ -24,6 +25,7 @@
 #include "Game/gameSceneSubsys14.h"
 #include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapRail.h"
 #include "KingSystem/GameData/gdtManager.h"
 #include "Game/AOC/aocHardModeManager.h"
 #include "Game/Actor/actUnk_71025ae680.h"
@@ -74,6 +76,31 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectBow.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h"
 #include <math/seadMathCalcCommon.h>
+
+// Placement is inferred from the neighboring actor navigation helpers.
+// NON_MATCHING: vector temporaries and return branches use different stack slots and scheduling.
+bool sub_710072C9FC(ksys::act::Actor* actor, f32 distance) {
+    if (!sub_71005D9F04(actor))
+        return false;
+    const sead::Vector3f position = actor->getMtx().getTranslation();
+    sead::Vector3f home;
+    actor->getHomePos(&home);
+    if ((home - position).squaredLength() <= distance * distance)
+        return true;
+    auto* rail = sub_7100EEF034(actor, 0);
+    if (!rail)
+        return false;
+    const f32 progress = sub_7100EEF7AC(rail, position, false, 0.2f, -0.0f);
+    sead::Vector3f rail_position;
+    rail->calcTranslate(&rail_position, progress);
+    if ((rail_position - position).squaredLength() <= 4.0f)
+        return true;
+    const sead::Vector3f from{std::numeric_limits<f32>::quiet_NaN(),
+                              std::numeric_limits<f32>::quiet_NaN(),
+                              std::numeric_limits<f32>::quiet_NaN()};
+    return sub_710072F28C(actor, from, rail_position, nullptr, nullptr, -1, true, 2.0f, -1.0f,
+                           -1.0f);
+}
 
 void sub_710072C1B4(ksys::phys::CharacterController* controller, const sead::Vector3f& up) {
     ksys::act::sub_7100EE60AC(controller, up);
