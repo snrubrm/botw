@@ -182,6 +182,12 @@ bool sub_71007259CC(ksys::act::Actor* actor, const sead::SafeString& material, b
     return true;
 }
 
+void sub_7100725AC4(ksys::act::Actor* actor, u32 part, const sead::SafeString& names) {
+    if (names.isEmpty())
+        return;
+    sub_7100725B20(actor, names, sub_7100726004(actor, part));
+}
+
 bool sub_7100726004(ksys::act::Actor* actor, u32 part) {
     auto* enemy = sub_7100724D7C(actor);
     if (!enemy)

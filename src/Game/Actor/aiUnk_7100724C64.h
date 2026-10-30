@@ -80,6 +80,11 @@ bool sub_7100725960(ksys::act::Actor* actor, const sead::SafeString& material, b
 // The same operation on the formatted "%s_Seal" material name (native 0x7101dc12a6).
 bool sub_71007259CC(ksys::act::Actor* actor, const sead::SafeString& material, bool visible);
 
+// StalEnemyBlownOff passes a part index and its head/arm ragdoll name list.
+// Free scope and void return are inferred from the native caller.
+void sub_7100725AC4(ksys::act::Actor* actor, u32 part, const sead::SafeString& names);
+void sub_7100725B20(ksys::act::Actor* actor, const sead::SafeString& names, bool present);
+
 // 0x71007266f0 (CSV aiStalEnemyRootStuff; declared only): finds the Stalfos' head actor (written to `out`).
 // Placeholder name; the meaning of `flag` is unknown.
 void sub_71007266F0(ksys::act::Actor* actor, ksys::act::BaseProcLink* out, bool flag);
