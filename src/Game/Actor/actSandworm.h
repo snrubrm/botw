@@ -34,7 +34,9 @@ struct Unk_71007237d0Part {
     /* 0xe0 */ u32 _e0;
     // Bone local matrix copied by the Dragon part groups (Unk_7102357188::m0 0x710000f228).
     /* 0xe4 */ sead::Matrix34f _e4;
-    /* 0x114 */ u8 _114[0x148 - 0x114];
+    /* 0x114 */ u8 _114[0x140 - 0x114];
+    /* 0x140 */ f32 _140;
+    /* 0x144 */ u8 _144[4];
 };
 KSYS_CHECK_SIZE_NX150(Unk_71007237d0Part, 0x148);
 

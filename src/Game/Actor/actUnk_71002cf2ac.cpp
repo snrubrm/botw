@@ -677,6 +677,12 @@ bool Unk_71007237d0::sub_7100723A84(const sead::SafeString& name) {
     return _8.search(model, name);
 }
 
+void Unk_71007237d0::sub_7100723E04(bool on) {
+    const s32 count = _70.size();
+    for (s32 i = 0; i < count; ++i)
+        _70[i]._140 = on ? static_cast<f32>(count - i) / static_cast<f32>(count) : 1.0f;
+}
+
 void Unk_71007237d0::sub_710072479C() {
     const s32 num_parts = _70.size();
     for (s32 i = 0; i < num_parts; ++i)
