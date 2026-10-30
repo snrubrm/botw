@@ -12,6 +12,8 @@ struct WeaponModifierInfo;
 
 // Shared EquipDisplay helpers; source placement and the bone helper's reference argument are inferred
 // from their native callers and neighboring functions.
+// The EquipStandSlot consumers use categories 0-2 and 3 for an invalid slot; scope inferred.
+s32 sub_7100700A4C(s32 slot);
 bool sub_7100700A78(s32 slot);
 // Argument reference and const qualification are inferred from the weapon caller and flag setters.
 bool sub_7100700D5C(const sead::SafeString& name, s32 life,

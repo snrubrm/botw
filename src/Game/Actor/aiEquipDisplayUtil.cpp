@@ -8,6 +8,14 @@
 #include "KingSystem/GameData/gdtSpecialFlags.h"
 #include "KingSystem/GameData/gdtTriggerParam.h"
 
+// NON_MATCHING: the compiler combines the negative-slot return with the category selection.
+s32 sub_7100700A4C(s32 slot) {
+    if (slot < 0)
+        return 3;
+    const s32 category = slot / 100;
+    return category < 3 ? category : 3;
+}
+
 // NON_MATCHING: the compiler combines the bounds checks and schedules the slot arithmetic differently.
 bool sub_7100700A78(s32 slot) {
     if (slot < 0 || slot >= 300)
