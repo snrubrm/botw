@@ -18,6 +18,7 @@
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
+#include "KingSystem/XLink/xlinkXLink.h"
 
 Unk_71024511a8::Unk_71024511a8() = default;
 
@@ -338,6 +339,29 @@ void sub_710072735C(ksys::act::Actor* actor, bool update, bool update_damage) {
             else
                 body->removeFromWorld();
         }
+    }
+}
+
+// NON_MATCHING: the compiler schedules material and slot temporaries differently.
+void sub_71007275C8(uking::act::Enemy* enemy) {
+    if (!enemy)
+        return;
+    auto* unit = sub_7100726FF4(enemy);
+    const bool extended_parts = unit && unit->_8.isOnBit(1);
+    auto& head = enemy->getActorPartsActor("StalHead");
+    if (!extended_parts) {
+        sub_7100725960(enemy, "Mt_Head", head.hasProc());
+        if (auto* xlink = enemy->getXLink())
+            xlink->_cc.changeBit(25, !head.hasProc());
+    }
+    sub_7100725960(enemy, "Mt_Eye", head.hasProc());
+    sub_7100725960(enemy, "Mt_Arm_L", enemy->getActorPartsActor("StalLeftArm").hasProc());
+    if (extended_parts) {
+        sub_7100725960(enemy, "Mt_Chin", enemy->getActorPartsActor("StalChin").hasProc());
+        sub_7100725960(enemy, "Mt_Rib_1", enemy->getActorPartsActor("StalRib1").hasProc());
+        sub_7100725960(enemy, "Mt_Rib_2", enemy->getActorPartsActor("StalRib2").hasProc());
+        sub_7100725960(enemy, "Mt_Rib_3", enemy->getActorPartsActor("StalRib3").hasProc());
+        sub_7100725960(enemy, "Mt_Rib_4", enemy->getActorPartsActor("StalRib4").hasProc());
     }
 }
 
