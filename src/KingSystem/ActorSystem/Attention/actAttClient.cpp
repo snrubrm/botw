@@ -31,6 +31,13 @@ AttClient::~AttClient() {
     _38.freeBuffer();
 }
 
+bool AttClient::sub_7100D723EC(const sead::SafeString& name) {
+    if (!mClient)
+        return false;
+    const sead::FormatFixedSafeString<64> system_name("%s%s", "SystemOn", name.cstr());
+    return system_name == mClient->name.ref();
+}
+
 const sead::SafeString& AttClient::getName() const {
     return mClient->name.ref();
 }

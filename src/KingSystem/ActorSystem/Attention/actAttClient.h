@@ -64,6 +64,7 @@ public:
     bool sub_7100D72364() const;
     // 0x7100d723dc: `mMode = mode` for modes 0-2.
     void sub_7100D723DC(s32 mode);
+    bool sub_7100D723EC(const sead::SafeString& name);
     // 0x7100d724f4 / 0x7100d7251c: `_58` and `_58 & mask`.
     u32 sub_7100D724F4() const;
     bool sub_7100D7251C(u32 mask) const;
