@@ -250,25 +250,25 @@ void Swarm::m74() {
 }
 
 void Swarm::m114(bool update, bool) {
-    if (auto* list = _14d8) {
+    if (auto* list = _14d8[0]) {
         list->sub_710115C634(isSpecialJobTypesMaskOverride0());
         list->sub_710115C6F0();
         list->sub_710115C7A8(false);
         list->sub_710115C8D8(update, false);
     }
-    if (auto* list = _14e0) {
+    if (auto* list = _14d8[1]) {
         list->sub_710115C634(isSpecialJobTypesMaskOverride0());
         list->sub_710115C6F0();
         list->sub_710115C7A8(false);
         list->sub_710115C8D8(update, false);
     }
-    if (auto* list = _14e8) {
+    if (auto* list = _14d8[2]) {
         list->sub_710115C634(isSpecialJobTypesMaskOverride0());
         list->sub_710115C6F0();
         list->sub_710115C7A8(false);
         list->sub_710115C8D8(update, false);
     }
-    if (auto* list = _14f0) {
+    if (auto* list = _14d8[3]) {
         list->sub_710115C634(isSpecialJobTypesMaskOverride0());
         list->sub_710115C6F0();
         list->sub_710115C7A8(false);
@@ -278,14 +278,14 @@ void Swarm::m114(bool update, bool) {
 
 void Swarm::m63() {
     Enemy::m63();
-    if (_14d8)
-        _14d8->sub_710115A9C0();
-    if (_14e0)
-        _14e0->sub_710115A9C0();
-    if (_14e8)
-        _14e8->sub_710115A9C0();
-    if (_14f0)
-        _14f0->sub_710115A9C0();
+    if (_14d8[0])
+        _14d8[0]->sub_710115A9C0();
+    if (_14d8[1])
+        _14d8[1]->sub_710115A9C0();
+    if (_14d8[2])
+        _14d8[2]->sub_710115A9C0();
+    if (_14d8[3])
+        _14d8[3]->sub_710115A9C0();
     // NON_MATCHING: loop entry only: the original tests size <= 0 (cmp w8,#0; b.le); every natural
     // loop form (for/while/do-while, <=, hoisted bound, s64/u32 index) compiles to cmp w8,#1; b.lt
     // (probed with the project toolchain)
@@ -318,20 +318,20 @@ bool Swarm::startPreparingForPreDelete_() {
 Swarm::~Swarm() = default;
 
 // NON_MATCHING: store schedule only: the original stores the units buffer pointer (_14d0) first, we merge it into
-// the zeroing of _14d8 .. _14f0
+// the zeroing of _14d8[0] .. _14d8[3]
 ksys::act::BaseProc* Swarm::construct(const CreateArg& arg, sead::Heap* heap) {
     return new (heap, std::nothrow) Swarm(arg);
 }
 
 void Swarm::m68() {
-    if (_14d8)
-        _14d8->sub_710115CA28();
-    if (_14e0)
-        _14e0->sub_710115CA28();
-    if (_14e8)
-        _14e8->sub_710115CA28();
-    if (_14f0)
-        _14f0->sub_710115CA28();
+    if (_14d8[0])
+        _14d8[0]->sub_710115CA28();
+    if (_14d8[1])
+        _14d8[1]->sub_710115CA28();
+    if (_14d8[2])
+        _14d8[2]->sub_710115CA28();
+    if (_14d8[3])
+        _14d8[3]->sub_710115CA28();
     Actor::m68();
 }
 
@@ -340,14 +340,14 @@ void Swarm::m76(ksys::VFR::ScopedDeltaSetter* setter) {
     if (mActorFlags2.isOn(ActorFlag2::_1) || mActorFlags2.isOn(ActorFlag2::_40) ||
         !mSpecialJobTypesMaskOverride.isOnBit(0))
         return;
-    if (_14d8)
-        _14d8->sub_710115C53C();
-    if (_14e0)
-        _14e0->sub_710115C53C();
-    if (_14e8)
-        _14e8->sub_710115C53C();
-    if (_14f0)
-        _14f0->sub_710115C53C();
+    if (_14d8[0])
+        _14d8[0]->sub_710115C53C();
+    if (_14d8[1])
+        _14d8[1]->sub_710115C53C();
+    if (_14d8[2])
+        _14d8[2]->sub_710115C53C();
+    if (_14d8[3])
+        _14d8[3]->sub_710115C53C();
 }
 
 void Swarm::setMtx(const sead::Matrix34f& mtx, bool a2, bool a3) {

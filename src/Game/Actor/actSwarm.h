@@ -176,10 +176,7 @@ public:
     static_assert(sizeof(BodyInfo) == 0x30);
     bool sub_71002D47D8(s32 idx) const;
 
-    /* 0x14d8 */ ksys::as::ASList* _14d8 = nullptr;
-    /* 0x14e0 */ ksys::as::ASList* _14e0 = nullptr;
-    /* 0x14e8 */ ksys::as::ASList* _14e8 = nullptr;
-    /* 0x14f0 */ ksys::as::ASList* _14f0 = nullptr;
+    /* 0x14d8 */ ksys::as::ASList* _14d8[4]{};
     /* 0x14f8 */ sead::SafeArray<BodyInfo, 4> _14f8;
     /* 0x15b8 */ sead::Matrix34f _15b8;  // the inverse of the actor matrix (setMtx)
     /* 0x15e8 */ sead::Buffer<UnitBody> _15e8;

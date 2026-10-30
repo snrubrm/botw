@@ -7,15 +7,28 @@
 #include "Game/Actor/aiUnk_710073fa90.h"
 #include "KingSystem/Utils/MathUtil.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
 #include "KingSystem/Resource/Actor/resResourceDrop.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 
-// 0x7100728f14: inferred free scope; operates on the Swarm's animation lists.
+// 0x7100728f14: free scope inferred from its callers and the Swarm receiver.
 void sub_7100728F14(uking::act::Swarm* swarm, const sead::SafeString& name, bool a3, bool a4,
-                    int slot, int bank);
+                    int slot, int bank) {
+    for (s32 i = 0; i < 4; ++i) {
+        auto* list = swarm->_14d8[i];
+        if (!list || (a3 && list->x_1(0, 0) == name))
+            continue;
+        list->startAnimationMaybe(-1.0f, -1.0f, name, slot, bank, true);
+        if (!a4) {
+            const f32 frame = list->x_5(slot, bank, &ksys::as::ASList::Unk2::sub_710116323C);
+            list->x_3(slot, bank, &ksys::as::ASList::Unk2::sub_7101163298,
+                      frame * f32(i) * 0.25f);
+        }
+    }
+}
 
 void sub_71007292A0(ksys::act::Actor* actor, const sead::SafeString& name, bool a3, bool a4,
                     int slot, int bank) {
