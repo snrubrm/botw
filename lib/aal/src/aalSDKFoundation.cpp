@@ -5,6 +5,19 @@
 
 namespace aal {
 
+SDKFoundation::InitializeArg::InitializeArg()
+    : _0(4), _8(0x4000), _10(0x20000), _18(3), _20(0x4000), _28(1.0f), _30(0),
+      _38(5), _40{}, mArchivePath(nullptr), _50(0), _58(1), _5c(32000), _60(96),
+      _64(0x20000) {}
+
+// NON_MATCHING: the native fixed string setup repeats its empty-character store.
+SDKFoundation::SDKFoundation() : mIsInitialized(false), mHeap(nullptr) {}
+
+SDKFoundation::~SDKFoundation() {
+    finalize();
+}
+
+
 static nn::audio::AudioDeviceName sDeviceNames[3];
 
 // 0x7100ba0c20
