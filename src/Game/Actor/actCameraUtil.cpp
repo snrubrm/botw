@@ -1,4 +1,6 @@
 #include "Game/Actor/actCameraUtil.h"
+#include "Game/Framework/gameSystemStruct1.h"
+#include "Game/gameRoot4.h"
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actHorseBase.h"
@@ -22,6 +24,17 @@
 #include "KingSystem/Physics/System/physQueryContactPointInfo.h"
 
 bool sub_7100EE7168(const ksys::map::Object* obj, sead::Matrix34f* out);
+bool sub_7100EE9CE8();
+
+bool sub_710092732C() {
+    if (!sub_7100EE9CE8())
+        return false;
+    auto* controller = uking::frm::SystemStruct1::getInstance();
+    if (!controller || !controller->_80)
+        return false;
+    auto* root = uking::Root4::instance();
+    return !root || root->checkFlag(uking::Root4::FlagIdx::_3);
+}
 
 // Camera parameter globals (in .data / .bss). Nothing in the binary writes them or takes their
 // address, yet the loads are not folded and do not go through the GOT: hidden visibility (as for
