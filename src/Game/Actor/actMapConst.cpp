@@ -4,7 +4,18 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 
-bool sub_7100700428(const sead::Matrix34f& lhs, const sead::Matrix34f& rhs, f32 epsilon);
+// Placement is inferred from the MapConst consumer.
+// NON_MATCHING: the compiler shares early-return paths and schedules comparisons differently.
+bool sub_7100700428(const sead::Matrix34f& lhs, const sead::Matrix34f& rhs, f32 epsilon) {
+    for (int row = 0; row < 3; ++row) {
+        for (int col = 0; col < 4; ++col) {
+            const f32 difference = lhs.m[row][col] - rhs.m[row][col];
+            if (!(difference <= epsilon && difference >= -epsilon))
+                return false;
+        }
+    }
+    return true;
+}
 
 namespace uking::act {
 
