@@ -730,3 +730,22 @@ const char* Unk_71024f1658::sub_7100EEEE88(ksys::act::Actor* actor) {
     const auto& getter = sBackwardEntryPoints[back];
     return (traveler->*getter)().cstr();
 }
+
+namespace ksys::act {
+
+s32 sub_7100EEF690(map::Rail* rail, const sead::Vector3f* position) {
+    const auto& path = *rail;
+    f32 closest_distance = (*position - path.getPoint(0)->getTranslate()).length();
+    s32 closest = 0;
+    const s32 count = path.getNumPoints();
+    for (s32 i = 1; i < count; ++i) {
+        const f32 distance = (*position - path.getPoint(i)->getTranslate()).length();
+        if (distance < closest_distance) {
+            closest_distance = distance;
+            closest = i;
+        }
+    }
+    return closest;
+}
+
+}  // namespace ksys::act
