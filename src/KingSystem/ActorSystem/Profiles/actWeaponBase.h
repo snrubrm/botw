@@ -329,6 +329,8 @@ public:
     void sub_7100EFB53C(gsys::Model* model) const;
     // 0x7100efb798: `_ab0` is set.
     bool sub_7100EFB798() const;
+    // 0x7100efb63c: updates a weapon model with the supplied parent.
+    void sub_7100EFB63C(Actor* parent, bool include_optional) const;
 
 protected:
     ksys::act::WeaponBase* getWeapon() const;

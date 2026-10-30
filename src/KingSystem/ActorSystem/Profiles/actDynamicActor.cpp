@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "Game/Actor/actUnk_71025ae680.h"
+#include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actDropData.h"
@@ -284,6 +285,14 @@ bool ActorLinkConstDataAccess::isBgGroundHit() const {
     debugLog(1, "isBgGroundHit");
     debugLog(2, "isBgGroundHit");
     return ::isBgGroundHit(actor, false);
+}
+
+void ActorLinkConstDataAccess::sub_71006DEC90(Actor* actor, s32 index) const {
+    auto* proc = static_cast<Actor*>(getProcIfActor(mProc));
+    if (!proc)
+        return;
+    if (auto* dynamic_actor = sead::DynamicCast<DynamicActor>(proc))
+        ::sub_71005DC208(actor, dynamic_actor, index);
 }
 
 void Unk_71006e4478::sub_71006E4478(BaseProcLink* link, const sead::Matrix34f& mtx) {

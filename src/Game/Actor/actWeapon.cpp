@@ -1,4 +1,5 @@
 #include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/actActorBind.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyFromShape.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
 #include "KingSystem/Physics/physMaterialMask.h"
@@ -576,6 +577,33 @@ bool Weapon::m223(s32* out) {
     }
     *out = 0;
     return false;
+}
+
+// NON_MATCHING: the enemy scale loads and multiplies are scheduled differently.
+void Weapon::sub_71002E474C() {
+    if (hasParentActor())
+        return;
+    if (!get1a0() && (!getMapObject() ||
+                      !getMapObject()->getFlags0().isOn(ksys::map::Object::Flag0::_20000)))
+        return;
+    auto* binding = getModelBindInfo();
+    if (!binding)
+        return;
+    auto* parent = binding->sub_7100D3C5E0(this);
+    if (!parent)
+        return;
+
+    if (ksys::act::isNPCProfile(parent)) {
+        const sead::Vector3f base_scale(_d5c, _d60, _d64);
+        const f32 scale = sub_7100EF3A50(parent, _9f8);
+        setScale(base_scale * scale);
+    } else if (ksys::act::isEnemyProfile(parent)) {
+        const f32 equip_scale = getParam()->getRes().mGParamList->getWeaponCommon()->mEnemyEqScale.ref();
+        const sead::Vector3f base_scale(_d5c * equip_scale, _d60 * equip_scale, _d64 * equip_scale);
+        const s32 weapon_type = _cf0;
+        const f32 race_scale = sub_710072D86C(parent, weapon_type);
+        setScale(base_scale * race_scale);
+    }
 }
 
 bool Weapon::m197(sead::SafeString* out) {

@@ -243,6 +243,8 @@ public:
         bool sub_71006726DC(s32 weather);
         bool sub_7100672B00(ksys::act::Actor* actor) const;
         bool sub_7100672B1C(ksys::act::Actor* actor) const;
+        // WizzrobeCombat passes this receiver; constness is inferred.
+        bool sub_7100672B38();
         void sub_7100672888(ksys::act::Actor* actor);
         // 0x71006727e4 (CSV name): links `proc` (status 1, weather `weather`) unless an actor is already linked.
         bool tryAcquireWizzrobeWeatherRequest(ksys::act::BaseProc* proc, s32 weather);
@@ -408,6 +410,7 @@ private:
 public:
     /* 0x11eb */ sead::SafeArray<s8, 4> _11eb;  // per-core counters (ForceConfront behavior; Player::sub_710086C928 reads [3] signed)
     // Enemy::m73 (0x7100018128) asks the +0xce0 attack-permission list whether the enemy may attack.
+    UnkCe0& getUnkCe0() { return mUnkCe0; }
     const UnkCe0& getUnkCe0() const { return mUnkCe0; }
 
 private:

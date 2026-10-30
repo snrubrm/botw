@@ -56,6 +56,12 @@ void Unk_71006f3044::sub_71006F3BC4(const sead::Vector3f* dir) {
     sub_71002C7D1C(accessor, *dir);
 }
 
+f32 Unk_71006f3044::sub_71006F3C14() {
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&sub_71006F3934(), &accessor);
+    return sub_71002C7E48(accessor);
+}
+
 // NON_MATCHING: the sound manager is loaded before the actor ID query, requiring an extra saved value.
 bool Unk_71006f3044::sub_71006F38A4(ksys::act::Actor* actor) {
     if (_b8)

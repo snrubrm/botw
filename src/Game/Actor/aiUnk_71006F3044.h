@@ -38,6 +38,7 @@ public:
     // 0x71006f3bc4: looks up the beam actor via sub_71006F3934 and passes `dir`
     // to it.
     void sub_71006F3BC4(const sead::Vector3f* dir);
+    f32 sub_71006F3C14();
     bool sub_71006F38A4(ksys::act::Actor* actor);
     // 0x71006f3a6c: empty.
     void sub_71006F3A6C();

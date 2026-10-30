@@ -176,7 +176,7 @@ public:
     /* 0xce8 */ u64 _ce8 = 0;
     /* 0xcf0 */ u32 _cf0 = 0;
     /* 0xcf8 */ ksys::phys::MaterialMask _cf8;
-    /* 0xd10 */ u32 _d10 = 0;
+    /* 0xd10 */ f32 _d10 = 0.0f;
     /* 0xd14 */ f32 _d14 = 50.0f;
     /* 0xd18 */ s32 _d18 = -1;
     /* 0xd1c */ sead::Vector3f _d1c;
@@ -192,3 +192,4 @@ KSYS_CHECK_SIZE_NX150(LineBeam, 0xd58);
 
 // 0x71002c7d1c (lane4 s44; placeholder name): sets LineBeam::_cc8 of the accessor's actor (nothing if it is not a LineBeam).
 void sub_71002C7D1C(const ksys::act::ActorLinkConstDataAccess& accessor, const sead::Vector3f& value);
+f32 sub_71002C7E48(const ksys::act::ActorLinkConstDataAccess& accessor);

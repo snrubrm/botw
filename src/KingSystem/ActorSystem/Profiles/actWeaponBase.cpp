@@ -11,6 +11,7 @@
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actOptionalWeapon.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/ActorSystem/actActorBind.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -1407,6 +1408,30 @@ void WeaponBase::m228(BaseProc* proc) const {
 void WeaponBase::sub_7100EFB53C(gsys::Model* model) const {
     if (auto* weapon = getWeapon())
         weapon->sub_71011C5630(model);
+}
+
+void WeaponBase::sub_7100EFB63C(Actor* parent, bool include_optional) const {
+    auto* weapon = getWeapon();
+    if (!weapon)
+        return;
+
+    auto* bind = weapon->getModelBindInfo();
+    if (bind)
+        bind->_20 = parent;
+    weapon->updateModelMatrix();
+    if (bind)
+        bind->_20 = nullptr;
+
+    if (!include_optional)
+        return;
+    if (auto* optional = weapon->m162()) {
+        auto* optional_bind = optional->getModelBindInfo();
+        if (optional_bind)
+            optional_bind->_20 = parent;
+        optional->updateModelMatrix();
+        if (optional_bind)
+            optional_bind->_20 = nullptr;
+    }
 }
 
 bool WeaponBase::sub_7100EFB798() const {

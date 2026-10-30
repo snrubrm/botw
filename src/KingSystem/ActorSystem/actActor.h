@@ -842,6 +842,8 @@ public:
     void nullsub_4648();
     // 0x71011c88c0: copies `mtx` to mPhysicsMtx (if any) and sets ActorFlag::_2.
     void sub_71011C88C0(const sead::Matrix34f& mtx);
+    // 0x71011cb528: updates the actor model matrix.
+    void updateModelMatrix();
     // 0x71011d6c14 (CSV name): InstanceSet::setFlag2() if the actor has physics.
     void actorPhysicsSetFlag2();
     void unlinkPlacementObj();

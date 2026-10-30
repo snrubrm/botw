@@ -299,6 +299,8 @@ public:
     bool x_6();
     // 0x71002e4374: bit7 of _e50, or a type3 weapon with a connected calc child.
     bool sub_71002E4374();
+    // 0x71002e474c: updates scale from the bound NPC or enemy.
+    void sub_71002E474C();
     s32 getShieldGuardPower();
     f32 getShieldSurfingFriction();
     s32 getAttackPower();

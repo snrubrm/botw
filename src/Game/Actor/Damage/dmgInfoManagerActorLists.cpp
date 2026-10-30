@@ -67,6 +67,11 @@ bool DamageInfoMgr::Unk790::sub_7100672B1C(ksys::act::Actor* actor) const {
     return mStatus == 1 && mLink.hasProcById(actor);
 }
 
+bool DamageInfoMgr::Unk790::sub_7100672B38() {
+    auto* wm = ksys::world::Manager::instance();
+    return wm && wm->_798 != -1;
+}
+
 bool DamageInfoMgr::Unk790::tryAcquireWizzrobeWeatherRequest(ksys::act::BaseProc* proc, s32 weather) {
     while (mLock.load() == 1) {
     }

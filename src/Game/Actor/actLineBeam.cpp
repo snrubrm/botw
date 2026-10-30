@@ -72,3 +72,10 @@ void sub_71002C7D1C(const ksys::act::ActorLinkConstDataAccess& accessor, const s
         beam->_cc8 = value;
     }
 }
+
+f32 sub_71002C7E48(const ksys::act::ActorLinkConstDataAccess& accessor) {
+    auto* actor = static_cast<ksys::act::Actor*>(getProcIfActor(accessor.getProc()));
+    if (auto* beam = sead::DynamicCast<uking::act::LineBeam>(actor))
+        return beam->_d10;
+    return 0.0f;
+}

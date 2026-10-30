@@ -256,6 +256,8 @@ public:
     // E37B10 appends a body to the spare element buffer and binds holder / actor state.
     void sub_7100E37B10(s32 index, phys::RigidBody* body, Actor* actor,
                        Unk_71024dd490* holder, Unk_7101265a6c* state, sead::Heap* heap);
+    // 0x7100e37be4: forwards a user tag to each active element.
+    void sub_7100E37BE4(phys::UserTag* tag);
     // 0x7100e37eb0: binds ActorX6A0's state to each chemical element.
     void init2(Unk_7101265a6c* state);
 

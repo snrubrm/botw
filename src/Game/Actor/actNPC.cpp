@@ -1,4 +1,5 @@
 #include "Game/Actor/actNPC.h"
+#include "Game/Actor/Damage/dmgInfoManager.h"
 #include "KingSystem/Resource/resHandle.h"
 #include "KingSystem/Resource/resLoadRequest.h"
 #include "KingSystem/Mii/miiNetfp.h"
@@ -6,6 +7,8 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/Mii/miiUMii.h"
 
@@ -16,6 +19,14 @@ void sub_7100D2D424(uking::act::DamageManagerBase* manager);
 // 0x7100e97d8c (unnamed in the CSV): frees the object returned by NPC::m119 (phantoms and the
 // physics helper arrays) and runs its deleting destructor.
 void sub_7100E97D8C(void* obj);
+
+// The callers pass the NPC and its target link; namespace scope is inferred.
+// NON_MATCHING: the compiler normalizes the inverted result instead of using the native branches.
+bool sub_7100713524(const ksys::act::Actor* actor, const ksys::act::BaseProcLink* link) {
+    if (!DamageInfoMgr::instance())
+        return true;
+    return !DamageInfoMgr::sub_71006741E4(link, actor);
+}
 
 bool NPC::isGoron(ksys::act::Actor* actor) {
     return actor && actor->getUMii() &&
@@ -57,6 +68,33 @@ void NPC::setEquippedWeaponsJobsPaused(bool on) {
         weapon->sub_7100EF91B0(on, true);
     if (auto* weapon = getWeapons()->getEquippedWeapon(5))
         weapon->sub_7100EF91B0(on, true);
+}
+
+// NON_MATCHING: the unrolled checks use different branch and boolean accumulation.
+bool NPC::sub_7100020F44() {
+    bool any = false;
+    for (int i = 0; i < 6; ++i) {
+        ksys::act::acc::WeaponBase weapon;
+        auto& link = getWeapons()->mWeapons[i].link;
+        if (!link.hasProc())
+            continue;
+        ksys::act::acquireActor(&link, &weapon);
+        if (!weapon.sub_7100EFB798())
+            return false;
+        any = true;
+    }
+    return any;
+}
+
+void NPC::sub_7100021AB4() {
+    for (int i = 0; i < 6; ++i) {
+        ksys::act::acc::WeaponBase weapon;
+        auto& link = getWeapons()->mWeapons[i].link;
+        if (link.hasProc()) {
+            ksys::act::acquireActor(&link, &weapon);
+            weapon.sub_7100EFB63C(this, true);
+        }
+    }
 }
 
 void NPC::m79() {

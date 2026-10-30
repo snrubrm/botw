@@ -906,6 +906,15 @@ void ActorChemicals::sub_7100E3762C(Unk_71024dd490* holder) {
     }
 }
 
+// NON_MATCHING: the element tag update is inlined and the loop index code differs.
+void ActorChemicals::sub_7100E37BE4(phys::UserTag* tag) {
+    const auto lock = sead::makeScopedLock(mCS);
+    for (int i = 0; i < _58.size() + _80; ++i) {
+        if (auto* element = getElement_(i))
+            element->sub_7100E3B6D8(tag);
+    }
+}
+
 // NON_MATCHING: the loop-end element count is widened before addition.
 void ActorChemicals::init2(Unk_7101265a6c* state) {
     const auto lock = sead::makeScopedLock(mCS);

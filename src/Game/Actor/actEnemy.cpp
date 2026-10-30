@@ -12,6 +12,7 @@
 #include <prim/seadScopedLock.h>
 #include "Game/Actor/actRideable.h"
 #include "Game/Actor/actHorseBase.h"
+#include "Game/Actor/actHorseRideInfo.h"
 #include "Game/Actor/actWeapon.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -29,6 +30,7 @@
 #include "KingSystem/GameData/gdtManager.h"
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemy.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectEnemyRace.h"
@@ -478,6 +480,37 @@ void Enemy::m73() {
     }
     sub_71006E3340(&_12e0, this);
     PlayerOrEnemy::m73();
+}
+
+// NON_MATCHING: list iteration and final boolean return use different branches.
+bool Enemy::startPreparingForPreDelete_() {
+    if (!PlayerOrEnemy::startPreparingForPreDelete_())
+        return false;
+
+    _f60.sub_7100701D4C();
+    for (auto it = _1110.robustBegin(); it != _1110.robustEnd(); ++it)
+        _1110.erase(&*it);
+
+    if (_e82 & 2) {
+        if (auto* mgr = DamageInfoMgr::instance())
+            mgr->getUnkCe0().sub_7100673064(this, 2);
+        _e82 &= ~2;
+    }
+    if (_1250)
+        _1250->sub_71006F81F0();
+    if (_10f8) {
+        auto* rider = sead::DynamicCast<ksys::act::Actor>(
+            _10f8->_18.getProc(nullptr, _10f8->mActor));
+        if (rider)
+            rider->deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+    }
+    if (auto* physics = getPhysics()) {
+        if (auto* controller = physics->getCharacterController()) {
+            if (controller->sub_7100F5E954())
+                return controller->sub_7100F5ECC4();
+        }
+    }
+    return true;
 }
 
 // Dispatches the registered effect callbacks (lane5's Unk_71023b30d8 family: single Actor*
