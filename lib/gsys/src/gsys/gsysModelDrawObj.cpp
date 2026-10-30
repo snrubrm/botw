@@ -13,7 +13,9 @@ ModelDrawObj::ModelDrawObj()
       mDynamicEnvInfo(nullptr) {}
 
 ModelDrawObj::~ModelDrawObj() {
-    delete mDynamicEnvInfo;
+    // initialize 0x7100c00c94 constructs this object in a MemBuffer, so only destroy it here.
+    if (mDynamicEnvInfo)
+        mDynamicEnvInfo->~ModelDynamicEnvInfo();
     if (_8 == 0)
         delete _20;
 }
@@ -29,7 +31,7 @@ void ModelDrawObj::setInstanceValue(f32 value) {
         _20->setDataIndexed(_8 * _c + i, 2, &value);
 }
 
-agl::lght::LocalLightMapObj* ModelDrawObj::getReferenceLocalLightMapObj() const {
+const agl::lght::LocalLightMapObj* ModelDrawObj::getReferenceLocalLightMapObj() const {
     if (!mDynamicEnvInfo)
         return nullptr;
     return mDynamicEnvInfo->getReferenceLocalLightMapObj();

@@ -45,7 +45,7 @@ public:
     // 0x7100c00c94 (declared only; body U): initializes `count` records in `array`.
     static void initialize(ModelDrawObj* array, int count, const CreateArg& arg, sead::Heap* heap);
 
-    agl::lght::LocalLightMapObj* getReferenceLocalLightMapObj() const;
+    const agl::lght::LocalLightMapObj* getReferenceLocalLightMapObj() const;
     // 0x7100c01038 (declared only; body U): applies the instance transform to each instance.
     void updateMtx(const sead::Vector3f& position, f32 radius, const sead::Matrix34f& matrix);
     // 0x7100c012f4: writes the value to slot 2 of each of this object's `_c` uniform block

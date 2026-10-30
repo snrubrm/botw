@@ -835,7 +835,7 @@ s32 ModelNW::getSubMeshRangeNum(s32 type, s32 count) {
     return type > 1 ? count + 1 : (count + 1) / 2 + 1;
 }
 
-agl::lght::LocalLightMapObj* ModelNW::getReferenceLocalLightMapObj() const {
+const agl::lght::LocalLightMapObj* ModelNW::getReferenceLocalLightMapObj() const {
     return mDynamicEnvInfo ? mDynamicEnvInfo->getReferenceLocalLightMapObj() : nullptr;
 }
 

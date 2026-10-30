@@ -66,7 +66,7 @@ public:
     struct BoneCallbackArg;
 
     static s32 getSubMeshRangeNum(s32 type, s32 count);
-    agl::lght::LocalLightMapObj* getReferenceLocalLightMapObj() const;
+    const agl::lght::LocalLightMapObj* getReferenceLocalLightMapObj() const;
 
     void calcBounding() override;
     static void BoneVisibilityCallback(nn::g3d::ModelObj*, int);
