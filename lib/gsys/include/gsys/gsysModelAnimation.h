@@ -157,8 +157,11 @@ public:
     void setMaterialAnmFrame(int slot, f32 frame);
 
     void setMaterialAnmByKey(int slot, AnimationAccessKey<MaterialAnmType> key, f32 frame);
-    sead::SafeString sub_7100BFDF8C(int slot) const;
-    sead::SafeString sub_7100BFDC84(AnimationAccessKey<MaterialAnmType> key) const;
+    // NON_MATCHING: the compiler combines the two validity checks and uses a different index
+    // extension. The slot-name spelling is a guess from its callers.
+    sead::SafeString getMaterialAnmSlotName(int slot) const;
+    // NON_MATCHING: the compiler uses a different invalid-index comparison and index extension.
+    sead::SafeString getMaterialAnmName(AnimationAccessKey<MaterialAnmType> key) const;
 
     AnimationAccessKey<MaterialAnmType> searchMaterialAnmKey(
         MaterialAnmType type, const sead::SafeString& name) const;

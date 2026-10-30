@@ -4,6 +4,22 @@
 
 namespace gsys {
 
+sead::SafeString ModelAnimation::getMaterialAnmName(AnimationAccessKey<MaterialAnmType> key) const {
+    if (!key.isValid())
+        return sead::SafeString::cEmptyString;
+    s32 index = key.index;
+    if (key.type != 0)
+        index += mMaterialAnmEnd[key.type - 1];
+    return mMaterialAnmResources[index].resource->name;
+}
+
+sead::SafeString ModelAnimation::getMaterialAnmSlotName(int slot) const {
+    auto key = mMaterialAnms[slot].getKey();
+    if (!key.isValid())
+        return sead::SafeString::cEmptyString;
+    return getMaterialAnmName(key);
+}
+
 void ModelAnimation::forceRebindSkeletalAnm() {
     for (auto& animation : mSkeletalAnms)
         animation.flags |= 2;

@@ -117,12 +117,12 @@ void GraphicsAsset::m15(Context* ctx, BoneBlendState* state, const res::ASResour
 
     msg.appendWithFormat("セット中アニメ\n");
     for (s32 i = 0; i != num_anms; ++i) {
-        msg.appendWithFormat("%s.%s\n", animation->sub_7100BFDF8C(i).cstr(),
+        msg.appendWithFormat("%s.%s\n", animation->getMaterialAnmSlotName(i).cstr(),
                              sMaterialAnmTypeNames[u32(animation->getMaterialAnms()[i]
                                                          .getKey()
                                                          .type)]);
     }
-    msg.appendWithFormat("あぶれ %s.%s\n", animation->sub_7100BFDC84(mKey).cstr(),
+    msg.appendWithFormat("あぶれ %s.%s\n", animation->getMaterialAnmName(mKey).cstr(),
                          sMaterialAnmTypeNames[u32(_14)]);
 }
 
