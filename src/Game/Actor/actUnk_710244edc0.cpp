@@ -8,6 +8,8 @@
 #include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/physDefines.h"
 #include "KingSystem/Resource/Actor/resResourceDamageParam.h"
+#include "KingSystem/World/worldManager.h"
+#include "KingSystem/World/worldWeatherMgr.h"
 
 namespace uking::act {
 
@@ -149,6 +151,38 @@ bool Unk_710244edc0::sub_71006E9780() {
         }
     }
     return _30._30 && (_30._34 == 0 || _30._34 == 1);
+}
+
+void Unk_710244edc0::sub_71006E8E04() {
+    bool affected = false;
+    if (auto* world = ksys::world::Manager::instance()) {
+        if (auto* weather_mgr = world->getWeatherMgrMaybe()) {
+            const auto weather = weather_mgr->getWeather();
+            // This predicate observes the low byte of the signed weather request.
+            affected = u8(weather) < ksys::world::NumWeatherTypes &&
+                       (weather == ksys::world::WeatherType::HeavySnow ||
+                        u8(world->getWeatherRequest()) == 2);
+        }
+    }
+    if (affected && !_68) {
+        auto* chemical = _10->getChemicalStuff();
+        if (!chemical || (chemical->_c0 != 2 && (chemical->_b8 & 4) == 0)) {
+            if (_8.isOnBit(1))
+                return;
+            auto* param = sub_71006DF5A4();
+            if (!param || param->mHeavySnowColdTime.ref() < 0)
+                return;
+            param = sub_71006DF5A4();
+            if (!param || param->mHeavySnowColdTime.ref() < 0)
+                return;
+            param = sub_71006DF5A4();
+            _20 = param ? f32(param->mHeavySnowColdTime.ref()) : -1.0f;
+            _8.setBit(1);
+            return;
+        }
+    }
+    if (_8.isOnBit(1))
+        m13(1);
 }
 
 void Unk_710244edc0::sub_71006E8F20() {

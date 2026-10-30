@@ -109,6 +109,8 @@ class Manager : public sead::hostio::Node {
 
 public:
     WeatherType getWeatherType() const;
+    // Inline-only name is a guess: Unk790 writes the request; world weather consumers read it as s32.
+    s32 getWeatherRequest() const { return _798; }
     void setWeatherType(u32 weather_type, bool x, bool y, bool for_demo);
     void setWeatherType(const sead::SafeString& weather_type, bool x, bool y, bool for_demo);
     static const char* getWeatherTypeString(u32 type);
