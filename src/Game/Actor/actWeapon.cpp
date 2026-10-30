@@ -110,6 +110,18 @@ bool emitActorGetDemoSound(const sead::SafeString& name);
 // Source ownership is unknown; declaration only.
 void emitItemKirakira_Plus(sead::Vector3f position, bool flag);
 
+// Native 0x71025bf308: six weapon profile names shared with Weapon::init1 and the type parser.
+// The original table's source scope and initializer owner are unknown.
+extern sead::SafeString sUnk_71025bf308[6];
+
+s32 getWeaponTypeId(const sead::SafeString& profile) {
+    for (s32 i = 0; i < 6; ++i) {
+        if (profile == sUnk_71025bf308[i])
+            return i;
+    }
+    return -1;
+}
+
 namespace uking::act {
 
 // 0x7100d2d424 (unnamed in the CSV): unregisters the damage callbacks and frees the callback table.
