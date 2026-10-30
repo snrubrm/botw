@@ -30,16 +30,25 @@ private:
     friend class SnapshotTextureMgr;
     u8 _0[0x28];
     /* 0x028 */ bool _28;
-    u8 _29[0x50 - 0x29];
+    u8 _29[0x30 - 0x29];
+    // The texture, perspective parameters, direct matrices and mode below are read by
+    // SnapshotTextureMgr::setUpViewInfo 0x7100c60b8c; their names describe those uses.
+    /* 0x030 */ agl::TextureData* mTexture;
+    u8 _38[0x50 - 0x38];
     /* 0x050 */ sead::Vector3f mPosition;
     /* 0x05c */ sead::Vector3f mTarget;
-    u8 _68[0x88 - 0x68];
+    /* 0x068 */ f32 mNear;
+    /* 0x06c */ f32 mFar;
+    /* 0x070 */ f32 mFovy;
+    u8 _74[0x88 - 0x74];
     /* 0x088 */ sead::LookAtCamera mCamera;
     /* 0x0e8 */ SnapshotTextureMgr* mManager;
-    u8 _f0[0x160 - 0xf0];
+    /* 0x0f0 */ sead::Matrix34f mDirectView;
+    /* 0x120 */ sead::Matrix44f mDirectProjection;
     /* 0x160 */ sead::TListNode<SnapshotTexture*> mNode;
     /* 0x180 */ sead::TListNode<SnapshotTexture*> mOtherNode;
-    u8 _1a0[0x1fc - 0x1a0];
+    u8 _1a0[0x1fb - 0x1a0];
+    /* 0x1fb */ bool mUseDirectView;
 };
 
 class SnapshotTextureMgr : public sead::hostio::Node {
@@ -68,6 +77,8 @@ public:
     void entry(SnapshotTexture* texture);
 
 private:
+    void setUpViewInfo(const SnapshotTexture* texture);
+
     /* 0x08 */ sead::TList<SnapshotTexture*> mTextures;
     /* 0x20 */ sead::TList<SnapshotTexture*> mUnk20;
     /* 0x38 */ sead::TList<SnapshotTexture*> mUnk38;
