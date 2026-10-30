@@ -1,10 +1,10 @@
 #include "Game/Actor/Action/actionEquipDisplayGet.h"
+#include "Game/Actor/aiEquipDisplayUtil.h"
 #include "Game/Actor/aiActorLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
 
 // Original global names retained; the source namespaces of these helpers are unknown.
 bool sub_7100700A78(s32 slot);
-bool sub_7100700F1C(s32 slot);
 void callGetDemoHandler2(ksys::act::Actor* actor, ksys::act::Actor* item,
                          const sead::SafeString& name);
 
