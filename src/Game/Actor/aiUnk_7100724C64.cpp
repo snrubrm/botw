@@ -191,6 +191,28 @@ void sub_7100725AC4(ksys::act::Actor* actor, u32 part, const sead::SafeString& n
     sub_7100725B20(actor, names, sub_7100726004(actor, part));
 }
 
+void sub_7100725B20(ksys::act::Actor* actor, const sead::SafeString& names, bool present) {
+    auto* physics = actor->getPhysics();
+    if (!physics)
+        return;
+    auto* ragdoll = physics->getRagdollInstance();
+    if (!ragdoll)
+        return;
+    const sead::SafeString names_copy = names;
+    sead::FixedSafeString<64> name;
+    for (auto it = names_copy.tokenBegin(","); names_copy.tokenEnd(",") != it; ++it) {
+        it.get(&name);
+        if (name.isEmpty())
+            continue;
+        if (auto* body = ragdoll->getBoneRigidBodyByName(name)) {
+            if (present)
+                body->resetFlag1000000();
+            else
+                body->setFlag1000000();
+        }
+    }
+}
+
 bool sub_7100726004(ksys::act::Actor* actor, u32 part) {
     auto* enemy = sub_7100724D7C(actor);
     if (!enemy)
