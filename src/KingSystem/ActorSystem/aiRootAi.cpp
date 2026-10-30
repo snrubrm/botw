@@ -1,5 +1,6 @@
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actLodState.h"
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actActorCreator.h"
 #include "KingSystem/ActorSystem/actAiClassDef.h"
@@ -122,6 +123,31 @@ RootAi::~RootAi() {
 
 bool RootAi::init_(sead::Heap* heap) {
     return false;
+}
+
+void RootAi::calc() {
+    Ai::calc();
+    if (_16c.isOnBit(8))
+        behaviorStuff();
+    for (auto* behavior = _138; behavior; behavior = behavior->sub_7100D24B94()) {
+    }
+    auto* behavior = _138;
+    while (behavior) {
+        auto* next = behavior->sub_7100D24BD4();
+        behavior->_20 = nullptr;
+        behavior = next;
+    }
+    _138 = nullptr;
+    const auto* lod = mActor->getLodState();
+    const bool stopped = lod && lod->mFlags8.isOnBit(9);
+    for (auto* item = mBehaviorsByStopAndCalcTiming[1][0]; item; item = item->_18)
+        item->calc();
+    if (!stopped) {
+        for (auto* item = mBehaviorsByStopAndCalcTiming[0][0]; item; item = item->_18)
+            item->calc();
+    }
+    if (mActor->getChemicalContainer())
+        sub_7100D64FEC();
 }
 
 void RootAi::leave_() {

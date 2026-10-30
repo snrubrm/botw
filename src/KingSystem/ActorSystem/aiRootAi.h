@@ -122,6 +122,7 @@ private:
     friend class DemoRootAI;
 
     void sub_7100D65E1C();
+    void sub_7100D64FEC();
 
     // TODO: rename and put this in a different translation unit
     // ctor 0x7100d62eec (CSV AIStruct5::ctor), vtable 0x71024dbae0. Defined in aiDemoRootAIContext.cpp.
