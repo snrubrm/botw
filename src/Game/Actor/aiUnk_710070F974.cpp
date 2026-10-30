@@ -17,7 +17,8 @@ void Unk_710070f974::sub_710070F9CC(ksys::act::Actor* actor) {
     if (auto* as_list = actor->getASList())
         as_list->x_6(9, 0, 0.0f);
     if (_10)
-        _8 = sead::DynamicCast<Unk_71025c89e8>(*static_cast<Unk_71025afb58**>(_10));
+        _8 = sead::DynamicCast<Unk_71025c89e8>(
+            static_cast<Unk_71025afb58*>(*static_cast<void**>(_10)));
     else
         _8 = nullptr;
 }
