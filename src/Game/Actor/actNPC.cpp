@@ -9,6 +9,7 @@
 #include "Game/Actor/aiUnk_71007377D4.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/ActorSystem/actSchedule.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/Mii/miiUMii.h"
@@ -359,6 +360,15 @@ const sead::Vector3f& ActorLinkConstDataAccess::sub_710002354C() const {
 }
 
 }  // namespace ksys::act
+
+// Source placement is inferred from the neighboring NPC accessor functions.
+bool sub_7100023244(ksys::act::BaseProcAccessor* accessor) {
+    auto* npc = ksys::act::getNPC(accessor->getProc());
+    if (!npc)
+        return false;
+    auto* schedule = npc->getSchedule();
+    return schedule && !schedule->_88.isEmpty();
+}
 
 namespace uking::act {
 void NPC::m61(f32 rate) {
