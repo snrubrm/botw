@@ -24,6 +24,7 @@
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actBaseProcLink.h"
 #include "KingSystem/Physics/physMaterialMask.h"
+#include "KingSystem/Physics/System/physRayCast.h"
 #include "KingSystem/System/Timer.h"
 
 namespace ksys::phys {
@@ -80,7 +81,13 @@ public:
     ~Unk_710070ef50();
 
     /* 0x00 */ ksys::act::Actor* mActor;
-    /* 0x08 */ u8 _8[0x1e - 0x8];
+    /* 0x08 */ sead::BitFlag32 _8;
+    /* 0x0c */ ksys::phys::ContactLayerType _c;
+    /* 0x10 */ ksys::phys::RayCast::NormalCheckingMode _10;
+    /* 0x14 */ f32 _14;
+    /* 0x18 */ u32 _18;
+    /* 0x1c */ u8 _1c;
+    /* 0x1d */ u8 _1d;
     // Set to 1 by Unk_7100013308::sub_71002DBC8C when a target is set.
     /* 0x1e */ u8 _1e;
     /* 0x1f */ u8 _1f;

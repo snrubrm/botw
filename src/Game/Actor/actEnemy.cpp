@@ -761,6 +761,11 @@ bool Enemy::m165(sead::BufferedSafeString* out) {
     return true;
 }
 
+Unk_710070ef50::Unk_710070ef50(ksys::act::Actor* actor)
+    : mActor(actor), _c(ksys::phys::ContactLayerType::Entity),
+      _10(ksys::phys::RayCast::NormalCheckingMode::_0), _14(-1.0f),
+      _18(sead::GlobalRandom::instance()->getU32(0xffffffffu)), _1c(0), _1d(0), _1e(1) {}
+
 void Unk_7100013308::sub_71002DBC8C(const ksys::act::BaseProcLink& link, const sead::Matrix34f* mtx,
                                     const sead::Vector3f* pos) {
     _8 = link;
