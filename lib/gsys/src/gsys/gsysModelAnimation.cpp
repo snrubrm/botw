@@ -1,9 +1,17 @@
 #include "gsys/gsysModelAnimation.h"
 #include <gsys/gsysModelResource.h>
+#include <gsys/gsysModelResourceMgr.h>
 #include <nn/g3d/ResFile.h>
 #include <nn/g3d/ModelAnimObj.h>
 
 namespace gsys {
+
+void ModelAnimation::finalize() {
+    for (auto it = mResources.begin(), end = mResources.end(); it != end; ++it) {
+        if (ModelResourceMgr::instance()->isExist(&*it))
+            it->countDownAnimationReferenceCounter();
+    }
+}
 
 // NON_MATCHING: the compiler combines the two invalid-key halfword stores into one word.
 void ModelAnimation::resetMaterialAnmBind(s32 slot) {

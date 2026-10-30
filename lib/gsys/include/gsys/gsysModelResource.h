@@ -69,6 +69,8 @@ public:
 // Constructor c0b778 and the secondary host-I/O vtable establish these bases.
 // Only the independently recovered resource prefix is modeled here.
 class ModelResource : public sead::IDisposer, public sead::hostio::Node {
+    // Native manager add_ c0d418 assigns the resource ordering word.
+    friend class ModelResourceMgr;
 public:
     // 0x7100c0c56c: an independently polymorphic name node.
     class NameNode : public sead::hostio::Node {
@@ -137,7 +139,7 @@ private:
     sead::Atomic<s32> mAnimationReferenceCounter;
     u8 _18c[0x190 - 0x18c];
     mutable sead::CriticalSection mCS;
-    u8 _1d0[4];
+    s32 _1d0;  // manager add_ assigns this ordering word; update compares it as signed.
     // G3dResModelEx::getBufferNum 0x7100c6e7e4 reads this byte.
     u8 mBufferNum;
 
