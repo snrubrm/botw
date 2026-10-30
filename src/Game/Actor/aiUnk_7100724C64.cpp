@@ -17,6 +17,7 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollInstance.h"
 #include "KingSystem/Physics/Ragdoll/physRagdollRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/XLink/xlinkXLink.h"
 
@@ -252,6 +253,28 @@ void sub_7100727AA0(ksys::act::Actor* actor, u32 part) {
         return;
     }
     sub_7100727CFC(enemy, body_name, enemy->getActorPartsActor(part_name).hasProc());
+}
+
+// NON_MATCHING: the compiler outlines the shared traversal instead of duplicating it.
+void sub_7100727CFC(ksys::act::Actor* actor, const char* name, bool present) {
+    const auto update_bodies = [actor, name, present](const sead::SafeString* group) {
+        auto* set = actor->getRigidBodyByName(group->cstr());
+        if (!set)
+            return;
+        auto& bodies = set->getRigidBodies();
+        const s32 count = bodies.size();
+        for (s32 i = 0; i < count; ++i) {
+            auto* body = bodies[i];
+            if (!body || !body->getHkBodyName().endsWith(name))
+                continue;
+            if (present)
+                body->addToWorld();
+            else
+                body->removeFromWorld();
+        }
+    };
+    update_bodies(sub_71007A24E4());
+    update_bodies(sub_71007A24D0());
 }
 
 uking::ai::Unk_71024241a8* sub_7100726628(ksys::act::Actor* actor) {
