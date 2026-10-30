@@ -3,6 +3,7 @@
 #include <random/seadGlobalRandom.h>
 #include "Game/Actor/aiUnk_7102450fa8.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
+#include "Game/Actor/Damage/dmgDamageManager.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
@@ -11,6 +12,27 @@
 #include "KingSystem/World/worldManager.h"
 #include "KingSystem/World/worldWeatherMgr.h"
 #include <limits>
+
+// NON_MATCHING: the flag temporary is scheduled later and the final result is normalized.
+bool sub_710071E64C(ksys::act::Actor* actor, Unk_7102450fa8* unit) {
+    if (!actor)
+        return false;
+    auto* damage = sead::DynamicCast<uking::act::DamageManager>(actor->getDamageMgr());
+    if (!damage)
+        return false;
+    const s32 kind = damage->getField54();
+    damage->getField50();
+    if (kind == 2)
+        return false;
+    if (kind == 7 || kind == 8)
+        return true;
+    if (unit && kind == 5 && unit->isFlagOn(Unk_7102450fa8::Flag::_0))
+        return true;
+    if (damage->checkDamageFlags(8) || damage->checkDamageFlags(1) ||
+        damage->checkDamageFlags(7) || damage->checkDamageFlags(22))
+        return true;
+    return (kind == 27 || kind == 22) && static_cast<s32>(damage->getDamage()) > 0;
+}
 
 Unk_710071edf8::Unk_710071edf8(ksys::act::Actor* actor) : mActor(actor) {}
 
