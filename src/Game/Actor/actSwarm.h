@@ -84,7 +84,7 @@ public:
         void sub_71002D9434(const sead::Vector3f& position);
         // SwarmAreaDamaged consumes all three owner-space position components.
         void sub_71002D94C8(sead::Vector3f* out) const;
-        // 0x71002da3a0 (declared only; 320 B): material animation (name, frame) of the unit; called for every unit by
+        // 0x71002da3a0: material animation (name, frame) of the unit; called for every unit by
         // sub_710072A778.
         bool sub_71002DA3A0(f32 frame, const sead::SafeString& name);
     };

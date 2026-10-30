@@ -1,6 +1,8 @@
 #include "Game/Actor/actSwarm.h"
 #include <gsys/gsysModel.h>
+#include <gsys/gsysModelAnimation.h>
 #include <math/seadMatrixCalcCommon.h>
+#include <nn/g3d/ModelAnimObj.h>
 #include "KingSystem/Graphics/gfxUnk_710260af28.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySphere.h"
@@ -8,6 +10,18 @@
 #include "KingSystem/Resource/resUnk_71024F9938.h"
 
 namespace uking::act {
+
+// NON_MATCHING: argument scheduling and the shared return path differ.
+bool Swarm::Unit::sub_71002DA3A0(f32 frame, const sead::SafeString& name) {
+    auto* animation = _a8;
+    if (animation->getMaterialAnmSlotName(0) == name &&
+        animation->getMaterialAnms()[0].animObj->GetFrameCtrl()->GetFrame() == frame)
+        return false;
+    const auto key = animation->searchMaterialAnmKey(static_cast<gsys::MaterialAnmType>(3), name);
+    animation->setMaterialAnmByKey(0, key, frame);
+    animation->applyMaterialAnm(_78);
+    return true;
+}
 
 void Swarm::UnitBody::BodyState::sub_71002D7870(bool paused) {
     if (paused) {
