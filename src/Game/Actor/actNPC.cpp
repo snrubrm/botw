@@ -7,6 +7,7 @@
 #include <basis/seadNew.h>
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_71007377D4.h"
+#include "Game/Actor/aiAwarenessFilters.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
@@ -213,6 +214,25 @@ void NPC::m149() {
     info._1a = false;
     info._30 = &mask;
     sub_7100733418(this, &info, &_10e8);
+}
+
+void NPC::sub_7100020D40() {
+    const f32 speed = getVelocity().length();
+    if (!(speed <= std::numeric_limits<f32>::epsilon() &&
+          speed >= -std::numeric_limits<f32>::epsilon()))
+        return;
+    auto* awareness = getAwareness();
+    if (!awareness)
+        return;
+    Unk_71024516a0 filter;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    while (auto* entry = ksys::act::sub_7100D7EEE8(&awareness->_8, &filter)) {
+        if (entry->_a8 < 1.0f) {
+            ksys::act::acquireActor(&entry->_0.mLink, &accessor);
+            sendMessage(*accessor.getMessageTransceiverId(), ksys::MessageType(0x80000be), nullptr,
+                        true);
+        }
+    }
 }
 
 bool NPC::sub_7100020E78() {
