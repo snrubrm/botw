@@ -1,6 +1,7 @@
 #include "Game/Actor/actCameraUtil.h"
 #include "Game/Framework/gameSystemStruct1.h"
 #include "Game/gameRoot4.h"
+#include "KingSystem/System/VFRValue.h"
 #include <cmath>
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/actHorseBase.h"
@@ -25,6 +26,15 @@
 
 bool sub_7100EE7168(const ksys::map::Object* obj, sead::Matrix34f* out);
 bool sub_7100EE9CE8();
+
+// NON_MATCHING: the value and VFRValue occupy different stack slots.
+f32 sub_7100923E2C() {
+    auto* controller = uking::frm::SystemStruct1::getInstance();
+    const f32 value = controller ? controller->sub_71009018FC() : 0.0f;
+    ksys::VFRValue smoothed(value);
+    smoothed.updateStats();
+    return smoothed.mean;
+}
 
 bool sub_710092732C() {
     if (!sub_7100EE9CE8())

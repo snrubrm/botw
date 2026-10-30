@@ -16,6 +16,8 @@ public:
     // controller step copies the input into it.
     SystemStruct1();
     void calcController();
+    // Receiver and const qualification inferred from the camera consumer and read-only body.
+    f32 sub_71009018FC() const;
     static SystemStruct1* getInstance();
     // 0x7100897a94 (16 B): stores the instance pointer.
     static void setInstance(SystemStruct1* instance);

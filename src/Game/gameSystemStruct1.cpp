@@ -29,4 +29,9 @@ void SystemStruct1::setInstance(SystemStruct1* instance) {
     sInstance = instance;
 }
 
+// NON_MATCHING: the compiler loads the matrix row before the controller vector.
+f32 SystemStruct1::sub_71009018FC() const {
+    return _8.dot(_38.getRow(1)) * 360.0f / 30.0f;
+}
+
 }  // namespace uking::frm
