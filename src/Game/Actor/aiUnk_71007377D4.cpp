@@ -12,6 +12,8 @@
 #include "Game/Actor/actDragon.h"
 #include "Game/Actor/actEnemy.h"
 #include "Game/Actor/actWeapon.h"
+#include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
+#include "KingSystem/ActorSystem/actInstParamPack.h"
 #include "Game/Actor/actNPC.h"
 #include "Game/Actor/actWolfLink.h"
 #include "Game/gameSceneSubsys14.h"
@@ -308,6 +310,27 @@ bool sub_710072CB78(ksys::act::Actor* actor, const sead::Vector3f& target, sead:
     return sub_710072F28C(actor, from, target, nullptr, out_pos, a4, true, a3, -1.0f, -1.0f);
 }
 
+// NON_MATCHING: the navmesh type load is deferred to the fallback path.
+bool sub_710072E368(ksys::act::Actor* actor) {
+    auto* character = actor->m45();
+    if (!character || (character->_2a4.load() & 0xffff) == 0x17)
+        return false;
+    return character->isMaterialUsableMaybe(character->_2a4.load() & 0xffff);
+}
+
+// NON_MATCHING: nav filter/type loads are deferred past the face query; registers and stack differ.
+bool sub_710072E40C(ksys::act::Actor* actor, const sead::Vector3f& pos, f32 radius) {
+    auto* ai = ksys::phys::HavokAI::instance();
+    if (!ai)
+        return false;
+    sead::Vector3f out;
+    const auto query = ai->sub_7100F87ED0(&out, pos, radius);
+    if (!query.sub_7100F7EB40())
+        return false;
+    auto* character = actor->m45();
+    return character && character->isMaterialUsableMaybe(query.sub_7100F7EEE4());
+}
+
 bool sub_710072E304(const sead::Vector3f& to, f32 a3) {
     if (auto* ai = ksys::phys::HavokAI::instance()) {
         sead::Vector3f out;
@@ -565,6 +588,34 @@ bool sub_710072DEF0(const sead::Vector3f& target, f32 max_dist, f32 min_dy, f32 
     return !query.worldRayCast(ksys::phys::ContactLayerType::Entity);
 }
 
+bool sub_710072E6F0(const sead::Vector3f& from, const sead::Vector3f& to,
+                    ksys::phys::RayCast::NormalCheckingMode mode, ksys::act::Actor* actor,
+                    sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
+                    ksys::phys::MaterialMask* hit_info, f32 y_offset) {
+    sead::Vector3f start = from;
+    sead::Vector3f end = to;
+    start.y += y_offset;
+    end.y += y_offset;
+    ksys::phys::RayCastBodyQuery query(nullptr, ksys::phys::GroundHit::HitAll);
+    ksys::act::sub_7100EEAE58(&query);
+    query.setStartAndEnd(start, end);
+    query.setNormalCheckingMode(mode);
+    if (actor) {
+        if (auto* physics = actor->getPhysics())
+            query.setGroupHandlerIfAny(physics->get188(0));
+    }
+    if (!query.worldRayCast(ksys::phys::ContactLayerType::Entity))
+        return false;
+    if (hit_pos)
+        query.getHitPosition(hit_pos);
+    if (hit_normal)
+        query.getHitNormal(hit_normal);
+    if (hit_info)
+        *hit_info = query.getMaterialMask();
+    return true;
+}
+
+
 bool sub_710072EB10(const sead::Vector3f& from, const sead::Vector3f& to,
                     ksys::phys::RayCast::NormalCheckingMode mode, ksys::act::Actor* actor,
                     sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
@@ -782,6 +833,18 @@ void sub_710073DCB4(ksys::act::Actor* actor, int condition) {
             break;
         }
     }
+}
+
+// NON_MATCHING: the parameter pack and string temporary occupy different stack slots.
+ksys::act::Actor* sub_710073C890(const char* name, const sead::Matrix34f& matrix, f32 scale,
+                                 sead::Heap* heap, bool sleep_after_init, bool nd, int life,
+                                 bool is_player_put, const uking::act::WeaponModifierInfo* modifier) {
+    ksys::act::InstParamPack params;
+    params.getBuffer().add(is_player_put, "IsPlayerPut");
+    if (modifier)
+        modifier->addModifierParams(params);
+    params.getBuffer().add(true, "IsWeaponCreateByRawLife");
+    return ksys::act::createWeaponND(name, matrix, scale, heap, sleep_after_init, nd, life, &params);
 }
 
 // NON_MATCHING: the transceiver call is devirtualized and payload selection / stack layout differ.

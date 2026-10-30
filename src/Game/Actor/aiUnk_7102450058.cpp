@@ -8,6 +8,8 @@
 #include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Physics/Constraint/physFixedCs.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physCollisionInfo.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectLiftable.h"
@@ -86,6 +88,27 @@ void CarriedData::x_6() {
     if (auto* data = mActor->m100()) {
         if (sead::BitFlagUtil::countOnBit(data->_1c8._8) >= 1)
             data->sub_7100E504C0();
+    }
+}
+
+// NON_MATCHING: controller and body contact checks share a branch in this build.
+void CarriedData::x_7() {
+    bool has_collision = false;
+    ksys::phys::ContactPointInfo* contact = nullptr;
+    if (auto* controller = mActor->getCharacterController()) {
+        if (auto* collision = controller->sub_7100F635F8())
+            has_collision = !collision->getCollidingBodies().isEmpty();
+        contact = controller->sub_7100F635D8();
+    } else if (auto* body = mActor->getMainBody()) {
+        if (auto* collision = body->getCollisionInfo())
+            has_collision = !collision->getCollidingBodies().isEmpty();
+        contact = body->getContactPointInfo();
+    }
+
+    if ((contact && contact->getNumContactPoints() != 0 && !contact->begin().isEnd()) || has_collision) {
+        _10 = 0;
+    } else if (_10 <= 9999) {
+        ++_10;
     }
 }
 

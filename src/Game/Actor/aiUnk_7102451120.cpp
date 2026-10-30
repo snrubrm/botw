@@ -4,6 +4,9 @@
 #include "Game/Actor/Damage/dmgInfoManager.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectAttack.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
@@ -12,6 +15,19 @@
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
+
+// NON_MATCHING: argument selection and parameter loads are scheduled in a different order.
+void sub_710072027C(ksys::act::Actor* actor, bool use_toss, u32 min_damage) {
+    auto* sensor = getActorAttackSensor(actor);
+    if (!sensor)
+        return;
+    const auto* attack = actor->getParam()->getRes().mGParamList->getAttack();
+    sensor->activateAttackSensor(0x2000, use_toss ? 0x901c : 0x9014, attack->mPower.ref(),
+                                 attack->mImpulseLarge.ref(), 0.0f, 0,
+                                 attack->mGuardBreakPower.ref(), use_toss ? 5 : -1, false,
+                                 min_damage, -1);
+    sensor->_20 |= 0x18;
+}
 
 void sub_7100720140(ksys::act::Actor* actor) {
     if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(actor))

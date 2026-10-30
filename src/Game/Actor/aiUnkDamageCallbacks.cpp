@@ -1,5 +1,6 @@
 #include "Game/Actor/aiUnkDamageCallbacks.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
+#include "Game/Actor/Damage/dmgDamageMgrPlayer.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
@@ -45,6 +46,22 @@ void Unk_71024519e0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
         *a5 = 1;
 }
 
+void Unk_71024519a8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          uking::act::DamageCallbackInfo* a6) {
+    if (!_24)
+        return;
+    if (!_25) {
+        auto* info = sead::DynamicCast<uking::act::DamageCallbackInfo>(a6);
+        if (info && (info->mFlags & 0x840000))
+            return;
+    }
+    *a1 = 0;
+    if (*a5 >= 2)
+        *a5 = 1;
+    if (auto* info = sead::DynamicCast<uking::act::DamageCallbackInfo>(a6))
+        info->mFlags = 0;
+}
+
 void Unk_7102451a18::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
                           uking::act::DamageCallbackInfo* a6) {
     const s32 type = *a5;
@@ -60,6 +77,20 @@ void Unk_7102451a18::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     } else if (type < 28) {
         *a5 = 1;
     }
+}
+
+void Unk_7102451a50::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          uking::act::DamageCallbackInfo* a6) {
+    if (*a1 < 1 || !mDamageManager->mActor)
+        return;
+    const auto* info = sub_71007A255C(mDamageManager->mActor, 0);
+    if (!info || !info->sub_71007A1F78(0x1000000))
+        return;
+    *a1 = 0;
+    *a2 = 0;
+    *a3 = 0;
+    *a4 = -1;
+    *a5 = -1;
 }
 
 void Unk_7102451a88::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
@@ -213,6 +244,35 @@ void Unk_7102451d40::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
     }
 }
 
+void Unk_7102451b68::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          uking::act::DamageCallbackInfo* a6) {
+    auto* manager = mDamageManager;
+    if (!manager)
+        return;
+    switch (*a5) {
+    case 6:
+        if (_24.isOnBit(0))
+            return;
+        break;
+    case 7:
+        if (_24.isOnBit(1))
+            return;
+        break;
+    case 8:
+        if (_24.isOnBit(2))
+            return;
+        break;
+    default:
+        return;
+    }
+    if (manager->mActor->getASList()->x(5, nullptr, 0, 0, &ksys::as::ASList::Unk2::sub_71011638DC,
+                                        true))
+        return;
+    if (isSlowTimeMaybe())
+        return;
+    *a5 = 2;
+}
+
 // 0x7100749720
 void Unk_7102451ba0::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
                           uking::act::DamageCallbackInfo* a6) {
@@ -262,6 +322,19 @@ void Unk_7102451af8::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
         *a2 = 0;
         *a3 = 0;
     }
+}
+
+void Unk_7102451c48::call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+                          uking::act::DamageCallbackInfo* a6) {
+    if (*a5 != 12)
+        return;
+    auto* manager = sead::DynamicCast<uking::act::DamageMgrPlayer>(mDamageManager);
+    if (!manager)
+        return;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    if (ksys::act::acquireActor(manager->getAttacker(), &accessor) &&
+        accessor.getName() == "BeamosBeam")
+        manager->_232 = 1;
 }
 
 Unk_7102451c48::~Unk_7102451c48() = default;

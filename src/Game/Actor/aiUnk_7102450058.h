@@ -53,7 +53,6 @@ public:
     void x_4();
     void x_7();
     void x_8();
-    void x_9();
     void x_16();
     void x_19();
     void x_12();
@@ -93,6 +92,9 @@ public:
     void x_14() override;
     void x_0();
     void x_21();
+    void x_9();
+    // 0x71006f92d0: tests the attached body against the actor position and body bounds.
+    bool x_24();
     // 0x71006f908c (CSV CarriedData::x_23; renamed).
     void x_23(ksys::act::Actor* actor) override;
     // 0x71006f8f14: `_30->sub_7100F6A074()`.

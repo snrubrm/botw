@@ -185,6 +185,15 @@ public:
     /* 0x30 */ bool _30 = false;
 };
 
+// Vtable 0x7102451650: accepts the player or a rideable in state 1.
+class Unk_7102451650 : public ksys::act::Unk_71024dccf8 {
+public:
+    Unk_7102451650();
+    ~Unk_7102451650() override;
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102451650, 0x28);
+
 // vtable 0x71024516f0 (m2 0x7100746f50, D0 0x710074712c)
 class Unk_71024516f0 : public ksys::act::Unk_71024dccf8 {
 public:
@@ -202,6 +211,16 @@ public:
     /* 0x34 */ sead::Vector3f _34 = sead::Vector3f::zero;
     /* 0x40 */ sead::Vector3f _40 = sead::Vector3f::zero;
 };
+
+// Vtable 0x7102451718: accepts linked entries whose actor has the configured tag.
+// Native stack construction at 0x710058a9a8 supplies "IsIceMakerBlock".
+class Unk_7102451718 : public ksys::act::Unk_71024dccf8 {
+public:
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+
+    /* 0x28 */ sead::SafeString _28;
+};
+KSYS_CHECK_SIZE_NX150(Unk_7102451718, 0x38);
 
 // vtable 0x7102451740 (m2 0x7100747250, D2 0x71007473a8, D0 0x71007473dc): accepts the entry whose
 // link equals _28.

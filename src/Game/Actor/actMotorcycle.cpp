@@ -1555,6 +1555,39 @@ void Motorcycle::m44(ksys::phys::NavMeshCharacter* nav) {
     }
 }
 
+// NON_MATCHING: the flag updates are combined and the transform stack slot differs.
+void Motorcycle::sub_710007A520(bool rise) {
+    if (_f88.isOn(0x300))
+        return;
+    if (rise) {
+        _f88.setBit(9);
+        _f88.resetBit(0);
+    } else {
+        _f88.resetBit(9);
+        _f88.setBit(0);
+    }
+    if (!_f88.isOnBit(9))
+        return;
+
+    auto* component = get6b8();
+    if (!component)
+        return;
+    component->_8a |= 3;
+    const sead::Vector3f angular_velocity = _bb8->getAngularVelocity();
+    if (!_dd0->_13d && !_dd8->_13d && !_f88.isOnBit(32))
+        return;
+    if (!(angular_velocity.length() < 2.0f))
+        return;
+
+    const sead::Matrix34f transform = _bb8->getTransform();
+    const sead::Vector3f forward = transform.getBase(2);
+    sead::Vector3f horizontal(forward.x, 0.0f, forward.z);
+    horizontal.normalize();
+    const sead::Vector3f point = _bb8->getPosition() + forward * 1.5f + horizontal * 0.5f;
+    const sead::Vector3f impulse = horizontal * 3000.0f;
+    _bb8->applyPointImpulse(impulse, point);
+}
+
 // NON_MATCHING: only the stack slot of the core-number temporary (it shares the slot of the transform in the
 // original)
 void Motorcycle::applyPitchDamping() {

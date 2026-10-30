@@ -48,8 +48,8 @@ public:
               uking::act::DamageCallbackInfo* a6) override;
 };
 
-// vtable 0x71024519a8 (functions at 0x71007484c8..0x7100748768; `call` reads its last argument as a
-// pointer to an object of an unknown RTTI class, so it is not defined yet). Embedded in InvincibleNearTargetBase,
+// vtable 0x71024519a8: conditionally suppresses damage and clears callback flags.
+// Embedded in InvincibleNearTargetBase,
 // InvincibleHiddenOctarock, StoneOctarockWait and the SetAllNoDamageDCCallback behavior.
 class Unk_71024519a8 : public uking::act::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_71024519a8, uking::act::DamageCallback)
@@ -81,7 +81,7 @@ public:
     ksys::act::Actor* mActor;
 };
 
-// vtable 0x7102451a50 (`call` 0x7100748ae8 is not defined yet: it calls two unnamed functions).
+// vtable 0x7102451a50: suppresses damage for the matching attack-info flag.
 // Embedded in Horse (0x1170) and the SetIgnoreHorseDamage behavior.
 class Unk_7102451a50 : public uking::act::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451a50, uking::act::DamageCallback)
@@ -236,7 +236,7 @@ public:
     s32 _28 = -1;
 };
 
-// vtable 0x7102451b68 (SetIgnoreReboundDCCallback behavior; `call` 0x7100749510 not decompiled yet).
+// vtable 0x7102451b68 (SetIgnoreReboundDCCallback behavior).
 class Unk_7102451b68 : public uking::act::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451b68, uking::act::DamageCallback)
 public:

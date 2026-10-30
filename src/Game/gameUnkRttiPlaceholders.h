@@ -346,6 +346,8 @@ class Unk_7102451c48 : public uking::act::DamageCallback {
     SEAD_RTTI_OVERRIDE(Unk_7102451c48, uking::act::DamageCallback)
 public:
     ~Unk_7102451c48() override;
+    void call(s32* a1, s32* a2, u32* a3, u32* a4, s32* a5,
+              uking::act::DamageCallbackInfo* a6) override;
 };
 
 // vtable 0x710245bf30 (12 slots); placeholder generated from the vtable (genskel.py).

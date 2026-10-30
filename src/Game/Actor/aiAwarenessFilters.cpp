@@ -11,6 +11,7 @@
 #include <prim/seadSafeString.h>
 #include "KingSystem/ActorSystem/Profiles/actBullet.h"
 #include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/actRideable.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "Game/Actor/Player/actPlayerInfo.h"
@@ -84,6 +85,32 @@ bool Unk_71024516a0::m2(Unk_71024dc978* entry) {
     if (!target)
         return false;
     return ksys::act::hasTag(&target->mLink, ksys::act::tags::IsPressBreakByEnNPC);
+}
+
+bool Unk_7102451718::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&target->mLink, &accessor);
+    return accessor.hasTag(_28.cstr());
+}
+
+Unk_7102451650::Unk_7102451650() = default;
+Unk_7102451650::~Unk_7102451650() = default;
+
+// NON_MATCHING: the rideable state enum adds a stack round trip and a different branch.
+bool Unk_7102451650::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target || !target->mLink.hasProc())
+        return false;
+    if (ksys::act::isPlayerProfile(&target->mLink))
+        return true;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&target->mLink, &accessor);
+    auto* rideable = accessor.getHorseOptions();
+    return rideable && int(uking::act::Unk_7100e8b2b8::Unk8(
+                           rideable->uking::act::Unk_7100e8b2b8::_8.load() & 0xff)) == 1;
 }
 
 bool Unk_7102451740::m2(Unk_71024dc978* entry) {

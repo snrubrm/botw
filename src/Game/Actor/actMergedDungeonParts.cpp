@@ -1,4 +1,5 @@
 #include "Game/Actor/actMergedDungeonParts.h"
+#include "Game/Actor/aiUnk_71025ba778.h"
 #include <basis/seadNew.h>
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
@@ -7,6 +8,24 @@
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Physics/System/physStaticCompoundMgr.h"
 #include "KingSystem/Physics/System/physSystem.h"
+
+// Native vtable 0x71023d1dc0; factory 0x71002de494 allocates 0xa0 bytes and
+// constructs both bone keys. The owned object is deleted before the keys.
+class Unk_71023d1dc0 {
+public:
+    virtual ~Unk_71023d1dc0();
+
+    u8 _8[8];
+    Unk_7100F72BF8* _10;
+    gsys::BoneAccessKeyEx _18;
+    gsys::BoneAccessKeyEx _50;
+    u8 _88[0x18];
+};
+static_assert(sizeof(Unk_71023d1dc0) == 0xa0);
+
+Unk_71023d1dc0::~Unk_71023d1dc0() {
+    delete _10;
+}
 
 namespace uking::act {
 

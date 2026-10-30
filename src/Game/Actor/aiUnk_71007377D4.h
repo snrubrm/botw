@@ -352,7 +352,13 @@ bool sub_710072E928(const sead::Vector3f& from, const sead::Vector3f& to, sead::
                     sead::Vector3f* hit_normal, ksys::phys::MaterialMask* material_mask,
                     f32 y_offset);
 
-/// 0x710072eb10 (declared only): sub_710072E928 with the query's normal checking mode and, if `actor`
+// Ray cast using the EEAE58 layer setup and optional hit outputs.
+bool sub_710072E6F0(const sead::Vector3f& from, const sead::Vector3f& to,
+                    ksys::phys::RayCast::NormalCheckingMode mode, ksys::act::Actor* actor,
+                    sead::Vector3f* hit_pos, sead::Vector3f* hit_normal,
+                    ksys::phys::MaterialMask* hit_info, f32 y_offset);
+
+/// 0x710072eb10: sub_710072E928 with the query's normal checking mode and, if `actor`
 /// has physics, its system group handler (to ignore the actor itself). Placeholder name.
 bool sub_710072EB10(const sead::Vector3f& from, const sead::Vector3f& to,
                     ksys::phys::RayCast::NormalCheckingMode mode, ksys::act::Actor* actor,
@@ -693,3 +699,8 @@ void sub_710073278C(ksys::act::Actor* actor, ksys::act::BaseProcLink* link,
 
 // Notifies the actor linked by ForSale; the second actor is an optional payload.
 void sub_710073D1A4(ksys::act::Actor* actor, ksys::act::Actor* item);
+
+// Creates a weapon with the player-put and raw-life creation parameters.
+ksys::act::Actor* sub_710073C890(const char* name, const sead::Matrix34f& matrix, f32 scale,
+                                 sead::Heap* heap, bool sleep_after_init, bool nd, int life,
+                                 bool is_player_put, const uking::act::WeaponModifierInfo* modifier);

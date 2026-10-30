@@ -1,5 +1,6 @@
 #include "Game/Actor/aiUnk_7102450058.h"
 #include <cmath>
+#include <math/seadBoundBox.h>
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/Chemical/chmSystemConfig.h"
 #include "Game/Actor/aiUnk_71007368A4.h"
@@ -176,4 +177,47 @@ void Unk_7102450298::x_23(ksys::act::Actor* actor) {
         factor = 1.0f;
     }
     sub_710072DC9C(carried_actor, factor);
+}
+
+// NON_MATCHING: register allocation and comparison/return branch layout differ.
+bool Unk_7102450298::x_24() {
+    if (!_30 || !(_30->_50 & 1))
+        return false;
+
+    auto* controller = mActor->getCharacterController();
+    auto* body = controller ? controller->sub_7100F61A34() : mActor->getMainBody();
+    if (!body)
+        return false;
+
+    const sead::Vector3f actor_pos = mActor->getMtx().getTranslation();
+    sead::Vector3f body_pos;
+    body->getPosition(&body_pos);
+    const sead::Vector2f horizontal(body_pos.x - actor_pos.x, body_pos.z - actor_pos.z);
+    const f32 horizontal_distance = horizontal.length();
+    sead::BoundBox3f box;
+    body->getAabbInWorld(&box);
+    const f32 diagonal = (box.getMax() - box.getMin()).length();
+    const f32 height = box.getSizeY();
+    if (!(diagonal > 0.0f) || !(height > 0.0f))
+        return false;
+    return horizontal_distance / diagonal > 0.15f ||
+           sead::Mathf::abs(body_pos.y - actor_pos.y) / height > 0.15f;
+}
+
+// NON_MATCHING: the timer update uses different floating-point registers.
+void Unk_7102450298::x_9() {
+    if (_10 != 0 || (_2c & 1))
+        return;
+
+    auto* parent = sead::DynamicCast<ksys::act::Actor>(mActor->getConnectedCalcParent());
+    if (!ksys::act::isPlayerProfile(parent))
+        return;
+
+    f32 delta = 1.0f;
+    if (auto* data = mActor->m100())
+        delta = data->sub_7100E4E3CC();
+    _44 += x_24() ? delta : -delta;
+    if (_44 >= 15.0f)
+        _2c |= 1;
+    _44 = sead::Mathf::clamp(_44, 0.0f, 15.0f);
 }
