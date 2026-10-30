@@ -12,6 +12,7 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/ActorSystem/actActorBind.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actSchedule.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
@@ -274,6 +275,20 @@ bool NPC::sub_71000212F4() {
         }
     }
     return has_weapon;
+}
+
+void NPC::sub_710002168C() {
+    for (s32 i = 0; i < 6; ++i) {
+        if (auto* weapon = getWeapons()->getEquippedWeapon(i)) {
+            if (auto* bind = weapon->getModelBindInfo()) {
+                bind->_20 = this;
+                weapon->sub_71011CB390();
+                bind->_20 = nullptr;
+            } else {
+                weapon->sub_71011CB390();
+            }
+        }
+    }
 }
 
 bool NPC::sub_71000228F8() {

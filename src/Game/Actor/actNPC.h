@@ -114,6 +114,8 @@ public:
     bool sub_7100021178();
     // Receiver and member scope are inferred from NPC::calcMaybe.
     bool sub_71000212F4();
+    // Receiver, member scope and void return are inferred from NPC::calcMaybe.
+    void sub_710002168C();
     // Receiver and member scope are inferred from the RTTI-checked NPC caller.
     bool sub_7100022AA4();
     bool sub_7100022B54();
