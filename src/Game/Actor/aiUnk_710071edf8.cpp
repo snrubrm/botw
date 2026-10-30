@@ -4,7 +4,9 @@
 #include "Game/Actor/aiUnk_7102450fa8.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/ActorSystem/actChemical.h"
@@ -32,6 +34,37 @@ bool sub_710071E64C(ksys::act::Actor* actor, Unk_7102450fa8* unit) {
         damage->checkDamageFlags(7) || damage->checkDamageFlags(22))
         return true;
     return (kind == 27 || kind == 22) && static_cast<s32>(damage->getDamage()) > 0;
+}
+
+// NON_MATCHING: the iron-ball result branches are combined differently.
+bool sub_710071E80C(ksys::act::Actor* actor, Unk_7102450fa8* unit) {
+    if (!actor)
+        return false;
+    auto* damage = sead::DynamicCast<uking::act::DamageManager>(actor->getDamageMgr());
+    if (!damage)
+        return false;
+    const s32 kind = damage->getField54();
+    const s32 field = damage->getField50();
+    if (kind == 15 && field == 4) {
+        ksys::act::ActorLinkConstDataAccess attacker;
+        ksys::act::acquireActor(damage->m37(), &attacker);
+        if (attacker.getName() == "PriestBossThunder")
+            return true;
+    }
+    if (damage->getField50() == 5) {
+        ksys::act::ActorLinkConstDataAccess attacker;
+        ksys::act::acquireActor(damage->m37(), &attacker);
+        if (attacker.getName() == "Priest_Boss_IronBall") {
+            if (attacker.sub_7100D13BB8())
+                return unit && unit->sub_710071A200();
+            return unit && unit->sub_710071A38C(&attacker);
+        }
+    }
+    if (damage->checkDamageFlags(11) || damage->checkDamageFlags(8) ||
+        damage->checkDamageFlags(7) || field == 7 || damage->getDamageType() == 9 ||
+        (field == 3 && !isSlowTimeMaybe()))
+        return false;
+    return sub_710071E64C(actor, unit);
 }
 
 Unk_710071edf8::Unk_710071edf8(ksys::act::Actor* actor) : mActor(actor) {}
