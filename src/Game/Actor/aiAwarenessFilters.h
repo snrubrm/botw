@@ -1,6 +1,7 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <limits>
 #include <math/seadVector.h>
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 
@@ -37,6 +38,17 @@ public:
     bool m2(ksys::act::Unk_71024dc978* entry) override;
 
     /* 0x28 */ ksys::act::Actor* _28 = nullptr;  // the eater (sub_7100739E24)
+};
+
+// vtable 0x71024513a8, constructed on the stack by LandHumEnemyFindPlayer::sub_710046096C.
+class Unk_71024513a8 : public ksys::act::Unk_71024dccf8 {
+public:
+    ~Unk_71024513a8() override;
+    bool m2(ksys::act::Unk_71024dc978* entry) override;
+
+    /* 0x28 */ ksys::act::BaseProcLink _28;
+    /* 0x38 */ f32 _38 = std::numeric_limits<f32>::max();
+    /* 0x3c */ bool _3c = false;
 };
 
 // vtable 0x71024513d0 (m2 0x7100745034, D0 0x71007450c8)

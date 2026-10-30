@@ -21,6 +21,28 @@
 using ksys::act::Unk_71024dc858;
 using ksys::act::Unk_71024dc978;
 
+// Signature and free scope are inferred from this accessor-based caller and the Enemy TU neighbors.
+bool sub_710001ABB4(const ksys::act::ActorLinkConstDataAccess& accessor);
+
+Unk_71024513a8::~Unk_71024513a8() = default;
+
+bool Unk_71024513a8::m2(Unk_71024dc978* entry) {
+    auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
+    if (!target)
+        return false;
+    ksys::act::ActorLinkConstDataAccess accessor;
+    ksys::act::acquireActor(&target->mLink, &accessor);
+    if (_3c && accessor.sub_7100D13654(-1)) {
+        ksys::act::ActorLinkConstDataAccess other;
+        ksys::act::acquireActor(&target->mLink, &other);
+        return !sub_710001ABB4(other);
+    }
+    auto* actor = sead::DynamicCast<ksys::act::Actor>(_28.getProc(nullptr, nullptr));
+    if (!actor || !(accessor.sub_7100D13080() > _38))
+        return false;
+    return accessor.sub_7100D12FCC(actor->getChemicalStuff());
+}
+
 bool Unk_7102451358::m2(Unk_71024dc978* entry) {
     auto* target = sead::DynamicCast<Unk_71024dc858>(entry);
     if (!target)
