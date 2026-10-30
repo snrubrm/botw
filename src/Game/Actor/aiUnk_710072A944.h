@@ -22,6 +22,8 @@ void sub_7100729370(uking::act::Swarm* swarm, sead::Vector3f* direction, s32* co
 // Contact queries over the four swarm bodies.
 bool sub_7100729494(uking::act::Swarm* swarm);
 s32 sub_71007294F4(uking::act::Swarm* swarm);
+// 0x7100729da0: applies independent random offsets to each unit's target position.
+void sub_7100729DA0(uking::act::Swarm* swarm, f32 scale);
 
 void swarmDropTableStuff(ksys::act::Actor* actor);
 void sub_710072A264(uking::act::Swarm* swarm, const sead::Vector3f& target, const sead::Vector3f& up);

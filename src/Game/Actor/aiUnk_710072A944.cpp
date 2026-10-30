@@ -55,6 +55,17 @@ s32 sub_71007294F4(uking::act::Swarm* swarm) {
     return count;
 }
 
+void sub_7100729DA0(uking::act::Swarm* swarm, f32 scale) {
+    for (s32 i = 0, count = swarm->_14c8.size(); i < count; ++i) {
+        if (auto* unit = swarm->_14c8[i]) {
+            const f32 x = sead::GlobalRandom::instance()->getF32() * scale;
+            const f32 y = sead::GlobalRandom::instance()->getF32() * scale;
+            const f32 z = sead::GlobalRandom::instance()->getF32() * scale;
+            unit->_6c.set(unit->_60.x + x, unit->_60.y + y, unit->_60.z + z);
+        }
+    }
+}
+
 void sub_710072A944(uking::act::Swarm* swarm, f32 min, f32 max) {
     for (s32 i = 0; i < swarm->_14c8.size(); ++i) {
         if (auto* unit = swarm->_14c8[i])
