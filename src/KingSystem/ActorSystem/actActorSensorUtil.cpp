@@ -305,6 +305,24 @@ void sub_71007A3F34(Actor* destination, Actor* source) {
         destination_atk->sub_710079E32C(*source_atk);
 }
 
+void sub_71007A3140(Actor* actor, ksys::phys::SystemGroupHandler* handler) {
+    auto* physics = actor->getPhysics();
+    if (!physics)
+        return;
+    const sead::SafeString name = ksys::act::getStr_Atk().cstr();
+    auto* set = physics->findBodyByName(name);
+    if (!set || set->getRigidBodies().size() <= 0)
+        return;
+    auto* sensor = sead::DynamicCast<ksys::act::AttackSensor>(
+        set->getRigidBodies().unsafeAt(0)->getUserTag());
+    if (!sensor)
+        return;
+    ++sensor->_44;
+    sensor->_49 = true;
+    physics->sub_7100FBB18C(set);
+    set->setSystemGroupHandler(handler);
+}
+
 ActorAtk::Unk_710079e64c::Unk1* sub_71007A255C(Actor* actor, int idx) {
     auto* atk = sead::DynamicCast<ActorAtk>(actor->getAtk());
     if (!atk)
