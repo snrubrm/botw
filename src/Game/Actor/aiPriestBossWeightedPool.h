@@ -9,6 +9,12 @@
 // each 0x2a0-byte record, as shown by init_ and the pool's list traversal.
 class Unk_7102451280 {
 public:
+    // The two initializer words are supplied together by both PriestBoss mode initializers.
+    struct InitArg {
+        s32 _0;
+        s32 mCapacity;
+    };
+
     struct Record {
         u64 _0[0x290 / sizeof(u64)];
         s32 mIndex;
@@ -17,6 +23,7 @@ public:
     SEAD_RTTI_BASE(Unk_7102451280)
     Unk_7102451280();
     virtual ~Unk_7102451280();
+    bool sub_710072B254(const InitArg& arg, sead::Heap* heap);
     void sub_710072B330();
 
     /* 0x08 */ sead::ObjList<Record> mRecords;
