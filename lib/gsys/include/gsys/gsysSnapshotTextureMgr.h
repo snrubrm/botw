@@ -15,13 +15,30 @@
 namespace gsys {
 
 class ModelRenderQueue;
+class SnapshotTextureMgr;
 
-// Partial: only the draw gate is known; the texture's own vtable and render targets are not
-// modelled.
+// Partial: manager entry/initialize establish the list nodes; setUpViewInfo and retake
+// establish the source positions and embedded LookAtCamera. Remaining storage is opaque.
 class SnapshotTexture {
 public:
+    void initialize();
+    void retake();
     // 0x7100c84618: always true in this build.
     bool checkEnableToDraw();
+
+private:
+    u8 _0[0x28];
+    /* 0x028 */ bool _28;
+    u8 _29[0x50 - 0x29];
+    /* 0x050 */ sead::Vector3f mPosition;
+    /* 0x05c */ sead::Vector3f mTarget;
+    u8 _68[0x88 - 0x68];
+    /* 0x088 */ sead::LookAtCamera mCamera;
+    /* 0x0e8 */ SnapshotTextureMgr* mManager;
+    u8 _f0[0x160 - 0xf0];
+    /* 0x160 */ sead::TListNode<SnapshotTexture*> mNode;
+    /* 0x180 */ sead::TListNode<SnapshotTexture*> mOtherNode;
+    u8 _1a0[0x1fc - 0x1a0];
 };
 
 class SnapshotTextureMgr : public sead::hostio::Node {
@@ -46,6 +63,8 @@ public:
     void setRenderQueue(ModelRenderQueue* queue0, ModelRenderQueue* queue1);
     // 0x7100c60c94
     void updateGPU();
+    // 0x7100c60ce0 (declared only).
+    void entry(SnapshotTexture* texture);
 
 private:
     /* 0x08 */ sead::TList<SnapshotTexture*> mTextures;
