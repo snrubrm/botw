@@ -2,8 +2,15 @@
 #include "Game/gameSceneSubsysMisc.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/System/StageInfo.h"
 
 namespace ksys::act {
+
+// 0x71006e770c: free scope inferred from the native no-argument caller and body.
+bool sub_71006E770C() {
+    return ksys::StageInfo::getCurrentMapType() == "CDungeon" &&
+           ksys::StageInfo::getCurrentMapName() == "Dungeon126";
+}
 
 Unk_71006e45c4::Unk_71006e45c4() {
     mFlags |= 1;
