@@ -733,6 +733,19 @@ const char* Unk_71024f1658::sub_7100EEEE88(ksys::act::Actor* actor) {
 
 namespace ksys::act {
 
+map::Rail* sub_7100EEF0FC(Actor* actor, const sead::SafeString& name) {
+    auto* object = actor->getMapObject();
+    if (!object || !object->getRails_0())
+        return nullptr;
+    for (s32 i = 0; object->getRails_0()[i]; ++i) {
+        if (const char* rail_name = object->getRails_0()[i]->getUniqueName()) {
+            if (name == sead::SafeString(rail_name))
+                return object->getRails_0()[i];
+        }
+    }
+    return nullptr;
+}
+
 s32 sub_7100EEF690(map::Rail* rail, const sead::Vector3f* position) {
     const auto& path = *rail;
     f32 closest_distance = (*position - path.getPoint(0)->getTranslate()).length();
