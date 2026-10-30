@@ -72,7 +72,9 @@ public:
         u8 _18[2];
         // forceRebindMaterialAnm sets bit 0; applyMaterialAnm clears it after binding.
         u16 flags;
-        u8 _1c[0x30 - 0x1c];
+        u8 _1c[4];
+        // setMaterialAnmByKey 0x7100bfe04c appends addresses of material slots here.
+        sead::PtrArray<MaterialAnm> linkedAnms;
 
         AnimationAccessKey<MaterialAnmType> getKey() const { return key; }
     };
@@ -153,8 +155,9 @@ public:
     void forceRebindSkeletalAnm();
     void forceRebindMaterialAnm();
 
-    /// 0x7100bfe384 (declared only): sets the frame of the animation set on slot `slot`.
-    void setMaterialAnmFrame(int slot, f32 frame);
+    /// Sets the frame on linked slots. The float return is inferred from the current-frame
+    /// read immediately before return at 0x7100bfe384; known callers ignore it.
+    f32 setMaterialAnmFrame(int slot, f32 frame);
 
     void setMaterialAnmByKey(int slot, AnimationAccessKey<MaterialAnmType> key, f32 frame);
     // NON_MATCHING: the compiler combines the two validity checks and uses a different index

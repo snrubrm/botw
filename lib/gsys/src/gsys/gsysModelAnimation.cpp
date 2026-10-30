@@ -1,8 +1,15 @@
 #include "gsys/gsysModelAnimation.h"
 #include <gsys/gsysModelResource.h>
 #include <nn/g3d/ResFile.h>
+#include <nn/g3d/ModelAnimObj.h>
 
 namespace gsys {
+
+f32 ModelAnimation::setMaterialAnmFrame(int slot, f32 frame) {
+    for (auto& animation : mMaterialAnms[slot].linkedAnms)
+        animation.animObj->GetFrameCtrl()->SetFrame(frame);
+    return mMaterialAnms[slot].animObj->GetFrameCtrl()->GetFrame();
+}
 
 sead::SafeString ModelAnimation::getMaterialAnmName(AnimationAccessKey<MaterialAnmType> key) const {
     if (!key.isValid())
