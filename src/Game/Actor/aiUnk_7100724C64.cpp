@@ -10,6 +10,7 @@
 #include "Game/Actor/aiUnk_710072BA90.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actTag.h"
@@ -314,6 +315,30 @@ void sub_71007272A0(ksys::act::Actor* actor) {
     auto* manager = actor->getDamageMgr();
     if (sead::IsDerivedFrom<uking::act::DamageManager>(manager))
         static_cast<uking::act::DamageManager*>(manager)->_216.change(8, has_head);
+}
+
+void sub_710072735C(ksys::act::Actor* actor, bool update, bool update_damage) {
+    auto* enemy = sub_7100724D7C(actor);
+    if (!enemy)
+        return;
+    if (update)
+        sub_71007275C8(enemy);
+    sub_71007270BC(enemy);
+    const bool has_head = enemy->getActorPartsActor("StalHead").hasProc();
+    if (update_damage) {
+        auto* manager = sead::DynamicCast<uking::act::DamageManager>(actor->getDamageMgr());
+        if (manager)
+            manager->_216.change(8, has_head);
+    }
+    auto* unit = sub_7100726FF4(enemy);
+    if (!unit || !unit->_8.isOnBit(1)) {
+        if (auto* body = actor->findPhysicsBodyByName(sub_71007A24D0()->cstr(), "TgtHead")) {
+            if (has_head)
+                body->addToWorld();
+            else
+                body->removeFromWorld();
+        }
+    }
 }
 
 bool sub_7100726E54(ksys::act::Actor* actor) {
