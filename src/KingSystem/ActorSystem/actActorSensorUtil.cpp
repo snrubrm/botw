@@ -298,6 +298,13 @@ void sub_71007A3910(Actor* actor, const sead::SafeString& name) {
     sub_71007A3900(set->findBodyByHavokName(name));
 }
 
+void sub_71007A3F34(Actor* destination, Actor* source) {
+    auto* source_atk = sead::DynamicCast<ActorAtk>(source->getAtk());
+    auto* destination_atk = sead::DynamicCast<ActorAtk>(destination->getAtk());
+    if (source_atk && destination_atk)
+        destination_atk->sub_710079E32C(*source_atk);
+}
+
 ActorAtk::Unk_710079e64c::Unk1* sub_71007A255C(Actor* actor, int idx) {
     auto* atk = sead::DynamicCast<ActorAtk>(actor->getAtk());
     if (!atk)
