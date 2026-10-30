@@ -11,10 +11,13 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorWeapons.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actSchedule.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/Mii/miiUMii.h"
+#include "KingSystem/Resource/Actor/resResourceGParamList.h"
+#include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
 
 namespace uking::act {
 
@@ -210,6 +213,20 @@ void NPC::m149() {
     info._1a = false;
     info._30 = &mask;
     sub_7100733418(this, &info, &_10e8);
+}
+
+bool NPC::sub_7100020E78() {
+    for (s32 i = 0; i < 6; ++i) {
+        ksys::act::acc::WeaponBase weapon;
+        auto& link = getWeapons()->mWeapons[i].link;
+        if (link.hasProc()) {
+            ksys::act::acquireActor(&link, &weapon);
+            if (!getParam()->getRes().mGParamList->getNpc()->mIsOffPodFromWeapon.ref() &&
+                weapon.sub_7100EFA6B8())
+                return true;
+        }
+    }
+    return false;
 }
 
 bool NPC::sub_71000228F8() {
