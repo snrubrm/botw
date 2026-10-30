@@ -1,5 +1,6 @@
 #include <limits>
 #include <cmath>
+#include <geom/seadGeometry.h>
 #include "Game/Actor/aiUnk_710001A69C.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
@@ -76,6 +77,41 @@
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectBow.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectShield.h"
 #include <math/seadMathCalcCommon.h>
+
+// Placement is inferred from the neighboring actor navigation helpers.
+// NON_MATCHING: vector and segment temporaries use different stack slots and scheduling.
+bool sub_710072C7A0(sead::Vector3f* out, ksys::act::Actor* actor) {
+    auto* object = actor->getMapObject();
+    if (!object || !object->getRails_0())
+        return true;
+    auto* rail = object->getRails_0()[0];
+    const sead::Vector3f position = actor->getMtx().getTranslation();
+    const s32 count = rail->getNumPoints();
+    s32 closest = 0;
+    f32 closest_distance = std::numeric_limits<f32>::max();
+    for (s32 i = 0; i < count; ++i) {
+        const auto& point = rail->getPointTranslate(i);
+        const f32 dx = position.x - point.x;
+        const f32 dz = position.z - point.z;
+        const f32 distance = std::sqrt(dx * dx + dz * dz);
+        if (distance < closest_distance) {
+            closest_distance = distance;
+            closest = i;
+        }
+    }
+    const auto direction = rail->getPointTranslate(closest) - position;
+    const s32 next = (closest + 1) % rail->getNumPoints();
+    if (direction.dot(rail->getPointTranslate(next) - position) < 0.0f)
+        closest = next;
+    *out = rail->getPointTranslate(closest);
+    const s32 previous = (closest < 1 ? rail->getNumPoints() : closest) - 1;
+    if (sead::Geometry::calcSquaredDistancePointToSegment(
+            position, sead::Segment3f(rail->getPointTranslate(previous), *out), nullptr) < 4.0f)
+        return true;
+    const s32 following = (closest + 1) % rail->getNumPoints();
+    return sead::Geometry::calcSquaredDistancePointToSegment(
+               position, sead::Segment3f(*out, rail->getPointTranslate(following)), nullptr) < 4.0f;
+}
 
 // Placement is inferred from the neighboring actor navigation helpers.
 // NON_MATCHING: vector temporaries and return branches use different stack slots and scheduling.
