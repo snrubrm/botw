@@ -530,6 +530,14 @@ void ActorChemicals::sub_7100E37990(s32 count, sead::Heap* heap) {
         _70.setBuffer(count, elements);
 }
 
+// NON_MATCHING: the element update is inlined here, but the original calls it out of line.
+void ActorChemicals::sub_7100E398DC() {
+    for (s32 i = 0; i < _58.size() + _80; ++i) {
+        if (auto* element = getElement_(i))
+            element->sub_7100E39DF4();
+    }
+}
+
 void ActorChemicals::sub_7100E37A54() {
     sead::ScopedLock<sead::CriticalSection> lock(&mCS);
     for (u32 i = 0; i < _80; ++i)
