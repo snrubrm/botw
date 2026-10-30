@@ -14,14 +14,62 @@
 #include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "KingSystem/ActorSystem/actActorBind.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
+#include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/ActorSystem/actSchedule.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/ActorSystem/actBoneControl.h"
 #include "KingSystem/Mii/miiUMii.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Physics/CharacterController/physCharacterController.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
 #include "KingSystem/Resource/GeneralParamList/resGParamListObjectNpc.h"
 
 namespace uking::act {
+
+// NON_MATCHING: the compiler inlines the isZora wrapper and changes float register scheduling.
+void NPC::updatePositionMaybe() {
+    NPCBase::updatePositionMaybe();
+    auto* controller = getCharacterController();
+    if (!ksys::act::hasTag(this, ksys::act::tags::NotFallDelete)) {
+        const f32 height = _10a4 - getMtx().getTranslation().y;
+        f32 radius = 2.0f;
+        f32 top = 2.0f;
+        bool should_delete = false;
+        if (controller) {
+            const bool falling = controller->sub_7100F5F14C() || (controller->_116 & 0x400);
+            if (isZora(this)) {
+                should_delete = height > 20.0f && falling;
+            } else {
+                controller->sub_7100F62F60(&radius, &top, 0);
+                const f32 water_depth = get68f().load() ? get6f0() - getMtx().getTranslation().y : 0.0f;
+                should_delete = water_depth > top || (height > 20.0f && falling);
+            }
+        }
+        if (should_delete || get6fc() == 11)
+            _fe8 |= 1;
+        if ((_fe8 & 1) && !get1a0()) {
+            if (auto* object = getMapObject()) {
+                if (!object->getFlags0().isOn(ksys::map::Object::Flag0::_20000))
+                    becomePreActor(DeleteType::_1, DeleteReason::_0);
+            } else {
+                deleteEx(DeleteType::_1, DeleteReason::_0, nullptr);
+            }
+        }
+    }
+    if (controller && !(_fe8 & 2)) {
+        const auto motion = controller->sub_7100F5F0E4();
+        if (u32(int(motion)) > 1 || isBgGroundHit(this, false)) {
+            _10a4 = getMtx().getTranslation().y;
+        } else {
+            const f32 y = getMtx().getTranslation().y;
+            _10a4 = _10a4 > y ? _10a4 : y;
+        }
+    }
+    _fe8 &= ~2;
+}
 
 // 0x7100d2d424 (unnamed in the CSV): unregisters the damage callbacks and frees the callback table.
 void sub_7100D2D424(uking::act::DamageManagerBase* manager);
