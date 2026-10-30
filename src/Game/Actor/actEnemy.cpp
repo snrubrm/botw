@@ -103,6 +103,9 @@ bool ksys::phys::NavMeshCharacterUnk58::m5(ksys::phys::NavMeshCharacter* nav, s3
     return m4(nav, other_material, other_a, type);
 }
 
+// Native 0x71025bf308: the shared weapon profile table; original source scope is unknown.
+extern sead::SafeString sUnk_71025bf308[6];
+
 namespace uking::act {
 
 // Enemy material filter, vtable 0x71023572b8. The factory stores its actor at +0x8.
@@ -198,9 +201,18 @@ void Enemy::sub_7100016494() {
     }
 }
 
-// 0x7100735da0 (placeholder name; declared only): works out which weapon types `flags` allows from
-// the comma-separated list `name`.
-void sub_7100735DA0(sead::BitFlag16* flags, const sead::SafeString& name);
+// 0x7100735da0: which weapon types the comma-separated list allows.
+void sub_7100735DA0(sead::BitFlag16* flags, const sead::SafeString& name) {
+    flags->makeAllZero();
+    sead::FixedSafeString<32> token;
+    for (auto it = name.tokenBegin(","); name.tokenEnd(",") != it; ++it) {
+        it.get(&token);
+        for (s32 i = 0; i < 6; ++i) {
+            if (token == sUnk_71025bf308[i])
+                flags->setBit(i);
+        }
+    }
+}
 
 void Enemy::sub_710001692C() {
     sub_7100735DA0(&_f54, getParam()->getRes().mGParamList->getEnemyRace()->mEquipableWeapon.ref());
