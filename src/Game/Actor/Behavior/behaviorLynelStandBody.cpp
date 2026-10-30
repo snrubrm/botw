@@ -14,12 +14,14 @@ bool LynelStandBody::init_(sead::Heap* heap) {
 void LynelStandBody::calc() {}
 
 void LynelStandBody::enter() {
-    if (auto* unit = sead::DynamicCast<Unk_71025ba778>(*static_cast<Unk_71025afb58**>(mLynelBodyControlUnit_a)))
+    if (auto* unit = sead::DynamicCast<Unk_71025ba778>(
+            static_cast<Unk_71025afb58*>(*static_cast<void**>(mLynelBodyControlUnit_a))))
         unit->_c = 1.0f;
 }
 
 void LynelStandBody::leave() {
-    if (auto* unit = sead::DynamicCast<Unk_71025ba778>(*static_cast<Unk_71025afb58**>(mLynelBodyControlUnit_a)))
+    if (auto* unit = sead::DynamicCast<Unk_71025ba778>(
+            static_cast<Unk_71025afb58*>(*static_cast<void**>(mLynelBodyControlUnit_a))))
         unit->_c = 0.0f;
 }
 

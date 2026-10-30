@@ -110,7 +110,7 @@ bool LynelRoot::init_(sead::Heap* heap) {
 
     _2c8.sub_710070F32C(heap, mActor, mStandBoneName_s);
     _2c8._10 = *mBoneStandAddRatio_s;
-    *static_cast<Unk_71025afb58**>(mLynelBodyControlUnit_a) = &_2c8;
+    *static_cast<void**>(mLynelBodyControlUnit_a) = static_cast<Unk_71025afb58*>(&_2c8);
     *static_cast<Unk_71025c89e8**>(mLynelMoveParam_a) = &_278;
     return true;
 }
