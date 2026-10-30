@@ -13,6 +13,8 @@ class PtclSystem;
 namespace gsys {
 
 class ParticleScene;
+// The bit values are not yet recovered.
+enum class ParticleDrawInfo : int;
 
 // createInstance 0x7100c50f8c allocates 0xd840 bytes and ctor 0x7100c5106c
 // installs vtable 0x71024cefa0. The IPtclModelEnumerator interface base and
@@ -40,6 +42,8 @@ public:
     void manualCalcEmitter();
     void clearGroupInfo();
     void addGroupInfo(int group, ParticleScene* scene);
+    // 0x7100c53d14: test draw flags for the requested groups and the common group.
+    bool isEnableDrawInfo(const int* groups, int group_num, ParticleDrawInfo info) const;
     // 0x7100c53dc8 (declared only)
     bool isNeedDraw(const int* groups, int group_num, u32 mask) const;
 
@@ -62,7 +66,9 @@ private:
     struct GroupInfo {
         ParticleScene* mScenes[8];
         s32 mNum;
-        u8 _44[0x50 - 0x44];
+        // ParticleCalcJob c52638 indexes these three flags, and c52750 clears them.
+        u16 mDrawFlags[3];
+        u8 _4a[6];
     };
     static_assert(sizeof(GroupInfo) == 0x50);
 
