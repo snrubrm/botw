@@ -27,6 +27,11 @@ public:
         f32 _0;
     };
 
+    // The native callers pass 0, 1 or 2; the three threshold arrays use those indices.
+    // Repeated stack-backed conversions follow the existing aal SEAD_ENUM convention.
+    // The enumerator names have not been recovered.
+    SEAD_ENUM(LoudnessTarget, _0, _1, _2)
+
     explicit FinalOutputMeasure(DeviceType device);
     ~FinalOutputMeasure() override;
 
@@ -73,6 +78,12 @@ private:
                                const sead::Vector2f& size, f32 value, f32 peak, f32 minimum,
                                f32 maximum, f32 upper_threshold, f32 lower_threshold,
                                f32 reference, const sead::Color4f& color) const;
+    void writeLoudnessTextSimple_(sead::TextWriter* writer, const sead::SafeString& label,
+                                 f32 value, LoudnessTarget target) const;
+    void writeLoudnessText_(sead::TextWriter* writer, const sead::SafeString& label,
+                           f32 value, f32 secondary_value, LoudnessTarget target) const;
+    void writeVUText_(sead::TextWriter* writer, const sead::SafeString& label,
+                     f32 value, f32 secondary_value) const;
 
     u8 _30[0x35 - 0x30];
     /// Set from AudioFrameProcessMgr::addProcess's result in updateActivation (0x7100baa2f8).
@@ -97,7 +108,15 @@ private:
     u8 _164[0x1cc - 0x164];
     // Constructor initializes this to zero; both meter helpers compare it with 0.0f.
     f32 _1cc;
-    u8 _1d0[0x218 - 0x1d0];
+    u8 _1d0[0x1d4 - 0x1d0];
+    // Constructor defaults and the native text helpers identify these threshold fields.
+    f32 _1d4;
+    f32 _1d8;
+    u8 _1dc[4];
+    f32 _1e0[3];
+    f32 _1ec[3];
+    f32 _1f8[3];
+    u8 _204[0x218 - 0x204];
 };
 static_assert(sizeof(FinalOutputMeasure) == 0x218, "aal::FinalOutputMeasure size mismatch");
 

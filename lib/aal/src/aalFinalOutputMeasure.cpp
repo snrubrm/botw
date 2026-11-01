@@ -1,5 +1,6 @@
 #include "aal/aalFinalOutputMeasure.h"
 #include "aal/aalDebugDrawer.h"
+#include <gfx/seadTextWriter.h>
 #include <math/seadMathCalcCommon.h>
 #include <nn/atk/SoundSystem.h>
 #include <nn/atk/detail/driver/HardwareManager.h>
@@ -10,6 +11,81 @@ namespace aal {
 // The native static initializer supplies the reference, upper and lower marker colors.
 static sead::Color4f sUnk_71025FC610[3] = {
     {0.8f, 0.4f, 0.4f, 1.0f}, sead::Color4f::cRed, sead::Color4f::cYellow};
+
+// NON_MATCHING: enum argument spills and register allocation differ.
+void FinalOutputMeasure::writeLoudnessTextSimple_(
+    sead::TextWriter* writer, const sead::SafeString& label, f32 value,
+    LoudnessTarget target) const {
+    const sead::Vector2f cursor = writer->getCursor();
+    writer->setColor(sead::Color4f::cWhite);
+    writer->printf("%s", label.cstr());
+    if (_1e0[target] < value)
+        writer->setColor(sead::Color4f::cRed);
+    else if (_1ec[target] < value)
+        writer->setColor(sead::Color4f::cYellow);
+    else if (_1f8[target] > value)
+        writer->setColor({0.7f, 0.7f, 1.0f, 1.0f});
+    else
+        writer->setColor(sead::Color4f::cWhite);
+    writer->printf("%6.1f", value);
+    writer->setCursor(cursor);
+    writer->printf("\n");
+}
+
+// NON_MATCHING: enum argument spills and stack layout differ.
+void FinalOutputMeasure::writeLoudnessText_(
+    sead::TextWriter* writer, const sead::SafeString& label, f32 value,
+    f32 secondary_value, LoudnessTarget target) const {
+    const sead::Vector2f cursor = writer->getCursor();
+    writer->setColor(sead::Color4f::cWhite);
+    writer->printf("%s", label.cstr());
+    if (_1e0[target] < value)
+        writer->setColor(sead::Color4f::cRed);
+    else if (_1ec[target] < value)
+        writer->setColor(sead::Color4f::cYellow);
+    else if (_1f8[target] > value)
+        writer->setColor({0.7f, 0.7f, 1.0f, 1.0f});
+    else
+        writer->setColor(sead::Color4f::cWhite);
+    writer->printf("%7.2f", value);
+    if (target != LoudnessTarget::_2) {
+        if (_1e0[target] < secondary_value)
+            writer->setColor(sead::Color4f::cRed);
+        else if (_1ec[target] < secondary_value)
+            writer->setColor(sead::Color4f::cYellow);
+        else if (_1f8[target] > secondary_value)
+            writer->setColor({0.7f, 0.7f, 1.0f, 1.0f});
+        else
+            writer->setColor(sead::Color4f::cWhite);
+        writer->printf(" (%7.2f)", secondary_value);
+    }
+    writer->setCursor(cursor);
+    writer->printf("\n");
+}
+
+void FinalOutputMeasure::writeVUText_(
+    sead::TextWriter* writer, const sead::SafeString& label, f32 value,
+    f32 secondary_value) const {
+    const sead::Vector2f cursor = writer->getCursor();
+    writer->setColor(sead::Color4f::cWhite);
+    writer->printf("%s", label.cstr());
+    if (_1d4 < value)
+        writer->setColor(sead::Color4f::cRed);
+    else if (_1d8 < value)
+        writer->setColor(sead::Color4f::cYellow);
+    else
+        writer->setColor(sead::Color4f::cWhite);
+    writer->printf("%7.2f", value);
+    if (_1d4 < secondary_value)
+        writer->setColor(sead::Color4f::cRed);
+    else if (_1d8 < secondary_value)
+        writer->setColor(sead::Color4f::cYellow);
+    else
+        writer->setColor(sead::Color4f::cWhite);
+    writer->printf(" (%7.2f)", secondary_value);
+    writer->setCursor(cursor);
+    writer->printf("\n");
+}
 
 // NON_MATCHING: vector temporaries and floating-point loads use a different schedule.
 void FinalOutputMeasure::drawMeterBar_(
