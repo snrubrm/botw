@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <hostio/seadHostIONode.h>
+#include <math/seadVector.h>
 #include "aal/aalAudioFrameProcessMgr.h"
 #include "aal/aalDeviceType.h"
 #include "aal/aalSpeakerChannel.h"
@@ -11,9 +12,11 @@ namespace sead {
 class DrawContext;
 class Heap;
 class TextWriter;
+class Color4f;
 }  // namespace sead
 
 namespace aal {
+class DebugDrawer;
 
 /// Measures the final output of a device. TODO: incomplete.
 // Constructor 0x7100BA9B38 and table 0x71024C5A70 establish the three bases.
@@ -61,6 +64,16 @@ private:
     void drawInformationVerticalSurround_(sead::DrawContext* context, sead::TextWriter* writer) const;
     void drawInformationVerticalSimpleLFE_(sead::DrawContext* context, sead::TextWriter* writer) const;
 
+    // Parameter names describe the ranges and markers consumed by the native drawing helpers.
+    void drawMeterBar_(DebugDrawer* drawer, const sead::Vector2f& position,
+                       const sead::Vector2f& size, f32 value, f32 peak, f32 minimum,
+                       f32 maximum, f32 upper_threshold, f32 lower_threshold,
+                       f32 reference) const;
+    void drawMeterBarVertical_(DebugDrawer* drawer, const sead::Vector2f& position,
+                               const sead::Vector2f& size, f32 value, f32 peak, f32 minimum,
+                               f32 maximum, f32 upper_threshold, f32 lower_threshold,
+                               f32 reference, const sead::Color4f& color) const;
+
     u8 _30[0x35 - 0x30];
     /// Set from AudioFrameProcessMgr::addProcess's result in updateActivation (0x7100baa2f8).
     bool mIsFrameProcessAdded;
@@ -81,7 +94,10 @@ private:
     bool _158;
     u8 _159[0x160 - 0x159];
     s32 mDisplayMode;
-    u8 _164[0x218 - 0x164];
+    u8 _164[0x1cc - 0x164];
+    // Constructor initializes this to zero; both meter helpers compare it with 0.0f.
+    f32 _1cc;
+    u8 _1d0[0x218 - 0x1d0];
 };
 static_assert(sizeof(FinalOutputMeasure) == 0x218, "aal::FinalOutputMeasure size mismatch");
 
