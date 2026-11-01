@@ -186,6 +186,7 @@ public:
     void m10() override;
     // 0x7100716f90
     virtual void m12(sead::Vector3f* out, f32 angle);
+    s32 sub_7100716D98(f32 angle, f32 step, bool check_navmesh);
 
     /* 0x1d8 */ f32 _1d8 = 0;  // radius
     /* 0x1dc */ f32 _1dc = 0;  // random start angle (m10)

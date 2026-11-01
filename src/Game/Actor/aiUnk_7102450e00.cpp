@@ -27,8 +27,56 @@ void Unk_7102450e00::m7(sead::Vector3f* out, s32 idx) {
     out->y = _160.y;
 }
 
-// TODO
-void Unk_7102450e00::m8() {}
+// NON_MATCHING: circle search control flow, register allocation and stack layout differ.
+void Unk_7102450e00::m8() {
+    Unk_7102450fe0::m8();
+    if (!isFlagOn(Flag::_0) || !uking::act::PlayerInfo::instance()->getPlayer())
+        return;
+    if (sub_7100716D98(_1dc, sead::Mathf::pi2() / 9.0f, true) < 2)
+        return;
+
+    f32 next_angle = sead::Mathf::pi2();
+    f32 prev_angle = 0.0f;
+    s32 first = 0;
+    do {
+        first = (first + 10) % 9;
+    } while (first != 0 && _1e0[first].use_angle);
+    if (first != 0) {
+        s32 next = first;
+        do {
+            next = (next + 10) % 9;
+        } while (next != first && !_1e0[next].use_angle);
+        if (next == first)
+            next = -1;
+        if (next >= 0)
+            next_angle = _1e0[next].angle;
+        s32 prev = next;
+        do {
+            prev = (prev + 8) % 9;
+        } while (prev != next && !_1e0[prev].use_angle);
+        if (prev != next && prev >= 0)
+            prev_angle = _1e0[prev].angle;
+        while (next_angle > sead::Mathf::pi2())
+            next_angle -= sead::Mathf::pi2();
+        while (prev_angle > sead::Mathf::pi2())
+            prev_angle -= sead::Mathf::pi2();
+    }
+    if (next_angle < prev_angle)
+        next_angle += sead::Mathf::pi2();
+    if (uking::act::PlayerInfo::instance()->getPlayer()) {
+        const f32 step = (sead::Mathf::pi2() - (next_angle - prev_angle)) * 0.125f;
+        getPlayerPosition();
+        sead::Vector3f pos;
+        for (s32 i = 0; i < 9; ++i) {
+            const s16 index = *_b0(i);
+            auto& slot = _1e0[index];
+            slot.angle = next_angle + step * index;
+            m12(&pos, slot.angle);
+            slot.use_angle = true;
+        }
+    }
+    _1dc = next_angle;
+}
 
 void Unk_7102450e00::m10() {
     Unk_7102450fe0::m10();
@@ -39,6 +87,39 @@ void Unk_7102450e00::m12(sead::Vector3f* out, f32 angle) {
     out->set(_1d8 * sead::Mathf::cos(angle), 0.0f, _1d8 * sead::Mathf::sin(angle));
     *out += getPlayerPosition();
     out->y = _160.y;
+}
+
+// NON_MATCHING: the compiler uses a different floating-point register for one load.
+s32 Unk_7102450e00::sub_7100716D98(f32 angle, f32 step, bool check_navmesh) {
+    auto* player = uking::act::PlayerInfo::instance()->getPlayer();
+    if (!player)
+        return 0;
+
+    const auto& player_pos = getPlayerPosition();
+    const f32 dx = player_pos.x - _160.x;
+    const f32 dz = player_pos.z - _160.z;
+    const f32 player_distance = std::sqrt(dx * dx + dz * dz);
+    s32 failed = 0;
+    sead::Vector3f pos;
+    for (s32 i = 0; i < 9; ++i) {
+        const s16 index = *_b0(i);
+        auto& slot = _1e0[index];
+        slot.angle = angle + step * index;
+        m12(&pos, slot.angle);
+        if (check_navmesh) {
+            const f32 x = pos.x - _160.x;
+            const f32 z = pos.z - _160.z;
+            if (std::sqrt(x * x + z * z) > player_distance)
+                slot.use_angle = sub_710071BAB0(&slot.pos, player->m45(), pos);
+            else
+                slot.use_angle = true;
+            if (!slot.use_angle)
+                ++failed;
+        } else {
+            slot.use_angle = true;
+        }
+    }
+    return failed;
 }
 
 Unk_7102450e90::Unk_7102450e90() = default;
