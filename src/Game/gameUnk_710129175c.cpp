@@ -221,7 +221,7 @@ namespace ksys::gfx {
 void sub_7101294A7C(agl::ShaderProgramArchive* archive, sead::Heap* heap) {
     agl::ShaderProgram* program =
         archive->getShaderProgram(archive->searchShaderProgramIndex("light_analyzer"));
-    program->createShaderStorageBlock(5, heap);
+    program->createSamplerLocation(5, heap);
     program->setSamplerLocationName(0, "cGBuffer");
     program->setSamplerLocationName(1, "cShadingBuffer");
     program->setSamplerLocationName(2, "cExposure");
@@ -234,7 +234,7 @@ void sub_7101294A7C(agl::ShaderProgramArchive* archive, sead::Heap* heap) {
 void sub_7101288884(agl::ShaderProgramArchive* archive, sead::Heap* heap) {
     agl::ShaderProgram* program =
         archive->getShaderProgram(archive->searchShaderProgramIndex("depth_analyzer"));
-    program->createShaderStorageBlock(4, heap);
+    program->createSamplerLocation(4, heap);
     program->setSamplerLocationName(0, "cData0");
     program->setSamplerLocationName(1, "cData1");
     program->setSamplerLocationName(2, "cPrevData0");
@@ -246,7 +246,7 @@ void sub_7101288884(agl::ShaderProgramArchive* archive, sead::Heap* heap) {
 void sub_7101291958(agl::ShaderProgramArchive* archive, sead::Heap* heap) {
     agl::ShaderProgram* program =
         archive->getShaderProgram(archive->searchShaderProgramIndex("analyze_actor"));
-    program->createShaderStorageBlock(5, heap);
+    program->createSamplerLocation(5, heap);
     program->setSamplerLocationName(0, "cTexturePtr");
     program->setSamplerLocationName(1, "cTextureDetectPtr");
     program->setSamplerLocationName(2, "cTextureDetectPixel");
@@ -267,7 +267,7 @@ void sub_71012A3240(agl::ShaderProgramArchive* archive, sead::Heap* heap) {
 void sub_710129F984(agl::ShaderProgramArchive* archive, sead::Heap* heap) {
     agl::ShaderProgram* program =
         archive->getShaderProgram(archive->searchShaderProgramIndex("preshading_filter"));
-    program->createShaderStorageBlock(4, heap);
+    program->createSamplerLocation(4, heap);
     program->setSamplerLocationName(2, "cDiffuse");
     program->setSamplerLocationName(0, "cMaterialId");
     program->setSamplerLocationName(1, "cEffect");

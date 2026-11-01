@@ -782,10 +782,10 @@ void Graphics::sub_7100F2DDF0(s32 preset) {
 void Unk_71024f4cc0::initShaderProgram(agl::ShaderProgramArchive* archive, sead::Heap* heap) {
     agl::ShaderProgram* program =
         archive->getShaderProgram(archive->searchShaderProgramIndex("map_visit_mark"));
-    program->createUniformBlock(2, heap);
+    program->createUniform(2, heap);
     program->setUniformName(0, "uProjectionMatrix");
     program->setUniformName(1, "uParamater");
-    program->createImageLocation(2, heap);
+    program->createAttribute(2, heap);
     program->setAttributeName(0, "aPosition");
     program->setAttributeName(1, "aExtInfo");
 }
