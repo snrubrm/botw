@@ -78,6 +78,8 @@ f32 sub_71009221E4();
 f32 sub_71009221EC();
 f32 sub_71009221F8();
 f32 sub_7100922204();
+// Global scope is inferred, as for the neighbouring camera parameter helpers.
+f32 sub_710092220C();
 f32 sub_710092221C();
 f32 sub_7100922228();
 f32 sub_7100922234();

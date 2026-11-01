@@ -73,6 +73,8 @@ template FixedSafeStringBase<char, 95>& FixedSafeStringBase<char, 95>::operator=
 template FixedSafeStringBase<char, 100>& FixedSafeStringBase<char, 100>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 1007>& FixedSafeStringBase<char, 1007>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 106>& FixedSafeStringBase<char, 106>::operator=(const SafeString&);
+// The enum-text cache at 0x710084489c constructs this capacity and both string vtables.
+template FixedSafeStringBase<char, 107>& FixedSafeStringBase<char, 107>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 110>& FixedSafeStringBase<char, 110>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 133>& FixedSafeStringBase<char, 133>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 138>& FixedSafeStringBase<char, 138>::operator=(const SafeString&);
@@ -87,6 +89,8 @@ template FixedSafeStringBase<char, 244>& FixedSafeStringBase<char, 244>::operato
 template FixedSafeStringBase<char, 250>& FixedSafeStringBase<char, 250>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 256>& FixedSafeStringBase<char, 256>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 259>& FixedSafeStringBase<char, 259>::operator=(const SafeString&);
+// ModelSceneEnv::getParts constructs this capacity with the base vtable at 0x71024cd4c0.
+template FixedSafeStringBase<char, 260>& FixedSafeStringBase<char, 260>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 318>& FixedSafeStringBase<char, 318>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 357>& FixedSafeStringBase<char, 357>::operator=(const SafeString&);
 template FixedSafeStringBase<char, 377>& FixedSafeStringBase<char, 377>::operator=(const SafeString&);
