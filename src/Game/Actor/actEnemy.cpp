@@ -994,3 +994,11 @@ bool Enemy::sub_7100019A9C(const ksys::act::BaseProcLink& link) {
 }
 
 }  // namespace uking::act
+// Free scope is inferred from the callers.
+bool sub_710001A0EC(uking::act::Enemy* enemy) {
+    if (auto* controller = sead::DynamicCast<uking::act::Unk_710244dd20>(enemy->m159()))
+        return controller->sub_71006D0150();
+    // The native code performs this RTTI check even though it discards the result.
+    sead::DynamicCast<uking::act::Unk_710244edc0>(enemy->m159());
+    return false;
+}
