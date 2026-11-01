@@ -156,7 +156,7 @@ public:
         // Constructor 79d7b0 allocates 8e0 and initializes an eight-entry ring
         // at 808, with inline storage at 820 and 24-byte entries.
         struct HistoryEntry {
-            phys::PhysicsUserTag* _0;
+            AttackSensor* _0;  // borrowed; lookup compares it without dereferencing it
             u32 _8;
             u32 actor_id;
             f32 _10 = 0;

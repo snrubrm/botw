@@ -9,6 +9,33 @@
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/System/Timer.h"
 
+// 0x71007a0cb8: scope is inferred; both contact-list callers pass an AttackSensor.
+// NON_MATCHING: the compiler uses a signed loop bound instead of the original equality test.
+bool sub_71007A0CB8(
+    sead::RingBuffer<ksys::act::ActorAtk::Unk_710079e64c::HistoryEntry>* history,
+    ksys::act::AttackSensor* sensor, s32* index) {
+    *index = 0;
+    const s32 count = history->size();
+    for (s32 i = 0; i < count; ++i) {
+        if ((*history)(i)._0 == sensor) {
+            ksys::act::ActorLinkConstDataAccess accessor;
+            sensor->acquireActor(&accessor);
+            // The stored ID is read before getId, which can access shared state.
+            const u32 actor_id = (*history)(i).actor_id;
+            if (actor_id == accessor.getId()) {
+                if ((*history)(i)._8 == sensor->_44) {
+                    (*history)(i)._10 = 3.0f;
+                    return true;
+                }
+                return false;
+            }
+        }
+        ++*index;
+    }
+    *index = -1;
+    return false;
+}
+
 // 0x71007a0eb4: the ActorAtk contact history ring; free scope and void return inferred.
 // NON_MATCHING: the original removes all expired entries with one head/size update.
 void sub_71007A0EB4(
