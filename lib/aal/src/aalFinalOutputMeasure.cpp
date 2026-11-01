@@ -1,6 +1,7 @@
 #include "aal/aalFinalOutputMeasure.h"
 #include "aal/aalDebugDrawer.h"
 #include <gfx/seadTextWriter.h>
+#include <devenv/seadFontMgr.h>
 #include <math/seadMathCalcCommon.h>
 #include <nn/atk/SoundSystem.h>
 #include <nn/atk/detail/driver/HardwareManager.h>
@@ -400,6 +401,118 @@ void FinalOutputMeasure::drawInformation(sead::DrawContext* context, sead::TextW
     default:
         break;
     }
+}
+
+// NON_MATCHING: enum index spills, floating-point scheduling and stack layout differ.
+void FinalOutputMeasure::drawInformationSimple_(sead::DrawContext* context,
+                                                 sead::TextWriter* writer) const {
+    writer->setScale({0.8f, 0.8f});
+    f32 max_vu = sead::Mathf::minNumber();
+    f32 max_peak = sead::Mathf::minNumber();
+    for (s32 i = 0; i < 6; ++i) {
+        SpeakerChannel channel(i);
+        const f32 vu = getVU(channel);
+        const f32 peak = _19c[getChannelIndex(channel)];
+        max_vu = max_vu > vu ? max_vu : vu;
+        max_peak = max_peak > peak ? max_peak : peak;
+    }
+    DebugDrawer drawer(writer);
+    drawer.begin(context);
+    sead::Vector2f position = _164;
+    const f32 height = writer->getFont()->getHeight() * writer->getScale().y;
+    drawMeterBar_(&drawer, position, {_16c, height}, _e8, _194, _17c, _180,
+                  _1e0[0] > _1ec[0] ? _1e0[0] : _1ec[0],
+                  _1e0[0] < _1ec[0] ? _1e0[0] : _1ec[0], _1f8[0]);
+    position.y += height;
+    drawMeterBar_(&drawer, position, {_16c, height}, _ec, sead::Mathf::minNumber(), _17c, _180,
+                  _1e0[1] > _1ec[1] ? _1e0[1] : _1ec[1],
+                  _1e0[1] < _1ec[1] ? _1e0[1] : _1ec[1], _1f8[1]);
+    position.y += height;
+    drawMeterBar_(&drawer, position, {_16c, height}, max_vu, max_peak, _184, _188,
+                  _1d4 > _1d8 ? _1d4 : _1d8, _1d4 < _1d8 ? _1d4 : _1d8,
+                  sead::Mathf::minNumber());
+    drawer.end();
+    writer->beginDraw();
+    writer->setCursorFromTopLeft(_164);
+    writeLoudnessTextSimple_(writer, "Moment ", _e8, LoudnessTarget::_0);
+    writeLoudnessTextSimple_(writer, "Short  ", _ec, LoudnessTarget::_1);
+    const sead::Vector2f cursor = writer->getCursor();
+    writer->setColor(sead::Color4f::cWhite);
+    writer->printf("%s", "Max VU ");
+    if (_1d4 < max_vu)
+        writer->setColor(sead::Color4f::cRed);
+    else if (_1d8 < max_vu)
+        writer->setColor(sead::Color4f::cYellow);
+    else
+        writer->setColor(sead::Color4f::cWhite);
+    writer->printf("%6.1f", max_vu);
+    writer->setCursor(cursor);
+    writer->printf("\n");
+    writer->endDraw();
+}
+
+
+// NON_MATCHING: enum index spills, floating-point scheduling and stack layout differ.
+void FinalOutputMeasure::drawInformationSimpleStereo_(sead::DrawContext* context,
+                                                       sead::TextWriter* writer) const {
+    writer->setScale({0.8f, 0.8f});
+    DebugDrawer drawer(writer);
+    drawer.begin(context);
+    sead::Vector2f position = _164;
+    const f32 height = writer->getFont()->getHeight() * writer->getScale().y;
+    drawMeterBar_(&drawer, position, {_16c, height}, _e8, _194, _17c, _180,
+                  _1e0[0] > _1ec[0] ? _1e0[0] : _1ec[0],
+                  _1e0[0] < _1ec[0] ? _1e0[0] : _1ec[0], _1f8[0]);
+    position.y += height;
+    drawMeterBar_(&drawer, position, {_16c, height}, _ec, sead::Mathf::minNumber(), _17c, _180,
+                  _1e0[1] > _1ec[1] ? _1e0[1] : _1ec[1],
+                  _1e0[1] < _1ec[1] ? _1e0[1] : _1ec[1], _1f8[1]);
+    position.y += height;
+    drawMeterBar_(&drawer, position, {_16c, height}, getVU(SpeakerChannel::FrontLeft),
+                  _19c[getChannelIndex(SpeakerChannel::FrontLeft)], _184, _188,
+                  _1d4 > _1d8 ? _1d4 : _1d8, _1d4 < _1d8 ? _1d4 : _1d8,
+                  sead::Mathf::minNumber());
+    position.y += height;
+    drawMeterBar_(&drawer, position, {_16c, height}, getVU(SpeakerChannel::FrontRight),
+                  _19c[getChannelIndex(SpeakerChannel::FrontRight)], _184, _188,
+                  _1d4 > _1d8 ? _1d4 : _1d8, _1d4 < _1d8 ? _1d4 : _1d8,
+                  sead::Mathf::minNumber());
+    drawer.end();
+    writer->beginDraw();
+    writer->setCursorFromTopLeft(_164);
+    writeLoudnessTextSimple_(writer, "Moment ", _e8, LoudnessTarget::_0);
+    writeLoudnessTextSimple_(writer, "Short  ", _ec, LoudnessTarget::_1);
+    {
+        const sead::Vector2f cursor = writer->getCursor();
+        const f32 vu = getVU(SpeakerChannel::FrontLeft);
+        writer->setColor(sead::Color4f::cWhite);
+        writer->printf("%s", "VU L   ");
+        if (_1d4 < vu)
+            writer->setColor(sead::Color4f::cRed);
+        else if (_1d8 < vu)
+            writer->setColor(sead::Color4f::cYellow);
+        else
+            writer->setColor(sead::Color4f::cWhite);
+        writer->printf("%6.1f", vu);
+        writer->setCursor(cursor);
+        writer->printf("\n");
+    }
+    {
+        const sead::Vector2f cursor = writer->getCursor();
+        const f32 vu = getVU(SpeakerChannel::FrontRight);
+        writer->setColor(sead::Color4f::cWhite);
+        writer->printf("%s", "VU R   ");
+        if (_1d4 < vu)
+            writer->setColor(sead::Color4f::cRed);
+        else if (_1d8 < vu)
+            writer->setColor(sead::Color4f::cYellow);
+        else
+            writer->setColor(sead::Color4f::cWhite);
+        writer->printf("%6.1f", vu);
+        writer->setCursor(cursor);
+        writer->printf("\n");
+    }
+    writer->endDraw();
 }
 
 }  // namespace aal

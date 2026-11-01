@@ -59,7 +59,7 @@ private:
     void reset();
     /// 0x7100baa27c
     void updateActivation();
-    /// The different layouts of the information that drawInformation draws (declared only).
+    /// The different layouts of the information that drawInformation draws.
     void drawInformationSimple_(sead::DrawContext* context, sead::TextWriter* writer) const;
     void drawInformationSimpleStereo_(sead::DrawContext* context, sead::TextWriter* writer) const;
     void drawInformationSimpleSurround_(sead::DrawContext* context, sead::TextWriter* writer) const;
@@ -105,7 +105,18 @@ private:
     bool _158;
     u8 _159[0x160 - 0x159];
     s32 mDisplayMode;
-    u8 _164[0x1cc - 0x164];
+    sead::Vector2f _164;
+    f32 _16c;
+    u8 _170[0x17c - 0x170];
+    f32 _17c;
+    f32 _180;
+    f32 _184;
+    f32 _188;
+    u8 _18c[8];
+    f32 _194;
+    f32 _198;
+    f32 _19c[6];
+    u8 _1b4[0x1cc - 0x1b4];
     // Constructor initializes this to zero; both meter helpers compare it with 0.0f.
     f32 _1cc;
     u8 _1d0[0x1d4 - 0x1d0];
