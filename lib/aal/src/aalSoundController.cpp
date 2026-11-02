@@ -2,7 +2,9 @@
 #include <basis/seadNew.h>
 #include "aal/aalATKAccessor.h"
 #include "aal/aalAssetType.h"
+#include "aal/aalBiquadFilterPreset.h"
 #include "aal/aalSettings.h"
+#include "aal/aalSystem.h"
 #include "aal/aalSystemAccessor.h"
 
 namespace aal {
@@ -47,6 +49,16 @@ void SoundController::setBusVolume(BusType bus, f32 volume) {
 void SoundController::setLpf(f32 lpf) {
     if (mSoundHandle && mSoundHandle->m_pSound)
         mSoundHandle->m_pSound->SetLpfFreq(-lpf);
+}
+
+// NON_MATCHING: the original uses a jump table for the five preset indices and loads the preset first.
+// 0x7100ba213c
+void SoundController::setBiquadFilter(s32 type, f32 value) {
+    BiquadFilterPreset* preset = System::sInstance->mBiquadFilterPreset;
+    if (preset && type >= 1 && type <= 5)
+        type = preset->getAtkRegisterNum(static_cast<BiquadFilterPreset::PresetType>(type - 1));
+    if (mSoundHandle && mSoundHandle->m_pSound)
+        mSoundHandle->m_pSound->SetBiquadFilter(type, value);
 }
 
 // 0x7100ba255c

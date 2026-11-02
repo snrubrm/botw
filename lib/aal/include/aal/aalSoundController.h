@@ -28,6 +28,7 @@ class BasicSound {
 public:
     void SetPitch(f32 pitch);
     void SetLpfFreq(f32 lpf_freq);
+    void SetBiquadFilter(s32 type, f32 value);
     // 0x710133fa88 / 0x710133fa90: the bus volume setters forward here.
     void SetMainSend(f32 send);
     void SetFxSend(nn::atk::AuxBus bus, f32 send);
@@ -66,7 +67,7 @@ public:
     void setLpf(f32 lpf);
     /// 0x7100ba20b0 (declared only)
     void setBusVolume(BusType bus, f32 volume);
-    /// 0x7100ba213c (declared only)
+    /// 0x7100ba213c
     void setBiquadFilter(s32 type, f32 value);
     /// 0x7100ba2204 (declared only): sets the speaker balance of the channels (one SpeakerChannelVolume of each device
     /// per channel) and returns the output line (a bit mask of the devices that the sound is output to).
