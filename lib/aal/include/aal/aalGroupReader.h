@@ -16,8 +16,24 @@ public:
         s32 num_children;
     };
 
-    /// TODO: the layout of the parameters (default sound param, limiter, ducking) is not modeled.
-    struct GroupParam;
+    // Partial type scope for the native nested parameter. GroupParam's full extent and
+    // remaining fields are unknown; do not construct it or use its size for indexing.
+    struct GroupParam {
+        struct DefaultSoundParam {
+            f32 volume;
+            f32 pitch;
+            f32 lfe;
+            f32 lpf;
+            s32 biquadType;
+            f32 biquadValue;
+            u32 angleIdx;
+            f32 spread;
+            f32 tvVolume;
+            u8 _24[0x14];
+            f32 busVolume[4];
+        };
+    };
+    static_assert(sizeof(GroupParam::DefaultSoundParam) == 0x48, "DefaultSoundParam size mismatch");
 
     explicit GroupReader(const void* data);
 

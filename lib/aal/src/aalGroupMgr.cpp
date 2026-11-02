@@ -9,6 +9,24 @@
 
 namespace aal {
 
+// 0x7100b81af4
+void GroupMgr::setupWithResourceDefaultSoundParam_(Group* group, const GroupReader::GroupParam::DefaultSoundParam& param) {
+    SoundParam sound_param(group->mDefaultParam);
+    sound_param.setVolume(param.volume);
+    sound_param.setPitch(param.pitch);
+    sound_param.setLfe(param.lfe);
+    sound_param.setLpf(param.lpf);
+    sound_param.setBiquadFilter(param.biquadType, param.biquadValue);
+    sound_param.setAngleIdx(param.angleIdx);
+    sound_param.setSpread(param.spread);
+    sound_param.setDeviceVolume(DeviceType::TV, param.tvVolume);
+    sound_param.setBusVolume(BusType::Main, param.busVolume[0]);
+    sound_param.setBusVolume(BusType::AuxA, param.busVolume[1]);
+    sound_param.setBusVolume(BusType::AuxB, param.busVolume[2]);
+    sound_param.setBusVolume(BusType::AuxC, param.busVolume[3]);
+    group->setDefaultParam(sound_param);
+}
+
 namespace {
 const sead::SafeString sDummyGroupName = "@aalDummy";
 const sead::SafeString sDefaultGroupName = "Default";

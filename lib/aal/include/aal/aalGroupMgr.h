@@ -5,6 +5,7 @@
 #include <container/seadPtrArray.h>
 #include <hostio/seadHostIONode.h>
 #include <prim/seadSafeString.h>
+#include "aal/aalGroupReader.h"
 #include "aal/aalSoundParam.h"
 
 namespace sead {
@@ -101,6 +102,7 @@ private:
     /// 0x7100b80d38 (declared only): sorts the groups by the depth in the tree.
     void sortGroupsBreadthFirst_();
     void createDefaultGroup_(sead::Heap* heap);
+    void setupWithResourceDefaultSoundParam_(Group* group, const GroupReader::GroupParam::DefaultSoundParam& param);
 
     bool mInitialized = false;
     bool _9 = false;
