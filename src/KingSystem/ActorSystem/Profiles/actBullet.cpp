@@ -5,11 +5,14 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorParam.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actAiParam.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
+#include "KingSystem/Physics/System/physContactPointInfo.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/Resource/Actor/resResourceActorLink.h"
 #include "KingSystem/Resource/Actor/resResourceGParamList.h"
@@ -18,6 +21,40 @@
 #include "KingSystem/XLink/xlinkActorUtil.h"
 
 namespace ksys::act {
+
+// NON_MATCHING: the two attack-body loops are merged, changing control flow and register allocation.
+void Bullet::updateMtxFromPhysics() {
+    if (_cf4 & 1) {
+        auto* main_body = getMainBody();
+        auto* attack_set = getRigidBodyByName(sub_71007A24BC()->cstr());
+        if (main_body) {
+            if (attack_set && hasAttackInfo(this)) {
+                auto* hit = getAttackInfo(this, 0);
+                const u32 flags = hit->_18 & 0xb;
+                main_body->setPosition(hit->_0);
+                const s32 count = attack_set->getRigidBodies().size();
+                for (s32 i = 0; i < count; ++i)
+                    attack_set->getRigidBody(i)->setPosition(hit->_0);
+                if (flags) {
+                    mMtx = main_body->getTransform();
+                    nullsub_4648();
+                }
+            } else if (auto* contacts = main_body->getContactPointInfo()) {
+                if (contacts->getNumContactPoints() != 0 && !contacts->begin().isEnd()) {
+                    const sead::Vector3f position = contacts->begin().getPointPosition(
+                        phys::ContactPointInfo::Iterator::Point::BodyB);
+                    main_body->setPosition(position);
+                    if (attack_set) {
+                        const s32 count = attack_set->getRigidBodies().size();
+                        for (s32 i = 0; i < count; ++i)
+                            attack_set->getRigidBody(i)->setPosition(position);
+                    }
+                }
+            }
+        }
+    }
+    Actor::updateMtxFromPhysics();
+}
 
 bool Bullet::m52(sead::Vector3f* out, Chemical* chemical) {
     if (_cf4 & 0x200) {
