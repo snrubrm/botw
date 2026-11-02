@@ -324,6 +324,46 @@ void findLinkedActor(BaseProcAccessor* accessor, Actor* actor,
     accessor->acquire(nullptr);
 }
 
+namespace acc {
+
+// NON_MATCHING: loop bounds, index-presence tracking and stack/register allocation differ.
+map::Object* findLinkReferenceObj(ActorLinkConstDataAccess& accessor,
+                                  const sead::SafeString& unit_config_name,
+                                  const sead::SafeString& unique_name, int* idx) {
+    s32 start = 0;
+    if (idx) {
+        start = *idx < 0 ? 0 : *idx;
+        *idx = -1;
+    }
+    auto* data = accessor.getMapObjectLinkData();
+    if (!data)
+        return nullptr;
+    const s32 count = data->mObjects.size();
+    if (count <= start)
+        return nullptr;
+    auto** objects = data->mObjects.getBufferPtr();
+    for (s32 i = start; i < count; ++i) {
+        auto* object = objects[i];
+        if (!object)
+            continue;
+        if (!unit_config_name.isEmpty() &&
+            unit_config_name != sead::SafeString(object->getUnitConfigName()))
+            continue;
+        if (!unique_name.isEmpty()) {
+            const char* value = nullptr;
+            if (!objects[i]->getMubinIter().tryGetParamStringByKey(&value, "UniqueName") ||
+                unique_name != sead::SafeString(value))
+                continue;
+        }
+        if (idx)
+            *idx = i;
+        return objects[i];
+    }
+    return nullptr;
+}
+
+}  // namespace acc
+
 
 // NON_MATCHING: the original materialises `-1` before the null result in the no-actor path
 map::Object* findLinkReferenceObj(Actor* actor, const sead::SafeString& unit_config_name,
@@ -1543,6 +1583,60 @@ const AttClient* sub_7100EE3E2C(Actor* actor, const sead::SafeString& name) {
 void sub_7100EEAC50(BaseProcAccessor* accessor, phys::RigidBody* body) {
     if (auto* tag = sead::DynamicCast<PhysicsUserTag>(body->getUserTag()))
         tag->acquireActor(accessor);
+}
+
+// 0x7100ee62f8: the native contact-point predicate; signature inferred from its body and caller.
+// NON_MATCHING: literal string temporaries, stack layout and register allocation differ.
+bool sub_7100EE62F8(phys::ContactPointInfo* info, bool flag) {
+    if (!info || info->getNumContactPoints() == 0 || info->begin().isEnd())
+        return false;
+    auto it = info->begin();
+    const auto end = info->end();
+    const f32 min_normal = flag ? 0.15f : 0.1f;
+    for (; it != end; ++it) {
+        auto* tag = sead::DynamicCast<PhysicsUserTag>(it.getPoint()->body_b->getUserTag());
+        if (!tag)
+            continue;
+        ActorLinkConstDataAccess accessor;
+        tag->acquireActor(&accessor);
+        if (accessor.hasProc() && accessor.getProfile() == "Player") {
+            const sead::Vector3f actor_pos = accessor.getActorMtx().getTranslation();
+            const sead::Vector3f point =
+                it.getPointPosition(phys::ContactPointInfo::Iterator::Point::BodyA);
+            if ((actor_pos - point).length() <= 0.1f)
+                return true;
+        } else if (isEnemyProfile(accessor) ||
+                   (accessor.hasProc() && accessor.getProfile() == "NPC")) {
+            if (it.getPoint()->separating_normal.dot(sead::Vector3f::ey) > min_normal)
+                return true;
+        }
+    }
+    return false;
+}
+
+// NON_MATCHING: the compiler simplifies the loop's result bookkeeping and exit branches.
+bool sub_7100EE66C4(Actor* actor, bool flag) {
+    auto* set = actor->getRigidBodyByName("Body");
+    if (set) {
+        const s32 count = set->getRigidBodies().size();
+        for (s32 i = 0; i < count; ++i) {
+            if (auto* body = set->getRigidBody(i)) {
+                if (sub_7100EE62F8(body->getContactPointInfo(), flag))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    phys::ContactPointInfo* info;
+    if (auto* controller = actor->getCharacterController()) {
+        info = controller->sub_7100F635E4();
+    } else if (auto* body = actor->getMainBody()) {
+        info = body->getContactPointInfo();
+    } else {
+        info = nullptr;
+    }
+    return sub_7100EE62F8(info, flag);
 }
 
 // NON_MATCHING: the success return value is set before rather than between the rotation stores.
