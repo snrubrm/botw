@@ -1,10 +1,41 @@
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "Game/gameSceneSubsysMisc.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
 #include "KingSystem/System/StageInfo.h"
 
 namespace ksys::act {
+
+// 0x71006e4950: source scope is inferred; the only direct caller passes this object.
+void sub_71006E4950(Unk_71006e45c4* object);
+
+// NON_MATCHING: flag-address placement changes register allocation.
+void Unk_71006e45c4::m5(Actor* actor) {
+    mActor = actor;
+    bool has_metal = false;
+    if (actor) {
+        if (auto* bodies = actor->getRigidBodyByName(sub_71007A24D0()->cstr())) {
+            for (s32 i = 0, count = bodies->getRigidBodies().size(); i < count; ++i) {
+                if (sub_71009059FC(bodies->getRigidBody(i))) {
+                    has_metal = true;
+                    break;
+                }
+            }
+        }
+    }
+    if (has_metal)
+        mFlags.setBitOn(1);
+    else
+        mFlags.setBitOff(1);
+    if (mFlags & 2) {
+        mActor->sub_71011D0204(1);
+        sub_71006E4950(this);
+    }
+    mFlags &= ~8u;
+}
+
 
 // 0x71006e770c: free scope inferred from the native no-argument caller and body.
 bool sub_71006E770C() {
