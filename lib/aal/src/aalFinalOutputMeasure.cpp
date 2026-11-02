@@ -675,4 +675,176 @@ void FinalOutputMeasure::drawInformationVerticalSimple_(sead::DrawContext* conte
     writer->endDraw();
 }
 
+// NON_MATCHING: enum index conversions, tick-loop lowering, and stack scheduling differ.
+// 0x7100baeb4c
+void FinalOutputMeasure::drawInformationVerticalStereo_(sead::DrawContext* context,
+                                                        sead::TextWriter* writer) const {
+    writer->setScale({0.7f, 0.7f});
+    const f32 glyph_width = writer->getFont()->getCharWidth('W');
+    const f32 width = glyph_width * writer->getScale().x;
+    const f32 narrow_width = width * 3.0f;
+    DebugDrawer drawer(writer);
+    drawer.begin(context);
+    const f32 wide_width = width * 11.0f;
+    const f32 wide_height = _16c;
+    const f32 wide_font_height = writer->getFont()->getHeight();
+    const f32 wide_line_height = wide_font_height * writer->getScale().y;
+    const sead::Vector2f wide_size{wide_width, wide_height + (wide_line_height + wide_line_height)};
+    const f32 narrow_height = _16c;
+    const f32 narrow_font_height = writer->getFont()->getHeight();
+    const f32 narrow_line_height = narrow_font_height * writer->getScale().y;
+    const sead::Vector2f narrow_size{narrow_width, narrow_height + (narrow_line_height + narrow_line_height)};
+    sead::Vector2f position = _164;
+    drawer.drawRect(position, narrow_size, _204, false, sead::Color4f::cGray);
+    position.x += narrow_width;
+    drawer.drawRect(position, wide_size, _204, false, sead::Color4f::cGray);
+    const f32 wide_step = width * 12.0f;
+    position.x += wide_step;
+    drawer.drawRect(position, narrow_size, _204, false, sead::Color4f::cGray);
+    position.x += narrow_width;
+    drawer.drawRect(position, wide_size, _204, false, sead::Color4f::cGray);
+    position.x += wide_step;
+    drawer.drawRect(position, wide_size, _204, false, sead::Color4f::cGray);
+    position.x += wide_width;
+    drawer.drawRect(position, narrow_size, _204, false, sead::Color4f::cGray);
+
+    const sead::Vector2f bar_origin = _164;
+    position = {bar_origin.x + narrow_width, bar_origin.y};
+    const f32 bar_font_height = writer->getFont()->getHeight();
+    position.y += bar_font_height * writer->getScale().y;
+    const sead::Vector2f bar_size{width * 5.0f, _16c};
+    drawMeterBarVertical_(&drawer, position, bar_size, _e8, _194, _17c, _180,
+                          _1e0[0] > _1ec[0] ? _1e0[0] : _1ec[0],
+                          _1e0[0] < _1ec[0] ? _1e0[0] : _1ec[0], _1f8[0],
+                          {0.5f, 1.0f, 1.0f, 1.0f});
+    const f32 bar_step = width * 6.0f;
+    position.x += bar_step;
+    drawMeterBarVertical_(&drawer, position, bar_size, _ec, sead::Mathf::minNumber(), _17c, _180,
+                          _1e0[1] > _1ec[1] ? _1e0[1] : _1ec[1],
+                          _1e0[1] < _1ec[1] ? _1e0[1] : _1ec[1], _1f8[1],
+                          {0.5f, 1.0f, 1.0f, 1.0f});
+    position.x += bar_step;
+    position.x += narrow_width;
+    drawMeterBarVertical_(&drawer, position, bar_size, getVU(SpeakerChannel::FrontLeft),
+                          _19c[getChannelIndex(SpeakerChannel::FrontLeft)], _184, _188,
+                          _1d4 > _1d8 ? _1d4 : _1d8, _1d4 < _1d8 ? _1d4 : _1d8,
+                          sead::Mathf::minNumber(), {0.0f, 0.75f, 0.0f, 1.0f});
+    position.x += bar_step;
+    const f32 left_sample = getSamplePeak(SpeakerChannel::FrontLeft);
+    const f32 left_held = _1b4[getChannelIndex(SpeakerChannel::FrontLeft)];
+    const f32 left_peak = left_held == 0.0f ? -100.0f : sead::Mathf::logTable(left_held) * 8.685889f;
+    drawMeterBarVertical_(&drawer, position, bar_size, left_sample, left_peak, _18c, _190,
+                          _1dc, sead::Mathf::maxNumber(), sead::Mathf::minNumber(),
+                          {0.8f, 0.4f, 0.2f, 1.0f});
+    position.x += bar_step;
+    position.x += narrow_width;
+    drawMeterBarVertical_(&drawer, position, bar_size, getVU(SpeakerChannel::FrontRight),
+                          _19c[getChannelIndex(SpeakerChannel::FrontRight)], _184, _188,
+                          _1d4 > _1d8 ? _1d4 : _1d8, _1d4 < _1d8 ? _1d4 : _1d8,
+                          sead::Mathf::minNumber(), {0.0f, 0.75f, 0.0f, 1.0f});
+    position.x += bar_step;
+    const f32 right_sample = getSamplePeak(SpeakerChannel::FrontRight);
+    const f32 right_held = _1b4[getChannelIndex(SpeakerChannel::FrontRight)];
+    const f32 right_peak = right_held == 0.0f ? -100.0f : sead::Mathf::logTable(right_held) * 8.685889f;
+    drawMeterBarVertical_(&drawer, position, bar_size, right_sample, right_peak, _18c, _190,
+                          _1dc, sead::Mathf::maxNumber(), sead::Mathf::minNumber(),
+                          {0.8f, 0.4f, 0.2f, 1.0f});
+    drawer.end();
+
+    position = {_164.x + narrow_width, _164.y};
+    writer->beginDraw();
+    writer->setCursorFromTopLeft(position);
+    if (_e8 > -100.0f)
+        writer->printf("%5.1f ", _e8);
+    else
+        writer->printf("-inf. ");
+    if (_ec > -100.0f)
+        writer->printf("%5.1f ", _ec);
+    else
+        writer->printf("-inf. ");
+    writer->printf("   ");
+    const f32 left_vu_text = getVU(SpeakerChannel::FrontLeft);
+    if (left_vu_text > -100.0f)
+        writer->printf("%5.1f ", left_vu_text);
+    else
+        writer->printf("-inf. ");
+    const f32 left_sample_text = getSamplePeak(SpeakerChannel::FrontLeft);
+    if (left_sample_text > -100.0f)
+        writer->printf("%5.1f ", left_sample_text);
+    else
+        writer->printf("-inf. ");
+    const f32 right_vu_text = getVU(SpeakerChannel::FrontRight);
+    if (right_vu_text > -100.0f)
+        writer->printf("%5.1f ", right_vu_text);
+    else
+        writer->printf("-inf. ");
+    const f32 right_sample_text = getSamplePeak(SpeakerChannel::FrontRight);
+    if (right_sample_text > -100.0f)
+        writer->printf("%5.1f ", right_sample_text);
+    else
+        writer->printf("-inf. ");
+    const f32 label_font_height = writer->getFont()->getHeight();
+    position.y += label_font_height * writer->getScale().y;
+    position.y += _16c;
+    writer->setCursorFromTopLeft(position);
+    writer->printf(" MMT  ");
+    writer->printf(" SHT  ");
+    writer->printf("   ");
+    writer->printf("VU-L  ");
+    writer->printf("PK-L  ");
+    writer->printf("VU-R  ");
+    writer->printf("PK-R  ");
+
+    const f32 base_x = _164.x;
+    const f32 base_y = _164.y;
+    const f32 top_font_height = writer->getFont()->getHeight();
+    const f32 top = base_y + top_font_height * writer->getScale().y;
+    {
+        const f32 min = _17c, max = _180, height = _16c;
+        const f32 font_height = writer->getFont()->getHeight();
+        const f32 half_font_height = font_height * writer->getScale().y * -0.5f;
+        for (s32 i = static_cast<s32>(min), last = static_cast<s32>(max); i <= last; ++i) {
+            if (i % 5 == 0) {
+                writer->setCursorFromTopLeft(
+                    {base_x, top + half_font_height + height * (1.0f - (f32(i) - min) / (max - min))});
+                writer->printf("%3d", i);
+            }
+            if (i == last)
+                break;
+        }
+    }
+    const f32 second_axis_x = wide_step + (narrow_width + base_x);
+    {
+        const f32 min = _184, max = _188, height = _16c;
+        const f32 x = second_axis_x;
+        const f32 font_height = writer->getFont()->getHeight();
+        const f32 half_font_height = font_height * writer->getScale().y * -0.5f;
+        for (s32 i = static_cast<s32>(min), last = static_cast<s32>(max); i <= last; ++i) {
+            if (i % 5 == 0) {
+                writer->setCursorFromTopLeft(
+                    {x, top + half_font_height + height * (1.0f - (f32(i) - min) / (max - min))});
+                writer->printf("%3d", i);
+            }
+            if (i == last)
+                break;
+        }
+    }
+    {
+        const f32 min = _18c, max = _190, height = _16c;
+        const f32 font_height = writer->getFont()->getHeight();
+        const f32 x = (wide_step + (wide_step + (narrow_width + second_axis_x))) - width;
+        const f32 half_font_height = font_height * writer->getScale().y * -0.5f;
+        for (s32 i = static_cast<s32>(min), last = static_cast<s32>(max); i <= last; ++i) {
+            if (i % 5 == 0) {
+                writer->setCursorFromTopLeft(
+                    {x, top + half_font_height + height * (1.0f - (f32(i) - min) / (max - min))});
+                writer->printf("%3d", i);
+            }
+            if (i == last)
+                break;
+        }
+    }
+    writer->endDraw();
+}
+
 }  // namespace aal
