@@ -13,7 +13,7 @@ void SystemApplyEnvSetAction::enter_(ksys::act::ai::InlineParamPack* params) {
         if (auto* scene = graphics->mModelScenes.unsafeAt(0)) {
             auto& env = scene->mEnv;
             const sead::SafeString name = mEnvSetName_d.cstr();
-            const int index = env.sub_7100C2859C(name, 0);
+            const int index = env.searchEnvSetIndex(name, 0);
             if (index < 0) {
                 setFailed();
             } else {

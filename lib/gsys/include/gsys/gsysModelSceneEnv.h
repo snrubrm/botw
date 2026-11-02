@@ -75,9 +75,12 @@ public:
         u32 mUserBinaryCount;
         u8 _45c[0x490 - 0x45c];
         s32 mUserBinaryIndex;
-        u8 _494[0x5c0 - 0x494];
+        u8 _494[0x4a8 - 0x494];
+        // initialize constructs this string with capacity 260 and storage at +0x4bc. The
+        // directory and filename below retain views into this owned buffer after it is split.
+        sead::FixedSafeString<260> mSourcePath;
         // setFilenameImpl 0x7100c2934c splits a path at its last '/' and stores the directory
-        // here and the file name at +0x5d0; it clears the third string at +0x5e0.
+        // here and the file name at +0x5d0. initializeDataSet clears all three views separately.
         sead::SafeString mSourceDirectory;
         sead::SafeString mSourceFileName;
         sead::SafeString mSourceFileExtension;
@@ -149,8 +152,8 @@ public:
     void setSourceFileName(agl::utl::IParameterIO* io, const sead::SafeString& file_name,
                            u32 data_set) const;
     // 0x7100c25494: the out-of-line path join behind setSourceFileName. It returns false when
-    // either the directory or the file name is empty and otherwise writes the 256-byte path
-    // buffer of `io` (IParameterIO +0xb0) as directory + '/' + file name.
+    // either input is empty. The save path uses directory + '/' + the filename stem, followed
+    // by its extension with the first binary-extension character removed.
     static bool setSourceFileName_(agl::utl::IParameterIO* io, const sead::SafeString& directory,
                                    const sead::SafeString& file_name);
 
@@ -158,9 +161,10 @@ public:
     // before finalization. load_ 0x7100c29658 and stage unload 0x71007c5d20 pass it to clearImpl.
     bool get_b40() const { return m_b40; }
 
-    // 0x7100c2859c (declared only): the index of the enabled env set called `name` in the data set
-    // `data_set`, or -1 if there is none. (Descriptive name unknown.)
-    int sub_7100C2859C(const sead::SafeString& name, u32 data_set);
+    // 0x7100c2859c: the index of the enabled env set called `name`, or -1 if absent.
+    s32 searchEnvSetIndex(const sead::SafeString& name, u32 data_set) const;
+
+    void setFilenameImpl(DataSet* data_set, const sead::SafeString& file_name);
 
     // 0x7100c286ec (declared only): applies the env set `env_set` of the data set `data_set`; with
     // `reset` the current env objects are cleared first.

@@ -1,4 +1,6 @@
 #include <gsys/gsysModelSceneEnv.h>
+#include <detail/aglFileIO.h>
+#include <utility/aglParameterIO.h>
 
 namespace gsys {
 
@@ -89,6 +91,68 @@ void ModelSceneEnv::setSourceFileName(agl::utl::IParameterIO* io, const sead::Sa
                                       u32 data_set) const {
     const DataSet& data = mDataSets[data_set];
     setSourceFileName_(io, data.mSourceDirectory, file_name);
+}
+
+// NON_MATCHING: the path, extension and tail string objects occupy different stack slots.
+bool ModelSceneEnv::setSourceFileName_(agl::utl::IParameterIO* io,
+                                       const sead::SafeString& directory,
+                                       const sead::SafeString& file_name) {
+    if (directory.isEmpty())
+        return false;
+    if (file_name.isEmpty())
+        return false;
+
+    sead::FixedSafeString<260> path;
+    const s32 extension_index = file_name.rfindIndex(".");
+    const sead::SafeString extension = file_name.getPart(extension_index + 1);
+    char* const buffer = path.getBuffer();
+    const s32 buffer_size = path.getBufferSize();
+    s32 offset = 0;
+    {
+        sead::BufferedSafeString tail(buffer, buffer_size);
+        offset += tail.copy(directory);
+    }
+    {
+        sead::BufferedSafeString tail(buffer + offset, buffer_size - offset);
+        offset += tail.append("/");
+    }
+    {
+        sead::BufferedSafeString tail(buffer + offset, buffer_size - offset);
+        offset += tail.copy(file_name, extension_index);
+    }
+    {
+        sead::BufferedSafeString tail(buffer + offset, buffer_size - offset);
+        offset += tail.append(".");
+    }
+    {
+        sead::BufferedSafeString tail(buffer + offset, buffer_size - offset);
+        tail.copy(extension.getPart(1));
+    }
+    io->_b0.copy(path);
+    return true;
+}
+
+s32 ModelSceneEnv::searchEnvSetIndex(const sead::SafeString& name, u32 data_set) const {
+    const DataSet& data = mDataSets[data_set];
+    const s32 count = data.mEnvSets.size();
+    const EnvSet* const env_sets = data.mEnvSets.getBufferPtr();
+    for (s32 i = 0; i != count; ++i) {
+        const EnvSet& env_set = env_sets[i];
+        if (env_set.mEnabled && env_set.mName == name)
+            return i;
+    }
+    return -1;
+}
+
+void ModelSceneEnv::setFilenameImpl(DataSet* data_set, const sead::SafeString& file_name) {
+    data_set->mSourcePath.copy(file_name);
+    agl::detail::ReplaceDirectoryDelimiter(&data_set->mSourcePath, '/', false);
+    const s32 slash = data_set->mSourcePath.rfindIndex("/");
+    if (slash >= 0) {
+        data_set->mSourcePath.getBuffer()[slash] = '\0';
+        data_set->mSourceDirectory = data_set->mSourcePath;
+        data_set->mSourceFileName = data_set->mSourcePath.cstr() + slash + 1;
+    }
 }
 
 }  // namespace gsys
