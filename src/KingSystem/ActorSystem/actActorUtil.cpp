@@ -1545,6 +1545,27 @@ void sub_7100EEAC50(BaseProcAccessor* accessor, phys::RigidBody* body) {
         tag->acquireActor(accessor);
 }
 
+// NON_MATCHING: the success return value is set before rather than between the rotation stores.
+bool sub_7100EE37EC(sead::Vector3f* position, sead::Vector3f* rotation, Actor* actor,
+                   const sead::SafeString& name) {
+    if (!actor)
+        return false;
+    auto* object = actor->getMapObject();
+    if (!object || !object->getLinkData())
+        return false;
+
+    sead::FixedSafeString<64> anchor("Anchor");
+    anchor.append(name);
+    auto* target = object->getLinkData()->sub_7100D4EFA4(anchor);
+    if (!target)
+        return false;
+    if (position)
+        *position = target->getTranslate();
+    if (rotation)
+        *rotation = target->getRotate();
+    return true;
+}
+
 // 0x7100ee3ad8: the closest ModelBind-linked actor matrix to a position.
 // Free scope and argument qualifiers are inferred from the native caller.
 // NON_MATCHING: the actor-acquisition helper is inlined, and matrix loads and stores differ.
