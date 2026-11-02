@@ -438,6 +438,77 @@ int Actor::handleMessage(const Message* message) {
     }
 }
 
+// NON_MATCHING: compiler operand ordering changes NaN payload selection; branch scheduling also differs.
+void Actor::m91() {
+    res::ModelList::AttentionInfo info;
+    bool has_info = false;
+    if (mActorParam && mActorParam->getRes().mModelList)
+        has_info = mActorParam->getRes().mModelList->getAttentionInfo(&info);
+
+    if (_4b0 != -1 && _4b2 != -1 && mModel) {
+        sead::Matrix34f matrix = sead::Matrix34f::ident;
+        gsys::BoneAccessKey key;
+        key.model_unit_index = _4b0;
+        key.bone_index = _4b2;
+        mModel->getBoneWorldMatrix(key, &matrix);
+        if (!has_info || (info.at_obstacle_chk_offset.x == 0.0f &&
+                          info.at_obstacle_chk_offset.y == 0.0f &&
+                          info.at_obstacle_chk_offset.z == 0.0f)) {
+            matrix.getTranslation(mPreviousPos3);
+            return;
+        }
+        mPreviousPos3.x = matrix.m[0][3] + (info.at_obstacle_chk_offset.x * matrix.m[0][0] +
+                                             info.at_obstacle_chk_offset.y * matrix.m[0][1] +
+                                             info.at_obstacle_chk_offset.z * matrix.m[0][2]);
+        mPreviousPos3.y = matrix.m[1][3] + (info.at_obstacle_chk_offset.x * matrix.m[1][0] +
+                                             info.at_obstacle_chk_offset.y * matrix.m[1][1] +
+                                             info.at_obstacle_chk_offset.z * matrix.m[1][2]);
+        mPreviousPos3.z = matrix.m[2][3] + (info.at_obstacle_chk_offset.x * matrix.m[2][0] +
+                                             info.at_obstacle_chk_offset.y * matrix.m[2][1] +
+                                             info.at_obstacle_chk_offset.z * matrix.m[2][2]);
+        return;
+    }
+
+    phys::RigidBody* body = nullptr;
+    if (mPhysics) {
+        if (auto* controller = mPhysics->getCharacterController())
+            body = controller->sub_7100F61A34();
+    }
+    if (!body)
+        body = mMainBody;
+    if (body) {
+        x_18(&mPreviousPos3);
+        if (!has_info || (info.at_obstacle_chk_offset.x == 0.0f &&
+                          info.at_obstacle_chk_offset.y == 0.0f &&
+                          info.at_obstacle_chk_offset.z == 0.0f))
+            return;
+        const sead::Vector3f source_offset = info.at_obstacle_chk_offset;
+        sead::Matrix34f matrix = sead::Matrix34f::ident;
+        body->getTransform(&matrix);
+        mPreviousPos3.x = (source_offset.x * matrix.m[0][0] + source_offset.y * matrix.m[0][1] +
+                           source_offset.z * matrix.m[0][2]) + mPreviousPos3.x;
+        mPreviousPos3.y = (source_offset.x * matrix.m[1][0] + source_offset.y * matrix.m[1][1] +
+                           source_offset.z * matrix.m[1][2]) + mPreviousPos3.y;
+        mPreviousPos3.z = (source_offset.x * matrix.m[2][0] + source_offset.y * matrix.m[2][1] +
+                           source_offset.z * matrix.m[2][2]) + mPreviousPos3.z;
+    } else {
+        mMtx.getTranslation(mPreviousPos3);
+        if (!has_info || (info.at_obstacle_chk_offset.x == 0.0f &&
+                          info.at_obstacle_chk_offset.y == 0.0f &&
+                          info.at_obstacle_chk_offset.z == 0.0f))
+            return;
+        mPreviousPos3.x = (info.at_obstacle_chk_offset.x * mMtx.m[0][0] +
+                           info.at_obstacle_chk_offset.y * mMtx.m[0][1] +
+                           info.at_obstacle_chk_offset.z * mMtx.m[0][2]) + mPreviousPos3.x;
+        mPreviousPos3.y = (info.at_obstacle_chk_offset.x * mMtx.m[1][0] +
+                           info.at_obstacle_chk_offset.y * mMtx.m[1][1] +
+                           info.at_obstacle_chk_offset.z * mMtx.m[1][2]) + mPreviousPos3.y;
+        mPreviousPos3.z = (info.at_obstacle_chk_offset.x * mMtx.m[2][0] +
+                           info.at_obstacle_chk_offset.y * mMtx.m[2][1] +
+                           info.at_obstacle_chk_offset.z * mMtx.m[2][2]) + mPreviousPos3.z;
+    }
+}
+
 void Actor::m88() {
     if (mAttention) {
         mAttention->sub_7100D73454(&mPreviousPos);
