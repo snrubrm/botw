@@ -2573,22 +2573,6 @@ public:
     virtual void m4();
 };
 
-// typeinfo 0x71025f9c60; the original has no vtable for this class (an abstract base: only its RTTI
-// checks remain). Placeholder generated from its children (genskel.py).
-class Unk_71025f9c60 {
-    SEAD_RTTI_BASE(Unk_71025f9c60)
-public:
-    virtual ~Unk_71025f9c60() = default;
-};
-
-// vtable 0x71024bfe10 (5 slots); placeholder generated from the vtable (genskel.py).
-class Unk_71024bfe10 : public Unk_71025f9c60 {
-    SEAD_RTTI_OVERRIDE(Unk_71024bfe10, Unk_71025f9c60)
-public:
-    ~Unk_71024bfe10() override;
-    virtual void m4();
-};
-
 // typeinfo 0x71025fffa8; the original has no vtable for this class (an abstract base: only its RTTI
 // checks remain). Placeholder generated from its children (genskel.py).
 class Unk_71025fffa8 {

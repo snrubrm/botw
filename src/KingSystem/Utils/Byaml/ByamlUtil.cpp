@@ -45,8 +45,6 @@ bool tryGetByamlV3f(sead::Vector3f* value, const ByamlIter& iter, const char* ke
 
 Unk_71024bf6f8::~Unk_71024bf6f8() = default;
 
-Unk_71024bfe10::~Unk_71024bfe10() = default;
-
 Unk_71024c0140::~Unk_71024c0140() = default;
 
 Unk_71024c0220::~Unk_71024c0220() = default;
