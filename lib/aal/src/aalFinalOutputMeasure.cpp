@@ -737,7 +737,6 @@ void FinalOutputMeasure::drawInformationVerticalStereo_(sead::DrawContext* conte
                           _1dc, sead::Mathf::maxNumber(), sead::Mathf::minNumber(),
                           {0.8f, 0.4f, 0.2f, 1.0f});
     position.x += bar_step;
-    position.x += narrow_width;
     drawMeterBarVertical_(&drawer, position, bar_size, getVU(SpeakerChannel::FrontRight),
                           _19c[getChannelIndex(SpeakerChannel::FrontRight)], _184, _188,
                           _1d4 > _1d8 ? _1d4 : _1d8, _1d4 < _1d8 ? _1d4 : _1d8,
