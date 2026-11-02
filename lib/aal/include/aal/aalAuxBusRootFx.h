@@ -16,6 +16,16 @@ class AuxBusDataCtrl;
 // Constructor, destructor and the other virtual method bodies remain undecompiled.
 class AuxBusRootFx : public nn::atk::EffectAux, public WorkerTask, public sead::hostio::Node {
 public:
+    // Partial argument model: fields are established by the native caller and initializer.
+    struct CreateArg {
+        u32 _0;
+        u8 _4;
+        u8 _5;
+        u8 _6[2];
+        u32 _8;
+        u32 _c;
+    };
+
     AuxBusRootFx(BusType bus, DeviceType device);
     ~AuxBusRootFx() override;
 
@@ -28,6 +38,7 @@ public:
                               nn::atk::OutputMode mode);
     void workerThreadProc_(bool is_quitting) override;
 
+    void initialize(const CreateArg& arg, AuxBusCtrl* owner, sead::Heap* heap);
     void clearAuxBusDataCtrl();
     void setAuxBusDataCtrl(AuxBusDataCtrl* control);
 

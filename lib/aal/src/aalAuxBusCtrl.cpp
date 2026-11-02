@@ -13,6 +13,15 @@ AuxBusCtrl::~AuxBusCtrl() {
     }
 }
 
+// 0x7100ba26b4
+void AuxBusCtrl::initialize(const CreateArg& arg, sead::Heap* heap) {
+    mBus = arg.bus;
+    mRoot = new (heap) AuxBusRootFx(arg.bus, arg.device);
+    mManager = arg.manager;
+    setObjName(arg.name);
+    mRoot->initialize(arg.root, this, heap);
+}
+
 // 0x7100ba2860
 void AuxBusCtrl::setAuxBusDataCtrl(AuxBusDataCtrl* control) {
     mRoot->setAuxBusDataCtrl(control);

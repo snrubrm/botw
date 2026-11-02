@@ -6,25 +6,35 @@
 #include "aal/aalNamedObj.h"
 #include <heap/seadDisposer.h>
 #include "aal/aalDeviceType.h"
+#include "aal/aalAuxBusRootFx.h"
 #include "aal/aalTimedFader.h"
 
 namespace aal {
 
 class AuxBusDataCtrl;
-class AuxBusRootFx;
+class AuxBusMgr;
 
 class AuxBusCtrl : public NamedObj, public sead::hostio::Node {
 public:
+    struct CreateArg {
+        AuxBusMgr* manager;
+        BusType bus;
+        DeviceType device;
+        sead::SafeString name;
+        AuxBusRootFx::CreateArg root;
+    };
+
     AuxBusCtrl();
     ~AuxBusCtrl() override;
 
+    void initialize(const CreateArg& arg, sead::Heap* heap);
     // 0x7100ba2734 (U): the per-bus work of one auxiliary bus; declaration only.
     void calc();
     void setAuxBusDataCtrl(AuxBusDataCtrl* control);
 
 private:
     BusType mBus;
-    void* _28;
+    AuxBusMgr* mManager;
     AuxBusRootFx* mRoot;
     // The real fixed pointer array has this PtrArrayImpl subobject and four inline slots.
     // The pointee type is unknown; do not access or instantiate its elements here.

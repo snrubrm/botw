@@ -5,6 +5,9 @@
 
 namespace aal {
 
+// 0x7100b7be80
+void AuxBusRootFx::OnChangeOutputMode() {}
+
 // NON_MATCHING: bus conversion lowers differently and the native discards a device read.
 // 0x7100b7b110
 void AuxBusRootFx::clearAuxBusDataCtrl() {
