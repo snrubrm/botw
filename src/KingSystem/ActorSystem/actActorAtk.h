@@ -17,6 +17,7 @@ class Heap;
 }  // namespace sead
 
 namespace ksys::phys {
+class CollisionInfo;
 class RigidBody;
 class PhysicsUserTag;
 }  // namespace ksys::phys
@@ -104,7 +105,7 @@ public:
         void reset();
         void sub_710079F208(const Struct7& other);
         void sub_710079E958(sead::Buffer<u8>* buffer, Actor* actor);
-        void sub_710079EFBC(sead::Buffer<u8>* buffer, Actor* actor);
+        void sub_710079EFBC(sead::Buffer<phys::CollisionInfo*>* buffer, Actor* actor);
 
         struct ContactHistory {
             struct Entry {
@@ -221,7 +222,7 @@ public:
 
     /* 0x18 */ Struct7* _18 = nullptr;
     /* 0x20 */ sead::Buffer<u8> _20;
-    /* 0x30 */ sead::Buffer<u8> _30;
+    /* 0x30 */ sead::Buffer<phys::CollisionInfo*> _30;
     /* 0x40 */ AttackSensor* _40 = nullptr;
     /* 0x48 */ Unk_710079e64c* _48 = nullptr;
     /* 0x50 */ sead::Buffer<u8> _50;

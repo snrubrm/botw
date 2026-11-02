@@ -3,9 +3,12 @@
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/actAttackSensor.h"
 #include "KingSystem/ActorSystem/Profiles/actPlayerOrEnemy.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
+#include "KingSystem/Physics/RigidBody/physRigidBody.h"
+#include "KingSystem/Physics/System/physCollisionInfo.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "KingSystem/System/Timer.h"
 
@@ -58,6 +61,45 @@ void sub_71007A0EB4(
 }
 
 namespace ksys::act {
+
+// NON_MATCHING: the compiler merges the empty-list lock and unlock branches.
+void ActorAtk::Struct7::sub_710079EFBC(sead::Buffer<phys::CollisionInfo*>* buffer,
+                                      Actor* actor) {
+    const u32 count = buffer->size();
+    if (!count)
+        return;
+    auto** infos = buffer->getBufferPtr();
+    for (u32 i = 0; i < count; ++i) {
+        auto* info = infos[i];
+        auto& collisions = info->getCollidingBodies();
+        if (collisions.size() == 0)
+            continue;
+        auto* bodies = collisions.front();
+        info->lock();
+        while (bodies) {
+            auto* body_a = bodies->bodies[0];
+            auto* body_b = bodies->bodies[1];
+            auto* attack = sead::DynamicCast<AttackSensor>(body_a->getUserTag());
+            if (attack) {
+                auto* target = sead::DynamicCast<AttackSensor2>(body_b->getUserTag());
+                if (target) {
+                    auto* other = attack->getActor(nullptr, actor);
+                    if (other) {
+                        ActorLinkConstDataAccess accessor;
+                        target->acquireActor(&accessor);
+                        if (!accessor.hasProc(other) &&
+                            (!other->m57() || hasTag(other, 0xdfaad2df))) {
+                            mContactHistory.sub_71007A1060(target, attack->_44);
+                            _3c2 = 1;
+                        }
+                    }
+                }
+            }
+            bodies = collisions.next(bodies);
+        }
+        info->unlock();
+    }
+}
 
 // NON_MATCHING: the compiler rearranges ring capacity checks and adds a slot null check.
 void ActorAtk::Struct7::ContactHistory::sub_71007A0F94(AttackSensor2* sensor, s32 new_key) {
