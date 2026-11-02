@@ -2294,6 +2294,23 @@ void Actor::sub_71011C5630(gsys::Model* model) {
 // sinit_actor initializes three inline buffers of 256 process pointers at 0x7102650688.
 sead::SafeArray<sead::FixedPtrArray<BaseProc, 256>, 3> sActorListsMaybe;
 
+// NON_MATCHING: argument and local stack-store scheduling differs.
+void Actor::sub_71011D8BCC(s32 core, MessageTransceiverBase* sender, s32 a1, s32 a2,
+                          s32 message, void* user_data, const sead::SafeString* target) {
+    if (!mMapObject || !mMapObject->getLinkData())
+        return;
+    auto& actors = sActorListsMaybe[core];
+    if (actors.indexOf(this) >= 0)
+        return;
+    actors.pushBack(this);
+    MessageType type = static_cast<MessageType>(message);
+    if (!target || *target == getName()) {
+        sender->sendMessage(*mMsgTransceiver.getId(), type, user_data, true);
+        message = s32(type);
+    }
+    mMapObject->getLinkData()->sub_7100D4F1D0(core, sender, a1, a2, message, user_data, target);
+}
+
 bool sub_71011D7194(BaseProc* proc, s32 index) {
     auto& actors = sActorListsMaybe[index];
     if (actors.indexOf(proc) >= 0)

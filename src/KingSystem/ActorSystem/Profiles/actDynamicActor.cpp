@@ -3,6 +3,8 @@
 #include <gsys/gsysModel.h>
 #include "KingSystem/ActorSystem/actActorChemicals.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actActorParam.h"
+#include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
@@ -19,11 +21,33 @@
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/System/physInstanceSet.h"
 #include "Game/gameRoot38.h"
+#include "KingSystem/System/StageInfo.h"
 
 // Source ownership is unknown; declaration only.
 void sub_7100D2D424(uking::act::DamageManagerBase* manager);
 
 namespace ksys::act {
+
+// NON_MATCHING: string assignment and record initialization lower differently.
+DropData* Actor::makeDropData(sead::Heap* heap) {
+    sead::SafeString drop_actor;
+    const sead::SafeString key = "DropActor";
+    if (!mRootAi || !mRootAi->getMapUnitParam(&drop_actor, key)) {
+        const char* value = nullptr;
+        if (mMapObjIter.tryGetParamStringByKey(&value, key))
+            drop_actor = value;
+        else
+            drop_actor = sead::SafeString::cEmptyString;
+    }
+    if (drop_actor.isEmpty() && mActorParam->isDummyParam(res::ActorLink::User::DropTable))
+        return nullptr;
+    if (StageInfo::sIsAocField && isEnemyProfile(this))
+        return nullptr;
+    auto* drop = new (heap, 8) DropData{};
+    if (drop)
+        drop->init(this, drop_actor);
+    return drop;
+}
 
 Unk_71006dc134::Unk_71006dc134(const sead::Vector3f& a1, const sead::Vector3f& a2,
                              ActorAtk::Unk_710079e64c::Unk1* info, bool a4, bool a5)

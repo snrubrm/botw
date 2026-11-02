@@ -77,7 +77,7 @@ public:
     /* 0x008 */ sead::Atomic<u32> _8 = 0;
     /* 0x00c */ u16 _c = 0;  // flags
     /* 0x00e */ u16 _e = 0;
-    /* 0x010 */ Unk1 _10[7][16];
+    /* 0x010 */ Unk1 _10[7][16]{};
 };
 KSYS_CHECK_SIZE_NX150(DropData, 0xa90);
 
