@@ -1,9 +1,12 @@
 #include "Game/Actor/aiUnk_7102450fa8.h"
+
 #include <basis/seadNew.h>
 #include <new>
+#include "Game/Actor/actEnemy.h"
 #include "Game/Actor/aiPriestBossPhaseMembers.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
+#include "KingSystem/ActorSystem/actActorWeapons.h"
 #include "Game/gameUnkRttiPlaceholders.h"
 #include <math/seadMathCalcCommon.h>
 #include "Game/Actor/AI/aiPriestBoss.h"
@@ -19,6 +22,95 @@ const char* const sUnk_7102450f98 = "Grave";
 // The Priest Boss enemies' shared navmesh material filter (vtable 0x7102450e90, installed in their
 // NavMeshCharacter by PriestBossActorEnemyRoot::init_).
 Unk_7102450e90 sUnk_71025c8d10;
+
+// NON_MATCHING: branch layout and enum spills differ; the Vector2f copy uses two word accesses
+// instead of one doubleword access, with the flag store scheduled between them.
+bool Unk_7102450fa8::m4(const ksys::Message& message) {
+    if (_1b8.m2(message)) {
+        if (_1b8._34._8 == 5) {
+            resetFlag(Flag::_6);
+        } else if (_1b8._34._8 == 4) {
+            setFlag(Flag::_6);
+            _200 = _1b8._34._0;
+        }
+    }
+
+    if (_208.m2(message)) {
+        switch (_208._34._4) {
+        case 0:
+            setFlag(Flag::_10);
+            break;
+        case 1:
+            if (_208._34._0)
+                setFlag(Flag::_9);
+            else
+                resetFlag(Flag::_9);
+            break;
+        case 2:
+            if (_208._34._0)
+                setFlag(Flag::_8);
+            else
+                clearFlags8And9Maybe();
+            break;
+        }
+    }
+
+    if (_368.m2(message)) {
+        if (_368._38._0 == 3) {
+            _3d0 = _368._8;
+            if (_3d0.hasProc())
+                _3e0.reset(60.0f);
+        } else if (_368._38._0 == 2) {
+            const f32 time = _368._38._14;
+            _350.rate = -1.0f;
+            _3c8 = time;
+            _350.value = time;
+            _350.previous_value = time;
+        }
+        _368.x();
+        return true;
+    }
+
+    if (_258.m2(message)) {
+        auto& flags = _248[_258._38._0];
+        if (_258._38._4 == 2) {
+            --flags._2;
+            flags._1 = true;
+        } else if (_258._38._4 == 1) {
+            ++flags._2;
+            flags._1 = true;
+        }
+        return true;
+    }
+    return false;
+}
+
+void Unk_7102450fa8::sub_710071918C() {
+    const u32 count = _8.size();
+    auto* entries = _8.getBufferPtr();
+    for (u32 i = 0; i < count; ++i) {
+        auto& entry = entries[i];
+        ksys::act::ActorLinkConstDataAccess accessor;
+        if (ksys::act::acquireActor(&entry._e0, &accessor)) {
+            if (entry._0 < 3) {
+                auto* actor = sead::DynamicCast<ksys::act::Actor>(entry._e0.getProc(nullptr, nullptr));
+                if (sead::IsDerivedFrom<uking::act::Enemy>(actor)) {
+                    actor->getWeapons();
+                    for (s32 slot = 0; slot < 6; ++slot) {
+                        ksys::act::ActorLinkConstDataAccess weapon_accessor;
+                        auto* link = &actor->getWeapons()->mWeapons[slot].link;
+                        if (link->hasProc()) {
+                            ksys::act::acquireActor(link, &weapon_accessor);
+                            weapon_accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+                        }
+                    }
+                }
+            }
+            accessor.deleteLater(ksys::act::BaseProc::DeleteReason::_0);
+            entry._e0.reset();
+        }
+    }
+}
 
 s32 Unk_7102450fa8::sub_7100719FCC() const {
     return _88 ? _88->_ac : -1;

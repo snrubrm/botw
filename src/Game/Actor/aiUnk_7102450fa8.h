@@ -203,13 +203,13 @@ public:
     /* 0x19c */ u8 _19c[4];
     /* 0x1a0 */ ksys::MesTransceiverId _1a0;  // set from Unk3::_10 by sub_710071964C
     /* 0x1b8 */ Unk_71024509a8 _1b8;
-    /* 0x200 */ u8 _200[0x208 - 0x200];
+    /* 0x200 */ sead::Vector2f _200;
     /* 0x208 */ Unk_7102450858 _208;
     // Per-phase flags (PriestBossActorEnemyRoot::m52 reads `_248[_3c]._0`); 3 bytes per phase.
     struct PhaseFlags {
         bool _0;
         bool _1;
-        bool _2;
+        u8 _2;  // incremented/decremented by the phase message listener
     };
     /* 0x248 */ sead::SafeArray<PhaseFlags, 5> _248;
     // inline-only in the original; name is a guess (PriestBossPhaseSecond::calc_: the phase index temporary

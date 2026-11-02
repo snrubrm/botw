@@ -142,7 +142,7 @@ struct Unk_7102409958_Payload {
     u32 _0 = 0;
     sead::Vector3f _4;  // PriestBossIronBallRoot::handleMessage_ stores Vector3f::zero
     sead::JobQueueLock mLock;
-    u32 _14 = 0;
+    s32 _14 = 0;
     ksys::act::BaseProcLink mLink;
 };
 
@@ -209,7 +209,7 @@ struct Unk_7102450978_Payload {
 
 // Message 0x80000d7 (sender Unk_71023dbd40)
 struct Unk_71023dbd40_Payload {
-    // _0 holds the xz direction of PriestBossGiantStageRotate (mode 0); _8 is the mode (0, 1, 2).
+    // _0 holds an xz direction; PriestBossGiantStageRotate sends modes 0, 1, 2, 4, 5 and 6 in _8.
     sead::Vector2f _0 = {0, 0};
     u32 _8 = 0;
     bool _c = false;
