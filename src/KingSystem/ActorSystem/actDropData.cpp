@@ -1,4 +1,5 @@
 #include "KingSystem/ActorSystem/actDropData.h"
+#include "KingSystem/Resource/Actor/resResourceDrop.h"
 #include <prim/seadBitFlag.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorPreLoadMgr.h"
@@ -11,6 +12,42 @@
 #include "Game/Actor/Damage/dmgDamageManager.h"
 
 namespace ksys::act {
+
+// NON_MATCHING: stack frame, loop, and register allocation differ.
+bool DropData::initActualTable(Unk1* entries, const sead::SafeString& table,
+                               const res::Drop* drop, const sead::Vector3f& pos) {
+    const s32 table_index = drop->findTableIndex(table);
+    if (table_index == -1)
+        return false;
+    const s32 repeat = drop->getRepeatNum(table_index);
+    const s32 approach = drop->getApproachType(table_index);
+    const s32 speed = drop->getOccurrenceSpeedType(table_index);
+    for (s32 n = 0; n < repeat; ++n) {
+        sead::SafeString actor_name;
+        eco::getEcosystemActorName(&actor_name, drop->getRandomDropFromTable(table_index), pos);
+        if (actor_name.isEmpty())
+            continue;
+        for (s32 i = 0; i < 16; ++i) {
+            auto& entry = entries[i];
+            if (entry._0 == 0) {
+                entry._0 = 1;
+                entry._8 = actor_name;
+                entry._2 = approach;
+                entry._3 = speed;
+                _c |= 0x100;
+                break;
+            }
+            if (entry._8 == actor_name && entry._2 == approach && entry._3 == speed) {
+                ++entry._0;
+                _c |= 0x100;
+                break;
+            }
+        }
+    }
+    return true;
+}
+
+
 
 // NON_MATCHING: in the getFlags2 block the original masks the flag word with 32-bit constants
 // (and #0xfffffffb) where clang uses the 16-bit form here, and it canonicalises the (flags2 | 1) test

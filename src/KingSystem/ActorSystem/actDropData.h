@@ -8,6 +8,10 @@
 #include <thread/seadAtomic.h>
 #include "KingSystem/Utils/Types.h"
 
+namespace ksys::res {
+class Drop;
+}
+
 namespace uking::act {
 class DamageManagerBase;
 }  // namespace uking::act
@@ -63,6 +67,8 @@ public:
     void initFromActor(Actor* actor) override;
     // 0x71006db324 (declaration only; informal CSV name).
     void init(Actor* actor, const sead::SafeString& drop_actor);
+    bool initActualTable(Unk1* entries, const sead::SafeString& table, const res::Drop* drop,
+                         const sead::Vector3f& pos);
     void getTable(sead::Buffer<Unk1>* table, sead::Buffer<Unk1>* table2,
                   const sead::Vector3f& pos) override;
     ~DropData() override;
