@@ -90,7 +90,7 @@ public:
     void m117(ksys::act::Unk117* arg) override;
     void* m119() override;
     ksys::act::Unk_71025ae640* getAtk() override;
-    ksys::act::Unk_71025b08f8* m126() override;
+    ksys::act::Unk_71025b08f8* getContactCollector() override;
     uking::act::DamageManagerBase* getDamageMgr() override;
     HorseRideInfo* getPlayerRideInfo() override;
     bool m146() override;
@@ -130,7 +130,7 @@ public:
     bool sub_7100022E3C(bool on);
 
     /* 0x0c78 */ ksys::act::ActorAtk _c78{this};  // getAtk
-    /* 0x0cf8 */ ksys::act::Unk_7102459df8* _cf8 = nullptr;  // m126
+    /* 0x0cf8 */ ksys::act::Unk_7102459df8* _cf8 = nullptr;  // getContactCollector
     /* 0x0d00 */ ksys::act::ActorWeapons mWeapons{this};
     /* 0x0da0 */ uking::act::DamageMgrNPC _da0{this};  // getDamageMgr
     /* 0x0e30 */ ksys::act::Unk_71006e4478 _e30;

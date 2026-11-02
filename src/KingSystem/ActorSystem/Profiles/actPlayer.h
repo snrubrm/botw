@@ -128,7 +128,7 @@ public:
     /* 145 */ void m145() override {}
     /* 146 */ bool m146() override;
     /* 147 */ void m147(sead::PtrArray<Actor>* actors) override;
-    /* 148 */ f32 m148() override { return _20d0; }
+    /* 148 */ f32 getFallHighestPosY() override { return _20d0; }
     /* 151 */ bool m151(u16 bit) override;
     /* 157 */ bool m157(sead::Heap* heap) override;
     /* 158 */ void m158() override;

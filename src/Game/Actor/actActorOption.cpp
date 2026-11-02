@@ -19,7 +19,7 @@ bool ActorOption::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
         return false;
     if (!initField858(heap))
         return false;
-    if (m126() && _858 && !_858->m4(heap, nullptr))
+    if (getContactCollector() && _858 && !_858->m4(heap, nullptr))
         return false;
     if (!m157(heap))
         return false;
@@ -79,7 +79,7 @@ ksys::act::Actor* ActorOption::m31() {
     return sead::DynamicCast<Actor>(_b90.getProc(nullptr, nullptr));
 }
 
-ksys::act::Actor* ActorOption::m48() {
+ksys::act::Actor* ActorOption::getAttackerActor() {
     return sead::DynamicCast<Actor>(_b90.getProc(nullptr, nullptr));
 }
 

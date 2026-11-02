@@ -1263,7 +1263,7 @@ ksys::act::Actor* HorseBase::m31() {
     return Actor::m31();
 }
 
-ksys::act::Actor* HorseBase::m48() {
+ksys::act::Actor* HorseBase::getAttackerActor() {
     if (_b10)
         return _b10->sub_7100E8B6E0();
     return nullptr;

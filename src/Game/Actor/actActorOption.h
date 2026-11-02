@@ -44,7 +44,7 @@ public:
 
     bool shouldUnload(s32* a1) override;
     Actor* m31() override;
-    Actor* m48() override;
+    Actor* getAttackerActor() override;
 
     /* 0xb90 */ ksys::act::BaseProcLink _b90;
     /* 0xba0 */ LinkInfo* _ba0 = nullptr;

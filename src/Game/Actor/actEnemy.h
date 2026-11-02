@@ -296,7 +296,7 @@ public:
     Actor* m31() override;
     void m36(const sead::Vector3f& a1, const sead::Vector3f& a2, bool a3, bool a4, bool a5) override;
     void m41(sead::Matrix34f* mtx) override;
-    Actor* m48() override;
+    Actor* getAttackerActor() override;
     bool m49(ksys::phys::RigidBody* body) override;
     void killWithDropsAndEffects(int a1) override;
     // Declaration only; ownership follows the current Enemy label and caller.

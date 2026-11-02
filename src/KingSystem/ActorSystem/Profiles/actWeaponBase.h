@@ -72,7 +72,7 @@ public:
 
     // FIXME: figure out return types, parameters and names
     virtual Actor* getParentActor();
-    Actor* m48() override;
+    Actor* getAttackerActor() override;
     // Inline-only in the original (accessor wrappers in the Weapon TU read `_938` directly); name is a guess.
     BaseProcLink& getParentLink() { return _938; }
     virtual bool hasParentActor_() { return _938.hasProc(); }

@@ -14,7 +14,7 @@ void GuardianMiniFinalBeamMove::sub_7100194A58() {
     auto* beam = sead::DynamicCast<act::BeamBase>(mActor);
     if (!beam)
         return;
-    auto* actor = beam->m48();
+    auto* actor = beam->getAttackerActor();
     if (!actor)
         return;
 
@@ -69,7 +69,7 @@ void GuardianMiniFinalBeamMove::m36(const AttackInfo* info) {
     if (!hasAttackInfo(beam) || !info)
         return;
 
-    auto* actor = beam->m48();
+    auto* actor = beam->getAttackerActor();
     if (!actor)
         return;
     // The existing isPlayerProfile helper takes a non-const BaseProcLink pointer.

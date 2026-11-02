@@ -60,7 +60,7 @@ protected:
 public:
     Actor* m31() override;
     void m36(const sead::Vector3f& a1, const sead::Vector3f& a2, bool a3, bool a4, bool a5) override;
-    Actor* m48() override;
+    Actor* getAttackerActor() override;
     bool m53() override;
     void m63() override;
     void initMaybe() override;
@@ -73,14 +73,14 @@ public:
     Unk_7100e4e084* m100() override;
     int getExtraHeapSize(const ActorHeapInitArgMaybe& arg) override;
     Unk_71025ae640* getAtk() override;
-    Unk_71025b08f8* m126() override;
+    Unk_71025b08f8* getContactCollector() override;
     uking::act::DamageManagerBase* getDamageMgr() override;
     Unk_71006e45c4* m128() override;
     Unk_71025ae620* getDropData() override;
     Unk3* m135() override;
 
     // FIXME: figure out return types, parameters and names
-    virtual f32 m148() { return _860; }
+    virtual f32 getFallHighestPosY() { return _860; }
     virtual void m149(int) {}
     virtual void m150() {}
     // Test a bit / a mask of the BitFlag16 at +8 of the object returned by m159.

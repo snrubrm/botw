@@ -91,10 +91,10 @@ Actor* Bullet::m31() {
     return DynamicActor::m31();
 }
 
-Actor* Bullet::m48() {
+Actor* Bullet::getAttackerActor() {
     if (_b90.hasProc())
         return sead::DynamicCast<Actor>(_b90.getProc(nullptr, nullptr));
-    return DynamicActor::m48();
+    return DynamicActor::getAttackerActor();
 }
 
 Actor* Bullet::m163() {

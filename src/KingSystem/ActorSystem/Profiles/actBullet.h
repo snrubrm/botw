@@ -20,7 +20,7 @@ public:
     ~Bullet() override;
 
     Actor* m31() override;
-    Actor* m48() override;
+    Actor* getAttackerActor() override;
     bool m52(sead::Vector3f* out, Chemical* chemical) override;
     void initMaybe() override;
     void m73() override;

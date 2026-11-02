@@ -170,7 +170,7 @@ Actor* WeaponBase::m31() {
     return getParentActor();
 }
 
-Actor* WeaponBase::m48() {
+Actor* WeaponBase::getAttackerActor() {
     if (hasParentActor_())
         return getParentActor();
     if (_948.hasProc())

@@ -1890,7 +1890,7 @@ ActorWeapons* Actor::getWeapons() {
     return nullptr;
 }
 
-Actor* Actor::m48() {
+Actor* Actor::getAttackerActor() {
     return nullptr;
 }
 
@@ -1960,7 +1960,7 @@ Unk_71006e45c4* Actor::m128() {
     return nullptr;
 }
 
-Unk_71025b08f8* Actor::m126() {
+Unk_71025b08f8* Actor::getContactCollector() {
     return nullptr;
 }
 

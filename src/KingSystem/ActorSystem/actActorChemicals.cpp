@@ -709,8 +709,8 @@ void Unk_71024e6428::m34() {
 }
 
 Chemical* Unk_71024e6428::sub_7100E3B79C() const {
-    if (mActor && mActor->m48())
-        return mActor->m48()->getChemicalStuff();
+    if (mActor && mActor->getAttackerActor())
+        return mActor->getAttackerActor()->getChemicalStuff();
     return nullptr;
 }
 

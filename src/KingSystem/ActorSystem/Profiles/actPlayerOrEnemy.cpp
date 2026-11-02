@@ -184,7 +184,7 @@ bool PlayerOrEnemy::prepareInit_(sead::Heap* heap, PrepareArg& arg) {
     initField868(heap);
     if (!initField858(heap))
         return false;
-    if (m126() && _858 && !_858->m4(heap, nullptr))
+    if (getContactCollector() && _858 && !_858->m4(heap, nullptr))
         return false;
     return m157(heap);
 }

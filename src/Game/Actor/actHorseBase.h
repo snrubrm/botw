@@ -152,7 +152,7 @@ protected:
 public:
     Actor* m31() override;
     void m44(ksys::phys::NavMeshCharacter* nav) override;
-    Actor* m48() override;
+    Actor* getAttackerActor() override;
     void onPreFadeOutDelete() override;
     bool shouldUnload(s32* a1) override;
     void m63() override;

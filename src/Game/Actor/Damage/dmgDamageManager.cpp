@@ -88,7 +88,7 @@ void DamageManager::sub_71006D32F8() {
     auto* actor = sead::DynamicCast<ksys::act::DynamicActor>(mActor);
     if (!actor)
         return;
-    _84 = actor->m148();
+    _84 = actor->getFallHighestPosY();
     if (!sub_71007A40A8(actor))
         return;
     bool ragdoll_grounded = false;

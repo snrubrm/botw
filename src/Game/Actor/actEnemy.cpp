@@ -464,10 +464,10 @@ ksys::act::Actor* Enemy::m31() {
     return DynamicActor::m31();
 }
 
-ksys::act::Actor* Enemy::m48() {
+ksys::act::Actor* Enemy::getAttackerActor() {
     if (auto* rideable = getHorseOptionsMaybe())
         return rideable->sub_7100E8B6E0();
-    return DynamicActor::m48();
+    return DynamicActor::getAttackerActor();
 }
 
 void Enemy::m70() {

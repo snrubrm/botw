@@ -332,7 +332,7 @@ s32* Weapon::getLife() {
     return &mLife;
 }
 
-ksys::act::Unk_71025b08f8* Weapon::m126() {
+ksys::act::Unk_71025b08f8* Weapon::getContactCollector() {
     return _d98;
 }
 

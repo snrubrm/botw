@@ -156,9 +156,9 @@ void BeamBase::sub_7100002DA8(ksys::act::Actor* actor) {
     _c28.acquire(actor, false);
 }
 
-ksys::act::Actor* BeamBase::m48() {
+ksys::act::Actor* BeamBase::getAttackerActor() {
     if (!_c38.hasProc())
-        return DynamicActor::m48();
+        return DynamicActor::getAttackerActor();
     return sead::DynamicCast<ksys::act::Actor>(_c38.getProc(nullptr, nullptr));
 }
 

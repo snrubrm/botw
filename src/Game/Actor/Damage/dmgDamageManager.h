@@ -258,7 +258,7 @@ public:
     f32 _78 = 0.0f;
     u32 _7c = 0;
     f32 _80 = 1.0f;  // multiplier of the impulse threshold (sub_71006D27BC)
-    f32 _84;  // DynamicActor::m148 result (0x71006d32f8).
+    f32 _84;  // DynamicActor::getFallHighestPosY result (0x71006d32f8).
     s32 _88 = -1;  // attack info index of damage kind 6 (DamageManager::getAttackInfo_)
     s32 _8c = 0;  // WeakPointRoot::m35
     sead::Vector3f _90{0, 0, 0};  // position of damage kind 9 (getPosition)

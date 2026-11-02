@@ -346,7 +346,7 @@ public:
     ksys::act::Unk_71025ae640* getAtk() override;
     ksys::act::Unk_71025ae620* getDropData() override;
     ksys::act::Actor::Unk3* m135() override;
-    ksys::act::Unk_71025b08f8* m126() override;
+    ksys::act::Unk_71025b08f8* getContactCollector() override;
     uking::act::DamageManagerBase* getDamageMgr() override;
     // Original 0x71002ee9e8 writes the unsigned amount into Struct20::mField_8.
     void setDamage(u32 damage);

@@ -232,7 +232,7 @@ Unk_71025ae640* DynamicActor::getAtk() {
     return _850;
 }
 
-Actor* DynamicActor::m48() {
+Actor* DynamicActor::getAttackerActor() {
     return nullptr;
 }
 
@@ -248,7 +248,7 @@ Unk_71006e45c4* DynamicActor::m128() {
     return _a50;
 }
 
-Unk_71025b08f8* DynamicActor::m126() {
+Unk_71025b08f8* DynamicActor::getContactCollector() {
     return _858;
 }
 

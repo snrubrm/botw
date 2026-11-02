@@ -587,7 +587,7 @@ public:
     virtual phys::NavMeshCharacter* m45();
     virtual void* m46();
     virtual bool m47();
-    virtual Actor* m48();
+    virtual Actor* getAttackerActor();
     // 0x7100000940: no (false). Overrides take the other body of the contact.
     virtual bool m49(phys::RigidBody* body);
     virtual bool m50();
@@ -687,7 +687,7 @@ public:
     virtual bool m123();
     virtual void onPlacementObjReset();
     virtual Unk_71025ae640* getAtk();
-    virtual Unk_71025b08f8* m126();
+    virtual Unk_71025b08f8* getContactCollector();
     virtual uking::act::DamageManagerBase* getDamageMgr();
     virtual Unk_71006e45c4* m128();
     // The PlayerLink part of a player actor (null for other actors).

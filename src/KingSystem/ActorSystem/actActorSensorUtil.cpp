@@ -35,7 +35,7 @@ AttackSensor2::~AttackSensor2() {
 }  // namespace ksys::act
 
 bool sub_71007A40A8(Actor* actor) {
-    return actor && actor->m126();
+    return actor && actor->getContactCollector();
 }
 
 const sead::SafeString* sub_71007A24BC() {
@@ -448,14 +448,14 @@ void sub_71007A4074(Actor* actor, ksys::phys::ContactLayer layer) {
 }
 
 Unk_7102459df8::Unk_710079d5a0::Unk1* sub_71007A40D0(Actor* actor, int idx) {
-    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->m126());
+    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->getContactCollector());
     if (!obj)
         return nullptr;
     return obj->sub_710079CF98(idx);
 }
 
 bool sub_71007A4178(Actor* actor, bool ignore_creator) {
-    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->m126());
+    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->getContactCollector());
     if (!obj)
         return false;
     if (ignore_creator && actor->getCreateArgBaseProcLink().hasProc() &&
@@ -466,21 +466,21 @@ bool sub_71007A4178(Actor* actor, bool ignore_creator) {
 }
 
 s32 sub_71007A425C(Actor* actor) {
-    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->m126());
+    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->getContactCollector());
     if (!obj)
         return 0;
     return obj->sub_710079CF08();
 }
 
 bool sub_71007A42FC(Actor* actor) {
-    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->m126());
+    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->getContactCollector());
     if (!obj)
         return false;
     return obj->sub_710079CF20();
 }
 
 bool isLandedMaybe(Actor* actor, bool ignore_creator) {
-    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->m126());
+    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->getContactCollector());
     if (!obj)
         return false;
     if (ignore_creator && actor->getCreateArgBaseProcLink().hasProc() &&
@@ -491,21 +491,21 @@ bool isLandedMaybe(Actor* actor, bool ignore_creator) {
 }
 
 Unk_7102459df8::Unk_7102459e60::Unk1* sub_71007A471C(Actor* actor, int idx) {
-    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->m126());
+    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->getContactCollector());
     if (!obj)
         return nullptr;
     return obj->sub_710079CF40(idx);
 }
 
 s32 sub_71007A47C4(Actor* actor) {
-    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->m126());
+    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->getContactCollector());
     if (!obj)
         return 0;
     return obj->sub_710079CE98();
 }
 
 bool isBgGroundHit(Actor* actor, bool ignore_creator) {
-    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->m126());
+    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->getContactCollector());
     if (!obj)
         return false;
     if (ignore_creator && actor->getCreateArgBaseProcLink().hasProc() &&
@@ -516,14 +516,14 @@ bool isBgGroundHit(Actor* actor, bool ignore_creator) {
 }
 
 Unk_7102459df8::Unk_7102459e88::Unk1* sub_71007A4948(Actor* actor, int idx) {
-    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->m126());
+    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->getContactCollector());
     if (!obj)
         return nullptr;
     return obj->sub_710079CF6C(idx);
 }
 
 s32 sub_71007A49F0(Actor* actor) {
-    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->m126());
+    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->getContactCollector());
     if (!obj)
         return 0;
     return obj->sub_710079CED0();
@@ -542,7 +542,7 @@ bool motorcycleCheckStuff(Actor* actor, bool on) {
         }
         return moto->_dd8->_13d != 0;
     }
-    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->m126());
+    auto* obj = sead::DynamicCast<Unk_7102459df8>(actor->getContactCollector());
     if (!obj)
         return false;
     return obj->sub_710079CEB0();

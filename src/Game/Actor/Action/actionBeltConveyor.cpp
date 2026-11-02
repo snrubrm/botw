@@ -23,7 +23,7 @@ void BeltConveyor::enter_(ksys::act::ai::InlineParamPack* params) {
         _40 = aabb.getHalfSizeY() + aabb.getCenter().y;
     }
     sub_71000C48C0();
-    auto* unk = sead::DynamicCast<ksys::act::Unk_7102459df8>(mActor->m126());
+    auto* unk = sead::DynamicCast<ksys::act::Unk_7102459df8>(mActor->getContactCollector());
     if (unk && unk->_20)
         unk->_20->_588 = sub_71000C4560;
     playAS(mParams.mASName_s.cstr(), false, 0, 0, -1.0f);
@@ -31,7 +31,7 @@ void BeltConveyor::enter_(ksys::act::ai::InlineParamPack* params) {
                              *mParams.mRotateSpeed_m * *mParams.mASRate_s);}
 
 void BeltConveyor::leave_() {
-    auto* unk = sead::DynamicCast<ksys::act::Unk_7102459df8>(mActor->m126());
+    auto* unk = sead::DynamicCast<ksys::act::Unk_7102459df8>(mActor->getContactCollector());
     if (unk && unk->_20)
         unk->_20->_588 = nullptr;
 }
