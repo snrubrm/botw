@@ -53,7 +53,7 @@ void TreasureBoxBurnedOut::spawnDropActor() {
     if (ksys::act::InfoData::instance()->getActorProfile(&profile, mDropActorName_a->cstr()) &&
         getWeaponTypeId(profile) != -1) {
         auto* variable = sead::DynamicCast<Unk_710242cd08>(
-            *static_cast<Unk_71025afb58**>(mSharpWeaponAddParam_a));
+            static_cast<Unk_71025afb58*>(*static_cast<void**>(mSharpWeaponAddParam_a)));
         auto* modifier = variable ? &variable->_8 : nullptr;
         auto* object = actor->getMapObject();
         requestCreateActorForTreasureChestDrop(

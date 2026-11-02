@@ -11,6 +11,10 @@ namespace al {
 class ByamlIter;
 }
 
+namespace uking::ai {
+class TreasureBox;
+}
+
 namespace ksys::eco {
 
 struct EcoMapHeader {
@@ -137,6 +141,7 @@ KSYS_CHECK_SIZE_NX150(EcosystemTraits, 0x34);
 
 class Ecosystem {
     SEAD_SINGLETON_DISPOSER(Ecosystem)
+    friend class uking::ai::TreasureBox;
 private:
     Ecosystem() = default;
     virtual ~Ecosystem();
