@@ -2,6 +2,7 @@
 
 #include <basis/seadTypes.h>
 #include <hostio/seadHostIONode.h>
+#include <gfx/seadColor.h>
 #include <math/seadVector.h>
 #include "aal/aalAudioFrameProcessMgr.h"
 #include "aal/aalDeviceType.h"
@@ -112,22 +113,24 @@ private:
     f32 _180;
     f32 _184;
     f32 _188;
-    u8 _18c[8];
+    f32 _18c;
+    f32 _190;
     f32 _194;
     f32 _198;
     f32 _19c[6];
-    u8 _1b4[0x1cc - 0x1b4];
+    f32 _1b4[6];
     // Constructor initializes this to zero; both meter helpers compare it with 0.0f.
     f32 _1cc;
     u8 _1d0[0x1d4 - 0x1d0];
     // Constructor defaults and the native text helpers identify these threshold fields.
     f32 _1d4;
     f32 _1d8;
-    u8 _1dc[4];
+    f32 _1dc;
     f32 _1e0[3];
     f32 _1ec[3];
     f32 _1f8[3];
-    u8 _204[0x218 - 0x204];
+    sead::Color4f _204;
+    u8 _214[4];
 };
 static_assert(sizeof(FinalOutputMeasure) == 0x218, "aal::FinalOutputMeasure size mismatch");
 
