@@ -52,7 +52,10 @@ private:
     u8 _d1[7];
     AuxBusDataCtrl* mPending;
     sead::Mutex mMutex;
-    u8 _120[0x138 - 0x120];
+    u8 mIsFinalMix;
+    u8 _121[7];
+    void* mEffectBuffer;
+    size_t mEffectBufferSize;
     MemoryPool mMemoryPool;
     u8 _1a0[0x1b0 - 0x1a0];
 };

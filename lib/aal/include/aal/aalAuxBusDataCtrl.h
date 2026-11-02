@@ -21,6 +21,7 @@ class FxParamSetter;
 // Delay 251b5c0 and Reverb 2502640. SampleFormat's class identity is known
 // from native signatures, but its enumerator domain remains unresolved.
 class AuxBusDataCtrl : public sead::hostio::Node {
+    friend class AuxBusRootFx;
     SEAD_RTTI_BASE(AuxBusDataCtrl)
 public:
     virtual ~AuxBusDataCtrl() = default;
