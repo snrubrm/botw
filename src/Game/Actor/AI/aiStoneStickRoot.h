@@ -31,7 +31,7 @@ private:
 };
 static_assert(sizeof(Unk_71024257f8) == 0x10);
 
-// Declaration only: complete native lookup and enter_ identify actor, optional index and predicate.
+// Complete native lookup and enter_ identify actor, optional index and predicate.
 // Address neighbors place this free helper in the AI namespace; the source owner is unknown.
 ksys::map::Object* sub_71005AB22C(ksys::act::Actor* actor, s32* index,
                                  Unk_71024257f8* predicate);

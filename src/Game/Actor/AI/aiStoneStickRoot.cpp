@@ -3,6 +3,7 @@
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
 #include "KingSystem/ActorSystem/actTag.h"
 #include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/Physics/Constraint/physConstraint.h"
 #include "KingSystem/Physics/Constraint/physFixedCs.h"
@@ -15,6 +16,39 @@
 #include "KingSystem/Utils/Thread/Message.h"
 
 namespace uking::ai {
+
+// NON_MATCHING: loop control, accessor cleanup branches and stack/register allocation differ.
+ksys::map::Object* sub_71005AB22C(ksys::act::Actor* actor, s32* index,
+                                 Unk_71024257f8* predicate) {
+    s32 start = 0;
+    if (index) {
+        start = *index < 0 ? 0 : *index;
+        *index = -1;
+    }
+    if (!actor || !predicate)
+        return nullptr;
+
+    ksys::act::ActorLinkConstDataAccess actor_accessor(actor);
+    auto* links = actor_accessor.getMapObjectLinkData();
+    if (!links)
+        return nullptr;
+    const s32 count = links->mObjects.size();
+    if (count <= start)
+        return nullptr;
+    auto** objects = links->mObjects.getBufferPtr();
+    for (s32 i = start; i < count; ++i) {
+        if (!objects[i])
+            continue;
+        ksys::act::ActorLinkConstDataAccess accessor;
+        objects[i]->getActorWithAccessor(accessor);
+        if (accessor.hasProc() && predicate->invoke(accessor)) {
+            if (index)
+                *index = i;
+            return objects[i];
+        }
+    }
+    return nullptr;
+}
 
 // 0x71005abeec
 bool Unk_71024257f8::invoke(const ksys::act::ActorLinkConstDataAccess& accessor) {
