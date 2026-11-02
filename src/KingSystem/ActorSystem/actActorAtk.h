@@ -106,10 +106,31 @@ public:
         void sub_710079E958(sead::Buffer<u8>* buffer, Actor* actor);
         void sub_710079EFBC(sead::Buffer<u8>* buffer, Actor* actor);
 
+        struct ContactHistory {
+            struct Entry {
+                AttackSensor2* sensor;  // borrowed contact tag
+                u32 actor_id;
+                f32 timer = 0.0f;
+            };
+            KSYS_CHECK_SIZE_NX150(Entry, 0x10);
+
+            void sub_71007A0F94(AttackSensor2* sensor, s32 key);
+            bool sub_71007A1060(AttackSensor2* sensor, s32 key);
+            void sub_71007A1178();
+
+            s32 key = -1;
+            sead::FixedRingBuffer<Entry, 8> entries;
+        };
+        KSYS_CHECK_SIZE_NX150(ContactHistory, 0xa0);
+
         sead::SafeArray<AttackInfo, 8> mAttackInfos;
         s16 mNumAttackInfo;
         u8 _3c2;
+        ContactHistory mContactHistory;
     };
+    KSYS_CHECK_SIZE_NX150(Struct7, 0x468);
+    static_assert(offsetof(Struct7, mContactHistory) == 0x3c8);
+    static_assert(offsetof(Struct7::ContactHistory, entries) == 0x8);
     // dtor 0x710079e64c: 8 entries of 0x100 bytes and their count.
     struct Unk_710079e64c {
         // ctor 0x7a1f04 (0x58-0x88 left uninitialised).

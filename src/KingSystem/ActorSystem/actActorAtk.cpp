@@ -59,6 +59,63 @@ void sub_71007A0EB4(
 
 namespace ksys::act {
 
+// NON_MATCHING: the compiler rearranges ring capacity checks and adds a slot null check.
+void ActorAtk::Struct7::ContactHistory::sub_71007A0F94(AttackSensor2* sensor, s32 new_key) {
+    if (key != new_key) {
+        entries.clear();
+        key = new_key;
+    }
+
+    ActorLinkConstDataAccess accessor;
+    sensor->acquireActor(&accessor);
+    const u32 actor_id = accessor.getId();
+    if (entries.size() >= entries.capacity())
+        entries.dropFront();
+    if (auto* entry = entries.reserveBack()) {
+        entry->sensor = sensor;
+        entry->actor_id = actor_id;
+        entry->timer = 3.0f;
+    }
+}
+
+// NON_MATCHING: the loop uses a signed bound instead of the native equality latch.
+bool ActorAtk::Struct7::ContactHistory::sub_71007A1060(AttackSensor2* sensor, s32 search_key) {
+    if (key != search_key)
+        return false;
+    const s32 count = entries.size();
+    for (s32 i = 0; i < count; ++i) {
+        if (entries(i).sensor == sensor) {
+            ActorLinkConstDataAccess accessor;
+            sensor->acquireActor(&accessor);
+            const u32 actor_id = entries(i).actor_id;
+            if (actor_id == accessor.getId()) {
+                entries(i).timer = 3.0f;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// NON_MATCHING: expiration tracking and repeated front removal differ from the native bulk update.
+void ActorAtk::Struct7::ContactHistory::sub_71007A1178() {
+    const s32 count = entries.size();
+    bool all_expired = true;
+    for (s32 i = 0; i < count; ++i) {
+        auto& entry = entries(i);
+        if (entry.timer > 0.0f) {
+            Timer::update(&entry.timer, -1.0f);
+            all_expired = false;
+        } else {
+            entry.actor_id = u32(-1);
+        }
+    }
+    if (all_expired) {
+        for (s32 i = 0; i < count; ++i)
+            entries.dropFront();
+    }
+}
+
 namespace {
 ActorAtk::Struct7::AttackInfo sDefaultAttackInfo;
 ActorAtk::Unk_710079e64c::Unk1 sDefaultContactInfo;
