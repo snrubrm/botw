@@ -1,11 +1,14 @@
 #include "Game/Actor/AI/aiTreasureBox.h"
+#include "Game/Actor/aiUnk_710073BB28.h"
 #include "KingSystem/Physics/Constraint/physUnk_7102519e58.h"
 #include <basis/seadNew.h>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorUtil.h"
+#include "KingSystem/ActorSystem/actChemical.h"
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/ActorSystem/Profiles/actWeaponBase.h"
 #include "KingSystem/Ecosystem/ecoSystem.h"
+#include "KingSystem/Event/evtManager.h"
 #include "KingSystem/Map/mapObject.h"
 #include "KingSystem/Map/mapPlacementActors.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
@@ -135,6 +138,54 @@ void TreasureBox::setupDropActorWithName() {
 
 void TreasureBox::leave_() {
     ksys::act::ai::Ai::leave_();
+}
+
+void TreasureBox::calc_() {
+    if (isCurrentChild("壊れる"))
+        return;
+    auto* actor = mActor;
+    if (isCurrentChild("クローズ待機")) {
+        if (_80._30) {
+            if (_c0._10)
+                _c0._10->_44 = true;
+            const bool can_get_pouch = actorHasTagCanGetPouch(*mDropActorName_a);
+            getDemoGetAnotherActor(actor, *mDropActorName_a, can_get_pouch, true, &_c0._8);
+            if (can_get_pouch)
+                ksys::act::disableAttClient(actor, "Open");
+            _80.x();
+            return;
+        }
+        auto* event_mgr = ksys::evt::Manager::instance();
+        if (event_mgr && !event_mgr->_1d2b8 && !(event_mgr->_1d2f4_bytes[1] & 1) && _c0._10)
+            _c0._10->_44 = false;
+        ksys::act::enableAttClient(actor, "Open");
+        auto* body = actor->getMainBody();
+        if (body && body->getMotionType() == ksys::phys::MotionType::Dynamic) {
+            auto* info = body->getContactPointInfo();
+            if (body->isActive() && info &&
+                (info->getNumContactPoints().load() == 0 || info->begin().isEnd()))
+                ksys::act::disableAttClient(actor, "Open");
+            else
+                ksys::act::enableAttClient(actor, "Open");
+        }
+    } else if (getCurrentChild()->isFinished()) {
+        ksys::act::disableAttClient(mActor, "Open");
+        if (_c0._10)
+            _c0._10->_44 = true;
+        changeChild("オープン待機", nullptr);
+        return;
+    }
+    if (_80._30)
+        return;
+    auto* event_mgr = ksys::evt::Manager::instance();
+    if (!event_mgr || event_mgr->_1d2b8 || (event_mgr->_1d2f4_bytes[1] & 1))
+        return;
+    auto* chemical = actor->getChemicalStuff();
+    auto* life = actor->getLife();
+    if ((!life || *life > 0) && (!chemical || chemical->_c0 != 3))
+        return;
+    ksys::act::disableAttClient(mActor, "Open");
+    changeChild("壊れる", nullptr);
 }
 
 // NON_MATCHING: the contact checks and listener result join the return paths differently.

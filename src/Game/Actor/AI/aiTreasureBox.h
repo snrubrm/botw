@@ -33,6 +33,7 @@ public:
     void loadParams_() override;
 
 protected:
+    void calc_() override;
     bool handleMessage_(const ksys::Message* message) override;
     // 0x71005cdba4: named in the function map; return type inferred from the caller.
     void setupDropActor();
