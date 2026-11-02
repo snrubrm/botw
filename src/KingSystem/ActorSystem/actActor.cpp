@@ -7,6 +7,7 @@
 #include <cmath>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Thread/MessageDispatcher.h"
 #include <container/seadPtrArray.h>
@@ -86,6 +87,25 @@
 bool isAreaOrLinkTagOrOtherTag(const sead::SafeString& profile);
 
 namespace ksys::act {
+
+void Actor::sub_71011D49C8() {
+    auto* drop = getDropData();
+    if (!drop)
+        return;
+    if (auto* current = getDropData(); current && mActorFlags.isOnBit(ActorFlag::_19)) {
+        current->resetPreloadActorsMaybe(this);
+        mActorFlags.resetBit(ActorFlag::_19);
+        drop->initFromActor(this);
+        drop->clearFlags();
+        if (auto* current = getDropData(); current && mActorFlags.isOffBit(ActorFlag::_19) &&
+                                          current->preloadDropsMaybe(this))
+            mActorFlags.setBit(ActorFlag::_19);
+    } else {
+        drop->initFromActor(this);
+        drop->clearFlags();
+    }
+}
+
 
 void Actor::x_14(bool on) {
     const bool fixed = on | mActorFlags.isOnBit(ActorFlag::_2b);
