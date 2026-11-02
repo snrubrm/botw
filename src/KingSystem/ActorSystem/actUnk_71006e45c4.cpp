@@ -1,6 +1,7 @@
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "Game/gameSceneSubsysMisc.h"
 #include "KingSystem/ActorSystem/actActor.h"
+#include "KingSystem/ActorSystem/Awareness/actAwarenessInstance.h"
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/Physics/RigidBody/physRigidBody.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
@@ -9,7 +10,21 @@
 namespace ksys::act {
 
 // 0x71006e4950: source scope is inferred; the only direct caller passes this object.
-void sub_71006E4950(Unk_71006e45c4* object);
+void sub_71006E4950(Unk_71006e45c4* object) {
+    Actor* actor = object->mActor;
+    if (auto* awareness = actor->get548()) {
+        if (auto* entry = sead::DynamicCast<Unk_71024dc858>(awareness->m8())) {
+            const auto& aabb = object->mActor->getAabb();
+            const sead::Vector3f delta = aabb.getMin() - aabb.getMax();
+            entry->_4c = delta.length() * 0.5f;
+        }
+    } else {
+        // The native path evaluates cstr twice and discards both results; its purpose is unknown.
+        const auto& profile = actor->getProfile();
+        profile.cstr();
+        profile.cstr();
+    }
+}
 
 // NON_MATCHING: flag-address placement changes register allocation.
 void Unk_71006e45c4::m5(Actor* actor) {
