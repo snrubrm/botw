@@ -39,7 +39,7 @@ SoundSource::SoundSource()
       mInteriorNum(0), mTrackNum(0), mChannelNum(), mPriority(1.0f), _d8(1.0f), mPriorityScale(1.0f),
       mSoundGroup(nullptr), mEmitter(nullptr), mSpeakerBalanceSupplier(nullptr),
       mPlayingStateController(nullptr), mFader(nullptr), mSpatialSetting(), mSpatialCalculator(nullptr),
-      mSpatialPlayingParam(nullptr), mUnifierSource(nullptr), mMarkerController(nullptr), mArbiterNode(), _1d0(),
+      mSpatialPlayingParam(nullptr), mUnifierSource(nullptr), mMarkerController(nullptr), mArbiterNode(), mGroupNode(),
       mEmitterNode() {}
 
 // 0x7100b768a0 (D1) / 0x7100b76964 (D0)

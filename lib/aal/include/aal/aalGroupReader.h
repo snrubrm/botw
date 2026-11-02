@@ -32,7 +32,22 @@ public:
             u8 _24[0x14];
             f32 busVolume[4];
         };
+        struct GroupLimiterParam {
+            s32 activeType;
+            s32 activeLimit;
+            s32 activeFlag;
+            s32 requestEnabled;
+            s32 requestLimit;
+            s32 requestField1;
+            f32 requestField2;
+            f32 requestField3;
+            f32 requestField4;
+            s32 intervalEnabled;
+            f32 interval;
+            u32 _2c;
+        };
     };
+    static_assert(sizeof(GroupParam::GroupLimiterParam) == 0x30, "GroupLimiterParam size mismatch");
     static_assert(sizeof(GroupParam::DefaultSoundParam) == 0x48, "DefaultSoundParam size mismatch");
 
     explicit GroupReader(const void* data);

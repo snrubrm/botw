@@ -22,6 +22,7 @@ class RequestSoundLimiter;
 /// uses the one of the nearest ancestor that has one (the `Upper` / `Using` pointers).
 /// TODO: partial; the object has a vtable at +0.
 class GroupLimiter {
+    friend class GroupMgr;
 public:
     GroupLimiter();
     virtual ~GroupLimiter();
@@ -64,7 +65,9 @@ private:
     sead::OffsetList<SoundSource>* mUpperActiveSoundLimitList;
     sead::OffsetList<SoundSource>* mUpperRequestSoundLimitList;
     RequestIntervalLimiter* mRequestIntervalLimiterForLimit;
-    u8 _58[6];
+    s32 _58;
+    bool _5c;
+    bool _5d;
     s32 _60;
     u16 _64;
     s32 _68;

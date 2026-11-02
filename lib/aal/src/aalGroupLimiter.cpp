@@ -17,7 +17,7 @@ GroupLimiter::GroupLimiter()
       mRequestSoundLimiter(nullptr), mRequestIntervalLimiter(nullptr),
       mActiveSoundLimitList(nullptr), mRequestSoundLimitList(nullptr),
       mUpperActiveSoundLimitList(nullptr), mUpperRequestSoundLimitList(nullptr),
-      mRequestIntervalLimiterForLimit(nullptr), _58(), _60(-1), _64(0), _68(-1), _6c(0), _70(0),
+      mRequestIntervalLimiterForLimit(nullptr), _58(0), _5c(false), _5d(false), _60(-1), _64(0), _68(-1), _6c(0), _70(0),
       _74(1.0f), _78(1.0f), _7c(0), _80(0) {}
 
 // 0x7100b80128

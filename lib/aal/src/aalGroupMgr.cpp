@@ -3,6 +3,10 @@
 #include <codec/seadHashCRC32.h>
 #include <prim/seadRuntimeTypeInfo.h>
 #include "aal/aalGroup.h"
+#include "aal/aalActiveSoundLimiter.h"
+#include "aal/aalRequestIntervalLimiter.h"
+#include "aal/aalRequestSoundLimiter.h"
+#include "aal/aalSoundSource.h"
 #include "aal/aalGroupLimiter.h"
 #include "aal/aalArbiter.h"
 #include "aal/aalSystemAccessor.h"
@@ -25,6 +29,58 @@ void GroupMgr::setupWithResourceDefaultSoundParam_(Group* group, const GroupRead
     sound_param.setBusVolume(BusType::AuxB, param.busVolume[2]);
     sound_param.setBusVolume(BusType::AuxC, param.busVolume[3]);
     group->setDefaultParam(sound_param);
+}
+
+// NON_MATCHING: stack stores for limiter settings are scheduled differently.
+// 0x7100b81bdc
+void GroupMgr::setupWithResourceGroupLimiterParam_(Group* group, const GroupReader::GroupParam::GroupLimiterParam& param, sead::Heap* heap) {
+    GroupLimiter* limiter = group->mLimiter;
+    if (!limiter)
+        return;
+
+    ActiveSoundLimiter* active = LimiterUtil::createActiveSoundLimiter(static_cast<ActiveSoundLimiterType>(param.activeType), heap);
+    if (active) {
+        auto* sources = new (heap) sead::OffsetList<SoundSource>;
+        if (sources) {
+            sources->initOffset(offsetof(SoundSource, mGroupNode));
+            group->mLimiter->setActiveSoundLimiter(active, sources);
+            ActiveSoundLimiter::Settings settings{param.activeLimit, {u8(param.activeFlag != 0), 0}};
+            active->setup(settings);
+        } else {
+            delete active;
+        }
+    }
+    limiter->_58 = param.activeType;
+    if (param.requestEnabled) {
+        auto* request = new (heap) RequestSoundLimiter;
+        if (request) {
+            auto* sources = new (heap) sead::OffsetList<SoundSource>;
+            if (sources) {
+                sources->initOffset(offsetof(SoundSource, mGroupNode));
+                group->mLimiter->setRequestSoundLimiter(request, sources);
+                RequestSoundLimiter::Settings settings;
+                settings.mLimitNum = param.requestLimit;
+                settings.mField1 = param.requestField1;
+                settings.mField2 = param.requestField2;
+                settings.mField3 = param.requestField3;
+                settings.mField4 = param.requestField4;
+                settings.mFlag = false;
+                request->setup(settings);
+            } else {
+                delete request;
+            }
+        }
+    }
+    limiter->_5c = param.requestEnabled != 0;
+    if (param.intervalEnabled) {
+        auto* interval = new (heap) RequestIntervalLimiter;
+        if (interval) {
+            group->mLimiter->setRequestIntervalLimiter(interval);
+            RequestIntervalLimiter::Settings settings{param.interval};
+            interval->setup(settings);
+        }
+    }
+    limiter->_5d = param.intervalEnabled != 0;
 }
 
 namespace {

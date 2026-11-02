@@ -103,6 +103,7 @@ private:
     void sortGroupsBreadthFirst_();
     void createDefaultGroup_(sead::Heap* heap);
     void setupWithResourceDefaultSoundParam_(Group* group, const GroupReader::GroupParam::DefaultSoundParam& param);
+    void setupWithResourceGroupLimiterParam_(Group* group, const GroupReader::GroupParam::GroupLimiterParam& param, sead::Heap* heap);
 
     bool mInitialized = false;
     bool _9 = false;

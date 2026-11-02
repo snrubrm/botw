@@ -116,7 +116,7 @@ public:
     MarkerController* mMarkerController;
     /// The node in the list of the sound sources of the arbiter.
     sead::ListNode mArbiterNode;
-    u8 _1d0[0x1e0 - 0x1d0];
+    sead::ListNode mGroupNode;
     /// The node in the list of the sound sources of the emitter.
     sead::ListNode mEmitterNode;
 
