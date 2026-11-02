@@ -531,6 +531,44 @@ void Actor::sub_71011CFA74() {
     }
 }
 
+// NON_MATCHING: branch layout and register allocation differ.
+u8 Actor::sub_71011DA9F8() {
+    u8 flags = 0;
+    if (mPhysics) {
+        if (auto* body = mPhysics->sub_7100FBAEDC(0, 0); body && body->isAddedToWorld()) {
+            body->setLinearVelocity(sead::Vector3f::zero);
+            body->setAngularVelocity(sead::Vector3f::zero);
+            flags |= 1;
+        }
+        if (auto* ragdoll = mPhysics->getRagdollInstance(); ragdoll && ragdoll->isAddedToWorld())
+            flags |= 2;
+        if (auto* body = mMainBody.load(); !body || body->getMotionType() != phys::MotionType::Fixed) {
+            mPhysics->sub_7100FBA7BC(false, _598);
+            mPhysics->setMtxAndScale(mMtx, true, false, mScale.x);
+        }
+    }
+    if (auto* body = mMainBody.load(); body && body->getMotionType() != phys::MotionType::Fixed) {
+        body->setTransform(mMtx, phys::PropagateToLinkedMotions{true});
+        body->setLinearVelocity(sead::Vector3f::zero);
+        body->setAngularVelocity(sead::Vector3f::zero);
+        if (body->isAddedToWorld()) {
+            body->removeFromWorld();
+            flags |= 4;
+        }
+    }
+    if (mPhysics) {
+        if (auto* controller = mPhysics->getCharacterController();
+            controller && controller->sub_7100F5E954()) {
+            controller->sub_7100F5F6FC(sead::Vector3f::zero);
+            controller->sub_7100F5FB24(sead::Vector3f::zero);
+            controller->sub_7100F60500(mMtx);
+            controller->sub_7100F5EC44();
+            flags |= 8;
+        }
+    }
+    return flags;
+}
+
 void Actor::sub_71011DABC0(const u8* flags) {
     if (*flags & 1) {
         if (mPhysics) {
