@@ -145,3 +145,7 @@ void ItemConductorDemoBind::calc_() {
 }
 
 }  // namespace uking::action
+bool sub_71001C2C68(uking::act::PlayerBase* player) {
+    return player->_c44.isOnBit(15) || player->_d30 == player->getEquipmentTypeName(6) ||
+           player->_d30 == player->getEquipmentTypeName(5);
+}
