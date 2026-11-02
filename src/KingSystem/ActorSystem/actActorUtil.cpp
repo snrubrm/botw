@@ -1544,6 +1544,48 @@ void sub_7100EEAC50(BaseProcAccessor* accessor, phys::RigidBody* body) {
         tag->acquireActor(accessor);
 }
 
+// 0x7100ee3ad8: the closest ModelBind-linked actor matrix to a position.
+// Free scope and argument qualifiers are inferred from the native caller.
+// NON_MATCHING: the actor-acquisition helper is inlined, and matrix loads and stores differ.
+bool sub_7100EE3AD8(sead::Matrix34f* out, phys::RigidBody* body,
+                   const sead::Vector3f* position) {
+    ActorLinkConstDataAccess actor;
+    sub_7100EEAC50(&actor, body);
+    bool found = false;
+    if (actor.hasProc()) {
+        if (auto* object = actor.getMapObject()) {
+            if (auto* data = object->getLinkData()) {
+                const u32 count = data->mLinksToSelf.links.size();
+                if (count) {
+                    auto* links = data->mLinksToSelf.links.getBufferPtr();
+                    f32 nearest = FLT_MAX;
+                    for (u32 i = 0; i < count; ++i) {
+                        if (links[i].type != map::MapLinkDefType::ModelBind)
+                            continue;
+                        ActorLinkConstDataAccess linked;
+                        links[i].getObjectProcWithAccessor(linked);
+                        if (!linked.hasProc())
+                            continue;
+                        const auto& matrix = linked.getActorMtx();
+                        const f32 dx = matrix(0, 3) - position->x;
+                        const f32 dy = matrix(1, 3) - position->y;
+                        const f32 dz = matrix(2, 3) - position->z;
+                        const f32 distance = dx * dx + dy * dy + dz * dz;
+                        if (distance < nearest) {
+                            *out = linked.getActorMtx();
+                            nearest = distance;
+                            found = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (!found)
+        *out = sead::Matrix34f::ident;
+    return found;
+}
+
 void sub_7100EEACE8(phys::RayCast* cast) {
     cast->enableLayer(phys::ContactLayer::EntityGround);
     cast->enableLayer(phys::ContactLayer::EntityGroundRough);
