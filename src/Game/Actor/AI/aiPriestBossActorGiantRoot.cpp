@@ -1,4 +1,8 @@
 #include "Game/Actor/AI/aiPriestBossActorGiantRoot.h"
+#include "Game/Actor/Player/actPlayerBase.h"
+#include "Game/Actor/Player/actPlayerInfo.h"
+#include "Game/Actor/actEnemy.h"
+#include "Game/Actor/aiUnk_710071E0D8.h"
 #include "KingSystem/Physics/System/physNavMeshCharacter.h"
 #include "KingSystem/Physics/System/physHavokAI.h"
 #include <cmath>
@@ -20,8 +24,35 @@ bool PriestBossActorGiantRoot::init_(sead::Heap* heap) {
     return PriestBossActorRoot::init_(heap);
 }
 
+// NON_MATCHING: the compiler spills and reloads the attack enum result.
 void PriestBossActorGiantRoot::enter_(ksys::act::ai::InlineParamPack* params) {
     PriestBossActorRoot::enter_(params);
+    sub_710071E0D8(*mIsFreeMoving_s, mActor);
+    ksys::act::acc::PlayerBase player;
+    player.getPlayerFromPlayerInfo();
+    if (auto* enemy = sead::DynamicCast<uking::act::Enemy>(mActor)) {
+        const auto& link = uking::act::PlayerInfo::getSomeProcLink();
+        const auto& matrix = player.getActorMtx();
+        const auto& position = player.getPreviousPos();
+        enemy->_c48.sub_71002DBC8C(link, &matrix, &position);
+        enemy->_c48._7c = 5;
+    }
+    *mIsActive_a = true;
+    *mFacePos_a = sub_71005D9330(mActor);
+    *mKeepDistFromGround_a = -1.0f;
+    if (_9c == State::_7)
+        _dc.value = _dc.previous_value = 900.0f;
+    if (m34()) {
+        _9c = State::_9;
+    } else {
+        _9c = State::_1;
+        _a0 = m46();
+        if (_a0 == 7)
+            _9c = State::_2;
+        else
+            sub_710071E3D8(mDestinationPos_a, mActor, *mFloatDistFromPlayer_s);
+    }
+    sub_71005089F4(_9c);
 }
 
 // NON_MATCHING: the original copies `_9c` through a stack slot (str / ldr) for the first test only
