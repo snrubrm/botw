@@ -1,18 +1,39 @@
 #pragma once
 
 #include <basis/seadTypes.h>
+#include <container/seadPtrArray.h>
+#include <hostio/seadHostIONode.h>
+#include "aal/aalNamedObj.h"
 #include <heap/seadDisposer.h>
 #include "aal/aalDeviceType.h"
 #include "aal/aalTimedFader.h"
 
 namespace aal {
 
-class AuxBusCtrl {
+class AuxBusDataCtrl;
+class AuxBusRootFx;
+
+class AuxBusCtrl : public NamedObj, public sead::hostio::Node {
 public:
-    // 0x7100ba2734 (U): the per-bus work of one auxiliary bus. Called by AuxBusMgr::calc and by
-    // 0x7100b7a8d4's neighbours; declaration only.
+    AuxBusCtrl();
+    ~AuxBusCtrl() override;
+
+    // 0x7100ba2734 (U): the per-bus work of one auxiliary bus; declaration only.
     void calc();
+    void setAuxBusDataCtrl(AuxBusDataCtrl* control);
+
+private:
+    BusType mBus;
+    void* _28;
+    AuxBusRootFx* mRoot;
+    // The real fixed pointer array has this PtrArrayImpl subobject and four inline slots.
+    // The pointee type is unknown; do not access or instantiate its elements here.
+    sead::PtrArrayImpl mControlArray;
+    void* mControlSlots[4];
+    bool _68;
+    bool _69;
 };
+static_assert(sizeof(AuxBusCtrl) == 0x70, "AuxBusCtrl size mismatch");
 
 /// Manages the auxiliary buses (the environment effect send). TODO: incomplete: the singleton and everything
 /// before offset 0x48 are not modeled.
