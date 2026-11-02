@@ -484,6 +484,35 @@ void Actor::sub_71011C8B04(const sead::Matrix34f& mtx) {
     }
 }
 
+// NON_MATCHING: branch layout and rotation register allocation differ.
+void Actor::sub_71011C88F8(const sead::Vector3f* pos, const sead::Vector3f* rot,
+                           const sead::Vector3f* scale) {
+    sead::Matrix33f rotation;
+    if (rot)
+        rotation.makeR(*rot);
+    if (pos)
+        mMtx.setTranslation(*pos);
+    if (rot) {
+        mMtx.m[0][0] = rotation.m[0][0];
+        mMtx.m[0][1] = rotation.m[0][1];
+        mMtx.m[0][2] = rotation.m[0][2];
+        mMtx.m[1][0] = rotation.m[1][0];
+        mMtx.m[1][1] = rotation.m[1][1];
+        mMtx.m[1][2] = rotation.m[1][2];
+        mMtx.m[2][0] = rotation.m[2][0];
+        mMtx.m[2][1] = rotation.m[2][1];
+        mMtx.m[2][2] = rotation.m[2][2];
+    }
+    if (scale)
+        mScale = *scale;
+    if (mFieldBodyGroup) {
+        mHomeMtx = phys::System::instance()->getStaticCompoundMgr()->getInvTransformedMatrix(
+            mFieldBodyGroup, mMtx);
+    } else {
+        mHomeMtx = mMtx;
+    }
+}
+
 // NON_MATCHING: the original hoists &mMtx (add x2, x19, #0x398) above the getInvTransformedMatrix branch and
 // reuses it in the else branch
 void Actor::sub_71011C7020(const sead::Vector3f* pos, const sead::Matrix33f* rot,
