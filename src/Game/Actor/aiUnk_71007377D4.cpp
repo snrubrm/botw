@@ -332,7 +332,7 @@ const sead::SafeString& sub_710072D96C(ksys::act::Actor* actor) {
     return sead::SafeString::cEmptyString;
 }
 
-ksys::act::Unk_DynamicActorA58* sub_710073DC28(ksys::act::Actor* actor) {
+uking::act::Unk_710244eb00* sub_710073DC28(ksys::act::Actor* actor) {
     if (auto* dynamic_actor = sead::DynamicCast<ksys::act::DynamicActor>(actor))
         return dynamic_actor->_a58;
     return nullptr;

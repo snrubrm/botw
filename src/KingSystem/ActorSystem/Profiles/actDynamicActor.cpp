@@ -7,6 +7,7 @@
 #include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/actUnk_71006e45c4.h"
 #include "Game/Actor/actUnk_71025ae680.h"
+#include "Game/Actor/actUnk_710244eb00.h"
 #include "Game/Actor/aiUnk_71005D6D10.h"
 #include "Game/Actor/Damage/dmgDamageManagerBase.h"
 #include "Game/Actor/Damage/dmgDamageManager.h"
@@ -395,6 +396,40 @@ void DynamicActor::sub_71006DC89C() {
 void DynamicActor::sub_71006DE274(bool on) {
     if (_a60) {
         _a60->_c = on ? _a60->_c | 1 : _a60->_c & ~1;
+    }
+}
+
+}  // namespace ksys::act
+
+namespace ksys::act {
+
+void DynamicActor::preDelete2_(const PreDeleteArg&) {
+    if (_858) {
+        _858->m6();
+        delete _858;
+        _858 = nullptr;
+    }
+    if (_850) {
+        _850->free();
+        delete _850;
+        _850 = nullptr;
+    }
+    if (_868) {
+        _868->sub_71006ECD08();
+        delete _868;
+        _868 = nullptr;
+    }
+    delete _a50;
+    _a50 = nullptr;
+    m158();
+    if (_a58) {
+        _a58->clear();
+        delete _a58;
+        _a58 = nullptr;
+    }
+    if (_a60) {
+        DropData::sub_71006DB89C(_a60);
+        _a60 = nullptr;
     }
 }
 

@@ -28,12 +28,12 @@ class BaseProcLink;
 class BaseProcHandle;
 class InstParamPack;
 struct Struct8Base;
-struct Unk_DynamicActorA58;
 class Unk_7100d860d8;
 }  // namespace ksys::act
 
 namespace uking::act {
 class Rideable;
+class Unk_710244eb00;
 struct WeaponModifierInfo;
 }
 
@@ -77,7 +77,7 @@ bool createActorPickOutFromPorch(const char* name, sead::Heap* heap, s32 value,
                                  ksys::act::BaseProcHandle* handle, f32 a, f32 b);
 // EnemyRoot::m34 and PreyRoot::enter_ pass the dead-condition parameter.
 void sub_710073DCB4(ksys::act::Actor* actor, int condition);
-ksys::act::Unk_DynamicActorA58* sub_710073DC28(ksys::act::Actor* actor);
+uking::act::Unk_710244eb00* sub_710073DC28(ksys::act::Actor* actor);
 // SiteBossApproachRoot and ChaseSound supply the unused float and normal-checking mode.
 bool sub_710072EC24(ksys::phys::RayCastForRequest* cast, const sead::Vector3f& start,
                     const sead::Vector3f& end, ksys::phys::RayCast::NormalCheckingMode mode,

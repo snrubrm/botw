@@ -10,6 +10,7 @@
 
 namespace uking::act {
 class Unk_71025ae680;
+class Unk_710244eb00;
 }  // namespace uking::act
 
 namespace ksys::act {
@@ -29,18 +30,6 @@ struct Unk_71006dc134 {
     ActorAtk::Unk_710079e64c::Unk1* _18;
     bool _20;
     bool _21;
-};
-
-// Placeholder (lane4 s50; vtable unknown): the object at DynamicActor::_a58. Slot 5 is polled by
-// startPreparingForPreDelete_ (declared only).
-struct Unk_DynamicActorA58 {
-    virtual void m0();
-    virtual void m1();
-    virtual void m2();
-    virtual void m3();
-    virtual void m4();
-    virtual bool m5();
-    virtual void m6(bool a1);
 };
 
 // TODO: incomplete. Factory size 0xb90 (DynamicActor::construct); the vtable has 163 slots.
@@ -137,7 +126,7 @@ public:
     /* 0x868 */ Unk_71006ecc78* _868 = nullptr;  // ragdoll handler (initField868)
     /* 0x870 */ Unk_7100e4e084 _870{this};  // m100
     /* 0xa50 */ Unk_71006e45c4* _a50 = nullptr;  // m128
-    /* 0xa58 */ Unk_DynamicActorA58* _a58 = nullptr;
+    /* 0xa58 */ uking::act::Unk_710244eb00* _a58 = nullptr;
     /* 0xa60 */ DropData* _a60 = nullptr;  // created by Actor::makeDropData (CSV); getDropData
     /* 0xa68 */ u8 _a68 = 0;  // flags (byte accesses from AI/action code)
     /* 0xa69 */ u8 _a69 = 0;
