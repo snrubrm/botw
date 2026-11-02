@@ -7,6 +7,7 @@
 #include <gsys/gsysModel.h>
 #include <gsys/gsysModelUnit.h>
 #include "Game/Actor/aiUnk_7100EE53C4.h"
+#include "Game/Actor/aiUnk_71024f15c0.h"
 #include "Game/UI/uiUI.h"
 #include "KingSystem/System/DebugMessage.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodySet.h"
@@ -1584,6 +1585,26 @@ bool sub_7100EE3AD8(sead::Matrix34f* out, phys::RigidBody* body,
     if (!found)
         *out = sead::Matrix34f::ident;
     return found;
+}
+
+// 0x7100ee8728: select the associated Wander rail for the requested name.
+// Free scope and argument qualifiers are inferred from the native caller.
+bool sub_7100EE8728(map::Rail** out, Actor* actor, const sead::SafeString& name) {
+    map::Rail* rail;
+    if (name == "Wander") {
+        if (sub_7100EEF0FC(actor, "Wander2"))
+            rail = sub_7100EEF0FC(actor, "Wander");
+        else
+            rail = ::sub_7100EEF034(actor, 0);
+    } else if (name == "Wander2") {
+        rail = sub_7100EEF0FC(actor, "Wander2");
+    } else {
+        return false;
+    }
+    if (!rail)
+        return false;
+    *out = rail;
+    return true;
 }
 
 void sub_7100EEACE8(phys::RayCast* cast) {
