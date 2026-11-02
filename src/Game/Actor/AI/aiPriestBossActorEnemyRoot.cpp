@@ -1,4 +1,6 @@
 #include "Game/Actor/AI/aiPriestBossActorEnemyRoot.h"
+#include "Game/Actor/actEnemy.h"
+#include "KingSystem/ActorSystem/actActorSensorUtil.h"
 #include "KingSystem/ActorSystem/AS/ASList.h"
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorLinkConstDataAccess.h"
@@ -26,7 +28,28 @@ bool PriestBossActorEnemyRoot::init_(sead::Heap* heap) {
 }
 
 void PriestBossActorEnemyRoot::enter_(ksys::act::ai::InlineParamPack* params) {
+    _22c = sub_710071EDAC(mActor);
+    if (sub_710071E208())
+        return;
+
     EnemyRoot::enter_(params);
+    sead::DynamicCast<uking::act::Enemy>(mActor)->_e90 = 1;
+    auto* actor = mActor;
+    ksys::act::enableAllAttClients(actor);
+    sub_71007A3800(actor);
+    if (ksys::act::canBeStasised(mActor, true)) {
+        actor->sub_71011D0204(4);
+        actor->getActorFlags2().reset(ksys::act::Actor::ActorFlag2::_10000);
+    }
+    auto& flags = actor->getActorFlags2();
+    flags.setDirect((flags.getDirect() & ~0x7000000u) | 0x3000000u);
+    auto* nav = mActor->m45();
+    {
+        auto lock = sead::makeScopedLock(nav->_68);
+        nav->_58 = &sUnk_71025c8d10;
+    }
+    sub_7100506DB0();
+    mActor->getASList()->startAnimationMaybe(-1.0f, -1.0f, "VeilMatAnime", 1, 0, true);
 }
 
 void PriestBossActorEnemyRoot::calc_() {
