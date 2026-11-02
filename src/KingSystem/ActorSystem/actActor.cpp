@@ -7,6 +7,7 @@
 #include <cmath>
 #include "KingSystem/ActorSystem/actActor.h"
 #include "KingSystem/ActorSystem/actActorAtk.h"
+#include "KingSystem/ActorSystem/actCCAccessor.h"
 #include "KingSystem/ActorSystem/actDropData.h"
 #include "KingSystem/Utils/Thread/Message.h"
 #include "KingSystem/Utils/Thread/MessageDispatcher.h"
@@ -567,6 +568,52 @@ u8 Actor::sub_71011DA9F8() {
         }
     }
     return flags;
+}
+
+void Actor::sub_71011DAC3C(phys::MotionType type, bool all_layers) {
+    if (mPhysics) {
+        if (auto* controller = mPhysics->getCharacterController()) {
+            controller->sub_7100F5F6FC(sead::Vector3f::zero);
+            controller->sub_7100F5FB24(sead::Vector3f::zero);
+            if (type == phys::MotionType::Keyframed) {
+                if (all_layers) {
+                    controller->sub_7100F605F0();
+                } else {
+                    controller->enableContactLayer(phys::ContactLayer::EntityGround);
+                    controller->enableContactLayer(phys::ContactLayer::EntityGroundSmooth);
+                    controller->enableContactLayer(phys::ContactLayer::EntityGroundRough);
+                    controller->enableContactLayer(phys::ContactLayer::EntityTree);
+                }
+                controller->sub_7100F5F458(MotionType::Hover);
+            } else {
+                controller->sub_7100F60604();
+                controller->sub_7100F5F458(MotionType::_1);
+            }
+        }
+    }
+    if (auto* body = mMainBody.load()) {
+        if (!mPhysics)
+            return;
+        if (!mPhysics->sub_7100FBDE90(body)) {
+            body->setTransform(mMtx, phys::PropagateToLinkedMotions{true});
+            body->setLinearVelocity(sead::Vector3f::zero);
+            body->setAngularVelocity(sead::Vector3f::zero);
+            body->changeMotionType(type);
+        }
+    }
+    if (mPhysics) {
+        auto* body = mPhysics->sub_7100FBAEDC(0, 0);
+        if (!mPhysics->sub_7100FBDE90(body)) {
+            if (body && body->isAddedToWorld()) {
+                body->changeMotionType(type);
+                body->setLinearVelocity(sead::Vector3f::zero);
+                body->setAngularVelocity(sead::Vector3f::zero);
+            }
+            // The native tail calls this and discards its return value.
+            if (auto* ragdoll = mPhysics->getRagdollInstance())
+                ragdoll->isAddedToWorld();
+        }
+    }
 }
 
 void Actor::sub_71011DABC0(const u8* flags) {
