@@ -2,6 +2,8 @@
 #include "KingSystem/ActorSystem/actActorUtil.h"
 #include "KingSystem/ActorSystem/aiRootAi.h"
 #include "KingSystem/ActorSystem/actBaseProcMgr.h"
+#include "KingSystem/Map/mapObject.h"
+#include "KingSystem/Map/mapObjectLink.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCapsule.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyCylinder.h"
 #include "KingSystem/Physics/RigidBody/physRigidBodyPolytope.h"
@@ -13,6 +15,37 @@
 #include "KingSystem/Utils/HeapUtil.h"
 
 namespace ksys::act {
+
+// NON_MATCHING: clang shares the null-result return and removes a redundant branch.
+phys::RigidBody* AreaActor::getColBody() {
+    if (_888 != 4)
+        return _840;
+
+    auto* object = getMapObject();
+    if (!object || !object->getLinkData())
+        return nullptr;
+
+    const s32 count = object->getLinkData()->mLinksOther.links.size();
+    for (s32 i = 0; i < count; ++i) {
+        auto& link = object->getLinkData()->mLinksOther.links[i];
+        if (link.type != map::MapLinkDefType::AreaCol || !link.other_obj)
+            continue;
+        auto* actor = link.other_obj->tryGetActor(false);
+        if (!actor)
+            continue;
+
+        auto* body = actor->findPhysicsBodyByName("GeneralSensor", "Area_Col");
+        if (!body)
+            return nullptr;
+        if (actor->x_20(body)) {
+            sead::FixedSafeString<128> name;
+            sead::FixedSafeString<128> unique_name;
+            getPlacementNameAndUniqueName(this, &name, &unique_name);
+        }
+        return body;
+    }
+    return nullptr;
+}
 
 AreaActor::AreaActor(const CreateArg& arg) : Actor(arg) {}
 
